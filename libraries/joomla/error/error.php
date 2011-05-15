@@ -27,7 +27,7 @@ define('JERROR_ILLEGAL_MODE', 3);
  *	- Sebastian Mordziol	<argh@php-tools.net>
  *	- Stephan Schmidt		<scst@php-tools.net>
  *
- * @package	Joomla.Platform
+ * @package     Joomla.Platform
  * @subpackage  Error
  * @since       11.1
  * @deprecated
@@ -35,9 +35,9 @@ define('JERROR_ILLEGAL_MODE', 3);
 abstract class JError
 {
 	/**
-	 * @var    bool  True to enable legacy error handling using JError, false to use exception handling.  This flag
-	 *               is present to allow an easy transition into exception handling for code written against the
-	 *               existing JError API in Joomla.
+	 * @var    boolean  True to enable legacy error handling using JError, false to use exception handling.  This flag
+	 *                  is present to allow an easy transition into exception handling for code written against the
+	 *                  existing JError API in Joomla.
 	 * @since  11.1
 	 */
 	public static $legacy = false;
@@ -60,7 +60,7 @@ abstract class JError
 	 * Method to determine if a value is an exception object.  This check supports
 	 * both JException and PHP5 Exception objects
 	 *
-	 * @param   mixed  &$object  Object to check
+	 * @param   mixed    &$object  Object to check
 	 *
 	 * @return  boolean  True if argument is an exception, false otherwise.
 	 * @since   11.1
@@ -76,8 +76,8 @@ abstract class JError
 	 *
 	 * @params   boolean  $unset
 	 *
-	 * @return  mixed  Last exception object in the error stack or boolean false if none exist
-	 * @since   11.1
+	 * @return   mixed    Last exception object in the error stack or boolean false if none exist
+	 * @since    11.1
 	 */
 	public static function getError($unset = false)
 	{
@@ -129,7 +129,7 @@ abstract class JError
 	 * @return  mixed    The JException object
 	 * @since   11.1
 	 *
-	 * @see		JException
+	 * @see         JException
 	 */
 	public static function raise($level, $code, $msg, $info = null, $backtrace = false)
 	{
@@ -143,12 +143,12 @@ abstract class JError
 	/**
 	 * Throw an error
 	 *
-	 * @param   oject    &$exception
+	 * @param   object    &$exception
 	 *
 	 * @return  reference
 	 * @since   11.1
 	 *
-	 * @see		JException
+	 * @see     JException
 	 */
 	public static function throwError(&$exception)
 	{
@@ -221,14 +221,14 @@ abstract class JError
 	}
 
 	/**
-	 * Wrapper method for the {@link raise()} method with predefined error level of E_NOTICE and backtrace set to false.
+	 * Wrapper method for the raise() method with predefined error level of E_NOTICE and backtrace set to false.
 	 *
-	 * @param   string   $code  The application-internal error code for this error
-	 * @param   string   $msg   The error message, which may also be shown the user if need be.
-	 * @param   mixed    $info  Optional: Additional error information (usually only developer-relevant information
-	 *                          that the user should never see, like a database DSN).
+	 * @param   string   $code   The application-internal error code for this error
+	 * @param   string   $msg    The error message, which may also be shown the user if need be.
+	 * @param   mixed    $info   Optional: Additional error information (usually only developer-relevant information
+	 *                           that the user should never see, like a database DSN).
 	 *
-	 * @return  object   $error	The configured JError object
+	 * @return  object   $error  The configured JError object
 	 *
 	 * @see     raise()
 	 * @since   11.1
@@ -243,7 +243,7 @@ abstract class JError
 	*
 	* @param   integer  $level  The error level to retrieve. This can be any of PHP's own error levels, e.g. E_ALL, E_NOTICE...
 	*
-	* @return  array  All error handling details
+	* @return  array    All error handling details
 	* @since   11.1
 	*/
 	public static function getErrorHandling($level)
@@ -381,7 +381,7 @@ abstract class JError
 	*
 	* @param   integer  $level  Error level to translate
 	*
-	* @return  mixed  Human readable error level name or boolean false if it doesn't exist
+	* @return  mixed    Human readable error level name or boolean false if it doesn't exist
 	* @since   11.1
 	*/
 	public static function translateErrorLevel($level)
@@ -402,7 +402,7 @@ abstract class JError
 	 *
 	 * @return  object  The exception object
 	 *
-	 * @see	raise()
+	 * @see     raise()
 	 * @since   11.1
 	 */
 	public static function handleIgnore(&$error, $options)
@@ -453,7 +453,7 @@ abstract class JError
 	 * @return  object  The exception object
 	 * @since   11.1
 	 *
-	 * @see	raise()
+	 * @see     raise()
 	 */
 	public static function handleVerbose(& $error, $options)
 	{
@@ -489,9 +489,9 @@ abstract class JError
 	 * @param   object  $error    Exception object to handle
 	 * @param   array   $options  Handler options
 	 *
-	 * @return  object   The exception object
+	 * @return  object  The exception object
 	 *
-	 * @see	raise()
+	 * @see     raise()
 	 */
 	public static function handleDie(& $error, $options)
 	{
@@ -526,7 +526,7 @@ abstract class JError
 	 *
 	 * @since   11.1
 	 *
-	 * @see	raise()
+	 * @see     raise()
 	 */
 	public static function handleMessage(& $error, $options)
 	{
@@ -548,7 +548,7 @@ abstract class JError
 	 *
 	 * @since   11.1
 	 *
-	 * @see	raise()
+	 * @see     raise()
 	 */
 	public static function handleLog(& $error, $options)
 	{
@@ -580,7 +580,7 @@ abstract class JError
 	 *
 	 * @since   11.1
 	 *
-	 * @see	raise()
+	 * @see     raise()
 	 */
 	public static function handleCallback(&$error, $options)
 	{

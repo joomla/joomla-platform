@@ -40,7 +40,7 @@ class JFormRuleUrl extends JFormRule
 	 * @since	11.1
 	 * @throws	JException on invalid rule.
 	 * @link	http://www.w3.org/Addressing/URL/url-spec.txt
-	 * @see		Jstring
+	 * @see     Jstring
 	 */
 	public function test(& $element, $value, $group = null, & $input = null, & $form = null)
 	{
