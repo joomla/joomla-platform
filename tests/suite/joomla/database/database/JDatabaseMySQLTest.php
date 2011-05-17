@@ -59,7 +59,10 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 	 */
 	protected function setUp()
 	{
-		$config = new JTestConfig;
+		@include_once JPATH_TESTS . '/config.php';
+		if (class_exists('JTestConfig')) {
+			$config = new JTestConfig;
+		}
 		$this->object = JDatabase::getInstance(
 			array(
 				'driver' => $config->dbtype,
