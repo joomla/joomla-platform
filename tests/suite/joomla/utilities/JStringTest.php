@@ -222,7 +222,10 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testStrcasecmp($string1, $string2, $locale, $expect)
 	{
-		if (substr(php_uname(), 0, 6) != 'Darwin') {
+		if( $locale && (substr(php_uname(), 0, 6) == 'Darwin'))
+		{
+			$this->markTestSkipped("Bug in system routine strcoll ignores locale collation order");
+		} else {
 			$actual = JString::strcasecmp ($string1, $string2, $locale);
 			if ($actual != 0) {
 				$actual = $actual/abs($actual);
@@ -238,11 +241,16 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testStrcmp($string1, $string2, $locale, $expect)
 	{
-		$actual = JString::strcmp ($string1, $string2, $locale);
-		if ($actual != 0) {
-			$actual = $actual/abs($actual);
+		if( $locale && (substr(php_uname(), 0, 6) == 'Darwin'))
+		{
+			$this->markTestSkipped("Bug in system routine strcoll ignores locale collation order");
+		} else {
+			$actual = JString::strcmp ($string1, $string2, $locale);
+			if ($actual != 0) {
+				$actual = $actual/abs($actual);
+			}
+			$this->assertEquals($expect, $actual);
 		}
-		$this->assertEquals($expect, $actual);
 	}
 
 	/**
