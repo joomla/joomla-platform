@@ -1622,6 +1622,10 @@ class JForm
 			$types = array($types);
 		}
 
+		// Especial treatement for minLength and maxLength
+		if ($element['minLength']) $types[] = 'minLength';
+		if ($element['maxLength']) $types[] = 'maxLength';
+
 		foreach ($types as $type) {
 			// Load the JFormRule object for the field.
 			$rule = $this->loadRuleType($type);
