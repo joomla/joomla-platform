@@ -43,4 +43,18 @@ class JFormRuleMinLength extends JFormRule
 	{
 		return (boolean) (JString::strlen($value) < (string) $element['minLength']);
 	}
+
+	/**
+	 * Method to get the translated error message
+	 *
+	 * @param   object  $element  The JXMLElement object representing the <field /> tag for the
+	 *                            form field object.
+	 * @return  string  The translated error message
+	 *
+	 * @since   11.1
+	 */
+	protected function getErrorMsg(&$element)
+	{
+		return JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID_MINLENGTH', (string)$element['label'], (string)$element['minLength']);
+	}
 }

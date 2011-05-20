@@ -40,6 +40,14 @@ class JFormRule
 	protected $modifiers;
 
 	/**
+	 * The error message displayed if the test fail.
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
+	protected $errorMsg = 'JLIB_FORM_VALIDATE_FIELD_INVALID';
+
+	/**
 	 * Method to test the value.
 	 *
 	 * @param   object  $element  The JXMLElement object representing the <field /> tag for the
@@ -78,6 +86,24 @@ class JFormRule
 			return true;
 		}
 
-		return false;
+		throw new JException($this->getErrorMsg($element));
+	}
+
+	/**
+	 * Method to get the translated error message
+	 *
+	 * @param   object  $element  The JXMLElement object representing the <field /> tag for the
+	 *                            form field object.
+	 * @return  string  The translated error message
+	 *
+	 * @since   11.1
+	 */
+	protected function getErrorMsg(&$element)
+	{
+		$msg = $this->errorMsg;
+		if (preg_match('/^JFormRule([a-z0-9_]*)$/i', get_class($this), $matches)) {
+			$msg .= '_'.strtoupper($matches[1]);
+		}
+		return JText::sprintf($msg, (string)$element['label']);
 	}
 }

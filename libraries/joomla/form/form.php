@@ -1634,23 +1634,14 @@ class JForm
 			if ($rule === false) {
 				return new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_RULE_MISSING', $rule), -2, E_ERROR);
 			}
-
-			// Run the field validation rule test.
-			$valid = $rule->test($element, $value, $group, $input, $this);
-
-			// Check for an error in the validation test.
-			if (JError::isError($valid)) {
-				return $valid;
-			} else if ($valid === false) {
-				// Does the field have a defined error message?
-				$message = (string) $element['message'];
-	
-				if ($message) {
-					return new JException(JText::_($message), 1, E_WARNING);
-				}
-				else {
-					return new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', JText::_((string) $element['label'])), 1, E_WARNING);
-				}
+			
+			try {
+				// Run the field validation rule test.
+				$valid = $rule->test($element, $value, $group, $input, $this);
+			}
+			catch (JException $e)
+			{
+				return $e;
 			}
 		}
 
