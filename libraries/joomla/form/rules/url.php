@@ -23,16 +23,44 @@ class JFormRuleUrl extends JFormRule
 	/**
 	 * The regular expression to use in testing a form field value.
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
+	 * @see		http://www.faqs.org/rfcs/rfc3986.html
 	 */
-	protected $regex = '^(https?|ftp|rmtp|mms):\/\/(([A-Z0-9][A-Z0-9_-]*)(\.[A-Z0-9][A-Z0-9_-]*)+)(:(\d+))?\/?';
+	protected $regex = '^(<protocols>):\/\/(([A-Z0-9][A-Z0-9_-]*)(\.[A-Z0-9][A-Z0-9_-]*)+)(:(\d+))?\/?/i';
 
 	/**
 	 * The regular expression modifiers to use when testing a form field value.
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $modifiers = 'i';
+
+	/**
+	 * Method to test the value.
+	 *
+	 * @param   object  $element  The JXMLElement object representing the <field /> tag for the
+	 *                            form field object.
+	 * @param   mixed   $value    The form field value to validate.
+	 * @param   string  $group    The field name group control value. This acts as as an array
+	 *                            container for the field. For example if the field has name="foo"
+	 *                            and the group value is set to "bar" then the full field name
+	 *                            would end up being "bar[foo]".
+	 * @param   object  $input    An optional JRegistry object with the entire data set to validate
+	 *                            against the entire form.
+	 * @param   object  $form     The form object for which the field is being tested.
+	 *
+	 * @return  boolean  True if the value is valid, false otherwise.
+	 *
+	 * @since   11.1
+	 * @throws	JException on invalid rule.
+	 */
+	public function test(& $element, $value, $group = null, & $input = null, & $form = null)
+	{
+		$protocols = (string) $element['protocols'] ? (string) $element['protocols'] : 'https?';
+		$this->regex = preg_replace('/<protocols>/', $protocols, $this->regex);
+
+		return parent::test($element, $value, $group, $input, $form);
+	}
 }
