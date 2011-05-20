@@ -49,12 +49,6 @@ class JFormRuleEmail extends JFormRule
 	 */
 	public function test(& $element, $value, $group = null, & $input = null, & $form = null)
 	{
-		// If the field is empty and not required, the field is valid.
-		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
-		if (!$required && empty($value)) {
-			return true;
-		}
-
 		// Test the value against the regular expression.
 		if (!parent::test($element, $value, $group, $input, $form)) {
 			return false;
