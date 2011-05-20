@@ -1591,7 +1591,9 @@ class JForm
 		}
 
 		// Check if the field is required.
-		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+		$required = ((string) $element['required'] == 'true'
+		|| (string) $element['required'] == 'required'
+		|| (int) $element['minLength'] > 0);
 
 		// If the field is required and the value is empty return an error message.
 		if (($value === '') || ($value === null))
