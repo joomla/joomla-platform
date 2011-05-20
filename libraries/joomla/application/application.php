@@ -125,11 +125,11 @@ class JApplication extends JObject
 	 * Returns the global JApplication object, only creating it if it
 	 * doesn't already exist.
 	 *
-	 * @param   mixed   $client  A client identifier or name.
-	 * @param   array   $config  An optional associative array of configuration settings.
-	 * @param   strong  $prefx   A prefix for class names
+	 * @param   mixed	$client	A client identifier or name.
+	 * @param   array	$config	An optional associative array of configuration settings.
+	 * @param   strong	$prefix	A prefix for class names
 	 *
-	 * @return  JApplication A JApplication object.
+	 * @return  JApplication	A JApplication object.
 	 * @since   11.1
 	 */
 	public static function getInstance($client, $config = array(), $prefix = 'J')
@@ -208,7 +208,7 @@ class JApplication extends JObject
 	 * are then set in the request object to be processed when the application is being
 	 * dispatched.
 	 *
-	 * @return  void;
+	 * @return  void
 	 * @since   11.1
 	 */
 	public function route()
@@ -348,11 +348,10 @@ class JApplication extends JObject
 				// It's relative to where we are now, so lets add that.
 				$parts = explode('/', $uri->toString(Array('path')));
 				array_pop($parts);
-				$path = implode('/',$parts).'/';
+				$path = implode('/', $parts).'/';
 				$url = $prefix . $path . $url;
 			}
 		}
-
 
 		// If the message exists, enqueue it.
 		if (trim($msg)) {
@@ -395,8 +394,8 @@ class JApplication extends JObject
 	/**
 	 * Enqueue a system message.
 	 *
-	 * @param   string   $msg   The message to enqueue.
-	 * @param   string   $type  The message type. Default is message.
+	 * @param   string	$msg	The message to enqueue.
+	 * @param   string	$type	The message type. Default is message.
 	 *
 	 * @return  void
 	 * @since   11.1
@@ -420,7 +419,7 @@ class JApplication extends JObject
 	/**
 	 * Get the system message queue.
 	 *
-	 * @return  ??    The system message queue.
+	 * @return	array	The system message queue.
 	 * @since   11.1
 	 */
 	public function getMessageQueue()
@@ -443,10 +442,10 @@ class JApplication extends JObject
 	 *
 	 * An example is in application/japplication-getcfg.php Getting a configuration
 	 *
-	 * @param   string   The name of the value to get.
-	 * @param   string   Default value to return
+	 * @param   string	$varname	The name of the value to get.
+	 * @param   string	$default	Default value to return
 	 *
-	 * @return  mixed    The user state.
+	 * @return  mixed	The user state.
 	 *
 	 * @since   11.1
 	 */
@@ -483,10 +482,10 @@ class JApplication extends JObject
 	/**
 	 * Gets a user state.
 	 *
-	 * @param   string  The path of the state.
-	 * @param   mixed   Optional default value, returned if the internal value is null.
+	 * @param   string	$key		The path of the state.
+	 * @param   mixed	$default	Optional default value, returned if the internal value is null.
 	 *
-	 * @return  mixed  The user state or null.
+	 * @return  mixed	The user state or null.
 	 *
 	 * @since   11.1
 	 */
@@ -505,10 +504,10 @@ class JApplication extends JObject
 	/**
 	 * Sets the value of a user state variable.
 	 *
-	 * @param   string  The path of the state.
-	 * @param   string  The value of the variable.
+	 * @param   string	$key	The path of the state.
+	 * @param   string	$value	The value of the variable.
 	 *
-	 * @return  mixed   The previous state, if one existed.
+	 * @return  mixed	The previous state, if one existed.
 	 * @since   11.1
 	 */
 	public function setUserState($key, $value)
@@ -638,7 +637,7 @@ class JApplication extends JObject
 					// Use domain and path set in config for cookie if it exists.
 					$cookie_domain = $this->getCfg('cookie_domain', '');
 					$cookie_path = $this->getCfg('cookie_path', '/');
-					setcookie( JUtility::getHash('JLOGIN_REMEMBER'), $rcookie, $lifetime, $cookie_path, $cookie_domain );
+					setcookie(JUtility::getHash('JLOGIN_REMEMBER'), $rcookie, $lifetime, $cookie_path, $cookie_domain);
 				}
 
 				return true;
@@ -846,7 +845,7 @@ class JApplication extends JObject
 	 *
 	 * @param   string  $file  The path to the configuration file
 	 *
-	 * return   object  A JConfig object
+	 * @return	JConfig  A JConfig object
 	 * @since   11.1
 	 */
 	protected function _createConfiguration($file)

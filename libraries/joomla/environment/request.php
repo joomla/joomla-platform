@@ -32,8 +32,8 @@ define('JREQUEST_ALLOWHTML',4);
  *
  * @package     Joomla.Platform
  * @subpackage  Environment
- * @deprecated	Get the JInput object from the application instead
  * @since       11.1
+ * @deprecated	Get the JInput object from the application instead
  */
 class JRequest
 {
@@ -128,9 +128,7 @@ class JRequest
 			// Get the variable from the input hash
 			$var = (isset($input[$name]) && $input[$name] !== null) ? $input[$name] : $default;
 			$var = self::_cleanVar($var, $mask, $type);
-		}
-		elseif (!isset($GLOBALS['_JREQUEST'][$name][$sig]))
-		{
+		} elseif (!isset($GLOBALS['_JREQUEST'][$name][$sig])) {
 			if (isset($input[$name]) && $input[$name] !== null) {
 				// Get the variable from the input hash and clean it
 				$var = self::_cleanVar($input[$name], $mask, $type);
@@ -411,15 +409,17 @@ class JRequest
 	/**
 	 * Sets a request variable.
 	 *
-	 * @param   array    An associative array of key-value pairs.
-	 * @param   string   The request variable to set (POST, GET, FILES, METHOD).
+	 * @param   array	$array		An associative array of key-value pairs.
+	 * @param   string	$hash		The request variable to set (POST, GET, FILES, METHOD).
+	 * @param   boolean	$overwrite	If true and an existing key is found, the value is overwritten, otherwise it is ignored.
 	 *
-	 * @param   boolean  If true and an existing key is found, the value is overwritten, otherwise it is ignored.
+	 * @return	void
 	 * @since   11.1
 	 */
 	public static function set($array, $hash = 'default', $overwrite = true)
 	{
-		foreach ($array as $key => $value) {
+		foreach ($array as $key => $value)
+		{
 			self::setVar($key, $value, $hash, $overwrite);
 		}
 	}
@@ -429,14 +429,14 @@ class JRequest
 	 *
 	 * Use in conjuction with JHtml::_('form.token').
 	 *
-	 * @param   string   The request method in which to look for the token key.
+	 * @param   string   $method	The request method in which to look for the token key.
+	 *
 	 * @return  boolean  True if found and valid, false otherwise.
 	 */
 	public static function checkToken($method = 'post')
 	{
 		$token = JUtility::getToken();
-		if (!self::getVar($token, '', $method, 'alnum'))
-		{
+		if (!self::getVar($token, '', $method, 'alnum')) {
 			$session = JFactory::getSession();
 			if ($session->isNew()) {
 				// Redirect to login screen.
@@ -508,10 +508,10 @@ class JRequest
 	/**
 	 * Adds an array to the GLOBALS array and checks that the GLOBALS variable is not being attacked.
 	 *
-	 * @param   array    $array	Array to clean.
-	 * @param   boolean  True if the array is to be added to the GLOBALS.
+	 * @param   array    &$array	Array to clean.
+	 * @param   boolean  $globalise	True if the array is to be added to the GLOBALS.
 	 *
-	 * @return
+	 * @return	void
 	 * @since   11.1
 	 */
 	static function _cleanArray(&$array, $globalise=false)
@@ -564,21 +564,16 @@ class JRequest
 		}
 
 		// Now we handle input filtering
-		if ($mask & 2)
-		{
+		if ($mask & 2) {
 			// If the allow raw flag is set, do not modify the variable
 			$var = $var;
-		}
-		elseif ($mask & 4)
-		{
+		} elseif ($mask & 4) {
 			// If the allow HTML flag is set, apply a safe HTML filter to the variable
 			if (is_null($safeHtmlFilter)) {
 				$safeHtmlFilter = JFilterInput::getInstance(null, null, 1, 1);
 			}
 			$var = $safeHtmlFilter->clean($var, $type);
-		}
-		else
-		{
+		} else {
 			// Since no allow flags were set, we will apply the most strict filter to the variable
 			// $tags, $attr, $tag_method, $attr_method, $xss_auto use defaults.
 			if (is_null($noHtmlFilter)) {

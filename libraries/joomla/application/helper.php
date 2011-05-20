@@ -27,10 +27,11 @@ class JApplicationHelper
 	 * Return the name of the request component [main component]
 	 *
 	 * @param   string  $default The default option
+	 *
 	 * @return  string  Option
 	 * @since   11.1
 	 */
-	public static function getComponentName($default = NULL)
+	public static function getComponentName($default = null)
 	{
 		static $option;
 
@@ -64,8 +65,7 @@ class JApplicationHelper
 	public static function getClientInfo($id = null, $byName = false)
 	{
 		// Only create the array if it does not exist
-		if (self::$_clients === null)
-		{
+		if (self::$_clients === null) {
 			$obj = new stdClass();
 
 			// Site Client
@@ -93,14 +93,11 @@ class JApplicationHelper
 		}
 
 		// Are we looking for client information by id or by name?
-		if (!$byName)
-		{
-			if (isset(self::$_clients[$id])){
+		if (!$byName) {
+			if (isset(self::$_clients[$id])) {
 				return self::$_clients[$id];
 			}
-		}
-		else
-		{
+		} else {
 			foreach (self::$_clients as $client)
 			{
 				if ($client->name == strtolower($id)) {
@@ -267,8 +264,7 @@ class JApplicationHelper
 	public static function parseXMLInstallFile($path)
 	{
 		// Read the file to see if it's a valid component XML file
-		if( ! $xml = JFactory::getXML($path))
-		{
+		if (!$xml = JFactory::getXML($path)) {
 			return false;
 		}
 
@@ -277,10 +273,9 @@ class JApplicationHelper
 		// Should be 'install', but for backward compatability we will accept 'extension'.
 		// Languages use 'metafile' instead
 
-		if($xml->getName() != 'install'
-		&& $xml->getName() != 'extension'
-		&& $xml->getName() != 'metafile')
-		{
+		if ($xml->getName() != 'install'
+		 && $xml->getName() != 'extension'
+		 && $xml->getName() != 'metafile') {
 			unset($xml);
 			return false;
 		}
@@ -321,8 +316,7 @@ class JApplicationHelper
 		// Read the file to see if it's a valid component XML file
 		$xml = JFactory::getXML($path);
 
-		if( ! $xml)
-		{
+		if (!$xml) {
 			return false;
 		}
 
@@ -357,8 +351,8 @@ class JApplicationHelper
 	/**
 	 * Tries to find a file in the administrator or site areas
 	 *
-	 * @param   string   A file name
-	 * @param   integer  0 to check site only, 1 to check site and admin, -1 to check admin only
+	 * @param	string	$path		A file name
+	 * @param	integer	$checkAdmin	0 to check site only, 1 to check site and admin, -1 to check admin only
 	 *
 	 * @return  string   File name or null
 	 * @since   11.1
@@ -369,8 +363,7 @@ class JApplicationHelper
 		if ($checkAdmin > -1 && file_exists($file)) {
 			return $file;
 		}
-		else if ($checkAdmin != 0)
-		{
+		else if ($checkAdmin != 0) {
 			$file = JPATH_ADMINISTRATOR . $path;
 			if (file_exists($file)) {
 				return $file;

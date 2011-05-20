@@ -206,7 +206,7 @@ class JBrowser extends JObject
 	 * if it doesn't already exist.
 	 *
 	 * @param   string  $userAgent  The browser string to parse.
-	 * @param   string  $accept	The HTTP_ACCEPT settings to use.
+	 * @param   string  $accept		The HTTP_ACCEPT settings to use.
 	 *
 	 * @return JBrowser  The Browser object.
 	 * @since  11.1
@@ -248,7 +248,7 @@ class JBrowser extends JObject
 	 * @param   string  $userAgent  The browser string to parse.
 	 * @param   string  $accept     The HTTP_ACCEPT settings to use.
 	 *
-	 * @return
+	 * @return	void
 	 * @since   11.1
 	 */
 	public function match($userAgent = null, $accept = null)
@@ -274,7 +274,8 @@ class JBrowser extends JObject
 
 		// Parse the HTTP Accept Header
 		$accept_mime = explode(",", $this->_accept);
-		for ($i = 0, $count = count($accept_mime); $i < $count; $i++) {
+		for ($i = 0, $count = count($accept_mime); $i < $count; $i++)
+		{
 			$parts = explode(';q=', trim($accept_mime[$i]));
 			if (count($parts) === 1) {
 				$parts[1] = 1;
@@ -288,7 +289,8 @@ class JBrowser extends JObject
 		$this->_accept_parsed = $accept_mime;
 
 		// Check if browser accepts content type application/xhtml+xml. */* doesn't count ;)
-		foreach ($this->_accept_parsed as $mime) {
+		foreach ($this->_accept_parsed as $mime)
+		{
 			if (($mime[0] == 'application/xhtml+xml')) {
 				$this->setFeature('xhtml+xml');
 			}
@@ -608,7 +610,7 @@ class JBrowser extends JObject
 				$this->setBrowser('imode');
 				$this->setFeature('images', false);
 				$this->_mobile = true;
-		} elseif (strpos($this->_agent, 'BlackBerry') !== false) {
+			} elseif (strpos($this->_agent, 'BlackBerry') !== false) {
 				$this->setBrowser('blackberry');
 				$this->setFeature('html', false);
 				$this->setFeature('javascript', false);
@@ -634,7 +636,7 @@ class JBrowser extends JObject
 	 * to let us tell what line breaks to send, so it's good enough
 	 * for its purpose.
 	 *
-	 * @return
+	 * @return	void
 	 * @since   11.1
 	 */
 	protected function _setPlatform()
@@ -664,7 +666,7 @@ class JBrowser extends JObject
 	 *
 	 * @param   string  $browser  The browser to set as current.
 	 *
-	 * @return
+	 * @return	void
 	 * @since   11.1
 	 */
 	public function setBrowser($browser)
@@ -749,7 +751,7 @@ class JBrowser extends JObject
 	 * @param   string  $quirk  The behavior to set.
 	 * @param   string  $value  Special behavior parameter.
 	 *
-	 * @return
+	 * @return	void
 	 * @since   11.1
 	 */
 	public function setQuirk($quirk, $value = true)
@@ -791,7 +793,7 @@ class JBrowser extends JObject
 	 * @param   string  $feature  The capability to set.
 	 * @param   string  $value Special capability parameter.
 	 *
-	 * @return
+	 * @return	void
 	 * @since   11.1
 	 */
 	public function setFeature($feature, $value = true)
@@ -805,7 +807,7 @@ class JBrowser extends JObject
 	 *
 	 * @param   string  $feature  The capability to check.
 	 *
-	 * @return  boolean  Does the browser have the capability set?
+	 * @return  boolean	Does the browser have the capability set?
 	 * @since   11.1
 	 */
 	public function hasFeature($feature)
@@ -899,7 +901,8 @@ class JBrowser extends JObject
 	 */
 	public function isRobot()
 	{
-		foreach ($this->_robots as $robot) {
+		foreach ($this->_robots as $robot)
+		{
 			if (strpos($this->_agent, $robot) !== false) {
 				return true;
 			}

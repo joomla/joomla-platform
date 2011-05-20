@@ -19,12 +19,13 @@ class JRoute
 	/**
 	 * Translates an internal Joomla URL to a humanly readible URL.
 	 *
-	 * @param   string   Absolute or Relative URI to Joomla resource.
-	 * @param   boolean  Replace & by &amp; for XML compilance.
-	 * @param   integer  Secure state for the resolved URI.
+	 * @param   string		$url	Absolute or Relative URI to Joomla resource.
+	 * @param   boolean		$xhtml	Replace & by &amp; for XML compilance.
+	 * @param   integer		$ssl	Secure state for the resolved URI.
 	 *		1: Make URI secure using global secure site URI.
 	 *		0: Leave URI in the same secure state as it was passed to the function.
 	 *		-1: Make URI unsecure using the global unsecure site URI.
+	 *
 	 * @return  The translated humanly readible URL.
 	 */
 	public static function _($url, $xhtml = true, $ssl = null)
@@ -106,10 +107,10 @@ class JText
 	 * <script>alert(Joomla.JText._('<?php echo JText::_("JDEFAULT", array("script"=>true));?>'));</script> will generate an alert message containing 'Default'
 	 * <?php echo JText::_("JDEFAULT");?> it will generate a 'Default' string
 	 *
-	 * @param   string         The string to translate.
-	 * @param   boolean|array  boolean: Make the result javascript safe. array an array of option as described in the JText::sprintf function
-	 * @param   boolean        To interpret backslashes (\\=\, \n=carriage return, \t=tabulation)
-	 * @param   boolean        To indicate that the string will be push in the javascript language store
+	 * @param   string			$string					The string to translate.
+	 * @param   boolean|array	$jsSafe					boolean: Make the result javascript safe. array an array of option as described in the JText::sprintf function
+	 * @param   boolean			$interpretBackSlashes	To interpret backslashes (\\=\, \n=carriage return, \t=tabulation)
+	 * @param   boolean			$script					To indicate that the string will be push in the javascript language store
 	 *
 	 * @return  string  The translated string or the key is $script is true
 	 *
@@ -149,11 +150,11 @@ class JText
 	 * <?php echo JText::alt("JALL","language");?> it will generate a 'All' string in English but a "Toutes" string in French
 	 * <?php echo JText::alt("JALL","module");?> it will generate a 'All' string in English but a "Tous" string in French
 	 *
-	 * @param   string         The string to translate.
-	 * @param   string         The alternate option for global string
-	 * @param   boolean|array  boolean: Make the result javascript safe. array an array of option as described in the JText::sprintf function
-	 * @param   boolean        To interpret backslashes (\\=\, \n=carriage return, \t=tabulation)
-	 * @param   boolean        To indicate that the string will be pushed in the javascript language store
+	 * @param   string			$string					The string to translate.
+	 * @param   string			$alt					The alternate option for global string
+	 * @param   boolean|array	$jsSafe					boolean: Make the result javascript safe. array an array of option as described in the JText::sprintf function
+	 * @param   boolean			$interpretBackSlashes	To interpret backslashes (\\=\, \n=carriage return, \t=tabulation)
+	 * @param   boolean			$script					To indicate that the string will be pushed in the javascript language store
 	 *
 	 * @return  string  The translated string or the key if $script is true
 	 *
@@ -177,10 +178,10 @@ class JText
 	 * <script>alert(Joomla.JText._('<?php echo JText::plural("COM_PLUGINS_N_ITEMS_UNPUBLISHED", 1, array("script"=>true));?>'));</script> will generate an alert message containing '1 plugin successfully disabled'
 	 * <?php echo JText::plural("COM_PLUGINS_N_ITEMS_UNPUBLISHED", 1);?> it will generate a '1 plugin successfully disabled' string
 	 *
-	 * @param   string   The format string.
-	 * @param   integer  The number of items
-	 * @param   mixed    Mixed number of arguments for the sprintf function. The first should be an integer.
-	 * @param   array    optional Array of option array('jsSafe'=>boolean, 'interpretBackSlashes'=>boolean, 'script'=>boolean) where
+	 * @param   string	$string	The format string.
+	 * @param   integer	$n		The number of items
+	 * @param   mixed   Mixed number of arguments for the sprintf function. The first should be an integer.
+	 * @param   array   optional Array of option array('jsSafe'=>boolean, 'interpretBackSlashes'=>boolean, 'script'=>boolean) where
 	 *					-jsSafe is a boolean to generate a javascript safe string
 	 *					-interpretBackSlashes is a boolean to interpret backslashes \\->\, \n->new line, \t->tabulation
 	 *					-script is a boolean to indicate that the string will be push in the javascript language store
@@ -200,7 +201,8 @@ class JText
 			// Try the key from the language plural potential suffixes
 			$found = false;
 			$suffixes = $lang->getPluralSuffixes((int)$n);
-			foreach ($suffixes as $suffix) {
+			foreach ($suffixes as $suffix)
+			{
 				$key = $string.'_'.$suffix;
 				if ($lang->hasKey($key)) {
 					$found = true;
@@ -236,7 +238,7 @@ class JText
 	/**
 	 * Passes a string thru a sprintf.
 	 *
-	 * @param   string  The format string.
+	 * @param   string	$string	The format string.
 	 * @param   mixed   Mixed number of arguments for the sprintf function.
 	 * @param   array   optional Array of option array('jsSafe'=>boolean, 'interpretBackSlashes'=>boolean, 'script'=>boolean) where
 	 *					-jsSafe is a boolean to generate a javascript safe strings
@@ -271,8 +273,8 @@ class JText
 	/**
 	 * Passes a string thru an printf.
 	 *
-	 * @param   format The format string.
-	 * @param   mixed Mixed number of arguments for the sprintf function.
+	 * @param   format	$string	The format string.
+	 * @param   mixed	Mixed number of arguments for the sprintf function.
 	 *
 	 * @return  mixed
 	 *
@@ -298,8 +300,11 @@ class JText
 	/**
 	 * Translate a string into the current language and stores it in the JavaScript language store.
 	 *
-	 * @param   string   The JText key.
+	 * @param   string  $string	The JText key.
+	 * @param	boolean	$jsSafe
+	 * @param	boolean	$interpretBackSlashes
 	 *
+	 * @return	array
 	 * @since   11.1
 	 */
 	public static function script($string = null, $jsSafe = false, $interpretBackSlashes = true)

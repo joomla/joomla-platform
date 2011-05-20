@@ -21,7 +21,7 @@ class JDocumentRenderer extends JObject
 	/**
 	* Reference to the JDocument object that instantiated the renderer
 	*
-	* @var    object
+	* @var    JDocument
 	* @since  11.1
 	*/
 	protected	$_doc = null;
@@ -37,7 +37,7 @@ class JDocumentRenderer extends JObject
 	/**
 	* Class constructor
 	*
-	* @param   object   $doc  A reference to the JDocument object that instantiated the renderer
+	* @param   object   &$doc  A reference to the JDocument object that instantiated the renderer
 	*
 	* @since   11.1
 	*/
@@ -49,9 +49,9 @@ class JDocumentRenderer extends JObject
 	/**
 	 * Renders a script and returns the results as a string
 	 *
-	 * @param   string   $name     The name of the element to render
-	 * @param   array    $array    Array of values
-	 * @param   string   $content  Override the output of the renderer
+	 * @param	string	$name		The name of the element to render
+	 * @param	array	$array
+	 * @param	string	$content	Override the output of the renderer
 	 *
 	 * @return  string   The output of the script
 	 * @since   11.1

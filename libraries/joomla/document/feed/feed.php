@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.document.document');
+
 /**
  * DocumentFeed class, provides an easy interface to parse and display any feed document
  *
@@ -16,9 +18,6 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Document
  * @since       11.1
  */
-
-jimport('joomla.document.document');
-
 class JDocumentFeed extends JDocument
 {
 	/**
@@ -168,9 +167,10 @@ class JDocumentFeed extends JDocument
 	/**
 	 * Render the document
 	 *
-	 * @param   boolean  $cache		If true, cache the output
-	 * @param   array    $params		Associative array of attributes
-	 * @return  The rendered data
+	 * @param	boolean	$cache	If true, cache the output
+	 * @param	array	$params	Associative array of attributes
+	 *
+	 * @return	The rendered data
 	 */
 	public function render($cache = false, $params = array())
 	{
@@ -204,7 +204,8 @@ class JDocumentFeed extends JDocument
 		$data	.= "<!-- generator=\"".$this->getGenerator()."\" -->\n";
 
 		 // Generate stylesheet links
-		foreach ($this->_styleSheets as $src => $attr) {
+		foreach ($this->_styleSheets as $src => $attr)
+		{
 			$data .= "<?xml-stylesheet href=\"$src\" type=\"".$attr['mime']."\"?>\n";
 		}
 
@@ -218,7 +219,9 @@ class JDocumentFeed extends JDocument
 	/**
 	 * Adds an JFeedItem to the feed.
 	 *
-	 * @param   object JFeedItem $item The feeditem to add to the feed.
+	 * @param	JFeedItem	&$item	The feeditem to add to the feed.
+	 *
+	 * @return	void
 	 */
 	public function addItem(&$item)
 	{
@@ -346,13 +349,15 @@ class JFeedItem extends JObject
 	 */
 	 public $source;
 
-
 	 /**
 	 * Set the JFeedEnclosure for this item
 	 *
-	 * @param   object  $enclosure  The JFeedItem to add to the feed.
+	 * @param	JFeedItem	$enclosure	The JFeedItem to add to the feed.
+	 *
+	 * @return	void
 	 */
-	 public function setEnclosure($enclosure)	{
+	 public function setEnclosure($enclosure)
+	 {
 		 $this->enclosure = $enclosure;
 	 }
 }
