@@ -26,5 +26,18 @@ class JFormRuleAlphanum extends JFormRule
 	 * @var    string
 	 * @since  11.1
 	 */
-	protected $regex = '^\w*$';
+	protected $regex;
+
+	/**
+	 * The regular expression modifiers to use when testing a form field value.
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
+	protected $modifiers = 'm';
+
+	public function __construct()
+	{
+		$this->regex = JCOMPAT_UNICODE_PROPERTIES ? '^[\pL\p{Nd} ]*$' : '^[[:alnum:] ]*$';
+	}
 }
