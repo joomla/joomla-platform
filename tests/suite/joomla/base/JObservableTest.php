@@ -35,35 +35,47 @@ class JObservableTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @todo Implement testGetState().
+	 * Uses an extended version of JObservable to test the state getter.
 	 */
 	public function testGetState() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		require_once JPATH_TESTS.'/objects/JObservableTester.php';
+		$tester = new JObservableTester;
+		$this->assertEquals(
+			$tester->setState( 12 ),
+			$tester->getState(),
+			"Should get back what I set"
+		);
 	}
 
 	/**
 	 * @todo Implement testNotify().
 	 */
 	public function testNotify() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		require_once JPATH_PLATFORM.'/joomla/plugin/plugin.php';
+		$tester = $this->getMock('JObserver', array('update'), array(&$this->object));
+		$tester->expects($this->once())->method('update');
+		$this->object->notify();
 	}
 
 	/**
-	 * @todo Implement testAttach().
+	 * 
 	 */
-	public function testAttach() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+	public function testAttachAndDetach() {
+		require_once JPATH_PLATFORM.'/joomla/plugin/plugin.php';
+		$tester = $this->getMock('JObserver', array('update'), array(),'',false);
+		$this->object->attach($tester);
+		$this->assertAttributeEquals(
+			array($tester),
+			'_observers',
+			$this->object
+		);
+		$this->object->detach($tester);
+		$this->assertAttributeEquals(
+			array(),
+			'_observers',
+			$this->object
+		);
 	}
 
-	/**
-	 * @todo Implement testDetach().
-	 */
-	public function testDetach() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
 }
 
