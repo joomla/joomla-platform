@@ -9,10 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-// Detect if we have full UTF-8 and unicode PCRE support.
-if (!defined('JCOMPAT_UNICODE_PROPERTIES')) {
-	define('JCOMPAT_UNICODE_PROPERTIES', (bool) @preg_match('/\pL/u', 'a'));
-}
+jimport('joomla.form.formrule');
 
 /**
  * Form Rule class for the Joomla Framework.
@@ -21,31 +18,24 @@ if (!defined('JCOMPAT_UNICODE_PROPERTIES')) {
  * @subpackage  Form
  * @since       11.1
  */
-class JFormRule
+class JFormRuleUrl extends JFormRule
 {
 	/**
 	 * The regular expression to use in testing a form field value.
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
+	 * @see		http://www.faqs.org/rfcs/rfc3986.html
 	 */
-	protected $regex;
+	protected $regex = '^(<protocols>):\/\/(([A-Z0-9][A-Z0-9_-]*)(\.[A-Z0-9][A-Z0-9_-]*)+)(:(\d+))?\/?/i';
 
 	/**
 	 * The regular expression modifiers to use when testing a form field value.
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
-	protected $modifiers;
-
-	/**
-	 * The error message displayed if the test fail.
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	protected $errorMsg = 'JLIB_FORM_VALIDATE_FIELD_INVALID';
+	protected $modifiers = 'i';
 
 	/**
 	 * Method to test the value.
@@ -68,42 +58,9 @@ class JFormRule
 	 */
 	public function test(& $element, $value, $group = null, & $input = null, & $form = null)
 	{
-		// Initialize variables.
-		$name = (string) $element['name'];
+		$protocols = (string) $element['protocols'] ? (string) $element['protocols'] : 'https?';
+		$this->regex = preg_replace('/<protocols>/', $protocols, $this->regex);
 
-		// Check for a valid regex.
-		if (empty($this->regex)) {
-			throw new JException(JText::sprintf('JLIB_FORM_INVALID_FORM_RULE', get_class($this)));
-		}
-
-		// Add unicode property support if available.
-		if (JCOMPAT_UNICODE_PROPERTIES) {
-			$this->modifiers = (strpos($this->modifiers, 'u') !== false) ? $this->modifiers : $this->modifiers.'u';
-		}
-
-		// Test the value against the regular expression.
-		if (preg_match(chr(1).$this->regex.chr(1).$this->modifiers, $value)) {
-			return true;
-		}
-
-		throw new JException($this->getErrorMsg($element));
-	}
-
-	/**
-	 * Method to get the translated error message
-	 *
-	 * @param   object  $element  The JXMLElement object representing the <field /> tag for the
-	 *                            form field object.
-	 * @return  string  The translated error message
-	 *
-	 * @since   11.1
-	 */
-	protected function getErrorMsg(&$element)
-	{
-		$msg = $this->errorMsg;
-		if (preg_match('/^JFormRule([a-z0-9_]*)$/i', get_class($this), $matches)) {
-			$msg .= '_'.strtoupper($matches[1]);
-		}
-		return JText::sprintf($msg, (string)$element['label']);
+		return parent::test($element, $value, $group, $input, $form);
 	}
 }

@@ -1590,16 +1590,16 @@ class JForm
 			return new JException(JText::_('JLIB_FORM_ERROR_VALIDATE_FIELD'), -1, E_ERROR);
 		}
 
-		// Initialise variables.
-		$valid = true;
-
 		// Check if the field is required.
-		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+		$required = ((string) $element['required'] == 'true'
+		|| (string) $element['required'] == 'required'
+		|| (int) $element['minLength'] > 0);
 
-		if ($required) {
-			// If the field is required and the value is empty return an error message.
-			if (($value === '') || ($value === null)) {
-
+		// If the field is required and the value is empty return an error message.
+		if (($value === '') || ($value === null))
+		{
+			if ($required)
+			{
 				// Does the field have a defined error message?
 				if($element['message']) {
 					$message = $element['message'];
@@ -1615,10 +1615,25 @@ class JForm
 				}
 				return new JException($message, 2, E_WARNING);
 			}
+			else {
+				// Field is empty and is not required, no need to validate
+				return true;
+			}
 		}
 
-		// Get the field validation rule.
-		if ($type = (string) $element['validate']) {
+		// Get the field validation rules.
+		$types = (string) $element['validate'];
+		if (strpos($types, ' ')) {
+			$types = explode(' ', $types);
+		} else {
+			$types = array($types);
+		}
+
+		// Especial treatement for minLength and maxLength
+		if ($element['minLength']) $types[] = 'minLength';
+		if ($element['maxLength']) $types[] = 'maxLength';
+
+		foreach ($types as $type) {
 			// Load the JFormRule object for the field.
 			$rule = $this->loadRuleType($type);
 
@@ -1626,27 +1641,14 @@ class JForm
 			if ($rule === false) {
 				return new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_RULE_MISSING', $rule), -2, E_ERROR);
 			}
-
-			// Run the field validation rule test.
-			$valid = $rule->test($element, $value, $group, $input, $this);
-
-			// Check for an error in the validation test.
-			if (JError::isError($valid)) {
-				return $valid;
+			
+			try {
+				// Run the field validation rule test.
+				$valid = $rule->test($element, $value, $group, $input, $this);
 			}
-		}
-
-		// Check if the field is valid.
-		if ($valid === false) {
-
-			// Does the field have a defined error message?
-			$message = (string) $element['message'];
-
-			if ($message) {
-				return new JException(JText::_($message), 1, E_WARNING);
-			}
-			else {
-				return new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', JText::_((string) $element['label'])), 1, E_WARNING);
+			catch (JException $e)
+			{
+				return $e;
 			}
 		}
 

@@ -9,10 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-// Detect if we have full UTF-8 and unicode PCRE support.
-if (!defined('JCOMPAT_UNICODE_PROPERTIES')) {
-	define('JCOMPAT_UNICODE_PROPERTIES', (bool) @preg_match('/\pL/u', 'a'));
-}
+jimport('joomla.form.formrule');
 
 /**
  * Form Rule class for the Joomla Framework.
@@ -21,32 +18,8 @@ if (!defined('JCOMPAT_UNICODE_PROPERTIES')) {
  * @subpackage  Form
  * @since       11.1
  */
-class JFormRule
+class JFormRuleMinLength extends JFormRule
 {
-	/**
-	 * The regular expression to use in testing a form field value.
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	protected $regex;
-
-	/**
-	 * The regular expression modifiers to use when testing a form field value.
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	protected $modifiers;
-
-	/**
-	 * The error message displayed if the test fail.
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	protected $errorMsg = 'JLIB_FORM_VALIDATE_FIELD_INVALID';
-
 	/**
 	 * Method to test the value.
 	 *
@@ -68,25 +41,7 @@ class JFormRule
 	 */
 	public function test(& $element, $value, $group = null, & $input = null, & $form = null)
 	{
-		// Initialize variables.
-		$name = (string) $element['name'];
-
-		// Check for a valid regex.
-		if (empty($this->regex)) {
-			throw new JException(JText::sprintf('JLIB_FORM_INVALID_FORM_RULE', get_class($this)));
-		}
-
-		// Add unicode property support if available.
-		if (JCOMPAT_UNICODE_PROPERTIES) {
-			$this->modifiers = (strpos($this->modifiers, 'u') !== false) ? $this->modifiers : $this->modifiers.'u';
-		}
-
-		// Test the value against the regular expression.
-		if (preg_match(chr(1).$this->regex.chr(1).$this->modifiers, $value)) {
-			return true;
-		}
-
-		throw new JException($this->getErrorMsg($element));
+		return (boolean) (JString::strlen($value) < (string) $element['minLength']);
 	}
 
 	/**
@@ -100,10 +55,6 @@ class JFormRule
 	 */
 	protected function getErrorMsg(&$element)
 	{
-		$msg = $this->errorMsg;
-		if (preg_match('/^JFormRule([a-z0-9_]*)$/i', get_class($this), $matches)) {
-			$msg .= '_'.strtoupper($matches[1]);
-		}
-		return JText::sprintf($msg, (string)$element['label']);
+		return JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID_MINLENGTH', (string)$element['label'], (string)$element['minLength']);
 	}
 }
