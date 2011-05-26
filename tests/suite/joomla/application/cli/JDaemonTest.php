@@ -40,6 +40,9 @@ class JDaemonTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testWriteProcessIdFile()
 	{
+		if (!defined('SIGHUP')) {
+			$this->markTestSkipped( 'Test skipped because the PCNTL extension is not loaded.' );
+		}
 		// Get a new JDaemonInspector instance.
 		$daemon = new JDaemonInspector();
 
