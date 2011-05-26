@@ -230,11 +230,11 @@ class JDocument extends JObject
 	 * Returns the global JDocument object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @param   string  $type       The document type to instantiate
-	 * @param   array   $attribues  Array of attributes
+	 * @param	string	$type		The document type to instantiate
+	 * @param	array	$attributes	Array of attributes
 	 *
-	 * @return  object  The document object.
-	 * @since   11.1
+	 * @return	JDocument	The document object.
+	 * @since	11.1
 	 */
 	public static function getInstance($type = 'html', $attributes = array())
 	{
@@ -266,7 +266,7 @@ class JDocument extends JObject
 					require_once $path;
 				}
 				else {
-					JError::raiseError(500,JText::_('JLIB_DOCUMENT_ERROR_UNABLE_LOAD_DOC_CLASS'));
+					JError::raiseError(500, JText::_('JLIB_DOCUMENT_ERROR_UNABLE_LOAD_DOC_CLASS'));
 				}
 			}
 
@@ -285,9 +285,9 @@ class JDocument extends JObject
 	/**
 	 * Set the document type
 	 *
-	 * @param   string  $type
+	 * @param	string  $type
 	 *
-	 * @return
+	 * @return	void
 	 * @since   11.1
 	 */
 	public function setType($type)
@@ -335,7 +335,7 @@ class JDocument extends JObject
 	 *
 	 * @param   array  $data  The document head data in array form
 	 *
-	 * @return
+	 * @return	void
 	 * @since   11.1
 	 */
 	public function mergeHeadData($data)
@@ -425,7 +425,7 @@ class JDocument extends JObject
 				$this->_metaTags['http-equiv'][$name] = $content;
 
 				// Syncing with HTTP-header
-				if($sync && strtolower($name) == 'content-type') {
+				if ($sync && strtolower($name) == 'content-type') {
 					$this->setMimeEncoding($content, false);
 				}
 			}
@@ -438,12 +438,13 @@ class JDocument extends JObject
 	/**
 	 * Adds a linked script to the page
 	 *
-	 * @param   string  $url		URL to the linked script
-	 * @param   string  $type		Type of script. Defaults to 'text/javascript'
-	 * @param   bool    $defer		Adds the defer attribute.
-	 * @param   bool    $async		Adds the async attribute.
-	 * @return
-	 * @since    11.1
+	 * @param	string	$url	URL to the linked script
+	 * @param	string	$type	Type of script. Defaults to 'text/javascript'
+	 * @param	bool	$defer	Adds the defer attribute.
+	 * @param	bool	$async	Adds the async attribute.
+	 *
+	 * @return	void
+	 * @since	11.1
 	 */
 	public function addScript($url, $type = "text/javascript", $defer = false, $async = false)
 	{
@@ -522,7 +523,7 @@ class JDocument extends JObject
 	/**
 	 * Returns the document charset encoding.
 	 *
-	 * @return string
+	 * @return	string
 	 */
 	public function getCharset()
 	{
@@ -533,6 +534,8 @@ class JDocument extends JObject
 	 * Sets the global document language declaration. Default is English (en-gb).
 	 *
 	 * @param	string	$lang
+	 *
+	 * @return	void
 	 */
 	public function setLanguage($lang = "en-gb")
 	{
@@ -542,7 +545,7 @@ class JDocument extends JObject
 	/**
 	 * Returns the document language.
 	 *
-	 * @return string
+	 * @return	string
 	 */
 	public function getLanguage()
 	{
@@ -552,7 +555,9 @@ class JDocument extends JObject
 	/**
 	 * Sets the global document direction declaration. Default is left-to-right (ltr).
 	 *
-	 * @param	string	$lang
+	 * @param	string	$dir
+	 *
+	 * @return	void
 	 */
 	public function setDirection($dir = "ltr")
 	{
@@ -562,8 +567,7 @@ class JDocument extends JObject
 	/**
 	 * Returns the document direction declaration.
 	 *
-	 * @return string
-	 *
+	 * @return	string
 	 */
 	public function getDirection()
 	{
@@ -575,6 +579,7 @@ class JDocument extends JObject
 	 *
 	 * @param	string	$title
 	 *
+	 * @return	void
 	 */
 	public function setTitle($title)
 	{
@@ -596,6 +601,7 @@ class JDocument extends JObject
 	 *
 	 * @param	string	$base
 	 *
+	 * @return	void
 	 */
 	public function setBase($base)
 	{
@@ -606,7 +612,6 @@ class JDocument extends JObject
 	 * Return the base URI of the document.
 	 *
 	 * @return	string
-	 *
 	 */
 	public function getBase()
 	{
@@ -616,8 +621,9 @@ class JDocument extends JObject
 	/**
 	 * Sets the description of the document
 	 *
-	 * @param	string	$title
+	 * @param	string	$description
 	 *
+	 * @return	void
 	 */
 	public function setDescription($description)
 	{
@@ -628,7 +634,6 @@ class JDocument extends JObject
 	 * Return the title of the page.
 	 *
 	 * @return	string
-	 *
 	 */
 	public function getDescription()
 	{
@@ -660,7 +665,8 @@ class JDocument extends JObject
 	/**
 	 * Sets the document generator
 	 *
-	 * @param	string
+	 * @param	string	$generator
+	 *
 	 * @return  void
 	 */
 	public function setGenerator($generator)
@@ -681,7 +687,7 @@ class JDocument extends JObject
 	/**
 	 * Sets the document modified date
 	 *
-	 * @param	string
+	 * @param	string	$date
 	 *
 	 * @return  void
 	 */
@@ -738,6 +744,7 @@ class JDocument extends JObject
 	 * Sets the line end style to Windows, Mac, Unix or a custom string.
 	 *
 	 * @param	string  $style  "win", "mac", "unix" or custom string.
+	 *
 	 * @return  void
 	 */
 	public function setLineEnd($style)
@@ -809,7 +816,7 @@ class JDocument extends JObject
 				require_once $path;
 			}
 			else {
-				JError::raiseError(500,JText::_('Unable to load renderer class'));
+				JError::raiseError(500, JText::_('Unable to load renderer class'));
 			}
 		}
 
@@ -825,7 +832,9 @@ class JDocument extends JObject
 	/**
 	 * Parses the document and prepares the buffers
 	 *
-	 * @return null
+	 * @param	array	$params	Associative array of attributes
+	 *
+	 * @return	null
 	 */
 	public function parse($params = array())
 	{
@@ -835,11 +844,10 @@ class JDocument extends JObject
 	/**
 	 * Outputs the document
 	 *
-	 * @param boolean	$cache		If true, cache the output
-	 * @param boolean	$compress	If true, compress the output
-	 * @param array		$params		Associative array of attributes
+	 * @param	boolean	$cache		If true, cache the output
+	 * @param	array	$params		Associative array of attributes
 	 *
-	 * @return	The rendered data
+	 * @return	void
 	 */
 	public function render($cache = false, $params = array())
 	{

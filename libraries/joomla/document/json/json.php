@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.document.document');
+
 /**
  * JDocumentJSON class, provides an easy interface to parse and display JSON output
  *
@@ -16,9 +18,6 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Document
  * @since       11.1
  */
-
-jimport('joomla.document.document');
-
 class JDocumentJSON extends JDocument
 {
 	/**
@@ -75,6 +74,8 @@ class JDocumentJSON extends JDocument
 	 * Set the document head data
 	 *
 	 * @param   array  $data  The document head data in array form
+	 *
+	 * @return	void
 	 */
 	public function setHeadData($data)
 	{
@@ -85,7 +86,8 @@ class JDocumentJSON extends JDocument
 	 *
 	 * @return  string
 	 */
-	public function getName() {
+	public function getName()
+	{
 		return $this->_name;
 	}
 
@@ -93,9 +95,11 @@ class JDocumentJSON extends JDocument
 	 * Sets the document name
 	 *
 	 * @param   string  $name  Document name
+	 *
 	 * @return  void
 	 */
-	public function setName($name = 'joomla') {
+	public function setName($name = 'joomla')
+	{
 		$this->_name = $name;
 	}
 }

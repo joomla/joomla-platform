@@ -98,7 +98,9 @@ class JDocumentHTML extends JDocument
 	/**
 	 * Set the HTML document head data
 	 *
-	 * @param   array  $data	The document head data in array form
+	 * @param	array  $data	The document head data in array form
+	 *
+	 * @return	void
 	 */
 	public function setHeadData($data)
 	{
@@ -121,11 +123,12 @@ class JDocumentHTML extends JDocument
 	/**
 	 * Merge the HTML document head data
 	 *
-	 * @param   array  $data	The document head data in array form
+	 * @param	array  $data	The document head data in array form
+	 *
+	 * @return	void
 	 */
 	public function mergeHeadData($data)
 	{
-
   		if (empty($data) || !is_array($data)) {
 			return;
 		}
@@ -135,10 +138,10 @@ class JDocumentHTML extends JDocument
 		$this->link			= (isset($data['link'])) ? $data['link'] : $this->link;
 
 		if (isset($data['metaTags'])) {
-			foreach($data['metaTags'] AS $type1=>$data1)
+			foreach ($data['metaTags'] AS $type1=>$data1)
 			{
 				$booldog = $type1 == 'http-equiv' ? true : false;
-				foreach($data1 AS $name2=>$data2)
+				foreach ($data1 AS $name2=>$data2)
 				{
 					$this->setMetaData($name2, $data2, $booldog);
 				}
@@ -149,9 +152,9 @@ class JDocumentHTML extends JDocument
 		$this->_styleSheets	= (isset($data['styleSheets']) && !empty($data['styleSheets']) && is_array($data['styleSheets'])) ? array_merge($this->_styleSheets, $data['styleSheets']) : $this->_styleSheets;
 
 		if (isset($data['style'])) {
-			foreach($data['style'] AS $type=>$stdata)
+			foreach ($data['style'] AS $type=>$stdata)
 			{
-				if (!isset($this->_style[strtolower($type)]) || !stristr($this->_style[strtolower($type)],$stdata)) {
+				if (!isset($this->_style[strtolower($type)]) || !stristr($this->_style[strtolower($type)], $stdata)) {
 					$this->addStyleDeclaration($stdata, $type);
  				}
 			}
@@ -161,9 +164,9 @@ class JDocumentHTML extends JDocument
 
 
 		if (isset($data['script'])) {
-			foreach($data['script'] AS $type=>$sdata)
+			foreach ($data['script'] AS $type=>$sdata)
 			{
-				if (!isset($this->_script[strtolower($type)]) || !stristr($this->_script[strtolower($type)],$sdata)) {
+				if (!isset($this->_script[strtolower($type)]) || !stristr($this->_script[strtolower($type)], $sdata)) {
 					$this->addScriptDeclaration($sdata, $type);
 				}
 			}
@@ -182,7 +185,7 @@ class JDocumentHTML extends JDocument
 	 * @param   string  $href		The link that is being related.
 	 * @param   string  $relation	Relation of link.
 	 * @param   string  $relType	Relation type attribute.  Either rel or rev (default: 'rel').
-	 * @param   array   $attributes Associative array of remaining attributes.
+	 * @param   array   $attribs	Associative array of remaining attributes.
 	 *
 	 * @return  void
 	 */
@@ -203,6 +206,8 @@ class JDocumentHTML extends JDocument
 	 * @param   string  $href		The link that is being related.
 	 * @param   string  $type		File type
 	 * @param   string  $relation	Relation of link
+	 *
+	 * @return	void
 	 */
 	public function addFavicon($href, $type = 'image/vnd.microsoft.icon', $relation = 'shortcut icon')
 	{
@@ -213,10 +218,10 @@ class JDocumentHTML extends JDocument
 	/**
 	 * Adds a custom HTML string to the head block
 	 *
-	 * @param   string  $html  The HTML to add to the head
-	 * @return  void
+	 * @param	string  $html  The HTML to add to the head
+	 *
+	 * @return	void
 	 */
-
 	public function addCustomTag($html)
 	{
 		$this->_custom[] = trim($html);
@@ -248,35 +253,33 @@ class JDocumentHTML extends JDocument
 			return null;
 		}
 
-			$renderer = $this->loadRenderer($type);
-			if ($this->_caching == true && $type == 'modules') {
-				$cache = JFactory::getCache('com_modules','');
-				$hash = md5(serialize(array($name, $attribs, $result, $renderer)));
-				$cbuffer = $cache->get('cbuffer_'.$type);
+		$renderer = $this->loadRenderer($type);
+		if ($this->_caching == true && $type == 'modules') {
+			$cache = JFactory::getCache('com_modules', '');
+			$hash = md5(serialize(array($name, $attribs, $result, $renderer)));
+			$cbuffer = $cache->get('cbuffer_'.$type);
 
-				if (isset($cbuffer[$hash])) {
-					return JCache::getWorkarounds($cbuffer[$hash], array('mergehead' => 1));
-				} else {
-
-					$options = array();
-					$options['nopathway'] = 1;
-					$options['nomodules'] = 1;
-					$options['modulemode'] = 1;
-
-					$this->setBuffer($renderer->render($name, $attribs, $result), $type, $name);
-					$data = parent::$_buffer[$type][$name];
-
-					$tmpdata = JCache::setWorkarounds($data, $options);
-
-
-					$cbuffer[$hash] = $tmpdata;
-
-					$cache->store($cbuffer, 'cbuffer_'.$type);
-				}
-
+			if (isset($cbuffer[$hash])) {
+				return JCache::getWorkarounds($cbuffer[$hash], array('mergehead' => 1));
 			} else {
+
+				$options = array();
+				$options['nopathway'] = 1;
+				$options['nomodules'] = 1;
+				$options['modulemode'] = 1;
+
 				$this->setBuffer($renderer->render($name, $attribs, $result), $type, $name);
+				$data = parent::$_buffer[$type][$name];
+
+				$tmpdata = JCache::setWorkarounds($data, $options);
+
+				$cbuffer[$hash] = $tmpdata;
+
+				$cache->store($cbuffer, 'cbuffer_'.$type);
 			}
+		} else {
+			$this->setBuffer($renderer->render($name, $attribs, $result), $type, $name);
+		}
 
 		return parent::$_buffer[$type][$name];
 	}
@@ -284,8 +287,10 @@ class JDocumentHTML extends JDocument
 	/**
 	 * Set the contents a document includes
 	 *
-	 * @param   string  $content	The content to be set in the buffer.
-	 * @param   array   $options	Array of optional elements.
+	 * @param	string	$content	The content to be set in the buffer.
+	 * @param	array	$options	Array of optional elements.
+	 *
+	 * @return	void
 	 */
 	public function setBuffer($content, $options = array())
 	{
@@ -302,9 +307,12 @@ class JDocumentHTML extends JDocument
 	/**
 	 * Parses the template and populates the buffer
 	 *
-	 * @param   array  $params  parameters for fetching the template
+	 * @param	array	$params	parameters for fetching the template
+	 *
+	 * @return	void
 	 */
-	public function parse($params = array()) {
+	public function parse($params = array())
+	{
 		$this->_fetchTemplate($params);
 		$this->_parseTemplate();
 	}
@@ -312,20 +320,21 @@ class JDocumentHTML extends JDocument
 	/**
 	 * Outputs the template to the browser.
 	 *
-	 * @param   boolean  $cache		If true, cache the output
-	 * @param   array    $params		Associative array of attributes
-	 * @return  The rendered data
+	 * @param	boolean	$caching	If true, cache the output
+	 * @param	array	$params		Associative array of attributes
+	 *
+	 * @return	string	The rendered data
 	 */
 	public function render($caching = false, $params = array())
 	{
 		$this->_caching = $caching;
 
-			if (!empty($this->_template)) {
-				$data = $this->_renderTemplate();
-			} else {
-				$this->parse($params);
-				$data = $this->_renderTemplate();
-			}
+		if (!empty($this->_template)) {
+			$data = $this->_renderTemplate();
+		} else {
+			$this->parse($params);
+			$data = $this->_renderTemplate();
+		}
 
 		parent::render();
 		return $data;
@@ -336,7 +345,7 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @param   string	$condition	The condition to use
 	 *
-	 * @return  integer  Number of modules found
+	 * @return  integer	Number of modules found
 	 */
 	public function countModules($condition)
 	{
@@ -387,8 +396,9 @@ class JDocumentHTML extends JDocument
 	/**
 	 * Load a template file
 	 *
-	 * @param string	$template	The name of the template
+	 * @param string	$directory	The name of the template
 	 * @param string	$filename	The actual filename
+	 *
 	 * @return string The contents of the template
 	 */
 	protected function _loadTemplate($directory, $filename)
@@ -398,8 +408,7 @@ class JDocumentHTML extends JDocument
 		$contents = '';
 
 		// Check to see if we have a valid template file
-		if (file_exists($directory.DS.$filename))
-		{
+		if (file_exists($directory.DS.$filename)) {
 			// Store the file path
 			$this->_file = $directory.DS.$filename;
 
@@ -416,8 +425,7 @@ class JDocumentHTML extends JDocument
 		foreach ($dirs as $dir)
 		{
 			$icon = $dir.'favicon.ico';
-			if (file_exists($icon))
-			{
+			if (file_exists($icon)) {
 				$path = str_replace(JPATH_BASE . DS, '', $dir);
 				$path = str_replace('\\', '/', $path);
 				$this->addFavicon(JURI::base(true).'/'.$path.'favicon.ico');
@@ -432,6 +440,8 @@ class JDocumentHTML extends JDocument
 	 * Fetch the template, and initialise the params
 	 *
 	 * @param   array  $params  parameters to determine the template
+	 *
+	 * @return	void
 	 */
 	protected function _fetchTemplate($params = array())
 	{
@@ -472,8 +482,7 @@ class JDocumentHTML extends JDocument
 	{
 		$replace = array();
 		$matches = array();
-		if (preg_match_all('#<jdoc:include\ type="([^"]+)" (.*)\/>#iU', $this->_template, $matches))
-		{
+		if (preg_match_all('#<jdoc:include\ type="([^"]+)" (.*)\/>#iU', $this->_template, $matches)) {
 			$matches[0] = array_reverse($matches[0]);
 			$matches[1] = array_reverse($matches[1]);
 			$matches[2] = array_reverse($matches[2]);
@@ -496,11 +505,13 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @return string rendered template
 	 */
-	protected function _renderTemplate() {
+	protected function _renderTemplate()
+	{
 		$replace = array();
 		$with = array();
 
-		foreach($this->_template_tags AS $jdoc => $args) {
+		foreach ($this->_template_tags AS $jdoc => $args)
+		{
 			$replace[] = $jdoc;
 			$with[] = $this->getBuffer($args['type'], $args['name'], $args['attribs']);
 		}
