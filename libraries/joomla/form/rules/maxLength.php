@@ -41,7 +41,11 @@ class JFormRuleMaxLength extends JFormRule
 	 */
 	public function test(& $element, $value, $group = null, & $input = null, & $form = null)
 	{
-		return (boolean) (JString::strlen($value) > (string) $element['maxLength']);
+		if (JString::strlen($value) <= (int) $element['maxLength']){
+			return true;
+		} else {
+			throw new JException($this->getErrorMsg($element));
+		}
 	}
 
 	/**

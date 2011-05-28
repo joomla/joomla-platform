@@ -41,7 +41,11 @@ class JFormRuleMinLength extends JFormRule
 	 */
 	public function test(& $element, $value, $group = null, & $input = null, & $form = null)
 	{
-		return (boolean) (JString::strlen($value) < (string) $element['minLength']);
+		if (JString::strlen($value) >= (int) $element['minLength']){
+			return true;
+		} else {
+			throw new JException($this->getErrorMsg($element));
+		}
 	}
 
 	/**

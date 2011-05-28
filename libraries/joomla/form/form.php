@@ -1621,19 +1621,25 @@ class JForm
 			}
 		}
 
-		// Get the field validation rules.
-		$types = (string) $element['validate'];
-		if (strpos($types, ' ')) {
-			$types = explode(' ', $types);
-		} else {
-			$types = array($types);
-		}
+		// Initialise variables
+		$types = array();
 
 		// Especial treatement for minLength and maxLength
 		if ($element['minLength']) $types[] = 'minLength';
 		if ($element['maxLength']) $types[] = 'maxLength';
 
-		foreach ($types as $type) {
+		// Get the field validation rules.
+		if($validate = (string) $element['validate'])
+		{
+			if (strpos($validate, ' ')) {
+				$types = explode(' ', $validate);
+			} else {
+				$types = array($validate);
+			}
+		}
+
+		foreach ($types as $type)
+		{
 			// Load the JFormRule object for the field.
 			$rule = $this->loadRuleType($type);
 
@@ -1641,7 +1647,7 @@ class JForm
 			if ($rule === false) {
 				return new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_RULE_MISSING', $rule), -2, E_ERROR);
 			}
-			
+
 			try {
 				// Run the field validation rule test.
 				$valid = $rule->test($element, $value, $group, $input, $this);
