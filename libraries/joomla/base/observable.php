@@ -74,7 +74,8 @@ class JObservable extends JObject
 		// Iterate through the _observers array
 		foreach ($this->_observers as $observer)
 		{
-			$return[] = $observer->update();
+			$update_args = array('subject' => $this);
+			$return[] = $observer->update($update_args);
 		}
 
 		return $return;
