@@ -1393,10 +1393,73 @@ class JInstallerComponent extends JAdapterInstance
 	 * @return  boolean  True on success
 	 * @since   11.1
 	 */
-	protected function _rollback_menu()
+	protected function _rollback_menu($arg)
 	{
-		return true;
+		if ( $arg['type'] == 'menu' ) {
+			// Initialise Variables
+			$db		= $this->parent->getDbo();
+			$table	= JTable::getInstance('menu');
+			$option	= $this->get('element');
+			
+			//See if menu items have been installed for the component
+			$query	= $db->getQuery(true);
+			$query->select('m.id, e.extension_id');
+			$query->from('#__menu AS m');
+			$query->leftJoin('#__extensions AS e ON m.component_id = e.extension_id');
+			$query->where('m.parent_id = 1');
+			$query->where("m.client_id = 1");
+			$query->where('e.element = '.$db->quote($option));
+
+			$db->setQuery($query);
+
+			$componentrow = $db->loadObject();
+			
+			if ( !$componentrow ) {
+				return true;
+			}
+			
+			$id		= $componentrow->extension_id;
+	
+			// Get the ids of the menu items
+			$query	= $db->getQuery(true);
+			$query->select('id');
+			$query->from('#__menu');
+			$query->where('`client_id` = 1');
+			$query->where('`component_id` = '.(int) $id);
+	
+			$db->setQuery($query);
+	
+			$ids = $db->loadColumn();
+	
+			// Check for error
+			if ($error = $db->getErrorMsg() || empty($ids)){
+				JError::raiseWarning('', JText::_('JLIB_INSTALLER_ERROR_COMP_REMOVING_ADMIN_MENUS_FAILED'));
+	
+				if ($error && $error != 1) {
+					JError::raiseWarning(100, $error);
+				}
+	
+				return false;
+			}
+			else {
+				// Iterate the items to delete each one.
+				foreach($ids as $menuid){
+					if (!$table->delete((int) $menuid)) {
+						$this->setError($table->getError());
+						return false;
+					}
+				}
+				// Rebuild the whole tree
+				$table->rebuild();
+	
+			}
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
+	
 
 	/**
 	 * Discover unregistered extensions.
