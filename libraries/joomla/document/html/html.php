@@ -191,9 +191,9 @@ class JDocumentHTML extends JDocument
 	 */
 	public function addHeadLink($href, $relation, $relType = 'rel', $attribs = array())
 	{
-		$attribs = JArrayHelper::toString($attribs);
-		$generatedTag = '<link href="'.$href.'" '.$relType.'="'.$relation.'" '.$attribs;
-		$this->_links[] = $generatedTag;
+		$this->_links[$href]['relation']	= $relation;
+		$this->_links[$href]['relType']		= $relType;
+		$this->_links[$href]['attribs']		= $attribs;
 	}
 
 	/**
@@ -212,7 +212,7 @@ class JDocumentHTML extends JDocument
 	public function addFavicon($href, $type = 'image/vnd.microsoft.icon', $relation = 'shortcut icon')
 	{
 		$href = str_replace('\\', '/', $href);
-		$this->_links[] = '<link href="'.$href.'" rel="'.$relation.'" type="'.$type.'"';
+		$this->addHeadLink($href, $relation, 'rel', array('type' => $type));
 	}
 
 	/**
@@ -480,23 +480,30 @@ class JDocumentHTML extends JDocument
 	 */
 	protected function _parseTemplate()
 	{
-		$replace = array();
 		$matches = array();
-		if (preg_match_all('#<jdoc:include\ type="([^"]+)" (.*)\/>#iU', $this->_template, $matches)) {
-			$matches[0] = array_reverse($matches[0]);
-			$matches[1] = array_reverse($matches[1]);
-			$matches[2] = array_reverse($matches[2]);
 
-			$count = count($matches[1]);
+		if (preg_match_all('#<jdoc:include\ type="([^"]+)" (.*)\/>#iU', $this->_template, $matches))
+		{
+			$template_tags_first 	= array();
+			$template_tags_last 	= array();
 
-			for ($i = 0; $i < $count; $i++)
-			{
-				$attribs = JUtility::parseAttributes($matches[2][$i]);
-				$type  = $matches[1][$i];
+			// Step through the jdocs in reverse order.
+			for ($i = count($matches[0])-1; $i >= 0; $i--) {
+				$type  		= $matches[1][$i];
+				$attribs 	= empty($matches[2][$i]) ? array() : JUtility::parseAttributes($matches[2][$i]);
+				$name 		= isset($attribs['name']) ? $attribs['name'] : null;
 
-				$name  = isset($attribs['name']) ? $attribs['name'] : null;
-				$this->_template_tags[$matches[0][$i]] = array('type'=>$type, 'name' => $name, 'attribs' => $attribs);
+				// Separate buffers to be executed first and last
+				if ($type == 'module' || $type == 'modules') {
+					$template_tags_first[$matches[0][$i]] = array('type'=>$type, 'name'=>$name, 'attribs'=>$attribs);
+				} else {
+					$template_tags_last[$matches[0][$i]] = array('type'=>$type, 'name'=>$name, 'attribs'=>$attribs);
+				}
 			}
+			// Reverse the last array so the jdocs are in forward order.
+			$template_tags_last = array_reverse($template_tags_last);
+
+			$this->_template_tags = $template_tags_first + $template_tags_last;
 		}
 	}
 

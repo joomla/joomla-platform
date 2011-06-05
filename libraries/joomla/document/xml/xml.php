@@ -60,6 +60,7 @@ class JDocumentXML extends JDocument
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Get the document head data
 	 *
 	 * @return  array  The document head data in array form
@@ -80,6 +81,8 @@ class JDocumentXML extends JDocument
 	}
 
 	/**
+=======
+>>>>>>> master
 	 * Returns the document name
 	 *
 	 * @return  string
