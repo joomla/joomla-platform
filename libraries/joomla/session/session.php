@@ -31,6 +31,7 @@ class JSession extends JObject
 	 * One of 'active'|'expired'|'destroyed|'error'
 	 *
 	 * @var string
+	 * @since  11.1
 	 * @see getState()
 	 */
 	protected	$_state	=	'active';
@@ -39,14 +40,16 @@ class JSession extends JObject
 	 * Maximum age of unused session.
 	 * In minutes
 	 * 
-	 * @var  string 
+	 * @var    string
+	 * @since  11.1
 	 */
 	protected	$_expire	=	15;
 
 	/**
 	 * The session store object.
 	 *
-	 * @var  JSessionStorage
+	 * @var    JSessionStorage
+	 * @since  11.1
 	 */
 	protected	$_store	=	null;
 
@@ -59,6 +62,7 @@ class JSession extends JObject
 	 *  - fix_adress
 	 *
 	 * @var array
+	 * @since  11.1
 	 */
 	protected $_security = array('fix_browser');
 
@@ -66,7 +70,8 @@ class JSession extends JObject
 	 * Force cookies to be SSL only
 	 * Default  false
 	 * 
-	 * @var bool $force_ssl
+	 * @var boolean
+	 * @since  11.1
 	 */
 	protected $_force_ssl = false;
 
