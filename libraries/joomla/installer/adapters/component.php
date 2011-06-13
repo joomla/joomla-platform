@@ -907,7 +907,7 @@ class JInstallerComponent extends JAdapterInstance
 	 * @param   integer  $id	The unique extension id of the component to uninstall
 	 *
 	 * @return  mixed  Return value for uninstall method in component uninstall file
-	 * @since	1.0
+	 * @since    1.0
 	 */
 	public function uninstall($id)
 	{
@@ -1352,8 +1352,8 @@ class JInstallerComponent extends JAdapterInstance
 		$query	= $db->getQuery(true);
 		$query->select('id');
 		$query->from('#__menu');
-		$query->where('`client_id` = 1');
-		$query->where('`component_id` = '.(int) $id);
+		$query->where($query->qn('client_id').' = 1');
+		$query->where($query->qn('component_id').' = '.(int) $id);
 
 		$db->setQuery($query);
 

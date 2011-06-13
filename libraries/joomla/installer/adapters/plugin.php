@@ -140,11 +140,11 @@ class JInstallerPlugin extends JAdapterInstance
 
 		// Check if we should enable overwrite settings
 
-		// Check to see if a plugin by the same name is already installed
-		$query = 'SELECT `extension_id`' .
-				' FROM `#__extensions`' .
-				' WHERE folder = '.$db->Quote($group) .
-				' AND element = '.$db->Quote($element);
+		// Check to see if a plugin by the same name is already installed.
+		$query = $db->getQuery(true);
+		$query->select($query->qn('extension_id'))->from($query->qn('#__extensions'));
+		$query->where($query->qn('folder').' = '.$query->q($group));
+		$query->where($query->qn('element').' = '.$query->q($element));
 		$db->setQuery($query);
 		try {
 			$db->Query();
@@ -196,8 +196,10 @@ class JInstallerPlugin extends JAdapterInstance
 				// Load the file
 				include_once $manifestScriptFile;
 			}
+			// If a dash is present in the group name, remove it
+			$groupClass = str_replace('-', '', $group);
 			// Set the class name
-			$classname = 'plg'.$group.$element.'InstallerScript';
+			$classname = 'plg'.$groupClass.$element.'InstallerScript';
 			if (class_exists($classname))
 			{
 				// Create a new instance
@@ -418,8 +420,8 @@ class JInstallerPlugin extends JAdapterInstance
 	/**
 	 * Custom update method
 	 *
-	 * @return	boolean	True on success
-	 * @since	11.1
+	 * @return   boolean  True on success
+	 * @since    11.1
 	 */
 	function update()
 	{
