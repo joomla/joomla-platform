@@ -107,9 +107,65 @@ class JForm
 			return false;
 		}
 
-		$this->data->loadObject($data);
+		// Convert the input to an array.
+		if (is_object($data)) {
+			if ($data instanceof JRegistry) {
+				// Handle a JRegistry.
+				$data = $data->toArray();
+			}
+			else if ($data instanceof JObject) {
+				// Handle a JObject.
+				$data = $data->getProperties();
+			}
+			else {
+				// Handle other types of objects.
+				$data = (array) $data;
+			}
+		}
+
+		// Process the input data.
+		foreach ($data as $k => $v) {
+
+			if ($this->findField($k)) {
+				// If the field exists set the value.
+				$this->data->set($k, $v);
+			}
+			else if (is_object($v) || JArrayHelper::isAssociative($v)) {
+				// If the value is an object or an associative array hand it off to the recursive bind level method.
+				$this->bindLevel($k, $v);
+			}
+		}
 
 		return true;
+	}
+
+	/**
+	 * Method to bind data to the form for the group level.
+	 *
+	 * @param   string  $group  The dot-separated form group path on which to bind the data.
+	 * @param   mixed   $data   An array or object of data to bind to the form for the group level.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	protected function bindLevel($group, $data)
+	{
+		// Ensure the input data is an array.
+		settype($data, 'array');
+
+		// Process the input data.
+		foreach ($data as $k => $v) {
+
+			if ($this->findField($k, $group)) {
+				// If the field exists set the value.
+				$this->data->set($group.'.'.$k, $v);
+			}
+			else if (is_object($v) || JArrayHelper::isAssociative($v)) {
+				// If the value is an object or an associative array, hand it off to the recursive bind level method
+				$this->bindLevel($group.'.'.$k, $v);
+			}
+		}
 	}
 
 	/**
