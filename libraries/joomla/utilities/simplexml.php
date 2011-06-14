@@ -77,34 +77,43 @@ class JSimpleXML extends JObject
 	/**
 	 * The XML parser
 	 *
-	 * @var resource
+	 * @var     resource
+	 * @since   11.1
 	 */
 	var $_parser = null;
 
 	/**
 	* The XML document
 	*
-	* @var string
+	* @var    string
+	* @since  11.1
 	*/
 	var $_xml = '';
 
 	/**
 	* Document element
 	*
-	* @var object
+	* @var     object
+	* @since   11.1
 	*/
 	var $document = null;
 
 	/**
 	* Current object depth
 	*
-	* @var array
+	* @var      array
+	*  @since   11.1
 	*/
 	var $_stack = array();
 
 
 	/**
 	 * Constructor.
+	 * 
+	 * @param   array  $options  Options
+	 * 
+	 * @return  boolean
+	 * @since   11.1
 	 *
 	 */
 	public function __construct($options = null)
@@ -143,9 +152,11 @@ class JSimpleXML extends JObject
 	 * @param   string  currently ignored
 	 *
 	 * @return  object  JSimpleXMLElement
+	 * @since   11.1
 	 */
 	function loadString($string, $classname = null) {
 		$this->_parse($string);
+		
 		return true;
 	}
 
@@ -164,6 +175,7 @@ class JSimpleXML extends JObject
 	{
 		//Check to see of the path exists
 		if (!file_exists($path))  {
+			
 			return false;
 		}
 
@@ -176,6 +188,7 @@ class JSimpleXML extends JObject
 		else
 		{
 			$this->_parse($xml);
+			
 			return true;
 		}
 	}
@@ -189,9 +202,12 @@ class JSimpleXML extends JObject
 	 *
 	 * @param   string  DOM  document
 	 * @param   string  currently ignored
-	 * @return  object  JSimpleXMLElement
+	 * 
+	 * @return  mixed  JSimpleXMLElement or false if any errors occur
+	 * @since   11.1
 	 */
 	function importDOM($node, $classname = null) {
+		
 		return false;
 	}
 
@@ -199,6 +215,7 @@ class JSimpleXML extends JObject
 	 * Get the parser
 	 *
 	 * @return resource XML parser resource handle
+	 * @since   11.1
 	 */
 	public function getParser() {
 		return $this->_parser;
@@ -207,7 +224,8 @@ class JSimpleXML extends JObject
 	/**
 	 * Set the parser
 	 *
-	 * @param resource	XML parser resource handle
+	 * @param   resource  XML parser resource handle
+	 * @since   11.1
 	 */
 	public function setParser($parser) {
 		$this->_parser = $parser;
@@ -218,7 +236,8 @@ class JSimpleXML extends JObject
 	 *
 	 * Parses an XML document. The handlers for the configured events are called as many times as necessary.
 	 *
-	 * @param $xml	string	data to parse
+	 * @param $xml  string  data to parse
+	 * @since   11.1
 	 */
 	protected function _parse($data = '')
 	{
@@ -238,9 +257,11 @@ class JSimpleXML extends JObject
 	/**
 	 * Handles an XML parsing error
 	 *
-	 * @param   integer  $code XML Error Code
-	 * @param   integer  $line Line on which the error happened
-	 * @param   integer  $col Column on which the error happened
+	 * @param   integer  $code   XML Error Code
+	 * @param   integer  $line   Line on which the error happened
+	 * @param   integer  $col    Column on which the error happened
+	 * 
+	 * @since   11.1
 	 */
 	protected function _handleError($code, $line, $col)
 	{
@@ -302,6 +323,8 @@ class JSimpleXML extends JObject
 	 *
 	 * @param   resource  $parser
 	 * @param   string    $name
+	 * 
+	 * @since   11.1
 	 */
 	protected function _endElement($parser, $name)
 	{
@@ -314,6 +337,8 @@ class JSimpleXML extends JObject
 	 *
 	 * @param   resource  $parser
 	 * @param   string    $data
+	 * 
+	 * @since   11.1
 	 */
 	protected function _characterData($parser, $data)
 	{
@@ -341,7 +366,7 @@ class JSimpleXML extends JObject
  *
  * @package     Joomla.Platform
  * @subpackage  Utilities
- * @since   11.1
+ * @since       11.1
  * @deprecated
  */
 class JSimpleXMLElement extends JObject
@@ -350,34 +375,39 @@ class JSimpleXMLElement extends JObject
 	 * Array with the attributes of this XML element
 	 *
 	 * @var array
+	 * @since   11.1
 	 */
 	var $_attributes = array();
 
 	/**
 	 * The name of the element
 	 *
-	 * @var string
+	 * @var     string
+	 * @since   11.1
 	 */
 	var $_name = '';
 
 	/**
 	 * The data the element contains
 	 *
-	 * @var string
+	 * @var     string
+	 * @since   11.1
 	 */
 	var $_data = '';
 
 	/**
 	 * Array of references to the objects of all direct children of this XML object
 	 *
-	 * @var array
+	 * @var     array
+	 * @since   11.1
 	 */
 	var $_children = array();
 
 	/**
 	 * The level of this XML element
 	 *
-	 * @var int
+	 * @var     int
+	 * @since   11.1
 	 */
 	var $_level = 0;
 
@@ -389,6 +419,7 @@ class JSimpleXMLElement extends JObject
 	 * @param   integer  $parents
 	 *
 	 * @return JSimpleXMLElement
+	 * @since   11.1
 	 */
 	function __construct($name, $attrs = array(), $level = 0)
 	{
@@ -406,6 +437,7 @@ class JSimpleXMLElement extends JObject
 	 * Get the name of the element
 	 *
 	 * @return  string
+	 * @since   11.1
 	 */
 	public function name() {
 		return $this->_name;
@@ -414,10 +446,11 @@ class JSimpleXMLElement extends JObject
 	/**
 	 * Get the an attribute of the element
 	 *
-	 * @param   string  $attribute	The name of the attribute
+	 * @param   string  $attribute  The name of the attribute
 	 *
-	 * @return  mixed  If an attribute is given will return the attribute if it exist.
-	 *				If no attribute is given will return the complete attributes array
+	 * @return  mixed   If an attribute is given will return the attribute if it exist.
+	 *                  If no attribute is given will return the complete attributes array
+	 * @since   11.1
 	 */
 	public function attributes($attribute = null)
 	{
@@ -432,6 +465,7 @@ class JSimpleXMLElement extends JObject
 	 * Get the data of the element
 	 *
 	 * @return  string
+	 * @since   11.1
 	 */
 	public function data() {
 		return $this->_data;
@@ -441,7 +475,9 @@ class JSimpleXMLElement extends JObject
 	 * Set the data of the element
 	 *
 	 * @param   string  $data
+	 *
 	 * @return  string
+	 * @since   11.1
 	 */
 	public function setData($data) {
 		$this->_data = $data;
@@ -451,6 +487,7 @@ class JSimpleXMLElement extends JObject
 	 * Get the children of the element
 	 *
 	 * @return  array
+	 * @since   11.1
 	 */
 	public function children() {
 		return $this->_children;
@@ -459,7 +496,7 @@ class JSimpleXMLElement extends JObject
 	/**
 	 * Get the level of the element
 	 *
-	 * @return int
+	 * @return integer
 	 */
 	public function level() {
 		return $this->_level;
@@ -468,8 +505,10 @@ class JSimpleXMLElement extends JObject
 	/**
 	 * Adds an attribute to the element
 	 *
-	 * @param   string  $name
-	 * @param   array   $attrs
+	 * @param   string  $name   The key
+	 * @param   array   $value  The value for the key
+	 * 
+	 * @since   11.1
 	 */
 	function addAttribute($name, $value)
 	{
@@ -494,7 +533,8 @@ class JSimpleXMLElement extends JObject
 	 * @param   array    $attrs
 	 * @param   integer  $level
 	 *
-	 * @return JSimpleXMLElement	The added child object
+	 * @return JSimpleXMLElement  The added child object
+	 * @since   11.1
 	 */
 	function addChild($name, $attrs = array(), $level = null)
 	{
@@ -547,7 +587,9 @@ class JSimpleXMLElement extends JObject
 	 * Get an element in the document by / separated path
 	 *
 	 * @param   string   $path	The / separated path to the element
+	 * 
 	 * @return  object   JSimpleXMLElement
+	 * @since   11.1
 	 */
 	function getElementByPath($path)
 	{
@@ -584,6 +626,8 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @param   string  $callback function name
 	 * @param   array   $args
+	 * 
+	 * @since   11.1
 	 */
 	function map($callback, $args=array())
 	{
@@ -600,7 +644,10 @@ class JSimpleXMLElement extends JObject
 	/**
 	 * Return a well-formed XML string based on SimpleXML element
 	 *
+	 * @param  boolean  $whitespace  True if whitespace should be prepended to the string
+	 *
 	 * @return  string
+	 * @since   11.1
 	 */
 	function toString($whitespace=true)
 	{
