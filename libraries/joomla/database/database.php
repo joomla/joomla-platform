@@ -231,7 +231,7 @@ abstract class JDatabase
 			if (!class_exists($class)) {
 
 				// Derive the file path for the driver class.
-				$path = dirname(__FILE__).'/database/'.$options['driver'].'.php';
+				$path = dirname(__FILE__).'/'.$options['driver'].'/'.$options['driver'].'.php';
 
 				// If the file exists register the class with our class loader.
 				if (file_exists($path)) {
