@@ -7,15 +7,16 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
+
+JLoader::register('JDatabaseQueryPostgreSQL', dirname(__FILE__).'/postgresqlquery.php');
 
 /**
  * PostgreSQL database driver
  *
  * @package		Joomla.Framework
  * @subpackage	Database
- * @since		1.6
+ * @since		11.1
  */
 class JDatabasePostgreSQL extends JDatabase
 {
@@ -24,41 +25,40 @@ class JDatabasePostgreSQL extends JDatabase
 	 *
 	 * @var string
 	 */
-	var $name			= 'postgresql';
+	public $name = 'postgresql';
 
 	/**
 	 *  The null/zero date string
 	 *
 	 * @var string
 	 */
-	var $_nullDate		= 'epoch';
+	protected $_nullDate = 'epoch';
 
 	/**
 	 * Quote for named objects
 	 *
 	 * @var string
 	 */
-	var $_nameQuote		= '"';
+	protected $_nameQuote = '"';
 
 	/**
 	 * Operator used for concatenation
 	 *
 	 * @var string
 	 */
-	var $_concat_operator	= '||';
+	protected $_concat_operator = '||';
 
 	/**
 	 * ID returned by last insert statement
 	 *
 	 * @var integer
 	 */
-	var $_insert_id		= 0;
+	private $_insert_id = 0;
 
 
 	/**
 	 * Database object constructor
 	 *
-	 * @access	public
 	 * @param	array	List of options used to configure the connection
 	 * @since	1.5
 	 * @see		JDatabase
@@ -70,23 +70,26 @@ class JDatabasePostgreSQL extends JDatabase
 		$password	= array_key_exists('password',$options)	? $options['password']	: '';
 		$database	= array_key_exists('database',$options)	? $options['database']	: '';
 		$prefix		= array_key_exists('prefix', $options)	? $options['prefix']	: 'jos_';
+		/* manca select del db dall'array options */
 
 		// perform a number of fatality checks, then return gracefully
 		if (!function_exists( 'pg_connect' )) {
 			$this->_errorNum = 1;
-			$this->_errorMsg = 'The PostgreSQL adapter "pg" is not available.';
+			$this->_errorMsg = JText::_('JLIB_DATABASE_ERROR_ADAPTER_POSTGRESQL');  // -> 'The PostgreSQL adapter "pg" is not available.';
 			return;
 		}
 
-		// connect to the server
-		if (!($this->_resource = @pg_connect( "host=$host user=$user password=$password" ))) {
+		// connect to the server  --->>> aggiunta di opzione $database visto che non esiste select
+		if (!($this->_connection = @pg_connect( "host=$host user=$user password=$password" ))) {
 			$this->_errorNum = 2;
-			$this->_errorMsg = 'Could not connect to PostgreSQL';
+			$this->_errorMsg = JText::_('JLIB_DATABASE_ERROR_CONNECT_POSTGRESQL');  // -> 'Could not connect to PostgreSQL';
 			return;
 		}
 
 		// finalize initialization
 		parent::__construct($options);
+		
+		/* manca set session.sqlmode & la select del db (necessaria in postgresql?) */
 	}
 
 	/**
@@ -95,11 +98,11 @@ class JDatabasePostgreSQL extends JDatabase
 	 * @return boolean
 	 * @since 1.5
 	 */
-	function __destruct()
+	public function __destruct()
 	{
 		$return = false;
-		if (is_resource($this->_resource)) {
-			$return = pg_close($this->_resource);
+		if (is_resource($this->_connection)) {
+			$return = pg_close($this->_connection);
 		}
 		return $return;
 	}
@@ -107,11 +110,9 @@ class JDatabasePostgreSQL extends JDatabase
 	/**
 	 * Test to see if the PostgreSQL connector is available
 	 *
-	 * @static
-	 * @access public
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function test()
+	public function test()
 	{
 		return (function_exists( 'pg_connect' ));
 	}
@@ -119,37 +120,43 @@ class JDatabasePostgreSQL extends JDatabase
 	/**
 	 * Determines if the connection to the server is active.
 	 *
-	 * @access	public
 	 * @return	boolean
 	 * @since	1.5
 	 */
-	function connected()
+	public function connected()
 	{
-		if(is_resource($this->_resource)) {
-			return pg_ping($this->_resource);
+		if(is_resource($this->_connection)) {
+			return pg_ping($this->_connection);
 		}
 		return false;
 	}
 
 	/**
+	 * Selects the database, but redundant for PostgreSQL
+	 *
+	 * @return bool Always true
+	 */
+	public function select($database=null)  /* no null */
+	{
+		return true;  /* quando si selezione un db in postgresql ?? */
+	}
+	
+	/**
 	 * Determines UTF support
 	 *
-	 * @access	public
 	 * @return boolean True - UTF is supported
 	 */
-	function hasUTF()
+	public function hasUTF()
 	{
-		return true;
+		return true;  /* controllare se UTF sempre supportato o solo da versione K */
 	}
 
 	/**
 	 * Custom settings for UTF support
-	 *
-	 * @access	public
 	 */
-	function setUTF()
+	public function setUTF()
 	{
-		pg_set_client_encoding( $this->_resource, 'UTF8' );
+		pg_set_client_encoding( $this->_connection, 'UTF8' );
 	}
 
 	/**
@@ -158,103 +165,30 @@ class JDatabasePostgreSQL extends JDatabase
 	 * @param	string	The string to be escaped
 	 * @param	boolean	Optional parameter to provide extra escaping
 	 * @return	string
-	 * @access	public
-	 * @abstract
 	 */
-	function getEscaped( $text, $extra = false )
+	public function getEscaped( $text, $extra = false )
 	{
-		$result = pg_escape_string( $this->_resource, $text );
+		$result = pg_escape_string( $this->_connection, $text );
 		if ($extra) {
 			$result = addcslashes( $result, '%_' );
 		}
 
 		return $result;
 	}
-
-	/**
-	 * Generate SQL command for getting string position
-	 *
-	 * @access public
-	 * @param string The string being sought
-	 * @param string The string/column being searched
-	 * @return string The resulting SQL
-	 */
-	function stringPositionSQL($substring, $string)
-	{
-		$sql = "POSITION($substring, $string)";
-
-		return $sql;
-	}
-
-	/**
-	 * Generate SQL command for returning random value
-	 *
-	 * @access public
-	 * @return string The resulting SQL
-	 */
-	function stringRandomSQL()
-	{
-		return "RANDOM()";
-	}
-
-	/**
-	 * Create database
-	 *
-	 * @access public
-	 * @param string The database name
-	 * @param bool Whether or not to create with UTF support (only here for function signature compatibility)
-	 * @return string Database creation string
-	 */
-	function createDatabase($DBname, $DButfSupport)
-	{
-		$sql = "CREATE DATABASE ".$this->nameQuote($DBname)." ENCODING UTF8";
-
-		$this->setQuery($sql);
-		$this->query();
-		$result = $this->getErrorNum();
-
-		if ($result != 0) {
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Rename a database table
-	 *
-	 * @param string The old table name
-	 * @param string The new table name
-	 */
-	function renameTable($oldTable, $newTable)
-	{
-		$query = "ALTER TABLE ".$oldTable." RENAME TO ".$newTable;
-		$db->setQuery($query);
-		$db->query();
-
-		$result = $db->getErrorNum();
-
-		if ($result != 0) {
-			return false;
-		}
-
-		return true;
-	}
-
+	
 	/**
 	 * Execute the query
 	 *
-	 * @access	public
 	 * @return mixed A database resource if successful, FALSE if not.
 	 */
-	function query()
+	public function query()
 	{
-		if (!is_resource($this->_resource)) {
+		if (!is_resource($this->_connection)) {
 			return false;
 		}
 
 		// Take a local copy so that we don't modify the original query and cause issues later
-		$sql = $this->_sql;
+		$sql = $this->_sql;  /*$this->replacePrefix((string) $this->_sql);*/
 		if ($this->_limit > 0 || $this->_offset > 0) {
 			$sql .= ' LIMIT '.$this->_limit.' OFFSET '.$this->_offset;
 		}
@@ -264,8 +198,7 @@ class JDatabasePostgreSQL extends JDatabase
 		}
 		$this->_errorNum = 0;
 		$this->_errorMsg = '';
-
-		$this->_cursor = pg_query( $this->_resource, $sql );
+		$this->_cursor = pg_query( $this->_connection, $sql );
 
 		if (!$this->_cursor) {
 			$this->_errorNum = pg_result_error_field( $this->_cursor, PGSQL_DIAG_SQLSTATE ) . ' ';
@@ -278,25 +211,26 @@ class JDatabasePostgreSQL extends JDatabase
 		return $this->_cursor;
 	}
 
+/**********  MANCA GETQUERY -> manca anche su mysql 1.6.3 ********************/
+
+
 	/**
 	 * Description
 	 *
-	 * @access	public
 	 * @return int The number of affected rows in the previous operation
 	 * @since 1.0.5
 	 */
-	function getAffectedRows()
+	public function getAffectedRows()
 	{
-		return pg_affected_rows( $this->_resource );
+		return pg_affected_rows( $this->_connection );
 	}
-
+	
 	/**
 	 * Execute a batch query
 	 *
-	 * @access	public
 	 * @return mixed A database resource if successful, FALSE if not.
 	 */
-	function queryBatch( $abort_on_error=true, $p_transaction_safe = false)
+	public function queryBatch( $abort_on_error=true, $p_transaction_safe = false)
 	{
 		$this->_errorNum = 0;
 		$this->_errorMsg = '';
@@ -309,7 +243,7 @@ class JDatabasePostgreSQL extends JDatabase
 		foreach ($query_split as $command_line) {
 			$command_line = trim( $command_line );
 			if ($command_line != '') {
-				$this->_cursor = pg_query( $this->_resource, $command_line );
+				$this->_cursor = pg_query( $this->_connection, $command_line );
 				if ($this->_debug) {
 					$this->_ticker++;
 					$this->_log[] = $command_line;
@@ -331,10 +265,9 @@ class JDatabasePostgreSQL extends JDatabase
 	/**
 	 * Diagnostic function
 	 *
-	 * @access	public
 	 * @return	string
 	 */
-	function explain()
+	public function explain()
 	{
 		$temp = $this->_sql;
 		$this->_sql = "EXPLAIN $this->_sql";
@@ -372,10 +305,9 @@ class JDatabasePostgreSQL extends JDatabase
 	/**
 	 * Description
 	 *
-	 * @access	public
 	 * @return int The number of rows returned from the most recent query.
 	 */
-	function getNumRows( $cur=null )
+	public function getNumRows( $cur=null )
 	{
 		return pg_num_rows( $cur ? $cur : $this->_cursor );
 	}
@@ -383,10 +315,9 @@ class JDatabasePostgreSQL extends JDatabase
 	/**
 	 * This method loads the first field of the first row returned by the query.
 	 *
-	 * @access	public
 	 * @return The value returned in the query or null if the query failed.
 	 */
-	function loadResult()
+	public function loadResult()
 	{
 		if (!($cur = $this->query())) {
 			return null;
@@ -401,10 +332,8 @@ class JDatabasePostgreSQL extends JDatabase
 
 	/**
 	 * Load an array of single field results into an array
-	 *
-	 * @access	public
 	 */
-	function loadResultArray($numinarray = 0)
+	public function loadResultArray( $numinarray = 0 )
 	{
 		if (!($cur = $this->query())) {
 			return null;
@@ -420,10 +349,9 @@ class JDatabasePostgreSQL extends JDatabase
 	/**
 	 * Fetch a result row as an associative array
 	 *
-	 * @access	public
 	 * @return array
 	 */
-	function loadAssoc()
+	public function loadAssoc()
 	{
 		if (!($cur = $this->query())) {
 			return null;
@@ -439,11 +367,10 @@ class JDatabasePostgreSQL extends JDatabase
 	/**
 	 * Load a assoc list of database rows
 	 *
-	 * @access	public
 	 * @param string The field name of a primary key
 	 * @return array If <var>key</var> is empty as sequential list of returned records.
 	 */
-	function loadAssocList( $key='' )
+	public function loadAssocList( $key='' )  /* $key = null, $column = null */
 	{
 		if (!($cur = $this->query())) {
 			return null;
@@ -463,10 +390,9 @@ class JDatabasePostgreSQL extends JDatabase
 	/**
 	 * This global function loads the first row of a query into an object
 	 *
-	 * @access	public
 	 * @return 	object
 	 */
-	function loadObject( )
+	public function loadObject( )  /* $className = 'stdClass' */
 	{
 		if (!($cur = $this->query())) {
 			return null;
@@ -485,11 +411,10 @@ class JDatabasePostgreSQL extends JDatabase
 	 * If <var>key</var> is not empty then the returned array is indexed by the value
 	 * the database key.  Returns <var>null</var> if the query fails.
 	 *
-	 * @access	public
 	 * @param string The field name of a primary key
 	 * @return array If <var>key</var> is empty as sequential list of returned records.
 	 */
-	function loadObjectList( $key='' )
+	public function loadObjectList( $key='' )  /* $key='', $className = 'stdClass' */
 	{
 		if (!($cur = $this->query())) {
 			return null;
@@ -509,10 +434,9 @@ class JDatabasePostgreSQL extends JDatabase
 	/**
 	 * Description
 	 *
-	 * @access	public
 	 * @return The first row of the query.
 	 */
-	function loadRow()
+	public function loadRow()
 	{
 		if (!($cur = $this->query())) {
 			return null;
@@ -528,13 +452,12 @@ class JDatabasePostgreSQL extends JDatabase
 	/**
 	 * Load a list of database rows (numeric column indexing)
 	 *
-	 * @access public
 	 * @param string The field name of a primary key
 	 * @return array If <var>key</var> is empty as sequential list of returned records.
 	 * If <var>key</var> is not empty then the returned array is indexed by the value
 	 * the database key.  Returns <var>null</var> if the query fails.
 	 */
-	function loadRowList( $key=null )
+	public function loadRowList( $key=null )
 	{
 		if (!($cur = $this->query())) {
 			return null;
@@ -550,16 +473,18 @@ class JDatabasePostgreSQL extends JDatabase
 		pg_free_result( $cur );
 		return $array;
 	}
+	
+	
+/***********  MANCA LOADNEXTROW , LOADNEXTOBJECT ***********/	
 
 	/**
 	 * Inserts a row into a table based on an objects properties
 	 *
-	 * @access	public
 	 * @param	string	The name of the table
 	 * @param	object	An object whose properties match table fields
 	 * @param	string	The name of the primary key. If provided the object property is updated.
 	 */
-	function insertObject( $table, &$object, $keyName = NULL )
+	public function insertObject( $table, &$object, $keyName = NULL )
 	{
 		$fmtsql = 'INSERT INTO '.$table.' ( %s ) VALUES ( %s ) ';
 		$verParts = explode( '.', $this->getVersion() );
@@ -606,10 +531,9 @@ class JDatabasePostgreSQL extends JDatabase
 	/**
 	 * Description
 	 *
-	 * @access public
 	 * @param [type] $updateNulls
 	 */
-	function updateObject( $table, &$object, $keyName, $updateNulls=true )
+	public function updateObject( $table, &$object, $keyName, $updateNulls=true )  /* updatenulls=false*/
 	{
 		$fmtsql = 'UPDATE '.$table.' SET %s WHERE %s';
 		$tmp = array();
@@ -638,32 +562,27 @@ class JDatabasePostgreSQL extends JDatabase
 
 	/**
 	 * Description
-	 *
-	 * @access public
 	 */
-	function insertid()
+	public function insertid()
 	{
 		return $this->_insert_id;
 	}
 
 	/**
 	 * Description
-	 *
-	 * @access public
 	 */
-	function getVersion()
+	public function getVersion()
 	{
-		$version = pg_version( $this->_resource );
+		$version = pg_version( $this->_connection );
 		return $version['server'];
 	}
 
 	/**
 	 * Assumes database collation in use by sampling one text field in one table
 	 *
-	 * @access	public
 	 * @return string Collation in use
 	 */
-	function getCollation ()
+	public function getCollation()
 	{
 		if ( $this->hasUTF() ) {
 			$cur = $this->query( 'SHOW LC_COLLATE;' );
@@ -677,33 +596,25 @@ class JDatabasePostgreSQL extends JDatabase
 	/**
 	 * Description
 	 *
-	 * @access	public
 	 * @return array A list of all the tables in the database
 	 */
-	function getTableList()
+	public function getTableList()
 	{
 		$this->setQuery( "select tablename from pg_tables where schemaname='public';" );
 		return $this->loadResultArray();
 	}
-	/**
-	 * Selects the database, but redundant for PostgreSQL
-	 *
-	 * @return bool Always true
-	 */
-	function select($database=null)
-	{
-		return true;
-	}
+	
+	
+/**********  MANCA GETTABLECREATE **************/
 
 	/**
 	 * Retrieves information about the given tables
 	 *
-	 * @access	public
 	 * @param 	array|string 	A table name or a list of table names
 	 * @param	boolean			Only return field types, default true
 	 * @return	array An array of fields by table
 	 */
-	function getTableFields( $tables, $typeonly = true )
+	public function getTableFields( $tables, $typeonly = true )
 	{
 		settype($tables, 'array'); //force to array
 		$result = array();
@@ -725,4 +636,76 @@ class JDatabasePostgreSQL extends JDatabase
 
 		return $result;
 	}
+	
+	
+	
+	/* EXTRA FUNCTION postgreSQL */
+	
+	/**
+	 * Generate SQL command for getting string position
+	 *
+	 * @param string The string being sought
+	 * @param string The string/column being searched
+	 * @return string The resulting SQL
+	 */
+	public function stringPositionSQL($substring, $string)
+	{
+		$sql = "POSITION($substring, $string)";
+
+		return $sql;
+	}
+
+	/**
+	 * Generate SQL command for returning random value
+	 *
+	 * @return string The resulting SQL
+	 */
+	public function stringRandomSQL()
+	{
+		return "RANDOM()";
+	}
+
+	/**
+	 * Create database
+	 *
+	 * @param string The database name
+	 * @param bool Whether or not to create with UTF support (only here for function signature compatibility)
+	 * @return string Database creation string
+	 */
+	public function createDatabase($DBname, $DButfSupport)
+	{
+		$sql = "CREATE DATABASE ".$this->nameQuote($DBname)." ENCODING UTF8";
+
+		$this->setQuery($sql);
+		$this->query();
+		$result = $this->getErrorNum();
+
+		if ($result != 0) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Rename a database table
+	 *
+	 * @param string The old table name
+	 * @param string The new table name
+	 */
+	public function renameTable($oldTable, $newTable)
+	{
+		$query = "ALTER TABLE ".$oldTable." RENAME TO ".$newTable;
+		$db->setQuery($query);
+		$db->query();
+
+		$result = $db->getErrorNum();
+
+		if ($result != 0) {
+			return false;
+		}
+
+		return true;
+	}
+
 }
