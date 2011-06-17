@@ -779,7 +779,7 @@ abstract class JDatabase
 
 		return $ret;
 	}
-
+	
 	/**
 	 * Method to get an array of the result set rows from the database query where each row is an associative array
 	 * of ['field_name' => 'row_value'].  The array of rows can optionally be keyed by a field name, but defaults to
@@ -824,6 +824,7 @@ abstract class JDatabase
 
 		return $array;
 	}
+	
 
 	/**
 	 * Method to get an array of values from the <var>$offset</var> field in each row of the result set from
@@ -1612,4 +1613,42 @@ abstract class JDatabase
 			return JText::_('JLIB_DATABASE_FUNCTION_NOERROR');
 		}
 	}
+	
+	/**
+	 * Method to create a new database.
+	 *
+	 * @access	public
+	 * @param	array	The connection options array.
+	 * @return	boolean	True on success.
+	 * @since	11.1
+	 * @todo 	Implement it in all subclasses, called during installation
+	 */	
+	abstract public function createDatabase( $options );
+	
+	
+	/**
+	 * Method to delete all tables in a database with a given prefix.
+	 *
+	 * @access	public
+	 * @param	object	JDatabase object.
+	 * @param	string	Name of the database to process.
+	 * @param	string	Database table prefix.
+	 * @return	boolean	True on success.
+	 * @since	11.1
+	 * @todo 	Implement it in all subclasses, called during installation
+	 */
+	abstract public function deleteDatabase(& $db, $name, $prefix);
+	
+	/**
+	 * Method to backup all tables in a database with a given prefix.
+	 *
+	 * @access	public
+	 * @param	object	JDatabase object.
+	 * @param	string	Name of the database to process.
+	 * @param	string	Database table prefix.
+	 * @return	boolean	True on success.
+	 * @since	11.1
+	 * @todo 	Implement it in all subclasses, called during installation
+	 */
+	abstract public function backupDatabase( $name, $prefix );	
 }
