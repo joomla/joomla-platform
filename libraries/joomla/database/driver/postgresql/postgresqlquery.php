@@ -53,13 +53,13 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 */
 	public function select($columns)
 	{
-		$this->_type = 'select';
+		$this->type = 'select';
 
-		if (is_null($this->_select)) {
-			$this->_select = new JDatabaseQueryElementPostgreSQL('SELECT', $columns);
+		if (is_null($this->select)) {
+			$this->select = new JDatabaseQueryElementPostgreSQL('SELECT', $columns);
 		}
 		else {
-			$this->_select->append($columns);
+			$this->select->append($columns);
 		}
 
 		return $this;
@@ -73,8 +73,8 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 */
 	public function delete($table = null)
 	{
-		$this->_type	= 'delete';
-		$this->_delete	= new JDatabaseQueryElementPostgreSQL('DELETE', null);
+		$this->type	= 'delete';
+		$this->delete	= new JDatabaseQueryElementPostgreSQL('DELETE', null);
 
 		if (!empty($table)) {
 			$this->from($table);
@@ -91,8 +91,8 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 */
 	public function insert($tables)
 	{
-		$this->_type	= 'insert';
-		$this->_insert	= new JDatabaseQueryElementPostgreSQL('INSERT INTO', $tables);
+		$this->type	= 'insert';
+		$this->insert	= new JDatabaseQueryElementPostgreSQL('INSERT INTO', $tables);
 
 		return $this;
 	}
@@ -105,8 +105,8 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 */
 	public function update($tables)
 	{
-		$this->_type = 'update';
-		$this->_update = new JDatabaseQueryElementPostgreSQL('UPDATE', $tables);
+		$this->type = 'update';
+		$this->update = new JDatabaseQueryElementPostgreSQL('UPDATE', $tables);
 
 		return $this;
 	}
@@ -119,11 +119,11 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 */
 	public function from($tables)
 	{
-		if (is_null($this->_from)) {
-			$this->_from = new JDatabaseQueryElementPostgreSQL('FROM', $tables);
+		if (is_null($this->from)) {
+			$this->from = new JDatabaseQueryElementPostgreSQL('FROM', $tables);
 		}
 		else {
-			$this->_from->append($tables);
+			$this->from->append($tables);
 		}
 
 		return $this;
@@ -138,10 +138,10 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 */
 	public function join($type, $conditions)
 	{
-		if (is_null($this->_join)) {
-			$this->_join = array();
+		if (is_null($this->join)) {
+			$this->join = array();
 		}
-		$this->_join[] = new JDatabaseQueryElementPostgreSQL(strtoupper($type) . ' JOIN', $conditions);
+		$this->join[] = new JDatabaseQueryElementPostgreSQL(strtoupper($type) . ' JOIN', $conditions);
 
 		return $this;
 	}
@@ -207,12 +207,12 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 */
 	public function set($conditions, $glue=',')
 	{
-		if (is_null($this->_set)) {
+		if (is_null($this->set)) {
 			$glue = strtoupper($glue);
-			$this->_set = new JDatabaseQueryElementPostgreSQL('SET', $conditions, "\n\t$glue ");
+			$this->set = new JDatabaseQueryElementPostgreSQL('SET', $conditions, "\n\t$glue ");
 		}
 		else {
-			$this->_set->append($conditions);
+			$this->set->append($conditions);
 		}
 
 		return $this;
@@ -227,12 +227,12 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 */
 	public function where($conditions, $glue='AND')
 	{
-		if (is_null($this->_where)) {
+		if (is_null($this->where)) {
 			$glue = strtoupper($glue);
-			$this->_where = new JDatabaseQueryElementPostgreSQL('WHERE', $conditions, " $glue ");
+			$this->where = new JDatabaseQueryElementPostgreSQL('WHERE', $conditions, " $glue ");
 		}
 		else {
-			$this->_where->append($conditions);
+			$this->where->append($conditions);
 		}
 
 		return $this;
@@ -246,11 +246,11 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 */
 	public function group($columns)
 	{
-		if (is_null($this->_group)) {
-			$this->_group = new JDatabaseQueryElementPostgreSQL('GROUP BY', $columns);
+		if (is_null($this->group)) {
+			$this->group = new JDatabaseQueryElementPostgreSQL('GROUP BY', $columns);
 		}
 		else {
-			$this->_group->append($columns);
+			$this->group->append($columns);
 		}
 
 		return $this;
@@ -265,12 +265,12 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 */
 	public function having($conditions, $glue='AND')
 	{
-		if (is_null($this->_having)) {
+		if (is_null($this->having)) {
 			$glue = strtoupper($glue);
-			$this->_having = new JDatabaseQueryElementPostgreSQL('HAVING', $conditions, " $glue ");
+			$this->having = new JDatabaseQueryElementPostgreSQL('HAVING', $conditions, " $glue ");
 		}
 		else {
-			$this->_having->append($conditions);
+			$this->having->append($conditions);
 		}
 
 		return $this;
@@ -284,242 +284,190 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 */
 	public function order($columns)
 	{
-		if (is_null($this->_order)) {
-			$this->_order = new JDatabaseQueryElementPostgreSQL('ORDER BY', $columns);
+		if (is_null($this->order)) {
+			$this->order = new JDatabaseQueryElementPostgreSQL('ORDER BY', $columns);
 		}
 		else {
-			$this->_order->append($columns);
+			$this->order->append($columns);
 		}
 
 		return $this;
 	}
-  
-   /**
-   * @param		string $name  A string 
-   * 
-   * @return	Show table query syntax
-   * @since		11.1
-   */
-   function showTables($name)  // non esiste SHOW TABLES
-   {
-      /*$this->_type = 'showTables';
-
-      $this->_show_tables = new JDatabaseQueryElementPostgreSQL('SHOW TABLES FROM', $name);*/
-
-      return $this;
-   }
    
-   /**
-   * @param		string $table_name  A string 
-   * 
-   * @return	Drop if exists syntax
-   * @since		11.1
-   */
-   function dropIfExists($table_name)
-   {
-     $this->_type = 'drop';
-
-      if (is_null($this->_drop)) {
-        $this->_drop = new JDatabaseQueryElementPostgreSQL('DROP TABLE IF EXISTS', $table_name);
-      }
-      else {
-        $this->_drop->append($table_name);
-      }
-
-      return $this;
-   }
-   
-   /**
-	 * @param	string $table_name  A string
-	 * @param	object $db  Database object
-	 * @param	string $prefix  A string
-	 * @param	string $backup  A string
+	/**
+	 * @param		string $table_name  A string 
 	 * 
-	 * @return	Rename table syntax
-	 * @since	11.1
+	 * @return	Drop if exists syntax
+	 * @since		11.1
 	 */
-   function renameTable($table_name, &$db, $prefix = null, $backup = null)  // non esiste RENAME, ma ALTER TABLE NAME
-   {
-     /*$this->_type = 'rename';
+	function dropIfExists($table_name)
+	{
+		$this->type = 'drop';
 
-      if (is_null($this->_rename)) {
-        $this->_rename = new JDatabaseQueryElementPostgreSQL('RENAME TABLE', $table_name, ' TO ');
-      }
-      else {
-        $this->_rename->append($table_name);
-      }
-
-      return $this;*/
-   }
-
-   /**
-   * @param		string $table_name  A string 
-   * @param 	boolean $increment_field Provinding value for autoincrement primary key or not
-   * @return	JDatabaseQueryPostgreSQL  Returns this object to allow chaining.
-   * @since		11.1
-   */
-   function insertInto($table_name, $increment_field=false)
-   {
-     $this->_type = 'insert_into';
-     $this->_insert_into = new JDatabaseQueryElementPostgreSQL('INSERT INTO', $table_name);
-     
-      return $this;
-   }
-   
-   /**
-   * @param		string $fields A string 
-   * 
-   * @return	JDatabaseQueryPostgreSQL  Returns this object to allow chaining.
-   * @since		11.1
-   */
-   function fields($fields)
-   {
-     if (is_null($this->_fields)) {
-      $this->_fields = new JDatabaseQueryElementPostgreSQL('(', $fields);
-    }
-    else {
-      $this->_fields->append($fields);
-    }
-
-    return $this;
-   }
-   
-   /**
-   * @param		string $values  A string 
-   * 
-   * @return	JDatabaseQueryPostgreSQL  Returns this object to allow chaining.
-   * @since		11.1
-   */
-   function values($values)
-   {
-     if (is_null($this->_values)) {
-      $this->_values = new JDatabaseQueryElementPostgreSQL('VALUES (', $values);
-    }
-    else {
-      $this->_values->append($values);
-    }
-
-    return $this;
-   }
-   
-   /**
-   * @param		string $query A string
-   * 
-   * @return	JDatabaseQueryPostgreSQL  Returns this object to allow chaining.
-   * @since		11.1
-   */
-   function auto_increment($query)
-   {
-     return $query;
-   }
-   
-    
-   /**
-   * @param		$field A string
-   * 
-   * @return	JDatabaseQueryPostgreSQL  Returns this object to allow chaining.
-   * @since		11.1
-   */
-   function castToChar($field)
-   {
-     return $field;
-   }
-   
-   /**
-   * @param		$field A string
-   * 
-   * @return	JDatabaseQueryPostgreSQL  Returns this object to allow chaining.
-   * @since		11.1
-   */
-   function charLength($field)
-   {
-     return 'CHAR_LENGTH('.$field.')';
-   }
-   
-  /**
-   * @param		array $fields
-   * 
-   * @param		string separator
-   * @return	String concantenaation of all the fields
-   * @since		11.1
-   */
-   function concat($fields, $separator = null)
-   {
-     if($separator)
-     {
-       $concat_string = "CONCAT_WS('".$separator."'";
-       foreach($fields as $field)
-       {
-         $concat_string .= ', '.$field;
-       }
-       return $concat_string.')';
-     }else{
-       return 'CONCAT('.implode(',', $fields).')';
-     }
-   }
-   
-   /**
-   * @param		string $field
-   * 
-   * @param		string separator
-   * @return	Length function for the field
-   * @since		11.1
-   */
-   function length($field)
-   {
-     return 'LENGTH('.$field.')';
-   }
-   
-   /**
-   * 
-   * @return	NOW function
-   * @since		11.1
-   */
-   function now()
-   {
-   	 return 'NOW()';
-   }
-
-   /**
-   * Method to lock the database table for writing.
-   * @return	boolean	True on success.
-   * @since		11.1
-   */
-   public function lock($table_name, &$db)
-   {
-		// Lock the table for writing.
-		$db->setQuery('LOCK TABLE `'.$table_name.'` WRITE'); //cambiare il WRITE -> IN lockmode MODE
-		$db->query();
-
-		// Check for a database error.
-		if ($db->getErrorNum()) {
-			//$this->setError($db->getErrorMsg());
-
-			return false;
+		if (is_null($this->drop)) {
+			$this->drop = new JDatabaseQueryElementPostgreSQL('DROP TABLE IF EXISTS', $table_name);
+		}
+		else {
+			$this->drop->append($table_name);
 		}
 
-		return true;
+		return $this;
+	}
+   
+	/**
+	 * @param		string $values  A string 
+	 * 
+	 * @return	JDatabaseQueryPostgreSQL  Returns this object to allow chaining.
+	 * @since		11.1
+	 */
+	function values($values)
+	{
+		if (is_null($this->values)) {
+     		$this->values = new JDatabaseQueryElementPostgreSQL('()', $values, '), (');
+		}
+		else {
+			$this->values->append($values);
+		}
+
+		return $this;
+	}
+   
+	/**
+	 * Adds a column, or array of column names that would be used for an INSERT INTO statement.
+	 *
+	 * @param   mixed  $columns  A column name, or array of column names.
+	 *
+	 * @return  JDatabaseQueryElementMySQL  Returns this object to allow chaining.
+	 *
+	 * @since   11.1
+	 */
+	public function columns($columns)
+	{
+		if (is_null($this->columns)) {
+			$this->columns = new JDatabaseQueryElementPostgreSQL('()', $columns);
+		}
+		else {
+			$this->columns->append($columns);
+		}
+
+		return $this;
+	}
+	
+	/**
+	 * Concatenates an array of column names or values.
+	 *
+	 * @param   array   $values     An array of values to concatenate.
+	 * @param   string  $separator  As separator to place between each value.
+	 *
+	 * @return  string  The concatenated values.
+	 *
+	 * @since   11.1
+	 */
+	public function concatenate($values, $separator = null)
+	{
+		if ($separator) {
+			return 'CONCATENATE('.implode(' || '.$this->quote($separator).' || ', $values).')';
+		}
+		else{
+			return 'CONCATENATE('.implode(' || ', $values).')';
+		}
+	}
+	
+	/**
+	 * Gets the current date and time.
+	 *
+	 * @return  string
+	 *
+	 * @since   11.1
+	 */
+	public function currentTimestamp()
+	{
+		return 'NOW()';
+	}
+   
+	/**
+	 * @param		string $query A string
+	 * 
+	 * @return	JDatabaseQueryPostgreSQL  Returns this object to allow chaining.
+	 * @since		11.1
+	 */
+	function auto_increment($query)
+	{
+		return $query;
+	}
+   
+	/**
+	 * Casts a value to a char.
+	 *
+	 * Ensure that the value is properly quoted before passing to the method.
+	 *
+	 * @param   string  $value  The value to cast as a char.
+	 * 
+     * @return	JDatabaseQueryPostgreSQL  Returns this object to allow chaining.
+     * @since		11.1
+     */
+	function castAsChar($field)
+    {
+		return $field;
+	}
+   
+	/**
+	 * Gets the number of characters in a string.
+	 *
+	 * Note, use 'length' to find the number of bytes in a string.
+	 *
+	 * @param   string  $value  A value.
+	 *
+	 * @return  string  The required char lenght call.
+	 *
+	 * @since 11.1
+	 */	
+	function charLength($field)
+    {
+		return 'CHAR_LENGTH('.$field.')';
+	}
+   
+	/**
+	 * @param		string $field
+	 * 
+	 * @param		string separator
+	 * @return	Length function for the field
+	 * @since		11.1
+	 */
+	function length($field)
+	{
+		return 'LENGTH('.$field.')';
+	}
+   
+   	/**
+   	 * Method to lock the database table for writing.
+     *
+	 * @return	Lock query syntax
+	 * @since	11.1
+   	 * @todo	from Hooduku project, check for errors	 
+	 */
+	public function lock($table_name, $lock_type='ACCESS EXCLUSIVE')
+	{
+		$this->type = 'lock';
+		      	
+		if (is_null($this->lock)) {
+        	$this->lock = new JDatabaseQueryElementPostgreSQL('LOCK TABLE ', $table_name . ' IN ' . $lock_type .' MODE');
+      	}
+      	else {
+        	$this->lock->append($table_name);
+      	}
+
+      	return $this;
 	}
 
 	/**
-	 * Method to unlock the database table for writing.
+	 * Unlock does not exist in PostgreSQL, it is automatically done on commit or rollback
 	 *
-	 * @return	boolean	True on success.
+	 * @return	boolean	True .
 	 * @since	11.1
 	 */
-	public function unlock(&$db)  // non esisite unlock
+	public function unlock()  
 	{
-		// Unlock the table.
-		$db->setQuery('UNLOCK TABLES');
-		$db->query();
-
-		// Check for a database error.
-		if ($db->getErrorNum()) {
-			//$this->setError($db->getErrorMsg());
-
-			return false;
-		}
-
 		return true;
 	}
 }
