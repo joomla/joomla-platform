@@ -1114,7 +1114,9 @@ abstract class JDatabase
 	 */
 	public function quote($text, $escape = true)
 	{
-		return '\''.($escape ? $this->escape($text) : $text).'\'';
+		$q = $this->nameQuote;
+		
+		return $q.($escape ? $this->escape($text) : $text).$q;
 	}
 
 	/**
