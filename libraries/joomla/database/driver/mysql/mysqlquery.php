@@ -405,7 +405,7 @@ class JDatabaseQueryMySQL extends JDatabaseQuery
 	 *
 	 * @param   mixed  $columns  A column name, or array of column names.
 	 *
-	 * @return  JDatabaseQuerySQLAzure  Returns this object to allow chaining.
+	 * @return  JDatabaseQueryElementMySQL  Returns this object to allow chaining.
 	 *
 	 * @since   11.1
 	 */
@@ -504,21 +504,6 @@ class JDatabaseQueryMySQL extends JDatabaseQuery
 	
 	
 	/* NEW FUNCTIONS */
-	
-   	/**
-   	* @param string $name  A string 
-   	* 
-   	* @return  Show table query syntax
-   	* @since	  11.1
-   	*/
-	public function showTables($name)
-   	{
-   		$this->type = 'showTables';
-
-      	$this->show_tables = new JDatabaseQueryElementMySQL('SHOW TABLES FROM', $name);
-
-      	return $this;
-   	}	
    	
    	/**
    	* @param string $table_name  A string 
@@ -538,36 +523,6 @@ class JDatabaseQueryMySQL extends JDatabaseQuery
       	}
 
       	return $this;
-   	}
-   	
-   	/**
-	 * @param string $table_name  A string
-	 * @param string $new_table_name  A string
-	 * 
-	 * @return  Rename table syntax
-	 * @since 11.1
-	 * @todo deleted the "append" in else because RENAME TABLE has a different pattern (old TO new, old2 TO new2) instead of (old, old2 TO new, new2)
-	 */
-   	public function renameTable($table_name, $new_table_name)
-   	{
-     	$this->type = 'rename';
-
-      	if (is_null($this->rename)) {
-        	$this->rename = new JDatabaseQueryElementMySQL('RENAME TABLE', $table_name . ' TO ' .$new_table_name );
-      	}
-
-      	return $this;
-   	}
-   	
-   /**
-   	* 
-   	* @return  NOW function
-   	* @since   11.1
-   	* @todo	   from Hooduku project
-   	*/
-   	public function now()
-   	{
-   		return 'NOW()';
    	}
    
 	/**
@@ -589,20 +544,6 @@ class JDatabaseQueryMySQL extends JDatabaseQuery
       	}
 
       	return $this;
-		
-		/* original function from Hooduku project */
-		// Lock the table for writing.
-		/*$db->setQuery('LOCK TABLES `'.$table_name.'` WRITE');
-		$db->query();
-
-		// Check for a database error.
-		if ($db->getErrorNum()) {
-			//$this->setError($db->getErrorMsg());
-
-			return false;
-		}
-
-		return true;*/
 	}
 
 	/**
@@ -612,7 +553,7 @@ class JDatabaseQueryMySQL extends JDatabaseQuery
 	 * @since	11.1
      * @todo	from Hooduku project, check for errors
 	 */
-	public function unlock(&$db)
+	public function unlock()
 	{
 		$this->type = 'unlock';
 		
@@ -620,21 +561,6 @@ class JDatabaseQueryMySQL extends JDatabaseQuery
         	$this->unlock = new JDatabaseQueryElementMySQL('UNLOCK TABLES ', ' ');
       	}
 
-      	return $this;
-		
-		/* original function from Hooduku project */
-		
-		// Unlock the table.
-		/*$db->setQuery('UNLOCK TABLES');
-		$db->query();
-
-		// Check for a database error.
-		if ($db->getErrorNum()) {
-			//$this->setError($db->getErrorMsg());
-
-			return false;
-		}
-
-		return true;*/
+      	return $this;	
 	}
 }
