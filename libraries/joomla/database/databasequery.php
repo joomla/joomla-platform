@@ -215,12 +215,6 @@ abstract class JDatabaseQuery
 	 * @since 1.6
 	 */
 	protected $drop = null;
-
-	/**
-	 * @var   object  The rename element.
-	 * @since 1.6
-	 */
-	protected $rename = null;
 	
 	/**
 	 * @var   object  The lock element.
@@ -373,16 +367,8 @@ abstract class JDatabaseQuery
 
 				break;
 
-			case 'showTables':
-				$query .= (string) $this->show_tables;
-				break;
-
 			case 'drop':
 				$query .= (string) $this->drop;
-				break;
-
-			case 'rename':
-				$query .= (string) $this->rename;
 				break;
 			
 			case 'lock':
@@ -508,16 +494,8 @@ abstract class JDatabaseQuery
 				$this->values = null;
 				break;
 
-			case 'showTables':
-				$this->show_tables = null;
-				break;
-
 			case 'drop':
 				$this->drop = null;
-				break;
-
-			case 'rename':
-				$this->rename = null;
 				break;
 				
 			case 'lock':
@@ -543,9 +521,7 @@ abstract class JDatabaseQuery
 				$this->order = null;
 				$this->columns = null;
 				$this->values = null;
-				$this->show_tables = null;
 				$this->drop = null;
-				$this->rename = null;
 				$this->lock = null;
 				$this->unlock = null;				
 				break;
@@ -899,15 +875,6 @@ abstract class JDatabaseQuery
 	 */
 	abstract public function where($conditions, $glue='AND');	
 	
-	
-	/**
-	 * @param string $name  A string
-	 *
-	 * @return  Show table query syntax
-	 * @since 	11.1
-	 */
-	abstract public function showTables($name); 
-	
 	/**
 	 * @param string $table_name  A string
 	 *
@@ -915,24 +882,6 @@ abstract class JDatabaseQuery
 	 * @since	11.1
 	 */
 	abstract public function dropIfExists($table_name);
-	
-	/**
-	 * @param string $table_name  A string
-	 * @param object $db  Database object
-	 * @param string $prefix  A string
-	 * @param string $backup  A string
-	 * 
-	 * @return  Rename table syntax
-	 * @since 11.1
-	 */
-	abstract public function renameTable($table_name, $new_table_name);
-	
-	/**
-	 *
-	 * @return  NOW function
-	 * @since 11.1
-	 */
-	abstract public function now();
 		
 	/**
 	 * Method to lock the database table for writing.
