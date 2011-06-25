@@ -173,7 +173,6 @@ class JDatabaseMySQL extends JDatabase
 	 * @param   string  $tableName  The name of the database table to drop.
 	 * @param   bool    $ifExists   Optionally specify that the table must exist before it is dropped.
 	 *
-	 * @return  JDatabaseSQLSrv  Returns this object to support chaining.
 	 * @since   11.1
 	 */
 	function dropTable($tableName, $ifExists = true)
@@ -188,7 +187,7 @@ class JDatabaseMySQL extends JDatabase
 
 		$this->query();
 
-		return $this;
+		return true;
 	}
 
 	/**
