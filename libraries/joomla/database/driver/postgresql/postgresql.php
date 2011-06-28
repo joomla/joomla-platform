@@ -552,31 +552,67 @@ class JDatabasePostgreSQL extends JDatabase
 	/**
 	 * Method to roll back a transaction.
 	 *
+	 * @param   string	The savepoint to rollback to, else rollback all transaction
 	 * @return  void
 	 *
 	 * @since   11.1
 	 * @throws  DatabaseException
 	 */
-	public function transactionRollback()
+	public function transactionRollback( $savepointName = null )
 	{
-		$this->setQuery('ROLLBACK');
+		$savepoint = (isset($savepointName)) ? ' TO SAVEPOINT ' . $this->escape($savepointName) : '';
+		$this->setQuery('ROLLBACK' . $savepoint );
+		$this->query();
+	}
+	
+	/**
+	 * Method to create a savepoint.
+	 *
+	 * @param	string	Savepoint's name to create
+	 * @return  void
+	 *
+	 * @since   11.1
+	 * @throws  DatabaseException
+	 */
+	public function createTransactionSavepoint( $savepointName )
+	{
+		$this->setQuery('SAVEPOINT ' . $this->escape($savepointName) );
+		$this->query();
+	}
+	
+	/**
+	 * Method to release a savepoint.
+	 *
+	 * @param   string	Savepoint's name to release 
+	 * @return  void
+	 *
+	 * @since   11.1
+	 * @throws  DatabaseException
+	 */
+	public function releaseTransactionSavepoint( $savepointName )
+	{
+		$this->setQuery('RELEASE SAVEPOINT ' . $this->escape($savepointName) );
 		$this->query();
 	}
 
 	/**
 	 * Method to initialize a transaction.
 	 *
+	 * @param   string	The transaction mode
 	 * @return  void
 	 *
 	 * @since   11.1
 	 * @throws  DatabaseException
 	 */
-	public function transactionStart()
+	public function transactionStart( $transactionMode = null )
 	{
-		$this->setQuery('START TRANSACTION');
+		$arrayMode = array( 'SERIALIZABLE', 'REPEATABLE READ', 'READ COMMITTED', 'READ UNCOMMITTED', 'READ WRITE', 'READ ONLY' );
+		$mode = (isset($transactionMode) && in_array($transactionMode, $arrayMode) ) ? $transactionMode : '' ;
+		
+		$this->setQuery('START TRANSACTION ' . $mode );
 		$this->query();
 	}
-	
+		
 	/**
 	 * Diagnostic method to return explain information for a query.
 	 *
