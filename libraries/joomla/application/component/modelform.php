@@ -157,10 +157,18 @@ abstract class JModelForm extends JModel
 			} else {
 				$data = array();
 			}
-
+			// If no group for plugins is sent, make an attempt to find one.
+			if (!isset($group)){
+				$group = explode('.',$name);
+				$group = (string) $group[0];
+				if(substr($group,0, 4) == 'com_'){
+					$group=substr_replace($group,'',0,4);
+				}
+			}
+			
 			// Allow for additional modification of the form, and events to be triggered.
 			// We pass the data because plugins may require it.
-			$this->preprocessForm($form, $data);
+			$this->preprocessForm($form, $data, $group);
 
 			// Load the data into the form after the plugins have operated.
 			$form->bind($data);

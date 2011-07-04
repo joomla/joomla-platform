@@ -37,6 +37,7 @@ abstract class JHtmlSliders
 	 * Close the current pane.
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	public static function end()
@@ -49,7 +50,9 @@ abstract class JHtmlSliders
 	 *
 	 * @param   string  Text to display.
 	 * @param   string  Identifier of the panel.
+	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	public static function panel($text, $id)

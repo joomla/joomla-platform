@@ -11,7 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 /**
  * Pagination Class.  Provides a common interface for content pagination for the
- * Joomla! Framework.
+ * Joomla! Platform.
  *
  * @package     Joomla.Platform
  * @subpackage  HTML
@@ -30,7 +30,7 @@ class JPagination extends JObject
 	/**
 	 * Number of rows to display per page.
 	 *
-	 * @var integer
+	 * @var    integer
 	 * @since  11.1
 	 */
 	public $limit = null;
@@ -38,7 +38,7 @@ class JPagination extends JObject
 	/**
 	 * Total number of rows.
 	 *
-	 * @var integer
+	 * @var    integer
 	 * @since  11.1
 	 */
 	public $total = null;
@@ -75,6 +75,8 @@ class JPagination extends JObject
 	 * @param   integer  $limitstart  The offset of the item to start at.
 	 * @param   integer  $limit       The number of items to display per page.
 	 * @param   string   $prefix      The prefix used for request variables.
+	 *
+	 * @since   11.1
 	 */
 	function __construct($total, $limitstart, $limit, $prefix = '')
 	{
@@ -163,7 +165,7 @@ class JPagination extends JObject
 	 * Method to get an additional URL parameter (if it exists) to be added to
 	 * all pagination class generated links.
 	 *
-	 * @param   string   $key	The name of the URL parameter for which to get the value.
+	 * @param   string   $key   The name of the URL parameter for which to get the value.
 	 *
 	 * @return  mixed    The value if it exists or null if it does not.
 	 *
@@ -193,6 +195,7 @@ class JPagination extends JObject
 	 * Return the pagination data object, only creating it if it doesn't already exist.
 	 *
 	 * @return  object   Pagination data object.
+	 *
 	 * @since   11.1
 	 */
 	public function getData()
@@ -208,6 +211,7 @@ class JPagination extends JObject
 	 * Create and return the pagination pages counter string, ie. Page 2 of 4.
 	 *
 	 * @return  string   Pagination pages counter string.
+	 *
 	 * @since   11.1
 	 */
 	public function getPagesCounter()
@@ -224,6 +228,7 @@ class JPagination extends JObject
 	 * Create and return the pagination result set counter string, e.g. Results 1-10 of 42
 	 *
 	 * @return  string   Pagination result set counter string.
+	 *
 	 * @since   11.1
 	 */
 	public function getResultsCounter()
@@ -256,6 +261,7 @@ class JPagination extends JObject
 	 * Create and return the pagination page list string, ie. Previous, Next, 1 2 3 ... x.
 	 *
 	 * @return  string   Pagination page list string.
+	 *
 	 * @since   11.1
 	 */
 	public function getPagesLinks()
@@ -380,6 +386,7 @@ class JPagination extends JObject
 	 * Creates a dropdown box for selecting how many records to show per page.
 	 *
 	 * @return  string   The HTML for the limit # input box.
+	 *
 	 * @since   11.1
 	 */
 	public function getLimitBox()
@@ -420,6 +427,7 @@ class JPagination extends JObject
 	 * @param   string   $checkbox   An optional prefix for checkboxes.
 	 *
 	 * @return  string   Either the icon to move an item up or a space.
+	 *
 	 * @since   11.1
 	 */
 	public function orderUpIcon($i, $condition = true, $task = 'orderup', $alt = 'JLIB_HTML_MOVE_UP', $enabled = true, $checkbox='cb')
@@ -444,6 +452,7 @@ class JPagination extends JObject
 	 * @param   string   $checkbox   An optional prefix for checkboxes.
 	 *
 	 * @return  string   Either the icon to move an item down or a space.
+	 *
 	 * @since   11.1
 	 */
 	public function orderDownIcon($i, $n, $condition = true, $task = 'orderdown', $alt = 'JLIB_HTML_MOVE_DOWN', $enabled = true, $checkbox='cb')
@@ -456,12 +465,13 @@ class JPagination extends JObject
 		}
 	}
 
-	/*
+	/**
 	 * Create the HTML for a list footer
 	 * 
 	 * @param    array  $list  
 	 * 
 	 * @return   string  HTML for a list footer
+	 *
 	 * @since    11.1
 	 */
 	protected function _list_footer($list)
@@ -478,12 +488,13 @@ class JPagination extends JObject
 		return $html;
 	}
 
-	/*
+	/**
 	 * Create the html for a list footer
 	 * 
 	 * @param    array  $list  
 	 * 
-	 * @return   string  HTML for a list start, previous, next,end
+	 * @return   string  HTML for a list start, previous, next, end
+	 *
 	 * @since    11.1
 	 */
 	protected function _list_render($list)
@@ -501,9 +512,9 @@ class JPagination extends JObject
 
 		return $html;
 	}
-	/*
-	 * 
-	 * 
+	/**
+	 * Create the link for the active page
+	 *
 	 * @param    object  $item  
 	 * 
 	 * @return   string  HTML link
@@ -527,7 +538,7 @@ class JPagination extends JObject
 	}
 
 	/*
-	 * 
+	 * Display text for inactive items
 	 * 
 	 * @param    object  $item  
 	 * 
@@ -549,6 +560,7 @@ class JPagination extends JObject
 	 * Create and return the pagination data object.
 	 *
 	 * @return  object  Pagination data object.
+	 *
 	 * @since   11.1
 	 */
 	protected function _buildDataObject()
@@ -633,7 +645,7 @@ class JPagination extends JObject
 class JPaginationObject extends JObject
 {
 	/**
-	 * 
+	 * The text to display
 	 *
 	 * @var    string
 	 * @since  11.1
@@ -641,7 +653,7 @@ class JPaginationObject extends JObject
 	public $text;
 
 	/**
-	 * 
+	 * Base value for the limit start
 	 *
 	 * @var    string
 	 * @since  11.1
@@ -649,7 +661,7 @@ class JPaginationObject extends JObject
 	public $base;
 
 	/**
-	 * 
+	 * Link to the item
 	 *
 	 * @var    string
 	 * @since  11.1
@@ -657,7 +669,7 @@ class JPaginationObject extends JObject
 	public $link;
 
 	/**
-	 * 
+	 * Optional prefix for request variables
 	 *
 	 * @var    string
 	 * @since  11.1
@@ -665,12 +677,12 @@ class JPaginationObject extends JObject
 	public $prefix;
 
 	/*
+	 * Constructor
 	 * 
-	 * 
-	 * @param   string   $text
-	 * @param   string   $prefix
-	 * @param   string   $base
-	 * @param   string   $link
+	 * @param   string   $text     Text for the link
+	 * @param   string   $prefix   Optional prefix for request variables
+	 * @param   string   $base     Base number for limit start
+	 * @param   string   $link     The link
 	 * 
 	 * @return   
 	 * @since    11.1
