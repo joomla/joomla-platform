@@ -330,17 +330,24 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	public function getTableKeys($table)
 	{
-		// Get the details columns information.
-		$query = $this->getQuery();
-		$query->select('pgClass2nd.relname, pgIndex.*')
-			  ->from ( 'pg_class AS pgClassFirst , pg_index AS pgIndex, pg_class AS pgClass2nd' )
-			  ->where( 'pgClassFirst.oid=pgIndex.indrelid' )
-			  ->where( 'pgClass2nd.relfilenode=pgIndex.indexrelid' )
-			  ->where( 'pgClassFirst.relname=' . $this->quote($table) );
-		$this->setQuery($query);
-		$keys = $this->loadObjectList();
+		// To check if table exists and prevent SQL injection
+		$tableList = $this->getTableList();
 		
-		return $keys;
+		if ( in_array($table, $tableList) )
+		{
+			// Get the details columns information.
+			$query = $this->getQuery();
+			$query->select('pgClass2nd.relname, pgIndex.*')
+				  ->from ( 'pg_class AS pgClassFirst , pg_index AS pgIndex, pg_class AS pgClass2nd' )
+				  ->where( 'pgClassFirst.oid=pgIndex.indrelid' )
+				  ->where( 'pgClass2nd.relfilenode=pgIndex.indexrelid' )
+				  ->where( 'pgClassFirst.relname=' . $this->quote($table) );
+			$this->setQuery($query);
+			$keys = $this->loadObjectList();
+			
+			return $keys;	
+		}
+		return false;
 	}
 	
 	
@@ -678,23 +685,29 @@ class JDatabasePostgreSQL extends JDatabase
 		settype($tables, 'array'); //force to array
 		$result = array();
 		
-		foreach ($tables as $tblval) {
-			
-			$query = $this->getQuery();
-			$query->select('column_name')
-				  ->from( 'information_schema.columns' )
-				  ->where( 'table_name=' . $this->quote($tblval) );
-			$this->setQuery($query);
-			
-			$fields = $this->loadObjectList();
-
-			if ($typeonly) {
-				foreach ($fields as $field) {
-					$result[$tblval][$field->column_name] = preg_replace("/[(0-9)]/",'', $field->data_type );
-				}
-			} else {
-				foreach ($fields as $field) {
-					$result[$tblval][$field->column_name] = $field;
+		// To check if table exists and prevent SQL injection
+		$tableList = $this->getTableList();
+		
+		foreach ($tables as $tblval) 
+		{
+			if ( in_array($tblval, $tableList) )
+			{
+				$query = $this->getQuery();
+				$query->select('column_name,data_type')
+					  ->from( 'information_schema.columns' )
+					  ->where( 'table_name=' . $this->quote($tblval) );
+				$this->setQuery($query);
+				
+				$fields = $this->loadObjectList();
+	
+				if ($typeonly) {
+					foreach ($fields as $field) {
+						$result[$tblval][$field->column_name] = preg_replace("/[(0-9)]/",'', $field->data_type );
+					}
+				} else {
+					foreach ($fields as $field) {
+						$result[$tblval][$field->column_name] = $field;
+					}
 				}
 			}
 		}
@@ -747,7 +760,7 @@ class JDatabasePostgreSQL extends JDatabase
 		if ( !(isset($options['user'])) || ! (isset($options['database'])) )
 			throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_POSTGRESQL_CANT_CREATE_DB'));  // -> Can't create DB, no needed info
 		
-		$user		= (isset($options['user']))	? $options['user']		: '';
+		$user = (isset($options['user']))	? $options['user']		: '';
 		
 		
 		$sql = 'CREATE DATABASE '.$this->quoteName( $options['database'] ) . ' OWNER ' . $this->quoteName($options['user']) ;
@@ -773,7 +786,7 @@ class JDatabasePostgreSQL extends JDatabase
 		$tableList = $this->getTableList();
 		
 		// Origin Table does not exist
-		if ( !in_array($tableList, $oldTable) )
+		if ( !in_array($oldTable, $tableList) )
 		{
 			// Legacy error handling switch based on the JError::$legacy switch.
 			// @deprecated  11.3
