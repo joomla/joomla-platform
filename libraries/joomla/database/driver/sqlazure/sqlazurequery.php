@@ -18,26 +18,20 @@ jimport('joomla.database.databasequery');
  * @subpackage  Database
  * @since       11.1
  */
-class JDatabaseQuerySQLSrv extends JDatabaseQuery
+class JDatabaseQuerySQLAzure extends JDatabaseQuery
 {
 	/**
-	 * The character(s) used to quote SQL statement names such as table names or field names,
-	 * etc.  The child classes should define this as necessary.  If a single character string the
-	 * same character is used for both sides of the quoted name, else the first character will be
-	 * used for the opening quote and the second for the closing quote.
-	 * 
-	 * @var    string
-	 * 
+	 * @var    string  The character(s) used to quote SQL statement names such as table names or field names,
+	 *                 etc.  The child classes should define this as necessary.  If a single character string the
+	 *                 same character is used for both sides of the quoted name, else the first character will be
+	 *                 used for the opening quote and the second for the closing quote.
 	 * @since  11.1
 	 */
-	protected $name_quotes = '`';
+	protected $name_quotes = '';
 
 	/**
-	 * The null or zero representation of a timestamp for the database driver.  This should be
-	 * defined in child classes to hold the appropriate value for the engine.
-	 * 
-	 * @var    string
-	 * 
+	 * @var    string  The null or zero representation of a timestamp for the database driver.  This should be
+	 *                 defined in child classes to hold the appropriate value for the engine.
 	 * @since  11.1
 	 */
 	protected $null_date = '1900-01-01 00:00:00';
@@ -46,7 +40,6 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 	 * Magic function to convert the query to a string.
 	 *
 	 * @return  string	The completed query.
-	 * 
 	 * @since   11.1
 	 */
 	public function __toString()
@@ -96,7 +89,6 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 	 * @param   string  $value  The value to cast as a char.
 	 *
 	 * @return  string  Returns the cast value.
-	 *
 	 * @since   11.1
 	 */
 	function castAsChar($value)
@@ -109,7 +101,7 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 	 *
 	 * @param   string  $value  A value.
 	 *
-	 * @return  string  The required char length call.
+	 * @return  string  The required char lenght call.
 	 *
 	 * @since 11.1
 	 */
@@ -151,11 +143,11 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 	}
 
 	/**
-	 * Get the length of a string in bytes.
+	 * Get the length of a a string in bytes.
 	 *
 	 * @param   string  $value  The string to measure.
 	 *
-	 * @return  integer
+	 * @return  int
 	 *
 	 * @since   11.1
 	 */
