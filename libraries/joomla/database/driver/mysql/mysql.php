@@ -769,4 +769,38 @@ class JDatabaseMySQL extends JDatabase
 		}
 		return $error ? false : true;
 	}
+	
+	/**
+	 * Rename a database table
+	 *
+	 * @param string The old table name
+	 * @param string The new table name
+	 */
+	public function renameTable($oldTable, $newTable)
+	{
+		// To check if table exists and prevent SQL injection
+		$tableList = $this->getTableList();
+		
+		// Origin Table does not exist
+		if ( !in_array($tableList, $oldTable) )
+		{
+			// Legacy error handling switch based on the JError::$legacy switch.
+			// @deprecated  11.3
+			if (JError::$legacy) {
+				$this->errorNum = 100;  // TODO set a correct error number
+				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_MYSQL_TABLE_NOT_FOUND');  // -> Origin Table not found
+				return;
+			}
+			else
+				throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MYSQL_TABLE_NOT_FOUND'));  // -> Origin Table not found	
+		}
+		else 
+		{
+			$this->setQuery('RENAME TABLE ' . $this->escape($oldTable) . ' TO ' . $this->escape($newTable) );
+			$this->query();
+		}
+
+		return true;
+	}
+	
 }
