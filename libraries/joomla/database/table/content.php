@@ -23,7 +23,9 @@ class JTableContent extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   database  $db  A database connector object
+	 * @param   database  &$db  A database connector object
+	 *
+	 * @return  JTableContent
 	 *
 	 * @since   11.1
 	 */
@@ -61,10 +63,9 @@ class JTableContent extends JTable
 
 	/**
 	 * Method to get the parent asset id for the record
-	 * 
+	 *
 	 * @param   JTable   $table  A JTable object for the asset parent
 	 * @param   integer  $id
-	 * 
 	 *
 	 * @return  integer
 	 *
@@ -109,7 +110,6 @@ class JTableContent extends JTable
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
 	 *
 	 * @see     JTable:bind
-	 *
 	 * @since   11.1
 	 */
 	public function bind($array, $ignore = '')
@@ -153,9 +153,8 @@ class JTableContent extends JTable
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @since   11.1
-	 *
 	 * @see     JTable::check
+	 * @since   11.1
 	 */
 	public function check()
 	{
@@ -201,7 +200,7 @@ class JTableContent extends JTable
 			$clean_keys = array();
 
 			foreach($keys as $key) {
-				if (trim($key)) {  
+				if (trim($key)) {
 					// Ignore blank keywords
 					$clean_keys[] = trim($key);
 				}
@@ -213,7 +212,7 @@ class JTableContent extends JTable
 	}
 
 	/**
-	 * Overridden JTable::store to set modified data and user id.
+	 * Overrides JTable::store to set modified data and user id.
 	 *
 	 * @param   boolean  True to update fields even if they are null.
 	 *
@@ -261,7 +260,7 @@ class JTableContent extends JTable
 	 * @param   integer  $userId  The user id of the user performing the operation.
 	 *
 	 * @return  boolean  True on success.
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)

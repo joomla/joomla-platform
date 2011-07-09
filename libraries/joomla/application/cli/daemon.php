@@ -48,6 +48,7 @@ class JDaemon extends JCli
 
 	/**
 	 * The process id of the daemon.
+	 *
 	 * @var    integer
 	 * @since  11.1
 	 */
@@ -56,6 +57,7 @@ class JDaemon extends JCli
 	/**
 	 * Running status
 	 * True if the daemon is currently running.
+	 *
 	 * @var    boolean
 	 * @since  11.1
 	 */
@@ -611,7 +613,7 @@ class JDaemon extends JCli
 	/**
 	 * Method to write the process id file out to disk.
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */

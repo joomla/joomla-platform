@@ -30,7 +30,9 @@ class JTableUser extends JTable
 	 * Contructor
 	 *
 	 * @param  database   A database connector object
-	 * 
+	 *
+	 * @return  JTableUser
+	 *
 	 * @since  11.1
 	 */
 	function __construct(&$db)
@@ -47,7 +49,7 @@ class JTableUser extends JTable
 	 * from the database so that it can be bound to the user object.
 	 *
 	 * @param   integer  $userId  An optional user id.
-	 * @param   boolean  $reset   False if row not found or on error 
+	 * @param   boolean  $reset   False if row not found or on error
 	 *                            (internal error state set in that case).
 	 *
 	 * @return  boolean  True on success, false on failure.
@@ -257,7 +259,6 @@ class JTableUser extends JTable
 	 * @return  boolean  True on success.
 	 *
 	 * @link    http://docs.joomla.org/JTable/store
-	 *
 	 * @since   11.1
 	 */
 	function store($updateNulls = false)
@@ -426,16 +427,17 @@ class JTableUser extends JTable
 		$date = JFactory::getDate($timeStamp);
 
 		// Update the database row for the user.
-		$this->_db->setQuery(
-			'UPDATE '.$this->_db->quoteName($this->_tbl).
-			' SET '.$this->_db->quoteName('lastvisitDate').' = '.$this->_db->Quote($this->_db->toSQLDate($date)) .
-			' WHERE '.$this->_db->quoteName('id').' = '.(int) $userId
-		);
-		$this->_db->query();
+		$db = $this->_db;
+		$query = $db->getQuery(true);
+		$query->update($db->quoteName($this->_tbl));
+		$query->set($db->quoteName('lastvisitDate') . '=' . $db->quote($date->format($db->getDateFormat())));
+		$query->where($db->quoteName('id') . '=' . (int)$userId);
+		$db->setQuery($query);
+		$db->query();
 
 		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
-			$this->setError($this->_db->getErrorMsg());
+		if ($db->getErrorNum()) {
+			$this->setError($db->getErrorMsg());
 			return false;
 		}
 

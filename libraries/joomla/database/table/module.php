@@ -24,7 +24,9 @@ class JTableModule extends JTable
 	/**
 	 * Contructor.
 	 *
-	 * @param   database  $db  A database connector object
+	 * @param   database  &$db  A database connector object
+	 *
+	 * @return  JTableModule
 	 *
 	 * @since   11.1
 	 */
@@ -39,10 +41,9 @@ class JTableModule extends JTable
 	 * Overloaded check function.
 	 *
 	 * @return  boolean  True if the instance is sane and able to be stored in the database.
-	 * 
-	 * @since   11.1
-	 * 
+	 *
 	 * @see     JTable::check()
+	 * @since   11.1
 	 */
 	public function check()
 	{

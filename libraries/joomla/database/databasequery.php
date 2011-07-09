@@ -396,7 +396,7 @@ abstract class JDatabaseQuery
 	{
 		return isset($this->$name) ? $this->$name : null;
 	}
-	
+
 	/**
 	 * Casts a value to a char.
 	 *

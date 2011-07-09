@@ -22,9 +22,11 @@ class JTableExtension extends JTable
 	/**
 	 * Contructor
 	 *
-	 * @param  database   $db  A database connector object
-	 * 
-	 * @since  11.1
+	 * @param   database  &$db  A database connector object
+	 *
+	 * @return  JTableExtension
+	 *
+	 * @since   11.1
 	 */
 	function __construct(&$db) {
 		parent::__construct('#__extensions', 'extension_id', $db);
@@ -58,7 +60,6 @@ class JTableExtension extends JTable
 	* @return  mixed  Null if operation was satisfactory, otherwise returns an error
 	*
 	* @see     JTable:bind
-	*
 	* @since   11.1
 	*/
 	function bind($array, $ignore = '')
@@ -82,10 +83,11 @@ class JTableExtension extends JTable
 
 	/**
 	 * Method to create and execute a SELECT WHERE query.
-	 * 
+	 *
 	 * @param   array  $options  Array of options
 	 *
-	 * @return  JDatabase object
+	 * @return  JDatabase  object
+	 *
 	 * @since   11.1
 	 */
 	function find($options=array())
