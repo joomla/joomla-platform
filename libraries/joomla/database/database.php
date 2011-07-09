@@ -231,7 +231,7 @@ abstract class JDatabase
 			if (!class_exists($class)) {
 
 				// Derive the file path for the driver class.
-				$path = dirname(__FILE__).'/database/'.$options['driver'].'.php';
+				$path = dirname(__FILE__).'/driver/'.$options['driver'].'/'.$options['driver'].'.php';
 
 				// If the file exists register the class with our class loader.
 				if (file_exists($path)) {
@@ -1113,7 +1113,9 @@ abstract class JDatabase
 	 */
 	public function quote($text, $escape = true)
 	{
-		return '\''.($escape ? $this->escape($text) : $text).'\'';
+		$q = $this->nameQuote;
+		
+		return $q.($escape ? $this->escape($text) : $text).$q;
 	}
 
 	/**
@@ -1612,4 +1614,42 @@ abstract class JDatabase
 			return JText::_('JLIB_DATABASE_FUNCTION_NOERROR');
 		}
 	}
+	
+	/**
+	 * Method to create a new database.
+	 *
+	 * @access	public
+	 * @param	array	The connection options array.
+	 * @return	boolean	True on success.
+	 * @since	11.1
+	 * @todo 	Implement it in all subclasses, called during installation
+	 */	
+	abstract public function createDatabase( $options );
+	
+	
+	/**
+	 * Method to delete all tables in a database with a given prefix.
+	 *
+	 * @access	public
+	 * @param	object	JDatabase object.
+	 * @param	string	Name of the database to process.
+	 * @param	string	Database table prefix.
+	 * @return	boolean	True on success.
+	 * @since	11.1
+	 * @todo 	Implement it in all subclasses, called during installation
+	 */
+	abstract public function deleteDatabase(& $db, $name, $prefix);
+	
+	/**
+	 * Method to backup all tables in a database with a given prefix.
+	 *
+	 * @access	public
+	 * @param	object	JDatabase object.
+	 * @param	string	Name of the database to process.
+	 * @param	string	Database table prefix.
+	 * @return	boolean	True on success.
+	 * @since	11.1
+	 * @todo 	Implement it in all subclasses, called during installation
+	 */
+	abstract public function backupDatabase( $name, $prefix );	
 }
