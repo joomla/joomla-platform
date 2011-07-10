@@ -41,8 +41,8 @@ abstract class JFolder
 
 		if ($path)
 		{
-			$src = JPath::clean($path . DS . $src);
-			$dest = JPath::clean($path . DS . $dest);
+			$src = JPath::clean($path . '/' . $src);
+			$dest = JPath::clean($path . '/' . $dest);
 		}
 
 		// Eliminate trailing directory separators, if any
@@ -75,10 +75,15 @@ abstract class JFolder
 				return JError::raiseError(-1, JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_OPEN'));
 			}
 			// Walk through the directory copying files and recursing into folders.
+			$files = array();
 			while (($file = readdir($dh)) !== false)
 			{
-				$sfid = $src . DS . $file;
-				$dfid = $dest . DS . $file;
+				$files[] = $file;
+			}
+			closedir($dh);
+			foreach ($files as $file) {
+				$sfid = $src . '/' . $file;
+				$dfid = $dest . '/' . $file;
 				switch (filetype($sfid))
 				{
 					case 'dir':
@@ -107,10 +112,15 @@ abstract class JFolder
 				return JError::raiseError(-1, JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_OPEN'));
 			}
 			// Walk through the directory copying files and recursing into folders.
+			$files = array();
 			while (($file = readdir($dh)) !== false)
 			{
-				$sfid = $src . DS . $file;
-				$dfid = $dest . DS . $file;
+				$files[] = $file;
+			}
+			closedir($dh);
+			foreach ($files as $file) {
+				$sfid = $src . '/' . $file;
+				$dfid = $dest . '/' . $file;
 				switch (filetype($sfid))
 				{
 					case 'dir':
@@ -273,7 +283,7 @@ abstract class JFolder
 	/**
 	 * Delete a folder.
 	 *
-	 * @param   string   $path  The path to the folder to delete.
+	 * @param   string  $path  The path to the folder to delete.
 	 *
 	 * @return  boolean  True on success.
 	 * @since   11.1
@@ -384,8 +394,8 @@ abstract class JFolder
 
 		if ($path)
 		{
-			$src = JPath::clean($path . DS . $src);
-			$dest = JPath::clean($path . DS . $dest);
+			$src = JPath::clean($path . '/' . $src);
+			$dest = JPath::clean($path . '/' . $dest);
 		}
 
 		if (!self::exists($src)){
@@ -483,11 +493,7 @@ abstract class JFolder
 		}
 
 		// Get the files
-		$arr = self::_items($path, $filter, $recurse, $full, $exclude, $excludefilter_string, true);
-
-		// Sort the files
-		asort($arr);
-		return array_values($arr);
+		return self::_items($path, $filter, $recurse, $full, $exclude, $excludefilter_string, true);
 	}
 
 	/**
@@ -527,11 +533,7 @@ abstract class JFolder
 		}
 
 		// Get the folders
-		$arr = self::_items($path, $filter, $recurse, $full, $exclude, $excludefilter_string, false);
-
-		// Sort the folders
-		asort($arr);
-		return array_values($arr);
+		return self::_items($path, $filter, $recurse, $full, $exclude, $excludefilter_string, false);
 	}
 
 	/**
@@ -545,7 +547,7 @@ abstract class JFolder
 	 * @param   array    $exclude               Array with names of files which should not be shown in
 	 *                                          the result.
 	 * @param   string   $excludefilter_string  Regexp of files to exclude
-	 * @param   boolean  $fndfiles              True to read the files, false to read the folders
+	 * @param   boolean  $findfiles              True to read the files, false to read the folders
 	 *
 	 * @return  array  Files.
 	 * @since   11.1
@@ -555,6 +557,8 @@ abstract class JFolder
 		set_time_limit(ini_get('max_execution_time'));
 
 		// Initialise variables.
+		$files = array();
+		$folders = array();
 		$arr = array();
 
 		// Read the source directory
@@ -564,37 +568,60 @@ abstract class JFolder
 			if ($file != '.' && $file != '..' && !in_array($file, $exclude) && (empty($excludefilter_string) || !preg_match($excludefilter_string, $file)))
 			{
 				// Compute the fullpath
-				$fullpath = $path . DS . $file;
+				$fullpath = $path . '/' . $file;
 
 				// Compute the isDir flag
-				$isDir = is_dir($fullpath);
-
-				if (($isDir xor $findfiles) && preg_match("/$filter/", $file))
-				{
-					// (fullpath is dir and folders are searched or fullpath is not dir and files are searched) and file matches the filter
-					if ($full) {
-						// Full path is requested
-						$arr[] = $fullpath;
-					}
-					else {
-						// Filename is requested
-						$arr[] = $file;
+				if (is_dir($fullpath)) {
+					if (!$findfiles && preg_match("/$filter/", $file) || $recurse) {
+						$folders[$file] = $fullpath;
 					}
 				}
-				if ($isDir && $recurse)
-				{
-					// Search recursively
-					if (is_integer($recurse)) {
-						// Until depth 0 is reached
-						$arr = array_merge($arr, self::_items($fullpath, $filter, $recurse - 1, $full, $exclude, $excludefilter_string, $findfiles));
-					}
-					else {
-						$arr = array_merge($arr, self::_items($fullpath, $filter, $recurse, $full, $exclude, $excludefilter_string, $findfiles));
+				else {
+					if ($findfiles && preg_match("/$filter/", $file)) {
+						$files[$file] = $fullpath;
 					}
 				}
 			}
 		}
 		closedir($handle);
+
+		// Add current files
+		ksort($files);
+		foreach ($files as $file=>$fullpath) {
+			if ($full) {
+				// Full path is requested
+				$arr[] = $fullpath;
+			}
+			else {
+				// Filename is requested
+				$arr[] = $file;
+			}
+		}
+
+		// scan folders
+		ksort($folders);
+		foreach ($folders as $file=>$fullpath) {
+			if (!$findfiles && preg_match("/$filter/", $file) ) {
+				if ($full) {
+					// Full path is requested
+					$arr[] = $fullpath;
+				}
+				else {
+					// Folder is requested
+					$arr[] = $file;
+				}
+			}
+			if ($recurse) {
+				// Search recursively
+				if (is_integer($recurse)) {
+					// Until depth 0 is reached
+					$arr = array_merge($arr, self::_items($fullpath, $filter, $recurse - 1, $full, $exclude, $excludefilter_string, $findfiles));
+				}
+				else {
+					$arr = array_merge($arr, self::_items($fullpath, $filter, $recurse, $full, $exclude, $excludefilter_string, $findfiles));
+				}
+			}
+		}
 		return $arr;
 	}
 
@@ -624,7 +651,7 @@ abstract class JFolder
 			foreach ($folders as $name)
 			{
 				$id = ++$GLOBALS['_JFolder_folder_tree_index'];
-				$fullName = JPath::clean($path . DS . $name);
+				$fullName = JPath::clean($path . '/' . $name);
 				$dirs[] = array(
 					'id' => $id,
 					'parent' => $parent,
@@ -649,7 +676,7 @@ abstract class JFolder
 	 */
 	public static function makeSafe($path)
 	{
-		//$ds = (DS == '\\') ? '\\' . DS : DS;
+		//$ds = (DS == '\\') ? '\\/' : DS;
 		$regex = array('#[^A-Za-z0-9:_\\\/-]#');
 		return preg_replace($regex, '', $path);
 	}
