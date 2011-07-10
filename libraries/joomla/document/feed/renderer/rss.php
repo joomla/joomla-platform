@@ -101,7 +101,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		}
 		if ($data->pubDate!="") {
 			$pubDate = JFactory::getDate($data->pubDate);
-			$feed.= "		<pubDate>".htmlspecialchars($pubDate->toRFC822(true),ENT_COMPAT, 'UTF-8')."</pubDate>\n";
+			$feed.= "		<pubDate>".htmlspecialchars($pubDate->toRFC822(true), ENT_COMPAT, 'UTF-8')."</pubDate>\n";
 		}
 		if (empty($data->category) === false) {
 			if (is_array($data->category)) {
