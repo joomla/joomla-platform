@@ -21,6 +21,7 @@ jimport('joomla.base.adapterinstance');
 class JInstallerComponent extends JAdapterInstance
 {
 	protected $manifest = null;
+    protected $configManifest = null;
 	protected $name = null;
 	protected $element = null;
 	protected $oldAdminFiles = null;
