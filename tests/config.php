@@ -3,8 +3,8 @@ class JTestConfig
 {
 	public $dbtype		= 'mysql';
 	public $host		= '127.0.0.1';
-	public $user		= 'utuser';
-	public $password	= 'ut1234';
+	public $user		= 'joomla';
+	public $password	= 'joomla';
 	public $db			= 'joomla_ut';
 	public $dbprefix	= 'jos_';
 	public $ftp_host	= '127.0.0.1';
@@ -13,10 +13,10 @@ class JTestConfig
 	public $ftp_pass	= '';
 	public $ftp_root	= '';
 	public $ftp_enable	= 0;
-	public $tmp_path	= '/tmp';
-	public $log_path	= '/var/logs';
+	public $tmp_path	= 'B:/TEMP';
+	public $log_path	= 'B:/TEMP';
 	public $mailer		= 'mail';
-	public $mailfrom	= 'admin@localhost.home';
+	public $mailfrom	= 'serradeil@webmechanic.biz';
 	public $fromname	= '';
 	public $sendmail	= '/usr/sbin/sendmail';
 	public $smtpauth	= '0';
