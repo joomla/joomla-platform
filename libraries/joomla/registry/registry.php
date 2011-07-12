@@ -534,7 +534,7 @@ class JRegistry
 	 * @deprecated
 	 * @since   11.1
 	 */
-	public function loadSetupFile()
+	public function loadSetupFile($file=null)
 	{
 		return true;
 	}
