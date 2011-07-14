@@ -209,22 +209,16 @@ abstract class JDatabaseQuery
 	 * @since  11.1
 	 */
 	protected $order = null;
-
-	/**
-	 * @var   object  The drop element.
-	 * @since 1.6
-	 */
-	protected $drop = null;
 	
 	/**
 	 * @var   object  The lock element.
-	 * @since 1.6
+	 * @since 11.1
 	 */
 	protected $lock = null;
 	
 	/**
 	 * @var   object  The lock element.
-	 * @since 1.6
+	 * @since 11.1
 	 */
 	protected $unlock = null;	
 	
@@ -361,14 +355,10 @@ abstract class JDatabaseQuery
 						$query .= (string) $this->columns;
 					}
 
-					$query .= 'VALUES ';
+					$query .= ' VALUES ';
 					$query .= (string) $this->values;
 				}
 
-				break;
-
-			case 'drop':
-				$query .= (string) $this->drop;
 				break;
 			
 			case 'lock':
@@ -408,8 +398,10 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	abstract public function castAsChar($value);
-
+	public function castAsChar($value)
+	{
+		return $value;
+	}
 
 	/**
 	 * Gets the number of characters in a string.
@@ -422,8 +414,10 @@ abstract class JDatabaseQuery
 	 *
 	 * @since 11.1
 	 */
-	abstract public function charLength($field);	 
-
+	public function charLength($field)
+	{
+		return 'CHAR_LENGTH('.$field.')';
+	}
 
 	/**
 	 * Clear data from the query or a specific clause of the query.
@@ -493,10 +487,6 @@ abstract class JDatabaseQuery
 			case 'values':
 				$this->values = null;
 				break;
-
-			case 'drop':
-				$this->drop = null;
-				break;
 				
 			case 'lock':
 				$this->lock = null;
@@ -521,7 +511,6 @@ abstract class JDatabaseQuery
 				$this->order = null;
 				$this->columns = null;
 				$this->values = null;
-				$this->drop = null;
 				$this->lock = null;
 				$this->unlock = null;				
 				break;
@@ -539,7 +528,17 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	abstract public function columns($columns);
+	function columns($columns)
+	{
+		if (is_null($this->columns)) {
+			$this->columns = new JDatabaseQueryElement('()', $columns);
+		}
+		else {
+			$this->columns->append($columns);
+		}
+
+		return $this;
+	}
 
 	/**
 	 * Concatenates an array of column names or values.
@@ -551,7 +550,15 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	abstract public function concatenate($values, $separator = null);
+	function concatenate($values, $separator = null)
+	{
+		if ($separator) {
+			return 'CONCATENATE('.implode(' || '.$this->quote($separator).' || ', $values).')';
+		}
+		else{
+			return 'CONCATENATE('.implode(' || ', $values).')';
+		}
+	}
 
 	/**
 	 * Gets the current date and time.
@@ -560,7 +567,10 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	abstract public function currentTimestamp();
+	function currentTimestamp()
+	{
+		return 'CURRENT_TIMESTAMP()';
+	}
 
 	/**
 	 * Returns a PHP date() function compliant date format for the database driver.
@@ -585,8 +595,17 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	abstract public function delete($table = null);	 
+	public function delete($table = null)
+	{
+		$this->type	= 'delete';
+		$this->delete	= new JDatabaseQueryElement('DELETE', null);
 
+		if (!empty($table)) {
+			$this->from($table);
+		}
+
+		return $this;
+	}
 
 	/**
 	 * Method to escape a string for usage in an SQL statement.
@@ -619,7 +638,17 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	abstract public function from($tables);	 
+	public function from($tables)
+	{
+		if (is_null($this->from)) {
+			$this->from = new JDatabaseQueryElement('FROM', $tables);
+		}
+		else {
+			$this->from->append($tables);
+		}
+
+		return $this;
+	}
 
 	/**
 	 * Add a grouping column to the GROUP clause of the query.
@@ -630,8 +659,17 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
- 	abstract public function group($columns);
- 	
+	public function group($columns)
+	{
+		if (is_null($this->group)) {
+			$this->group = new JDatabaseQueryElement('GROUP BY', $columns);
+		}
+		else {
+			$this->group->append($columns);
+		}
+
+		return $this;
+	}
 
 	/**
 	 * A conditions to the HAVING clause of the query.
@@ -643,8 +681,18 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	abstract public function having($conditions, $glue='AND');	 
-	
+	public function having($conditions, $glue='AND')
+	{
+		if (is_null($this->having)) {
+			$glue = strtoupper($glue);
+			$this->having = new JDatabaseQueryElement('HAVING', $conditions, " $glue ");
+		}
+		else {
+			$this->having->append($conditions);
+		}
+
+		return $this;
+	}
 
 	/**
 	 * Add an INNER JOIN clause to the query.
@@ -655,8 +703,12 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	abstract public function innerJoin($conditions);	 
+	public function innerJoin($conditions)
+	{
+		$this->join('INNER', $conditions);
 
+		return $this;
+	}
 
 	/**
 	 * Add a table name to the INSERT clause of the query.
@@ -669,8 +721,13 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	abstract public function insert($table);	 
-	
+	public function insert($table)
+	{
+		$this->type	= 'insert';
+		$this->insert	= new JDatabaseQueryElement('INSERT INTO', $table);
+
+		return $this;
+	}
 
 	/**
 	 * Add a JOIN clause to the query.
@@ -682,8 +739,15 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	abstract public function join($type, $conditions);	 
+	public function join($type, $conditions)
+	{
+		if (is_null($this->join)) {
+			$this->join = array();
+		}
+		$this->join[] = new JDatabaseQueryElement(strtoupper($type) . ' JOIN', $conditions);
 
+		return $this;
+	}
 
 	/**
 	 * Add a LEFT JOIN clause to the query.
@@ -694,8 +758,12 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	abstract public function leftJoin($conditions);	 
+	public function leftJoin($conditions)
+	{
+		$this->join('LEFT', $conditions);
 
+		return $this;
+	}
 
 	/**
 	 * Get the length of a string in bytes.
@@ -708,8 +776,10 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	abstract public function length($value);
-
+	function length($value)
+	{
+		return 'LENGTH('.$value.')';
+	}
 
 	/**
 	 * Get the null or zero representation of a timestamp for the database driver.
@@ -744,8 +814,17 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
- 	abstract public function order($columns);
-	
+	public function order($columns)
+	{
+		if (is_null($this->order)) {
+			$this->order = new JDatabaseQueryElement('ORDER BY', $columns);
+		}
+		else {
+			$this->order->append($columns);
+		}
+
+		return $this;
+	}
 
 	/**
 	 * Add an OUTER JOIN clause to the query.
@@ -756,8 +835,12 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	abstract public function outerJoin($conditions);	 
+	public function outerJoin($conditions)
+	{
+		$this->join('OUTER', $conditions);
 
+		return $this;
+	}
 
 	/**
 	 * Method to quote and optionally escape a string to database requirements for insertion into the database.
@@ -808,8 +891,12 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	abstract public function rightJoin($conditions);	 
+	public function rightJoin($conditions)
+	{
+		$this->join('RIGHT', $conditions);
 
+		return $this;
+	}
 
 	/**
 	 * Add a single column, or array of columns to the SELECT clause of the query.
@@ -823,8 +910,19 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	abstract public function select($columns);
+	public function select($columns)
+	{
+		$this->type = 'select';
 
+		if (is_null($this->select)) {
+			$this->select = new JDatabaseQueryElement('SELECT', $columns);
+		}
+		else {
+			$this->select->append($columns);
+		}
+
+		return $this;
+	}
 
 	/**
 	 * Add a single condition string, or an array of strings to the SET clause of the query.
@@ -836,7 +934,18 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	abstract public function set($conditions, $glue=',');	 
+	public function set($conditions, $glue=',')
+	{
+		if (is_null($this->set)) {
+			$glue = strtoupper($glue);
+			$this->set = new JDatabaseQueryElement('SET', $conditions, "\n\t$glue ");
+		}
+		else {
+			$this->set->append($conditions);
+		}
+
+		return $this;
+	}
 
 	/**
 	 * Add a table name to the UPDATE clause of the query.
@@ -849,7 +958,13 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	abstract public function update($tables);	 
+	public function update($tables)
+	{
+		$this->type = 'update';
+		$this->update = new JDatabaseQueryElement('UPDATE', $tables);
+
+		return $this;
+	}
 
 	/**
 	 * Adds a tuple, or array of tuples that would be used as values for an INSERT INTO statement.
@@ -860,8 +975,17 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	abstract public function values($values);	 
+	function values($values)
+	{
+		if (is_null($this->values)) {
+			$this->values = new JDatabaseQueryElement('()', $values, '), (');
+		}
+		else {
+			$this->values->append($values);
+		}
 
+		return $this;
+	}
 
 	/**
 	 * Add a single condition, or an array of conditions to the WHERE clause of the query.
@@ -873,29 +997,55 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	abstract public function where($conditions, $glue='AND');	
+	public function where($conditions, $glue = 'AND')
+	{
+		if (is_null($this->where)) {
+			$glue = strtoupper($glue);
+			$this->where = new JDatabaseQueryElement('WHERE', $conditions, " $glue ");
+		}
+		else {
+			$this->where->append($conditions);
+		}
+
+		return $this;
+	}
 	
-	/**
-	 * @param string $table_name  A string
-	 *
-	 * @return  Drop if exists syntax
-	 * @since	11.1
-	 */
-	abstract public function dropIfExists($table_name);
-		
 	/**
 	 * Method to lock the database table for writing.
 	 *
 	 * @return	boolean	True on success.
 	 * @since	11.1
+	 * @todo	from Hooduku project
 	 */
-	abstract public function lock($table_name, $lock_type);
+	public function lock($table_name, $lock_type)
+	{
+		$this->type = 'lock';
+		      	
+		if (is_null($this->lock)) {
+        	$this->lock = new JDatabaseQueryElement('LOCK TABLES ', $table_name . ' ' . $lock_type);
+      	}
+      	else {
+        	$this->lock->append($table_name);
+      	}
+
+      	return $this;
+	}
 
 	/**
 	 * Method to unlock the database table for writing.
 	 *
 	 * @return	boolean	True on success.
 	 * @since	11.1
+	 * @todo	from Hooduku project
 	 */
-	abstract public function unlock();
+	public function unlock()
+	{
+		$this->type = 'unlock';
+		
+		if (is_null($this->unlock)) {
+        	$this->unlock = new JDatabaseQueryElement('UNLOCK TABLES ', ' ');
+      	}
+
+      	return $this;	
+	}
 }
