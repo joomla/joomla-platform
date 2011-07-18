@@ -403,7 +403,7 @@ class JDatabasePostgreSQL extends JDatabase
 			}
 			else {
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-				throw new DatabaseException();
+				throw new DatabaseException;
 			}
 		}
 
@@ -443,7 +443,7 @@ class JDatabasePostgreSQL extends JDatabase
 			}
 			else {
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-				throw new DatabaseException();
+				throw new DatabaseException;
 			}
 		}
 		return $this->cursor;
@@ -750,7 +750,7 @@ class JDatabasePostgreSQL extends JDatabase
 	{
 		if (!is_resource($this->connection)) {
 			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-			throw new DatabaseException();
+			throw new DatabaseException;
 		}
 		
 		while( list( , $query ) = each ( $this->sql ) )
@@ -779,7 +779,7 @@ class JDatabasePostgreSQL extends JDatabase
 				$this->errorMsg = (string) pg_result_error_field( $this->cursor, PGSQL_DIAG_MESSAGE_PRIMARY )." SQL=$sql <br />";
 				
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-				throw new DatabaseException();
+				throw new DatabaseException;
 			}
 		}
 		
