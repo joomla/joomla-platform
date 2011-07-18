@@ -33,14 +33,16 @@ abstract class JFolder
 	 */
 	public static function copy($src, $dest, $path = '', $force = false, $use_streams=false)
 	{
+		set_time_limit(ini_get('max_execution_time'));
+
 		// Initialise variables.
 		jimport('joomla.client.helper');
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
 		if ($path)
 		{
-			$src = JPath::clean($path . DS . $src);
-			$dest = JPath::clean($path . DS . $dest);
+			$src = JPath::clean($path . '/' . $src);
+			$dest = JPath::clean($path . '/' . $dest);
 		}
 
 		// Eliminate trailing directory separators, if any
@@ -75,8 +77,8 @@ abstract class JFolder
 			// Walk through the directory copying files and recursing into folders.
 			while (($file = readdir($dh)) !== false)
 			{
-				$sfid = $src . DS . $file;
-				$dfid = $dest . DS . $file;
+				$sfid = $src . '/' . $file;
+				$dfid = $dest . '/' . $file;
 				switch (filetype($sfid))
 				{
 					case 'dir':
@@ -107,8 +109,8 @@ abstract class JFolder
 			// Walk through the directory copying files and recursing into folders.
 			while (($file = readdir($dh)) !== false)
 			{
-				$sfid = $src . DS . $file;
-				$dfid = $dest . DS . $file;
+				$sfid = $src . '/' . $file;
+				$dfid = $dest . '/' . $file;
 				switch (filetype($sfid))
 				{
 					case 'dir':
@@ -278,6 +280,8 @@ abstract class JFolder
 	 */
 	public static function delete($path)
 	{
+		set_time_limit(ini_get('max_execution_time'));
+
 		// Sanity check
 		if (!$path)
 		{
@@ -380,8 +384,8 @@ abstract class JFolder
 
 		if ($path)
 		{
-			$src = JPath::clean($path . DS . $src);
-			$dest = JPath::clean($path . DS . $dest);
+			$src = JPath::clean($path . '/' . $src);
+			$dest = JPath::clean($path . '/' . $dest);
 		}
 
 		if (!self::exists($src)){
@@ -548,6 +552,8 @@ abstract class JFolder
 	 */
 	protected static function _items($path, $filter, $recurse, $full, $exclude, $excludefilter_string, $findfiles)
 	{
+		set_time_limit(ini_get('max_execution_time'));
+
 		// Initialise variables.
 		$arr = array();
 
@@ -558,7 +564,7 @@ abstract class JFolder
 			if ($file != '.' && $file != '..' && !in_array($file, $exclude) && (empty($excludefilter_string) || !preg_match($excludefilter_string, $file)))
 			{
 				// Compute the fullpath
-				$fullpath = $path . DS . $file;
+				$fullpath = $path . '/' . $file;
 
 				// Compute the isDir flag
 				$isDir = is_dir($fullpath);
@@ -618,7 +624,7 @@ abstract class JFolder
 			foreach ($folders as $name)
 			{
 				$id = ++$GLOBALS['_JFolder_folder_tree_index'];
-				$fullName = JPath::clean($path . DS . $name);
+				$fullName = JPath::clean($path . '/' . $name);
 				$dirs[] = array(
 					'id' => $id,
 					'parent' => $parent,
@@ -643,7 +649,7 @@ abstract class JFolder
 	 */
 	public static function makeSafe($path)
 	{
-		//$ds = (DS == '\\') ? '\\' . DS : DS;
+		//$ds = (DS == '\\') ? '\\/' : DS;
 		$regex = array('#[^A-Za-z0-9:_\\\/-]#');
 		return preg_replace($regex, '', $path);
 	}

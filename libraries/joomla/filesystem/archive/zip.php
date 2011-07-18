@@ -217,7 +217,7 @@ class JArchiveZip extends JObject
 
 			if ($lastPathCharacter !== '/' && $lastPathCharacter !== '\\') {
 				$buffer = $this->_getFileData($i);
-				$path = JPath::clean($destination.DS.$this->_metadata[$i]['name']);
+				$path = JPath::clean($destination . '/' . $this->_metadata[$i]['name']);
 
 				// Make sure the destination folder exists
 				if (!JFolder::create(dirname($path))) {
@@ -265,7 +265,7 @@ class JArchiveZip extends JObject
 						if (substr(zip_entry_name($file), strlen(zip_entry_name($file)) - 1) != "/") {
 							$buffer = zip_entry_read($file, zip_entry_filesize($file));
 
-							if (JFile::write($destination.DS.zip_entry_name($file), $buffer) === false) {
+							if (JFile::write($destination . '/' . zip_entry_name($file), $buffer) === false) {
 								$this->set('error.message', 'Unable to write entry');
 								return false;
 							}
@@ -380,6 +380,9 @@ class JArchiveZip extends JObject
 			$info = unpack('vMethod/VTime/VCRC32/VCompressed/VUncompressed/vLength/vExtraLength', substr($data, $lfhStart +8, 25));
 			$name = substr($data, $lfhStart +30, $info['Length']);
 			$entries[$name]['_dataStart'] = $lfhStart +30 + $info['Length'] + $info['ExtraLength'];
+
+			// Bump the max execution time because not using the built in php zip libs makes this process slow.
+			set_time_limit(ini_get('max_execution_time'));
 		}
 		while ((($fhStart = strpos($data, $this->_ctrlDirHeader, $fhStart +46)) !== false));
 
