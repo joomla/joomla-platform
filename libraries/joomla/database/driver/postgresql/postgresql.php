@@ -294,8 +294,6 @@ class JDatabasePostgreSQL extends JDatabase
 	 *
 	 * @param   mixed  $tables  A table name or a list of table names.
 	 *
-	 * @return  array  A list of the create SQL for the tables.
-	 *
 	 * @since   11.1
 	 * @throws  DatabaseException
 	 */	
@@ -529,84 +527,6 @@ class JDatabasePostgreSQL extends JDatabase
 	}
 	
 	/**
-	 * Method to commit a transaction.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 * @throws  DatabaseException
-	 */
-	public function transactionCommit()
-	{
-		$this->setQuery('COMMIT');
-		$this->query();
-	}
-	
-	/**
-	 * Method to roll back a transaction.
-	 *
-	 * @param   string	The savepoint to rollback to, else rollback all transaction
-	 * @return  void
-	 *
-	 * @since   11.1
-	 * @throws  DatabaseException
-	 */
-	public function transactionRollback( $savepointName = null )
-	{
-		$savepoint = (isset($savepointName)) ? ' TO SAVEPOINT ' . $this->escape($savepointName) : '';
-		$this->setQuery('ROLLBACK' . $savepoint );
-		$this->query();
-	}
-	
-	/**
-	 * Method to create a savepoint.
-	 *
-	 * @param	string	Savepoint's name to create
-	 * @return  void
-	 *
-	 * @since   11.1
-	 * @throws  DatabaseException
-	 */
-	public function createTransactionSavepoint( $savepointName )
-	{
-		$this->setQuery('SAVEPOINT ' . $this->escape($savepointName) );
-		$this->query();
-	}
-	
-	/**
-	 * Method to release a savepoint.
-	 *
-	 * @param   string	Savepoint's name to release 
-	 * @return  void
-	 *
-	 * @since   11.1
-	 * @throws  DatabaseException
-	 */
-	public function releaseTransactionSavepoint( $savepointName )
-	{
-		$this->setQuery('RELEASE SAVEPOINT ' . $this->escape($savepointName) );
-		$this->query();
-	}
-
-	/**
-	 * Method to initialize a transaction.
-	 *
-	 * @param   string	The transaction mode
-	 * @return  void
-	 *
-	 * @since   11.1
-	 * @throws  DatabaseException
-	 */
-	public function transactionStart( $transactionMode = null )
-	{
-		$arrayMode = array( 'SERIALIZABLE', 'REPEATABLE READ', 'READ COMMITTED', 'READ UNCOMMITTED', 'READ WRITE', 'READ ONLY' );
-		$mode = (isset($transactionMode) && in_array($transactionMode, $arrayMode) ) ? $transactionMode : '' ;
-		
-		$this->setQuery('START TRANSACTION ' . $mode );
-		$this->query();
-	}
-		
-	/**
 	 * Diagnostic method to return explain information for a query.
 	 *
 	 * @return      string  The explain output.
@@ -791,6 +711,79 @@ class JDatabasePostgreSQL extends JDatabase
 		}
 
 		return true;
+	}
+
+	
+	/**
+	 * Sets the SQL statement string for later execution of a transaction block.
+	 *
+	 * @param   mixed    $query   The SQL statement to set either as a JDatabaseQuery object or a string.
+	 * @param   integer  $limit   The maximum affected rows to set.
+	 * @param   integer  $offset  The affected row offset to set.
+	 *
+	 * @return  JDatabase  This object to support method chaining.
+	 *
+	 * @since   11.1
+	 */
+	public function setTransactionQuery($query, $limit = 0, $offset = 0)
+	{
+		$query->limit($limit, $offset);		// to not break compatibility
+		array_push($this->sql, $query);     // ordered query list for transactions
+		
+		// limit query element
+		//$this->limit				= (int) $limit;
+		//$this->offset				= (int) $offset;
+
+		return $this;
+	}
+	
+	/**
+	 * Execute a transaction query
+	 *
+	 * @return	bool	Return true if ok
+	 * 
+	 * @since	11.1
+	 * 
+	 * @throws  DatabaseException
+	 */
+	public function transactionQuery()
+	{
+		if (!is_resource($this->connection)) {
+			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
+			throw new DatabaseException();
+		}
+		
+		while( list( , $query ) = each ( $this->sql ) )
+		{
+			// Take a local copy so that we don't modify the original query and cause issues later
+			//$sql = $this->replacePrefix((string) $this->sql);
+			$sql = $this->replacePrefix((string) $query);
+			
+			// If debugging is enabled then let's log the query.
+			if ($this->debug) {
+				// Increment the query counter and add the query to the object queue.
+				$this->count++;
+				$this->log[] = $sql;
+	
+				JLog::add($sql, JLog::DEBUG, 'databasequery');
+			}
+			// Reset the error values.
+			$this->errorNum = 0;
+			$this->errorMsg = '';
+			
+			// Execute the query.
+			$this->cursor = pg_query( $this->connection, $sql );
+	
+			if (!$this->cursor) {
+				$this->errorNum = (int) pg_result_error_field( $this->cursor, PGSQL_DIAG_SQLSTATE ) . ' ';
+				$this->errorMsg = (string) pg_result_error_field( $this->cursor, PGSQL_DIAG_MESSAGE_PRIMARY )." SQL=$sql <br />";
+				
+				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+				throw new DatabaseException();
+			}
+		}
+		
+		return true; //$this->cursor;
 	}
 
 }
