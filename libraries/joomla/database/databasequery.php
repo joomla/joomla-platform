@@ -1022,10 +1022,10 @@ abstract class JDatabaseQuery
 		$this->type = 'lock';
 		      	
 		if (is_null($this->lock)) {
-        	$this->lock = new JDatabaseQueryElement('LOCK TABLES ', $table_name . ' ' . $lock_type);
+        	$this->lock = new JDatabaseQueryElement('LOCK TABLES', " $table_name $lock_type");
       	}
       	else {
-        	$this->lock->append($table_name);
+        	$this->lock->append( " $table_name $lock_type" );
       	}
 
       	return $this;
@@ -1043,7 +1043,7 @@ abstract class JDatabaseQuery
 		$this->type = 'unlock';
 		
 		if (is_null($this->unlock)) {
-        	$this->unlock = new JDatabaseQueryElement('UNLOCK TABLES ', ' ');
+        	$this->unlock = new JDatabaseQueryElement('UNLOCK TABLES', '');
       	}
 
       	return $this;	
