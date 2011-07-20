@@ -1,0 +1,9 @@
+tests/config.php
+phpunit.xml
+.buildpath
+.settings
+.project
+.externalToolBuilders
+*.cmd
+*.log
+x~*.*
