@@ -30,14 +30,14 @@ class JElementHelpsites extends JElement
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		jimport('joomla.language.help');
 
 		// Get Joomla version.
-		$version = new JVersion();
+		$version = new JVersion;
 		$jver = explode( '.', $version->getShortVersion() );
 
 		$helpsites = JHelp::createSiteList(JPATH_ADMINISTRATOR . '/help/helpsites.xml', $value);

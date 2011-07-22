@@ -25,19 +25,25 @@ jimport('joomla.registry.registry');
 class JCli
 {
 	/**
-	 * @var    JInput  The application input object.
+	 * The application input object.
+	 *
+	 * @var    JInput
 	 * @since  11.1
 	 */
 	public $input;
 
 	/**
-	 * @var    JRegistry  The application configuration object.
+	 * The application configuration object.
+	 *
+	 * @var    JRegistry
 	 * @since  11.1
 	 */
 	protected $config;
 
 	/**
-	 * @var    JCli  The application instance.
+	 * The application instance.
+	 *
+	 * @var    JCli
 	 * @since  11.1
 	 */
 	protected static $instance;
@@ -58,11 +64,11 @@ class JCli
 
 		// Get the command line options
 		if (class_exists('JInput')) {
-			$this->input = new JInputCli();
+			$this->input = new JInputCli;
 		}
 
 		// Create the registry with a default namespace of config
-		$this->config = new JRegistry();
+		$this->config = new JRegistry;
 
 		// Load the configuration object.
 		$this->loadConfiguration($this->fetchConfigurationData());
@@ -89,11 +95,11 @@ class JCli
 	{
 		// Only create the object if it doesn't exist.
 		if (empty(self::$instance)) {
-			if (class_exists($name) && ($name instanceof JCli)) {
-				self::$instance = new $name();
+			if (class_exists($name) && (is_subclass_of($name, 'JCli'))) {
+				self::$instance = new $name;
 			}
 			else {
-				self::$instance = new JCli();
+				self::$instance = new JCli;
 			}
 		}
 
@@ -259,7 +265,7 @@ class JCli
 		if (!class_exists('JConfig')) {
 			return false;
 		}
-		$config = new JConfig();
+		$config = new JConfig;
 
 		return $config;
 	}

@@ -38,7 +38,7 @@ class JRegistry
 	public function __construct($data = null)
 	{
 		// Instantiate the internal data object.
-		$this->data = new stdClass();
+		$this->data = new stdClass;
 
 		// Optionally load supplied data.
 		if (is_array($data) || is_object($data)) {
@@ -188,7 +188,7 @@ class JRegistry
 		}
 
 		if (empty ($instances[$id])) {
-			$instances[$id] = new JRegistry();
+			$instances[$id] = new JRegistry;
 		}
 
 		return $instances[$id];
@@ -314,7 +314,7 @@ class JRegistry
 			// Traverse the registry to find the correct node for the result.
 			for ($i = 0, $n = count($nodes) - 1; $i < $n; $i++) {
 				if (!isset($node->$nodes[$i]) && ($i != $n)) {
-					$node->$nodes[$i] = new stdClass();
+					$node->$nodes[$i] = new stdClass;
 				}
 				$node = $node->$nodes[$i];
 			}
@@ -393,7 +393,7 @@ class JRegistry
 
 		foreach ($data as $k => $v) {
 			if ((is_array($v) && JArrayHelper::isAssociative($v)) || is_object($v)) {
-				$parent->$k = new stdClass();
+				$parent->$k = new stdClass;
 				$this->bindData($parent->$k, $v);
 			} else {
 				$parent->$k = $v;
@@ -437,8 +437,9 @@ class JRegistry
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @deprecated
 	 * @since   11.1
+	 *
+	 * @deprecated  12.1
 	 */
 	public function loadXML($data, $namespace = null)
 	{
@@ -454,8 +455,9 @@ class JRegistry
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @deprecated
 	 * @since   11.1
+	 *
+	 * @deprecated  12.1
 	 */
 	public function loadINI($data, $namespace = null, $options = array())
 	{
@@ -469,7 +471,7 @@ class JRegistry
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @note    Use loadString instead.
 	 * @since   11.1
 	 */
@@ -485,7 +487,7 @@ class JRegistry
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @note    Namespaces are no longer supported.
 	 * @since   11.1
 	 */
@@ -500,7 +502,7 @@ class JRegistry
 	 *
 	 * @return  array    List of namespaces
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @note    Namespaces are no longer supported.
 	 * @since   11.1
 	 */
@@ -518,7 +520,7 @@ class JRegistry
 	 *
 	 * @return  mixed    Value of entry or null
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @note    Use get instead.
 	 * @since   11.1
 	 */
@@ -540,7 +542,7 @@ class JRegistry
 	 *
 	 * @return  mixed    The value after setting.
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @note    Use set instead.
 	 * @since   11.1
 	 */
@@ -561,7 +563,7 @@ class JRegistry
 	 *
 	 * @return  boolean  True.
 	 *
-	 * @deprecated
+	 * @deprecated    12.1
 	 * @note    Load no longer supported.
 	 * @since   11.1
 	 */

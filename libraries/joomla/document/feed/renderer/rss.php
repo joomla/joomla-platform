@@ -14,8 +14,8 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Document
- * @since       11.1
  * @see         http://www.rssboard.org/rss-specification
+ * @since       11.1
  */
 class JDocumentRendererRSS extends JDocumentRenderer
 {
@@ -101,6 +101,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		}
 		if ($data->pubDate!="") {
 			$pubDate = JFactory::getDate($data->pubDate);
+			$pubDate->setTimeZone($tz);
 			$feed.= "		<pubDate>".htmlspecialchars($pubDate->toRFC822(true), ENT_COMPAT, 'UTF-8')."</pubDate>\n";
 		}
 		if (empty($data->category) === false) {

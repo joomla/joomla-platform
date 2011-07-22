@@ -79,7 +79,7 @@ class JApplication extends JObject
 	 * Class constructor.
 	 *
 	 * @param   array  $config  A configuration array including optional elements such as session
-	 *                   session_name, clientId and others. This is not exhaustive.
+	 *                          session_name, clientId and others. This is not exhaustive.
 	 *
 	 * @since   11.1
 	 */
@@ -136,6 +136,7 @@ class JApplication extends JObject
 	 * @param   strong  $prefx   A prefix for class names
 	 *
 	 * @return  JApplication A JApplication object.
+	 *
 	 * @since   11.1
 	 */
 	public static function getInstance($client, $config = array(), $prefix = 'J')
@@ -215,6 +216,7 @@ class JApplication extends JObject
 	 * dispatched.
 	 *
 	 * @return  void;
+	 *
 	 * @since   11.1
 	 */
 	public function route()
@@ -239,9 +241,10 @@ class JApplication extends JObject
 	 * mapping them to a component. If the component does not exist, it handles
 	 * determining a default component to dispatch.
 	 *
-	 * @param   string  $component	The component to dispatch.
+	 * @param   string  $component  The component to dispatch.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function dispatch($component = null)
@@ -266,7 +269,8 @@ class JApplication extends JObject
 	 * placeholders, retrieving data from the document and pushing it into
 	 * the JResponse buffer.
 	 *
-	 * @return  void;
+	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function render()
@@ -299,7 +303,8 @@ class JApplication extends JObject
 	 *
 	 * @param    integer  $code  Exit code
 	 *
-	 * @return   void  Exits the application.
+	 * @return   void     Exits the application.
+	 *
 	 * @since    11.1
 	 */
 	public function close($code = 0)
@@ -324,6 +329,7 @@ class JApplication extends JObject
 	 * @return  void  Calls exit().
 	 *
 	 * @see     JApplication::enqueueMessage()
+	 *
 	 * @since   11.1
 	 */
 	public function redirect($url, $msg='', $msgType='message', $moved = false)
@@ -352,7 +358,7 @@ class JApplication extends JObject
 				// It's relative to where we are now, so lets add that.
 				$parts = explode('/', $uri->toString(Array('path')));
 				array_pop($parts);
-				$path = implode('/',$parts).'/';
+				$path = implode('/', $parts).'/';
 				$url = $prefix . $path . $url;
 			}
 		}
@@ -378,15 +384,14 @@ class JApplication extends JObject
 			$document = JFactory::getDocument();
 			jimport('joomla.environment.browser');
 			$navigator = JBrowser::getInstance();
-			if ($navigator->isBrowser('msie')) {
+			jimport('phputf8.utils.ascii');
+			if ($navigator->isBrowser('msie') && !utf8_is_ascii($url)) {
 				// MSIE type browser and/or server cause issues when url contains utf8 character,so use a javascript redirect method
  				echo '<html><head><meta http-equiv="content-type" content="text/html; charset='.$document->getCharset().'" /><script>document.location.href=\''.$url.'\';</script></head><body></body></html>';
-			}
-			elseif (!$moved and $navigator->isBrowser('konqueror')) {
+			} elseif (!$moved and $navigator->isBrowser('konqueror')) {
 				// WebKit browser (identified as konqueror by Joomla!) - Do not use 303, as it causes subresources reload (https://bugs.webkit.org/show_bug.cgi?id=38690)
 				echo '<html><head><meta http-equiv="refresh" content="0; url='. $url .'" /><meta http-equiv="content-type" content="text/html; charset='.$document->getCharset().'" /></head><body></body></html>';
-			}
-			else {
+			} else {
 				// All other browsers, use the more efficient HTTP header method
 				header($moved ? 'HTTP/1.1 301 Moved Permanently' : 'HTTP/1.1 303 See other');
 				header('Location: '.$url);
@@ -799,8 +804,8 @@ class JApplication extends JObject
 	/**
 	 * Returns the application JPathway object.
 	 *
-	 * @param   string  $name     The name of the application.
-	 * @param   array   $options  An optional associative array of configuration settings.
+	 * @param   string    $name     The name of the application.
+	 * @param   array     $options  An optional associative array of configuration settings.
 	 *
 	 * @return  JPathway  A JPathway object
 	 *
@@ -880,7 +885,7 @@ class JApplication extends JObject
 		require_once $file;
 
 		// Create the JConfig object.
-		$config = new JConfig();
+		$config = new JConfig;
 
 		// Get the global configuration object.
 		$registry = JFactory::getConfig();
@@ -899,7 +904,7 @@ class JApplication extends JObject
 	 * If a new session, a session id is generated and a record is created in
 	 * the #__sessions table.
 	 *
-	 * @param   string  $name  The sessions name.
+	 * @param   string    $name  The sessions name.
 	 *
 	 * @return  JSession  JSession on success. May call exit() on database error.
 	 *
