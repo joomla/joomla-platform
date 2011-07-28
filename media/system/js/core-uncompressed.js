@@ -1,5 +1,5 @@
 /**
- * @version		$Id: core-uncompressed.js 21463 2011-06-06 15:28:10Z dextercowley $
+ * @version		$Id: core-uncompressed.js 21570 2011-06-19 13:47:57Z chdemko $
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -127,15 +127,16 @@ Joomla.checkAll = function(checkbox, stub) {
 /**
  * Render messages send via JSON
  *
- * @param	object
+ * @param	object	messages	JavaScript object containing the messages to render
  * @return	void
  */
 Joomla.renderMessages = function(messages) {
+	Joomla.removeMessages();
 	var container = document.id('system-message-container');
-	var children = $$('#system-message-container > *');
-	children.destroy();
+
 	var dl = new Element('dl', {
-		id: 'system-message'
+		id: 'system-message',
+		role: 'alert'
 	});
 	Object.each(messages, function (item, type) {
 		var dt = new Element('dt', {
@@ -160,6 +161,17 @@ Joomla.renderMessages = function(messages) {
 	}, this);
 	dl.inject(container);
 };
+
+
+/**
+ * Remove messages
+ *
+ * @return	void
+ */
+Joomla.removeMessages = function() {
+	var children = $$('#system-message-container > *');
+	children.destroy();
+}
 
 /**
  * USED IN: administrator/components/com_modules/views/module/tmpl/default.php

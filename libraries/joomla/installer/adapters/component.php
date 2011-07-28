@@ -593,8 +593,8 @@ class JInstallerComponent extends JAdapterInstance
 		}
 
 		// Set the installation target paths
-		$this->parent->setPath('extension_site', JPath::clean(JPATH_SITE . '/components/' . $this->get('element')));
-		$this->parent->setPath('extension_administrator', JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $this->get('element')));
+		$this->parent->setPath('extension_site', JPath::clean(JPATH_SITE . "/components/" . $this->get('element')));
+		$this->parent->setPath('extension_administrator', JPath::clean(JPATH_ADMINISTRATOR . "/components/" . $this->get('element')));
 		$this->parent->setPath('extension_root', $this->parent->getPath('extension_administrator')); // copy this as its used as a common base
 
 		/**
@@ -1500,8 +1500,8 @@ class JInstallerComponent extends JAdapterInstance
 		$admin_components = JFolder::folders(JPATH_ADMINISTRATOR . '/components');
 
 		foreach ($site_components as $component) {
-			if (file_exists(JPATH_SITE . '/components/' . $component . '/' . str_replace('com_','', $component).'.xml')) {
-				$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_SITE . '/components/' . $component . '/' . str_replace('com_','', $component).'.xml');
+			if (file_exists(JPATH_SITE . '/components/' . $component . '/' . str_replace('com_', '', $component).'.xml')) {
+				$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_SITE . '/components/' . $component . '/' . str_replace('com_', '', $component).'.xml');
 				$extension = JTable::getInstance('extension');
 				$extension->set('type', 'component');
 				$extension->set('client_id', 0);
@@ -1514,8 +1514,8 @@ class JInstallerComponent extends JAdapterInstance
 		}
 
 		foreach ($admin_components as $component) {
-			if (file_exists(JPATH_ADMINISTRATOR . '/components/' . $component . '/' . str_replace('com_','', $component).'.xml')) {
-				$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_ADMINISTRATOR . '/components/' . $component . '/' . str_replace('com_','', $component).'.xml');
+			if (file_exists(JPATH_ADMINISTRATOR . '/components/' . $component . '/' . str_replace('com_', '', $component).'.xml')) {
+				$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_ADMINISTRATOR . '/components/' . $component . '/' . str_replace('com_', '', $component).'.xml');
 				$extension = JTable::getInstance('extension');
 				$extension->set('type', 'component');
 				$extension->set('client_id', 1);
