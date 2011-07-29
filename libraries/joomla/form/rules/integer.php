@@ -47,30 +47,60 @@ class JFormRuleInteger extends JFormRule
 	 *
 	 */
 	public function test(& $element, $value, $group = null, & $input = null, & $form = null)
-	{
-
-		$regexarray = array(
-			'all' => '/^[\+\-]?[0-9]* $/',
-			'positive'=> '/^[\+]?[0-9]*[1-9]*[0-9]* $/',
-			'negative'=> '/^[-?[0-9]*[1-9]*[0-9]* $/',
-			'nonnegative' => '/^[\+]?[0-9]* $/'
-		);
+	{  
 		// If the field is empty and not required, the field is valid.
 		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
-		if (!$required && empty($value)) {
+		if (!$required && strlen($value) == 0) {
+
 			return true;
 		}
+
+		// Deal with character strings
+		if (!is_numeric($value)) {
+
+			return false;
+		}
+		// Deal with doubles
+
+		if ( (double) $value - floor($value) > 0) {
+
+			return false;
+		}
+		$value = (int) $value; 
+
 		// If no integertype is specified assume that all are permitted.
 		if (!isset($element['integertype'])) {
 			$element['integertype'] = 'all';
 		}
-		$inttype = $element['integertype'];
-		
-		$regex = $regexarray[$inttype];
-		// Test the value against the regular expression.
-		if (preg_match($regex, trim($value)) == false || $value > $element['max'] || $value < $element['min'] ) {
+		$inttype = (string) $element['integertype'];
+		//Simple elimination of false results
+		if ( isset($element['max'])) {
+			$max = (int) $element['max'];
+			if ( $value > $max) {
+
+				return false;
+			}
+		}
+		if ( isset($element['min'])) {
+			$min = (int) $element['min'];
+			if ( $value < $min) { 
+
+				return false;
+			}
+		}
+		if ($inttype == 'positive' &&  $value < 1) {
+
+			return false;
+		} 
+		elseif ($inttype == 'nonnegative' && $value < 0) {
+
+			return false;
+		} 
+		elseif ($inttype == 'negative' && $value >= 0) {
 
 			return false;
 		}
+
+		return true;
 	}
 }

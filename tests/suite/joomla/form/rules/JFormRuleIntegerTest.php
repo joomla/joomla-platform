@@ -12,7 +12,7 @@
  * @subpackage  Form
  *
  */
-class JFormRuleTelTest extends JoomlaTestCase
+class JFormRuleIntegerTest extends JoomlaTestCase
 {
 	/**
 	 * set up for testing
@@ -71,105 +71,107 @@ class JFormRuleTelTest extends JoomlaTestCase
 		while ($i <= 10) {
 			
 				if ($xmlfield == $i){
-					if ($expected == 'false'){
+					if ($expected == false){
 						// Test fail conditions.
 						$this->assertThat(
 							$rule->test($xml->field[$i], $integer),
 							$this->isFalse(),
-							'Line:'.__LINE__.' The rule should return'.$expected.'.'
+							'Line:'.__LINE__.' The rule should return '.$expected.'.'
 						);
 					}
-					if ($expected == 'true'){
+					if ($expected == true){
 						// Test pass conditions.
 						$this->assertThat(
 							$rule->test($xml->field[$i], $integer),
 							$this->isTrue(),
-							'Line:'.__LINE__.' The rule should return'.$expected.'.'
+							'Line:'.__LINE__.' The rule should return '.$expected.'.'
 						);
 				}
-				$i ++;
+
 			}
+			$i++;
 		}
 	}
 	/**
 	 * Test the JFormRuleInteger::test method.
-	 *  @dataProvider provider
+	 *
 	 */
 	public function provider()
 	{
 		
 		return
-		array(
-			array('Positive'					=> '0','5', 'true'),
-			array('Negative'					=> '0','-7', 'true'),
-			array('0'							=> '0','0', 'true'),
-			array('Blank'						=> '0','', 'true'),
-			array('Characters'					=> '0','aaa', 'false'),
-			array('Decimal'						=> '0','1.5', 'false'),
-			array('Mixed'						=> '0','1aaa', 'false'),
+		array(					// Value, field, expected
+			'Positive integer'			=> array('0', '5', true),
+			'+ sign integer'			=> array('0', '+5', true),
+			'Negative integer'			=> array('0', '-7', true),
+			'0 integer'					=> array('0', '0', true),
+			'Blank integer'				=> array('0', '', true),
+			'Characters integer'		=> array('0', 'aaa', false),
+			'Decimal integer'			=> array('0', '1.5', false),
+			'Mixed integer'				=> array('0', '1aaa', false),
 
-			array('Positive'					=> '1','5', 'true'),
-			array('Negative'					=> '1','-7', 'true'),
-			array('0'							=> '1','0', 'true'),
-			array('Blank'						=> '1','', 'true'),
-			array('Characters'					=> '1','aaa', 'false'),
-			array('Decimal'						=> '1','1.5', 'false'),
-			array('Mixed'						=> '1','1aaa', 'false'),
+			'Positive integerAll'			=> array('1', '5', true),
+			'Negative integerAll'			=> array('1', '-7', true),
+			'0 integerAll'					=> array('1', '0', true),
+			'Blank integerAll'				=> array('1', '', true),
+			'Characters integerAll'			=> array('1', 'aaa', false),
+			'Decimal integerAll'			=> array('1', '1.5', false),
+			'Mixed integerAll'				=> array('1', '1aaa', false),
 			
-			array('Positive'					=> '2','5', 'true'),
-			array('Negative'					=> '2','-7', 'false'),
-			array('0'							=> '2','0', 'false'),
-			array('Blank'						=> '2','', 'true'),
-			array('Characters'					=> '2','aaa', 'false'),
-			array('Decimal'						=> '2','1.5', 'false'),
-			array('Mixed'						=> '2','1aaa', 'false'),
+			'Positive integerAll'			=> array('2', '5', true),
+			'Negative integerPositive'			=> array('2', '-7', false),
+			'0 integerPositive'					=> array('2', '0', false),
+			'Blank integerPositive'				=> array('2', '', true),
+			'Characters integerPositive'		=> array('2','aaa', false),
+			'Decimal integerPositive'			=> array('2','1.5', false),
+			'Mixed integerPositive'				=> array('2','1aaa', false),
 			
-			array('Positive'					=> '3','5', 'true'),
-			array('Negative'					=> '3','-7', 'false'),
-			array('0'							=> '3','0', 'true'),
-			array('Blank'						=> '3','', 'true'),
-			array('Characters'					=> '3','aaa', 'false'),
-			array('Decimal' 					=> '3','1.5', 'false'),
-			array('Mixed'						=> '3','1aaa', 'false'),
+			'Positive integerNonnegative'			=> array('3','5', true),
+			'Negative integerNonnegative'			=> array('3','-7', false),
+			'0 integerNonnegative'					=> array('3','0', true),
+			'Blank integerNonnegative'				=> array('3','', true),
+			'Characters integerNonnegative'			=> array('3','aaa', false),
+			'Decimal integerNonnegative' 			=> array('3','1.5', false),
+			'Mixed integerNonnegative'				=> array('3','1aaa', false),
 			
 			
-			array('Positive'					=> '4','5', 'false'),
-			array('Negative'					=> '4','-7', 'true'),
-			array('0'							=> '4','0', 'false'),
-			array('Blank'						=> '4','', 'true'),
-			array('Characters' 					=> '4','aaa', 'false'),
-			array('Decimal' 					=> '4','1.5', 'false'),
-			array('Mixed'						=> '4','1aaa', 'false'),
+			'Positive integerNegative'			=> array('4','5', false),
+			'Negative integerNegative'			=> array('4','-7', true),
+			'0 integerNegative'					=> array('4','0', false),
+			'Blank integerNegative'				=> array('4','', true),
+			'Characters integerNegative' 		=> array('4','aaa', false),
+			'Decimal integerNegative' 			=> array('4','1.5', false),
+			'Mixed integerNegative'				=> array('4','1aaa', false),
+	
+			'Positive integerMax'			=> array('5','5', true),
+			'Negative integerMax'			=> array('5','-7',true),
+			'0 integerMax'					=> array('5','0', true),
+			'Big number integerMax'			=> array('5','200', false),
 			
-			array('Positive'					=> '5','5', 'true'),
-			array('Negative'					=> '5','-7','true'),
-			array('0'							=> '5','0', 'true'),
-			array('Big number'					=> '5','200', 'false'),
-			
-			array('Positive'					=> '6','5', 'false'),
-			array('Negative'					=> '6','-7','false'),
-			array('0'							=> '6','0', 'false'),
-			array('Big number'					=> '6','200', 'true'),
-			
-			array('Positive'					=> '7','5', 'true'),
-			array('Negative'					=> '7','-7','true'),
-			array('0'							=> '7','0', 'true'),
-			array('Big number'					=> '7','200', 'false'),
+			'Positive integerMin'			=> array('6','5', false),
+			'Negative integerMin'			=> array('6','-7',false),
+			'0 integerMin'					=> array('6','0', false),
+			'Big number integerMin'			=> array('6','200', true),
+	
+			'Positive integerComp_1'			=> array('7','5', true),
+			'Negative integerComp_1'			=> array('7','-7',false),
+			'0 integerComp_1'					=> array('7','0', false),
+			'Big number integerComp_1'			=> array('7','200', false),
 
-			array('Positive'					=> '8','5', 'false'),
-			array('Negative'					=> '8','-7','false'),
-			array('0'							=> '8','0', 'false'),
-			array('Blank'						=> '8','', 'true'),
-			
-			array('Positive'					=> '9','5', 'false'),
-			array('Negative'					=> '9','-7','false'),
-			array('0'							=> '9','0', 'false'),
-			array('Blank'						=> '9','', 'true'),
-			
-			array('Positive'					=> '9','5', 'false'),
-			array('Negative'					=> '9','-7','false'),
-			array('0'							=> '9','0', 'false'),
-			array('Blank'						=> '9','', 'true'),
+			'Positive integerComp_2'			=> array('8','5', false),
+			'Negative integerComp_2'			=> array('8','-7',false),
+			'0 integerComp_2'					=> array('8','0', false),
+			'Blank integerComp_2'				=> array('8','', true),
+	
+			'Positive integerComp_3'			=> array('9','5', false),
+			'Negative integerComp_3'			=> array('9','-7',false),
+			'0  integerComp_3'					=> array('9','0', false),
+			'Blank  integerComp_3'				=> array('9','', true),
+	
+			'Positive integerComp_4'			=> array('10','5', false),
+			'Negative integerComp_4'			=> array('10','-7',false),
+			'0  integerComp_4'					=> array('10','0', false),
+			'Blank  integerComp_4'				=> array('10','', true)
 			
 		);
 	}	
