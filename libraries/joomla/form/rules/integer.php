@@ -80,10 +80,30 @@ class JFormRuleInteger extends JFormRule
 
 				return false;
 			}
+			if (($max > 0 && $inttype == 'negative') || ($max < 0 && $inttype == 'nonnegative') || ($max < 1 && $inttype == 'positive' )){
+				// Form settings warning.
+				JLog::add('Integer rule is misconfigured.', JLog::WARNING, 'Form');
+
+				return false;
+			}
 		}
 		if ( isset($element['min'])) {
 			$min = (int) $element['min'];
-			if ( $value < $min) { 
+			if ( $value < $min) {
+
+				return false;
+			}
+
+			if (($min > 0 && $inttype == 'negative') || ($min < 0 && $inttype == 'nonnegative') || ($min < 1 && $inttype == 'positive' )){
+				// Form settings warning.
+				JLog::add('Integer rule is misconfigured.', JLog::WARNING, 'Form');
+
+				return false;
+			
+			}
+			if ((isset($max) && $min >= $max)){
+				// Form settings warning.
+				JLog::add('Integer rule is misconfigured.', JLog::WARNING, 'Form');
 
 				return false;
 			}
@@ -100,7 +120,6 @@ class JFormRuleInteger extends JFormRule
 
 			return false;
 		}
-
 		return true;
 	}
 }
