@@ -60,7 +60,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 * Database object constructor
 	 *
 	 * @param	array	List of options used to configure the connection
-	 * @since	1.5
+	 * @since	11.1
 	 * @see		JDatabase
 	 */
 	function __construct( $options )
@@ -104,7 +104,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 * Database object destructor
 	 *
 	 * @return void
-	 * @since 1.5
+	 * @since 11.1
 	 */
 	public function __destruct()
 	{
@@ -148,7 +148,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 * Determines if the connection to the server is active.
 	 *
 	 * @return	boolean
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function connected()
 	{
@@ -216,6 +216,8 @@ class JDatabasePostgreSQL extends JDatabase
 	 * Gets an exporter class object.
 	 *
 	 * @return  JDatabaseExporterMySQL  An exporter object.
+	 * 
+	 * @todo	Not yet implemented
 	 *
 	 * @since   11.1
 	 */
@@ -236,6 +238,8 @@ class JDatabasePostgreSQL extends JDatabase
 	 * Gets an importer class object.
 	 *
 	 * @return  JDatabaseImporterMySQL  An importer object.
+	 * 
+	 * @todo	Not yet implemented
 	 *
 	 * @since   11.1
 	 */
@@ -253,11 +257,15 @@ class JDatabasePostgreSQL extends JDatabase
 	}*/
 	
 	/**
-	 * Description
+	 * Get the number of returned rows for the previous executed SQL statement.
 	 *
-	 * @return int The number of rows returned from the most recent query.
+	 * @param   resource  $cursor  An optional database cursor resource to extract the row count from.
+	 *
+	 * @return  integer   The number of returned rows.
+	 *
+	 * @since   11.1
 	 */
-	public function getNumRows( $cur=null )
+	public function getNumRows( $cur = null )
 	{
 		return pg_num_rows( $cur ? $cur : $this->cursor );
 	}
@@ -358,7 +366,11 @@ class JDatabasePostgreSQL extends JDatabase
 	}
 	
 	/**
-	 * Description
+	 * Get the version of the database connector.
+	 *
+	 * @return  string  The database connector version.
+	 *
+	 * @since   11.1
 	 */
 	public function getVersion()
 	{
@@ -377,7 +389,11 @@ class JDatabasePostgreSQL extends JDatabase
 	}
 	
 	/**
-	 * Description
+	 * Method to get the auto-incremented value from the last INSERT statement.
+	 *
+	 * @return  integer  The value of the auto-increment field from the last inserted row.
+	 *
+	 * @since   11.1
 	 */
 	public function insertid()
 	{
@@ -655,19 +671,20 @@ class JDatabasePostgreSQL extends JDatabase
 	}
 
 	/**
-	 * Create database
+	 * Create the database and associate it to the user.
+	 * IMPORTANT: the user role MUST be created before using this function.
 	 *
-	 * @param string The database name
-	 * @param bool Whether or not to create with UTF support (only here for function signature compatibility)
-	 * @return string Database creation string
+	 * @param	string	The database name
+	 * @param	bool	Whether or not to create with UTF support (only here for function signature compatibility)
+	 * @return	bool	True if all was ok
+	 * 
+	 * @since	11.1
+	 * @throws  DatabaseException
 	 */
-	public function createDatabase( $options )
+	public function createDatabase( $options, $DButfSupport )
 	{
 		if ( !(isset($options['user'])) || ! (isset($options['database'])) )
 			throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_POSTGRESQL_CANT_CREATE_DB'));  // -> Can't create DB, no needed info
-		
-		$user = (isset($options['user']))	? $options['user']		: '';
-		
 		
 		$sql = 'CREATE DATABASE '.$this->quoteName( $options['database'] ) . ' OWNER ' . $this->quoteName($options['user']) ;
 
@@ -683,8 +700,11 @@ class JDatabasePostgreSQL extends JDatabase
 	/**
 	 * Rename a database table
 	 *
-	 * @param string The old table name
-	 * @param string The new table name
+	 * @param	string	The old table name
+	 * @param	string	The new table name
+	 * @return	bool	True if all was ok
+	 * 
+	 * @throws	DatabaseException
 	 */
 	public function renameTable($oldTable, $newTable)
 	{
