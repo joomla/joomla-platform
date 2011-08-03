@@ -63,6 +63,123 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 */	
 	protected $startTransaction = null;
 	
+	/**
+	 * @var    object  The RETURNING element of INSERT INTO
+	 * @since  11.1
+	 */	
+	protected $returning = null;
+	
+	
+	/**
+	 * Magic function to convert the query to a string, only for postgresql specific query
+	 *
+	 * @return  string	The completed query.
+	 *
+	 * @since   11.1
+	 */
+	public function __toString()
+	{
+		$query = '';
+
+		switch ($this->type)
+		{
+			case 'select':
+				$query .= (string) $this->select;
+				$query .= (string) $this->from;
+				if ($this->join)
+				{
+					// special case for joins
+					foreach ($this->join as $join)
+					{
+						$query .= (string) $join;
+					}
+				}
+
+				if ($this->where)
+				{
+					$query .= (string) $this->where;
+				}
+
+				if ($this->group)
+				{
+					$query .= (string) $this->group;
+				}
+
+				if ($this->having)
+				{
+					$query .= (string) $this->having;
+				}
+
+				if ($this->order)
+				{
+					$query .= (string) $this->order;
+				}
+				
+				if ($this->limit)
+				{
+					$query .= (string) $this->limit;
+				}
+				
+				if ($this->forUpdate)
+				{
+					$query .= (string) $this->forUpdate;
+				}
+
+				break;
+
+			case 'insert':
+				$query .= (string) $this->insert;
+
+				if ($this->values)
+				{
+					if ($this->columns)
+					{
+						$query .= (string) $this->columns;
+					}
+
+					$query .= ' VALUES ';
+					$query .= (string) $this->values;
+					
+					if ($this->returning)
+					{
+						$query .= (string) $this->returning;
+					}
+				}
+
+				break;
+				
+			case 'lock':
+				$query .= (string) $this->lock;
+				break;
+				
+			case 'startTransaction':
+				$query .= (string) $this->startTransaction;
+				break;
+			
+			case 'commit':
+				$query .= (string) $this->commit;
+				break;
+				
+			case 'rollback':
+				$query .= (string) $this->rollback;
+				break;
+				
+			case 'releaseSavepoint':
+				$query .= (string) $this->releaseSavepoint;
+				break;
+				
+			case 'savepoint':
+				$query .= (string) $this->savepoint;
+				break;
+				
+			default:
+				parent::__toString();
+				break;
+
+		}
+
+		return $query;
+	}
 	
 	/**
 	 * @param	mixed	$columns	A string or an array of field names.
@@ -70,7 +187,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 * @return	JDatabaseQueryPostgreSQL	Returns this object to allow chaining.
 	 * @since	11.1
 	 */
-	/*  UGUALE a JDatabQuery
+	/*  SAME in JDatabQuery
 	public function select($columns)
 	{
 		$this->type = 'select';
@@ -91,7 +208,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 * @return	JDatabaseQueryPostgreSQL	Returns this object to allow chaining.
 	 * @since	11.1
 	 */
-	/* UGUALE a JDatabQuery
+	/* SAME in JDatabQuery
 	public function delete($table = null)
 	{
 		$this->type	= 'delete';
@@ -110,7 +227,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 * @return	JDatabaseQueryPostgreSQL	Returns this object to allow chaining.
 	 * @since	11.1
 	 */
-	/* UGUALE a JDatabQuery
+	/* SAME in JDatabQuery
 	public function insert($tables)
 	{
 		$this->type	= 'insert';
@@ -125,7 +242,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 * @return	JDatabaseQueryPostgreSQL	Returns this object to allow chaining.
 	 * @since	11.1
 	 */
-	/* UGUALE a JDatabQuery
+	/* SAME in JDatabQuery
 	public function update($tables)
 	{
 		$this->type = 'update';
@@ -140,7 +257,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 * @return	JDatabaseQueryPostgreSQL	Returns this object to allow chaining.
 	 * @since	11.1
 	 */
-	/* UGUALE a JDatabQuery
+	/* SAME in JDatabQuery
 	public function from($tables)
 	{
 		if (is_null($this->from)) {
@@ -160,7 +277,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 * @return	JDatabaseQueryPostgreSQL	Returns this object to allow chaining.
 	 * @since	11.1
 	 */
-	/* UGUALE a JDatabQuery
+	/* SAME in JDatabQuery
 	public function join($type, $conditions)
 	{
 		if (is_null($this->join)) {
@@ -177,7 +294,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 * @return	JDatabaseQueryPostgreSQL	Returns this object to allow chaining.
 	 * @since	11.1
 	 */
-	/* UGUALE a JDatabQuery
+	/* SAME in JDatabQuery
 	public function innerJoin($conditions)
 	{
 		$this->join('INNER', $conditions);
@@ -191,7 +308,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 * @return	JDatabaseQueryPostgreSQL	Returns this object to allow chaining.
 	 * @since	11.1
 	 */
-	/*UGUALE a JDatabQuery
+	/*SAME in JDatabQuery
 	public function outerJoin($conditions)
 	{
 		$this->join('OUTER', $conditions);
@@ -205,7 +322,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 * @return	JDatabaseQueryPostgreSQL	Returns this object to allow chaining.
 	 * @since	11.1
 	 */
-	/* UGUALE a JDatabQuery
+	/* SAME in JDatabQuery
 	public function leftJoin($conditions)
 	{
 		$this->join('LEFT', $conditions);
@@ -219,7 +336,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 * @return	JDatabaseQueryPostgreSQL	Returns this object to allow chaining.
 	 * @since	11.1
 	 */
-	/* UGUALE a JDatabQuery
+	/* SAME in JDatabQuery
 	public function rightJoin($conditions)
 	{
 		$this->join('RIGHT', $conditions);
@@ -234,7 +351,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 * @return	JDatabaseQueryPostgreSQL	Returns this object to allow chaining.
 	 * @since	11.1
 	 */
-	/* UGUALE a JDatabQuery
+	/* SAME in JDatabQuery
 	public function set($conditions, $glue=',')
 	{
 		if (is_null($this->set)) {
@@ -255,7 +372,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 * @return	JDatabaseQueryPostgreSQL	Returns this object to allow chaining.
 	 * @since	11.1
 	 */
-	/* UGUALE a JDatabQuery
+	/* SAME in JDatabQuery
 	public function where($conditions, $glue='AND')
 	{
 		if (is_null($this->where)) {
@@ -275,7 +392,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 * @return	JDatabaseQueryPostgreSQL	Returns this object to allow chaining.
 	 * @since	11.1
 	 */
-	/* UGUALE a JDatabQuery
+	/* SAME in JDatabQuery
 	public function group($columns)
 	{
 		if (is_null($this->group)) {
@@ -295,7 +412,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 * @return	JDatabaseQueryPostgreSQL	Returns this object to allow chaining.
 	 * @since	11.1
 	 */
-	/* UGUALE a JDatabQuery
+	/* SAME in JDatabQuery
 	public function having($conditions, $glue='AND')
 	{
 		if (is_null($this->having)) {
@@ -315,7 +432,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 * @return	JDatabaseQueryPostgreSQL	Returns this object to allow chaining.
 	 * @since	11.1
 	 */
-	/* UGUALE a JDatabQuery
+	/* SAME in JDatabQuery
 	public function order($columns)
 	{
 		if (is_null($this->order)) {
@@ -334,7 +451,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 * @return	JDatabaseQueryPostgreSQL  Returns this object to allow chaining.
 	 * @since		11.1
 	 */
-	/* UGUALE a JDatabQuery
+	/* SAME in JDatabQuery
 	function values($values)
 	{
 		if (is_null($this->values)) {
@@ -356,7 +473,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	/* UGUALE a JDatabQuery
+	/* SAME in JDatabQuery
 	public function columns($columns)
 	{
 		if (is_null($this->columns)) {
@@ -379,7 +496,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	/* UGUALE a JDatabQuery
+	/* SAME in JDatabQuery
 	public function concatenate($values, $separator = null)
 	{
 		if ($separator) {
@@ -403,17 +520,6 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	}
    
 	/**
-	 * @param		string $query A string
-	 * 
-	 * @return	JDatabaseQueryPostgreSQL  Returns this object to allow chaining.
-	 * @since		11.1
-	 */
-	function auto_increment($query)
-	{
-		return $query;
-	}
-   
-	/**
 	 * Casts a value to a char.
 	 *
 	 * Ensure that the value is properly quoted before passing to the method.
@@ -423,7 +529,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
      * @return	JDatabaseQueryPostgreSQL  Returns this object to allow chaining.
      * @since		11.1
      */
-	/* UGUALE a JDatabQuery
+	/* SAME in JDatabQuery
 	function castAsChar($field)
     {
 		return $field;
@@ -440,7 +546,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 *
 	 * @since 11.1
 	 */	
-	/* UGUALE a JDatabQuery 
+	/* SAME in JDatabQuery 
 	function charLength($field)
     {
 		return 'CHAR_LENGTH('.$field.')';
@@ -453,7 +559,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 * @return	Length function for the field
 	 * @since		11.1
 	 */
-	/* UGUALE a JDatabQuery
+	/* SAME in JDatabQuery
 	function length($field)
 	{
 		return 'LENGTH('.$field.')';
@@ -680,5 +786,26 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 		
 		/*$this->setQuery('START TRANSACTION ' . $mode );
 		$this->query();*/
+	}
+	
+	/**
+	 * Add the RETURNING element to INSERT INTO statement.
+	 *
+	 * @param   mixed  $pkCol  The name of the primary key column.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   11.1
+	 */
+	public function returning( $pkCol )
+	{
+		$this->type = 'returning';
+		
+		if (is_null($this->returning)) 
+		{
+			$this->returning = new JDatabaseQueryElement('RETURNING', $pkCol);
+		}
+
+		return $this;
 	}
 }
