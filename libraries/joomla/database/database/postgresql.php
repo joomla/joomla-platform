@@ -392,11 +392,26 @@ class JDatabasePostgreSQL extends JDatabase
 	 * Method to get the auto-incremented value from the last INSERT statement.
 	 *
 	 * @return  integer  The value of the auto-increment field from the last inserted row.
-	 *
+	 * 
+	 * @todo	could be implemented in three different modes
+	 * 			1) lastval() after INSERT query (as implemented now, could be 
+	 * 					problematic in concurrency scenario)
+	 * 			2) nextval('sequence') before INSERT query but need to know sequence name 
+	 * 					and modify INSERT query element -> can be defined in a column 'id' 
+	 * 			3) INSERT .. RETURNING .. (on postgresql>=8.2) but need to know the column 
+	 * 					name autoincremented, make a fetch_row after insert query and modify 
+	 * 					INSERT query element 	
+	 * 			in all the cases it's MANDATORY to have a sequence on every primary key table.
+	 * 
 	 * @since   11.1
 	 */
 	public function insertid()
 	{
+		$this->setQuery('SELECT lastval();');
+		$this->query();
+		
+		$this->insert_id = $this->fetchArray();
+		
 		return $this->insert_id;
 	}
 	
