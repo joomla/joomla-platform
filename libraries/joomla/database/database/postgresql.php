@@ -49,14 +49,6 @@ class JDatabasePostgreSQL extends JDatabase
 	protected $concat_operator = '||';
 
 	/**
-	 * ID returned by last insert statement
-	 *
-	 * @var integer
-	 */
-	private $insert_id = 0;
-
-
-	/**
 	 * Database object constructor
 	 *
 	 * @param	array	List of options used to configure the connection
@@ -390,18 +382,18 @@ class JDatabasePostgreSQL extends JDatabase
 	
 	/**
 	 * Method to get the auto-incremented value from the last INSERT statement.
+	 * To be called after the INSERT statement, it's MANDATORY to have a sequence on 
+	 * every primary key table.
 	 *
 	 * @return  integer  The value of the auto-increment field from the last inserted row.
 	 * 
 	 * @todo	could be implemented in three different modes
-	 * 			1) lastval() after INSERT query (as implemented now, could be 
-	 * 					problematic in concurrency scenario)
+	 * 			1) lastval() after INSERT query (as implemented now)
 	 * 			2) nextval('sequence') before INSERT query but need to know sequence name 
 	 * 					and modify INSERT query element -> can be defined in a column 'id' 
 	 * 			3) INSERT .. RETURNING .. (on postgresql>=8.2) but need to know the column 
 	 * 					name autoincremented, make a fetch_row after insert query and modify 
-	 * 					INSERT query element 	
-	 * 			in all the cases it's MANDATORY to have a sequence on every primary key table.
+	 * 					INSERT query element --> use RETURNING element, then loadRow/Assoc/Obj
 	 * 
 	 * @since   11.1
 	 */
@@ -410,9 +402,7 @@ class JDatabasePostgreSQL extends JDatabase
 		$this->setQuery('SELECT lastval();');
 		$this->query();
 		
-		$this->insert_id = $this->fetchArray();
-		
-		return $this->insert_id;
+		return (int) $this->fetchArray();
 	}
 	
 	/**
@@ -729,15 +719,7 @@ class JDatabasePostgreSQL extends JDatabase
 		// Origin Table does not exist
 		if ( !in_array($oldTable, $tableList) )
 		{
-			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  11.3
-			if (JError::$legacy) {
-				$this->errorNum = 100;  // TODO set a correct error number
-				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_POSTGRESQL_TABLE_NOT_FOUND');  // -> Origin Table not found
-				return;
-			}
-			else
-				throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_POSTGRESQL_TABLE_NOT_FOUND'));  // -> Origin Table not found	
+			throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_POSTGRESQL_TABLE_NOT_FOUND'));  // -> Origin Table not found	
 		}
 		else 
 		{
