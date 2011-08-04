@@ -1841,9 +1841,6 @@ class JForm
 			return new JException(JText::_('JLIB_FORM_ERROR_VALIDATE_FIELD'), -1, E_ERROR);
 		}
 
-		// Initialise variables.
-		$valid = true;
-
 		// Check if the field is required.
 		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
 
@@ -1875,7 +1872,10 @@ class JForm
 		}
 
 		// Get the field validation rule.
-		if ($type = (string) $element['validate'])
+		$types = (string) $element['validate'];
+		$types = strpos($types, ' ') ? explode(' ', $types) : array($types);
+
+		foreach ($types as $type)
 		{
 			// Load the JFormRule object for the field.
 			$rule = $this->loadRuleType($type);
@@ -1894,22 +1894,20 @@ class JForm
 			{
 				return $valid;
 			}
-		}
-
-		// Check if the field is valid.
-		if ($valid === false)
-		{
-
-			// Does the field have a defined error message?
-			$message = (string) $element['message'];
-
-			if ($message)
+			else if ($valid === false)
 			{
-				return new JException(JText::_($message), 1, E_WARNING);
-			}
-			else
-			{
-				return new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', JText::_((string) $element['label'])), 1, E_WARNING);
+	
+				// Does the field have a defined error message?
+				$message = (string) $element['message'];
+	
+				if ($message)
+				{
+					return new JException(JText::_($message), 1, E_WARNING);
+				}
+				else
+				{
+					return new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', JText::_((string) $element['label'])), 1, E_WARNING);
+				}
 			}
 		}
 
