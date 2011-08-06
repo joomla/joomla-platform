@@ -7,7 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die();
+
+jimport('joomla.document.document');
 
 /**
  * DocumentXML class, provides an easy interface to parse and display XML output
@@ -16,9 +18,6 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Document
  * @since       11.1
  */
-
-jimport('joomla.document.document');
-
 class JDocumentXml extends JDocument
 {
 	/**
@@ -62,7 +61,7 @@ class JDocumentXml extends JDocument
 	public function render($cache = false, $params = array())
 	{
 		parent::render();
-		JResponse::setHeader('Content-disposition', 'inline; filename="'.$this->getName().'.xml"', true);
+		JResponse::setHeader('Content-disposition', 'inline; filename="' . $this->getName() . '.xml"', true);
 
 		return $this->getBuffer();
 	}
@@ -84,12 +83,14 @@ class JDocumentXml extends JDocument
 	 *
 	 * @param   string  $name  Document name
 	 *
-	 * @return  void
+	 * @return  JDocumentXml instance of $this to allow chaining
 	 *
-	 * @since  11.1
+	 * @since   11.1
 	 */
 	public function setName($name = 'joomla')
 	{
 		$this->_name = $name;
+
+		return $this;
 	}
 }
