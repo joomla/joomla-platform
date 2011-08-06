@@ -62,6 +62,9 @@
 			<listitem>
 				<para></para>
 			</listitem>
+            <listitem>
+                <para>Load the component parameters during installation.</para>
+            </listitem>
 		</itemizedlist>
 	</sect1>
 
