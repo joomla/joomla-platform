@@ -288,6 +288,34 @@ class JURI extends JObject
 	}
 
 	/**
+	 * Returns the root URI for the media folder.
+	 *
+	 * @param   boolean  $pathonly If false, prepend the scheme, host and port information if no media URI is set in the configuration. Default is false.
+	 *
+	 * @return  string  The media URI string.
+	 * @since   11.3
+	 */
+	public static function media($pathonly = false)
+	{
+		jimport('joomla.utilities.string');
+
+		$app = JFactory::getApplication();
+
+		if (JBrowser::isSSLConnection()) {
+			$mediaurl = $app->getCfg('securemediaurl');
+		} else {
+			$mediaurl = $app->getCfg('mediaurl');
+		}
+
+		// If there's no media URI set we just get the URI to the media folder
+		if (empty($mediaurl)) {
+			return self::root($pathonly) . '/media';
+		}
+
+		return $mediaurl;
+	}
+
+	/**
 	 * Returns the URL for the request, minus the query.
 	 *
 	 * @return  string

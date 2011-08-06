@@ -349,12 +349,12 @@ abstract class JHtml
 								// Try to deal with plugins group in the media folder
 								if (file_exists(JPATH_ROOT . "/media/$extension/$element/$folder/$file"))
 								{
-									$includes[] = JURI::root(true) . "/media/$extension/$element/$folder/$file";
+									$includes[] = JURI::media(true) . "/$extension/$element/$folder/$file";
 								}
 								// Try to deal with classical file in a a media subfolder called element
 								elseif (file_exists(JPATH_ROOT . "/media/$extension/$folder/$element/$file"))
 								{
-									$includes[] = JURI::root(true) . "/media/$extension/$folder/$element/$file";
+									$includes[] = JURI::media(true) . "/$extension/$folder/$element/$file";
 								}
 								// Try to deal with system files in the template folder
 								elseif (file_exists(JPATH_THEMES . "/$template/$folder/system/$element/$file"))
@@ -364,13 +364,13 @@ abstract class JHtml
 								// Try to deal with system files in the media folder
 								elseif (file_exists(JPATH_ROOT . "/media/system/$folder/$element/$file"))
 								{
-									$includes[] = JURI::root(true) . "/media/system/$folder/$element/$file";
+									$includes[] = JURI::media(true) . "/system/$folder/$element/$file";
 								}
 							}
 							// Try to deals in the extension media folder
 							elseif (file_exists(JPATH_ROOT . "/media/$extension/$folder/$file"))
 							{
-								$includes[] = JURI::root(true) . "/media/$extension/$folder/$file";
+								$includes[] = JURI::media(true) . "/$extension/$folder/$file";
 							}
 							// Try to deal with system files in the template folder
 							elseif (file_exists(JPATH_THEMES . "/$template/$folder/system/$file"))
@@ -380,13 +380,13 @@ abstract class JHtml
 							// Try to deal with system files in the media folder
 							elseif (file_exists(JPATH_ROOT . "/media/system/$folder/$file"))
 							{
-								$includes[] = JURI::root(true) . "/media/system/$folder/$file";
+								$includes[] = JURI::media(true) . "/system/$folder/$file";
 							}
 						}
 						// Try to deal with system files in the media folder
 						elseif (file_exists(JPATH_ROOT . "/media/system/$folder/$file"))
 						{
-							$includes[] = JURI::root(true) . "/media/system/$folder/$file";
+							$includes[] = JURI::media(true) . "/system/$folder/$file";
 						}
 					}
 				}
@@ -613,7 +613,7 @@ abstract class JHtml
 		$uncompressed = $debug ? '-uncompressed' : '';
 
 		$document = JFactory::getDocument();
-		$document->addScript(JURI::root(true) . '/media/system/js/core' . $uncompressed . '.js');
+		$document->addScript(JURI::media(true) . '/system/js/core' . $uncompressed . '.js');
 	}
 
 	/**
