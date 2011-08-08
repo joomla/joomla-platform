@@ -23,16 +23,13 @@ class JFormRuleMaxLength extends JFormRule
 	/**
 	 * Method to test the value.
 	 *
-	 * @param   object  $element  The JXMLElement object representing the <field /> tag for the
-	 *                            form field object.
-	 * @param   mixed   $value    The form field value to validate.
-	 * @param   string  $group    The field name group control value. This acts as as an array
-	 *                            container for the field. For example if the field has name="foo"
-	 *                            and the group value is set to "bar" then the full field name
-	 *                            would end up being "bar[foo]".
-	 * @param   object  $input    An optional JRegistry object with the entire data set to validate
-	 *                            against the entire form.
-	 * @param   object  $form     The form object for which the field is being tested.
+	 * @param   object  &$element  The JXmlElement object representing the <field /> tag for the form field object.
+	 * @param   mixed   $value     The form field value to validate.
+	 * @param   string  $group     The field name group control value. This acts as as an array container for the field.
+	 *                             For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                             full field name would end up being "bar[foo]".
+	 * @param   object  &$input    An optional JRegistry object with the entire data set to validate against the entire form.
+	 * @param   object  &$form     The form object for which the field is being tested.
 	 *
 	 * @return  boolean  True if the value is valid.
 	 *
@@ -41,7 +38,8 @@ class JFormRuleMaxLength extends JFormRule
 	 */
 	public function test(& $element, $value, $group = null, & $input = null, & $form = null)
 	{
-		if (JString::strlen($value) <= (int) $element['maxLength']){
+		if (JString::strlen($value) <= (int) $element['maxLength'])
+		{
 			return true;
 		} else {
 			throw new JException($this->getErrorMsg($element));
@@ -53,11 +51,12 @@ class JFormRuleMaxLength extends JFormRule
 	 *
 	 * @param   object  $element  The JXMLElement object representing the <field /> tag for the
 	 *                            form field object.
+	 *
 	 * @return  string  The translated error message
 	 *
 	 * @since   11.2
 	 */
-	protected function getErrorMsg(&$element)
+	protected function getErrorMsg($element)
 	{
 		return JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID_MAXLENGTH', (string)$element['label'], (string)$element['maxLength']);
 	}

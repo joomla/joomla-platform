@@ -45,7 +45,8 @@ class JFormRuleEmail extends JFormRule
 	public function test(&$element, $value, $group = null, &$input = null, &$form = null)
 	{
 		// Test the value against the regular expression.
-		try {
+		try
+		{
 			parent::test($element, $value, $group, $input, $form);
 		}
 		catch (JException $e)

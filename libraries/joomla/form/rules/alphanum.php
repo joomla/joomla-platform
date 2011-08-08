@@ -36,6 +36,9 @@ class JFormRuleAlphanum extends JFormRule
 	 */
 	protected $modifiers = 'm';
 
+	/**
+	 * Constructor
+	 */
 	public function __construct()
 	{
 		$this->regex = JCOMPAT_UNICODE_PROPERTIES ? '^[\pL\p{Nd} ]*$' : '^[[:alnum:] ]*$';

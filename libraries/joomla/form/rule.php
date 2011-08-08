@@ -92,14 +92,16 @@ class JFormRule
 	 *
 	 * @param   object  $element  The JXMLElement object representing the <field /> tag for the
 	 *                            form field object.
+	 *
 	 * @return  string  The translated error message
 	 *
 	 * @since   11.2
 	 */
-	protected function getErrorMsg(&$element)
+	protected function getErrorMsg($element)
 	{
 		$msg = $this->errorMsg;
-		if (preg_match('/^JFormRule([a-z0-9_]*)$/i', get_class($this), $matches)) {
+		if (preg_match('/^JFormRule([a-z0-9_]*)$/i', get_class($this), $matches))
+		{
 			$msg .= '_'.strtoupper($matches[1]);
 		}
 		return JText::sprintf($msg, (string)$element['label']);

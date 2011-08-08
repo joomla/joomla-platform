@@ -1894,7 +1894,8 @@ class JForm
 				return new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_RULE_MISSING', $type), -2, E_ERROR);
 			}
 
-			try {
+			try
+			{
 				// Run the field validation rule test.
 				$valid = $rule->test($element, $value, $group, $input, $this);
 			}
