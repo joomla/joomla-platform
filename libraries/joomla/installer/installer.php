@@ -88,14 +88,13 @@ class JInstaller extends JAdapter
 	 */
 	public $manifest = null;
 
-
-   /**
-    * The configuration manifest XML object
-    *
-    * @var    object
-    * @since  
-    */
-    public $configManifest = null;
+	/**
+	* The configuration manifest XML object
+	*
+	* @var    object
+	* @since
+	*/
+	public $configManifest = null;
 
 	/**
 	 * The extension message that appears
@@ -245,30 +244,29 @@ class JInstaller extends JAdapter
 	}
 
 	/**
-	 * Get the installation/configuration manifest object
-	 *
-	 * @param   string  $type   The type of manifest
-     * 
-     * @return  object  Manifest object
-	 *
-	 * @since   11.1
-	 */
+	* Get the installation/configuration manifest object
+	*
+	* @param   string  $type  The type of manifest
+	*
+	* @return  object  Manifest object
+	*
+	* @since   11.1
+	*/
 	public function getManifest($type = 'installation')
 	{
-		if($type == 'configuration')
-        {
-            if (!is_object($this->configManifest))
-            {
-                $this->findManifest();
-            }
-            return $this->configManifest;
-        }
-        if (!is_object($this->manifest))
-        {
-            $this->findManifest();
-
-        }
-        return $this->manifest;
+		if ($type == 'configuration')
+		{
+			if (!is_object($this->configManifest))
+			{
+				$this->findManifest();
+			}
+			return $this->configManifest;
+		}
+		if (!is_object($this->manifest))
+		{
+			$this->findManifest();
+		}
+		return $this->manifest;
 	}
 
 	/**
@@ -1862,44 +1860,43 @@ class JInstaller extends JAdapter
 		// If at least one XML file exists
 		if (!empty($xmlfiles))
 		{
-
 			foreach ($xmlfiles as $file)
 			{
-				$fileName = substr(strrchr($file, '/'), 1 );
-                if($fileName != 'config.xml')
-                {
-                    // Is it a valid Joomla installation manifest file?
-                    $manifest = $this->isManifest($file);
-                    if (!is_null($manifest))
-                    {
-                        // If the root method attribute is set to upgrade, allow file overwrite
-                        if ((string)$manifest->attributes()->method == 'upgrade')
-                        {
-                            $this->_upgrade = true;
-                            $this->_overwrite = true;
-                        }
-                        // If the overwrite option is set, allow file overwriting
-                        if ((string)$manifest->attributes()->overwrite == 'true')
-                        {
-                            $this->_overwrite = true;
-                        }
-                        // Set the manifest object and path
-                        $this->manifest = $manifest;
-                        $this->setPath('manifest', $file);
-                        // Set the installation source path to that of the manifest file
-                        $this->setPath('source', dirname($file));
-                        return true;
-                    }
-                }
-                else
-                {
-                    // Is it a valid Joomla configuration manifest file?
-                    $configManifest = $this->isManifest($file, 'configuration');
-                    if (!is_null($configManifest))
-                    {
-                        $this->configManifest = $configManifest;
-                    }
-                }
+				$fileName = substr(strrchr($file, '/'), 1);
+				if ($fileName != 'config.xml')
+				{
+					// Is it a valid Joomla installation manifest file?
+					$manifest = $this->isManifest($file);
+					if (!is_null($manifest))
+					{
+						// If the root method attribute is set to upgrade, allow file overwrite
+						if ((string)$manifest->attributes()->method == 'upgrade')
+						{
+							$this->_upgrade = true;
+							$this->_overwrite = true;
+						}
+						// If the overwrite option is set, allow file overwriting
+						if ((string)$manifest->attributes()->overwrite == 'true')
+						{
+							$this->_overwrite = true;
+						}
+						// Set the manifest object and path
+						$this->manifest = $manifest;
+						$this->setPath('manifest', $file);
+						// Set the installation source path to that of the manifest file
+						$this->setPath('source', dirname($file));
+						return true;
+					}
+				}
+				else
+				{
+					// Is it a valid Joomla configuration manifest file?
+					$configManifest = $this->isManifest($file, 'configuration');
+					if (!is_null($configManifest))
+					{
+						$this->configManifest = $configManifest;
+					}
+				}
 			}
 
 			// None of the XML files found were valid install files
@@ -1920,6 +1917,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @param   string  $file  An xmlfile path to check
 	 * @param   string  $type  The type of manifest
+	 *
 	 * @return  mixed  A JXMLElement, or null if the file failed to parse
 	 *
 	 * @since   11.1
@@ -1935,24 +1933,26 @@ class JInstaller extends JAdapter
 			return null;
 		}
 
-        if($type != 'configuration')
-        {
-            // Check for a valid XML root tag.
-            // @todo: Remove backwards compatability in a future version
-            // Should be 'extension', but for backward compatability we will accept 'extension' or 'install'.
+		if ($type != 'configuration')
+		{
+			// Check for a valid XML root tag.
+			// @todo: Remove backwards compatability in a future version
+			// Should be 'extension', but for backward compatability we will accept 'extension' or 'install'.
 
-		    // 1.5 uses 'install'
-            // 1.6 uses 'extension'
-            if ($xml->getName() != 'install' && $xml->getName() != 'extension')
-            {
-                return null;
-            }
-        } else  {
-            if ($xml->getName() != 'config') 
-            {
-                return null;
-            }
-        }
+			// 1.5 uses 'install'
+			// 1.6 uses 'extension'
+			if ($xml->getName() != 'install' && $xml->getName() != 'extension')
+			{
+				return null;
+			}
+		}
+		else
+		{
+			if ($xml->getName() != 'config') 
+			{
+				return null;
+			}
+		}
 
 		// Valid manifest file return the object
 		return $xml;
