@@ -69,7 +69,7 @@ class JFormRule
 		// Check for a valid regex.
 		if (empty($this->regex))
 		{
-			throw new JException(JText::sprintf('JLIB_FORM_INVALID_FORM_RULE', get_class($this)));
+			throw new JException(JText::sprintf('JLIB_FORM_INVALID_FORM_RULE', get_class($this)), -3, E_ERROR);
 		}
 
 		// Add unicode property support if available.
@@ -84,7 +84,7 @@ class JFormRule
 			return true;
 		}
 
-		throw new JException($this->getErrorMsg($element));
+		throw new JException($this->getErrorMsg($element), -4, E_WARNING);
 	}
 
 	/**
