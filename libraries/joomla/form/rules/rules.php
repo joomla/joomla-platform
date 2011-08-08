@@ -45,7 +45,7 @@ class JFormRuleRules extends JFormRule
 		{
 			if (!in_array($action, $fieldActions))
 			{
-				return false;
+				throw new JException($this->getErrorMsg($element), -4, E_WARNING);
 			}
 		}
 

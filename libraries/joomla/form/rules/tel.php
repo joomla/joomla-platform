@@ -66,8 +66,7 @@ class JFormRuleTel extends JFormRule
 			// Test the value against the regular expression.
 			if (preg_match($regex, $value) == false)
 			{
-
-				return false;
+				throw new JException($this->getErrorMsg($element), -4, E_WARNING);
 			}
 		}
 		else
@@ -79,13 +78,11 @@ class JFormRuleTel extends JFormRule
 			$regex = '/^[0-9]{7,15}?$/';
 			if (preg_match($regex, $cleanvalue) == true)
 			{
-
 				return true;
 			}
 			else
 			{
-
-				return false;
+				throw new JException($this->getErrorMsg($element), -4, E_WARNING);
 			}
 		}
 

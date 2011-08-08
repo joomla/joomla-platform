@@ -56,35 +56,31 @@ class JFormRuleUrl extends JFormRule
 		// @see http://php.net/manual/en/function.parse-url.php
 		if (!array_key_exists('scheme', $urlParts))
 		{
-			return false;
+			throw new JException($this->getErrorMsg($element), -4, E_WARNING);
 		}
 		$urlScheme = (string) $urlParts['scheme'];
 		$urlScheme = strtolower($urlScheme);
 		if (in_array($urlScheme, $scheme) == false)
 		{
-			return false;
+			throw new JException($this->getErrorMsg($element), -4, E_WARNING);
 		}
 		// For some schemes here must be two slashes.
 		if (($urlScheme == 'http' || $urlScheme == 'https' || $urlScheme == 'ftp' || $urlScheme == 'sftp' || $urlScheme == 'gopher'
 			|| $urlScheme == 'wais' || $urlScheme == 'gopher' || $urlScheme == 'prospero' || $urlScheme == 'telnet' || $urlScheme == 'git')
 			&& ((substr($value, strlen($urlScheme), 3)) !== '://'))
 		{
-			return false;
+			throw new JException($this->getErrorMsg($element), -4, E_WARNING);
 		}
 		// The best we can do for the rest is make sure that the strings are valid UTF-8
 		// and the port is an integer.
-		if (array_key_exists('host', $urlParts) && !JString::valid((string) $urlParts['host']))
+		if ((array_key_exists('host', $urlParts) && !JString::valid((string) $urlParts['host']))
+			|| (array_key_exists('port', $urlParts) && !is_int((int) $urlParts['port']))
+			|| (array_key_exists('path', $urlParts) && !JString::valid((string) $urlParts['path']))
+		)
 		{
-			return false;
+			throw new JException($this->getErrorMsg($element), -4, E_WARNING);
 		}
-		if (array_key_exists('port', $urlParts) && !is_int((int) $urlParts['port']))
-		{
-			return false;
-		}
-		if (array_key_exists('path', $urlParts) && !JString::valid((string) $urlParts['path']))
-		{
-			return false;
-		}
+
 		return true;
 	}
 }

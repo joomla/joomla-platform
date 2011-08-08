@@ -44,6 +44,6 @@ class JFormRuleOptions extends JFormRule
 				return true;
 			}
 		}
-		return false;
+		throw new JException($this->getErrorMsg($element), -4, E_WARNING);
 	}
 }

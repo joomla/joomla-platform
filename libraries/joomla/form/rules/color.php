@@ -54,7 +54,7 @@ class JFormRuleColor extends JFormRule
 		// The value must be 6 or 3 characters long
 		if (!((strlen($value) == 6 || strlen($value) == 3) && ctype_xdigit($value)))
 		{
-			return false;
+			throw new JException($this->getErrorMsg($element), -4, E_WARNING);
 		}
 
 		return true;

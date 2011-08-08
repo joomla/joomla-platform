@@ -45,9 +45,12 @@ class JFormRuleEmail extends JFormRule
 	public function test(&$element, $value, $group = null, &$input = null, &$form = null)
 	{
 		// Test the value against the regular expression.
-		if (!parent::test($element, $value, $group, $input, $form))
+		try {
+			parent::test($element, $value, $group, $input, $form);
+		}
+		catch (JException $e)
 		{
-			return false;
+			throw $e;
 		}
 
 		// Check if we should test for uniqueness.
@@ -80,7 +83,7 @@ class JFormRuleEmail extends JFormRule
 
 			if ($duplicate)
 			{
-				return false;
+				throw new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID_EMAIL_DUPLICATE', (string)$element['label']), 0, E_WARNING);
 			}
 		}
 
