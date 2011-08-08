@@ -1896,7 +1896,7 @@ class JForm
 
 			try {
 				// Run the field validation rule test.
-				$valid = $rule->test($element, $value, $group, $input, $this);
+				$rule->test($element, $value, $group, $input, $this);
 			}
 			catch (JException $e)
 			{
