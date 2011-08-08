@@ -1896,11 +1896,16 @@ class JForm
 
 			try {
 				// Run the field validation rule test.
-				$rule->test($element, $value, $group, $input, $this);
+				$valid = $rule->test($element, $value, $group, $input, $this);
 			}
 			catch (JException $e)
 			{
 				return $e;
+			}
+			// backward compatibility
+			if ($valid === false)
+			{
+				return new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', JText::_((string) $element['label'])), 1, E_WARNING);
 			}
 		}
 
