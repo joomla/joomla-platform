@@ -38,12 +38,6 @@ class JFormRuleUrl extends JFormRule
 	 */
 	public function test(&$element, $value, $group = null, &$input = null, &$form = null)
 	{
-		// If the field is empty and not required, the field is valid.
-		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
-		if (!$required && empty($value))
-		{
-			return true;
-		}
 		$urlParts = JString::parse_url($value);
 		// See http://www.w3.org/Addressing/URL/url-spec.txt
 		// Use the full list or optionally specify a list of permitted schemes.

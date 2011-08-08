@@ -36,12 +36,6 @@ class JFormRuleTel extends JFormRule
 	 */
 	public function test(&$element, $value, $group = null, &$input = null, &$form = null)
 	{
-		// If the field is empty and not required, the field is valid.
-		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
-		if (!$required && empty($value))
-		{
-			return true;
-		}
 		// @see http://www.nanpa.com/
 		// @see http://tools.ietf.org/html/rfc4933
 		// @see http://www.itu.int/rec/T-REC-E.164/en
