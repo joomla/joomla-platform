@@ -29,10 +29,10 @@ class JFormRuleUrl extends JFormRule
 	 * @param   object  &$input    An optional JRegistry object with the entire data set to validate against the entire form.
 	 * @param   object  &$form     The form object for which the field is being tested.
 	 *
-	 * @return  boolean  True if the value is valid, false otherwise.
+	 * @return  boolean  True if the value is valid.
 	 *
 	 * @since   11.1
-	 * @throws  JException on invalid rule.
+	 * @throws  JException on invalid value or on error.
 	 * @link    http://www.w3.org/Addressing/URL/url-spec.txt
 	 * @see	    Jstring
 	 */

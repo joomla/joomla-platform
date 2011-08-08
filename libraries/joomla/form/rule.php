@@ -44,7 +44,7 @@ class JFormRule
 	 * The error message displayed if the test fail.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  11.2
 	 */
 	protected $errorMsg = 'JLIB_FORM_VALIDATE_FIELD_INVALID';
 
@@ -59,10 +59,10 @@ class JFormRule
 	 * @param   object  &$input    An optional JRegistry object with the entire data set to validate against the entire form.
 	 * @param   object  &$form     The form object for which the field is being tested.
 	 *
-	 * @return  boolean  True if the value is valid, false otherwise.
+	 * @return  boolean  True if the value is valid.
 	 *
 	 * @since   11.1
-	 * @throws  JException on invalid rule.
+	 * @throws  JException on invalid value or on error.
 	 */
 	public function test(&$element, $value, $group = null, &$input = null, &$form = null)
 	{
@@ -94,7 +94,7 @@ class JFormRule
 	 *                            form field object.
 	 * @return  string  The translated error message
 	 *
-	 * @since   11.1
+	 * @since   11.2
 	 */
 	protected function getErrorMsg(&$element)
 	{

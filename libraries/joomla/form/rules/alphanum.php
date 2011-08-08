@@ -16,7 +16,7 @@ jimport('joomla.form.formrule');
  *
  * @package     Joomla.Platform
  * @subpackage  Form
- * @since       11.1
+ * @since       11.2
  */
 class JFormRuleAlphanum extends JFormRule
 {
@@ -24,7 +24,7 @@ class JFormRuleAlphanum extends JFormRule
 	 * The regular expression to use in testing a form field value.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  11.2
 	 */
 	protected $regex;
 
@@ -32,7 +32,7 @@ class JFormRuleAlphanum extends JFormRule
 	 * The regular expression modifiers to use when testing a form field value.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  11.2
 	 */
 	protected $modifiers = 'm';
 
