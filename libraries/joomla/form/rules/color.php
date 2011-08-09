@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Form
- * @since       11.2
+ * @since       11.3
  */
 class JFormRuleColor extends JFormRule
 {
@@ -31,7 +31,7 @@ class JFormRuleColor extends JFormRule
 	 *
 	 * @return  boolean  True if the value is valid.
 	 *
-	 * @since   11.2
+	 * @since   11.3
 	 * @throws  JException on invalid value or on error.
 	 */
 	public function test(&$element, $value, $group = null, &$input = null, &$form = null)

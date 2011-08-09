@@ -16,7 +16,7 @@ jimport('joomla.form.formrule');
  *
  * @package     Joomla.Platform
  * @subpackage  Form
- * @since       11.2
+ * @since       11.3
  */
 class JFormRuleNoSpace extends JFormRule
 {
@@ -24,7 +24,7 @@ class JFormRuleNoSpace extends JFormRule
 	 * The regular expression to use in testing a form field value.
 	 *
 	 * @var    string
-	 * @since  11.2
+	 * @since  11.3
 	 */
 	protected $regex = '^\S*$';
 }

@@ -44,7 +44,7 @@ class JFormRule
 	 * The error message displayed if the test fail.
 	 *
 	 * @var    string
-	 * @since  11.2
+	 * @since  11.3
 	 */
 	protected $errorMsg = 'JLIB_FORM_VALIDATE_FIELD_INVALID';
 
@@ -95,7 +95,7 @@ class JFormRule
 	 *
 	 * @return  string  The translated error message
 	 *
-	 * @since   11.2
+	 * @since   11.3
 	 */
 	protected function getErrorMsg($element)
 	{

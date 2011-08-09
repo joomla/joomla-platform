@@ -16,7 +16,7 @@ jimport('joomla.form.formrule');
  *
  * @package     Joomla.Platform
  * @subpackage  Form
- * @since       11.2
+ * @since       11.3
  */
 class JFormRuleMinLength extends JFormRule
 {
@@ -33,7 +33,7 @@ class JFormRuleMinLength extends JFormRule
 	 *
 	 * @return  boolean  True if the value is valid.
 	 *
-	 * @since   11.2
+	 * @since   11.3
 	 * @throws  JException on invalid value or on error.
 	 */
 	public function test(& $element, $value, $group = null, & $input = null, & $form = null)
@@ -54,7 +54,7 @@ class JFormRuleMinLength extends JFormRule
 	 *
 	 * @return  string  The translated error message
 	 *
-	 * @since   11.2
+	 * @since   11.3
 	 */
 	protected function getErrorMsg($element)
 	{

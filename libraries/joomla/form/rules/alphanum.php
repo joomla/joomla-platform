@@ -24,7 +24,7 @@ class JFormRuleAlphanum extends JFormRule
 	 * The regular expression to use in testing a form field value.
 	 *
 	 * @var    string
-	 * @since  11.2
+	 * @since  11.3
 	 */
 	protected $regex;
 
@@ -32,7 +32,7 @@ class JFormRuleAlphanum extends JFormRule
 	 * The regular expression modifiers to use when testing a form field value.
 	 *
 	 * @var    string
-	 * @since  11.2
+	 * @since  11.3
 	 */
 	protected $modifiers = 'm';
 
