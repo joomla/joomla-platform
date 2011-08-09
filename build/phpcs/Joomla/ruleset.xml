@@ -1,12 +1,29 @@
 <?xml version="1.0"?>
-<ruleset name="PEAR">
- <description>The PEAR coding standard.</description>
+<ruleset name="Joomla">
+ <description>The Joomla coding standard.</description>
 
+<!-- Include all sniffs in an external standard directory -->
+ 
  <!-- Include some additional sniffs from the Generic standard -->
+
+ <rule ref="PEAR.Classes.ClassDeclaration"/>
+ 
+ <rule ref="PEAR.Commenting.InlineComment"/>
+ 
+ <rule ref="PEAR.Files.IncludingFile"/>
+ <rule ref="Generic.Files.LineEndings"/>
+ <rule ref="Generic.Files.LineLength"/>
+ 
+ <rule ref="PEAR.Formatting.MultiLineAssignment"/>
+ 
  <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
+ <rule ref="PEAR.Functions.FunctionDeclaration"/>
+ <rule ref="PEAR.Functions.ValidDefaultValue"/>
+
+ <rule ref="PEAR.NamingConventions.ValidClassName"/>
  <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
+
  <rule ref="Generic.PHP.DisallowShortOpenTag"/>
- <!--<rule ref="Generic.WhiteSpace.DisallowTabIndent"/>-->
 
  <!-- Lines can be 85 chars long, but never show errors -->
  <rule ref="Generic.Files.LineLength">
@@ -29,7 +46,7 @@
  </rule>
 
  <!-- Use warnings for inline control structures -->
- <rule ref="Generic.ControlStructures.InlineControlStructure">
+ <rule ref="Joomla.ControlStructures.InlineControlStructure">
   <properties>
    <property name="error" value="false"/>
   </properties>
