@@ -2127,8 +2127,8 @@ class JFormTest extends JoomlaTestCase
 		);
 
 		$this->assertThat(
-			$result->getCode(),
-			$this->equalTo(-1),
+			$result->get('level'),
+			$this->equalTo(E_ERROR),
 			'Line:'.__LINE__.' The correct exception should be returned.'
 		);
 
@@ -2141,13 +2141,13 @@ class JFormTest extends JoomlaTestCase
 		);
 
 		$this->assertThat(
-			$result->getCode(),
-			$this->equalTo(-2),
+			$result->get('level'),
+			$this->equalTo(E_ERROR),
 			'Line:'.__LINE__.' The correct exception should be returned.'
 		);
 
 		$field = array_pop($xml->xpath('fields/field[@name="boolean"]'));
-		$result = $form->validateField($field);
+		$result = $form->validateField($field, null, 'not a boolean');
 		$this->assertThat(
 			$result instanceof Exception,
 			$this->isTrue(),
@@ -2155,8 +2155,8 @@ class JFormTest extends JoomlaTestCase
 		);
 
 		$this->assertThat(
-			$result->getCode(),
-			$this->equalTo(1),
+			$result->get('level'),
+			$this->equalTo(E_WARNING),
 			'Line:'.__LINE__.' The correct exception should be returned.'
 		);
 
@@ -2169,8 +2169,8 @@ class JFormTest extends JoomlaTestCase
 		);
 
 		$this->assertThat(
-			$result->getCode(),
-			$this->equalTo(2),
+			$result->get('level'),
+			$this->equalTo(E_WARNING),
 			'Line:'.__LINE__.' The correct exception should be returned.'
 		);
 
@@ -2195,6 +2195,20 @@ class JFormTest extends JoomlaTestCase
 			$form->validateField($field, null, 'value'),
 			$this->isTrue(),
 			'Line:'.__LINE__.' A required field with a value should return true.'
+		);
+
+		$field = array_pop($xml->xpath('fields/field[@name="multiple"]'));
+		$this->assertThat(
+			$form->validateField($field, null, 'value'),
+			$this->isTrue(),
+			'Line:'.__LINE__.' A field with multiple validation rules should be correctly validated.'
+		);
+
+		$field = array_pop($xml->xpath('fields/field[@name="multipletrailing"]'));
+		$this->assertThat(
+			$form->validateField($field, null, 'value'),
+			$this->isTrue(),
+			'Line:'.__LINE__.' A field with multiple validation rules should be correctly validated even with trailing whitespace.'
 		);
 	}
 }
