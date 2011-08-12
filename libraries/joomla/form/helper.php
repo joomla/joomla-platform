@@ -90,8 +90,9 @@ class JFormHelper
 	 * Each type is loaded only once and then used as a prototype for other objects of same type.
 	 * Please, use this method only with those entities which support types (forms don't support them).
 	 *
-	 * @param   string   $type  The entity type.
-	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
+	 * @param   string   $entity  The entity.
+	 * @param   string   $type    The entity type.
+	 * @param   boolean  $new     Flag to toggle whether we should get a new instance of the object.
 	 *
 	 * @return  mixed  Entity object on success, false otherwise.
 	 *
@@ -170,7 +171,9 @@ class JFormHelper
 	{
 		$class = 'JForm' . ucfirst($entity) . ucfirst($type);
 		if (class_exists($class))
+		{
 			return $class;
+		}
 
 		// Get the field search path array.
 		$paths = JFormHelper::addPath($entity);
@@ -198,7 +201,7 @@ class JFormHelper
 		// Try to find the class file.
 		if ($file = JPath::find($paths, strtolower($type) . '.php'))
 		{
-			require_once $file;
+			include_once $file;
 		}
 
 		// Check for all if the class exists.
