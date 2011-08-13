@@ -154,8 +154,8 @@ class JFilterInput extends JObject
 	 * Method to be called by another php script. Processes for XSS and
 	 * specified bad code.
 	 *
-	 * @param   mixed   $source	Input string/array-of-string to be 'cleaned'
-	 * @param   string  $type	Return type for the variable (INT, UINT, FLOAT, BOOLEAN, WORD, ALNUM, CMD, BASE64, STRING, ARRAY, PATH, NONE)
+	 * @param   mixed   $source  Input string/array-of-string to be 'cleaned'
+	 * @param   string  $type    Return type for the variable (INT, UINT, FLOAT, BOOLEAN, WORD, ALNUM, CMD, BASE64, STRING, ARRAY, PATH, NONE)
 	 *
 	 * @return  mixed  'Cleaned' version of input parameter
 	 *
@@ -279,14 +279,14 @@ class JFilterInput extends JObject
 		$attrSubSet[1] = strtolower($attrSubSet[1]);
 
 		return (((strpos($attrSubSet[1], 'expression') !== false) && ($attrSubSet[0]) == 'style') || (strpos($attrSubSet[1], 'javascript:') !== false) ||
-			 (strpos($attrSubSet[1], 'behaviour:') !== false) || (strpos($attrSubSet[1], 'vbscript:') !== false) ||
-			 (strpos($attrSubSet[1], 'mocha:') !== false) || (strpos($attrSubSet[1], 'livescript:') !== false));
+			(strpos($attrSubSet[1], 'behaviour:') !== false) || (strpos($attrSubSet[1], 'vbscript:') !== false) ||
+			(strpos($attrSubSet[1], 'mocha:') !== false) || (strpos($attrSubSet[1], 'livescript:') !== false));
 	}
 
 	/**
 	 * Internal method to iteratively remove all unwanted tags and attributes
 	 *
-	 * @param   string  $source   Input string to be 'cleaned'
+	 * @param   string  $source  Input string to be 'cleaned'
 	 *
 	 * @return  string  'Cleaned' version of input parameter
 	 *
@@ -309,7 +309,7 @@ class JFilterInput extends JObject
 	/**
 	 * Internal method to strip a string of certain tags
 	 *
-	 * @param   string   $source   Input string to be 'cleaned'
+	 * @param   string  $source  Input string to be 'cleaned'
 	 *
 	 * @return  string  'Cleaned' version of input parameter
 	 *
@@ -337,7 +337,7 @@ class JFilterInput extends JObject
 			$fromTagOpen = substr($postTag, 1);
 			$tagOpen_end = strpos($fromTagOpen, '>');
 
-			// Check for mal-formed tag where we have a second '<' before the first '>'
+			// Check for malformed tag where we have a second '<' before the first '>'
 			$nextOpenTag = (strlen($postTag) > $tagOpen_start) ? strpos($postTag, '<', $tagOpen_start + 1) : false;
 			if (($nextOpenTag !== false) && ($nextOpenTag < $tagOpen_end))
 			{
@@ -395,15 +395,16 @@ class JFilterInput extends JObject
 			 * OR remove if xssauto is on and tag is blacklisted
 			 */
 			if ((!preg_match("/^[a-z][a-z0-9]*$/i", $tagName)) || (!$tagName) ||
-				 ((in_array(strtolower($tagName), $this->tagBlacklist)) && ($this->xssAuto)))
-				{
+					((in_array(strtolower($tagName), $this->tagBlacklist)) && ($this->xssAuto))
+				)
+			{
 					$postTag = substr($postTag, ($tagLength + 2));
 					$tagOpen_start = strpos($postTag, '<');
 					// Strip tag
 					continue;
-				}
+			}
 
-				/*
+			/*
 			 * Time to grab any attributes from the tag... need this section in
 			 * case attributes have spaces in the values.
 			 */
@@ -528,7 +529,7 @@ class JFilterInput extends JObject
 				// Find next tag's start and continue iteration
 				$postTag = substr($postTag, ($tagLength + 2));
 				$tagOpen_start = strpos($postTag, '<');
-			}
+		}
 
 			// Append any code after the end of tags and return
 			if ($postTag != '<')
@@ -537,12 +538,12 @@ class JFilterInput extends JObject
 			}
 
 			return $preTag;
-		}
+	}
 
 		/**
 		 * Internal method to strip a tag of certain attributes
 		 *
-		 * @param   array  $attrSet	Array of attribute pairs to filter
+		 * @param   array  $attrSet  Array of attribute pairs to filter
 		 *
 		 * @return  array  Filtered array of attribute pairs
 		 *
@@ -573,10 +574,11 @@ class JFilterInput extends JObject
 
 
 				if ((!preg_match('/[a-z]*$/i', $attrSubSet[0])) ||
-					 (($this->xssAuto) && ((in_array(strtolower($attrSubSet[0]), $this->attrBlacklist)) || (substr($attrSubSet[0], 0, 2) == 'on'))))
-					{
+						(($this->xssAuto) && ((in_array(strtolower($attrSubSet[0]), $this->attrBlacklist)) || (substr($attrSubSet[0], 0, 2) == 'on')))
+					)
+				{
 						continue;
-					}
+				}
 
 					// XSS attribute value filtering
 					if (isset($attrSubSet[1]))
@@ -591,10 +593,11 @@ class JFilterInput extends JObject
 						$attrSubSet[1] = str_replace('"', '', $attrSubSet[1]);
 						// Convert single quotes from either side to doubles (Single quotes shouldn't be used to pad attr values)
 						if ((substr($attrSubSet[1], 0, 1) == "'") &&
-							 (substr($attrSubSet[1], (strlen($attrSubSet[1]) - 1), 1) == "'"))
-							{
-								$attrSubSet[1] = substr($attrSubSet[1], 1, (strlen($attrSubSet[1]) - 2));
-							}
+							(substr($attrSubSet[1], (strlen($attrSubSet[1]) - 1), 1) == "'")
+						)
+						{
+							$attrSubSet[1] = substr($attrSubSet[1], 1, (strlen($attrSubSet[1]) - 2));
+						}
 							// Strip slashes
 							$attrSubSet[1] = stripslashes($attrSubSet[1]);
 						}
@@ -632,15 +635,15 @@ class JFilterInput extends JObject
 								$newSet[] = $attrSubSet[0] . '=""';
 							}
 						}
-					}
+			}
 
-					return $newSet;
-				}
+			return $newSet;
+		}
 
 				/**
 				 * Try to convert to plaintext
 				 *
-				 * @param   string  $source The source string.
+				 * @param   string  $source  The source string.
 				 *
 				 * @return  string  Plaintext string
 				 *
@@ -670,9 +673,10 @@ class JFilterInput extends JObject
 				/**
 				 * Escape < > and " inside attribute values
 				 *
-				 * @param   string  $source The source string.
+				 * @param   string  $source  The source string.
 				 *
 				 * @return  string  Filtered string
+				 *
 				 * @since    11.1
 				 */
 				protected function _escapeAttributeValues($source)
@@ -721,9 +725,9 @@ class JFilterInput extends JObject
 				/**
 				 * Remove CSS Expressions in the form of <property>:expression(...)
 				 *
-				 * @param   string    $source The source string.
+				 * @param   string  $source  The source string.
 				 *
-				 * @return  string    Filtered string
+				 * @return  string  Filtered string
 				 * @since   11.1
 				 */
 				protected function _stripCSSExpressions($source)
@@ -749,4 +753,4 @@ class JFilterInput extends JObject
 					}
 					return $return;
 				}
-			}
+}
