@@ -171,10 +171,9 @@ abstract class JModuleHelper
 				$lang->load($module->module, JPATH_BASE, $lang->getDefault(), false, false) ||
 				$lang->load($module->module, dirname($path), $lang->getDefault(), false, false);
 
-			$content = '';
 			ob_start();
 			include $path;
-			$module->content = ob_get_contents() . $content;
+			$module->content = ob_get_contents() . '';
 			ob_end_clean();
 		}
 
