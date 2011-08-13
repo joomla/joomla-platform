@@ -15,21 +15,13 @@ JLoader::register('JCacheStorage', dirname(__FILE__) . '/storage.php');
 //Register the controller class with the loader
 JLoader::register('JCacheController', dirname(__FILE__) . '/controller.php');
 
+// Almost everything must be public here to allow overloading.
+
 /**
  * Joomla! Cache base object
  *
  * @package     Joomla.Platform
  * @subpackage  Cache
- * @since       11.1
- */
-
-// Almost everything must be public here to allow overloading.
-
-/**
- * Class that handles cache routines.
- *
- * @package     Joomla.Platform
- * @subpackage  Access
  * @since       11.1
  */
 class JCache extends JObject

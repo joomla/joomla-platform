@@ -263,7 +263,7 @@ class JSimpleXML extends JObject
 	 *
 	 * @param   resource  $parser  XML parser resource handle.
 	 *
-	 * @return  void
+	 * @return      void
 	 *
 	 * @deprecated    12.1  Use SimpleXML
 	 * @see     http://www.php.net/manual/en/class.simplexml.php
@@ -317,10 +317,8 @@ class JSimpleXML extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  12.1
-	 * @since   11.1
-	 *
-	 * @deprecated   12.1   Use PHP Exception
+	 * @since       11.1
+	 * @deprecated  12.1   Use PHP Exception
 	 */
 	protected function _handleError($code, $line, $col)
 	{
@@ -337,9 +335,8 @@ class JSimpleXML extends JObject
 	 *
 	 * @return  object
 	 *
-	 * @since   11.1
-	 *
-	 * @deprecated   12.1
+	 * @since       11.1
+	 * @deprecated  12.1
 	 */
 	protected function _getStackLocation()
 	{
@@ -364,8 +361,7 @@ class JSimpleXML extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
-	 *
+	 * @since       11.1
 	 * @deprecated  12.1
 	 */
 	protected function _startElement($parser, $name, $attrs = array())
@@ -406,8 +402,8 @@ class JSimpleXML extends JObject
 	 *
 	 * @return  void
 	 *
+	 * @since       11.1
 	 * @deprecated  12.1
-	 * @since   11.1
 	 */
 	protected function _endElement($parser, $name)
 	{
@@ -426,8 +422,8 @@ class JSimpleXML extends JObject
 	 *
 	 * @return  void
 	 *
+	 * @since       11.1
 	 * @deprecated  12.1
-	 * @since   11.1
 	 */
 	protected function _characterData($parser, $data)
 	{
@@ -513,8 +509,8 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @return  JSimpleXMLElement
 	 *
-	 * @deprecated  12.1 Use SimpleXMLElement
-	 * @since   11.1
+	 * @since       11.1
+	 * @deprecated  12.1  Use SimpleXMLElement
 	 */
 	function __construct($name, $attrs = array(), $level = 0)
 	{
@@ -536,10 +532,9 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @return  string
 	 *
-	 * @deprecated   12.1
-	 * @since   11.1
+	 * @since       11.1
+	 * @deprecated  12.1
 	 */
-
 	public function name()
 	{
 		// Deprecation warning.
@@ -556,8 +551,8 @@ class JSimpleXMLElement extends JObject
 	 * @return  mixed   If an attribute is given will return the attribute if it exist.
 	 *                  If no attribute is given will return the complete attributes array
 	 *
+	 * @since       11.1
 	 * @deprecated  12.1
-	 * @since   11.1
 	 */
 	public function attributes($attribute = null)
 	{
@@ -577,10 +572,9 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @return  string
 	 *
-	 * @deprecated   12.1  Use SimpleXMLElement
-	 * @since   11.1
+	 * @since       11.1
+	 * @deprecated  12.1  Use SimpleXMLElement
 	 */
-
 	public function data()
 	{
 		// Deprecation warning.
@@ -596,10 +590,9 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @return  string
 	 *
+	 * @since       11.1
 	 * @deprecated  12.1  Use SimpleXMLElement
-	 * @since   11.1
 	 */
-
 	public function setData($data)
 	{
 		// Deprecation warning.
@@ -613,10 +606,9 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @return  array
 	 *
-	 * @deprecated   12.1
-	 * @since   11.1
+	 * @since       11.1
+	 * @deprecated  12.1
 	 */
-
 	public function children()
 	{
 		// Deprecation warning.
@@ -629,8 +621,8 @@ class JSimpleXMLElement extends JObject
 	 * Get the level of the element
 	 *
 	 * @return       integer
-	 *
-	 * @since   11.1
+	 * 
+	 * @since        11.1
 	 * @deprecated   12.1
 	 */
 	public function level()
@@ -649,8 +641,8 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @return  void
 	 *
+	 * @since       11.1
 	 * @deprecated  12.1
-	 * @since   11.1
 	 */
 	function addAttribute($name, $value)
 	{
@@ -668,6 +660,7 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @return  void
 	 *
+	 * @since       11.1
 	 * @deprecated  12.1
 	 * @since   11.1
 	 */
@@ -689,8 +682,8 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @return  JSimpleXMLElement  The added child object
 	 *
-	 * @deprecated   12.1
-	 * @since   11.1
+	 * @since       11.1
+	 * @deprecated  12.1
 	 */
 	function addChild($name, $attrs = array(), $level = null)
 	{
@@ -731,7 +724,7 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since       11.1
 	 * @deprecated  12.1
 	 */
 	function removeChild(&$child)
@@ -765,9 +758,9 @@ class JSimpleXMLElement extends JObject
 	 * @param   string  $path  The / separated path to the element
 	 *
 	 * @return  object  JSimpleXMLElement
-	 *
-	 * @deprecated   12.1
-	 * @since   11.1
+	 * 
+	 * @since       11.1
+	 * @deprecated  12.1
 	 */
 	function getElementByPath($path)
 	{
@@ -812,8 +805,8 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @return  void
 	 *
+	 * @since       11.1
 	 * @deprecated  12.1
-	 * @since   11.1
 	 */
 	function map($callback, $args = array())
 	{
@@ -838,8 +831,8 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @return  string
 	 *
-	 * @deprecated   12.1
-	 * @since   11.1
+	 * @since       11.1
+	 * @deprecated  12.1
 	 */
 	function toString($whitespace = true)
 	{
