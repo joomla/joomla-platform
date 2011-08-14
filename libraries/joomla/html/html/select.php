@@ -624,7 +624,7 @@ abstract class JHtmlSelect
 
 				// Generate the option, encoding as required
 				$html .= $baseIndent . '<option value="' . ($options['option.key.toHtml'] ? htmlspecialchars($key, ENT_COMPAT, 'UTF-8') : $key) . '"'
-					. $extra . '>' . ($options['option.text.toHtml'] ? htmlentities(html_entity_decode($text), ENT_COMPAT, 'UTF-8') : $text)
+					. $extra . '>' . ($options['option.text.toHtml'] ? htmlentities(html_entity_decode($text, ENT_COMPAT, 'UTF-8'), ENT_COMPAT, 'UTF-8') : $text)
 					. '</option>' . $options['format.eol'];
 			}
 		}
