@@ -158,6 +158,7 @@ class JDatabaseMySQLi extends JDatabase
 	 */
 	public function __destruct()
 	{
+		session_write_close();
 		if (is_object($this->connection))
 		{
 			mysqli_close($this->connection);
