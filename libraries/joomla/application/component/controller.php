@@ -1136,4 +1136,75 @@ class JController extends JObject
 
 		return $this;
 	}
+
+	/**
+	 * Method to handle a send a JSON response. The data parameter
+	 * can be an Exception object for when a fatal error has occurred or
+	 * a JObject for a good response.
+	 *
+	 * @param	object	$response	JObject on success, Exception on failure.
+	 *
+	 * @return	void
+	 * @since	11.3
+	 */
+	public function sendJsonResponse($response)
+	{
+		// Check if we need to send an error code.
+		if ($response instanceof Exception) {
+			// Send the appropriate error code response.
+			JResponse::setHeader('status', $response->getCode());
+		}
+
+		// Send the JSON response.
+		echo json_encode(new JControllerJsonResponse($response));
+	}
+}
+
+/**
+ * Joomla Core JSON Response Class
+ *
+ * @package		Joomla.Platform
+ * @subpackage	Application
+ * @since		11.3
+ */
+class JControllerJsonResponse
+{
+	function __construct($state)
+	{
+		// The old token is invalid so send a new one.
+		$this->token = JUtility::getToken(true);
+
+		// Get the language and send it's code along
+		$this->lang = JFactory::getLanguage()->getTag();
+
+		// Get the message queue
+		$messages = JFactory::getApplication()->getMessageQueue();
+
+		// Build the sorted message list
+		if (is_array($messages) && count($messages)) {
+			foreach ($messages as $msg)
+			{
+				if (isset($msg['type']) && isset($msg['message'])) {
+					$lists[$msg['type']][] = $msg['message'];
+				}
+			}
+		}
+
+		// If messages exist add them to the output
+		if (isset($lists) && is_array($lists)) {
+			$this->messages = $lists;
+		}
+
+		// Check if we are dealing with an error.
+		if ($state instanceof Exception) {
+			// Prepare the error response.
+			$this->error	= true;
+			$this->header	= JText::_('INSTL_HEADER_ERROR');
+			$this->message	= $state->getMessage();
+		} else {
+			// Prepare the response data.
+			$this->error	= false;
+			$this->data		= $state;
+		}
+	}
 }

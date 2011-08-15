@@ -322,6 +322,9 @@
 				<para>More JavaScript functions have been moved to the Joomla namespaced and updated.</para>
 			</listitem>
 			<listitem>
+				<para>Add improved support for JSON responses to JController.</para>
+			</listitem>
+			<listitem>
 				<para></para>
 			</listitem>
 			<listitem>
