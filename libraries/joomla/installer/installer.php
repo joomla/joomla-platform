@@ -1493,13 +1493,26 @@ class JInstaller extends JAdapter
 	 */
 	public function getParams()
 	{
-		// Validate that we have a fieldset to use
-		if (!isset($this->configManifest->fieldset))
+		// If config data stored in config.xml
+		if (isset($this->configManifest))
 		{
-			return '{}';
+			if (!isset($this->configManifest->fieldset))
+			{
+				return '{}';
+			}
+			// Getting the fieldset tags
+			$fieldsets = $this->configManifest->fieldset;
 		}
-		// Getting the fieldset tags
-		$fieldsets = $this->configManifest->fieldset;
+		// Get config data from main manifest file
+		else
+		{
+			if (!isset($this->manifest->config->fields->fieldset))
+			{
+				return '{}';
+			}
+			// Getting the fieldset tags
+			$fieldsets = $this->manifest->config->fields->fieldset;
+		}
 
 		// Creating the data collection variable:
 		$ini = array();
