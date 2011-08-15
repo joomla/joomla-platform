@@ -74,7 +74,9 @@
 				<para></para>
 			</listitem>
             <listitem>
-                <para>Load the component parameters during installation.</para>
+                <para>Load the component parameters during installation. Parameters can be stored
+					in either config.xml (preferred) or component manifest file
+				</para>
             </listitem>
 		</itemizedlist>
 	</sect1>
