@@ -54,7 +54,7 @@ if (!class_exists('JLoader'))
 // Import the factory library.
 JLoader::import('joomla.factory');
 
-// Import the exception and error handling libraries.
+// Import the exception, error handling and logging libraries.
 JLoader::import('joomla.error.error');
 JLoader::import('joomla.error.exception');
 JLoader::import('joomla.log.log');
