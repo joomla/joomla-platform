@@ -68,7 +68,7 @@
 				<para>Fixed bug in JHtml: stream_set_timeout was misspelled as stream_settimeout, throwing a Fatal Error each time the class was used</para>
 			</listitem>
 			<listitem>
-				<para></para>
+				<para>Added loading of JLog to import.php.</para>
 			</listitem>
 			<listitem>
 				<para></para>
