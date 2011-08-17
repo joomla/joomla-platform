@@ -7,6 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+// Load log to handle deprecation warnings.
+jimport('joomla.log.log');
+
 defined('JPATH_PLATFORM') or die();
 
 /**
