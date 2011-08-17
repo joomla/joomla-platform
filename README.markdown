@@ -9,6 +9,7 @@ You can find out more about Joomla development *(though not platform specific)* 
 
 You can discuss *Joomla Platform* development at: http://groups.google.com/group/joomla-dev-platform
 
+Please read the wiki for more information.
 
 Requirements
 ------------
