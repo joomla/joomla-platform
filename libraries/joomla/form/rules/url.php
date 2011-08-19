@@ -39,6 +39,11 @@ class JFormRuleUrl extends JFormRule
 	public function test(&$element, $value, $group = null, &$input = null, &$form = null)
 	{
 		$urlParts = JString::parse_url($value);
+		if ($urlParts === false)
+		{
+			throw new JException($this->getErrorMsg($element), -4, E_WARNING);
+		}
+
 		// See http://www.w3.org/Addressing/URL/url-spec.txt
 		// Use the full list or optionally specify a list of permitted schemes.
 		if ($element['schemes'] == '')
