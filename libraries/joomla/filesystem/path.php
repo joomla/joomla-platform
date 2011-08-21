@@ -300,4 +300,49 @@ class JPath
 		// Could not find the file in the set of paths
 		return false;
 	}
+	
+	/**
+	 * Searches the directory paths for a given file.
+	 *
+	 * @param   mixed   $paths  An path string or array of path strings to search in
+	 * @param   string  $file   The file name to look for.
+	 *
+	 * @return  mixed   The full paths and files names for the target file, or boolean false if the file is not found in any of the paths.
+	 *
+	 * @since   11.1
+	 */
+	public static function findAll($paths, $file)
+        {
+               $fullnames = array();
+               settype($paths, 'array'); //force to array
+
+               // start looping through the path set
+               foreach ($paths as $path) {
+                       // get the path to the file
+                       $fullname = $path.'/'.$file;
+
+                       // is the path based on a stream?
+                       if (strpos($path, '://') === false) {
+                               // not a stream, so do a realpath() to avoid directory
+                               // traversal attempts on the local file system.
+                               $path = realpath($path); // needed for substr() later
+                               $fullname = realpath($fullname);
+                       }
+
+                       // the substr() check added to make sure that the realpath()
+                       // results in a directory registered so that
+                       // non-registered directores are not accessible via directory
+                       // traversal attempts.
+                       if (file_exists($fullname) && substr($fullname, 0, strlen($path)) == $path) {
+                               $fullnames[] = $fullname;
+                       }
+               }
+
+               // could not find the file in the set of paths
+               if (count($fullnames) == 0) {
+                       return false;
+               } else {
+                       return $fullnames;
+               }
+        }
 }
