@@ -169,10 +169,11 @@ abstract class JTable extends JObject
 			// Search for the class file in the JTable include paths.
 			jimport('joomla.filesystem.path');
 
-			if ($path = JPath::find(JTable::addIncludePath(), strtolower($type) . '.php'))
-			{
-				// Import the class file.
-				include_once $path;
+			if ($paths = JPath::findAll(JTable::addIncludePath(), strtolower($type).'.php')) {
+        			// Import the class files.
+        			foreach($paths as $path) {
+        			   require_once $path;
+      				}
 
 				// If we were unable to load the proper class, raise a warning and return false.
 				if (!class_exists($tableClass))
