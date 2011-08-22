@@ -10,13 +10,13 @@
 /**
  * Test class for JForm.
  *
- * @package		Joomla.UnitTest
+ * @package     Joomla.UnitTest
  * @subpackage  Form
  */
 class JFormFieldCheckboxesTest extends JoomlaTestCase
 {
 	/**
-	 * Sets up dependancies for the test.
+	 * Sets up dependencies for the test.
 	 */
 	protected function setUp()
 	{
@@ -39,9 +39,9 @@ class JFormFieldCheckboxesTest extends JoomlaTestCase
 			'Line:'.__LINE__.' XML string should load successfully.'
 		);
 
-		$field = new JFormFieldCheckboxes($form);	
+		$field = new JFormFieldCheckboxes($form);
 
-		$this->markTestIncomplete('This test is incomplete');
+		$this->markTestIncomplete();
 		
 		// TODO: Should check all the attributes have come in properly.
 	}
