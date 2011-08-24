@@ -356,6 +356,26 @@ abstract class JTable extends JObject
 
 		return true;
 	}
+	
+	/**
+	 * Call to special method when exists.
+	 * This methods will recive value to has be changed or modified.
+	 * 
+	 * @param string $property
+	 * @param string|array $value
+	 * @since 11.1
+	 */
+	public function set($property,$value)
+	{
+		$method_name = 'set'.$property;
+		if( method_exists($this,$method_name) )
+		{
+			call_user_method($method_name, $this,$value);
+		}
+		else{
+			parent::set($property,$value);
+		}
+	}
 
 	/**
 	 * Method to set rules for the record.
