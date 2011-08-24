@@ -333,7 +333,7 @@ class JORMDatabaseQuery
 			{
 				case 'tinyint':
 				case 'int':
-					JORMInflector::addCountable($field);
+					JInflector::addCountable($field);
 			}
 		}
 
