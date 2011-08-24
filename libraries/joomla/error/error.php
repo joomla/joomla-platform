@@ -175,6 +175,7 @@ abstract class JError
 
 		// Build error object
 		$exception = new JException($msg, $code, $level, $info, $backtrace);
+
 		return JError::throwError($exception);
 	}
 
@@ -199,7 +200,7 @@ abstract class JError
 		// If thrown is hit again, we've come back to JError in the middle of throwing another JError, so die!
 		if ($thrown)
 		{
-			// echo debug_print_backtrace();
+			//echo debug_print_backtrace();
 			jexit(JText::_('JLIB_ERROR_INFINITE_LOOP'));
 		}
 
@@ -769,11 +770,10 @@ abstract class JError
 		}
 		else
 		{
-			// Set error handling levels to echo since there is no document
-			// This is a common use case for Command Line Interface Applications
-			JError::setErrorHandling( E_ERROR, 'echo');
-			JError::setErrorHandling( E_WARNING, 'echo' );
-			JError::setErrorHandling( E_NOTICE, 'echo' );
+			// Just echo the error since there is no document
+			// This is a common use case for Command Line Interface applications.
+			echo JText::_('Error') . ': ' . $error->get('code');
+		
 		}
 		$app->close(0);
 	}
