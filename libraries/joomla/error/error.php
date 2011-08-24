@@ -745,23 +745,36 @@ abstract class JError
 		jimport('joomla.document.document');
 		$app = JFactory::getApplication();
 		$document = JDocument::getInstance('error');
-		$config = JFactory::getConfig();
 
-		// Get the current template from the application
-		$template = $app->getTemplate();
+		// This will only apply if an error document type instance exists, which it may not.
+		if ($document)
+		{
+			$config = JFactory::getConfig();
 
-		// Push the error object into the document
-		$document->setError($error);
+			// Get the current template from the application
+			$template = $app->getTemplate();
 
-		@ob_end_clean();
-		$document->setTitle(JText::_('Error') . ': ' . $error->get('code'));
-		$data = $document->render(false, array('template' => $template, 'directory' => JPATH_THEMES, 'debug' => $config->get('debug')));
+			// Push the error object into the document
+			$document->setError($error);
 
-		// Do not allow cache
-		JResponse::allowCache(false);
+			@ob_end_clean();
+			$document->setTitle(JText::_('Error') . ': ' . $error->get('code'));
+			$data = $document->render(false, array('template' => $template, 'directory' => JPATH_THEMES, 'debug' => $config->get('debug')));
 
-		JResponse::setBody($data);
-		echo JResponse::toString();
+			// Do not allow cache
+			JResponse::allowCache(false);
+
+			JResponse::setBody($data);
+			echo JResponse::toString();
+		}
+		else
+		{
+			// Set error handling levels to echo since there is no document
+			// This is a common use case for Command Line Interface Applications
+			JError::setErrorHandling( E_ERROR, 'echo');
+			JError::setErrorHandling( E_WARNING, 'echo' );
+			JError::setErrorHandling( E_NOTICE, 'echo' );
+		}
 		$app->close(0);
 	}
 
