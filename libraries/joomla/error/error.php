@@ -175,6 +175,7 @@ abstract class JError
 
 		// Build error object
 		$exception = new JException($msg, $code, $level, $info, $backtrace);
+
 		return JError::throwError($exception);
 	}
 
@@ -199,7 +200,7 @@ abstract class JError
 		// If thrown is hit again, we've come back to JError in the middle of throwing another JError, so die!
 		if ($thrown)
 		{
-			// echo debug_print_backtrace();
+			// Echo debug_print_backtrace();
 			jexit(JText::_('JLIB_ERROR_INFINITE_LOOP'));
 		}
 
@@ -753,23 +754,35 @@ abstract class JError
 		jimport('joomla.document.document');
 		$app = JFactory::getApplication();
 		$document = JDocument::getInstance('error');
-		$config = JFactory::getConfig();
 
-		// Get the current template from the application
-		$template = $app->getTemplate();
+		// This will only apply if an error document type instance exists, which it may not.
+		if ($document)
+		{
+			$config = JFactory::getConfig();
 
-		// Push the error object into the document
-		$document->setError($error);
+			// Get the current template from the application
+			$template = $app->getTemplate();
 
-		@ob_end_clean();
-		$document->setTitle(JText::_('Error') . ': ' . $error->get('code'));
-		$data = $document->render(false, array('template' => $template, 'directory' => JPATH_THEMES, 'debug' => $config->get('debug')));
+			// Push the error object into the document
+			$document->setError($error);
 
-		// Do not allow cache
-		JResponse::allowCache(false);
+			@ob_end_clean();
+			$document->setTitle(JText::_('Error') . ': ' . $error->get('code'));
+			$data = $document->render(false, array('template' => $template, 'directory' => JPATH_THEMES, 'debug' => $config->get('debug')));
 
-		JResponse::setBody($data);
-		echo JResponse::toString();
+			// Do not allow cache
+			JResponse::allowCache(false);
+
+			JResponse::setBody($data);
+			echo JResponse::toString();
+		}
+		else
+		{
+			// Just echo the error since there is no document
+			// This is a common use case for Command Line Interface applications.
+			echo JText::_('Error') . ': ' . $error->get('code');
+		
+		}
 		$app->close(0);
 	}
 
