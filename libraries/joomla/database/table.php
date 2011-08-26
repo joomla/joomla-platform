@@ -727,7 +727,7 @@ abstract class JTable extends JObject
 
 			$query = $this->_db->getQuery(true);
 			$query->update($this->_db->quoteName($this->_tbl));
-			$query->set($this->$assetName.' = ' . (int) $this->$assetName);
+			$query->set($assetName.' = ' . (int) $this->$assetName);
 			$query->where($this->_db->quoteName($k) . ' = ' . (int) $this->$k);
 			$this->_db->setQuery($query);
 
