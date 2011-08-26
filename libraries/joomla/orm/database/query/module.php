@@ -45,7 +45,7 @@ class Module extends JORMDatabaseQuery
 	{
 		$menu = self::getInstance('Menu');
 		$menu->_query = &$this->_query;
-		$menu->_tbl_alias = 'menu';
+		$menu->_options->tbl_alias = 'menu';
 		$menu->_query->select('mm.menuid');
 		$menu->_query->leftJoin('#__modules_menu AS mm ON(mm.moduleid = m.id)');
 		$menu->_query->leftJoin('#__menu AS menu ON(menu.id = mm.menuid)');

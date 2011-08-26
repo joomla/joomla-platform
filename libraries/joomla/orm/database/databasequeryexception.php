@@ -9,17 +9,17 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * JORM Database Query Exception class
+ * JOrm Database Query Exception class
  *
  * Throws Exception
  *
  * @package     Joomla.Platform
  * @subpackage  Database
  * @since       11.1
- * @tutorial	Joomla.Platform/jormdatabasequeryexception.cls
- * @link		http://docs.joomla.org/JORMDatabaseQueryException
+ * @tutorial	Joomla.Platform/JOrmdatabasequeryexception.cls
+ * @link		http://docs.joomla.org/JOrmDatabaseQueryException
  */
-abstract class JORMDatabaseQueryException
+abstract class JOrmDatabaseQueryException
 {
 	/**
 	 * Throws when not support object class
@@ -35,8 +35,10 @@ abstract class JORMDatabaseQueryException
 	static function checkObjectSubclass($object)
 	{
 		$reflection = new ReflectionClass(get_class($object));
-		if(!$reflection->isSubclassOf('JORMDatabaseQuery') && !($object instanceof JORMDatabaseQuery))
-			throw new Exception(JText::sprintf('JORMLIB_ERROR_CLASS_NOT_SUPORTED',get_class($object)),500);
+		if (!$reflection->isSubclassOf('JOrmDatabaseQuery') && !($object instanceof JOrmDatabaseQuery))
+		{
+			throw new Exception(JText::sprintf('JLIB_ERROR_CLASS_NOT_SUPORTED',get_class($object)),500);
+		}
 	}
 	
 	/**
@@ -54,6 +56,6 @@ abstract class JORMDatabaseQueryException
 	 */
 	static function callMethodNotExists($method,$reference)
 	{
-		throw new Exception(JText::sprintf('JORMLIB_ERROR_UNDEFINED_METHOD',$method,get_class($reference)),500);
+		throw new Exception(JText::sprintf('JLIB_ERROR_UNDEFINED_METHOD',$method,get_class($reference)),500);
 	}
 }

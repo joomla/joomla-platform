@@ -34,9 +34,9 @@ class JORMDatabaseQueryHelperModuleRenderer extends JORMDatabaseQueryHelperAbstr
 		
 		$html = '';
 		
-		if( !empty($modules) )
+		if ( !empty($modules) )
 		{
-			foreach($modules as $module)
+			foreach ($modules as $module)
 			{
 				/**
 				 * Set a user property to 0

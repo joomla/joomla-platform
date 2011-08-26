@@ -25,33 +25,38 @@ abstract class JORMDatabaseQueryHelper
 	 * Instance a Query Helper Class
 	 * 
 	 * @param JORMDatabaseQueryHelperAbstract $helper
+	 * 
 	 * @param JORMDatabaseQuery $reference
+	 * 
 	 * @since  11.1
 	 */
-	public static function getInstance($helper,JORMDatabaseQuery $reference)
+	public static function getInstance($helper,$prefix='JOrmDatabaseQueryHelper',JORMDatabaseQuery $reference)
 	{
 		// Sanitize and prepare the table class name.
 		$helper = preg_replace('/[^A-Z0-9_\.-]/i', '', $helper);
-		$helperClass = 'JORMDatabaseQueryHelper'.ucfirst($helper);
+		$helperClass = $prefix.ucfirst($helper);
 		
 		// Only try to load the class if it doesn't already exist.
-		if (!class_exists($helperClass)) {
+		if (!class_exists($helperClass))
+		{
 			// Search for the class file in the JTable include paths.
 			jimport('joomla.filesystem.path');
 
-			if ($path = JPath::find(self::addIncludePath(), strtolower($helper).'.php')) {
+			if ($path = JPath::find(self::addIncludePath(), strtolower($helper).'.php'))
+			{
 				// Import the class file.
 				require_once $path;
 
 				// If we were unable to load the proper class, raise a warning and return false.
-				if (!class_exists($helperClass)) {
-					JError::raiseWarning(0, JText::sprintf('JORMLIB_HELPER_ERROR_CLASS_NOT_FOUND_IN_FILE', $helperClass));
+				if (!class_exists($helperClass))
+				{
+					JError::raiseWarning(0, JText::sprintf('JLIB_ORM_DATABASE_QUERY_HELPER_ERROR_CLASS_NOT_FOUND_IN_FILE', $helperClass));
 					return false;
 				}
 			}
 			else {
 				// If we were unable to find the class file in the JTable include paths, raise a warning and return false.
-				JError::raiseWarning(0, JText::sprintf('JORMLIB_HELPER_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND', $type));
+				JError::raiseWarning(0, JText::sprintf('JLIB_ORM_DATABASE_QUERY_HELPER_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND', $type));
 				return false;
 			}
 		}
@@ -69,6 +74,7 @@ abstract class JORMDatabaseQueryHelper
 	 * @return  array  An array of filesystem paths to find JTable classes in.
 	 *
 	 * @link    http://docs.joomla.org/JTable/addIncludePath
+	 * 
 	 * @since   11.1
 	 */
 	public static function addIncludePath($path = null)
@@ -77,7 +83,8 @@ abstract class JORMDatabaseQueryHelper
 		static $_paths;
 
 		// If the internal paths have not been initialised, do so with the base table path.
-		if (!isset($_paths)) {
+		if (!isset($_paths))
+		{
 			$_paths = array(dirname(__FILE__) . '/query/helpers');
 		}
 
@@ -85,7 +92,8 @@ abstract class JORMDatabaseQueryHelper
 		settype($path, 'array');
 
 		// If we have new paths to add, do so.
-		if (!empty($path) && !in_array($path, $_paths)) {
+		if (!empty($path) && !in_array($path, $_paths))
+		{
 			// Check and add each individual new path.
 			foreach ($path as $dir)
 			{

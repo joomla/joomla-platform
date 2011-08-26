@@ -11,7 +11,7 @@ defined('JPATH_PLATFORM') or die;
 jimport('joomla.base.object');
 
 /**
- * JORMClass Option
+ * JOrmClass Option
  *
  * Options Class based on Mootools Class.Extras Options
  *
@@ -21,7 +21,7 @@ jimport('joomla.base.object');
  * @tutorial	Joomla.Platform/jclassoption.cls
  * @link		http://docs.joomla.org/JClassOption
  */
-class JORMClassOptions extends JObject
+class JOrmClassOptions extends JObject
 {
 	private $_default = array();
 	
@@ -43,23 +43,35 @@ class JORMClassOptions extends JObject
 	/**
 	 * Merge options with default array
 	 * 
+	 * @param array $options
+	 * 
+	 * @param array $comparedata array to compare, by default will get default settings when instance is created
+	 * 
 	 * @return array
 	 * 
 	 * @since 11.1
 	 */
-	public function santizeOptions($options,$compareOptions = null)
+	public function santizeOptions($options,$comparedata = null)
 	{
-		if( empty($this->_default) ) return $options;
-		if( is_null($compareOptions) ) $compareOptions = $this->_default;
-		
-		foreach($compareOptions as $default_key => $default_value)
+		if ( empty($this->_default) )
 		{
-			if( array_key_exists($default_key, $options) === false )
+			return $options;
+		}
+			
+		if ( is_null($comparedata) )
+		{
+			$comparedata = $this->_default;
+		}
+		
+		foreach ($comparedata as $default_key => $default_value)
+		{
+			if ( array_key_exists($default_key, $options) === false )
 			{
 				$options[$default_key] = $default_value;
 			}
 			
-			if( is_array($compareOptions[$default_key]) && !empty($options[$default_key]) ){
+			if ( is_array($comparedata[$default_key]) && !empty($options[$default_key]) )
+			{
 				$options[$default_key] = $this->santizeOptions($options[$default_key],$this->_default[$default_key]);
 			}
 		}
@@ -70,15 +82,18 @@ class JORMClassOptions extends JObject
 	/**
 	 * Set options array
 	 * 
+	 * @param array $options 
+	 * 
 	 * @return self instance
 	 * 
 	 * @since 11.1
 	 */
-	public function setOptions($options)
+	public function setOptions(array $options)
 	{
 		$options = $this->santizeOptions($options);
 		
-		foreach($options as $option_key => $option_value){
+		foreach ($options as $option_key => $option_value)
+		{
 			$this->set($option_key,$option_value);
 		}
 		

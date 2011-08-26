@@ -32,7 +32,7 @@ class JORMYaml
 	 * 
 	 * @since 11.1
 	 */
-	static function loadstring($string)
+	public static function loadstring($string)
 	{
 		return spyc_load($string);
 	}
@@ -46,7 +46,7 @@ class JORMYaml
 	 * 
 	 * @since 11.1
 	 */
-	static function loadfile($filename)
+	public static function loadfile($filename)
 	{
 		return spyc_load_file($filename);
 	}	
@@ -64,7 +64,7 @@ class JORMYaml
 	 * 
 	 * @since 11.1
 	 */
-	static function findfile($path,$filename)
+	public static function findfile($path,$filename)
 	{
 		if ($path = JPath::find(self::addIncludePath(), strtolower($filename).'.yml')) {
 			// Import the class file.
@@ -72,7 +72,7 @@ class JORMYaml
 		}
 		else {
 			// If we were unable to find the class file in the YAML include paths, raise a warning and return false.
-			JError::raiseWarning(0, JText::sprintf('JORMLIB_YAML_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND', $filename));
+			JError::raiseWarning(0, JText::sprintf('JLIB_ORM_YAML_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND', $filename));
 			return false;
 		}
 	}
@@ -101,7 +101,7 @@ class JORMYaml
      * 
      * @param int $wordwrap Pass in 0 for no wordwrap, false for default (40)
      */
-	static function dump($array,$indent = false,$wordwrap = false)
+	public static function dump($array,$indent = false,$wordwrap = false)
 	{
 		return Spyc::YAMLDump($array,$indent,$wordwrap);
 	}

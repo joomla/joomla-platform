@@ -57,6 +57,7 @@ abstract class JStringInflector
 	{
 		$word = preg_replace('/(\s)+/', '_', $word);
 		$word = strtolower(preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $word));
+		
 		return $word;
 	}
 	
