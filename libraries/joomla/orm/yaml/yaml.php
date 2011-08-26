@@ -8,7 +8,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::import('includes.spyc',dirname(__FILE__));
+jimport('spyc.spyc');
 
 /**
  * JORM YAML
@@ -24,9 +24,12 @@ JLoader::import('includes.spyc',dirname(__FILE__));
 class JORMYaml
 {
 	/**
-	 * Load YAML string
+	 * Load YAML string an convert to array
 	 * 
 	 * @param unknown_type $string
+	 * 
+	 * @return array
+	 * 
 	 * @since 11.1
 	 */
 	static function loadstring($string)
@@ -35,9 +38,12 @@ class JORMYaml
 	}
 	
 	/**
-	 * Load YAML file
+	 * Load YAML file and return an array
 	 * 
 	 * @param string $filename complete file path
+	 * 
+	 * @return array
+	 * 
 	 * @since 11.1
 	 */
 	static function loadfile($filename)
@@ -51,7 +57,11 @@ class JORMYaml
 	 * Return full path file
 	 * 
 	 * @param array $path
+	 * 
 	 * @param string $filename
+	 * 
+	 * @return mixed Array when find file, other else false
+	 * 
 	 * @since 11.1
 	 */
 	static function findfile($path,$filename)
@@ -82,9 +92,13 @@ class JORMYaml
      * you can turn off wordwrap by passing in 0.
      *
      * @access public
+     * 
      * @return string
+     * 
      * @param array $array PHP array
+     * 
      * @param int $indent Pass in false to use the default, which is 2
+     * 
      * @param int $wordwrap Pass in 0 for no wordwrap, false for default (40)
      */
 	static function dump($array,$indent = false,$wordwrap = false)
@@ -101,6 +115,7 @@ class JORMYaml
 	 * @return  array  An array of filesystem paths to find YAML file in.
 	 *
 	 * @link    http://docs.joomla.org/JORMYaml/addIncludePath
+	 * 
 	 * @since   11.1
 	 */
 	public static function addIncludePath($path = null)

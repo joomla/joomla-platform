@@ -362,7 +362,11 @@ abstract class JTable extends JObject
 	 * This methods will recive value to has be changed or modified.
 	 * 
 	 * @param string $property
+	 * 
 	 * @param string|array $value
+	 * 
+	 * @return void
+	 * 
 	 * @since 11.1
 	 */
 	public function set($property,$value)

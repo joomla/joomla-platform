@@ -8,6 +8,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.orm.database.query.helper.abstract');
+
 /**
  * Module Render Helper
  *

@@ -26,9 +26,12 @@ class JORMClassOptions extends JObject
 	private $_default = array();
 	
 	/**
+	 * Constructor
+	 * 
 	 * Create recived options array properties and set by default settings
 	 * 
 	 * @param array $options
+	 * 
 	 * @since 11.1
 	 */
 	public function __construct(array $options = array())
@@ -39,6 +42,8 @@ class JORMClassOptions extends JObject
 	
 	/**
 	 * Merge options with default array
+	 * 
+	 * @return array
 	 * 
 	 * @since 11.1
 	 */
@@ -66,6 +71,7 @@ class JORMClassOptions extends JObject
 	 * Set options array
 	 * 
 	 * @return self instance
+	 * 
 	 * @since 11.1
 	 */
 	public function setOptions($options)
@@ -83,6 +89,7 @@ class JORMClassOptions extends JObject
 	 * Check if property exists
 	 * 
 	 * @param $property
+	 * 
 	 * @return Returns TRUE if the property exists, FALSE if it doesn't exist or NULL in case of an error. 
 	 */
 	function hasProperty($property)

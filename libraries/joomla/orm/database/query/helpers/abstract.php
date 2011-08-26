@@ -38,7 +38,7 @@ abstract class JORMDatabaseQueryHelperAbstract
 	public function __construct(JORMDatabaseQuery $reference)
 	{
 		$this->_reference = $reference;
-		$this->_initialize();
+		$this->initialize();
 	}
 	
 	/**
@@ -46,7 +46,7 @@ abstract class JORMDatabaseQueryHelperAbstract
 	 * 
 	 * @since 11.1
 	 */
-	protected function _initialize()
+	protected function initialize()
 	{
 		
 	}

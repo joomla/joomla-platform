@@ -8,6 +8,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.orm.database.databasequery');
+
 /**
  * UserGroup Query Object
  *

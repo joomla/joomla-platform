@@ -8,9 +8,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.orm.database.databasequeryhelper');
 jimport('joomla.orm.database.databasequeryexception');
-jimport('joomla.orm.class.options');
 
 /**
  * JORM Database Query class
@@ -95,42 +93,50 @@ class JORMDatabaseQuery
 	/**
 	 * Constructor class can recive another JORMDatabaseQuery object by reference
 	 * 
+	 * @param JOrmDatabaseQuery object
+	 * 
 	 * @since 11.1
 	 */
-	public function __construct($reference=null)
+	public function __construct(JOrmDatabaseQuery $reference=null)
 	{
 		// Set internal variables.
 		$this->_db 		 = JFactory::getDbo();
 		
 		$this->_default_options['jtable']['db'] = $this->_db;
-		$this->_options	= new JORMClassOptions($this->_default_options);
+		
+		jimport('joomla.orm.class.options');
+		$this->_options	= new JOrmClassOptions($this->_default_options);
 		$this->_options->setOptions($this->_config_options);
 		
 		//checking object
 		if( is_object($reference) )
 		{
-			JORMDatabaseQueryException::checkObjectSubclass($reference);
+			JOrmDatabaseQueryException::checkObjectSubclass($reference);
 			
 			//Copy query instance
 			$this->_query = &$reference->_query;
 			//Initialize
-			$this->_initialize();
+			$this->initialize();
 			//Auto join
-			$this->_autoJoin($reference);
+			$this->autoJoin($reference);
 			//Create a reference to back to scope
 			$this->addReference($reference->getName(),get_class($reference));
 		}
 		else{
 			$this->_query = $this->_db->getQuery(true);
 			//Initialize
-			$this->_initialize();
+			$this->initialize();
 			//Create select
-			$this->_createSelect();
+			$this->createSelect();
 		}
 	}
 	
 	/**
 	 * Create a instance from object that extends JDatabaseQuery Class these objects helps to construct a query builder
+	 * 
+	 * @param string name of object instance
+	 * 
+	 * @return object instance of JOrmDatabaseQuery
 	 * 
 	 * @since 11.1
 	 */
@@ -162,7 +168,7 @@ class JORMDatabaseQuery
 			}
 		}
 		
-		// Instantiate a new helper class and return it.
+		// Instantiate a new JOrmDatabaseQuery class and return it.
 		return new $queryObjectClass($reference);
 	}
 	
@@ -170,7 +176,11 @@ class JORMDatabaseQuery
 	 * Create a dinamyc instance of array options passed by reference
 	 * 
 	 * @param Array options
+	 * 
 	 * @param JORMDatabaseQuery reference
+	 * 
+	 * @return JOrmDatabaseQuery Object
+	 * 
 	 * @since 11.1
 	 */
 	public static function createInstance(array $options,JORMDatabaseQuery $reference = null)
@@ -181,18 +191,18 @@ class JORMDatabaseQuery
 		$instance->_options->setOptions($options);
 		
 		//Initialize
-		$instance->_initialize();
+		$instance->initialize();
 		
 		//Create select
 		if( is_object($reference) )
 		{
 			$instance->_query = &$reference->_query;
-			$instance->_autoJoin($reference);
+			$instance->autoJoin($reference);
 			//Create a reference to back to scope
 			$instance->addReference($reference->getName(),get_class($reference));
 		}
 		else {
-			$instance->_createSelect();
+			$instance->createSelect();
 		}
 		
 		return $instance;
@@ -202,7 +212,12 @@ class JORMDatabaseQuery
 	 * Create a reference to another JORMDatabaseQuery Object
 	 * 
 	 * @param string $alias
+	 * 
 	 * @param string|array|JORMDatabaseQuery Object $config
+	 * 
+	 * @return object current object or JOrmDatabaseQuery object
+	 * 
+	 * @since 11.1
 	 */
 	public function addReference($alias,$config)
 	{
@@ -211,7 +226,7 @@ class JORMDatabaseQuery
 		
 		//check object
 		if( is_object($config) ){
-			JORMDatabaseQueryException::checkObjectSubclass($config);
+			JOrmDatabaseQueryException::checkObjectSubclass($config);
 		}
 		
 		$this->_options->references[$alias] = $config;
@@ -222,9 +237,11 @@ class JORMDatabaseQuery
 	/**
 	 * This function will build a select on table
 	 * 
+	 * @return void
+	 * 
 	 * @since 11.1
 	 */
-	private function _createSelect()
+	private function createSelect()
 	{
 		if( empty($this->_options->fields) && empty($this->_options->tbl) ) return;
 		
@@ -239,9 +256,10 @@ class JORMDatabaseQuery
 	 * Return complete table name and alias or only table name/alias 
 	 * 
 	 * @param boolean mode
+	 * 
 	 * @since 11.1
 	 */
-	private function _getTable($mode=false)
+	private function getTableName($mode=false)
 	{
 		$table = $this->_options->tbl_prefix . $this->_options->tbl;
 		if($mode){
@@ -258,6 +276,7 @@ class JORMDatabaseQuery
 	 * Return a JTable instance
 	 * 
 	 * @since 11.1
+	 * 
 	 * @return JTable Object
 	 */
 	public function getJTable()
@@ -268,9 +287,11 @@ class JORMDatabaseQuery
 	/**
 	 * Check the autojoin between JORMDatabaseQuery objects
 	 * 
+	 * @param JOrmDatabaseQuery $reference reference to another object
+	 * 
 	 * @since 11.1
 	 */
-	private function _autoJoin($reference)
+	private function autoJoin(JORMDatabaseQuery $reference)
 	{
 		$foreign_tbls = $this->_options->foreign_tbls;
 		if( !array_key_exists($reference->_options->tbl, $foreign_tbls) ) return;
@@ -315,13 +336,17 @@ class JORMDatabaseQuery
 	}
 	
 	/**
-	 * Initialize some variables
+	 * Method to initialize class variables
+	 * 
+	 * @return void
 	 * 
 	 * @since 11.1
 	 */
-	protected function _initialize()
+	protected function initialize()
 	{
 		if( empty($this->_options->tbl) ) return;
+		
+		jimport('joomla.string.stringinflector');
 		
 		//get table columns
 		$columns = $this->_db->getTableColumns($this->_options->tbl_prefix.$this->_options->tbl);
@@ -333,7 +358,7 @@ class JORMDatabaseQuery
 			{
 				case 'tinyint':
 				case 'int':
-					JInflector::addCountable($field);
+					JStringInflector::addCountable($field);
 			}
 		}
 
@@ -344,19 +369,23 @@ class JORMDatabaseQuery
 		//check config of JTable class
 		if( !empty($this->_options->jtable) && is_array($this->_options->jtable) )
 		{
-			$this->_instanceJTable($this->_options->jtable);
+			$this->getInstanceJTable($this->_options->jtable);
 		}
 	}
 	
 	/**
-	 * Create or get instance of JTable class
+	 * Create or get instance of JTable class and set to jtable property
 	 * 
 	 * @param array Config
+	 * 
+	 * @return object current object
+	 * 
 	 * @since 11.1
 	 */
-	public function _instanceJTable(array $config)
+	public function getInstanceJTable(array $config)
 	{
 		//add tables path
+		jimport('joomla.database.table');
 		JTable::addIncludePath(dirname(__FILE__).DS.'table');
 		
 		if(!empty($config['tbl_key']) && !empty($config['tbl']) && ($config['db'] instanceof JDatabase))
@@ -378,6 +407,8 @@ class JORMDatabaseQuery
 	/**
 	 * Return name of class or self name property
 	 * 
+	 * @return name of query object class
+	 * 
 	 * @since 11.1
 	 */
 	public function getName()
@@ -386,23 +417,34 @@ class JORMDatabaseQuery
 	}
 	
 	/**
-	 * Add path to helper classes
+	 * Adds to the stack of JOrmDatabaseQueryHelpers paths in LIFO order.
+	 * 
+	 * @param mixed  $path  A filesystem path or array of filesystem paths to add.
+	 * 
+	 * @return void
 	 * 
 	 * @since 11.1
 	 */
 	public static function addHelperPath($path = null)
 	{
+		jimport('joomla.orm.query.helper');
 		JORMDatabaseQueryHelper::addIncludePath($path);
 	}
 	
 	/**
 	 * Instance a Helper class that do stuffs like: render modules, dump data, etc.
 	 * 
+	 * @param string $helper name of helper instance
+	 * 
+	 * @param string $prefix preifx of helper class
+	 * 
+	 * @return JOrmHelper object
+	 * 
 	 * @since 11.1
 	 */
-	public function getHelper($helper)
+	public function getHelper($helper,$prefix='JORMDatabaseQueryHelper')
 	{
-		return JORMDatabaseQueryHelper::getInstance($helper, $this);
+		return JORMDatabaseQueryHelper::getInstance($helper,$prefix, $this);
 	}
 	
 	/**
@@ -414,6 +456,7 @@ class JORMDatabaseQuery
 	 * @return  array  An array of filesystem paths to find JORMDatabaseQuery classes in.
 	 *
 	 * @link    http://docs.joomla.org/JORMDatabaseQuery/addIncludePath
+	 * 
 	 * @since   11.1
 	 */
 	public static function addIncludePath($path = null)
@@ -446,7 +489,9 @@ class JORMDatabaseQuery
 	}
 	
 	/**
-	 * Set a property on JTable that control 
+	 * Method to set property on JOrmClassOptions or set JTable property
+	 * 
+	 * @return void
 	 * 
 	 * @since 11.1
 	 */
@@ -472,6 +517,8 @@ class JORMDatabaseQuery
 	 * 4 - JDatabaseQuery
 	 * 5 - JDatabase
 	 * 
+	 * @return mixed current object when call to a field, referenced object when have it, JTable method, JDatabaseQuery method or JDatabase method
+	 * 
 	 * @since 11.1
 	 */
 	public function __call($method,$arguments)
@@ -479,13 +526,13 @@ class JORMDatabaseQuery
 		settype($arguments, 'array');
 		
 		//check to call another instance
-		$return = $this->_callReference($method);
+		$return = $this->callReference($method);
 		if(is_object($return)){
 			return $return;
 		}
 		
 		//check if method is a field
-		$return = $this->_callField($method, $arguments);
+		$return = $this->callField($method, $arguments);
 		if(is_object($return)){
 			return $return;
 		}
@@ -516,18 +563,21 @@ class JORMDatabaseQuery
 			return call_user_method_array($method, $this->_db, $arguments);
 		}
 		
-		JORMDatabaseQueryException::callMethodNotExists($method,$this);
+		JOrmDatabaseQueryException::callMethodNotExists($method,$this);
 	}
 	
 	/**
 	 * Checking referenced config and return a JORMDatabaseQuery object when exists, or false
 	 * 
 	 * @param string, object, array $method
+	 * 
 	 * @throws Exception
+	 * 
 	 * @return JORMDatabaseQuery object or FALSE
+	 * 
 	 * @since 11.1
 	 */
-	final private function _callReference($method)
+	final private function callReference($method)
 	{
 		//check if method is a reference
 		$references = $this->_options->references;
@@ -551,7 +601,7 @@ class JORMDatabaseQuery
 			/**
 			 * Check object class
 			 */
-			JORMDatabaseQueryException::checkObjectSubclass($reference);
+			JOrmDatabaseQueryException::checkObjectSubclass($reference);
 			
 			return $reference;
 		}
@@ -563,8 +613,10 @@ class JORMDatabaseQuery
 	 * Retrun field with table name or table alias
 	 * 
 	 * @param string $field
+	 * 
+	 * @return string field with alias
 	 */
-	private function _addAliasToField($field)
+	private function addAliasToField($field)
 	{
 		return $this->_getTable(true).'.'.$field;
 	}
@@ -573,10 +625,12 @@ class JORMDatabaseQuery
 	 * Check if call method is a table field and return self if exists, else returns false
 	 * 
 	 * @param string $method
+	 * 
 	 * @param array $arguments
-	 * @return Object or Boolean
+	 * 
+	 * @return mixed current object when field exists, other else false
 	 */
-	protected function _callField($method,$arguments)
+	protected function callField($method,$arguments)
 	{
 		$count_arguments = count($arguments);
 		

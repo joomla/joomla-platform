@@ -25,7 +25,11 @@ abstract class JORMDatabaseQueryException
 	 * Throws when not support object class
 	 * 
 	 * @param Object $object
+	 * 
 	 * @throws Exception
+	 * 
+	 * @return void
+	 * 
 	 * @since 11.1
 	 */
 	static function checkObjectSubclass($object)
@@ -39,8 +43,13 @@ abstract class JORMDatabaseQueryException
 	 * Throwns when call to undefined method on reference
 	 * 
 	 * @param string $method
+	 * 
 	 * @param Object $reference
+	 * 
 	 * @throws Exception
+	 * 
+	 * @return void
+	 * 
 	 * @since 11.1
 	 */
 	static function callMethodNotExists($method,$reference)

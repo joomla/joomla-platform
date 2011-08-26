@@ -8,8 +8,10 @@
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.orm.database.databasequery');
+
 /**
- * category ORM
+ * Category Query Object
  *
  *
  * @package     Joomla.Platform
