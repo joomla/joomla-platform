@@ -116,12 +116,13 @@ class JDatabaseMySQLi extends JDatabase
 			}
 		}
 
-		// Attempt to connect to the server.
-		if (!($this->connection = @ mysqli_connect($options['host'], $options['user'], $options['password'], null, $options['port'],
-			$options['socket']))
-		)
-		{
+		$this->connection = @mysqli_connect(
+			$options['host'], $options['user'], $options['password'], null, $options['port'], $options['socket']
+		);
 
+		// Attempt to connect to the server.
+		if (!$this->connection)
+		{
 			// Legacy error handling switch based on the JError::$legacy switch.
 			// @deprecated  12.1
 			if (JError::$legacy)
@@ -252,16 +253,9 @@ class JDatabaseMySQLi extends JDatabase
 	 */
 	public function getCollation()
 	{
-		if ($this->hasUTF())
-		{
-			$this->setQuery('SHOW FULL COLUMNS FROM #__users');
-			$array = $this->loadAssocList();
-			return $array['2']['Collation'];
-		}
-		else
-		{
-			return 'N/A (Not Able to Detect)';
-		}
+		$this->setQuery('SHOW FULL COLUMNS FROM #__users');
+		$array = $this->loadAssocList();
+		return $array['2']['Collation'];
 	}
 
 	/**
@@ -473,11 +467,13 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return  boolean  True if supported.
 	 *
 	 * @since   11.1
+	 * @deprecated 12.1
 	 */
 	public function hasUTF()
 	{
-		$verParts = explode('.', $this->getVersion());
-		return ($verParts[0] == 5 || ($verParts[0] == 4 && $verParts[1] == 1 && (int) $verParts[2] >= 2));
+		jimport('joomla.log.log');
+		JLog::add('JDatabaseMySQLi::hasUTF() is deprecated.', JLog::WARNING, 'deprecated');
+		return true;
 	}
 
 	/**

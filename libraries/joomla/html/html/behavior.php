@@ -222,8 +222,10 @@ abstract class JHtmlBehavior
 	 *                             - hideDelay      integer   The millisecond delay the hide hide is fired (defaults to 100).
 	 *                             - className      string    The className your tooltip container will get.
 	 *                             - fixed          boolean   If set to true, the toolTip will not follow the mouse.
-	 *                             - onShow         function  The default function for the show event, passes the tip element and the currently hovered element.
-	 *                             - onHide         function  The default function for the hide event, passes the currently hovered element.
+	 *                             - onShow         function  The default function for the show event, passes the tip element
+	 *                               and the currently hovered element.
+	 *                             - onHide         function  The default function for the hide event, passes the currently
+	 *                               hovered element.
 	 *
 	 * @return  void
 	 *
@@ -298,6 +300,7 @@ abstract class JHtmlBehavior
 	 *                            - ajaxOptions
 	 *                            - size
 	 *                            - shadow
+	 *                            - overlay
 	 *                            - onOpen
 	 *                            - onClose
 	 *                            - onUpdate
@@ -352,6 +355,7 @@ abstract class JHtmlBehavior
 		$opt['iframeOptions'] = (isset($params['iframeOptions']) && (is_array($params['iframeOptions']))) ? $params['iframeOptions'] : null;
 		$opt['size'] = (isset($params['size']) && (is_array($params['size']))) ? $params['size'] : null;
 		$opt['shadow'] = (isset($params['shadow'])) ? $params['shadow'] : null;
+		$opt['overlay'] = (isset($params['overlay'])) ? $params['overlay'] : null;
 		$opt['onOpen'] = (isset($params['onOpen'])) ? $params['onOpen'] : null;
 		$opt['onClose'] = (isset($params['onClose'])) ? $params['onClose'] : null;
 		$opt['onUpdate'] = (isset($params['onUpdate'])) ? $params['onUpdate'] : null;
@@ -463,7 +467,8 @@ abstract class JHtmlBehavior
 			} else {
 				file.element.addClass(\'file-failed\');
 				file.info.set(\'html\', \'<strong>\' +
-					Joomla.JText._(\'JLIB_HTML_BEHAVIOR_UPLOADER_ERROR_OCCURRED\', \'An Error Occurred\').substitute({ error: json.get(\'error\') }) + \'</strong>\');
+					Joomla.JText._(\'JLIB_HTML_BEHAVIOR_UPLOADER_ERROR_OCCURRED\',
+						\'An Error Occurred\').substitute({ error: json.get(\'error\') }) + \'</strong>\');
 			}
 		}';
 
@@ -791,7 +796,8 @@ abstract class JHtmlBehavior
 		// Include MooTools framework
 		self::framework();
 
-		$js = "window.addEvent('domready', function () {if (top == self) {document.documentElement.style.display = 'block'; } else {top.location = self.location; }});";
+		$js = "window.addEvent('domready', function () {if (top == self) {document.documentElement.style.display = 'block'; }' .
+			' else {top.location = self.location; }});";
 		$document = JFactory::getDocument();
 		$document->addStyleDeclaration('html { display:none }');
 		$document->addScriptDeclaration($js);
