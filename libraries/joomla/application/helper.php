@@ -24,7 +24,7 @@ class JApplicationHelper
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected static $_clients = null;
+	protected static $_clients = array();
 
 	/**
 	 * Return the name of the request component [main component]
@@ -71,30 +71,6 @@ class JApplicationHelper
 	 */
 	public static function getClientInfo($id = null, $byName = false)
 	{
-		// Only create the array if it does not exist
-		if (self::$_clients === null)
-		{
-			$obj = new stdClass();
-
-			// Site Client
-			$obj->id = 0;
-			$obj->name = 'site';
-			$obj->path = JPATH_SITE;
-			self::$_clients[0] = clone $obj;
-
-			// Administrator Client
-			$obj->id = 1;
-			$obj->name = 'administrator';
-			$obj->path = JPATH_ADMINISTRATOR;
-			self::$_clients[1] = clone $obj;
-
-			// Installation Client
-			$obj->id = 2;
-			$obj->name = 'installation';
-			$obj->path = JPATH_INSTALLATION;
-			self::$_clients[2] = clone $obj;
-		}
-
 		// If no client id has been passed return the whole array
 		if (is_null($id))
 		{
