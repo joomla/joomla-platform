@@ -9,7 +9,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * JInflector class
+ * JSringInflector class
  *
  * The Inflector transforms words
  *
@@ -27,8 +27,7 @@ abstract class JStringInflector
 	 * @var    Array
 	 * @since  11.1
 	 */
-	static private $_contable = array(
-	);
+	static private $_contable = array();
 	
 	/**
 	 * Return true if word is countable.

@@ -38,7 +38,9 @@ class JOrmDatabaseQuery
 			'tbl_prefix' => '#__',
 			//table alias
 			'tbl_alias' => null,
-			//reference to anothers
+			//behaviors
+			'behaviors' => array(),
+			//reference to others JOrmDatabaseQuery classes
 			'references' => array(),
 			//foreign tables
 			'foreign_tbls' => array(),
@@ -134,42 +136,42 @@ class JOrmDatabaseQuery
 	/**
 	 * Create a instance from object that extends JDatabaseQuery Class these objects helps to construct a query builder
 	 * 
-	 * @param string name of object instance
+	 * @param string $query_object name of object instance
 	 * 
-	 * @return object instance of JOrmDatabaseQuery
+	 * @return object $reference instance of JOrmDatabaseQuery
 	 * 
 	 * @since 11.1
 	 */
-	public static function getInstance($queryObject,$reference=null)
+	public static function getInstance($query_object,$reference=null)
 	{
-		// Sanitize and prepare the table class name.
-		$queryObject = preg_replace('/[^A-Z0-9_\.-]/i', '', $queryObject);
-		$queryObjectClass = ucfirst($queryObject);
+		// Sanitize and prepare the query object class name.
+		$query_object = preg_replace('/[^A-Z0-9_\.-]/i', '', $query_object);
+		$query_object_class = ucfirst($queryObject);
 		
 		// Only try to load the class if it doesn't already exist.
-		if (!class_exists($queryObjectClass)) {
+		if (!class_exists($query_object_class)) {
 			// Search for the class file in the JOrmDatabaseQuery include paths.
 			jimport('joomla.filesystem.path');
 
-			if ($path = JPath::find(self::addIncludePath(), strtolower($queryObject).'.php')) {
+			if ($path = JPath::find(self::addIncludePath(), strtolower($query_object).'.php')) {
 				// Import the class file.
 				require_once $path;
 
 				// If we were unable to load the proper class, raise a warning and return false.
-				if (!class_exists($queryObjectClass)) {
+				if (!class_exists($query_object_class)) {
 					JError::raiseWarning(0, JText::sprintf('JLIB_ORM_DATABASE_QUERY_OBJECT_ERROR_CLASS_NOT_FOUND_IN_FILE', $queryObjectClass));
 					return false;
 				}
 			}
 			else {
-				// If we were unable to find the class file in the JTable include paths, raise a warning and return false.
+				// If we were unable to find the class file in the JOrmDatabaseQuery include paths, raise a warning and return false.
 				JError::raiseWarning(0, JText::sprintf('JLIB_ORM_OBJECT_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND', $queryObject));
 				return false;
 			}
 		}
 		
 		// Instantiate a new JOrmDatabaseQuery class and return it.
-		return new $queryObjectClass($reference);
+		return new $query_object_class($reference);
 	}
 	
 	/**
@@ -213,7 +215,7 @@ class JOrmDatabaseQuery
 	 * 
 	 * @param string $alias
 	 * 
-	 * @param string|array|JOrmDatabaseQuery Object $config
+	 * @param mixed $config string class name of JOrmDatabaseQuery objet, instance of JOrmDatabaseQuery object or Array Config
 	 * 
 	 * @return object current object or JOrmDatabaseQuery object
 	 * 
@@ -232,7 +234,7 @@ class JOrmDatabaseQuery
 		$this->_options->references[$alias] = $config;
 		
 		return $this;
-	} 
+	}
 	
 	/**
 	 * This function will build a select on table if options properties tbl e fields is set
@@ -249,7 +251,7 @@ class JOrmDatabaseQuery
 			
 			foreach ($tmp_options as &$field)
 			{
-				$field = $this->addAliasToField($field);
+				$field = $this->setTableFromField($field);
 			}
 		
 			$this->_query->select($tmp_options)->from($this->getTableName());
@@ -328,7 +330,7 @@ class JOrmDatabaseQuery
 			}
 		}
 		else {
-			$arrJoinColumns[] = $reference->addAliasToField($join_columns['name']).' = '.$this->addAliasToField($join_columns['referencedColumnName']);
+			$arrJoinColumns[] = $reference->setTableFromField($join_columns['name']).' = '.$this->setTableFromField($join_columns['referencedColumnName']);
 		}
 		
 		$conditions .= ' ON ('.implode(' AND ',$arrJoinColumns).')';
@@ -393,6 +395,14 @@ class JOrmDatabaseQuery
 		{
 			$this->getInstanceJTable($this->_options->jtable);
 		}
+		
+		//load behaviors
+		if (!empty($this->_behaviors) && is_array($this->_behaviors))
+		{
+			foreach($this->_behaviors as $behavior){
+				$this->getBehavior($behavior);
+			}
+		}
 	}
 	
 	/**
@@ -449,7 +459,7 @@ class JOrmDatabaseQuery
 	 */
 	public static function addHelperPath($path = null)
 	{
-		jimport('joomla.orm.query.helper');
+		jimport('joomla.orm.database.databasequeryhelper');
 		JOrmDatabaseQueryHelper::addIncludePath($path);
 	}
 	
@@ -650,7 +660,7 @@ class JOrmDatabaseQuery
 	 * 
 	 * @return string field with alias
 	 */
-	private function addAliasToField($field)
+	private function setTableFromField($field)
 	{
 		return $this->_getTable(true).'.'.$field;
 	}
@@ -673,7 +683,7 @@ class JOrmDatabaseQuery
 		//check if exists on fields list
 		if ( array_search($method, $this->_options->fields) !== false )
 		{
-			$string = $this->addAliasToField($method);
+			$string = $this->setTableFromField($method);
 			
 			//check if is one argument set the condition equal argument
 			if ( $count_arguments == 1 )

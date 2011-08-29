@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * Default Helper Abstract class
  *
  * @package     Joomla.Platform
- * @subpackage  Database.Helper
+ * @subpackage  Database.Query.Helpers
  * @since       11.1
  * @tutorial	Joomla.Platform/jormdatabasequeryhelperabstract.cls
  * @link		http://docs.joomla.org/JORMDatabaseQueryHelperAbstract
