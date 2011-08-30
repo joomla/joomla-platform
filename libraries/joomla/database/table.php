@@ -292,6 +292,8 @@ abstract class JTable extends JObject
 	 */
 	protected function getColumnAlias($column)
 	{
+		$column = strtolower($column);
+
 		if(isset($this->columnAlias[$column]))
 		{
 			$return = $this->columnAlias[$column];
@@ -300,7 +302,9 @@ abstract class JTable extends JObject
 		{
 			$return = $column;
 		}
-		
+
+		$return = preg_replace('#[^A-Z0-9_]#i', '', $return);
+
 		return $return;
 	}	
 	
@@ -316,6 +320,8 @@ abstract class JTable extends JObject
 	 */
 	protected function setColumnAlias($column, $columnAlias)
 	{
+		$column = strtolower($column);
+		$column = preg_replace('#[^A-Z0-9_]#i', '', $column);
 		$this->columnAlias[$column] = $columnAlias;
 	}
 	
