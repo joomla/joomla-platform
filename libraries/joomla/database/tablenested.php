@@ -1369,7 +1369,9 @@ class JTableNested extends JTable
 			// Get the root item.
 			$parentId = $this->getRootId();
 			if ($parentId === false)
+			{
 				return false;
+			}
 
 		}
 
@@ -1412,7 +1414,9 @@ class JTableNested extends JTable
 
 			// If there is an update failure, return false to break out of the recursion.
 			if ($rightId === false)
+			{
 				return false;
+			}
 		}
 
 		// We've got the left value, and now that we've processed
@@ -1645,11 +1649,13 @@ class JTableNested extends JTable
 
 		// A valid node cannot have a width less than 2.
 		if ($nodeWidth < 2)
+		{
 			return false;
+		}
 
 		// Initialise variables.
 		$k = $this->_tbl_key;
-		$data = new stdClass();
+		$data = new stdClass;
 
 		// Run the calculations and build the data object by reference position.
 		switch ($position)

@@ -39,7 +39,7 @@ class JDispatcher extends JObservable
 
 		if (!is_object($instance))
 		{
-			$instance = new JDispatcher();
+			$instance = new JDispatcher;
 		}
 
 		return $instance;
@@ -48,8 +48,8 @@ class JDispatcher extends JObservable
 	/**
 	 * Registers an event handler to the event dispatcher
 	 *
-	 * @param   string   $event    Name of the event to register handler for
-	 * @param   string   $handler  Name of the event handler
+	 * @param   string  $event    Name of the event to register handler for
+	 * @param   string  $handler  Name of the event handler
 	 *
 	 * @return  void
 	 *
