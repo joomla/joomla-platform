@@ -41,7 +41,8 @@ abstract class JTable extends JObject
 	/**
 	 * Array with alias for "special" columns such as ordering, hits etc etc
 	 * 
-	 * @var array
+	 * @var    array
+	 * @since  11.3
 	 */
 	protected $columnAlias = array();
 
@@ -278,12 +279,41 @@ abstract class JTable extends JObject
 		return $this->_getAssetName();
 	}
 
+	/**
+	 * Method to return the real name of a "special" column such as ordering, hits, published
+	 * etc etc. In this way you are free to follow your db naming convention and use the
+	 * built in Joomla functions. 
+	 * 
+	 * @param   string  $column Name of the "special" column (ie ordering, hits etc etc)
+	 * 
+	 * @return  string  The string that identify the special
+	 * 
+	 * @since   11.3
+	 */
 	protected function getColumnAlias($column)
 	{
-		if(isset($this->columnAlias[$column])) return $this->columnAlias[$column];
-		else								   return $column;
+		if(isset($this->columnAlias[$column]))
+		{
+			$return = $this->columnAlias[$column];
+		} 
+		else
+		{
+			$return = $column;
+		}
+		
+		return $return;
 	}	
 	
+	/**
+	 * Method to register a column alias for a "special" column.
+	 * 
+	 * @param string $column      The "special" column (ie ordering)
+	 * @param string $columnAlias The real column name (ie foo_ordering)
+	 * 
+	 * @return void
+	 * 
+	 * @since 11.3
+	 */
 	protected function setColumnAlias($column, $columnAlias)
 	{
 		$this->columnAlias[$column] = $columnAlias;
