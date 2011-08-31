@@ -282,7 +282,7 @@ abstract class JTable extends JObject
 	/**
 	 * Method to return the real name of a "special" column such as ordering, hits, published
 	 * etc etc. In this way you are free to follow your db naming convention and use the
-	 * built in Joomla functions. 
+	 * built in Joomla functions.
 	 * 
 	 * @param   string  $column Name of the "special" column (ie ordering, hits etc etc)
 	 * 
