@@ -51,6 +51,22 @@ class JTableTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @todo Implement testGetColumnAlias().
+	 */
+	public function testGetColumnAlias() {
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * @todo Implement testSetColumnAlias().
+	 */
+	public function testSetColumnAlias() {
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
 	 * @todo Implement testGetTableName().
 	 */
 	public function testGetTableName() {

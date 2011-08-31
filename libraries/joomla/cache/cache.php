@@ -320,7 +320,7 @@ class JCache extends JObject
 	 */
 	public function lock($id, $group = null, $locktime = null)
 	{
-		$returning = new stdClass();
+		$returning = new stdClass;
 		$returning->locklooped = false;
 		// Get the default group
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
@@ -413,7 +413,9 @@ class JCache extends JObject
 		{
 			$unlocked = $handler->unlock($id, $group);
 			if ($unlocked !== false)
+			{
 				return $unlocked;
+			}
 		}
 
 		// fallback
@@ -653,7 +655,7 @@ class JCache extends JObject
 		$registeredurlparams->tpl = 'CMD';
 		$registeredurlparams->id = 'INT';
 
-		$safeuriaddon = new stdClass();
+		$safeuriaddon = new stdClass;
 
 		foreach ($registeredurlparams as $key => $value)
 		{
