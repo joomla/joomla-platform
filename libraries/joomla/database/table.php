@@ -37,10 +37,10 @@ abstract class JTable extends JObject
 	 * @since  11.1
 	 */
 	protected $_tbl_key = '';
-	
+
 	/**
 	 * Array with alias for "special" columns such as ordering, hits etc etc
-	 * 
+	 *
 	 * @var    array
 	 * @since  11.3
 	 */
@@ -96,7 +96,7 @@ abstract class JTable extends JObject
 		$this->_tbl = $table;
 		$this->_tbl_key = $key;
 		$this->_db = &$db;
-		
+
 		// Initialise the table properties.
 		if ($fields = $this->getFields())
 		{
@@ -283,42 +283,42 @@ abstract class JTable extends JObject
 	 * Method to return the real name of a "special" column such as ordering, hits, published
 	 * etc etc. In this way you are free to follow your db naming convention and use the
 	 * built in Joomla functions.
-	 * 
-	 * @param   string  $column Name of the "special" column (ie ordering, hits etc etc)
-	 * 
+	 *
+	 * @param   string  $column  Name of the "special" column (ie ordering, hits etc etc)
+	 *
 	 * @return  string  The string that identify the special
-	 * 
+	 *
 	 * @since   11.3
 	 */
 	protected function getColumnAlias($column)
 	{
-		if(isset($this->columnAlias[$column]))
+		if (isset($this->columnAlias[$column]))
 		{
 			$return = $this->columnAlias[$column];
-		} 
+		}
 		else
 		{
 			$return = $column;
 		}
-		
+
 		return $return;
-	}	
-	
+	}
+
 	/**
 	 * Method to register a column alias for a "special" column.
-	 * 
-	 * @param string $column      The "special" column (ie ordering)
-	 * @param string $columnAlias The real column name (ie foo_ordering)
-	 * 
-	 * @return void
-	 * 
-	 * @since 11.3
+	 *
+	 * @param   string  $column       The "special" column (ie ordering)
+	 * @param   string  $columnAlias  The real column name (ie foo_ordering)
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
 	 */
 	protected function setColumnAlias($column, $columnAlias)
 	{
 		$this->columnAlias[$column] = $columnAlias;
 	}
-	
+
 	/**
 	 * Method to get the parent asset under which to register this one.
 	 * By default, all assets are registered to the ROOT node with ID 1.
@@ -877,7 +877,7 @@ abstract class JTable extends JObject
 		// If there is no checked_out or checked_out_time field, just return true.
 		$checkName 	   = $this->getColumnAlias('checked_out');
 		$checkTimeName = $this->getColumnAlias('checked_out_time');
-				
+
 		if (!property_exists($this, $checkName) || !property_exists($this, $checkTimeName))
 		{
 			return true;
@@ -936,7 +936,7 @@ abstract class JTable extends JObject
 		// If there is no checked_out or checked_out_time field, just return true.
 		$checkName 	   = $this->getColumnAlias('checked_out');
 		$checkTimeName = $this->getColumnAlias('checked_out_time');
-		
+
 		if (!property_exists($this, $checkName) || !property_exists($this, $checkTimeName))
 		{
 			return true;
@@ -991,7 +991,7 @@ abstract class JTable extends JObject
 	{
 		// If there is no hits field, just return true.
 		$hitsName = $this->getColumnAlias('hits');
-		
+
 		if (!property_exists($this, $hitsName))
 		{
 			return true;
@@ -1082,7 +1082,7 @@ abstract class JTable extends JObject
 	{
 		// If there is no ordering field set an error and return false.
 		$orderName = $this->getColumnAlias('ordering');
-		
+
 		if (!property_exists($this, $orderName))
 		{
 			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_CLASS_DOES_NOT_SUPPORT_ORDERING', get_class($this)));
@@ -1131,7 +1131,7 @@ abstract class JTable extends JObject
 	{
 		// If there is no ordering field set an error and return false.
 		$orderName = $this->getColumnAlias('ordering');
-		
+
 		if (!property_exists($this, $orderName))
 		{
 			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_CLASS_DOES_NOT_SUPPORT_ORDERING', get_class($this)));
@@ -1217,7 +1217,7 @@ abstract class JTable extends JObject
 	{
 		// If there is no ordering field set an error and return false.
 		$orderName = $this->getColumnAlias('ordering');
-		
+
 		if (!property_exists($this, $orderName))
 		{
 			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_CLASS_DOES_NOT_SUPPORT_ORDERING', get_class($this)));
@@ -1373,7 +1373,7 @@ abstract class JTable extends JObject
 		// Determine if there is checkin support for the table.
 		$checkName 	   = $this->getColumnAlias('checked_out');
 		$checkTimeName = $this->getColumnAlias('checked_out_time');
-		
+
 		if (property_exists($this, $checkName) || property_exists($this, $checkTimeName))
 		{
 			$query->where('('.$checkName.' = 0 OR '.$checkName.' = ' . (int) $userId . ')');
@@ -1438,7 +1438,7 @@ abstract class JTable extends JObject
 	{
 		// Deprecation warning.
 		JLog::add('JTable::canDelete() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
@@ -1524,7 +1524,7 @@ abstract class JTable extends JObject
 	{
 		// Deprecation warning.
 		JLog::add('JTable::toXML() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		// Initialise variables.
 		$xml = array();
 		$map = $mapKeysToText ? ' mapkeystotext="true"' : '';
