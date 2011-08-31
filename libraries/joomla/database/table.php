@@ -37,14 +37,6 @@ abstract class JTable extends JObject
 	 * @since  11.1
 	 */
 	protected $_tbl_key = '';
-	
-	/**
-	 * Array with alias for "special" columns such as ordering, hits etc etc
-	 * 
-	 * @var    array
-	 * @since  11.3
-	 */
-	protected $columnAlias = array();
 
 	/**
 	 * JDatabase connector object.
@@ -96,7 +88,7 @@ abstract class JTable extends JObject
 		$this->_tbl = $table;
 		$this->_tbl_key = $key;
 		$this->_db = &$db;
-		
+
 		// Initialise the table properties.
 		if ($fields = $this->getFields())
 		{
@@ -111,17 +103,16 @@ abstract class JTable extends JObject
 		}
 
 		// If we are tracking assets, make sure an access field exists and initially set the default.
-		if (property_exists($this, $this->getColumnAlias('asset_id')))
+		if (property_exists($this, 'asset_id'))
 		{
 			jimport('joomla.access.rules');
 			$this->_trackAssets = true;
 		}
 
 		// If the acess property exists, set the default.
-		$accessName = $this->getColumnAlias('access');
-		if (property_exists($this, $accessName))
+		if (property_exists($this, 'access'))
 		{
-			$this->$accessName = (int) JFactory::getConfig()->get('access');
+			$this->access = (int) JFactory::getConfig()->get('access');
 		}
 	}
 
@@ -279,46 +270,6 @@ abstract class JTable extends JObject
 		return $this->_getAssetName();
 	}
 
-	/**
-	 * Method to return the real name of a "special" column such as ordering, hits, published
-	 * etc etc. In this way you are free to follow your db naming convention and use the
-	 * built in Joomla functions. 
-	 * 
-	 * @param   string  $column Name of the "special" column (ie ordering, hits etc etc)
-	 * 
-	 * @return  string  The string that identify the special
-	 * 
-	 * @since   11.3
-	 */
-	protected function getColumnAlias($column)
-	{
-		if(isset($this->columnAlias[$column]))
-		{
-			$return = $this->columnAlias[$column];
-		} 
-		else
-		{
-			$return = $column;
-		}
-		
-		return $return;
-	}	
-	
-	/**
-	 * Method to register a column alias for a "special" column.
-	 * 
-	 * @param string $column      The "special" column (ie ordering)
-	 * @param string $columnAlias The real column name (ie foo_ordering)
-	 * 
-	 * @return void
-	 * 
-	 * @since 11.3
-	 */
-	protected function setColumnAlias($column, $columnAlias)
-	{
-		$this->columnAlias[$column] = $columnAlias;
-	}
-	
 	/**
 	 * Method to get the parent asset under which to register this one.
 	 * By default, all assets are registered to the ROOT node with ID 1.
@@ -633,8 +584,7 @@ abstract class JTable extends JObject
 		// The asset id field is managed privately by this class.
 		if ($this->_trackAssets)
 		{
-			$assetName = $this->getColumnAlias('asset_id');
-			unset($this->$assetName);
+			unset($this->asset_id);
 		}
 
 		// If a primary key exists update the object, otherwise insert it.
@@ -670,7 +620,6 @@ abstract class JTable extends JObject
 		// Asset Tracking
 		//
 
-
 		$parentId = $this->_getAssetParentId();
 		$name = $this->_getAssetName();
 		$title = $this->_getAssetTitle();
@@ -679,8 +628,7 @@ abstract class JTable extends JObject
 		$asset->loadByName($name);
 
 		// Re-inject the asset id.
-		$assetName = $this->getColumnAlias('asset_id');
-		$this->$assetName = $asset->id;
+		$this->asset_id = $asset->id;
 
 		// Check for an error.
 		if ($error = $asset->getError())
@@ -690,7 +638,7 @@ abstract class JTable extends JObject
 		}
 
 		// Specify how a new or moved node asset is inserted into the tree.
-		if (empty($this->$assetName) || $asset->parent_id != $parentId)
+		if (empty($this->asset_id) || $asset->parent_id != $parentId)
 		{
 			$asset->setLocation($parentId, 'last-child');
 		}
@@ -711,14 +659,14 @@ abstract class JTable extends JObject
 			return false;
 		}
 
-		if (empty($this->$assetName))
+		if (empty($this->asset_id))
 		{
 			// Update the asset_id field in this table.
-			$this->$assetName = (int) $asset->id;
+			$this->asset_id = (int) $asset->id;
 
 			$query = $this->_db->getQuery(true);
 			$query->update($this->_db->quoteName($this->_tbl));
-			$query->set($assetName.' = ' . (int) $this->$assetName);
+			$query->set('asset_id = ' . (int) $this->asset_id);
 			$query->where($this->_db->quoteName($k) . ' = ' . (int) $this->$k);
 			$this->_db->setQuery($query);
 
@@ -875,10 +823,7 @@ abstract class JTable extends JObject
 	public function checkOut($userId, $pk = null)
 	{
 		// If there is no checked_out or checked_out_time field, just return true.
-		$checkName 	   = $this->getColumnAlias('checked_out');
-		$checkTimeName = $this->getColumnAlias('checked_out_time');
-				
-		if (!property_exists($this, $checkName) || !property_exists($this, $checkTimeName))
+		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time'))
 		{
 			return true;
 		}
@@ -901,8 +846,8 @@ abstract class JTable extends JObject
 		// Check the row out by primary key.
 		$query = $this->_db->getQuery(true);
 		$query->update($this->_tbl);
-		$query->set($this->_db->quoteName($checkName) . ' = ' . (int) $userId);
-		$query->set($this->_db->quoteName($checkTimeName) . ' = ' . $this->_db->quote($time));
+		$query->set($this->_db->quoteName('checked_out') . ' = ' . (int) $userId);
+		$query->set($this->_db->quoteName('checked_out_time') . ' = ' . $this->_db->quote($time));
 		$query->where($this->_tbl_key . ' = ' . $this->_db->quote($pk));
 		$this->_db->setQuery($query);
 
@@ -914,8 +859,8 @@ abstract class JTable extends JObject
 		}
 
 		// Set table values in the object.
-		$this->$checkName = (int) $userId;
-		$this->$checkTimeName = $time;
+		$this->checked_out = (int) $userId;
+		$this->checked_out_time = $time;
 
 		return true;
 	}
@@ -934,10 +879,7 @@ abstract class JTable extends JObject
 	public function checkIn($pk = null)
 	{
 		// If there is no checked_out or checked_out_time field, just return true.
-		$checkName 	   = $this->getColumnAlias('checked_out');
-		$checkTimeName = $this->getColumnAlias('checked_out_time');
-		
-		if (!property_exists($this, $checkName) || !property_exists($this, $checkTimeName))
+		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time'))
 		{
 			return true;
 		}
@@ -957,8 +899,8 @@ abstract class JTable extends JObject
 		// Check the row in by primary key.
 		$query = $this->_db->getQuery(true);
 		$query->update($this->_tbl);
-		$query->set($this->_db->quoteName($checkName) . ' = 0');
-		$query->set($this->_db->quoteName($checkTimeName) . ' = ' . $this->_db->quote($this->_db->getNullDate()));
+		$query->set($this->_db->quoteName('checked_out') . ' = 0');
+		$query->set($this->_db->quoteName('checked_out_time') . ' = ' . $this->_db->quote($this->_db->getNullDate()));
 		$query->where($this->_tbl_key . ' = ' . $this->_db->quote($pk));
 		$this->_db->setQuery($query);
 
@@ -971,8 +913,8 @@ abstract class JTable extends JObject
 		}
 
 		// Set table values in the object.
-		$this->$checkName = 0;
-		$this->$checkTimeName = '';
+		$this->checked_out = 0;
+		$this->checked_out_time = '';
 
 		return true;
 	}
@@ -990,9 +932,7 @@ abstract class JTable extends JObject
 	public function hit($pk = null)
 	{
 		// If there is no hits field, just return true.
-		$hitsName = $this->getColumnAlias('hits');
-		
-		if (!property_exists($this, $hitsName))
+		if (!property_exists($this, 'hits'))
 		{
 			return true;
 		}
@@ -1010,7 +950,7 @@ abstract class JTable extends JObject
 		// Check the row in by primary key.
 		$query = $this->_db->getQuery(true);
 		$query->update($this->_tbl);
-		$query->set($this->_db->quoteName($hitsName) . ' = (' . $this->_db->quoteName($hitsName) . ' + 1)');
+		$query->set($this->_db->quoteName('hits') . ' = (' . $this->_db->quoteName('hits') . ' + 1)');
 		$query->where($this->_tbl_key . ' = ' . $this->_db->quote($pk));
 		$this->_db->setQuery($query);
 
@@ -1023,7 +963,7 @@ abstract class JTable extends JObject
 		}
 
 		// Set table values in the object.
-		$this->$hitsName += 1;
+		$this->hits++;
 
 		return true;
 	}
@@ -1049,8 +989,7 @@ abstract class JTable extends JObject
 		// Handle the non-static case.
 		if (isset($this) && ($this instanceof JTable) && is_null($against))
 		{
-			$checkName = $this->getColumnAlias('checked_out');
-			$against   = $this->get($this->$checkName);
+			$against = $this->get('checked_out');
 		}
 
 		// The item is not checked out or is checked out by the same user.
@@ -1081,9 +1020,7 @@ abstract class JTable extends JObject
 	public function getNextOrder($where = '')
 	{
 		// If there is no ordering field set an error and return false.
-		$orderName = $this->getColumnAlias('ordering');
-		
-		if (!property_exists($this, $orderName))
+		if (!property_exists($this, 'ordering'))
 		{
 			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_CLASS_DOES_NOT_SUPPORT_ORDERING', get_class($this)));
 			$this->setError($e);
@@ -1092,7 +1029,7 @@ abstract class JTable extends JObject
 
 		// Get the largest ordering value for a given where clause.
 		$query = $this->_db->getQuery(true);
-		$query->select('MAX('.$orderName.')');
+		$query->select('MAX(ordering)');
 		$query->from($this->_tbl);
 
 		if ($where)
@@ -1130,9 +1067,7 @@ abstract class JTable extends JObject
 	public function reorder($where = '')
 	{
 		// If there is no ordering field set an error and return false.
-		$orderName = $this->getColumnAlias('ordering');
-		
-		if (!property_exists($this, $orderName))
+		if (!property_exists($this, 'ordering'))
 		{
 			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_CLASS_DOES_NOT_SUPPORT_ORDERING', get_class($this)));
 			$this->setError($e);
@@ -1144,10 +1079,10 @@ abstract class JTable extends JObject
 
 		// Get the primary keys and ordering values for the selection.
 		$query = $this->_db->getQuery(true);
-		$query->select($this->_tbl_key . ', '.$orderName);
+		$query->select($this->_tbl_key . ', ordering');
 		$query->from($this->_tbl);
-		$query->where($orderName.' >= 0');
-		$query->order($orderName);
+		$query->where('ordering >= 0');
+		$query->order('ordering');
 
 		// Setup the extra where and ordering clause data.
 		if ($where)
@@ -1171,15 +1106,15 @@ abstract class JTable extends JObject
 		foreach ($rows as $i => $row)
 		{
 			// Make sure the ordering is a positive integer.
-			if ($row->$orderName >= 0)
+			if ($row->ordering >= 0)
 			{
 				// Only update rows that are necessary.
-				if ($row->$orderName != $i + 1)
+				if ($row->ordering != $i + 1)
 				{
 					// Update the row ordering field.
 					$query = $this->_db->getQuery(true);
 					$query->update($this->_tbl);
-					$query->set($orderName.' = ' . ($i + 1));
+					$query->set('ordering = ' . ($i + 1));
 					$query->where($this->_tbl_key . ' = ' . $this->_db->quote($row->$k));
 					$this->_db->setQuery($query);
 
@@ -1216,9 +1151,7 @@ abstract class JTable extends JObject
 	public function move($delta, $where = '')
 	{
 		// If there is no ordering field set an error and return false.
-		$orderName = $this->getColumnAlias('ordering');
-		
-		if (!property_exists($this, $orderName))
+		if (!property_exists($this, 'ordering'))
 		{
 			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_CLASS_DOES_NOT_SUPPORT_ORDERING', get_class($this)));
 			$this->setError($e);
@@ -1237,20 +1170,20 @@ abstract class JTable extends JObject
 		$query = $this->_db->getQuery(true);
 
 		// Select the primary key and ordering values from the table.
-		$query->select($this->_tbl_key . ', '.$orderName);
+		$query->select($this->_tbl_key . ', ordering');
 		$query->from($this->_tbl);
 
 		// If the movement delta is negative move the row up.
 		if ($delta < 0)
 		{
-			$query->where($orderName.' < ' . (int) $this->$orderName);
-			$query->order($orderName.' DESC');
+			$query->where('ordering < ' . (int) $this->ordering);
+			$query->order('ordering DESC');
 		}
 		// If the movement delta is positive move the row down.
 		elseif ($delta > 0)
 		{
-			$query->where($orderName.' > ' . (int) $this->$orderName);
-			$query->order($orderName.' ASC');
+			$query->where('ordering > ' . (int) $this->ordering);
+			$query->order('ordering ASC');
 		}
 
 		// Add the custom WHERE clause if set.
@@ -1269,7 +1202,7 @@ abstract class JTable extends JObject
 			// Update the ordering field for this instance to the row's ordering value.
 			$query = $this->_db->getQuery(true);
 			$query->update($this->_tbl);
-			$query->set($orderName.' = ' . (int) $row->$orderName);
+			$query->set('ordering = ' . (int) $row->ordering);
 			$query->where($this->_tbl_key . ' = ' . $this->_db->quote($this->$k));
 			$this->_db->setQuery($query);
 
@@ -1285,7 +1218,7 @@ abstract class JTable extends JObject
 			// Update the ordering field for the row to this instance's ordering value.
 			$query = $this->_db->getQuery(true);
 			$query->update($this->_tbl);
-			$query->set($orderName.' = ' . (int) $this->$orderName);
+			$query->set('ordering = ' . (int) $this->ordering);
 			$query->where($this->_tbl_key . ' = ' . $this->_db->quote($row->$k));
 			$this->_db->setQuery($query);
 
@@ -1299,14 +1232,14 @@ abstract class JTable extends JObject
 			}
 
 			// Update the instance value.
-			$this->$orderName = $row->$orderName;
+			$this->ordering = $row->ordering;
 		}
 		else
 		{
 			// Update the ordering field for this instance.
 			$query = $this->_db->getQuery(true);
 			$query->update($this->_tbl);
-			$query->set($orderName.' = ' . (int) $this->$orderName);
+			$query->set('ordering = ' . (int) $this->ordering);
 			$query->where($this->_tbl_key . ' = ' . $this->_db->quote($this->$k));
 			$this->_db->setQuery($query);
 
@@ -1344,9 +1277,8 @@ abstract class JTable extends JObject
 
 		// Sanitize input.
 		JArrayHelper::toInteger($pks);
-		$userId  = (int) $userId;
-		$state   = (int) $state;
-		$pubName = $this->getColumnAlias('published');
+		$userId = (int) $userId;
+		$state = (int) $state;
 
 		// If there are no primary keys set check to see if the instance key is set.
 		if (empty($pks))
@@ -1368,15 +1300,12 @@ abstract class JTable extends JObject
 		// Update the publishing state for rows with the given primary keys.
 		$query = $this->_db->getQuery(true);
 		$query->update($this->_tbl);
-		$query->set($pubName.' = ' . (int) $state);
+		$query->set('published = ' . (int) $state);
 
 		// Determine if there is checkin support for the table.
-		$checkName 	   = $this->getColumnAlias('checked_out');
-		$checkTimeName = $this->getColumnAlias('checked_out_time');
-		
-		if (property_exists($this, $checkName) || property_exists($this, $checkTimeName))
+		if (property_exists($this, 'checked_out') || property_exists($this, 'checked_out_time'))
 		{
-			$query->where('('.$checkName.' = 0 OR '.$checkName.' = ' . (int) $userId . ')');
+			$query->where('(checked_out = 0 OR checked_out = ' . (int) $userId . ')');
 			$checkin = true;
 		}
 		else
@@ -1411,7 +1340,7 @@ abstract class JTable extends JObject
 		// If the JTable instance value is in the list of primary keys that were set, set the instance.
 		if (in_array($this->$k, $pks))
 		{
-			$this->$pubName = $state;
+			$this->published = $state;
 		}
 
 		$this->setError('');
@@ -1438,7 +1367,7 @@ abstract class JTable extends JObject
 	{
 		// Deprecation warning.
 		JLog::add('JTable::canDelete() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
@@ -1522,9 +1451,9 @@ abstract class JTable extends JObject
 	 */
 	public function toXML($mapKeysToText = false)
 	{
-		// Deprecation warning.
-		JLog::add('JTable::toXML() is deprecated.', JLog::WARNING, 'deprecated');
-		
+	// Deprecation warning.
+	JLog::add('JTable::toXML() is deprecated.', JLog::WARNING, 'deprecated');
+
 		// Initialise variables.
 		$xml = array();
 		$map = $mapKeysToText ? ' mapkeystotext="true"' : '';
