@@ -114,12 +114,12 @@ abstract class JHtmlBehavior
 		JHtml::_('script', 'system/caption' . $uncompressed . '.js', true, true);
 
 		// Attach caption to document
-		JFactory::getDocument()->addScriptDeclaration("
-			window.addEvent('load', function() {
+		JFactory::getDocument()->addScriptDeclaration(
+			"window.addEvent('load', function() {
 				new JCaption('".$selector."');
 			});"
 		);
-		
+
 		// Set static array
 		$tips[$selector] = true;
 	}
@@ -284,8 +284,8 @@ abstract class JHtmlBehavior
 		$options = JHtmlBehavior::_getJSObject($opt);
 
 		// Attach tooltips to document
-		JFactory::getDocument()->addScriptDeclaration("
-		window.addEvent('domready', function() {
+		JFactory::getDocument()->addScriptDeclaration(
+		"window.addEvent('domready', function() {
 			$$('$selector').each(function(el) {
 				var title = el.get('title');
 				if (title) {
@@ -428,12 +428,12 @@ abstract class JHtmlBehavior
 		JHtml::_('script', 'system/multiselect.js', true, true);
 
 		// Attach multiselect to document
-		JFactory::getDocument()->addScriptDeclaration("
-			window.addEvent('domready', function() {
+		JFactory::getDocument()->addScriptDeclaration(
+			"window.addEvent('domready', function() {
 				new Joomla.JMultiSelect('".$id."');
 			});"
 		);
-		
+
 		// Set static array
 		$multiselect[$selector] = true;
 		return;
