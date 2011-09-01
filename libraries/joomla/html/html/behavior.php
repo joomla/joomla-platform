@@ -889,8 +889,16 @@ abstract class JHtmlBehavior
 			}
 			else if (!is_array($v) && !is_object($v))
 			{
-				$object .= ' ' . $k . ': ';
-				$object .= (is_numeric($v) || strpos($v, '\\') === 0) ? (is_numeric($v)) ? $v : substr($v, 1) : "'" . $v . "'";
+				$object .= ' '.$k.': ';
+				if(($k == 'x' || $k == 'y') && stristr($v, '%'))
+				{
+					$v = '(window.getSize().'.$k.' - 80) * ('.trim($v, '%').'/100.0)';
+					$object .=  $v;
+				}
+				else
+				{
+					$object .= (is_numeric($v) || strpos($v, '\\') === 0) ? (is_numeric($v)) ? $v : substr($v, 1) : "'".$v."'";
+				}
 				$object .= ',';
 			}
 			else
