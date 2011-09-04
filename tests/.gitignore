@@ -1,2 +1,4 @@
 /tmp
 /config.php
+/test_application/cache
+/.gitignore

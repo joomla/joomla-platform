@@ -357,12 +357,14 @@ class JView extends JObject
 	 *
 	 * @param   string  $property  The name of the method to call on the model or the property to get
 	 * @param   string  $default   The name of the model to reference or the default value [optional]
+	 * @param   mixed   $args      Arguments passed to model method. It can be a single one, or an
+	 *                             array of arguments [optional]
 	 *
 	 * @return  mixed  The return value of the method
 	 *
 	 * @since   11.1
 	 */
-	public function get($property, $default = null)
+	public function get($property, $default = null, $args = null)
 	{
 
 		// If $model is null we use the default model
@@ -385,7 +387,17 @@ class JView extends JObject
 			if (method_exists($this->_models[$model], $method))
 			{
 				// The method exists, let's call it and return what we get
-				$result = $this->_models[$model]->$method();
+				//get arguments
+				if(!is_array($args))
+				{
+					$args = array($args);
+				}
+				
+				//setup call_user_func_array array
+				$classModel = array($this->_models[$model], $method);
+				
+				$result = call_user_func_array($classModel, $args);
+				
 				return $result;
 			}
 
