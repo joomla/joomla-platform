@@ -396,9 +396,7 @@ class JView extends JObject
 				//setup call_user_func_array array
 				$classModel = array($this->_models[$model], $method);
 				
-				$result = call_user_func_array($classModel, $args);
-				
-				return $result;
+				return call_user_func_array($classModel, $args);
 			}
 
 		}
