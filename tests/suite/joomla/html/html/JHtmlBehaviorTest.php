@@ -147,4 +147,26 @@ class JHtmlBehaviorTest extends PHPUnit_Framework_TestCase
 		'This test has not been implemented yet.'
 		);
 	}
+
+	/**
+	 *
+	 */
+	public function test_getJSObject()
+	{
+		$opt = array();
+		$opt['integer'] = 1;
+		$opt['size'] 	= array('x' => 100, 'y'=> 200);
+		$opt['string'] 	= "test";
+
+		// Get a reference to the function
+		$class  = new ReflectionClass($this->getMockForAbstractClass('JHtmlBehavior'));
+		$method = $class->getMethod('_getJSObject');
+		$method->setAccessible(true);
+
+		// Execute the function
+		$output = $method->invoke(null, $opt);
+
+		// Make sure the output is the same as the input
+		$this->assertEquals(json_encode($opt), $output);
+	}
 }
