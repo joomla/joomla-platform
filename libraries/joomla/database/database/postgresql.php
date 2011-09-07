@@ -72,7 +72,7 @@ class JDatabasePostgreSQL extends JDatabase
 				return;
 			}
 			else
-				throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_ADAPTER_POSTGRESQL'));  // -> 'The PostgreSQL adapter "pg" is not available.';
+				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_ADAPTER_POSTGRESQL'));  // -> 'The PostgreSQL adapter "pg" is not available.';
 		}
 
 		// connect to the server
@@ -85,7 +85,7 @@ class JDatabasePostgreSQL extends JDatabase
 				return;
 			}
 			else
-				throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_CONNECT_POSTGRESQL'));  // -> 'The PostgreSQL adapter "pg" is not available.';
+				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_CONNECT_POSTGRESQL'));  // -> 'The PostgreSQL adapter "pg" is not available.';
 		}
 
 		// finalize initialization
@@ -217,7 +217,7 @@ class JDatabasePostgreSQL extends JDatabase
 	{
 		// Make sure we have an exporter class for this driver.
 		if (!class_exists('JDatabaseExporterMySQL')) {
-			throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_EXPORTER'));
+			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_EXPORTER'));
 		}
 
 		$o = new JDatabaseExporterMySQL;
@@ -239,7 +239,7 @@ class JDatabasePostgreSQL extends JDatabase
 	{
 		// Make sure we have an importer class for this driver.
 		if (!class_exists('JDatabaseImporterMySQL')) {
-			throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_IMPORTER'));
+			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_IMPORTER'));
 		}
 
 		$o = new JDatabaseImporterMySQL;
@@ -270,14 +270,14 @@ class JDatabasePostgreSQL extends JDatabase
 	 * @return  mixed  The current value of the internal SQL variable or a new JDatabaseQuery object.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	function getQuery($new = false)
 	{
 		if ($new) {
 			// Make sure we have a query class for this driver.
 			if (!class_exists('JDatabaseQueryPostgreSQL')) {
-				throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
+				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
 			}
 			return new JDatabaseQueryPostgreSQL($this);
 		}
@@ -295,7 +295,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 * @param   mixed  $tables  A table name or a list of table names.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */	
 	public function getTableCreate($tables)
 	{
@@ -310,7 +310,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 * @return  array  An array of the column specification for the table.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function getTableKeys($table)
 	{
@@ -341,7 +341,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 * @return  array  An array of all the tables in the database.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function getTableList()
 	{
@@ -424,7 +424,7 @@ class JDatabasePostgreSQL extends JDatabase
 			}
 			else {
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-				throw new DatabaseException;
+				throw new JDatabaseException;
 			}
 		}
 
@@ -464,7 +464,7 @@ class JDatabasePostgreSQL extends JDatabase
 			}
 			else {
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-				throw new DatabaseException;
+				throw new JDatabaseException;
 			}
 		}
 		return $this->cursor;
@@ -605,7 +605,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 * @return  array  An array of fields for the database table.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function getTableColumns( $tables, $typeonly = true )
 	{
@@ -684,12 +684,12 @@ class JDatabasePostgreSQL extends JDatabase
 	 * @return	bool	True if all was ok
 	 * 
 	 * @since	11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function createDatabase( $options, $DButfSupport )
 	{
 		if ( !(isset($options['user'])) || ! (isset($options['database'])) )
-			throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_POSTGRESQL_CANT_CREATE_DB'));  // -> Can't create DB, no needed info
+			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_POSTGRESQL_CANT_CREATE_DB'));  // -> Can't create DB, no needed info
 		
 		$sql = 'CREATE DATABASE '.$this->quoteName( $options['database'] ) . ' OWNER ' . $this->quoteName($options['user']) ;
 
@@ -709,7 +709,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 * @param	string	The new table name
 	 * @return	bool	True if all was ok
 	 * 
-	 * @throws	DatabaseException
+	 * @throws	JDatabaseException
 	 */
 	public function renameTable($oldTable, $newTable)
 	{
@@ -719,7 +719,7 @@ class JDatabasePostgreSQL extends JDatabase
 		// Origin Table does not exist
 		if ( !in_array($oldTable, $tableList) )
 		{
-			throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_POSTGRESQL_TABLE_NOT_FOUND'));  // -> Origin Table not found	
+			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_POSTGRESQL_TABLE_NOT_FOUND'));  // -> Origin Table not found	
 		}
 		else 
 		{
@@ -761,13 +761,13 @@ class JDatabasePostgreSQL extends JDatabase
 	 * 
 	 * @since	11.1
 	 * 
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function transactionQuery()
 	{
 		if (!is_resource($this->connection)) {
 			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-			throw new DatabaseException;
+			throw new JDatabaseException;
 		}
 		
 		while( list( , $query ) = each ( $this->sql ) )
@@ -796,7 +796,7 @@ class JDatabasePostgreSQL extends JDatabase
 				$this->errorMsg = (string) pg_result_error_field( $this->cursor, PGSQL_DIAG_MESSAGE_PRIMARY )." SQL=$sql <br />";
 				
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-				throw new DatabaseException;
+				throw new JDatabaseException;
 			}
 		}
 		
