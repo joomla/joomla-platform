@@ -669,7 +669,6 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
 	 */
 	public function commit() //was transactionCommit
 	{
@@ -692,7 +691,6 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
 	 */
 	public function rollback( $savepointName = null ) //was transactionRollback
 	{
@@ -717,7 +715,6 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
 	 */
 	public function transactionSavepoint( $savepointName ) //was createTransactionSavepoint
 	{
@@ -743,7 +740,6 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
 	 */
 	public function releaseTransactionSavepoint( $savepointName )
 	{
@@ -769,7 +765,6 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
 	 */
 	public function startTransaction( $transactionMode = null )
 	{
