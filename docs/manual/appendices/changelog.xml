@@ -10,6 +10,9 @@
     <para>Version 11.3 is currently under development.</para>
 
     <itemizedlist>
+    <listitem>
+				<para>[Module language installer ignored language tag]</para>
+			</listitem>
 			<listitem>
 				<para>[					<link ns2:href="https://api.github.com/repos/joomla/joomla-platform/issues/263" ns2:title="Closed 2011-08-20T04:16:41Z">#263</link>
 ] Fixes code style issues. (					<link ns2:href="https://api.github.com/users/elinw">elinw</link>
