@@ -1320,7 +1320,7 @@ class JInstaller extends JAdapter
 
 			if ((string) $file->attributes()->tag != '')
 			{
-				$path['src'] = $source . '/' . $file;
+				$path['src'] = $source . '/' . $file->attributes()->tag . '/' . $file;
 
 				if ((string) $file->attributes()->client != '')
 				{
