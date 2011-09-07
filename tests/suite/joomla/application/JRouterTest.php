@@ -141,41 +141,6 @@ class JRouterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement test_parseRawRoute().
-	 */
-	public function test_parseRawRoute() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo Implement test_parseSefRoute().
-	 */
-	public function test_parseSefRoute()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo Implement test_buildRawRoute().
-	 */
-	public function test_buildRawRoute()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo Implement test_buildSefRoute().
-	 */
-	public function test_buildSefRoute()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
 	 * Cases for test_processParseRules
 	 */
 	public function cases_processParseRules()
@@ -208,58 +173,5 @@ class JRouterTest extends PHPUnit_Framework_TestCase
 			);
 
 		return $cases;
-	}
-
-	/**
-	 * test_processParseRules().
-     *
-     * @dataProvider cases_processParseRules
-	 */
-	public function test_processParseRules($functions, $expected)
-	{
-		$myuri = 'http://localhost';
-		$stub = $this->getMock('JRouter', array('_parseRawRoute'));
-        $stub->expects($this->any())->method('_parseRawRoute')->will($this->returnValue(array()));
-		foreach ($functions as $function)
-		{
-			$stub->attachParseRule($function);
-		}
-		$this->assertEquals($stub->parse($myuri), $expected, __METHOD__ . ':' . __LINE__ . ': value is not expected');
-	}
-
-	/**
-	 * @todo Implement test_processBuildRules().
-	 */
-	public function test_processBuildRules()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo Implement test_createURI().
-	 */
-	public function test_createURI()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo Implement test_encodeSegments().
-	 */
-	public function test_encodeSegments()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo Implement test_decodeSegments().
-	 */
-	public function test_decodeSegments()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }
