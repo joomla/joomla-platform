@@ -109,7 +109,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 * Method to escape a string for usage in an SQL statement.
 	 *
 	 * @param   string  $text   The string to be escaped.
-	 * @param   bool    $extra  Optional parameter to provide extra escaping.
+	 * @param   boolean    $extra  Optional parameter to provide extra escaping.
 	 *
 	 * @return  string  The escaped string.
 	 *
@@ -155,9 +155,9 @@ class JDatabasePostgreSQL extends JDatabase
 	 * Drops a table from the database.
 	 *
 	 * @param   string  $tableName  The name of the database table to drop.
-	 * @param   bool    $ifExists   Optionally specify that the table must exist before it is dropped.
+	 * @param   boolean    $ifExists   Optionally specify that the table must exist before it is dropped.
 	 *
-	 * @return  bool	true
+	 * @return  boolean	true
 	 * @since   11.1
 	 */
 	function dropTable($tableName, $ifExists = true)
@@ -195,13 +195,9 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	public function getCollation()
 	{
-		if ( $this->hasUTF() ) {
-			$cur = $this->query( 'SHOW LC_COLLATE;' );
-			$coll = $this->fetchArray( $cur );
-			return $coll['lc_collate'];
-		} else {
-			return 'N/A (Not Able to Detect)';
-		}
+		$cur = $this->query( 'SHOW LC_COLLATE;' );
+		$coll = $this->fetchArray( $cur );
+		return $coll['lc_collate'];
 	}
 	
 	/**
@@ -265,7 +261,7 @@ class JDatabasePostgreSQL extends JDatabase
 	/**
 	 * Get the current or query, or new JDatabaseQuery object.
 	 *
-	 * @param   bool   $new  False to return the last query set, True to return a new JDatabaseQuery object.
+	 * @param   boolean   $new  False to return the last query set, True to return a new JDatabaseQuery object.
 	 *
 	 * @return  mixed  The current value of the internal SQL variable or a new JDatabaseQuery object.
 	 *
@@ -474,7 +470,7 @@ class JDatabasePostgreSQL extends JDatabase
 	/**
 	 * Selects the database, but redundant for PostgreSQL
 	 *
-	 * @return bool Always true
+	 * @return boolean Always true
 	 */
 	public function select($database=null) 
 	{
@@ -600,7 +596,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 * Retrieves field information about a given table.
 	 *
 	 * @param   string  $table     The name of the database table.
-	 * @param   bool    $typeOnly  True to only return field types.
+	 * @param   boolean    $typeOnly  True to only return field types.
 	 *
 	 * @return  array  An array of fields for the database table.
 	 *
@@ -680,8 +676,8 @@ class JDatabasePostgreSQL extends JDatabase
 	 * IMPORTANT: the user role MUST be created before using this function.
 	 *
 	 * @param	string	The database name
-	 * @param	bool	Whether or not to create with UTF support (only here for function signature compatibility)
-	 * @return	bool	True if all was ok
+	 * @param	boolean	Whether or not to create with UTF support (only here for function signature compatibility)
+	 * @return	boolean	True if all was ok
 	 * 
 	 * @since	11.1
 	 * @throws  JDatabaseException
@@ -707,7 +703,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 *
 	 * @param	string	The old table name
 	 * @param	string	The new table name
-	 * @return	bool	True if all was ok
+	 * @return	boolean	True if all was ok
 	 * 
 	 * @throws	JDatabaseException
 	 */
@@ -757,7 +753,7 @@ class JDatabasePostgreSQL extends JDatabase
 	/**
 	 * Execute a transaction query
 	 *
-	 * @return	bool	Return true if ok
+	 * @return	boolean	Return true if ok
 	 * 
 	 * @since	11.1
 	 * 
