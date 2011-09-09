@@ -933,25 +933,25 @@ abstract class JDatabase implements JDatabaseInterface
 	 */
 	public function loadNextObject($class = 'stdClass')
 	{
-		static $cursor=null;
-		// Cursor set ?
-		if ( $cursor === null) {
+	
+		if ( ! $this->cursor ) {
 		// Execute the query and get the result set cursor.
-			if (!($cursor = $this->query()))
+			if (!($this->cursor = $this->query()))
 			{
 				return $this->errorNum ? null : false;
 			}
 		}
 
+
 		// Get the next row from the result set as an object of type $class.
-		if ($row = $this->fetchObject($cursor, $class))
+		if ($row = $this->fetchObject($this->cursor, $class))
 		{
 			return $row;
 		}
 
 		// Free up system resources and return.
-		$this->freeResult($cursor);
-		$cursor = null;
+		$this->freeResult($this->cursor);
+		$this->cursor = false;
 
 		return false;
 	}
@@ -966,12 +966,12 @@ abstract class JDatabase implements JDatabaseInterface
 	 */
 	public function loadNextRow()
 	{
-		static $cursor=null;
+		
 
-		// Cursor set ?
-		if ( $cursor === null) {
+		
+		if ( ! $this->cursor ) {
 		// Execute the query and get the result set cursor.
-			if (!($cursor = $this->query()))
+			if (!($this->cursor = $this->query()))
 			{
 				return $this->errorNum ? null : false;
 			}
@@ -979,14 +979,14 @@ abstract class JDatabase implements JDatabaseInterface
 
 
 		// Get the next row from the result set as an object of type $class.
-		if ($row = $this->fetchArray($cursor))
+		if ($row = $this->fetchArray($this->cursor))
 		{
 			return $row;
 		}
 
 		// Free up system resources and return.
-		$this->freeResult($cursor);
-		$cursor = null;
+		$this->freeResult($this->cursor);
+		$this->cursor = false;
 
 		return false;
 	}
