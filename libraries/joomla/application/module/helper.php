@@ -387,6 +387,10 @@ abstract class JModuleHelper
 
 			unset($dupes);
 
+			//Module Plugin
+			$dispatcher	= JDispatcher::getInstance();
+			$dispatcher->trigger('onBeforeModuleLoad', array(&$clean));
+
 			// Return to simple indexing that matches the query order.
 			$clean = array_values($clean);
 
