@@ -151,6 +151,10 @@ class JRouterTest extends PHPUnit_Framework_TestCase
 	{
 		$router = JRouter::getInstance('Inspector');
 		$router->buildrules = array(array('JRouterInspector', 'routingBuildFnTest1'));
+		$_SERVER['HTTP_HOST'] = 'www.example.com:80';
+		$_SERVER['SCRIPT_NAME'] = '/joomla/index.php';
+		$_SERVER['PHP_SELF'] = '/joomla/index.php';
+		$_SERVER['REQUEST_URI'] = '/joomla/index.php?var=value 10';
 		
 		$uri = $router->build(array('option' => 'com_test', 'view' => 'test1'));
 		

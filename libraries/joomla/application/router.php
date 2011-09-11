@@ -56,9 +56,15 @@ class JRouter extends JObject
 	 * @since 11.3
 	 */
 	protected $options = array();
-	
+
+	/**
+	 * Cache for processed URLs
+	 * 
+	 * @var array Array of processed URLs, defined by hash of the original parameters
+	 * @since 11.3
+	 */
 	protected $cache = array();
-	
+
 	/**
 	 * @var    array  An array of JRouter instances.
 	 * @since  11.3
@@ -84,7 +90,7 @@ class JRouter extends JObject
 			{
 				//Load the router object
 				$info = JApplicationHelper::getClientInfo($client, true);
-				
+
 				$path = $info->path.'/includes/router.php';
 				if (file_exists($path))
 				{
@@ -96,7 +102,7 @@ class JRouter extends JObject
 					return $error;
 				}
 			}
-			
+
 			// Create a JRouter object
 			$classname = 'JRouter'.ucfirst($client);
 
@@ -106,12 +112,18 @@ class JRouter extends JObject
 		return JRouter::$instances[$client];
 	}
 
+	/**
+	 * Constructor for JRouter
+	 * 
+	 * @param   array  $options  Associative array of options
+	 * 
+	 * @since 11.3
+	 */
 	public function __construct($options = array())
 	{
 		$this->options = (array) $options;
 	}
-	
-	
+
 	/**
 	 * Function to convert a route to an internal URI
 	 *
@@ -244,7 +256,11 @@ class JRouter extends JObject
 	/**
 	 * Set the options for the router
 	 * 
-	 * @param array $options Associative array of options for the router
+	 * @param   array  $options  Associative array of options for the router
+	 * 
+	 * @return void
+	 * 
+	 * @since 11.3
 	 */
 	public function setOptions($options)
 	{
@@ -253,6 +269,9 @@ class JRouter extends JObject
 
 	/**
 	 * Returns the vars
+	 * 
+	 * @param   string  $key    Key of the variable to set
+	 * @param   mixed   $value  Defaultvalue of the variable
 	 * 
 	 * @return array Associative array of URL variables
 	 * 
@@ -286,13 +305,17 @@ class JRouter extends JObject
 	public function setVars($query)
 	{
 		$this->_vars = $query;
-	}	
+	}
 
 	/**
 	 * Set a current URL variable
 	 * 
-	 * @param string  $key The name of the variable
-	 * @param mixed $value The value of the variable
+	 * @param   string  $key    The name of the variable
+	 * @param   mixed   $value  The value of the variable
+	 * 
+	 * @since 11.3
+	 * 
+	 * @return void
 	 */
 	public function setVar($key, $value)
 	{
