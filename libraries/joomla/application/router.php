@@ -56,6 +56,14 @@ class JRouter extends JObject
 	 * @since 11.3
 	 */
 	protected $options = array();
+	
+	protected $cache = array();
+	
+	/**
+	 * @var    array  An array of JRouter instances.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
 
 	/**
 	 * Returns the global JRouter object, only creating it if it
@@ -70,28 +78,17 @@ class JRouter extends JObject
 	 */
 	public static function getInstance($client, $options = array())
 	{
-		static $instances;
-
-		if (!isset($instances))
+		if (empty(JRouter::$instances[$client]))
 		{
-			$instances = array();
-		}
-
-		if (empty($instances[$client]))
-		{
-			//Load the router object
-			$info = JApplicationHelper::getClientInfo($client, true);
-
 			if (!class_exists('JRouter'.ucfirst($client)))
 			{
+				//Load the router object
+				$info = JApplicationHelper::getClientInfo($client, true);
+				
 				$path = $info->path.'/includes/router.php';
 				if (file_exists($path))
 				{
 					include_once $path;
-
-					// Create a JRouter object
-					$classname = 'JRouter'.ucfirst($client);
-					$instance = new $classname($options);
 				}
 				else
 				{
@@ -99,19 +96,22 @@ class JRouter extends JObject
 					return $error;
 				}
 			}
-			else
-			{
-				// Create a JRouter object
-				$classname = 'JRouter'.ucfirst($client);
-				$instance = new $classname($options);
-			}
+			
+			// Create a JRouter object
+			$classname = 'JRouter'.ucfirst($client);
 
-			$instances[$client] = & $instance;
+			JRouter::$instances[$client] = new $classname($options);
 		}
 
-		return $instances[$client];
+		return JRouter::$instances[$client];
 	}
 
+	public function __construct($options = array())
+	{
+		$this->options = (array) $options;
+	}
+	
+	
 	/**
 	 * Function to convert a route to an internal URI
 	 *
@@ -242,6 +242,39 @@ class JRouter extends JObject
 	}
 
 	/**
+	 * Set the options for the router
+	 * 
+	 * @param array $options Associative array of options for the router
+	 */
+	public function setOptions($options)
+	{
+		$this->options = $options;
+	}
+
+	/**
+	 * Returns the vars
+	 * 
+	 * @return array Associative array of URL variables
+	 * 
+	 * @since 11.1
+	 */
+	public function getVars($key = null, $value = null)
+	{
+		if ($key)
+		{
+			if (isset($this->_vars[$key]))
+			{
+				return $this->_vars[$key];
+			}
+			else
+			{
+				return $value;
+			}
+		}
+		return $this->_vars;
+	}
+
+	/**
 	 * Set the current URL variables
 	 * 
 	 * @param   array  $query  Associative Array of URL parameters
@@ -253,18 +286,17 @@ class JRouter extends JObject
 	public function setVars($query)
 	{
 		$this->_vars = $query;
-	}
+	}	
 
 	/**
-	 * Returns the vars
+	 * Set a current URL variable
 	 * 
-	 * @return array Associative array of URL variables
-	 * 
-	 * @since 11.1
+	 * @param string  $key The name of the variable
+	 * @param mixed $value The value of the variable
 	 */
-	public function getVars()
+	public function setVar($key, $value)
 	{
-		return $this->_vars;
+		$this->_vars[$key] = $value;
 	}
 
 	/**
