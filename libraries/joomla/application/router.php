@@ -117,6 +117,8 @@ class JRouter extends JObject
 	 * 
 	 * @param   array  $options  Associative array of options
 	 * 
+	 * @return void
+	 * 
 	 * @since 11.3
 	 */
 	public function __construct($options = array())
@@ -150,7 +152,7 @@ class JRouter extends JObject
 	 *
 	 * @param   string  $url  The internal URL as a string or associative array
 	 *
-	 * @return  JURI  The search engine friendly URL
+	 * @return JURI  The search engine friendly URL
 	 *
 	 * @since   11.1
 	 */
@@ -294,6 +296,21 @@ class JRouter extends JObject
 	}
 
 	/**
+	 * Get a router variable
+	 *
+	 * @param   string  $key  The name of the variable
+	 *
+	 * @return  mixed  Value of the variable
+	 *
+	 * @since   11.1
+	 * @deprecated
+	 */
+	public function getVar($key)
+	{
+		return $this->getvars($key);
+	}
+
+	/**
 	 * Set the current URL variables
 	 * 
 	 * @param   array  $query  Associative Array of URL parameters
@@ -313,9 +330,9 @@ class JRouter extends JObject
 	 * @param   string  $key    The name of the variable
 	 * @param   mixed   $value  The value of the variable
 	 * 
-	 * @since 11.3
-	 * 
 	 * @return void
+	 * 
+	 * @since 11.3
 	 */
 	public function setVar($key, $value)
 	{
@@ -337,6 +354,20 @@ class JRouter extends JObject
 			return JROUTER_MODE;
 		}
 		return 'undefined';
+	}
+	
+	/**
+	 * Set the router mode
+	 *
+	 * @param   integer  $mode  The routing mode.
+	 *
+	 * @return  void
+	 *
+	 * @deprecated
+	 * @since   11.1
+	 */
+	public function setMode($mode)
+	{
 	}
 
 	/**
