@@ -3,10 +3,10 @@
  * Elephant Markdown - A text-to-HTML conversion tool for web writers
  *
  * @package	   ElephantMarkdown
- * @copyright  Copyright 2004 - 2008 Michel Fortin. All rights reserved.
- * @copyright  Copyright 2004 - 2006 John Gruber. All rights reserved.
- * @link	   http://www.michelf.com/projects/php-markdown/
- * @link	   http://daringfireball.net/projects/markdown/
+ * @copyright  Copyright 2004 - 2008 Michel Fortin <http://www.michelf.com/projects/php-markdown/>. All rights reserved.
+ * @copyright  Copyright 2004 - 2006 John Gruber <http://daringfireball.net/projects/markdown/>. All rights reserved.
+ * @copyright  Copyright 2011 Alexandre Gomes Gaigalas <http://gaigalas.net>. All rights reserved.
+ * @license    BSD-style license.
  */
 
 /**
