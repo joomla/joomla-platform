@@ -131,7 +131,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 *
 	 * @return boolean  True on success, false otherwise.
 	 */
-	public function test()
+	public static function test()
 	{
 		return (function_exists( 'pg_connect' ));
 	}
@@ -682,16 +682,16 @@ class JDatabasePostgreSQL extends JDatabase
 	 * @since	11.1
 	 * @throws  JDatabaseException
 	 */
-	public function createDatabase( $options, $DButfSupport )
+	public function createDatabase( $options /*, $DButfSupport */ )
 	{
 		if ( !(isset($options['user'])) || ! (isset($options['database'])) )
 			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_POSTGRESQL_CANT_CREATE_DB'));  // -> Can't create DB, no needed info
 		
 		$sql = 'CREATE DATABASE '.$this->quoteName( $options['database'] ) . ' OWNER ' . $this->quoteName($options['user']) ;
-
+/*
 		if ( $DButfSupport )
 			$sql .= ' ENCODING UTF8' ;
-		
+	*/	
 		$this->setQuery($sql);
 		$this->query();
 		
@@ -799,4 +799,7 @@ class JDatabasePostgreSQL extends JDatabase
 		return true; //$this->cursor;
 	}
 
+	public function queryBatch($abortOnError = true, $transactionSafe = false)
+	{}
+	
 }
