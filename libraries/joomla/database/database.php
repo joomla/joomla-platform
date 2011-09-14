@@ -1738,7 +1738,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @since	11.1
 	 * @todo 	Implement it in all subclasses, called during installation
 	 */	
-	abstract public function createDatabase( $options );
+//	abstract public function createDatabase( $options );
 	
 	
 	/**
@@ -1752,7 +1752,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @since	11.1
 	 * @todo 	Implement it in all subclasses, called during installation
 	 */
-	abstract public function deleteDatabase(& $db, $name, $prefix);
+//	abstract public function deleteDatabase(& $db, $name, $prefix);
 	
 	/**
 	 * Method to backup all tables in a database with a given prefix.
@@ -1765,5 +1765,5 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @since	11.1
 	 * @todo 	Implement it in all subclasses, called during installation
 	 */
-	abstract public function backupDatabase( $name, $prefix );	
+//	abstract public function backupDatabase( $name, $prefix );	
 }
