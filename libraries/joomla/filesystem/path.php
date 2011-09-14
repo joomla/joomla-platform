@@ -78,6 +78,10 @@ class JPath
 
 		if (is_dir($path))
 		{
+			if (!($handle = @opendir($path)))
+			{
+				return $ret;
+			}
 			$dh = opendir($path);
 
 			while ($file = readdir($dh))
