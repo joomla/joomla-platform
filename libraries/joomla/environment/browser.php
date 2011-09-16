@@ -1046,7 +1046,7 @@ class JBrowser extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function isSSLConnection()
+	public static function isSSLConnection()
 	{
 		return ((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION'));
 	}
