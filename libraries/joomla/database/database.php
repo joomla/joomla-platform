@@ -1387,36 +1387,6 @@ abstract class JDatabase implements JDatabaseInterface
 	abstract public function setUTF();
 
 	/**
-	 * Method to commit a transaction.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
-	 */
-	abstract public function transactionCommit();
-
-	/**
-	 * Method to roll back a transaction.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
-	 */
-	abstract public function transactionRollback();
-
-	/**
-	 * Method to initialize a transaction.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
-	 */
-	abstract public function transactionStart();
-
-	/**
 	 * Updates a row in a table based on an object's properties.
 	 *
 	 * @param   string   $table    The name of the database table to update.
