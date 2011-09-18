@@ -153,4 +153,30 @@ abstract class JHtmlString
 
 		return $text;
 	}
+
+	/**
+	 * Method to setup the JavaScript highlight behavior.
+	 *
+	 * @param   array  $terms  An array of terms to highlight.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public static function highlighter($terms)
+	{
+		// Get the document object.
+		$doc = JFactory::getDocument();
+
+		// We only want to highlight text on regular html pages.
+		if ($doc->getType() == 'html' && JRequest::getCmd('tmpl') !== 'component')
+		{
+			// Add the highlighter media.
+			$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
+			JHtml::_('script', 'system/highlighter' . $uncompressed . '.js', true, true);
+
+			// Add the terms to highlight.
+			$doc->addScriptDeclaration("window.highlight = [\"".implode('","', $terms)."\"];");
+		}
+	}
 }

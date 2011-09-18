@@ -196,6 +196,17 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @todo Implement testHighlight().
+	 */
+	public function testHighlight()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		'This test has not been implemented yet.'
+		);
+	}
+
+	/**
 	 * Tests the JHtmlString::truncate method.
 	 *
 	 * @param   string   $text      The text to truncate.
