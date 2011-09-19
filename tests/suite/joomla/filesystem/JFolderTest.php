@@ -43,12 +43,12 @@ class JFolderTest extends PHPUnit_Framework_TestCase
 	protected function setUp()
 	{
 		mkdir(JPath::clean(JPATH_ROOT . '/tmp/test'), 0777, true);
-		mkdir(JPath::clean(JPATH_ROOT . "/tmp/test/foo1"), 0777, true);
-		mkdir(JPath::clean(JPATH_ROOT . "/tmp/test/foo1/bar1"), 0777, true);
-		mkdir(JPath::clean(JPATH_ROOT . "/tmp/test/foo1/bar2"), 0777, true);
-		mkdir(JPath::clean(JPATH_ROOT . "/tmp/test/foo2"), 0777, true);
-		mkdir(JPath::clean(JPATH_ROOT . "/tmp/test/foo2/bar1"), 0777, true);
-		mkdir(JPath::clean(JPATH_ROOT . "/tmp/test/foo2/bar2"), 0777, true);
+		mkdir(JPath::clean(JPATH_ROOT . '/tmp/test/foo1'), 0777, true);
+		mkdir(JPath::clean(JPATH_ROOT . '/tmp/test/foo1/bar1'), 0777, true);
+		mkdir(JPath::clean(JPATH_ROOT . '/tmp/test/foo1/bar2'), 0777, true);
+		mkdir(JPath::clean(JPATH_ROOT . '/tmp/test/foo2'), 0777, true);
+		mkdir(JPath::clean(JPATH_ROOT . '/tmp/test/foo2/bar1'), 0777, true);
+		mkdir(JPath::clean(JPATH_ROOT . '/tmp/test/foo2/bar2'), 0777, true);
 		file_put_contents(JPath::clean(JPATH_ROOT . '/tmp/test/index.html'), 'test');
 		file_put_contents(JPath::clean(JPATH_ROOT . '/tmp/test/index.txt'), 'test');
 		file_put_contents(JPath::clean(JPATH_ROOT . '/tmp/test/foo1/index.html'), 'test');
@@ -308,7 +308,7 @@ class JFolderTest extends PHPUnit_Framework_TestCase
 			array(
 				'When nothing matches the filter, should return empty array',
 				array(),
-				JPath::clean(JPATH_ROOT . "/tmp/test"),
+				JPath::clean(JPATH_ROOT . '/tmp/test'),
 				'nothing.here',
 				true,
 				true,
@@ -456,7 +456,7 @@ class JFolderTest extends PHPUnit_Framework_TestCase
 			array(
 				'When nothing matches the filter, should return empty array',
 				array(),
-				JPath::clean(JPATH_ROOT . "/tmp/test"),
+				JPath::clean(JPATH_ROOT . '/tmp/test'),
 				'nothing.here',
 				true,
 				true,
