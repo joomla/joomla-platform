@@ -13,9 +13,7 @@
 defined('_JEXEC') or die;
 
 /**
- * An example configuration class for a Joomla Platform application.
- *
- * Declare each configuration value as a public property of this class.
+ * CLI configuration class.
  *
  * @package  Joomla.Examples
  * @since    11.3
@@ -23,26 +21,50 @@ defined('_JEXEC') or die;
 final class JConfig
 {
 	/**
-	 * A configuration value.
+	 * The database driver.
 	 *
-	 * @var    integer
+	 * @var    string
 	 * @since  11.3
 	 */
-	public $weapons = 10;
+	public $dbDriver = 'mysqli';
 
 	/**
-	 * A configuration value.
+	 * Database host.
 	 *
-	 * @var    integer
+	 * @var    string
 	 * @since  11.3
 	 */
-	public $armour = 9;
+	public $dbHost = 'localhost';
 
 	/**
-	 * A configuration value.
+	 * The database connection user.
 	 *
-	 * @var    float
+	 * @var    string
 	 * @since  11.3
 	 */
-	public $health = 8.0;
+	public $dbUser = 'root';
+
+	/**
+	 * The database connection password.
+	 *
+	 * @var    string
+	 * @since  11.3
+	 */
+	public $dbPass = 'root';
+
+	/**
+	 * The database name.
+	 *
+	 * @var    string
+	 * @since  11.3
+	 */
+	public $dbName = 'mysql';
+
+	/**
+	 * The database table prefix, if necessary.
+	 *
+	 * @var    string
+	 * @since  11.3
+	 */
+	public $dbPrefix = '';
 }
