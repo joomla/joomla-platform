@@ -9,12 +9,12 @@ You can find out more about Joomla development *(though not platform specific)* 
 
 You can discuss *Joomla Platform* development at: http://groups.google.com/group/joomla-dev-platform
 
-
 Requirements
 ------------
 
-* PHP 5.3+
-
+* PHP 5.2+
+* MySQL 5.04+
+* Apache 2.x+, Microsoft IIS 7
 
 Installation
 ------------
@@ -25,3 +25,20 @@ Get the source code from GIT:
 
 _Please ensure you add the following path to your local .gitignore file: tests/test_application/cache_
 
+Contributing New Features
+-------------------------
+
+Anyone can contribute new features to Joomla. The Production Leadership Team (PLT) is responsible for deciding which features are included into each version.
+
+The general steps for contributing to the Joomla! Platform are as follows.
+
+* Sign the Joomla! Contributor Agreement (JCA). This is required so that your code can be included into Joomla! under the GPL license. Click here to sign the agreement on line.
+* Establish an account on github.
+* If this is a major new feature, you may want to post on the platform mailing list to get feedback from other developers. If this feature will impact the CMS you may also want to post on the CMS mailing list.
+* Fork the platform.
+* Develop your feature, making sure to keep up to date with the main platform.
+* When your feature is ready for review, make a pull request.
+
+Platform improvements may also be submitted via the CMS Feature Tracker. Please use the category Joomla! Libraries for any platform features submitted by that route.
+
+Note that many great features can be contributed to the community by way of extensions and do not need to be included in the core Joomla! distribution. Also, features that start as extensions can be included into the core program at a later time.
