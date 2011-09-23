@@ -14,6 +14,7 @@ jimport('joomla.form.formfield');
 jimport('joomla.registry.registry');
 jimport('joomla.form.helper');
 jimport('joomla.utilities.arrayhelper');
+jimport('joomla.filter.filterinput');
 
 /**
  * Form Class for the Joomla Platform.
@@ -235,7 +236,7 @@ class JForm
 				// Filter the value if it exists.
 				if ($input->exists($group . '.' . $name))
 				{
-					$output->set($group . '.' . $name, $this->filterField($field, $input->get($group . '.' . $name, (string) $field['default'])));
+					$output->set($group . '.' . $name, $this->filterField($field, $input->get($group . '.' . $name, '')));
 				}
 			}
 			else
@@ -243,7 +244,7 @@ class JForm
 				// Filter the value if it exists.
 				if ($input->exists($name))
 				{
-					$output->set($name, $this->filterField($field, $input->get($name, (string) $field['default'])));
+					$output->set($name, $this->filterField($field, $input->get($name, '')));
 				}
 			}
 		}
@@ -1656,22 +1657,42 @@ class JForm
 		// else the value of the 'default' attribute for the field.
 		if ($value === null)
 		{
-			$default = (string) $element['default'];
-			if (($translate = $element['translate_default']) && ((string) $translate == 'true' || (string) $translate == '1'))
+			// Compute the attribute path
+			if ($group)
 			{
-				$lang = JFactory::getLanguage();
-				if ($lang->hasKey($default))
-				{
-					$debug = $lang->setDebug(false);
-					$default = JText::_($default);
-					$lang->setDebug($debug);
-				}
-				else
-				{
-					$default = JText::_($default);
-				}
+				$path = $group.'.'.(string) $element['name'];
 			}
-			$value = $this->getValue((string) $element['name'], $group, $default);
+			else
+			{
+				$path = (string) $element['name'];
+			}
+
+			// If the data exists, use it
+			if ($this->data->exists($path))
+			{
+				$value = $this->data->get($path, $this->filterField($field, $this->data->get($path, '')));
+			}
+
+			// Fallback do the default value
+			else
+			{
+				$default = (string) $element['default'];
+				if (($translate = $element['translate_default']) && ((string)$translate=='true' || (string)$translate=='1' ))
+				{
+					$lang = JFactory::getLanguage();
+					if ($lang->hasKey($default))
+					{
+						$debug = $lang->setDebug(false);
+						$default = JText::_($default);
+						$lang->setDebug($debug);
+					}
+					else
+					{
+						$default = JText::_($default);
+					}
+				}
+				$value = $this->getValue((string) $element['name'], $group, $default);
+			}
 		}
 
 		// Setup the JFormField object.
