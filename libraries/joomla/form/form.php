@@ -1657,7 +1657,7 @@ class JForm
 		// else the value of the 'default' attribute for the field.
 		if ($value === null)
 		{
-			// Compute the attribute path
+			// Compute the field path
 			if ($group)
 			{
 				$path = $group.'.'.(string) $element['name'];
