@@ -75,21 +75,15 @@ class JToolBar extends JObject
 	 *
 	 * @since   11.1
 	 */
+	protected static $instances = array();
 	public static function getInstance($name = 'toolbar')
 	{
-		static $instances;
-
-		if (!isset($instances))
+		if (empty(self::$instances[$name]))
 		{
-			$instances = array();
+			self::$instances[$name] = new JToolBar($name);
 		}
 
-		if (empty($instances[$name]))
-		{
-			$instances[$name] = new JToolBar($name);
-		}
-
-		return $instances[$name];
+		return self::$instances[$name];
 	}
 
 	/**
