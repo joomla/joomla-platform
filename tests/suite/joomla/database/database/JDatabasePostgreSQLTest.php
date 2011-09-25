@@ -58,7 +58,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 */
 	protected function setUp()
 	{
-		@include_once JPATH_TESTS . '/config.php';
+		@include_once JPATH_TESTS . '/config_pgsql.php';
 		if (class_exists('JPostgreSQLTestConfig')) {
 			$config = new JPostgreSQLTestConfig;
 		} else {
