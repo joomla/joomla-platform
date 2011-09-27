@@ -174,7 +174,7 @@ abstract class JTable extends JObject
 			if (!$path)
 			{
 				// Fallback to the global search
-				$path = JPath::find(self::addIncludePath(null, ''), strtolower($type) . '.php');
+				$path = JPath::find(self::addIncludePath(), strtolower($type) . '.php');
 			}
 			if ($path)
 			{
