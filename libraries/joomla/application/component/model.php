@@ -47,6 +47,14 @@ abstract class JModel extends JObject
 	protected $name;
 
 	/**
+	 * The prefix of the tables
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
+	protected $table_prefix;
+
+	/**
 	 * The URL option for the component.
 	 *
 	 * @var    string
@@ -122,16 +130,17 @@ abstract class JModel extends JObject
 	/**
 	 * Adds to the stack of model table paths in LIFO order.
 	 *
-	 * @param   mixed  $path  The directory as a string or directories as an array to add.
+	 * @param   mixed  $path   The directory as a string or directories as an array to add.
+	 * @param   string $prefix An optional prefix for the table class names.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	public static function addTablePath($path)
+	public static function addTablePath($path, $prefix = '')
 	{
 		jimport('joomla.database.table');
-		JTable::addIncludePath($path);
+		JTable::addIncludePath($path, $prefix);
 	}
 
 	/**
@@ -258,14 +267,28 @@ abstract class JModel extends JObject
 			$this->_db = JFactory::getDbo();
 		}
 
-		// Set the default view search path
+		// Set the tables prefix
+		if (empty($this->table_prefix))
+		{
+			if (array_key_exists('table_prefix', $config))
+			{
+				// User-defined prefix
+				$this->table_prefix = $config['table_prefix'];
+			}
+			else
+			{
+				$this->table_prefix = substr($this->option, 4) . 'Table';
+			}
+		}
+
+		// Set the default table search path
 		if (array_key_exists('table_path', $config))
 		{
-			$this->addTablePath($config['table_path']);
+			$this->addTablePath($config['table_path'], $this->table_prefix);
 		}
 		else if (defined('JPATH_COMPONENT_ADMINISTRATOR'))
 		{
-			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
+			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables', $this->table_prefix);
 		}
 
 		// Set the internal state marker - used to ignore setting state from the request
@@ -434,6 +457,11 @@ abstract class JModel extends JObject
 		}
 
 		if ($table = $this->_createTable($name, $prefix, $options))
+		{
+			return $table;
+		}
+
+		if ($table = $this->_createTable($name, $this->table_prefix, $options))
 		{
 			return $table;
 		}

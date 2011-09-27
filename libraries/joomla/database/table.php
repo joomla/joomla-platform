@@ -169,7 +169,14 @@ abstract class JTable extends JObject
 			// Search for the class file in the JTable include paths.
 			jimport('joomla.filesystem.path');
 
-			if ($path = JPath::find(JTable::addIncludePath(), strtolower($type) . '.php'))
+			// First search for path using the prefix
+			$path = JPath::find(self::addIncludePath(null, $prefix), strtolower($type) . '.php');
+			if (!$path)
+			{
+				// Fallback to the global search
+				$path = JPath::find(self::addIncludePath(null, ''), strtolower($type) . '.php');
+			}
+			if ($path)
 			{
 				// Import the class file.
 				include_once $path;
@@ -200,42 +207,62 @@ abstract class JTable extends JObject
 	 * Add a filesystem path where JTable should search for table class files.
 	 * You may either pass a string or an array of paths.
 	 *
-	 * @param   mixed  $path  A filesystem path or array of filesystem paths to add.
+	 * @param   mixed  $path    A filesystem path or array of filesystem paths to add.
+	 * @param   string $prefix  The classes prefix. Optional.
 	 *
 	 * @return  array  An array of filesystem paths to find JTable classes in.
 	 *
 	 * @link    http://docs.joomla.org/JTable/addIncludePath
 	 * @since   11.1
 	 */
-	public static function addIncludePath($path = null)
+	public static function addIncludePath($path = null, $prefix = '')
 	{
 		// Declare the internal paths as a static variable.
 		static $_paths;
 
 		// If the internal paths have not been initialised, do so with the base table path.
-		if (!isset($_paths))
+		if (!isset($_paths['']))
 		{
-			$_paths = array(dirname(__FILE__) . '/table');
+			$_paths[''] = array(dirname(__FILE__) . '/table');
+		}
+
+		// If the internal paths have not been initialised, do so with the base table path.
+		if (!isset($_paths['JTable']))
+		{
+			$_paths['JTable'] = array(dirname(__FILE__) . '/table');
+		}
+
+		// If the internal paths have not been initialised, do so with the base table path.
+		if (!isset($_paths[$prefix]))
+		{
+			$_paths[$prefix] = array();
 		}
 
 		// Convert the passed path(s) to add to an array.
 		settype($path, 'array');
 
-		// If we have new paths to add, do so.
-		if (!empty($path) && !in_array($path, $_paths))
+		// Check and add each individual new path.
+		foreach ($path as $dir)
 		{
-			// Check and add each individual new path.
-			foreach ($path as $dir)
-			{
-				// Sanitize path.
-				$dir = trim($dir);
+			// Sanitize path.
+			$dir = trim($dir);
 
+			// If we have a new path to add to the prefix specifix list, do so.
+			if (!in_array($dir, $_paths[$prefix]))
+			{
 				// Add to the front of the list so that custom paths are searched first.
-				array_unshift($_paths, $dir);
+				array_unshift($_paths[$prefix], $dir);
+			}
+
+			// If we have a new path to add to the global list, do so.
+			if (!in_array($dir, $_paths['']))
+			{
+				// Add to the front of the list so that custom paths are searched first.
+				array_unshift($_paths[''], $dir);
 			}
 		}
 
-		return $_paths;
+		return $_paths[$prefix];
 	}
 
 	/**
@@ -624,7 +651,7 @@ abstract class JTable extends JObject
 		$name = $this->_getAssetName();
 		$title = $this->_getAssetTitle();
 
-		$asset = JTable::getInstance('Asset');
+		$asset = self::getInstance('Asset');
 		$asset->loadByName($name);
 
 		// Re-inject the asset id.
@@ -768,7 +795,7 @@ abstract class JTable extends JObject
 			// Get and the asset name.
 			$this->$k = $pk;
 			$name = $this->_getAssetName();
-			$asset = JTable::getInstance('Asset');
+			$asset = self::getInstance('Asset');
 
 			if ($asset->loadByName($name))
 			{
