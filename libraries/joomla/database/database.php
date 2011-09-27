@@ -934,13 +934,11 @@ abstract class JDatabase implements JDatabaseInterface
 	public function loadNextObject($class = 'stdClass')
 	{
 	
-		if ( ! $this->cursor ) {
-		// Execute the query and get the result set cursor.
-			if (!($this->cursor = $this->query()))
-			{
+		if ( ! $this->cursor && !($this->cursor = $this->query()))
+		{
 				return $this->errorNum ? null : false;
-			}
 		}
+		
 
 
 		// Get the next row from the result set as an object of type $class.
@@ -969,13 +967,11 @@ abstract class JDatabase implements JDatabaseInterface
 		
 
 		
-		if ( ! $this->cursor ) {
-		// Execute the query and get the result set cursor.
-			if (!($this->cursor = $this->query()))
-			{
+		if ( ! $this->cursor  && !($this->cursor = $this->query()))
+		{
 				return $this->errorNum ? null : false;
-			}
 		}
+		
 
 
 		// Get the next row from the result set as an object of type $class.
