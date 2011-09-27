@@ -5,7 +5,7 @@ The *Joomla Platform* is a platform for writing Web and command line application
 distributed under the GNU General Public License version 2 or later.  The Joomla Content Management System (CMS) is built on
 top of the *Joomla Platform*.  For more information about the Joomla CMS visit: http://www.joomla.org/about-joomla.html
 
-You can find out more about Joomla development *(though not platform specific)* at: http://docs.joomla.org/Developers
+You can find out more about Joomla development *(though not platform specific)* at: http://docs.joomla.org/Developers and http://developer.joomla.org
 
 You can discuss *Joomla Platform* development at: http://groups.google.com/group/joomla-dev-platform
 
@@ -14,7 +14,7 @@ Requirements
 
 * PHP 5.2+
 * MySQL 5.04+
-* Apache 2.x+, Microsoft IIS 7
+* Apache 2.x+ or Microsoft IIS 7
 
 Installation
 ------------
@@ -40,5 +40,7 @@ The general steps for contributing to the Joomla! Platform are as follows.
 * When your feature is ready for review, make a pull request.
 
 Platform improvements may also be submitted via the CMS Feature Tracker. Please use the category Joomla! Libraries for any platform features submitted by that route.
+
+You can also find suggestions and rated ideas at the Joomla Idea Pool: http://ideas.joomla.org
 
 Note that many great features can be contributed to the community by way of extensions and do not need to be included in the core Joomla! distribution. Also, features that start as extensions can be included into the core program at a later time.
