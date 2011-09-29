@@ -195,9 +195,9 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	public function getCollation()
 	{
-		$cur = $this->query( 'SHOW LC_COLLATE;' );
-		$coll = $this->fetchArray( $cur );
-		return $coll['lc_collate'];
+		$this->setQuery( 'SHOW LC_COLLATE' );
+		$array = $this->loadAssocList();
+		return $array[0]['lc_collate'];
 	}
 	
 	/**
@@ -341,7 +341,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	public function getTableList()
 	{
-		$query = $this->getQuery();
+		$query = $this->getQuery(true);
 		$query->select('table_name')
 			  ->from( 'information_schema.tables' )
 			  ->where( 'table_type=' .  $this->quote('BASE TABLE') )
@@ -367,12 +367,17 @@ class JDatabasePostgreSQL extends JDatabase
 	}
 	
 	/**
-	 * Determines UTF support
+	 * Determines if the database engine supports UTF-8 character encoding.
 	 *
-	 * @return boolean True - UTF is supported
+	 * @return  boolean  True if supported.
+	 *
+	 * @since   11.1
+	 * @deprecated 12.1
 	 */
 	public function hasUTF()
 	{
+		jimport('joomla.log.log');
+		JLog::add('JDatabasePostgreSQL::hasUTF() is deprecated.', JLog::WARNING, 'deprecated');
 		return true;
 	}
 	
@@ -396,6 +401,7 @@ class JDatabasePostgreSQL extends JDatabase
 	public function insertid()
 	{
 		/* use RETURNING clause during INSERT */
+		return true;
 		
 		/*$this->setQuery('SELECT lastval();');
 		$this->query();
