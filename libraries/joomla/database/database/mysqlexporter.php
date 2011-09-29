@@ -15,6 +15,7 @@ defined('JPATH_PLATFORM') or die();
  * @package     Joomla.Platform
  * @subpackage  Database
  * @since       11.1
+ * @deprecated  JDatabaseMySQL is deprecated and thus this class as well
  */
 class JDatabaseExporterMySQL
 {
@@ -23,6 +24,7 @@ class JDatabaseExporterMySQL
 	 *
 	 * @var    array
 	 * @since  11.1
+	 * @deprecated  JDatabaseMySQL is deprecated and thus this class as well
 	 */
 	protected $cache = array();
 
@@ -31,6 +33,7 @@ class JDatabaseExporterMySQL
 	 *
 	 * @var    JDatabaseMySQL
 	 * @since  11.1
+	 * @deprecated  JDatabaseMySQL is deprecated and thus this class as well
 	 */
 	protected $db = null;
 
@@ -39,6 +42,7 @@ class JDatabaseExporterMySQL
 	 *
 	 * @var    array
 	 * @since  11.1
+	 * @deprecated  JDatabaseMySQL is deprecated and thus this class as well
 	 */
 	protected $from = array();
 
@@ -47,6 +51,7 @@ class JDatabaseExporterMySQL
 	 *
 	 * @var    string
 	 * @since  11.1
+	 * @deprecated  JDatabaseMySQL is deprecated and thus this class as well
 	 */
 	protected $asFormat = 'xml';
 
@@ -55,6 +60,7 @@ class JDatabaseExporterMySQL
 	 *
 	 * @var    JObject
 	 * @since  11.1
+	 * @deprecated  JDatabaseMySQL is deprecated and thus this class as well
 	 */
 	protected $options = null;
 
@@ -66,6 +72,7 @@ class JDatabaseExporterMySQL
 	 * @return  JDatabaseExporterMySQL
 	 *
 	 * @since   11.1
+	 * @deprecated  JDatabaseMySQL is deprecated and thus this class as well
 	 */
 	public function __construct()
 	{
@@ -90,6 +97,7 @@ class JDatabaseExporterMySQL
 	 * @return  string
 	 *
 	 * @since   11.1
+	 * @deprecated  JDatabaseMySQL is deprecated and thus this class as well
 	 * @throws  Exception if an error is encountered.
 	 */
 	public function __toString()
@@ -117,6 +125,7 @@ class JDatabaseExporterMySQL
 	 * @return  JDatabaseExporterMySQL  Method supports chaining.
 	 *
 	 * @since   11.1
+	 * @deprecated  JDatabaseMySQL is deprecated and thus this class as well
 	 */
 	public function asXml()
 	{
@@ -131,6 +140,7 @@ class JDatabaseExporterMySQL
 	 * @return  string  An XML string
 	 *
 	 * @since   11.1
+	 * @deprecated  JDatabaseMySQL is deprecated and thus this class as well
 	 * @throws  Exception if an error occurs.
 	 */
 	protected function buildXml()
@@ -155,6 +165,7 @@ class JDatabaseExporterMySQL
 	 * @return  array  An array of XML lines (strings).
 	 *
 	 * @since   11.1
+	 * @deprecated  JDatabaseMySQL is deprecated and thus this class as well
 	 * @throws  Exception if an error occurs.
 	 */
 	protected function buildXmlStructure()
@@ -199,7 +210,7 @@ class JDatabaseExporterMySQL
 	 * @return  JDatabaseExporterMySQL  Method supports chaining.
 	 *
 	 * @since   11.1
-	 *
+	 * @deprecated  JDatabaseMySQL is deprecated and thus this class as well
 	 * @throws  Exception if an error is encountered.
 	 */
 	public function check()
@@ -227,6 +238,7 @@ class JDatabaseExporterMySQL
 	 * @return  string  The name of the table with the database prefix replaced with #__.
 	 *
 	 * @since   11.1
+	 * @deprecated  JDatabaseMySQL is deprecated and thus this class as well
 	 */
 	protected function getGenericTableName($table)
 	{
@@ -247,6 +259,7 @@ class JDatabaseExporterMySQL
 	 * @return  JDatabaseExporterMySQL  Method supports chaining.
 	 *
 	 * @since   11.1
+	 * @deprecated  JDatabaseMySQL is deprecated and thus this class as well
 	 * @throws  Exception if input is not a string or array.
 	 */
 	public function from($from)
@@ -275,6 +288,7 @@ class JDatabaseExporterMySQL
 	 * @return  JDatabaseExporterMySQL  Method supports chaining.
 	 *
 	 * @since   11.1
+	 * @deprecated  JDatabaseMySQL is deprecated and thus this class as well
 	 */
 	public function setDbo(JDatabaseMySQL $db)
 	{
@@ -291,6 +305,7 @@ class JDatabaseExporterMySQL
 	 * @return  JDatabaseExporterMySQL  Method supports chaining.
 	 *
 	 * @since   11.1
+	 * @deprecated  JDatabaseMySQL is deprecated and thus this class as well
 	 */
 	public function withStructure($setting = true)
 	{
