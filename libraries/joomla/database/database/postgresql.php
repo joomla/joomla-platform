@@ -183,7 +183,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	public function getAffectedRows()
 	{
-		return pg_affected_rows( $this->connection );
+		return pg_affected_rows( $this->cursor );
 	}
 	
 	/**
@@ -395,10 +395,12 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	public function insertid()
 	{
-		$this->setQuery('SELECT lastval();');
+		/* use RETURNING clause during INSERT */
+		
+		/*$this->setQuery('SELECT lastval();');
 		$this->query();
 		
-		return (int) $this->fetchArray();
+		return (int) $this->fetchArray(); */
 	}
 	
 	/**
