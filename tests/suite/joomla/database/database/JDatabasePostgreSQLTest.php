@@ -197,9 +197,6 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 */
 	public function testGetCollation()
 	{
-		// Remove the following lines when you implement this test.
-		//$this->markTestIncomplete('This test has not been implemented yet.');
-		
 		$this->assertThat(
 			$this->object->getCollation(),
 			$this->equalTo("it_IT.UTF-8"),
@@ -271,9 +268,6 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 */
 	public function testGetVersion()
 	{
-		// Remove the following lines when you implement this test.
-		//$this->markTestIncomplete('This test has not been implemented yet.');
-		
 		$this->assertThat(
 			$this->object->getVersion(),
 			$this->equalTo("9.0.4"),
@@ -286,9 +280,6 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 */
 	public function testHasUTF()
 	{
-		// Remove the following lines when you implement this test.
-		//$this->markTestIncomplete('This test has not been implemented yet.');
-		
 		$this->assertThat(
 			$this->object->hasUTF(),
 			$this->isTrue(),
@@ -301,9 +292,6 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 */
 	public function testInsertid()
 	{
-		// Remove the following lines when you implement this test.
-		//$this->markTestIncomplete('This test has not been implemented yet.');
-		
 		/* does not exist insertId function on postgresql, returned true */
 		$this->assertThat(
 			$this->object->insertid(),
@@ -448,8 +436,8 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 */
 	public function testLoadObjectList()
 	{
-		//$this->markTestIncomplete('This test has not been implemented yet.');
-		/* sbarella !!
+		$this->markTestIncomplete('This test has not been implemented yet.');
+		/* Allowed memory size of 134217728 bytes exhausted
 		$query = $this->object->getQuery(true);
 		$query->select('*');
 		$query->from('jos_dbtest');
@@ -683,7 +671,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 */
 	public function testSelect()
 	{
-		/* it's not possible to select a database, return true */
+		/* it's not possible to select a database, already done during connection, return true */
 		$this->assertThat(
 			$this->object->select(),
 			$this->isTrue(),
