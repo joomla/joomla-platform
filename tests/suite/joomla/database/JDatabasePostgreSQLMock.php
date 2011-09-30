@@ -144,6 +144,6 @@ class JDatabasePostgreSQLMock extends JDatabaseGlobalMock
 	 */
 	public function mockQuoteName($value)
 	{
-		return "`$value`";
+		return "'$value'";
 	}
 }
