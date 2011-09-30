@@ -32,7 +32,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 *
 	 * @var string
 	 */
-	protected $nullDate = 'epoch';
+	protected $nullDate = '1970-01-01 00:00:00+00';
 
 	/**
 	 * Quote for named objects
