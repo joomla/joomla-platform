@@ -27,6 +27,6 @@ class JoomlaPostgreSQLTestCase extends JoomlaTestCase
 	{
 		require_once JPATH_TESTS.'/suite/joomla/database/JDatabasePostgreSQLMock.php';
 
-		return JDatabaseGlobalPostgreSQLMock::create($this);
+		return JDatabasePostgreSQLMock::create($this);
 	}
 }
