@@ -807,6 +807,83 @@ class JDatabasePostgreSQL extends JDatabase
 		return true; //$this->cursor;
 	}
 
+	/**
+	 * Method to commit a transaction.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 * @throws  JDatabaseException
+	 */
+	public function transactionCommit()
+	{
+		$this->setQuery('COMMIT');
+		$this->query();
+	}
+
+	/**
+	 * Method to roll back a transaction.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 * @throws  JDatabaseException
+	 */
+	public function transactionRollback($toSavepoint = null)
+	{
+		$query = 'ROLLBACK';
+		if(!is_null($toSavepoint))
+		{
+			$query .= ' TO SAVEPOINT ' . $this->escape($toSavepoint);
+		}
+		
+		$this->setQuery($query);
+		$this->query();
+	}
+
+	/**
+	 * Method to initialize a transaction.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 * @throws  JDatabaseException
+	 */
+	public function transactionStart()
+	{
+		$this->setQuery('START TRANSACTION');
+		$this->query();
+	}
+	
+	/**
+	 * Method to release a savepoint.
+	 *
+	 * @param   string	Savepoint's name to release 
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function releaseTransactionSavepoint( $savepointName )
+	{
+		$this->setQuery('RELEASE SAVEPOINT ' . $this->escape($savepointName));
+		$this->query();
+	}
+	
+	/**
+	 * Method to create a savepoint.
+	 *
+	 * @param	string	Savepoint's name to create
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function transactionSavepoint( $savepointName )
+	{
+		$this->setQuery('SAVEPOINT ' . $this->escape($savepointName) );
+		$this->query();
+	}
+	
+	
 	public function queryBatch($abortOnError = true, $transactionSafe = false)
 	{}
 	
