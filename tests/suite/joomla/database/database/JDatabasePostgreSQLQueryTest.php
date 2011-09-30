@@ -5,7 +5,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once JPATH_TESTS.'/suite/joomla/database/JDatabaseQueryInspector.php';
+require_once JPATH_TESTS.'/suite/joomla/database/JDatabasePostgreSQLQueryInspector.php';
 
 require_once JPATH_PLATFORM.'/joomla/database/database/postgresqlquery.php';
 
@@ -52,7 +52,48 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 			array('text', false, "'text'"),
 		);
 	}
+	
+	/**
+	 * Data for the testJoin test.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.1
+	 */
+	public function dataTestJoin()
+	{
+		return array(
+			// $type, $conditions
+			array('', 		'b ON b.id = a.id'),
+			array('INNER',	'b ON b.id = a.id'),
+			array('OUTER',	'b ON b.id = a.id'),
+			array('LEFT',	'b ON b.id = a.id'),
+			array('RIGHT',	'b ON b.id = a.id'),
+		);
+	}
 
+	/**
+	 * Data for the testLock test.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.1
+	 */
+	public function dataTestLock()
+	{
+		return array(
+			// $table_name, $lock_type
+			array('jos_dbtest', 'ACCESS SHARE'),
+			array('jos_dbtest',	'ROW SHARE'),
+			array('jos_dbtest',	'ROW EXCLUSIVE'),
+			array('jos_dbtest',	'SHARE UPDATE EXCLUSIVE'),
+			array('jos_dbtest',	'SHARE'),
+			array('jos_dbtest',	'SHARE ROW EXCLUSIVE'),
+			array('jos_dbtest',	'EXCLUSIVE'),
+			array('jos_dbtest',	'ACCESS EXCLUSIVE'),
+		);
+	}
+	
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
@@ -88,7 +129,7 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	 */
 	public function testCastAsChar()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
 
 		$this->assertThat(
 			$q->castAsChar('123'),
@@ -107,7 +148,7 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	 */
 	public function testCharLength()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
 
 		$this->assertThat(
 			$q->charLength('a.title'),
@@ -150,7 +191,7 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 			'values',
 		);
 
-		$q = new JDatabaseQueryInspector($this->dbo);
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
 
 		// First pass - set the values.
 		foreach ($properties as $property)
@@ -202,7 +243,7 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 		// Test each clause.
 		foreach ($clauses as $clause)
 		{
-			$q = new JDatabaseQueryInspector($this->dbo);
+			$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
 
 			// Set the clauses
 			foreach ($clauses as $clause2)
@@ -261,7 +302,7 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 			'values',
 		);
 
-		$q = new JDatabaseQueryInspector($this->dbo);
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
 
 		// Set the clauses.
 		foreach ($clauses as $clause)
@@ -301,57 +342,133 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	}
 
 	/**
-	 * @todo Implement testFrom().
+	 * Test for FROM clause.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testFrom()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
+		$q->from('jos_dbtest');
+		
+		$query = new JDatabaseQueryPostgreSQL();
+		$query->from('jos_dbtest');
+		
+		$this->assertThat(
+					$q->get('from'),
+					$this->equalTo($query->from) );
 	}
 
 	/**
-	 * @todo Implement testGroup().
+	 * Test for GROUP clause.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testGroup()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
+		$q->group('jos_dbtest');
+		
+		$query = new JDatabaseQueryPostgreSQL();
+		$query->group('jos_dbtest');
+		
+		$this->assertThat(
+					$q->get('group'),
+					$this->equalTo($query->group) );
 	}
 
 	/**
-	 * @todo Implement testHaving().
+	 * Test for HAVING clause using a simple condition and with glue for second one.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testHaving()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
+		$q->having('i=3');
+		
+		$query = new JDatabaseQueryPostgreSQL();
+		$query->having('i=3');
+		
+		$this->assertThat(
+					$q->get('having'),
+					$this->equalTo($query->having) );
+					
+					
+		/* check glue */
+		$q->having('k<>2','AND');
+		$query->having('k<>2','AND');
+		
+		$this->assertThat(
+					$q->get('having'),
+					$this->equalTo($query->having) );
 	}
 
 	/**
-	 * @todo Implement testInnerJoin().
+	 * Test for INNER JOIN clause.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testInnerJoin()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
+		$q->innerJoin('b ON b.id = a.id');
+		
+		$query = new JDatabaseQueryPostgreSQL();
+		$query->innerJoin('b ON b.id = a.id');
+		
+		$this->assertThat(
+					$q->get('innerJoin'),
+					$this->equalTo($query->innerJoin) );
 	}
 
 	/**
-	 * @todo Implement testJoin().
+	 * Test for JOIN clause using dataprovider to test all types of join.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 * @dataProvider  dataTestJoin
 	 */
-	public function testJoin()
+	public function testJoin($type, $conditions)
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
+		$q->join($type, $conditions);
+		
+		$query = new JDatabaseQueryPostgreSQL();
+		$query->join($type, $conditions);
+		
+		$this->assertThat(
+					$q->get('join'),
+					$this->equalTo($query->join) );
 	}
 
 	/**
-	 * @todo Implement testLeftJoin().
+	 * Test for LEFT JOIN clause.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testLeftJoin()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
+		$q->leftJoin('b ON b.id = a.id');
+		
+		$query = new JDatabaseQueryPostgreSQL();
+		$query->leftJoin('b ON b.id = a.id');
+		
+		$this->assertThat(
+					$q->get('leftJoin'),
+					$this->equalTo($query->leftJoin) );
 	}
 
 	/**
@@ -367,7 +484,7 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	 */
 	public function testNullDate($quoted, $expected)
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
 
 		$this->assertThat(
 			$q->nullDate($quoted),
@@ -376,21 +493,43 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 		);
 	}
 	/**
-	 * @todo Implement testOrder().
+	 * Test for ORDER clause.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testOrder()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
+		$q->order('jos_dbtest');
+		
+		$query = new JDatabaseQueryPostgreSQL();
+		$query->order('jos_dbtest');
+		
+		$this->assertThat(
+					$q->get('order'),
+					$this->equalTo($query->order) );
 	}
 
 	/**
-	 * @todo Implement testOuterJoin().
+	 * Test for OUTER JOIN clause.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testOuterJoin()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
+		$q->outerJoin('b ON b.id = a.id');
+		
+		$query = new JDatabaseQueryPostgreSQL();
+		$query->outerJoin('b ON b.id = a.id');
+		
+		$this->assertThat(
+					$q->get('outerJoin'),
+					$this->equalTo($query->outerJoin) );
 	}
 
 	/**
@@ -407,11 +546,11 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	 */
 	public function testQuote($text, $escape, $expected)
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
 
 		$this->assertThat(
 			$q->quoteName("test"),
-			$this->equalTo("`test`"),
+			$this->equalTo("'test'"),
 			'The quoteName method should be a proxy for the JDatabase::escape method.'
 		);
 	}
@@ -425,39 +564,257 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	 */
 	public function testQuoteName()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
 
 		$this->assertThat(
 			$q->quoteName("test"),
-			$this->equalTo("`test`"),
+			$this->equalTo("'test'"),
 			'The quoteName method should be a proxy for the JDatabase::escape method.'
 		);
 	}
 
 	/**
-	 * @todo Implement testRightJoin().
+	 * Test for RIGHT JOIN clause.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testRightJoin()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
+		$q->rightJoin('b ON b.id = a.id');
+		
+		$query = new JDatabaseQueryPostgreSQL();
+		$query->rightJoin('b ON b.id = a.id');
+		
+		$this->assertThat(
+					$q->get('rightJoin'),
+					$this->equalTo($query->rightJoin) );
 	}
 
 	/**
-	 * @todo Implement testSelect().
+	 * Test for SELECT clause.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testSelect()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
+		$q->select('jos_dbtest');
+		
+		$query = new JDatabaseQueryPostgreSQL();
+		$query->select('jos_dbtest');
+		
+		$this->assertThat(
+					$q->get('select'),
+					$this->equalTo($query->select) );
 	}
 
 	/**
-	 * @todo Implement testWhere().
+	 * Test for WHERE clause using a simple condition and with glue for second one. 
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testWhere()
+	{		
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
+		$q->where('i=3');
+		
+		$query = new JDatabaseQueryPostgreSQL();
+		$query->where('i=3');
+		
+		$this->assertThat(
+					$q->get('where'),
+					$this->equalTo($query->where) );
+					
+		/* check with glue */
+		$q->where('f<>7', 'OR');
+		$query->where('f<>7', 'OR');
+		
+		$this->assertThat(
+					$q->get('where'),
+					$this->equalTo($query->where) );
+	}
+	
+	
+	
+	
+	
+	/* TO CONVERT */
+	/**
+	 * Test for FOR UPDATE clause. 
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function testForUpdate ()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
+		$q->forUpdate('jos_dbtest');
+		
+		$query = new JDatabaseQueryPostgreSQL();
+		$query->forUpdate('jos_dbtest');
+		
+		$this->assertThat(
+					$q->get('forUpdate'),
+					$this->equalTo($query->forUpdate) );
+					
+		/* check with glue */
+		$q->forUpdate('jos_assets', ',');
+		$query->forUpdate('jos_assets', ',');
+		
+		$this->assertThat(
+					$q->get('forUpdate'),
+					$this->equalTo($query->forUpdate) );
+	}
+	
+	/**
+	 * Test for FOR SHARE clause. 
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function testForShare ()
+	{
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
+		$q->forShare('jos_dbtest');
+		
+		$query = new JDatabaseQueryPostgreSQL();
+		$query->forShare('jos_dbtest');
+		
+		$this->assertThat(
+					$q->get('forShare'),
+					$this->equalTo($query->forShare) );
+					
+		/* check with glue */
+		$q->forShare('jos_assets', ',');
+		$query->forShare('jos_assets', ',');
+		
+		$this->assertThat(
+					$q->get('forShare'),
+					$this->equalTo($query->forShare) );
+	}
+	
+	/**
+	 * Test for NOWAIT clause. 
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function testNoWait ()
+	{
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
+		$q->noWait();
+		
+		$query = new JDatabaseQueryPostgreSQL();
+		$query->noWait();
+		
+		$this->assertThat(
+					$q->get('noWait'),
+					$this->equalTo($query->noWait) );
+	}
+	
+   	/** 
+   	 * Test for LOCK clause. 
+	 *
+	 * @return  void
+	 * @since   11.1
+	 * @dataProvider  dataTestLock
+	 */
+	public function testLock($table_name, $lock_type)
+	{
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
+		$q->lock($table_name, $lock_type);
+		
+		$query = new JDatabaseQueryPostgreSQL();
+		$query->lock($table_name,$lock_type);
+		
+		$this->assertThat(
+					$q->get('lock'),
+					$this->equalTo($query->lock) );
+	}
+
+	/** 
+	 * Test for UNLOCK clause. 
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function testUnlock()  
+	{
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
+		
+		$this->assertThat(
+					$q->unlock(),
+					$this->isTrue() );
+	}
+	
+	/** 
+	 * Test for LIMIT clause. 
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function testLimit()
+	{
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
+		$q->limit('5');
+		
+		$query = new JDatabaseQueryPostgreSQL();
+		$query->limit('5');
+		
+		$this->assertThat(
+					$q->get('limit'),
+					$this->equalTo($query->limit) );
+	}
+	
+	/** 
+	 * Test for OFFSET clause. 
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function testOffset()
+	{
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
+		$q->offset('10');
+		
+		$query = new JDatabaseQueryPostgreSQL();
+		$query->offset('10');
+		
+		$this->assertThat(
+					$q->get('offset'),
+					$this->equalTo($query->offset) );
+	}
+	
+	/** 
+	 * Test for RETURNING clause. 
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function testReturning()
+	{
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
+		$q->returning('id');
+		
+		$query = new JDatabaseQueryPostgreSQL();
+		$query->returning('id');
+		
+		$this->assertThat(
+					$q->get('returning'),
+					$this->equalTo($query->returning) );
 	}
 }
