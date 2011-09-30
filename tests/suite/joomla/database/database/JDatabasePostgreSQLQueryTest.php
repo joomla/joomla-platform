@@ -5,7 +5,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once dirname(__FILE__).'/JDatabaseQueryInspector.php';
+require_once JPATH_TESTS.'/suite/joomla/database/JDatabaseQueryInspector.php';
 
 require_once JPATH_PLATFORM.'/joomla/database/database/postgresqlquery.php';
 
