@@ -49,37 +49,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 * @since  11.1
 	 */
 	protected $offset = null;
-	
-	/**
-	 * @var    object  The COMMIT element
-	 * @since  11.1
-	 */	
-	protected $commit = null;
 
-	/**
-	 * @var    object  The ROLLBACK element
-	 * @since  11.1
-	 */
-	protected $rollback = null;
-	
-	/**
-	 * @var    object  The SAVEPOINT element
-	 * @since  11.1
-	 */
-	protected $savepoint = null;
-	
-	/**
-	 * @var    object  The RELEASE SAVEPOINT element
-	 * @since  11.1
-	 */	
-	protected $releaseSavepoint = null;
-	
-	/**
-	 * @var    object  The START TRANSACTION element
-	 * @since  11.1
-	 */	
-	protected $startTransaction = null;
-	
 	/**
 	 * @var    object  The RETURNING element of INSERT INTO
 	 * @since  11.1
@@ -307,7 +277,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	{
 		$this->type = 'forShare';
 		
-		if ( is_null($this->forUpdate) ) {
+		if ( is_null($this->forShare) ) {
 			$glue = strtoupper($glue);
 			$this->forShare = new JDatabaseQueryElement('FOR SHARE', ' OF ' . $table_name, " $glue " );
 		}
