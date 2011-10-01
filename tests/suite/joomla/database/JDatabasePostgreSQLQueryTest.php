@@ -189,6 +189,14 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 			'order',
 			'columns',
 			'values',
+			'forShare',
+			'forUpdate',
+			'limit',
+			'lock',
+			'noWait',
+			'offset',
+			'returning',
+			'unlock',
 		);
 
 		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
@@ -237,6 +245,14 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 			'order',
 			'columns',
 			'values',
+			/*'forShare',*/
+			/*'forUpdate',*/
+			/*'limit',*/
+			'lock',
+			/*'noWait',*/
+			/*'offset',*/
+			/*'returning',*/
+			'unlock',
 		);
 
 
@@ -288,6 +304,14 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 			'delete',
 			'update',
 			'insert',
+			'forShare',
+			'forUpdate',
+			'limit',
+			'lock',
+			'noWait',
+			'offset',
+			'returning',
+			'unlock',
 		);
 
 		$clauses = array(
@@ -300,6 +324,7 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 			'order',
 			'columns',
 			'values',
+			
 		);
 
 		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
