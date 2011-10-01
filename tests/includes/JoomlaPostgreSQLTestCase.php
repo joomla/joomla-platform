@@ -25,6 +25,9 @@ class JoomlaPostgreSQLTestCase extends JoomlaTestCase
 	 */
 	protected function getMockDatabase()
 	{
+		// Load the real class first otherwise the mock will be used if jimport is called again.
+		require_once JPATH_PLATFORM.'/joomla/database/database.php';
+		
 		require_once JPATH_TESTS.'/suite/joomla/database/JDatabasePostgreSQLMock.php';
 
 		return JDatabasePostgreSQLMock::create($this);
