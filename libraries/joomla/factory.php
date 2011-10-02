@@ -223,7 +223,15 @@ abstract class JFactory
 		}
 		else
 		{
-			$instance = JUser::getInstance($id);
+			$current = self::getSession()->get('user');
+			if ($current->id != $id)
+			{
+				$instance = JUser::getInstance($id);
+			}
+			else
+			{
+				$instance = self::getSession()->get('user');
+			}
 		}
 
 		return $instance;
@@ -664,7 +672,10 @@ abstract class JFactory
 
 		if (JError::isError($db))
 		{
-			header('HTTP/1.1 500 Internal Server Error');
+			if (!headers_sent())
+			{
+				header('HTTP/1.1 500 Internal Server Error');
+			}
 			jexit('Database Error: ' . (string) $db);
 		}
 

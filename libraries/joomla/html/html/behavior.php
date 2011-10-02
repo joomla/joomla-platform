@@ -417,7 +417,7 @@ abstract class JHtmlBehavior
 		}
 
 		// Only load once
-		if (isset($multiselect[$selector]))
+		if (isset($multiselect[$id]))
 		{
 			return;
 		}
@@ -435,7 +435,7 @@ abstract class JHtmlBehavior
 		);
 
 		// Set static array
-		$multiselect[$selector] = true;
+		$multiselect[$id] = true;
 		return;
 	}
 
@@ -834,8 +834,8 @@ abstract class JHtmlBehavior
 		// Include MooTools framework
 		self::framework();
 
-		$js = "window.addEvent('domready', function () {if (top == self) {document.documentElement.style.display = 'block'; }' .
-			' else {top.location = self.location; }});";
+		$js = "window.addEvent('domready', function () {if (top == self) {document.documentElement.style.display = 'block'; }" .
+			" else {top.location = self.location; }});";
 		$document = JFactory::getDocument();
 		$document->addStyleDeclaration('html { display:none }');
 		$document->addScriptDeclaration($js);
@@ -965,8 +965,8 @@ Calendar._TT["ABOUT_TIME"] = "\n\n" +
 				. JText::_('JLIB_HTML_BEHAVIOR_DISPLAY_S_FIRST', true) . '";' . ' Calendar._TT["WEEKEND"] = "0,6";' . ' Calendar._TT["CLOSE"] = "'
 				. JText::_('JLIB_HTML_BEHAVIOR_CLOSE', true) . '";' . ' Calendar._TT["TODAY"] = "' . JText::_('JLIB_HTML_BEHAVIOR_TODAY', true)
 				. '";' . ' Calendar._TT["TIME_PART"] = "' . JText::_('JLIB_HTML_BEHAVIOR_SHIFT_CLICK_OR_DRAG_TO_CHANGE_VALUE', true) . '";'
-				. ' Calendar._TT["DEF_DATE_FORMAT"] = "' . JText::_('%Y-%m-%d', true) . '";' . ' Calendar._TT["TT_DATE_FORMAT"] = "'
-				. JText::_('%a, %b %e', true) . '";' . ' Calendar._TT["WK"] = "' . JText::_('JLIB_HTML_BEHAVIOR_WK', true) . '";'
+				. ' Calendar._TT["DEF_DATE_FORMAT"] = "%Y-%m-%d";' . ' Calendar._TT["TT_DATE_FORMAT"] = "'
+				. JText::_('JLIB_HTML_BEHAVIOR_TT_DATE_FORMAT', true) . '";' . ' Calendar._TT["WK"] = "' . JText::_('JLIB_HTML_BEHAVIOR_WK', true) . '";'
 				. ' Calendar._TT["TIME"] = "' . JText::_('JLIB_HTML_BEHAVIOR_TIME', true) . '";';
 			$jsscript = 1;
 			return $return;
