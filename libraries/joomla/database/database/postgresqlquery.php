@@ -174,7 +174,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 				break;
 				
 			default:
-				parent::__toString();
+				$query = parent::__toString();
 				break;
 
 		}
@@ -383,8 +383,6 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 */
 	public function returning( $pkCol )
 	{
-		$this->type = 'returning';
-		
 		if (is_null($this->returning)) 
 		{
 			$this->returning = new JDatabaseQueryElement('RETURNING', $pkCol);
