@@ -343,8 +343,6 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 */
 	public function limit( $limit = 0 )
 	{
-		$this->type = 'limit';
-		      	
 		if (is_null($this->limit)) {
         	$this->limit = new JDatabaseQueryElement('LIMIT', (int)$limit );
       	}
@@ -363,8 +361,6 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 */
 	public function offset( $offset = 0 )
 	{
-		$this->type = 'offset';
-		      	
 		if (is_null($this->offset)) {
         	$this->offset = new JDatabaseQueryElement('OFFSET', (int)$offset );
       	}
