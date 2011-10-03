@@ -151,22 +151,10 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 */
 	public function testGetAffectedRows()
 	{
-		//$this->markTestIncomplete('This test has not been implemented yet.');
-		
-		/* this query doesn't work
 		$query = $this->object->getQuery(true);
 		$query->delete();
 		$query->from('jos_dbtest');
 		$this->object->setQuery($query);
-		
-		$this->assertThat(
-			$this->object->getQuery(),
-			$this->equalTo(4),
-			__LINE__
-		); */
-		
-		/* the old style DELETE works */
-		$this->object->setQuery("DELETE FROM jos_dbtest");
 
 		$result = $this->object->query();
 		
@@ -175,25 +163,14 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 			$this->equalTo(4),
 			__LINE__
 		);
-		
-		
-		/* the 'SELECT' works  
-		$query = $this->object->getQuery(true);
-		$query->select('*');
-		$query->from('jos_dbtest');
-		$this->object->setQuery($query);
-		
-		$result = $this->object->query();
-
-		$this->assertThat(
-			$this->object->getAffectedRows(),
-			$this->equalTo(4),
-			__LINE__
-		); */
 	}
 
 	/**
-	 * @todo Implement testGetCollation().
+	 * Tests the JDatabasePostgreSQL getCollation method.
+	 * 
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testGetCollation()
 	{
@@ -243,7 +220,11 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
-	 * @todo Implement testGetTableList().
+	 * Tests the JDatabasePostgreSQL getTableList method.
+	 * 
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testGetTableList()
 	{
@@ -264,7 +245,11 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
-	 * @todo Implement testGetVersion().
+	 * Tests the JDatabasePostgreSQL getVersion method.
+	 * 
+	 * @return  void
+	 *
+	 * @since   11.1.
 	 */
 	public function testGetVersion()
 	{
@@ -276,7 +261,11 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
-	 * @todo Implement testHasUTF().
+	 * Tests the JDatabasePostgreSQL hasUTF method.
+	 * 
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testHasUTF()
 	{
@@ -288,7 +277,11 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
-	 * @todo Implement testInsertid().
+	 * Tests the JDatabasePostgreSQL insertId method.
+	 * 
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testInsertid()
 	{
@@ -463,8 +456,8 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 		); */
 		
 		/*
-		 * Allowed memory size of 134217728 bytes exhausted
-		 * $query = $this->object->getQuery(true);
+		 * Allowed memory size of 134217728 bytes exhausted*/
+		/*$query = $this->object->getQuery(true);
 		$query->select('*');
 		$query->from('jos_dbtest');
 		$query->order('id');
@@ -509,7 +502,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 			$result,
 			$this->equalTo($expected),
 			__LINE__
-		); */
+		);*/
 	}
 
 	/**
@@ -609,52 +602,29 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 */
 	public function testQuery()
 	{
-		//$this->markTestIncomplete('This test has not been implemented yet.');
+		/* REPLACE is not present in PostgreSQL */
+		$query = $this->object->getQuery(true);
+		$query->delete();
+		$query->from('jos_dbtest')->where('id=5');
+		$this->object->setQuery($query);
+		$result = $this->object->query();
 		
-		/*$this->object->setQuery("INSERT INTO jos_dbtest (id, title, start_date, description) VALUES (5, 'testTitle', '1970-01-01', 'testDescription') RETURNING id");
-
-		$cur = $this->object->query();
-		$arr = $this->object->fetchArray( $cur );
-		/*$this->assertThat(
-			$this->object->query(),
-			$this->isTrue(),
-			__LINE__
-		); * /
-
-		$this->assertThat(
-			$arr[0],
-			$this->equalTo(5),
-			__LINE__
-		); */
 		
-		$this->object->setQuery("INSERT INTO jos_dbtest (id, title, start_date, description) VALUES (5, 'testTitle', '1970-01-01', 'testDescription') RETURNING id");
+		$query = $this->object->getQuery(true);		
+		$query->insert('jos_dbtest')
+			  ->columns('id,title,start_date,description')
+			  ->values("5, 'testTitle','1970-01-01','testDescription'")
+			  ->returning('id');
 		
-		$arr = $this->object->loadRow(); 
+		$this->object->setQuery($query);
+		$arr = $this->object->loadRow();
+		
 		
 		$this->assertThat(
 			$arr[0],
 			$this->equalTo(5),
 			__LINE__
 		);
-		
-		
-		
-		
-		
-		/*$this->object->setQuery("REPLACE INTO `jos_dbtest` SET `id` = 5, `title` = 'testTitle'");
-
-		$this->assertThat(
-			$this->object->query(),
-			$this->isTrue(),
-			__LINE__
-		);
-
-		$this->assertThat(
-			$this->object->insertid(),
-			$this->equalTo(5),
-			__LINE__
-		);*/
-
 	}
 
 	/**
@@ -667,7 +637,11 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
-	 * @todo Implement testSelect().
+	 * Tests the JDatabasePostgreSQL select method.
+	 * 
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testSelect()
 	{
@@ -709,4 +683,73 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
+	
+	
+	
+	/**
+	 * @todo Implement testTransactionCommit().
+	 */
+	public function testTransactionCommit()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+		
+/*		$this->setQuery('COMMIT');
+		$this->query();*/
+	}
+
+	/**
+	 * @todo Implement testTransactionRollback().
+	 */
+	public function testTransactionRollback (/*$toSavepoint = null*/)
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+		
+/*		$query = 'ROLLBACK';
+		if(!is_null($toSavepoint))
+		{
+			$query .= ' TO SAVEPOINT ' . $this->escape($toSavepoint);
+		}
+		
+		$this->setQuery($query);
+		$this->query();*/
+	}
+
+	/**
+	 * @todo Implement testTransactionStart().
+	 */
+	public function testTransactionStart()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+		
+/*		$this->setQuery('START TRANSACTION');
+		$this->query();*/
+	}
+	
+	/**
+	 * @todo Implement testReleaseTransactionSavepoint().
+	 */
+	public function testReleaseTransactionSavepoint( /*$savepointName*/ )
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+		
+/*		$this->setQuery('RELEASE SAVEPOINT ' . $this->escape($savepointName));
+		$this->query();*/
+	}
+	
+	/**
+	 * @todo Implement testTransactionSavepoint().
+	 */
+	public function testTransactionSavepoint( /*$savepointName*/ )
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+		
+/*		$this->setQuery('SAVEPOINT ' . $this->escape($savepointName) );
+		$this->query();*/
+	}
+	
 }
