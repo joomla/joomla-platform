@@ -106,46 +106,53 @@ abstract class JLoader
 	/**
 	 * Method to discover classes of a given type in a given path.
 	 *
-	 * @param   string   $classPrefix  The class name prefix to use for discovery.
-	 * @param   string   $parentPath   Full path to the parent folder for the classes to discover.
-	 * @param   boolean  $force        True to overwrite the autoload path value for the class if it already exists.
-	 * @param   boolean  $recurse      Recurse through all child directories as well as the parent path.
+	 * @param   string         $classPrefix  The class name prefix to use for discovery.
+	 * @param   string|array   $parentPaths  Full path or array of full paths to the parent folder for the classes to discover.
+	 * @param   boolean        $force        True to overwrite the autoload path value for the class if it already exists.
+	 * @param   boolean        $recurse      Recurse through all child directories as well as the parent path.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	public static function discover($classPrefix, $parentPath, $force = true, $recurse = false)
+	public static function discover($classPrefix, $parentPaths, $force = true, $recurse = false)
 	{
 		try
 		{
-			if ($recurse)
-			{
-				$iterator = new RecursiveIteratorIterator(
-					new RecursiveDirectoryIterator($parentPath),
-					RecursiveIteratorIterator::SELF_FIRST
-				);
-			}
-			else
-			{
-				$iterator = new DirectoryIterator($parentPath);
-			}
+			// Cast $parentPaths to be an array of paths
+			settype($parentPaths, 'array');
 
-			foreach ($iterator as $file)
+			// Loop over all folders
+			foreach($parentPaths as $parentPath)
 			{
-				$fileName = $file->getFilename();
-
-				// Only load for php files.
-				// Note: DirectoryIterator::getExtension only available PHP >= 5.3.6
-				if ($file->isFile() && substr($fileName, strrpos($fileName, '.') + 1) == 'php')
+				if ($recurse)
 				{
-					// Get the class name and full path for each file.
-					$class = strtolower($classPrefix . preg_replace('#\.php$#', '', $fileName));
-
-					// Register the class with the autoloader if not already registered or the force flag is set.
-					if (empty(self::$classes[$class]) || $force)
+					$iterator = new RecursiveIteratorIterator(
+						new RecursiveDirectoryIterator($parentPath),
+						RecursiveIteratorIterator::SELF_FIRST
+					);
+				}
+				else
+				{
+					$iterator = new DirectoryIterator($parentPath);
+				}
+	
+				foreach ($iterator as $file)
+				{
+					$fileName = $file->getFilename();
+	
+					// Only load for php files.
+					// Note: DirectoryIterator::getExtension only available PHP >= 5.3.6
+					if ($file->isFile() && substr($fileName, strrpos($fileName, '.') + 1) == 'php')
 					{
-						JLoader::register($class, $file->getPath().'/'.$fileName);
+						// Get the class name and full path for each file.
+						$class = strtolower($classPrefix . preg_replace('#\.php$#', '', $fileName));
+	
+						// Register the class with the autoloader if not already registered or the force flag is set.
+						if (empty(self::$classes[$class]) || $force)
+						{
+							JLoader::register($class, $file->getPath().'/'.$fileName);
+						}
 					}
 				}
 			}
@@ -255,3 +262,4 @@ function jimport($path)
 {
 	return JLoader::import($path);
 }
+

@@ -76,20 +76,18 @@ class JModelTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testAddIncludePath().
+	 * @deprecated	12.3
 	 */
 	public function testAddIncludePath()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->markTestSkipped('JModel::addIncludePath is marked as deprecated.');
 	}
 
 	/**
-	 * @todo Implement testAddTablePath().
+	 * @deprecated	12.3
 	 */
 	public function testAddTablePath()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->markTestSkipped('JModel::addTablePath is marked as deprecated.');
 	}
 }

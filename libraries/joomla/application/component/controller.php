@@ -152,9 +152,13 @@ class JController extends JObject
 	 * @param   string  $prefix  A prefix for models
 	 *
 	 * @return  void
+	 * @deprecated    12.3	Use JLoader::discover instead
 	 */
 	public static function addModelPath($path, $prefix = '')
 	{
+		// Deprecation warning.
+		JLog::add('JController::addModelPath() is deprecated.', JLog::WARNING, 'deprecated');
+
 		jimport('joomla.application.component.model');
 		JModel::addIncludePath($path, $prefix);
 	}
@@ -393,11 +397,19 @@ class JController extends JObject
 		if (array_key_exists('model_path', $config))
 		{
 			// user-defined dirs
+			// Deprecated in 12.3
 			$this->addModelPath($config['model_path'], $this->model_prefix);
+
+			// Discover models in the model folder using the model prefix
+			JLoader::discover($this->model_prefix, $config['model_path']);
 		}
 		else
 		{
+			// Deprecated in 12.3
 			$this->addModelPath($this->basePath . '/models', $this->model_prefix);
+
+			// Discover models in the component folder using the model prefix
+			JLoader::discover($this->model_prefix, $this->basePath . '/models');
 		}
 
 		// Set the default view search path
@@ -1137,3 +1149,4 @@ class JController extends JObject
 		return $this;
 	}
 }
+

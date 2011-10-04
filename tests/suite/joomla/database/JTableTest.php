@@ -43,11 +43,11 @@ class JTableTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @todo Implement testAddIncludePath().
+	 * @deprecated	12.3
 	 */
-	public function testAddIncludePath() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+	public function testAddIncludePath()
+	{
+		$this->markTestSkipped('JTable::addIncludePath is marked as deprecated.');
 	}
 
 	/**
@@ -235,3 +235,4 @@ class JTableTest extends PHPUnit_Framework_TestCase {
 	}
 }
 ?>
+
