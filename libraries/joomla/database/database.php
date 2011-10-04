@@ -186,7 +186,7 @@ abstract class JDatabase implements JDatabaseInterface
 
 		// Get a list of types.
 		$types = JFolder::files(dirname(__FILE__).'/database');
-		$exludeStrings = array('exporter','importer','query','exception','..','index');
+		$exludeStrings = array('exporter','importer','query','exception','index');
 		
 
 		// Loop through the types and find the ones that are available.
@@ -241,7 +241,8 @@ abstract class JDatabase implements JDatabaseInterface
 			}		
 			self:$connectors = $connectors;
 			
-			return self:$connectors;
+			return self::$connectors;
+		}
 	}
 
 	/**
