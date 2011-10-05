@@ -239,7 +239,7 @@ abstract class JDatabase implements JDatabaseInterface
 					$connectors[] = $type;
 				}
 			}		
-			self:$connectors = $connectors;
+			self::$connectors = $connectors;
 			
 			return self::$connectors;
 		}
