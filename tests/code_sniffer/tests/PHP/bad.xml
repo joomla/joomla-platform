@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpcs version="1.3.0">
+ <file name="/home/elkuku/eclipsespace/indigogit3/joomla-platform/tests/code_sniffer/tests/PHP/bad.php" errors="3" warnings="0">
+  <error line="17" column="1" source="Joomla.PHP.LowerCaseConstant.Found" severity="5">TRUE, FALSE and NULL must be lowercase; expected &quot;true&quot; but found &quot;TRUE&quot;</error>
+  <error line="18" column="1" source="Joomla.PHP.LowerCaseConstant.Found" severity="5">TRUE, FALSE and NULL must be lowercase; expected &quot;false&quot; but found &quot;FALSE&quot;</error>
+  <error line="19" column="1" source="Joomla.PHP.LowerCaseConstant.Found" severity="5">TRUE, FALSE and NULL must be lowercase; expected &quot;null&quot; but found &quot;NULL&quot;</error>
+ </file>
+</phpcs>

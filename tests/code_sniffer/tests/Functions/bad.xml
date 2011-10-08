@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpcs version="1.3.0">
+ <file name="/home/elkuku/eclipsespace/indigogit3/joomla-platform/tests/code_sniffer/tests/Functions/bad.php" errors="1" warnings="0">
+  <error line="17" column="1" source="Joomla.Functions.FunctionCallSignature.SpaceBeforeOpenBracket" severity="5">Space before opening parenthesis of function call prohibited</error>
+ </file>
+</phpcs>
