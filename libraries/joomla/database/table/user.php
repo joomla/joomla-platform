@@ -43,6 +43,53 @@ class JTableUser extends JTable
 		$this->id = 0;
 		$this->sendEmail = 0;
 	}
+	
+/**
+	 * Convert password value
+	 * 
+	 * @param string $password
+	 * @since 11.1
+	 */
+	public function setPassword($password)
+	{
+		jimport('joomla.user.helper');
+		$this->password = JUserHelper::getCryptedPassword($password);
+	}
+	
+	/**
+	 * Associate groups
+	 * 
+	 * @param string or array $groups
+	 * @since 11.1
+	 */
+	public function setGroups($groups)
+	{
+		settype($groups, 'array');
+		
+		$arrGroups = array();
+		
+		call_user_method_array('quoteName', $this->_db, $groups);
+		$titles = '"'.implode('","',$groups).'"';
+		$this->_db->setQuery("SELECT id, title FROM #__usergroups WHERE title IN({$titles})");
+		
+		$this->groups = $this->_db->loadAssocList('id','title');
+	}
+	
+	/**
+	 * Setter to email
+	 * 
+	 * @param string $email
+	 * @since 11.1
+	 */
+	public function setEmail($email)
+	{
+		if ((trim($email) == "") || ! JMailHelper::isEmailAddress($email)) {
+			$this->setError(JText::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
+			return false;
+		}
+		
+		$this->email = $email;
+	}
 
 	/**
 	 * Method to load a user, user groups, and any other necessary data
