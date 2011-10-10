@@ -193,12 +193,27 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
-	 * @todo Implement testGetNumRows().
+	 * Tests the JDatabasePostgreSQL getNumRows method.
+	 * 
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testGetNumRows()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+	{	
+		$query = $this->object->getQuery(true);
+		$query->select('*');
+		$query->from('jos_dbtest');
+		$query->where('description='.$this->object->quote('one'));
+		$this->object->setQuery($query);
+		
+		$res = $this->object->query();
+		
+		$this->assertThat(
+			$this->object->getNumRows( $res ),
+			$this->equalTo( 2 ),
+			__LINE__
+		);
 	}
 
 	/**
@@ -285,10 +300,32 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 */
 	public function testInsertid()
 	{
-		/* does not exist insertId function on postgresql, returned true */
+		/* REPLACE is not present in PostgreSQL */
+		$query = $this->object->getQuery(true);
+		$query->delete();
+		$query->from('jos_dbtest')->where('id=5');
+		$this->object->setQuery($query);
+		$result = $this->object->query();
+		
+		/* increment the sequence automatically with INSERT INTO */
+		$query = $this->object->getQuery(true);		
+		$query->insert('jos_dbtest')
+			  ->columns('title,start_date,description')
+			  ->values("'testTitle','1970-01-01','testDescription'");
+		$this->object->setQuery($query);
+		$this->object->query();
+
+		$insertIdArray = $this->object->insertid();
+		
+		/* get the current sequence value */
+		$actualVal = $this->object->getQuery(true);
+		$actualVal->select("currval('jos_dbtest_id_seq'::regclass)");
+	  	$this->object->setQuery( $actualVal );
+	  	$idActualVal = $this->object->loadRow();
+		
 		$this->assertThat(
-			$this->object->insertid(),
-			$this->isTrue(),
+			$insertIdArray[0],
+			$this->equalTo($idActualVal[0]),
 			__LINE__
 		);
 	}
@@ -530,14 +567,29 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
-	 * @todo Implement testLoadResultArray().
+	 * Test loadResultArray method
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testLoadResultArray()
-	{
-		// TODO Check that this method proxies to "loadColumn".
+	{		
+		$query = $this->object->getQuery(true);
+		$query->select('Title');
+		$query->from('jos_dbtest');
+		$query->where('description='.$this->object->quote('one'));
 
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object->setQuery($query);
+		$result = $this->object->loadResultArray();
+
+		$expected = array( 0 => 'Testing', 1 => 'Testing2' );
+		
+		$this->assertThat(
+			$result,
+			$this->equalTo($expected),
+			__LINE__
+		);
 	}
 
 	/**
@@ -690,12 +742,33 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 * @todo Implement testTransactionCommit().
 	 */
 	public function testTransactionCommit()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+	{		
+		$this->object->transactionStart();
+		$queryIns = $this->object->getQuery(true);		
+		$queryIns->insert('jos_dbtest')
+			  	 ->columns('id,title,start_date,description')
+			  	 ->values("6, 'testTitle','1970-01-01','testDescription'");
 		
-/*		$this->setQuery('COMMIT');
-		$this->query();*/
+		$this->object->setQuery($queryIns);
+		$arr = $this->object->query();
+		
+		$this->object->transactionCommit();
+		
+		/* check if value is present */
+		$queryCheck = $this->object->getQuery(true);		
+		$queryCheck->select('*')
+				 ->from('jos_dbtest')
+				 ->where('id=6');
+		$this->object->setQuery($queryCheck);		 
+		$result = $this->object->loadRow();
+
+		$expected = array(6, 'testTitle', '1970-01-01 00:00:00','testDescription') ;
+		
+		$this->assertThat(
+			$result,
+			$this->equalTo($expected),
+			__LINE__
+		);
 	}
 
 	/**
@@ -703,17 +776,35 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 */
 	public function testTransactionRollback (/*$toSavepoint = null*/)
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object->transactionStart();
+		$queryIns = $this->object->getQuery(true);		
+		$queryIns->insert('jos_dbtest')
+			  	 ->columns('id,title,start_date,description')
+			  	 ->values("6, 'testRollback','1970-01-01','testRollback'");
 		
-/*		$query = 'ROLLBACK';
-		if(!is_null($toSavepoint))
-		{
-			$query .= ' TO SAVEPOINT ' . $this->escape($toSavepoint);
-		}
+		$this->object->setQuery($queryIns);
+		$arr = $this->object->query();
 		
-		$this->setQuery($query);
-		$this->query();*/
+		$this->object->transactionRollback();
+		
+		/* check if value is present */
+		$queryCheck = $this->object->getQuery(true);		
+		$queryCheck->select('*')
+				 ->from('jos_dbtest')
+				 ->where('id=6');
+		$this->object->setQuery($queryCheck);		 
+		$result = $this->object->loadRow();
+		
+		$this->assertThat(
+			count($result),
+			$this->equalTo(0),
+			__LINE__
+		);
+		
+		/* implement ROLLBACK TO SAVEPOINT test */
+
+		
+		
 	}
 
 	/**
@@ -721,11 +812,29 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 */
 	public function testTransactionStart()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object->transactionStart();
+		$queryIns = $this->object->getQuery(true);		
+		$queryIns->insert('jos_dbtest')
+			  	 ->columns('id,title,start_date,description')
+			  	 ->values("6, 'testTitle','1970-01-01','testDescription'");
 		
-/*		$this->setQuery('START TRANSACTION');
-		$this->query();*/
+		$this->object->setQuery($queryIns);
+		$arr = $this->object->query();
+		
+
+		/* check if is present an exclusive lock */
+		$queryCheck = $this->object->getQuery(true);		
+		$queryCheck->select('*')
+			  	   ->from('pg_catalog.pg_locks')
+			  	   ->where('transactionid NOTNULL');
+  	   	$this->object->setQuery($queryCheck);
+		$result = $this->object->loadAssocList();
+
+		$this->assertThat(
+			count($result),
+			$this->equalTo(1),
+			__LINE__
+		);
 	}
 	
 	/**
@@ -747,6 +856,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
+		
 		
 /*		$this->setQuery('SAVEPOINT ' . $this->escape($savepointName) );
 		$this->query();*/
