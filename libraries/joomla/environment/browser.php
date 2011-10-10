@@ -834,7 +834,7 @@ class JBrowser extends JObject
 	}
 
 	/**
-	 * Returns the server protocol in use on the current server.
+	 * Returns the server protocol version in use on the current server.
 	 *
 	 * @return  string  The HTTP server protocol version.
 	 *
