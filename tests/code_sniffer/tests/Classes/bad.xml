@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpcs version="1.3.0">
+ <file name="/home/elkuku/eclipsespace/indigogit3/joomla-platform/tests/code_sniffer/tests/Classes/bad.php" errors="5" warnings="0">
+  <error line="23" column="11" source="PEAR.Classes.ClassDeclaration.OpenBraceNewLine" severity="5">Opening brace of a class must be on the line after the definition</error>
+  <error line="28" column="8" source="Joomla.Classes.InstantiateNewClasses.New class" severity="5">Instanciating new classes without parameters does not require brackets.</error>
+  <error line="32" column="12" source="Joomla.Functions.FunctionCallSignature.SpaceBeforeOpenBracket" severity="5">Space before opening parenthesis of function call prohibited</error>
+  <error line="36" column="12" source="Generic.Functions.FunctionCallArgumentSpacing.NoSpaceAfterComma" severity="5">No space found after comma in function call</error>
+  <error line="55" column="8" source="Joomla.Classes.StaticThisUsage.Found" severity="5">Usage of &quot;$this&quot; in static methods will cause runtime errors</error>
+ </file>
+</phpcs>

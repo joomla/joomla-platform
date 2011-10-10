@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpcs version="1.3.0">
+ <file name="/home/elkuku/eclipsespace/indigogit3/joomla-platform/tests/code_sniffer/tests/Commenting/bad.php" errors="8" warnings="0">
+  <error line="2" column="1" source="Joomla.Commenting.FileComment.WrongStyle" severity="5">You must use &quot;/**&quot; style comments for a file comment</error>
+  <error line="10" column="1" source="PEAR.Commenting.InlineComment.WrongStyle" severity="5">Perl-style comments are not allowed. Use &quot;// Comment.&quot; or &quot;/* comment */&quot; instead.</error>
+  <error line="16" column="1" source="Joomla.Commenting.ClassComment.WrongStyle" severity="5">You must use &quot;/**&quot; style comments for a class comment</error>
+  <error line="24" column="1" source="Joomla.Commenting.ClassComment.Empty" severity="5">Doc comment is empty for class</error>
+  <error line="50" column="1" source="Joomla.Commenting.ClassComment.MissingTag" severity="5">Missing @package tag in class comment</error>
+  <error line="50" column="1" source="Joomla.Commenting.ClassComment.MissingTag" severity="5">Missing @since tag in class comment</error>
+  <error line="90" column="2" source="Joomla.Commenting.FunctionComment.MissingParamTag" severity="5">Doc comment for &quot;$case&quot; missing</error>
+  <error line="92" column="1" source="Joomla.Commenting.FunctionComment.MissingReturn" severity="5">Missing @return tag in function comment</error>
+ </file>
+</phpcs>

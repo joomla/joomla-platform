@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpcs version="1.3.0">
+ <file name="/home/elkuku/eclipsespace/indigogit3/joomla-platform/tests/code_sniffer/tests/Files/bad.php" errors="16" warnings="0">
+  <error line="17" column="1" source="Joomla.Files.IncludingFile.BracketsNotRequired" severity="5">&quot;include&quot; is a statement not a function; no parentheses are required</error>
+  <error line="17" column="1" source="Joomla.Files.IncludingFile.UseRequire" severity="5">File is being unconditionally included; use &quot;require&quot; instead</error>
+  <error line="17" column="1" source="PEAR.Files.IncludingFile.BracketsNotRequired" severity="5">&quot;include&quot; is a statement not a function; no parentheses are required</error>
+  <error line="17" column="1" source="PEAR.Files.IncludingFile.UseRequire" severity="5">File is being unconditionally included; use &quot;require&quot; instead</error>
+  <error line="18" column="1" source="Joomla.Files.IncludingFile.BracketsNotRequired" severity="5">&quot;include_once&quot; is a statement not a function; no parentheses are required</error>
+  <error line="18" column="1" source="Joomla.Files.IncludingFile.UseRequireOnce" severity="5">File is being unconditionally included; use &quot;require_once&quot; instead</error>
+  <error line="18" column="1" source="PEAR.Files.IncludingFile.BracketsNotRequired" severity="5">&quot;include_once&quot; is a statement not a function; no parentheses are required</error>
+  <error line="18" column="1" source="PEAR.Files.IncludingFile.UseRequireOnce" severity="5">File is being unconditionally included; use &quot;require_once&quot; instead</error>
+  <error line="19" column="1" source="Joomla.Files.IncludingFile.BracketsNotRequired" severity="5">&quot;require&quot; is a statement not a function; no parentheses are required</error>
+  <error line="19" column="1" source="PEAR.Files.IncludingFile.BracketsNotRequired" severity="5">&quot;require&quot; is a statement not a function; no parentheses are required</error>
+  <error line="20" column="1" source="Joomla.Files.IncludingFile.BracketsNotRequired" severity="5">&quot;require_once&quot; is a statement not a function; no parentheses are required</error>
+  <error line="20" column="1" source="PEAR.Files.IncludingFile.BracketsNotRequired" severity="5">&quot;require_once&quot; is a statement not a function; no parentheses are required</error>
+  <error line="24" column="1" source="Joomla.Files.IncludingFile.UseRequire" severity="5">File is being unconditionally included; use &quot;require&quot; instead</error>
+  <error line="24" column="1" source="PEAR.Files.IncludingFile.UseRequire" severity="5">File is being unconditionally included; use &quot;require&quot; instead</error>
+  <error line="28" column="1" source="Joomla.Files.IncludingFile.UseRequireOnce" severity="5">File is being unconditionally included; use &quot;require_once&quot; instead</error>
+  <error line="28" column="1" source="PEAR.Files.IncludingFile.UseRequireOnce" severity="5">File is being unconditionally included; use &quot;require_once&quot; instead</error>
+ </file>
+</phpcs>
