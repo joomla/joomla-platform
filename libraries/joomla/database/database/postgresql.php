@@ -407,7 +407,7 @@ class JDatabasePostgreSQL extends JDatabase
 		$colNameQuery = $this->getQuery(true);
 		$colNameQuery->select('column_default')
 					 ->from('information_schema.columns')
-					 ->where("table_name='jos_dbtest'", 'AND')
+					 ->where("table_name=" . $this->quote($table[0]), 'AND')
 					 ->where("column_default LIKE '%nextval%'");
 		
  		$this->setQuery( $colNameQuery );
