@@ -307,15 +307,14 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 		$this->object->setQuery($query);
 		$result = $this->object->query();
 		
-		/* increment the sequence automatically with INSERT INTO */
+		/* increment the sequence automatically with INSERT INTO, 
+		 * first insert to have a common starting point */
 		$query = $this->object->getQuery(true);		
 		$query->insert('jos_dbtest')
 			  ->columns('title,start_date,description')
 			  ->values("'testTitle','1970-01-01','testDescription'");
 		$this->object->setQuery($query);
 		$this->object->query();
-
-		$insertIdArray = $this->object->insertid();
 		
 		/* get the current sequence value */
 		$actualVal = $this->object->getQuery(true);
@@ -323,9 +322,21 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	  	$this->object->setQuery( $actualVal );
 	  	$idActualVal = $this->object->loadRow();
 		
+		/* insert again, then call insertid() */
+		$secondInsertQuery = $this->object->getQuery(true);		
+		$secondInsertQuery->insert('jos_dbtest')
+			  	 ->columns('title,start_date,description')
+			  	 ->values("'testTitle2nd','1971-01-01','testDescription2nd'");
+		$this->object->setQuery($secondInsertQuery);
+		$this->object->query();
+		
+		/* get insertid of last INSERT INTO */
+		$insertIdArray = $this->object->insertid();
+		
+		/* check if first sequence val +1 is equal to last sequence val */
 		$this->assertThat(
 			$insertIdArray[0],
-			$this->equalTo($idActualVal[0]),
+			$this->equalTo($idActualVal[0]+1),
 			__LINE__
 		);
 	}
