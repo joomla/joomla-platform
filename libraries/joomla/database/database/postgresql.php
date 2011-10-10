@@ -400,13 +400,26 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	public function insertid()
 	{
-		/* use RETURNING clause during INSERT */
-		return true;
+		$insertQuery = $this->getQuery();
+		$table = $insertQuery->getInsertTable();
 		
-		/*$this->setQuery('SELECT lastval();');
-		$this->query();
+		/* find sequence column name */
+		$colNameQuery = $this->getQuery(true);
+		$colNameQuery->select('column_default')
+					 ->from('information_schema.columns')
+					 ->where("table_name='jos_dbtest'", 'AND')
+					 ->where("column_default LIKE '%nextval%'");
 		
-		return (int) $this->fetchArray(); */
+ 		$this->setQuery( $colNameQuery );
+		$colName = $this->loadRow();
+		$changedColName = str_replace('nextval', 'currval', $colName);
+		
+		$insertidQuery = $this->getQuery(true);
+		$insertidQuery->select( $changedColName );
+		$this->setQuery( $insertidQuery );
+		$insertVal = $this->loadRow();
+		
+		return $insertVal; 
 	}
 	
 	/**
