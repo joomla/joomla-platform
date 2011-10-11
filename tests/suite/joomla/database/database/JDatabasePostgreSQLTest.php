@@ -41,6 +41,21 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
+	 * Data for the testTransactionRollback test.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.1
+	 */
+	public function dataTestTransactionRollback()
+	{
+		return array(
+			array ( null , 0 ),
+			array ( 'transactionSavepoint' , 1 )
+		);
+	}
+	
+	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
 	 * @return  xml dataset
@@ -477,7 +492,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 */
 	public function testLoadObjectList()
 	{
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->markTestSkipped('Skipped because of error: Allowed memory size of 134217728 bytes exhausted.');
 		/* Allowed memory size of 134217728 bytes exhausted
 		$query = $this->object->getQuery(true);
 		$query->select('*');
@@ -750,7 +765,11 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	
 	
 	/**
-	 * @todo Implement testTransactionCommit().
+	 * Tests the JDatabasePostgreSQL transactionCommit method.
+	 * 
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testTransactionCommit()
 	{		
@@ -783,46 +802,78 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
-	 * @todo Implement testTransactionRollback().
+	 * Tests the JDatabasePostgreSQL transactionRollback method, 
+	 * with and without savepoint.
+	 * 
+	 * @return  void
+	 *
+	 * @since   11.1
+	 * @dataProvider dataTestTransactionRollback
 	 */
-	public function testTransactionRollback (/*$toSavepoint = null*/)
+	public function testTransactionRollback ( $toSavepoint, $tupleCount )
 	{
 		$this->object->transactionStart();
+		
+		/* try to insert this tuple, inserted only when savepoint != null */
 		$queryIns = $this->object->getQuery(true);		
 		$queryIns->insert('jos_dbtest')
 			  	 ->columns('id,title,start_date,description')
-			  	 ->values("6, 'testRollback','1970-01-01','testRollback'");
-		
+			  	 ->values("7, 'testRollback','1970-01-01','testRollbackSp'");
 		$this->object->setQuery($queryIns);
 		$arr = $this->object->query();
 		
-		$this->object->transactionRollback();
+		/* create savepoint only if is passed by data provider */
+		if ( !is_null($toSavepoint) )
+		{
+			$this->object->transactionSavepoint($toSavepoint);
+		}
 		
-		/* check if value is present */
+		/* try to insert this tuple, always rolled back */
+		$queryIns = $this->object->getQuery(true);		
+		$queryIns->insert('jos_dbtest')
+			  	 ->columns('id,title,start_date,description')
+			  	 ->values("8, 'testRollback','1972-01-01','testRollbackSp'");
+		$this->object->setQuery($queryIns);
+		$arr = $this->object->query();
+		
+		$this->object->transactionRollback( $toSavepoint ); 
+		
+		/* release savepoint and commit only if a savepoint exists */
+		if ( !is_null($toSavepoint) )
+		{
+			$this->object->releaseTransactionSavepoint($toSavepoint);
+			$this->object->transactionCommit();
+		}
+		
+				
+		/* find how many rows have description='testRollbackSp' :
+		 *   - 0 if a savepoint doesn't exist 
+		 *   - 1 if a savepoint exists 
+		 */
 		$queryCheck = $this->object->getQuery(true);		
 		$queryCheck->select('*')
 				 ->from('jos_dbtest')
-				 ->where('id=6');
+				 ->where("description='testRollbackSp'");
 		$this->object->setQuery($queryCheck);		 
-		$result = $this->object->loadRow();
+		$result = $this->object->loadRowList();
 		
 		$this->assertThat(
 			count($result),
-			$this->equalTo(0),
+			$this->equalTo( $tupleCount ),
 			__LINE__
 		);
-		
-		/* implement ROLLBACK TO SAVEPOINT test */
-
-		
-		
 	}
 
 	/**
-	 * @todo Implement testTransactionStart().
+	 * Tests the JDatabasePostgreSQL transactionStart method.
+	 * 
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testTransactionStart()
 	{
+		$this->object->transactionRollback( );
 		$this->object->transactionStart();
 		$queryIns = $this->object->getQuery(true);		
 		$queryIns->insert('jos_dbtest')
@@ -832,8 +883,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 		$this->object->setQuery($queryIns);
 		$arr = $this->object->query();
 		
-
-		/* check if is present an exclusive lock */
+		/* check if is present an exclusive lock, it means a transaction is running */
 		$queryCheck = $this->object->getQuery(true);		
 		$queryCheck->select('*')
 			  	   ->from('pg_catalog.pg_locks')
@@ -853,11 +903,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 */
 	public function testReleaseTransactionSavepoint( /*$savepointName*/ )
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-		
-/*		$this->setQuery('RELEASE SAVEPOINT ' . $this->escape($savepointName));
-		$this->query();*/
+		$this->markTestSkipped('This command is tested inside testTransactionRollback.');
 	}
 	
 	/**
@@ -865,12 +911,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 */
 	public function testTransactionSavepoint( /*$savepointName*/ )
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-		
-		
-/*		$this->setQuery('SAVEPOINT ' . $this->escape($savepointName) );
-		$this->query();*/
+		$this->markTestSkipped('This command is tested inside testTransactionRollback.');
 	}
 	
 }
