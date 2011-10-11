@@ -706,14 +706,25 @@ class JDatabasePostgreSQL extends JDatabase
 	public function createDatabase( $options /*, $DButfSupport */ )
 	{
 		if ( !(isset($options['user'])) || ! (isset($options['database'])) )
+		{
 			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_POSTGRESQL_CANT_CREATE_DB'));  // -> Can't create DB, no needed info
+		}
+
+		$this->setQuery('CREATE ROLE ' . $options['user'] . ' LOGIN ENCRYPTED PASSWORD ' . $this->quoteName( $options['password'] ));
+		$this->query();
 		
-		$sql = 'CREATE DATABASE '.$this->quoteName( $options['database'] ) . ' OWNER ' . $this->quoteName($options['user']) ;
+		$sql = 'CREATE DATABASE '.$this->quoteName( $options['database'] ) . ' OWNER ' . $options['user'] ;
 /*
 		if ( $DButfSupport )
 			$sql .= ' ENCODING UTF8' ;
 	*/	
 		$this->setQuery($sql);
+		$this->query();
+		
+		$this->setQuery('GRANT ALL PRIVILEGES ON DATABASE ' . $options['database'] . ' TO ' . $options['user'] );
+		$this->query();
+		
+		$this->setQuery('REVOKE ALL PRIVILEGES ON DATABASE ' . $options['database'] . ' FROM PUBLIC');
 		$this->query();
 		
 		return true;
@@ -759,7 +770,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	public function setTransactionQuery($query, $limit = 0, $offset = 0)
+	/*public function setTransactionQuery($query, $limit = 0, $offset = 0)
 	{
 		$query->limit($limit, $offset);		// to not break compatibility
 		array_push($this->sql, $query);     // ordered query list for transactions
@@ -769,7 +780,7 @@ class JDatabasePostgreSQL extends JDatabase
 		//$this->offset				= (int) $offset;
 
 		return $this;
-	}
+	}*/
 	
 	/**
 	 * Execute a transaction query
@@ -780,7 +791,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 * 
 	 * @throws  JDatabaseException
 	 */
-	public function transactionQuery()
+	/*public function transactionQuery()
 	{
 		if (!is_resource($this->connection)) {
 			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
@@ -818,7 +829,7 @@ class JDatabasePostgreSQL extends JDatabase
 		}
 		
 		return true; //$this->cursor;
-	}
+	}*/
 
 	/**
 	 * Method to commit a transaction.
