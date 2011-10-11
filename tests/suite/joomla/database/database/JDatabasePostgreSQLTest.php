@@ -695,11 +695,11 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 			  ->returning('id');
 		
 		$this->object->setQuery($query);
-		$arr = $this->object->loadRow();
+		$arr = $this->object->loadResult();
 		
 		
 		$this->assertThat(
-			$arr[0],
+			$arr,
 			$this->equalTo(5),
 			__LINE__
 		);
