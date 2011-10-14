@@ -17,7 +17,7 @@
  <rule ref="PEAR.Formatting.MultiLineAssignment"/>
  
  <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
- <rule ref="PEAR.Functions.FunctionDeclaration"/>
+<!-- <rule ref="PEAR.Functions.FunctionDeclaration"/> -->
  <rule ref="PEAR.Functions.ValidDefaultValue"/>
 
  <rule ref="PEAR.NamingConventions.ValidClassName"/>
