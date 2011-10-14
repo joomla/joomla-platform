@@ -87,6 +87,11 @@ class ModelMockupJView
 	{
 		return $this->name;
 	}
+	
+	public function getParameters($param)
+	{
+		return $param.$param;
+	}
 }
 
 /**
@@ -141,11 +146,45 @@ class JViewTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testGet().
+	 * Test JView::get()
+	 * 
+	 * @since 11.3
 	 */
-	public function testGet() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+	public function testGet()
+	{
+		$view = new TestCompViewInspector();
+		$view->set('test', 'pass');
+		$test2 = new ModelMockupJView();
+		$test2->name = 'test2';
+		$view->_models = array('test1' => new ModelMockupJView(),
+				'test2' => $test2
+		);
+		$view->_defaultModel = 'test1';
+		
+		$this->assertThat(
+			$view->get('name'),
+			$this->equalTo('model')
+		);
+		
+		$this->assertThat(
+			$view->get('test1'),
+			$this->equalTo('pass')
+		);
+		
+		$this->assertThat(
+			$view->get('parameters', false, array('test')),
+			$this->equalTo('testtest')
+		);
+		
+		$this->assertThat(
+			$view->get('name', 'test2'),
+			$this->equalTo('test2')
+		);
+		
+		$this->assertThat(
+			$view->get('parameters', 'test2', array('test2')),
+			$this->equalTo('test2test2')
+		);
 	}
 
 	/**
