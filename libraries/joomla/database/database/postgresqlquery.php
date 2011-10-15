@@ -146,31 +146,11 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 						$query .= (string) $this->returning;
 					}
 				}
-
+				
 				break;
 				
 			case 'lock':
 				$query .= (string) $this->lock;
-				break;
-				
-			case 'startTransaction':
-				$query .= (string) $this->startTransaction;
-				break;
-			
-			case 'commit':
-				$query .= (string) $this->commit;
-				break;
-				
-			case 'rollback':
-				$query .= (string) $this->rollback;
-				break;
-				
-			case 'releaseSavepoint':
-				$query .= (string) $this->releaseSavepoint;
-				break;
-				
-			case 'savepoint':
-				$query .= (string) $this->savepoint;
 				break;
 				
 			default:
@@ -305,7 +285,6 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
      *
 	 * @return	Lock query syntax
 	 * @since	11.1
-   	 * @todo	from Hooduku project, check for errors	 
 	 */
 	public function lock($table_name, $lock_type='ACCESS EXCLUSIVE')
 	{
