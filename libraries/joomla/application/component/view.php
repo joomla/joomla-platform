@@ -222,7 +222,7 @@ class JView extends JObject
 		$context = ucfirst(substr(JRequest::getCmd('option'),4)).'.'.$this->getName();
 
 		// Trigger the form preparation event.
-		$results = $dispatcher->trigger('onDisplayView', array($context, $this));
+		$results = $dispatcher->trigger('onViewDisplay', array($context, $this));
 
 		$result = $this->loadTemplate($tpl, $common);
 		if (JError::isError($result))
