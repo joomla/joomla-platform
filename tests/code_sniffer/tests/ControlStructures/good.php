@@ -38,17 +38,15 @@ if (true)
 (Joomla.ControlStructures.MultiLineCondition.Alignment){HL:2}
  */
 if (true
-	|| false
-)
+	|| false)
 {
 	true;
 }
-/* Standard: Closing parenthesis of a multi-line IF statement must be on a new line
-(Joomla.ControlStructures.MultiLineCondition.CloseBracketNewLine){HL:3}
+/* Standard: Closing parenthesis of a multi-line IF statement must be on the same line
+(Joomla.ControlStructures.MultiLineCondition.CloseBracketNewLine){HL:2}
  */
 if (true
-	|| false
-)
+	|| false)
 {
 	true;
 }
@@ -56,8 +54,7 @@ if (true
 (Joomla.ControlStructures.MultiLineCondition.StartWithBoolean){HL:2}
  */
 if (true
-	|| false
-)
+	|| false)
 {
 	true;
 }

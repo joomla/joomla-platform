@@ -15,3 +15,34 @@
  (Joomla.Functions.FunctionCallSignature.SpaceBeforeOpenBracket)
 */
 foo($bar);
+/* Standard: The closing parenthesis of a multi-line function declaration must be on the same line
+(Joomla.Functions.FunctionDeclaration.CloseBracketLine){HL:10}
+*/
+/**
+ * Comment
+ *
+ * @param   foo  $bar  Comment.
+ * @param   foo  $baz  Comment.
+ *
+ * @return foo
+ */
+function foo($bar,
+	$baz)
+{
+}
+
+/* Standard: Multi-line function declarations must be indented with 1 tab
+ (Joomla.Functions.FunctionDeclaration.Indent){HL:10}
+*/
+/**
+ * Comment
+ *
+ * @param   foo  $bar  Comment.
+ * @param   foo  $baz  Comment.
+ *
+ * @return foo
+ */
+function foo($bar,
+	$baz)
+{
+}

@@ -76,29 +76,28 @@ if (true)
 }else{
 	true;
 }
-/* Standard: Multi-line IF statement not indented correctly.
+/* Standard: Multi-line IF statements must be indented with 1 tab.
 (Joomla.ControlStructures.MultiLineCondition.Alignment){HL:2}
  */
 if (true
-|| false
-)
+|| false)
 {
 	true;
 }
-/* Standard: Closing parenthesis of a multi-line IF statement must be on a new line.
-(Joomla.ControlStructures.MultiLineCondition.CloseBracketNewLine){HL:2}
+/* Standard: Closing parenthesis of a multi-line IF statement must be on the same line.
+(Joomla.ControlStructures.MultiLineCondition.CloseBracketNewLine){HL:2,3}
  */
 if (true
-	|| false)
+	|| false
+)
 {
 	true;
 }
 /* Standard: Each line in a multi-line IF statement must begin with a boolean operator.
-(Joomla.ControlStructures.MultiLineCondition.StartWithBoolean){HL:2}
+(Joomla.ControlStructures.MultiLineCondition.StartWithBoolean){HL:1,2}
  */
 if (true ||
-	false
-)
+	false)
 {
 	true;
 }
