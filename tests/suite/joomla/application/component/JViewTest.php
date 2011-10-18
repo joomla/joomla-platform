@@ -14,7 +14,7 @@ require_once JPATH_PLATFORM.'/joomla/application/component/view.php';
  * @subpackage Application
  * @since 11.3
  */
-class TestCompViewInspector extends JView
+class JViewInspector extends JView
 {
 	/**
 	 * Constructor to prevent executing the JView contructor on demand
@@ -152,7 +152,7 @@ class JViewTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGet()
 	{
-		$view = new TestCompViewInspector();
+		$view = new JViewInspector();
 		$view->set('test', 'pass');
 		$test2 = new ModelMockupJView();
 		$test2->name = 'test2';
@@ -194,7 +194,7 @@ class JViewTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetLayout()
 	{
-		$view = new TestCompViewInspector();
+		$view = new JViewInspector();
 
 		$this->assertThat(
 			$view->getLayout(),
@@ -228,7 +228,7 @@ class JViewTest extends PHPUnit_Framework_TestCase
 		$models['defaulttest'] = $model3;
 		
 		//Prepare JView object
-		$view = new TestCompViewInspector();
+		$view = new JViewInspector();
 		$view->_models = $models;
 		$view->_defaultModel = 'defaulttest';
 		
@@ -258,7 +258,7 @@ class JViewTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetLayoutTemplate()
 	{
-		$view = new TestCompViewInspector();
+		$view = new JViewInspector();
 
 		$this->assertThat(
 			$view->getLayoutTemplate(),
@@ -280,7 +280,7 @@ class JViewTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetName()
 	{
-		$view = new TestCompViewInspector();
+		$view = new JViewInspector();
 		
 		$this->assertThat(
 			$view->getName(),
@@ -311,7 +311,7 @@ class JViewTest extends PHPUnit_Framework_TestCase
 		$model3->name = 'defaulttest';
 		
 		//Prepare JView object
-		$view = new TestCompViewInspector();
+		$view = new JViewInspector();
 		
 		//Assert that initial state is empty
 		$this->assertThat(
@@ -368,7 +368,7 @@ class JViewTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetLayout()
 	{
-		$view = new TestCompViewInspector();
+		$view = new JViewInspector();
 
 		$this->assertThat(
 			$view->_layout,
@@ -407,7 +407,7 @@ class JViewTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetLayoutExt()
 	{
-		$view = new TestCompViewInspector();
+		$view = new JViewInspector();
 
 		$this->assertThat(
 			$view->_layoutExt,
@@ -429,7 +429,7 @@ class JViewTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetEscape()
 	{
-		$view = new TestCompViewInspector();
+		$view = new JViewInspector();
 
 		$this->assertThat(
 			$view->_escape,

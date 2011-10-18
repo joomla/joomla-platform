@@ -53,7 +53,7 @@ class JView extends JObject
 	 * 
 	 * @var string
 	 */
-	protected $_group = null;
+	protected $group = null;
 	
 	/**
 	 * Layout name
@@ -212,7 +212,7 @@ class JView extends JObject
 	 */
 	public function display($tpl = null, $common = null)
 	{
-		$group = isset($this->_group) ? $this->_group : 'content';
+		$group = isset($this->group) ? $this->group : 'content';
 
 		// Import the approriate plugin group.
 		JPluginHelper::importPlugin($group);
