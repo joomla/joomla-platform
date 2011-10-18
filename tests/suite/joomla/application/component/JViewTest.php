@@ -452,21 +452,67 @@ class JViewTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testAddTemplatePath().
+	 * Test JView::addTemplatePath()
+	 * 
+	 * @since 11.3
 	 */
 	public function testAddTemplatePath()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$view = new JViewInspector();
+		
+		$view->addTemplatePath(JPATH_ROOT.'/libraries');
+		
+		$this->assertThat(
+			$view->_path,
+			$this->equalTo(array(
+				'helper' => array(), 
+				'template' => array(JPATH_ROOT.'/libraries'.DIRECTORY_SEPARATOR)))
+		);
+		
+		$view->addTemplatePath(JPATH_ROOT.'/tests');
+		
+		$this->assertThat(
+			$view->_path,
+			$this->equalTo(array(
+				'helper' => array(),
+				'template' => array(
+					JPATH_ROOT.'/tests'.DIRECTORY_SEPARATOR,
+					JPATH_ROOT.'/libraries'.DIRECTORY_SEPARATOR
+				)
+			))
+		);
 	}
 
 	/**
-	 * @todo Implement testAddHelperPath().
+	 * Test JView::addHelperPath()
+	 * 
+	 * @since 11.3
 	 */
 	public function testAddHelperPath()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$view = new JViewInspector();
+		
+		$view->addHelperPath(JPATH_ROOT.'/libraries');
+		
+		$this->assertThat(
+			$view->_path,
+			$this->equalTo(array(
+				'helper' => array(JPATH_ROOT.'/libraries'.DIRECTORY_SEPARATOR), 
+				'template' => array()))
+		);
+		
+		$view->addHelperPath(JPATH_ROOT.'/tests');
+		
+		$this->assertThat(
+			$view->_path,
+			$this->equalTo(array(
+				'helper' => array(
+					JPATH_ROOT.'/tests'.DIRECTORY_SEPARATOR,
+					JPATH_ROOT.'/libraries'.DIRECTORY_SEPARATOR
+				),
+				'template' => array()
+			))
+		);
 	}
 
 	/**
@@ -497,12 +543,67 @@ class JViewTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement test_addPath().
+	 * Test JView::_addPath()
+	 * 
+	 * @since 11.3
 	 */
 	public function test_addPath()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$view = new JViewInspector();
+		
+		$view->_addPath('template', JPATH_ROOT.'/libraries');
+		
+		$this->assertThat(
+			$view->_path,
+			$this->equalTo(array(
+				'helper' => array(), 
+				'template' => array(JPATH_ROOT.'/libraries'.DIRECTORY_SEPARATOR)))
+		);
+		
+		$view->_addPath('helper', JPATH_ROOT.'/tests');
+		
+		$this->assertThat(
+			$view->_path,
+			$this->equalTo(array(
+				'helper' => array(
+					JPATH_ROOT.'/tests'.DIRECTORY_SEPARATOR
+				),
+				'template' => array(
+					JPATH_ROOT.'/libraries'.DIRECTORY_SEPARATOR
+				)
+			))
+		);
+		
+		$view->_addPath('template', JPATH_ROOT.'/tests');
+		
+		$this->assertThat(
+			$view->_path,
+			$this->equalTo(array(
+				'helper' => array(
+					JPATH_ROOT.'/tests'.DIRECTORY_SEPARATOR
+				),
+				'template' => array(
+					JPATH_ROOT.'/tests'.DIRECTORY_SEPARATOR,
+					JPATH_ROOT.'/libraries'.DIRECTORY_SEPARATOR
+				)
+			))
+		);
+		
+		$view->_addPath('helper', JPATH_ROOT.'/libraries');
+		
+		$this->assertThat(
+			$view->_path,
+			$this->equalTo(array(
+				'helper' => array(
+					JPATH_ROOT.'/libraries'.DIRECTORY_SEPARATOR,
+					JPATH_ROOT.'/tests'.DIRECTORY_SEPARATOR
+				),
+				'template' => array(
+					JPATH_ROOT.'/tests'.DIRECTORY_SEPARATOR,
+					JPATH_ROOT.'/libraries'.DIRECTORY_SEPARATOR
+				)
+			))
+		);
 	}
 
 	/**
