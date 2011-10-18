@@ -30,7 +30,7 @@ abstract class JHtmlDate
 	 *
 	 * @since   11.3
 	 */
-	public static function relative($date, $unit = null, $time = null)
+	public static function relative($date, $unit = null)
 	{
 		if (is_null($time))
 		{
