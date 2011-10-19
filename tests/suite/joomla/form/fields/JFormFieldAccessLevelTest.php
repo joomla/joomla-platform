@@ -12,11 +12,16 @@
  *
  * @package		Joomla.UnitTest
  * @subpackage  Form
+ * @since       11.1
  */
 class JFormFieldAccessLevelTest extends JoomlaDatabaseTestCase
 {
 	/**
-	 * Sets up dependancies for the test.
+	 * Sets up dependencies for the test.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	protected function setUp()
 	{
@@ -40,6 +45,10 @@ class JFormFieldAccessLevelTest extends JoomlaDatabaseTestCase
 
 	/**
 	 * Test the getInput method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testGetInput()
 	{
@@ -64,7 +73,5 @@ class JFormFieldAccessLevelTest extends JoomlaDatabaseTestCase
 			$this->greaterThan(0),
 			'Line:'.__LINE__.' The getInput method should return something without error.'
 		);
-
-		// TODO: Should check all the attributes have come in properly.
 	}
 }
