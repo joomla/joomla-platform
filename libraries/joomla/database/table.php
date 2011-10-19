@@ -70,6 +70,14 @@ abstract class JTable extends JObject
 	protected $_locked = false;
 
 	/**
+	 * Source used when the bind method is called
+	 *
+	 * @var    array|object
+	 * @since  11.3
+	 */
+	protected $_source = null;
+
+	/**
 	 * Object constructor to set table and key fields.  In most cases this will
 	 * be overridden by child classes to explicitly set the table and key fields
 	 * for a particular database table.
@@ -414,6 +422,19 @@ abstract class JTable extends JObject
 	}
 
 	/**
+	 * Method to return the source used when the bind has been called.
+	 *
+	 * @return  array|object  True on success.
+	 *
+	 * @link    http://docs.joomla.org/JTable/getSource
+	 * @since   11.3
+	 */
+	public function getSource()
+	{
+		return $this->_source;
+	}
+
+	/**
 	 * Method to bind an associative array or object to the JTable instance.This
 	 * method only binds properties that are publicly accessible and optionally
 	 * takes an array of properties to ignore when binding.
@@ -435,6 +456,8 @@ abstract class JTable extends JObject
 			$this->setError($e);
 			return false;
 		}
+
+		$this->_source = $src;
 
 		// If the source value is an object, get its accessible properties.
 		if (is_object($src))
