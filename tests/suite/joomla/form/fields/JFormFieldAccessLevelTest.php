@@ -13,7 +13,7 @@
  * @package		Joomla.UnitTest
  * @subpackage  Form
  */
-class JFormFieldAccessLevelTest extends JoomlaTestCase
+class JFormFieldAccessLevelTest extends JoomlaDatabaseTestCase
 {
 	/**
 	 * Sets up dependancies for the test.
@@ -24,6 +24,18 @@ class JFormFieldAccessLevelTest extends JoomlaTestCase
 		jimport('joomla.form.formfield');
 		require_once JPATH_PLATFORM.'/joomla/form/fields/accesslevel.php';
 		include_once dirname(__DIR__).'/inspectors.php';
+	}
+
+	/**
+	 * Gets the data set to be loaded into the database during setup
+	 *
+	 * @return  xml dataset
+	 *
+	 * @since   11.3
+	 */
+	protected function getDataSet()
+	{
+		return $this->createXMLDataSet(__DIR__.'/testfiles/JFormField.xml');
 	}
 
 	/**
@@ -46,8 +58,6 @@ class JFormFieldAccessLevelTest extends JoomlaTestCase
 			$this->isTrue(),
 			'Line:'.__LINE__.' The setup method should return true.'
 		);
-
-		$this->markTestIncomplete('Problems encountered in next assertion');
 
 		$this->assertThat(
 			strlen($field->input),
