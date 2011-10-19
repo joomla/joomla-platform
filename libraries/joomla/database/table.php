@@ -72,7 +72,7 @@ abstract class JTable extends JObject
 	/**
 	 * Source used when the bind method is called
 	 *
-	 * @var    array|object
+	 * @var    array|object|null
 	 * @since  11.3
 	 */
 	protected $_source = null;
@@ -424,7 +424,7 @@ abstract class JTable extends JObject
 	/**
 	 * Method to return the source used when the bind has been called.
 	 *
-	 * @return  array|object  True on success.
+	 * @return  array|object|null  Return null is the bind method has not been called.
 	 *
 	 * @link    http://docs.joomla.org/JTable/getSource
 	 * @since   11.3
@@ -457,6 +457,7 @@ abstract class JTable extends JObject
 			return false;
 		}
 
+		// Set the source of the bind
 		$this->_source = $src;
 
 		// If the source value is an object, get its accessible properties.
