@@ -424,7 +424,7 @@ abstract class JTable extends JObject
 	/**
 	 * Method to return the source used when the bind has been called.
 	 *
-	 * @return  array|object|null  Return null is the bind method has not been called.
+	 * @return  array|object|null  Return null if the bind method has not been called.
 	 *
 	 * @link    http://docs.joomla.org/JTable/getSource
 	 * @since   11.3
