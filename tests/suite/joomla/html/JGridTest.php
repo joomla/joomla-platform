@@ -96,6 +96,7 @@ class JGridTest extends PHPUnit_Framework_TestCase
 		$table->addColumn('testCol1');
 		$table->addRow(array('class' => 'test1'));
 		$table->setRowCell('testCol1', 'testcontent1', array('class' => '1'));
+
 		$this->assertThat(
 			(string) $table,
 			$this->equalTo($table->toString())
