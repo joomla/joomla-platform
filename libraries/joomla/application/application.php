@@ -375,7 +375,7 @@ class JApplication extends JObject
 		if (!preg_match('#^http#i', $url))
 		{
 			$uri = JURI::getInstance();
-			$prefix = $uri->toString(Array('scheme', 'user', 'pass', 'host', 'port'));
+			$prefix = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 
 			if ($url[0] == '/')
 			{
@@ -385,7 +385,7 @@ class JApplication extends JObject
 			else
 			{
 				// It's relative to where we are now, so lets add that.
-				$parts = explode('/', $uri->toString(Array('path')));
+				$parts = explode('/', $uri->toString(array('path')));
 				array_pop($parts);
 				$path = implode('/', $parts) . '/';
 				$url = $prefix . $path . $url;
@@ -681,7 +681,7 @@ class JApplication extends JObject
 			$authorisations = $authenticate->authorise($response, $options);
 			foreach ($authorisations as $authorisation)
 			{
-				$denied_states = Array(JAuthentication::STATUS_EXPIRED, JAuthentication::STATUS_DENIED);
+				$denied_states = array(JAuthentication::STATUS_EXPIRED, JAuthentication::STATUS_DENIED);
 				if (in_array($authorisation->status, $denied_states))
 				{
 					// Trigger onUserAuthorisationFailure Event.
@@ -1047,8 +1047,7 @@ class JApplication extends JObject
 
 		// Check to see the the session already exists.
 		if (($this->getCfg('session_handler') != 'database' && ($time % 2 || $session->isNew()))
-			|| ($this->getCfg('session_handler') == 'database' && $session->isNew())
-		)
+			|| ($this->getCfg('session_handler') == 'database' && $session->isNew()))
 		{
 				$this->checkSession();
 		}
