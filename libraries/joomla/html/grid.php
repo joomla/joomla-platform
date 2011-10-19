@@ -11,6 +11,9 @@
 
 defined('JPATH_PLATFORM') or die;
 
+// Import JHtml library
+jimport('joomla.html.html');
+
 /**
  * JGrid class to dynamically generate HTML tables
  *
@@ -284,12 +287,12 @@ class JGrid
 		{
 			$cell = new stdClass;
 			$cell->options = $option;
-			$cell->content = $content;
+			$cell->content = array($content);
 			$this->rows[$this->activeRow][$name] = $cell;
 		}
 		else
 		{
-			$this->rows[$this->activeRow][$name]->content .= $content;
+			$this->rows[$this->activeRow][$name]->content[] = $content;
 			$this->rows[$this->activeRow][$name]->options = $option;
 		}
 
@@ -434,7 +437,7 @@ class JGrid
 				if (isset($this->rows[$id][$name]))
 				{
 					$column = $this->rows[$id][$name];
-					$output[] = "\t\t<".$cell.$this->renderAttributes($column->options).'>'.$column->content.'</'.$cell.">\n";
+					$output[] = "\t\t<".$cell.$this->renderAttributes($column->options).'>'.implode(array_map(array(__CLASS__, 'renderValue'), $column->content)).'</'.$cell.">\n";
 				}
 			}
 
@@ -466,5 +469,26 @@ class JGrid
 			$return[] = $key.'="'.$option.'"';
 		}
 		return ' '.implode(' ', $return);
+	}
+
+	/**
+	 * Renders an HTML attribute from an associative array
+	 *
+	 * @param   array  $attributes  Associative array of attributes
+	 *
+	 * @return  string The HTML attribute string
+	 *
+	 * @since 11.3
+	 */
+	protected function renderValue($value)
+	{
+		if (is_array($value))
+		{
+			return call_user_func_array(array('JHtml', '_'), $value);
+		}
+		else
+		{
+			return (string) $value;
+		}
 	}
 }
