@@ -40,6 +40,12 @@ abstract class JEvent extends JObserver
 		$event = $args['event'];
 		unset($args['event']);
 
+		$temp = $args;
+		$args = array();
+		foreach ($temp as $k => $v) {
+			$args[] = &$temp[$k];
+		}
+
 		/*
 		 * If the method to handle an event exists, call it and return its return
 		 * value.  If it does not exist, return null.
