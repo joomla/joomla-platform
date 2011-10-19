@@ -55,7 +55,7 @@ class JFormFieldCategoryTest extends JoomlaDatabaseTestCase
 		$form = new JFormInspector('form1');
 
 		$this->assertThat(
-			$form->load('<form><field name="category" type="category" /></form>'),
+			$form->load('<form><field name="category" type="category" extension="com_content" show_root="true" /></form>'),
 			$this->isTrue(),
 			'Line:'.__LINE__.' XML string should load successfully.'
 		);
