@@ -272,10 +272,12 @@ class JGrid
 	 * Set cell content for a specific column for the
 	 * currently active row
 	 *
-	 * @param   string  $name     Name of the column
-	 * @param   string  $content  Content for the cell
-	 * @param   array   $option   Associative array of attributes for the td-element
-	 * @param   bool    $replace  If false, the content is appended to the current content of the cell
+	 * @param   string               $name     Name of the column
+	 * @param   string|object|array  $content  Content for the cell
+	 *                                         If it is an array, a call to JHtml::_ will be done using this array as arguments.
+	 *                                         Else a conversion to string will be done
+	 * @param   array                $option   Associative array of attributes for the td-element
+	 * @param   bool                 $replace  If false, the content is appended to the current content of the cell
 	 *
 	 * @return  JGrid This object for chaining
 	 *
