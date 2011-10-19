@@ -11,6 +11,9 @@
 
 defined('JPATH_PLATFORM') or die;
 
+// Import JHtml library
+jimport('joomla.html.html');
+
 /**
  * JGrid class to dynamically generate HTML tables
  *
@@ -269,10 +272,12 @@ class JGrid
 	 * Set cell content for a specific column for the
 	 * currently active row
 	 *
-	 * @param   string  $name     Name of the column
-	 * @param   string  $content  Content for the cell
-	 * @param   array   $option   Associative array of attributes for the td-element
-	 * @param   bool    $replace  If false, the content is appended to the current content of the cell
+	 * @param   string               $name     Name of the column
+	 * @param   string|object|array  $content  Content for the cell
+	 *                                         If it is an array, a call to JHtml::_ will be done using this array as arguments.
+	 *                                         Else a conversion to string will be done
+	 * @param   array                $option   Associative array of attributes for the td-element
+	 * @param   bool                 $replace  If false, the content is appended to the current content of the cell
 	 *
 	 * @return  JGrid This object for chaining
 	 *
@@ -284,12 +289,12 @@ class JGrid
 		{
 			$cell = new stdClass;
 			$cell->options = $option;
-			$cell->content = $content;
+			$cell->content = array($content);
 			$this->rows[$this->activeRow][$name] = $cell;
 		}
 		else
 		{
-			$this->rows[$this->activeRow][$name]->content .= $content;
+			$this->rows[$this->activeRow][$name]->content[] = $content;
 			$this->rows[$this->activeRow][$name]->options = $option;
 		}
 
@@ -434,7 +439,7 @@ class JGrid
 				if (isset($this->rows[$id][$name]))
 				{
 					$column = $this->rows[$id][$name];
-					$output[] = "\t\t<".$cell.$this->renderAttributes($column->options).'>'.$column->content.'</'.$cell.">\n";
+					$output[] = "\t\t<".$cell.$this->renderAttributes($column->options).'>'.implode(array_map(array(__CLASS__, 'renderValue'), $column->content)).'</'.$cell.">\n";
 				}
 			}
 
@@ -466,5 +471,26 @@ class JGrid
 			$return[] = $key.'="'.$option.'"';
 		}
 		return ' '.implode(' ', $return);
+	}
+
+	/**
+	 * Renders an HTML attribute from an associative array
+	 *
+	 * @param   array  $attributes  Associative array of attributes
+	 *
+	 * @return  string The HTML attribute string
+	 *
+	 * @since 11.3
+	 */
+	protected function renderValue($value)
+	{
+		if (is_array($value))
+		{
+			return call_user_func_array(array('JHtml', '_'), $value);
+		}
+		else
+		{
+			return (string) $value;
+		}
 	}
 }
