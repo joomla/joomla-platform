@@ -54,8 +54,7 @@ CREATE TABLE "jos_categories" (
   "description" character varying(5120) DEFAULT '' NOT NULL,
   "published" smallint DEFAULT 0 NOT NULL,
   "checked_out" bigint DEFAULT 0 NOT NULL,
-  -- "checked_out_time" timestamp DEFAULT '1970-01-01 00:00:00+00' NOT NULL,
-  "checked_out_time" timestamp DEFAULT '1970-01-01 00:00:00+00' NOT NULL,
+  "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "access" smallint DEFAULT 0 NOT NULL,
   "params" text NOT NULL,
   -- The meta description for the page.
@@ -65,9 +64,9 @@ CREATE TABLE "jos_categories" (
   -- JSON encoded metadata properties.
   "metadata" character varying(2048) NOT NULL,
   "created_user_id" integer DEFAULT 0 NOT NULL,
-  "created_time" timestamp DEFAULT '1970-01-01 00:00:00+00' NOT NULL,
+  "created_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "modified_user_id" integer DEFAULT 0 NOT NULL,
-  "modified_time" timestamp DEFAULT '1970-01-01 00:00:00+00' NOT NULL,
+  "modified_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "hits" integer DEFAULT 0 NOT NULL,
   "language" character(7) NOT NULL,
   PRIMARY KEY ("id")
@@ -102,15 +101,15 @@ CREATE TABLE "jos_content" (
   "sectionid" integer DEFAULT 0 NOT NULL,
   "mask" integer DEFAULT 0 NOT NULL,
   "catid" integer DEFAULT 0 NOT NULL,
-  "created" timestamp DEFAULT '1970-01-01 00:00:00+00' NOT NULL,
+  "created" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "created_by" integer DEFAULT 0 NOT NULL,
   "created_by_alias" character varying(255) DEFAULT '' NOT NULL,
-  "modified" timestamp DEFAULT '1970-01-01 00:00:00+00' NOT NULL,
+  "modified" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "modified_by" integer DEFAULT 0 NOT NULL,
   "checked_out" integer DEFAULT 0 NOT NULL,
-  "checked_out_time" timestamp DEFAULT '1970-01-01 00:00:00+00' NOT NULL,
-  "publish_up" timestamp DEFAULT '1970-01-01 00:00:00+00' NOT NULL,
-  "publish_down" timestamp DEFAULT '1970-01-01 00:00:00+00' NOT NULL,
+  "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "publish_up" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "publish_down" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "images" text NOT NULL,
   "urls" text NOT NULL,
   "attribs" character varying(5120) NOT NULL,
@@ -172,7 +171,7 @@ CREATE TABLE "jos_extensions" (
   "custom_data" text NOT NULL,
   "system_data" text NOT NULL,
   "checked_out" integer DEFAULT 0 NOT NULL,
-  "checked_out_time" timestamp DEFAULT '1970-01-01 00:00:00+00' NOT NULL,
+  "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "ordering" bigint DEFAULT 0,
   "state" bigint DEFAULT 0,
   PRIMARY KEY ("extension_id")
@@ -207,7 +206,7 @@ DROP TABLE IF EXISTS "jos_log_entries" CASCADE;
 CREATE TABLE "jos_log_entries" (
   "priority" bigint DEFAULT NULL,
   "message" character varying(512) DEFAULT NULL,
-  "date" timestamp DEFAULT NULL,
+  "date" timestamp without time zone DEFAULT NULL,
   "category" character varying(255) DEFAULT NULL
 );
 
@@ -243,7 +242,7 @@ CREATE TABLE "jos_menu" (
   -- FK to #__users.id
   "checked_out" integer DEFAULT 0 NOT NULL,
   -- The time the menu item was checked out.
-  "checked_out_time" timestamp DEFAULT '1970-01-01 00:00:00+00' NOT NULL,
+  "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   -- The click behaviour of the link.
   "browserNav" smallint DEFAULT 0 NOT NULL,
   -- The access level required to view the menu item.
@@ -318,9 +317,9 @@ CREATE TABLE "jos_modules" (
   "ordering" bigint DEFAULT 0 NOT NULL,
   "position" character varying(50) DEFAULT NULL,
   "checked_out" integer DEFAULT 0 NOT NULL,
-  "checked_out_time" timestamp DEFAULT '1970-01-01 00:00:00+00' NOT NULL,
-  "publish_up" timestamp DEFAULT '1970-01-01 00:00:00+00' NOT NULL,
-  "publish_down" timestamp DEFAULT '1970-01-01 00:00:00+00' NOT NULL,
+  "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "publish_up" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "publish_down" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "published" smallint DEFAULT 0 NOT NULL,
   "module" character varying(50) DEFAULT NULL,
   "access" smallint DEFAULT 0 NOT NULL,
@@ -489,8 +488,8 @@ CREATE TABLE "jos_users" (
   "usertype" character varying(25) DEFAULT '' NOT NULL,
   "block" smallint DEFAULT 0 NOT NULL,
   "sendEmail" smallint DEFAULT 0,
-  "registerDate" timestamp DEFAULT '1970-01-01 00:00:00+00' NOT NULL,
-  "lastvisitDate" timestamp DEFAULT '1970-01-01 00:00:00+00' NOT NULL,
+  "registerDate" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "lastvisitDate" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "activation" character varying(100) DEFAULT '' NOT NULL,
   "params" text NOT NULL,
   PRIMARY KEY ("id")
@@ -558,7 +557,7 @@ DROP TABLE IF EXISTS "jos_dbtest" CASCADE;
 CREATE TABLE "jos_dbtest" (
   "id" serial NOT NULL,
   "title" character varying(50) NOT NULL,
-  "start_date" timestamp NOT NULL,
+  "start_date" timestamp without time zone NOT NULL,
   "description" text NOT NULL,
   PRIMARY KEY ("id")
 );
