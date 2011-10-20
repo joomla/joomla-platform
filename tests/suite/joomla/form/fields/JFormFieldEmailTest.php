@@ -14,7 +14,7 @@
  * @subpackage  Form
  * @since       11.3
  */
-class JFormFieldTextTest extends JoomlaTestCase
+class JFormFieldEmailTest extends JoomlaTestCase
 {
 	/**
 	 * Sets up dependencies for the test.
