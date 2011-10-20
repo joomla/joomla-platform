@@ -646,7 +646,7 @@ class JSession extends JObject
 			$id .= mt_rand(0, mt_getrandmax());
 		}
 
-		$id = md5(uniqid($id, true));
+		$id = uniqid($id, true);
 		return $id;
 	}
 
