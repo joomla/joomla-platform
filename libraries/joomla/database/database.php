@@ -589,6 +589,25 @@ abstract class JDatabase implements JDatabaseInterface
 	{
 		return $this->count;
 	}
+	
+	/**
+	 * Get the query string to create new Database.
+	 *
+	 * @return  string	The query that creates database
+	 *
+	 * @since   11.3
+	 */
+	public function getCreateDbQuery($options, $utf)
+	{
+		if ($utf) {
+			$query = 'CREATE DATABASE '.$this->quoteName($name).' CHARACTER SET `utf8`';
+		}
+		else {
+			$query = 'CREATE DATABASE '.$this->quoteName($name);
+		}
+		
+		return $query;
+	}
 
 	/**
 	 * Returns a PHP date() function compliant date format for the database driver.
