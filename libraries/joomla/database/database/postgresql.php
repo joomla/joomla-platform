@@ -16,7 +16,7 @@ JLoader::register('JDatabaseQueryPostgreSQL', dirname(__FILE__).'/postgresqlquer
  *
  * @package		Joomla.Framework
  * @subpackage	Database
- * @since		11.1
+ * @since		11.3
  */
 class JDatabasePostgreSQL extends JDatabase
 {
@@ -52,7 +52,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 * Database object constructor
 	 *
 	 * @param	array	List of options used to configure the connection
-	 * @since	11.1
+	 * @since	11.3
 	 * @see		JDatabase
 	 */
 	function __construct( $options )
@@ -96,7 +96,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 * Database object destructor
 	 *
 	 * @return void
-	 * @since 11.1
+	 * @since 11.3
 	 */
 	public function __destruct()
 	{
@@ -113,7 +113,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 *
 	 * @return  string  The escaped string.
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 */
 	public function escape($text, $extra = false)
 	{
@@ -140,7 +140,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 * Determines if the connection to the server is active.
 	 *
 	 * @return	boolean
-	 * @since	11.1
+	 * @since	11.3
 	 */
 	public function connected()
 	{
@@ -158,7 +158,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 * @param   boolean    $ifExists   Optionally specify that the table must exist before it is dropped.
 	 *
 	 * @return  boolean	true
-	 * @since   11.1
+	 * @since   11.3
 	 */
 	function dropTable($tableName, $ifExists = true)
 	{
@@ -191,7 +191,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 *
 	 * @return  mixed  The collation in use by the database or boolean false if not supported.
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 */
 	public function getCollation()
 	{
@@ -207,7 +207,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 * 
 	 * @todo	Not yet implemented
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 */
 	/*public function getExporter()
 	{
@@ -229,7 +229,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 * 
 	 * @todo	Not yet implemented
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 */
 	/*public function getImporter()
 	{
@@ -251,7 +251,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 *
 	 * @return  integer   The number of returned rows.
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 */
 	public function getNumRows( $cur = null )
 	{
@@ -265,7 +265,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 *
 	 * @return  mixed  The current value of the internal SQL variable or a new JDatabaseQuery object.
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 * @throws  JDatabaseException
 	 */
 	function getQuery($new = false)
@@ -282,7 +282,6 @@ class JDatabasePostgreSQL extends JDatabase
 		}
 	}
 	
-	
 	/**
 	 * Shows the table CREATE statement that creates the given tables.
 	 * 
@@ -290,7 +289,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 *
 	 * @param   mixed  $tables  A table name or a list of table names.
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 * @throws  JDatabaseException
 	 */	
 	public function getTableCreate($tables)
@@ -305,7 +304,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 *
 	 * @return  array  An array of the column specification for the table.
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 * @throws  JDatabaseException
 	 */
 	public function getTableKeys($table)
@@ -330,13 +329,12 @@ class JDatabasePostgreSQL extends JDatabase
 		return false;
 	}
 	
-	
 	/**
 	 * Method to get an array of all tables in the database.
 	 *
 	 * @return  array  An array of all the tables in the database.
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 * @throws  JDatabaseException
 	 */
 	public function getTableList()
@@ -358,7 +356,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 *
 	 * @return  string  The database connector version.
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 */
 	public function getVersion()
 	{
@@ -371,7 +369,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 *
 	 * @return  boolean  True if supported.
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 * @deprecated 12.1
 	 */
 	public function hasUTF()
@@ -386,17 +384,29 @@ class JDatabasePostgreSQL extends JDatabase
 	 * To be called after the INSERT statement, it's MANDATORY to have a sequence on 
 	 * every primary key table.
 	 *
-	 * @return  integer  The value of the auto-increment field from the last inserted row.
-	 * 
-	 * @todo	could be implemented in three different modes
-	 * 			1) lastval() after INSERT query (as implemented now)
-	 * 			2) nextval('sequence') before INSERT query but need to know sequence name 
-	 * 					and modify INSERT query element -> can be defined in a column 'id' 
-	 * 			3) INSERT .. RETURNING .. (on postgresql>=8.2) but need to know the column 
-	 * 					name autoincremented, make a fetch_row after insert query and modify 
-	 * 					INSERT query element --> use RETURNING element, then loadRow/Assoc/Obj
-	 * 
-	 * @since   11.1
+	 *	To get the auto incremented value it's possible to call this function after
+	 *	INSERT INTO query, or use INSERT INTO with RETURNING clause.
+	 *
+	 *	@example with insertid() call:
+	 *		$query = $this->getQuery(true);		
+	 *		$query->insert('jos_dbtest')
+	 *				->columns('title,start_date,description')
+	 *				->values("'testTitle2nd','1971-01-01','testDescription2nd'");
+	 *		$this->setQuery($query);
+	 *		$this->query();
+	 *		$id = $this->insertid();
+	 *
+	 *	@example with RETURNING clause:
+	 *		$query = $this->getQuery(true);		
+	 *		$query->insert('jos_dbtest')
+	 *				->columns('title,start_date,description')
+	 *				->values("'testTitle2nd','1971-01-01','testDescription2nd'")
+	 *				->returning('id');
+	 *		$this->setQuery($query);
+	 *		$id = $this->loadResult();
+	 *
+	 * @return  integer  The value of the auto-increment field from the last inserted row. 
+	 * @since   11.3
 	 */
 	public function insertid()
 	{
@@ -514,7 +524,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 *
 	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 */
 	protected function fetchArray($cursor = null)
 	{
@@ -528,7 +538,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 *
 	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 */
 	protected function fetchAssoc($cursor = null)
 	{
@@ -543,7 +553,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 *
 	 * @return  mixed   Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 */
 	protected function fetchObject($cursor = null, $class = 'stdClass')
 	{
@@ -557,7 +567,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 */
 	protected function freeResult($cursor = null)
 	{
@@ -621,7 +631,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 *
 	 * @return  array  An array of fields for the database table.
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 * @throws  JDatabaseException
 	 */
 	public function getTableColumns( $tables, $typeonly = true )
@@ -693,41 +703,17 @@ class JDatabasePostgreSQL extends JDatabase
 	}
 
 	/**
-	 * Create the database and associate it to the user.
-	 * IMPORTANT: the user role MUST be created before using this function.
+	 * Get the query string to create new Database in correct PostgreSQL syntax.
 	 *
-	 * @param	string	The database name
-	 * @param	boolean	Whether or not to create with UTF support (only here for function signature compatibility)
-	 * @return	boolean	True if all was ok
-	 * 
-	 * @since	11.1
-	 * @throws  JDatabaseException
+	 * @return  string	The query that creates database, owned by $options['user']
+	 *
+	 * @since   11.3
 	 */
-	public function createDatabase( $options /*, $DButfSupport */ )
+	public function getCreateDbQuery($options, $utf)
 	{
-		if ( !(isset($options['user'])) || ! (isset($options['database'])) )
-		{
-			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_POSTGRESQL_CANT_CREATE_DB'));  // -> Can't create DB, no needed info
-		}
-
-		$this->setQuery('CREATE ROLE ' . $options['user'] . ' LOGIN ENCRYPTED PASSWORD ' . $this->quoteName( $options['password'] ));
-		$this->query();
+		$query = 'CREATE DATABASE ' . $options['database'] . ' OWNER ' . $options['user'] ;
 		
-		$sql = 'CREATE DATABASE '.$this->quoteName( $options['database'] ) . ' OWNER ' . $options['user'] ;
-/*
-		if ( $DButfSupport )
-			$sql .= ' ENCODING UTF8' ;
-	*/	
-		$this->setQuery($sql);
-		$this->query();
-		
-		$this->setQuery('GRANT ALL PRIVILEGES ON DATABASE ' . $options['database'] . ' TO ' . $options['user'] );
-		$this->query();
-		
-		$this->setQuery('REVOKE ALL PRIVILEGES ON DATABASE ' . $options['database'] . ' FROM PUBLIC');
-		$this->query();
-		
-		return true;
+		return $query;
 	}
 
 	/**
@@ -758,85 +744,12 @@ class JDatabasePostgreSQL extends JDatabase
 		return true;
 	}
 
-	
-	/**
-	 * Sets the SQL statement string for later execution of a transaction block.
-	 *
-	 * @param   mixed    $query   The SQL statement to set either as a JDatabaseQuery object or a string.
-	 * @param   integer  $limit   The maximum affected rows to set.
-	 * @param   integer  $offset  The affected row offset to set.
-	 *
-	 * @return  JDatabase  This object to support method chaining.
-	 *
-	 * @since   11.1
-	 */
-	/*public function setTransactionQuery($query, $limit = 0, $offset = 0)
-	{
-		$query->limit($limit, $offset);		// to not break compatibility
-		array_push($this->sql, $query);     // ordered query list for transactions
-		
-		// limit query element
-		//$this->limit				= (int) $limit;
-		//$this->offset				= (int) $offset;
-
-		return $this;
-	}*/
-	
-	/**
-	 * Execute a transaction query
-	 *
-	 * @return	boolean	Return true if ok
-	 * 
-	 * @since	11.1
-	 * 
-	 * @throws  JDatabaseException
-	 */
-	/*public function transactionQuery()
-	{
-		if (!is_resource($this->connection)) {
-			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-			throw new JDatabaseException;
-		}
-		
-		while( list( , $query ) = each ( $this->sql ) )
-		{
-			// Take a local copy so that we don't modify the original query and cause issues later
-			//$sql = $this->replacePrefix((string) $this->sql);
-			$sql = $this->replacePrefix((string) $query);
-			
-			// If debugging is enabled then let's log the query.
-			if ($this->debug) {
-				// Increment the query counter and add the query to the object queue.
-				$this->count++;
-				$this->log[] = $sql;
-	
-				JLog::add($sql, JLog::DEBUG, 'databasequery');
-			}
-			// Reset the error values.
-			$this->errorNum = 0;
-			$this->errorMsg = '';
-			
-			// Execute the query.
-			$this->cursor = pg_query( $this->connection, $sql );
-	
-			if (!$this->cursor) {
-				$this->errorNum = (int) pg_result_error_field( $this->cursor, PGSQL_DIAG_SQLSTATE ) . ' ';
-				$this->errorMsg = (string) pg_result_error_field( $this->cursor, PGSQL_DIAG_MESSAGE_PRIMARY )." SQL=$sql <br />";
-				
-				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-				throw new JDatabaseException;
-			}
-		}
-		
-		return true; //$this->cursor;
-	}*/
-
 	/**
 	 * Method to commit a transaction.
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 * @throws  JDatabaseException
 	 */
 	public function transactionCommit()
@@ -850,7 +763,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 * @throws  JDatabaseException
 	 */
 	public function transactionRollback($toSavepoint = null)
@@ -870,7 +783,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 * @throws  JDatabaseException
 	 */
 	public function transactionStart()
@@ -885,7 +798,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 * @param   string	Savepoint's name to release 
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 */
 	public function releaseTransactionSavepoint( $savepointName )
 	{
@@ -899,7 +812,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 * @param	string	Savepoint's name to create
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 */
 	public function transactionSavepoint( $savepointName )
 	{
