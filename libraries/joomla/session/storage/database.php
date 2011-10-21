@@ -117,13 +117,16 @@ class JSessionStorageDatabase extends JSessionStorage
 		}
 		else
 		{
-			// If the session does not exist, we need to insert the session.
-			$db->setQuery(
-				'INSERT INTO ' . $db->quoteName('#__session') .
-				' (' . $db->quoteName('session_id') . ', ' . $db->quoteName('data') . ', ' . $db->quoteName('time') . ')' .
-				' VALUES (' . $db->quote($id) . ', ' . $db->quote($data) . ', ' . (int) time() . ')'
-			);
-			return (boolean) $db->query();
+            // update did not error, so it succeeded but was identical
+            if (JDEBUG) {
+                jimport('joomla.error.log');
+                $log = JLog::getInstance('jcontroller.log.php')->addEntry(
+                    array(
+                        'comment' => sprintf('Session ID %s update is identical to current record', $id)
+                    )
+                );
+            }
+            return true;
 		}
 	}
 
