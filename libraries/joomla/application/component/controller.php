@@ -231,8 +231,8 @@ class JController extends JObject
 
 		// Get the environment configuration.
 		$basePath = array_key_exists('base_path', $config) ? $config['base_path'] : JPATH_COMPONENT;
-		$format = JRequest::getWord('format');
-		$command = JRequest::getVar('task', 'display');
+		$format = isset($config['format']) ? $config['format'] : JRequest::getWord('format');
+		$command = isset($config['command']) ? $config['command'] : JRequest::getVar('task', 'display');
 
 		// Check for array format.
 		$filter = JFilterInput::getInstance();
