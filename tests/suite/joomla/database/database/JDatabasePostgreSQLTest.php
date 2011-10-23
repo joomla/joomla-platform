@@ -56,6 +56,21 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	}
 	
 	/**
+	 * Data for the getCreateDbQuery test.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.1
+	 */
+	public function dataGetCreateDbQuery()
+	{
+		$option = array( 'user' => 'testName', 'database' => 'testDb' );
+		return array(
+				array( $option, null )
+			);
+	}
+	
+	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
 	 * @return  xml dataset
@@ -912,6 +927,29 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	public function testTransactionSavepoint( /*$savepointName*/ )
 	{
 		$this->markTestSkipped('This command is tested inside testTransactionRollback.');
+	}
+	
+	/**
+	 * Tests the JDatabasePostgreSQL getCreateDbQuery method.
+	 * 
+	 * @return  void
+	 *
+	 * @dataProvider dataGetCreateDbQuery
+	 */
+	public function getCreateDbQuery( $options, $utf )
+	{
+		//$this->markTestSkipped('This command is tested inside testCreateDatabase.');
+
+		$expected = 'CREATE DATABASE ' . $options['database'] . ' OWNER ' . $options['user'];
+
+		$result = $this->object->getCreateDbQuery($options, $utf);
+		
+		$this->assertThat(
+			$result,
+			$this->equalTo($expected),
+			__LINE__
+		);
+		
 	}
 	
 }
