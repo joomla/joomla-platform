@@ -86,16 +86,16 @@ abstract class JDatabase implements JDatabaseInterface
 
 	/**
 	 * @var    string  The character(s) used to quote SQL statement names such as table names or field names,
-	 * etc.  The child classes should define this as necessary.  If a single character string the
-	 * same character is used for both sides of the quoted name, else the first character will be
-	 * used for the opening quote and the second for the closing quote.
+	 *                 etc.  The child classes should define this as necessary.  If a single character string the
+	 *                 same character is used for both sides of the quoted name, else the first character will be
+	 *                 used for the opening quote and the second for the closing quote.
 	 * @since  11.1
 	 */
 	protected $nameQuote;
 
 	/**
 	 * @var    string  The null or zero representation of a timestamp for the database driver.  This should be
-	 * defined in child classes to hold the appropriate value for the engine.
+	 *                 defined in child classes to hold the appropriate value for the engine.
 	 * @since  11.1
 	 */
 	protected $nullDate;
@@ -119,7 +119,7 @@ abstract class JDatabase implements JDatabaseInterface
 	protected $tablePrefix;
 
 	/**
-	 * @var    bool  True if the database engine supports UTF-8 character encoding.
+	 * @var    boolean  True if the database engine supports UTF-8 character encoding.
 	 * @since  11.1
 	 */
 	protected $utf = false;
@@ -159,6 +159,14 @@ abstract class JDatabase implements JDatabaseInterface
 	protected static $instances = array();
 
 	/**
+	* Null if not present, otherwise an array of available connectors
+	*
+	* @var    mixed
+	* @since  11.3
+	*/
+	static $connectors = null;
+	
+	/**
 	 * Get a list of available database connectors.  The list will only be populated with connectors that both
 	 * the class exists and the static test method returns true.  This gives us the ability to have a multitude
 	 * of connector classes that are self-aware as to whether or not they are able to be used on a given system.
@@ -169,57 +177,72 @@ abstract class JDatabase implements JDatabaseInterface
 	 */
 	public static function getConnectors()
 	{
+		if (isset(self::$connectors))
+		{
+			return self::$connectors;
+		}
 		// Instantiate variables.
 		$connectors = array();
 
 		// Get a list of types.
-		$types = JFolder::folders(dirname(__FILE__));
+		$types = JFolder::files(dirname(__FILE__).'/database');
+		$exludeStrings = array('exporter','importer','query','exception','index');
+		
 
 		// Loop through the types and find the ones that are available.
 		foreach ($types as $type)
 		{
-			// Ignore some folders.
-			if (($type == 'database') || ($type == 'table') || ($type == '.') || ($type == '..'))
+			$driverfile=$type;
+			$type = trim(JFile::stripExt($type));
+				
+			// Ignore some files.
+			foreach ($exludeStrings as $excludeString)
 			{
-				continue;
-			}
-
-			// Derive the class name from the type.
-			$class = 'JDatabaseDriver' . ucfirst(trim($type));
-
-			// If the class doesn't exist, let's look for it and register it.
-			if (!class_exists($class))
-			{
-
-				// Derive the file path for the driver class.
-				$path = dirname(__FILE__) . '/' . $type . '/driver.php';
-
-				// If the file exists register the class with our class loader.
-				if (file_exists($path))
+				if ((stripos($type,$excludeString)) != false || $type == 'index') 
 				{
-					JLoader::register($class, $path);
+					$type=null;
 				}
-				// If it doesn't exist we are at an impasse so move on to the next type.
-				else
+			}
+			if ($type != null)
+			{
+				// Derive the class name from the type.
+				$class = 'JDatabase'.ucfirst($type);
+				JLoader::register($class,dirname(__FILE__).'/database/'.$driverfile);
+			
+				// If the class doesn't exist, let's look for it in a folder and register it.
+				if (!class_exists($class)) {
+	
+					// Derive the file path for the driver class.
+					$path = dirname(__FILE__).  '/database/' . $type . '/'. $driverfile;
+	
+					// If the file exists register the class with our class loader.
+					if (file_exists($path))
+					{
+						JLoader::register($class, $path);
+					}
+					// If it doesn't exist we are at an impasse so move on to the next type.
+					else 
+					{
+						continue;
+					}
+				}
+	
+				// If the class still doesn't exist we have nothing left to do but look at the next type.  We did our best.
+				if (!class_exists($class))
 				{
 					continue;
 				}
-			}
-
-			// If the class still doesn't exist we have nothing left to do but look at the next type.  We did our best.
-			if (!class_exists($class))
-			{
-				continue;
-			}
-
-			// Sweet!  Our class exists, so now we just need to know if it passes it's test method.
-			if (call_user_func_array(array($class, 'test'), array()))
-			{
-				$connectors[] = $type;
-			}
+				
+				// Sweet!  Our class exists, so now we just need to know if it passes it's test method.
+				if ($class::test())
+				{
+					$connectors[] = $type;
+				}
+			}		
+			self::$connectors = $connectors;
+			
+			return self::$connectors;
 		}
-
-		return $connectors;
 	}
 
 	/**
