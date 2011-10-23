@@ -87,11 +87,6 @@ class ModelMockupJView
 	{
 		return $this->name;
 	}
-	
-	public function getParameters($param)
-	{
-		return $param.$param;
-	}
 }
 
 /**
@@ -167,23 +162,13 @@ class JViewTest extends PHPUnit_Framework_TestCase
 		);
 		
 		$this->assertThat(
-			$view->get('test1'),
+			$view->get('test'),
 			$this->equalTo('pass')
-		);
-		
-		$this->assertThat(
-			$view->get('parameters', false, array('test')),
-			$this->equalTo('testtest')
 		);
 		
 		$this->assertThat(
 			$view->get('name', 'test2'),
 			$this->equalTo('test2')
-		);
-		
-		$this->assertThat(
-			$view->get('parameters', 'test2', array('test2')),
-			$this->equalTo('test2test2')
 		);
 	}
 
