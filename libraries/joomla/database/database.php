@@ -597,6 +597,10 @@ abstract class JDatabase implements JDatabaseInterface
 	/**
 	 * Get the query string to create new Database.
 	 *
+	 * @param	JObject		$options	JObject coming from "initialise" function to pass user 
+	 * 									and database name to database driver.
+	 * @param	boolean 	$utf		True if the database supports the UTF-8 character set.
+	 * 
 	 * @return  string	The query that creates database
 	 *
 	 * @since   11.3
@@ -604,10 +608,10 @@ abstract class JDatabase implements JDatabaseInterface
 	public function getCreateDbQuery($options, $utf)
 	{
 		if ($utf) {
-			$query = 'CREATE DATABASE '.$this->quoteName($name).' CHARACTER SET `utf8`';
+			$query = 'CREATE DATABASE '.$this->quoteName($options->db_name).' CHARACTER SET `utf8`';
 		}
 		else {
-			$query = 'CREATE DATABASE '.$this->quoteName($name);
+			$query = 'CREATE DATABASE '.$this->quoteName($options->db_name);
 		}
 		
 		return $query;
