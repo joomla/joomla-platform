@@ -32,7 +32,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 *
 	 * @var string
 	 */
-	protected $nullDate = '1970-01-01 00:00:00+00';
+	protected $nullDate = '1970-01-01 00:00:00';
 
 	/**
 	 * Quote for named objects
@@ -704,14 +704,19 @@ class JDatabasePostgreSQL extends JDatabase
 
 	/**
 	 * Get the query string to create new Database in correct PostgreSQL syntax.
-	 *
+	 * 
+	 * @param	JObject		$options	JObject coming from "initialise" function to pass user 
+	 * 									and database name to database driver.
+	 * @param	boolean 	$utf		True if the database supports the UTF-8 character set,
+	 * 									not used in PostgreSQL "CREATE DATABASE" query.
+	 * 
 	 * @return  string	The query that creates database, owned by $options['user']
 	 *
 	 * @since   11.3
 	 */
 	public function getCreateDbQuery($options, $utf)
 	{
-		$query = 'CREATE DATABASE ' . $options['database'] . ' OWNER ' . $options['user'] ;
+		$query = 'CREATE DATABASE ' . $options->db_name . ' OWNER ' . $options->db_user ;
 		
 		return $query;
 	}
