@@ -54,7 +54,7 @@ class JMail extends PHPMailer
 
 		if (empty($instances[$id]))
 		{
-			$instances[$id] = new JMail();
+			$instances[$id] = new JMail;
 		}
 
 		return $instances[$id];
@@ -430,7 +430,7 @@ class JMail extends PHPMailer
 				$this->addReplyTo(array($replyTo[$i], $replyToName[$i]));
 			}
 		}
-		else if (isset($replyTo))
+		elseif (isset($replyTo))
 		{
 			$this->addReplyTo(array($replyTo, $replyToName));
 		}

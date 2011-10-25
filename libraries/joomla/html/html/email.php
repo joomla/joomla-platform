@@ -102,8 +102,9 @@ abstract class JHtmlEmail
 
 		return $replacement;
 	}
+
 	/**
-	 * Convrt encoded text
+	 * Convert encoded text
 	 *
 	 * @param   string  $text  Text to convert
 	 *

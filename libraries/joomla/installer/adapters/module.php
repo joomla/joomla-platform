@@ -26,20 +26,15 @@ class JInstallerModule extends JAdapterInstance
 	 * @var    string
 	 * @since 11.1
 	 */
-
 	protected $route = 'Install';
 
 	/**
-	 *
-	 *
 	 * @var
 	 * @since 11.1
 	 */
 	protected $manifest = null;
 
 	/**
-	 *
-	 *
 	 * @var
 	 * @since 11.1
 	 */
@@ -55,16 +50,12 @@ class JInstallerModule extends JAdapterInstance
 	protected $name = null;
 
 	/**
-	 *
-	 *
 	 * @var
 	 * @since  11.1
 	 */
 	protected $element = null;
 
 	/**
-	 *
-	 *
 	 * @var    string
 	 * @since 11.1
 	 */
@@ -266,7 +257,7 @@ class JInstallerModule extends JAdapterInstance
 					$this->route = 'Update';
 				}
 			}
-			else if (!$this->parent->getOverwrite())
+			elseif (!$this->parent->getOverwrite())
 			{
 				// Overwrite is set
 				// We didn't have overwrite set, find an udpate function or find an update tag so lets call it safe
@@ -342,7 +333,8 @@ class JInstallerModule extends JAdapterInstance
 			{
 				$this->parent
 					->abort(
-						JText::sprintf('JLIB_INSTALLER_ABORT_MOD_INSTALL_CREATE_DIRECTORY', JText::_('JLIB_INSTALLER_' . $this->route),
+						JText::sprintf(
+							'JLIB_INSTALLER_ABORT_MOD_INSTALL_CREATE_DIRECTORY', JText::_('JLIB_INSTALLER_' . $this->route),
 							$this->parent->getPath('extension_root')
 						)
 					);
@@ -484,7 +476,7 @@ class JInstallerModule extends JAdapterInstance
 				$this->parent->setSchemaVersion($this->manifest->update->schemas, $row->extension_id);
 			}
 		}
-		else if (strtolower($this->route) == 'update')
+		elseif (strtolower($this->route) == 'update')
 		{
 			if ($this->manifest->update)
 			{
@@ -579,7 +571,7 @@ class JInstallerModule extends JAdapterInstance
 	 */
 	public function discover()
 	{
-		$results = Array();
+		$results = array();
 		$site_list = JFolder::folders(JPATH_SITE . '/modules');
 		$admin_list = JFolder::folders(JPATH_ADMINISTRATOR . '/modules');
 		$site_info = JApplicationHelper::getClientInfo('site', true);

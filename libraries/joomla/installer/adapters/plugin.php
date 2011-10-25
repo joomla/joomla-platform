@@ -222,7 +222,7 @@ class JInstallerPlugin extends JAdapterInstance
 					$this->route = 'update';
 				}
 			}
-			else if (!$this->parent->getOverwrite())
+			elseif (!$this->parent->getOverwrite())
 			{
 				// Overwrite is set
 				// We didn't have overwrite set, find an udpate function or find an update tag so lets call it safe
@@ -304,7 +304,7 @@ class JInstallerPlugin extends JAdapterInstance
 		{
 			// Hunt for the original XML file
 			$old_manifest = null;
-			$tmpInstaller = new JInstaller(); // create a new installer because findManifest sets stuff; side effects!
+			$tmpInstaller = new JInstaller; // create a new installer because findManifest sets stuff; side effects!
 			// Look in the extension root
 			$tmpInstaller->setPath('source', $this->parent->getPath('extension_root'));
 			if ($tmpInstaller->findManifest())
@@ -442,7 +442,7 @@ class JInstallerPlugin extends JAdapterInstance
 				$this->parent->setSchemaVersion($this->manifest->update->schemas, $row->extension_id);
 			}
 		}
-		else if (strtolower($this->route) == 'update')
+		elseif (strtolower($this->route) == 'update')
 		{
 			if ($this->manifest->update)
 			{
@@ -716,7 +716,7 @@ class JInstallerPlugin extends JAdapterInstance
 	 */
 	function discover()
 	{
-		$results = Array();
+		$results = array();
 		$folder_list = JFolder::folders(JPATH_SITE . '/plugins');
 
 		foreach ($folder_list as $folder)

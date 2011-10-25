@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die();
 
+jimport('joomla.database.table');
+
 /**
  * Extension table
  * Replaces plugins table
@@ -68,14 +70,14 @@ class JTableExtension extends JTable
 	{
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
 		if (isset($array['control']) && is_array($array['control']))
 		{
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['control']);
 			$array['control'] = (string) $registry;
 		}
@@ -95,7 +97,7 @@ class JTableExtension extends JTable
 	function find($options = array())
 	{
 		$dbo = JFactory::getDBO();
-		$where = Array();
+		$where = array();
 		foreach ($options as $col => $val)
 		{
 			$where[] = $col . ' = ' . $dbo->Quote($val);

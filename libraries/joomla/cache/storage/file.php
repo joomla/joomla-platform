@@ -43,7 +43,6 @@ class JCacheStorageFile extends JCacheStorage
 
 	// NOTE: raw php calls are up to 100 times faster than JFile or JFolder
 
-
 	/**
 	 * Get cached data from a file by id and group
 	 *
@@ -266,7 +265,7 @@ class JCacheStorageFile extends JCacheStorage
 	 */
 	public function lock($id, $group, $locktime)
 	{
-		$returning = new stdClass();
+		$returning = new stdClass;
 		$returning->locklooped = false;
 
 		$looptime = $locktime * 10;
@@ -435,7 +434,7 @@ class JCacheStorageFile extends JCacheStorage
 				return false;
 			}
 		}
-		else if (!empty($files) && is_array($files))
+		elseif (!empty($files) && is_array($files))
 		{
 
 			foreach ($files as $file)
@@ -533,7 +532,7 @@ class JCacheStorageFile extends JCacheStorage
 	 *
 	 * @since   11.1
 	 */
-	protected function _filesInFolder($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS','.DS_Store','__MACOSX'), $excludefilter = array('^\..*','.*~'))
+	protected function _filesInFolder($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'), $excludefilter = array('^\..*', '.*~'))
 	{
 		// Initialise variables.
 		$arr = array();
@@ -619,7 +618,7 @@ class JCacheStorageFile extends JCacheStorage
 	 *
 	 * @since   11.1
 	 */
-	protected function _folders($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS','.DS_Store','__MACOSX'), $excludefilter = array('^\..*'))
+	protected function _folders($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'), $excludefilter = array('^\..*'))
 	{
 		// Initialise variables.
 		$arr = array();

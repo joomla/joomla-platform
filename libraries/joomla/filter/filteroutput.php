@@ -48,7 +48,7 @@ class JFilterOutput
 				{
 					continue;
 				}
-				else if (is_array($exclude_keys) && in_array($k, $exclude_keys))
+				elseif (is_array($exclude_keys) && in_array($k, $exclude_keys))
 				{
 					continue;
 				}
@@ -119,7 +119,6 @@ class JFilterOutput
 
 		// Remove any '-' from the string as they will be used as concatenator.
 		// Would be great to let the spaces in but only Firefox is friendly with this
-
 
 		$str = str_replace('-', ' ', $str);
 

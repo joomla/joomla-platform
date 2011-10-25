@@ -215,7 +215,7 @@ abstract class JHtml
 		{
 			// PHP 5.3 workaround
 			$temp = array();
-			foreach ($args AS &$arg)
+			foreach ($args as &$arg)
 			{
 				$temp[] = &$arg;
 			}
@@ -697,6 +697,11 @@ abstract class JHtml
 		{
 			$format = JText::_('DATE_FORMAT_LC1');
 		}
+		// format is an existing language key
+		elseif (JFactory::getLanguage()->hasKey($format))
+		{
+			$format = JText::_($format);
+		}
 
 		if ($gregorian)
 		{
@@ -712,8 +717,8 @@ abstract class JHtml
 	 * Creates a tooltip with an image as button
 	 *
 	 * @param   string  $tooltip  The tip string
-	 * @param   mixed   $title    The title of the tooltip or an associative array with keys contained in {'title','image','text','href','alt'} and values
-	 *                            corresponding to parameters of the same name.
+	 * @param   mixed   $title    The title of the tooltip or an associative array with keys contained in
+	 *                            {'title','image','text','href','alt'} and values corresponding to parameters of the same name.
 	 * @param   string  $image    The image for the tip, if no text is provided
 	 * @param   string  $text     The text for the tip
 	 * @param   string  $href     An URL that will be used to create the link

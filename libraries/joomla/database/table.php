@@ -493,7 +493,7 @@ abstract class JTable extends JObject
 
 			$keys = array($keyName => $keyValue);
 		}
-		else if (!is_array($keys))
+		elseif (!is_array($keys))
 		{
 			// Load by primary key.
 			$keys = array($this->_tbl_key => $keys);
@@ -619,7 +619,6 @@ abstract class JTable extends JObject
 		//
 		// Asset Tracking
 		//
-
 
 		$parentId = $this->_getAssetParentId();
 		$name = $this->_getAssetName();
@@ -1368,7 +1367,7 @@ abstract class JTable extends JObject
 	{
 		// Deprecation warning.
 		JLog::add('JTable::canDelete() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
@@ -1416,7 +1415,7 @@ abstract class JTable extends JObject
 			{
 				$k = $table['idfield'] . $i;
 
-				if ($obj->$k)
+				if ($row->$k)
 				{
 					$msg[] = JText::_($table['label']);
 				}
@@ -1454,7 +1453,7 @@ abstract class JTable extends JObject
 	{
 	// Deprecation warning.
 	JLog::add('JTable::toXML() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		// Initialise variables.
 		$xml = array();
 		$map = $mapKeysToText ? ' mapkeystotext="true"' : '';

@@ -64,7 +64,7 @@ class JMenu extends JObject
 			}
 
 			// Decode the item params
-			$result = new JRegistry();
+			$result = new JRegistry;
 			$result->loadString($item->params);
 			$item->params = $result;
 		}
@@ -173,7 +173,7 @@ class JMenu extends JObject
 		{
 			return $this->_items[$this->_default[$language]];
 		}
-		else if (array_key_exists('*', $this->_default))
+		elseif (array_key_exists('*', $this->_default))
 		{
 			return $this->_items[$this->_default['*']];
 		}
@@ -298,7 +298,7 @@ class JMenu extends JObject
 		}
 		else
 		{
-			return new JRegistry();
+			return new JRegistry;
 		}
 	}
 

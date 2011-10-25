@@ -12,6 +12,8 @@ defined('JPATH_PLATFORM') or die();
 // Register the session storage class with the loader
 JLoader::register('JSessionStorage', dirname(__FILE__) . '/storage.php');
 
+jimport('joomla.environment.request');
+
 /**
  * Class for managing HTTP sessions
  *
@@ -351,7 +353,6 @@ class JSession extends JObject
 	{
 		$namespace = '__' . $namespace; //add prefix to namespace to avoid collisions
 
-
 		if ($this->_state !== 'active' && $this->_state !== 'expired')
 		{
 			// @TODO :: generated error here
@@ -380,7 +381,6 @@ class JSession extends JObject
 	public function set($name, $value = null, $namespace = 'default')
 	{
 		$namespace = '__' . $namespace; //add prefix to namespace to avoid collisions
-
 
 		if ($this->_state !== 'active')
 		{
@@ -846,7 +846,7 @@ class JSession extends JObject
 			{
 				$this->set('session.client.address', $_SERVER['REMOTE_ADDR']);
 			}
-			else if ($_SERVER['REMOTE_ADDR'] !== $ip)
+			elseif ($_SERVER['REMOTE_ADDR'] !== $ip)
 			{
 				$this->_state = 'error';
 				return false;
@@ -862,7 +862,7 @@ class JSession extends JObject
 			{
 				$this->set('session.client.browser', $_SERVER['HTTP_USER_AGENT']);
 			}
-			else if ($_SERVER['HTTP_USER_AGENT'] !== $browser)
+			elseif ($_SERVER['HTTP_USER_AGENT'] !== $browser)
 			{
 				//				$this->_state	=	'error';
 			//				return false;

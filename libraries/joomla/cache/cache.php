@@ -15,21 +15,13 @@ JLoader::register('JCacheStorage', dirname(__FILE__) . '/storage.php');
 //Register the controller class with the loader
 JLoader::register('JCacheController', dirname(__FILE__) . '/controller.php');
 
+// Almost everything must be public here to allow overloading.
+
 /**
  * Joomla! Cache base object
  *
  * @package     Joomla.Platform
  * @subpackage  Cache
- * @since       11.1
- */
-
-// Almost everything must be public here to allow overloading.
-
-/**
- * Class that handles cache routines.
- *
- * @package     Joomla.Platform
- * @subpackage  Access
  * @since       11.1
  */
 class JCache extends JObject
@@ -314,13 +306,13 @@ class JCache extends JObject
 	 * @param   string  $group     The cache data group
 	 * @param   string  $locktime  The default locktime for locking the cache.
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return  object  Properties are lock and locklooped
 	 *
 	 * @since   11.1
 	 */
 	public function lock($id, $group = null, $locktime = null)
 	{
-		$returning = new stdClass();
+		$returning = new stdClass;
 		$returning->locklooped = false;
 		// Get the default group
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
@@ -413,7 +405,9 @@ class JCache extends JObject
 		{
 			$unlocked = $handler->unlock($id, $group);
 			if ($unlocked !== false)
+			{
 				return $unlocked;
+			}
 		}
 
 		// fallback
@@ -468,7 +462,7 @@ class JCache extends JObject
 		{
 			$document->mergeHeadData($data['head']);
 		}
-		else if (isset($data['head']))
+		elseif (isset($data['head']) && method_exists($document, 'setHeadData'))
 		{
 			$document->setHeadData($data['head']);
 		}
@@ -562,13 +556,13 @@ class JCache extends JObject
 		$cached['body'] = $data;
 
 		// Document head data
-		if ($loptions['nohead'] != 1)
+		if ($loptions['nohead'] != 1 && method_exists($document, 'getHeadData'))
 		{
 
 			if ($loptions['modulemode'] == 1)
 			{
 				$headnow = $document->getHeadData();
-				$unset = array('title', 'description', 'link', 'metaTags');
+				$unset = array('title', 'description', 'link', 'links', 'metaTags');
 
 				foreach ($unset as $un)
 				{
@@ -653,7 +647,7 @@ class JCache extends JObject
 		$registeredurlparams->tpl = 'CMD';
 		$registeredurlparams->id = 'INT';
 
-		$safeuriaddon = new stdClass();
+		$safeuriaddon = new stdClass;
 
 		foreach ($registeredurlparams as $key => $value)
 		{

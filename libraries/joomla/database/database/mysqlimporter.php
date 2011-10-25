@@ -67,7 +67,7 @@ class JDatabaseImporterMySQL
 	 */
 	public function __construct()
 	{
-		$this->options = new JObject();
+		$this->options = new JObject;
 
 		$this->cache = array('columns' => array(), 'keys' => array());
 
@@ -504,7 +504,7 @@ class JDatabaseImporterMySQL
 		{
 			$prefix = 'PRIMARY ';
 		}
-		else if ($kNonUnique == 0)
+		elseif ($kNonUnique == 0)
 		{
 			$prefix = 'UNIQUE ';
 		}

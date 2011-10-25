@@ -167,7 +167,7 @@ class JUpdater extends JAdapter
 				}
 				$update_result = true;
 			}
-			else if ($retval)
+			elseif ($retval)
 			{
 				$update_result = true;
 			}
@@ -198,7 +198,7 @@ class JUpdater extends JAdapter
 	/**
 	 * Finds an update for an extension
 	 *
-	 * @param   integer  $id
+	 * @param   integer  $id  Id of the extension
 	 *
 	 * @return  mixed
 	 *

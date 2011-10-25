@@ -48,6 +48,80 @@ jimport('phputf8.strcasecmp');
 abstract class JString
 {
 	/**
+	 * Increment styles.
+	 *
+	 * @var    array
+	 * @since  11.3
+	 */
+	protected static $incrementStyles = array(
+		'dash' => array(
+			'#-(\d+)$#',
+			'-%d'
+		),
+		'default' => array(
+			array('#\((\d+)\)$#', '#\(\d+\)$#'),
+			array(' (%d)', '(%d)'),
+		),
+	);
+
+	/**
+	 * Increments a trailing number in a string.
+	 *
+	 * Used to easily create distinct labels when copying objects. The method has the following styles:
+	 *
+	 * default: "Label" becomes "Label (2)"
+	 * dash:    "Label" becomes "Label-2"
+	 *
+	 * @param   string   $string  The source string.
+	 * @param   string   $style   The the style (default|dash).
+	 * @param   integer  $n       If supplied, this number is used for the copy, otherwise it is the 'next' number.
+	 *
+	 * @return  string  The incremented string.
+	 *
+	 * @since   11.3
+	 */
+	public static function increment($string, $style = 'default', $n = 0)
+	{
+		$styleSpec = isset(self::$incrementStyles[$style]) ? self::$incrementStyles[$style] : self::$incrementStyles['default'];
+
+		// Regular expression search and replace patterns.
+		if (is_array($styleSpec[0]))
+		{
+			$rxSearch = $styleSpec[0][0];
+			$rxReplace = $styleSpec[0][1];
+		}
+		else
+		{
+			$rxSearch = $rxReplace = $styleSpec[0];
+		}
+
+		// New and old (existing) sprintf formats.
+		if (is_array($styleSpec[1]))
+		{
+			$newFormat = $styleSpec[1][0];
+			$oldFormat = $styleSpec[1][1];
+		}
+		else
+		{
+			$newFormat = $oldFormat = $styleSpec[1];
+		}
+
+		// Check if we are incrementing an existing pattern, or appending a new one.
+		if (preg_match($rxSearch, $string, $matches))
+		{
+			$n = empty($n) ? ($matches[1] + 1) : $n;
+			$string = preg_replace($rxReplace, sprintf($oldFormat, $n), $string);
+		}
+		else
+		{
+			$n = empty($n) ? 2 : $n;
+			$string .= sprintf($newFormat, $n);
+		}
+
+		return $string;
+	}
+
+	/**
 	 * UTF-8 aware alternative to strpos.
 	 *
 	 * Find position of first occurrence of a string.
@@ -86,7 +160,7 @@ abstract class JString
 	 * @see     http://www.php.net/strrpos
 	 * @since   11.1
 	 */
-	public static function strrpos($str, $search, $offset = false)
+	public static function strrpos($str, $search, $offset = 0)
 	{
 		return utf8_strrpos($str, $search, $offset);
 	}
@@ -251,7 +325,7 @@ abstract class JString
 			{
 				$encoding = 'CP' . $m[1];
 			}
-			else if (stristr($locale, 'UTF-8'))
+			elseif (stristr($locale, 'UTF-8'))
 			{
 				$encoding = 'UTF-8';
 			}
@@ -310,7 +384,7 @@ abstract class JString
 			{
 				$encoding = 'CP' . $m[1];
 			}
-			else if (stristr($locale, 'UTF-8'))
+			elseif (stristr($locale, 'UTF-8'))
 			{
 				$encoding = 'UTF-8';
 			}
@@ -356,7 +430,7 @@ abstract class JString
 		{
 			return utf8_strcspn($str, $mask);
 		}
-		else if ($length === false)
+		elseif ($length === false)
 		{
 			return utf8_strcspn($str, $mask, $start);
 		}
@@ -425,7 +499,7 @@ abstract class JString
 		{
 			return utf8_strspn($str, $mask);
 		}
-		else if ($length === null)
+		elseif ($length === null)
 		{
 			return utf8_strspn($str, $mask, $start);
 		}
@@ -603,7 +677,7 @@ abstract class JString
 	 * @param   string  $from_encoding  The source encoding.
 	 * @param   string  $to_encoding    The target encoding.
 	 *
-	 * @return  string  Transcoded string
+	 * @return  mixed  The transcoded string, or null if the source was not a string.
 	 *
 	 * @since   11.1
 	 */
@@ -618,6 +692,8 @@ abstract class JString
 			 */
 			return iconv($from_encoding, $to_encoding . '//TRANSLIT', $source);
 		}
+
+		return null;
 	}
 
 	/**
@@ -661,7 +737,7 @@ abstract class JString
 					// US-ASCII, pass straight through.
 					$mBytes = 1;
 				}
-				else if (0xC0 == (0xE0 & ($in)))
+				elseif (0xC0 == (0xE0 & ($in)))
 				{
 					// First octet of 2 octet sequence
 					$mUcs4 = ($in);
@@ -669,7 +745,7 @@ abstract class JString
 					$mState = 1;
 					$mBytes = 2;
 				}
-				else if (0xE0 == (0xF0 & ($in)))
+				elseif (0xE0 == (0xF0 & ($in)))
 				{
 					// First octet of 3 octet sequence
 					$mUcs4 = ($in);
@@ -677,7 +753,7 @@ abstract class JString
 					$mState = 2;
 					$mBytes = 3;
 				}
-				else if (0xF0 == (0xF8 & ($in)))
+				elseif (0xF0 == (0xF8 & ($in)))
 				{
 					// First octet of 4 octet sequence
 					$mUcs4 = ($in);
@@ -685,7 +761,7 @@ abstract class JString
 					$mState = 3;
 					$mBytes = 4;
 				}
-				else if (0xF8 == (0xFC & ($in)))
+				elseif (0xF8 == (0xFC & ($in)))
 				{
 					/* First octet of 5 octet sequence.
 					 *
@@ -700,7 +776,7 @@ abstract class JString
 					$mState = 4;
 					$mBytes = 5;
 				}
-				else if (0xFC == (0xFE & ($in)))
+				elseif (0xFC == (0xFE & ($in)))
 				{
 					// First octet of 6 octet sequence, see comments for 5 octet sequence.
 					$mUcs4 = ($in);
@@ -741,11 +817,8 @@ abstract class JString
 						// From Unicode 3.1, non-shortest form is illegal
 						if (((2 == $mBytes) && ($mUcs4 < 0x0080)) || ((3 == $mBytes) && ($mUcs4 < 0x0800)) || ((4 == $mBytes) && ($mUcs4 < 0x10000))
 							|| (4 < $mBytes)
-							// From Unicode 3.2, surrogate characters are illegal
-							|| (($mUcs4 & 0xFFFFF800) == 0xD800)
-							// Codepoints outside the Unicode range are illegal
-							|| ($mUcs4 > 0x10FFFF)
-						)
+							|| (($mUcs4 & 0xFFFFF800) == 0xD800) // From Unicode 3.2, surrogate characters are illegal
+							|| ($mUcs4 > 0x10FFFF)) // Codepoints outside the Unicode range are illegal
 						{
 							return false;
 						}

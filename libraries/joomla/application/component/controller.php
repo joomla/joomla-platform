@@ -215,9 +215,10 @@ class JController extends JObject
 	 * @param   string  $prefix  The prefix for the controller.
 	 * @param   array   $config  An array of optional constructor options.
 	 *
-	 * @return  mixed   JController derivative class or JException on error.
+	 * @return  JController
 	 *
 	 * @since   11.1
+	 * @throws  Exception if the controller cannot be loaded.
 	 */
 	public static function getInstance($prefix, $config = array())
 	{
@@ -282,7 +283,7 @@ class JController extends JObject
 			}
 			else
 			{
-				throw new JException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format), 1056, E_ERROR, $type, true);
+				throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format));
 			}
 		}
 
@@ -293,7 +294,7 @@ class JController extends JObject
 		}
 		else
 		{
-			throw new JException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $class), 1057, E_ERROR, $class, true);
+			throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $class));
 		}
 
 		return $instance;
@@ -416,7 +417,7 @@ class JController extends JObject
 		{
 			$this->default_view = $config['default_view'];
 		}
-		else if (empty($this->default_view))
+		elseif (empty($this->default_view))
 		{
 			$this->default_view = $this->getName();
 		}
@@ -662,7 +663,7 @@ class JController extends JObject
 		$viewName = JRequest::getCmd('view', $this->default_view);
 		$viewLayout = JRequest::getCmd('layout', 'default');
 
-		$view = $this->getView($viewName, $viewType, '', array('base_path' => $this->basePath));
+		$view = $this->getView($viewName, $viewType, '', array('base_path' => $this->basePath, 'layout' => $viewLayout));
 
 		// Get/Create the model
 		if ($model = $this->getModel($viewName))
@@ -670,9 +671,6 @@ class JController extends JObject
 			// Push the model into the view (as default)
 			$view->setModel($model, true);
 		}
-
-		// Set the layout
-		$view->setLayout($viewLayout);
 
 		$view->assignRef('document', $document);
 
@@ -692,7 +690,7 @@ class JController extends JObject
 
 				if (empty($registeredurlparams))
 				{
-					$registeredurlparams = new stdClass();
+					$registeredurlparams = new stdClass;
 				}
 
 				foreach ($urlparams as $key => $value)

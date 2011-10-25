@@ -47,7 +47,7 @@ class JRules
 		{
 			$input = json_decode($input, true);
 		}
-		else if (is_object($input))
+		elseif (is_object($input))
 		{
 			$input = (array) $input;
 		}
@@ -118,7 +118,7 @@ class JRules
 				$this->mergeAction($action, $identities);
 			}
 		}
-		else if ($actions instanceof JRules)
+		elseif ($actions instanceof JRules)
 		{
 			$data = $actions->getData();
 
@@ -189,7 +189,7 @@ class JRules
 	function getAllowed($identity)
 	{
 		// Sweep for the allowed actions.
-		$allowed = new JObject();
+		$allowed = new JObject;
 		foreach ($this->data as $name => &$action)
 		{
 			if ($action->allow($identity))

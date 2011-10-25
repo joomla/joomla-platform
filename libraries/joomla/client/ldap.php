@@ -306,7 +306,7 @@ class JLDAP extends JObject
 			{
 				for ($i = 0; $i < $count; $i++)
 				{
-					$attributes[$i] = Array();
+					$attributes[$i] = array();
 					if (!$i)
 					{
 						$firstentry = @ldap_first_entry($resource, $search_result);
@@ -323,7 +323,7 @@ class JLDAP extends JObject
 						if (is_array($ai))
 						{
 							$subcount = $ai['count'];
-							$attributes[$i][$ki] = Array();
+							$attributes[$i][$ki] = array();
 							for ($k = 0; $k < $subcount; $k++)
 							{
 								$attributes[$i][$ki][$k] = $ai[$k];
@@ -549,7 +549,6 @@ class JLDAP extends JObject
 		$addr = "";
 		$addrtype = intval(substr($networkaddress, 0, 1));
 		$networkaddress = substr($networkaddress, 2); // throw away bytes 0 and 1 which should be the addrtype and the "#" separator
-
 
 		if (($addrtype == 8) || ($addrtype = 9))
 		{

@@ -11,6 +11,7 @@ defined('JPATH_PLATFORM') or die();
 
 jimport('joomla.application.module.helper');
 jimport('joomla.document.document');
+jimport('joomla.utilities.utility');
 
 /**
  * DocumentHTML class, provides an easy interface to parse and display a HTML document
@@ -109,7 +110,6 @@ class JDocumentHTML extends JDocument
 
 		// Set default mime type and document metadata (meta data syncs with mime type by default)
 		$this->setMetaData('Content-Type', 'text/html', true);
-		$this->setMetaData('robots', 'index, follow');
 	}
 
 	/**
@@ -489,13 +489,15 @@ class JDocumentHTML extends JDocument
 			$dbo = JFactory::getDbo();
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
-			$where = Array();
+			$where = array();
 			$active = $menu->getActive();
 			if ($active)
 			{
-				$where[] = 'parent = ' . $active->id;
-				$where[] = 'published = 1';
-				$dbo->setQuery('SELECT COUNT(*) FROM #__menu WHERE ' . implode(' AND ', $where));
+				$query->getQuery(true);
+				$query->select('COUNT(*)');
+				$query->from('#__menu');
+				$query->where('parent_id = ' . $active->id);
+				$query->where('published = 1');
 				$children = $dbo->loadResult();
 			}
 			else
@@ -588,7 +590,7 @@ class JDocumentHTML extends JDocument
 		// Assign the variables
 		$this->template = $template;
 		$this->baseurl = JURI::base(true);
-		$this->params = isset($params['params']) ? $params['params'] : new JRegistry();
+		$this->params = isset($params['params']) ? $params['params'] : new JRegistry;
 
 		// Load
 		$this->_template = $this->_loadTemplate($directory . '/' . $template, $file);

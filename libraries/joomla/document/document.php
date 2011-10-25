@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die();
 
 JLoader::register('JDocumentRenderer', dirname(__FILE__) . '/renderer.php');
+jimport('joomla.environment.response');
 jimport('joomla.filter.filteroutput');
 
 /**
@@ -369,7 +370,7 @@ class JDocument extends JObject
 	/**
 	 * Gets a meta tag.
 	 *
-	 * @param   string   $name        Value of name or http-equiv tag
+	 * @param   string   $name       Value of name or http-equiv tag
 	 * @param   boolean  $httpEquiv  META type "http-equiv" defaults to null
 	 *
 	 * @return  string
@@ -384,7 +385,7 @@ class JDocument extends JObject
 		{
 			$result = $this->getGenerator();
 		}
-		else if ($name == 'description')
+		elseif ($name == 'description')
 		{
 			$result = $this->getDescription();
 		}
@@ -423,7 +424,7 @@ class JDocument extends JObject
 		{
 			$this->setGenerator($content);
 		}
-		else if ($name == 'description')
+		elseif ($name == 'description')
 		{
 			$this->setDescription($content);
 		}

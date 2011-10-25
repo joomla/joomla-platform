@@ -186,13 +186,13 @@ class JCacheStorageApc extends JCacheStorage
 	 * @param   string   $group     The cache data group
 	 * @param   integer  $locktime  Cached item max lock time
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return  object   Properties are lock and locklooped
 	 *
 	 * @since   11.1
 	 */
 	public function lock($id, $group, $locktime)
 	{
-		$returning = new stdClass();
+		$returning = new stdClass;
 		$returning->locklooped = false;
 
 		$looptime = $locktime * 10;
