@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/libraries/joomla/database/database/sqlsrvquery.php';
+include_once JPATH_PLATFORM . '/joomla/database/database/sqlsrvquery.php';
 
 /**
  * Test class for JDatabaseQuerySQLSrv.

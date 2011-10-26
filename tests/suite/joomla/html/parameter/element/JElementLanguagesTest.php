@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/libraries/joomla/html/parameter/element/languages.php';
+include_once JPATH_PLATFORM . '/joomla/html/parameter/element/languages.php';
 
 /**
  * Test class for JElementLanguages.

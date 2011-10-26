@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/libraries/joomla/form/fields/email.php';
+include_once JPATH_PLATFORM . '/joomla/form/fields/email.php';
 
 /**
  * Test class for JFormFieldEMail.

@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/libraries/joomla/form/fields/cachehandler.php';
+include_once JPATH_PLATFORM . '/joomla/form/fields/cachehandler.php';
 
 /**
  * Test class for JFormFieldCacheHandler.

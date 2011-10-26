@@ -68,7 +68,10 @@ class JDaemonTest extends JoomlaTestCase
 		JDaemonInspector::$pcntlFork = 0;
 		JDaemonInspector::$pcntlSignal = true;
 		JDaemonInspector::$pcntlWait = 0;
-		$this->inspector->setClassInstance(null);
+		if($this->inspector)
+		{
+			$this->inspector->setClassInstance(null);
+		}
 
 		$this->restoreFactoryState();
 

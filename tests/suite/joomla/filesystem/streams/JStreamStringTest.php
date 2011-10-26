@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/libraries/joomla/filesystem/streams/string.php';
+include_once JPATH_PLATFORM . '/joomla/filesystem/streams/string.php';
 
 /**
  * Test class for JStreamString.

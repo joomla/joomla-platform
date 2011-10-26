@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/libraries/joomla/updater/adapters/collection.php';
+include_once JPATH_PLATFORM . '/joomla/updater/adapters/collection.php';
 
 /**
  * Test class for JUpdaterCollection.
@@ -24,7 +24,7 @@ class JUpdaterCollectionTest extends PHPUnit_Framework_TestCase {
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        $this->object = new JUpdaterCollection;
+        //$this->object = new JUpdaterCollection;
     }
 
     /**

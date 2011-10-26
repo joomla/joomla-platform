@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/libraries/joomla/document/html/renderer/message.php';
+include_once JPATH_PLATFORM . '/joomla/document/html/renderer/message.php';
 
 /**
  * Test class for JDocumentRendererMessage.
@@ -24,7 +24,7 @@ class JDocumentRendererMessageTest extends PHPUnit_Framework_TestCase {
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        $this->object = new JDocumentRendererMessage;
+        //$this->object = new JDocumentRendererMessage;
     }
 
     /**

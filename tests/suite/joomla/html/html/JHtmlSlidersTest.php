@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/libraries/joomla/html/html/sliders.php';
+include_once JPATH_PLATFORM . '/joomla/html/html/sliders.php';
 
 /**
  * Test class for JHtmlSliders.
@@ -24,7 +24,7 @@ class JHtmlSlidersTest extends PHPUnit_Framework_TestCase {
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        $this->object = new JHtmlSliders;
+        //$this->object = new JHtmlSliders;
     }
 
     /**

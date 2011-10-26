@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/libraries/joomla/form/fields/folderlist.php';
+include_once JPATH_PLATFORM . '/joomla/form/fields/folderlist.php';
 
 /**
  * Test class for JFormFieldFolderList.

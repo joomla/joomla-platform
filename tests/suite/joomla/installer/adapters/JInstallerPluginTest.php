@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/libraries/joomla/installer/adapters/plugin.php';
+include_once JPATH_PLATFORM . '/joomla/installer/adapters/plugin.php';
 
 /**
  * Test class for JInstallerPlugin.
@@ -24,7 +24,7 @@ class JInstallerPluginTest extends PHPUnit_Framework_TestCase {
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        $this->object = new JInstallerPlugin;
+        //$this->object = new JInstallerPlugin;
     }
 
     /**

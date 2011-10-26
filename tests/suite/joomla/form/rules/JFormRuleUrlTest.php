@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/libraries/joomla/form/rules/url.php';
+include_once JPATH_PLATFORM . '/joomla/form/rules/url.php';
 
 /**
  * Test class for JFormRuleUrl.

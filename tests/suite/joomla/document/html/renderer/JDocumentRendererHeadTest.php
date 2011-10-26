@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/libraries/joomla/document/html/renderer/head.php';
+include_once JPATH_PLATFORM . '/joomla/document/html/renderer/head.php';
 
 /**
  * Test class for JDocumentRendererHead.
@@ -24,7 +24,7 @@ class JDocumentRendererHeadTest extends PHPUnit_Framework_TestCase {
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        $this->object = new JDocumentRendererHead;
+        //$this->object = new JDocumentRendererHead;
     }
 
     /**

@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/libraries/joomla/installer/adapters/language.php';
+include_once JPATH_PLATFORM . '/joomla/installer/adapters/language.php';
 
 /**
  * Test class for JInstallerLanguage.
@@ -24,7 +24,7 @@ class JInstallerLanguageTest extends PHPUnit_Framework_TestCase {
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        $this->object = new JInstallerLanguage;
+        //$this->object = new JInstallerLanguage;
     }
 
     /**

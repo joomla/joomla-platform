@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/libraries/joomla/filesystem/support/stringcontroller.php';
+include_once JPATH_PLATFORM . '/joomla/filesystem/support/stringcontroller.php';
 
 /**
  * Test class for JStringController.

@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/libraries/joomla/document/opensearch/opensearch.php';
+include_once JPATH_PLATFORM . '/joomla/document/opensearch/opensearch.php';
 
 /**
  * Test class for JOpenSearchUrl.

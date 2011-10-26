@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/libraries/joomla/filesystem/archive/tar.php';
+include_once JPATH_PLATFORM . '/joomla/filesystem/archive/tar.php';
 
 /**
  * Test class for JArchiveTar.

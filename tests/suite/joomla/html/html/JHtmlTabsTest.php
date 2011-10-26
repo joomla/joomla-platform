@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/libraries/joomla/html/html/tabs.php';
+include_once JPATH_PLATFORM . '/joomla/html/html/tabs.php';
 
 /**
  * Test class for JHtmlTabs.
@@ -24,7 +24,7 @@ class JHtmlTabsTest extends PHPUnit_Framework_TestCase {
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        $this->object = new JHtmlTabs;
+        //$this->object = new JHtmlTabs;
     }
 
     /**

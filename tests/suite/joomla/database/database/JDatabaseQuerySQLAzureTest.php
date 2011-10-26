@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/libraries/joomla/database/database/sqlazurequery.php';
+include_once JPATH_PLATFORM . '/joomla/database/database/sqlazurequery.php';
 
 /**
  * Test class for JDatabaseQuerySQLAzure.

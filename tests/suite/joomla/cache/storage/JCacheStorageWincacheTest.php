@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/libraries/joomla/cache/storage/wincache.php';
+include_once JPATH_PLATFORM . '/joomla/cache/storage/wincache.php';
 
 /**
  * Test class for JCacheStorageWincache.
@@ -24,7 +24,7 @@ class JCacheStorageWincacheTest extends PHPUnit_Framework_TestCase {
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        $this->object = new JCacheStorageWincache;
+        //$this->object = new JCacheStorageWincache;
     }
 
     /**

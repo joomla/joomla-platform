@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/libraries/joomla/document/error/error.php';
+include_once JPATH_PLATFORM . '/joomla/document/error/error.php';
 
 /**
  * Test class for JDocumentError.

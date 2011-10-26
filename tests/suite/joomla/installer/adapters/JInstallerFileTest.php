@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/libraries/joomla/installer/adapters/file.php';
+include_once JPATH_PLATFORM . '/joomla/installer/adapters/file.php';
 
 /**
  * Test class for JInstallerFile.
@@ -24,7 +24,7 @@ class JInstallerFileTest extends PHPUnit_Framework_TestCase {
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        $this->object = new JInstallerFile;
+        //$this->object = new JInstallerFile;
     }
 
     /**

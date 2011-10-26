@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/libraries/joomla/session/storage/apc.php';
+include_once JPATH_PLATFORM . '/joomla/session/storage/apc.php';
 
 /**
  * Test class for JSessionStorageApc.

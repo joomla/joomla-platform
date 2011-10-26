@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/libraries/joomla/html/parameter/element/textarea.php';
+include_once JPATH_PLATFORM . '/joomla/html/parameter/element/textarea.php';
 
 /**
  * Test class for JElementTextarea.

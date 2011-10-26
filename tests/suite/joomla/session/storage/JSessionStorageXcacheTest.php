@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/libraries/joomla/session/storage/xcache.php';
+include_once JPATH_PLATFORM . '/joomla/session/storage/xcache.php';
 
 /**
  * Test class for JSessionStorageXcache.

@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/libraries/joomla/document/html/html.php';
+include_once JPATH_PLATFORM . '/joomla/document/html/html.php';
 
 /**
  * Test class for JDocumentHTML.

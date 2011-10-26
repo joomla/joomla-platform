@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/libraries/joomla/form/rules/color.php';
+include_once JPATH_PLATFORM . '/joomla/form/rules/color.php';
 
 /**
  * Test class for JFormRuleColor.
