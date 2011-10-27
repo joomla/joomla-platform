@@ -26,13 +26,39 @@ class JUpdaterTest extends PHPUnit_Framework_TestCase {
     protected function setUp() {
         $this->object = new JUpdater;
     }
-
+    
     /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
+     * Test JUpdater::__construct().
+     * 
+     * @since 11.3
      */
-    protected function tearDown() {
+    public function test__construct() {
+    	
+    	$d = DIRECTORY_SEPARATOR;
+    	
+    	$this->assertThat(
+    		$this->object->get('_adapters'),
+    		$this->equalTo(array())
+    	);
+    	
+    	$this->assertThat(
+    		$this->object->get('_adapterfolder'),
+    		$this->equalTo('adapters')
+    	);
 
+    	$this->assertThat(
+    		$this->object->get('_basepath'),
+    		$this->equalTo(JPATH_PLATFORM.$d.'joomla'.$d.'updater')
+    	);
+
+    	$this->assertThat(
+    		$this->object->get('_classprefix'),
+    		$this->equalTo('JUpdater')
+    	);
+
+		$this->assertTrue(
+    		is_a($this->object->get('_db'), 'JDatabase')
+    	);
     }
 
     /**

@@ -64,7 +64,7 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 		// Include JModel as this method is a proxy for JModel::addIncludePath
 		require_once JPATH_PLATFORM.'/joomla/application/component/model.php';
 
-		$path = JPATH_ROOT.'/addmodelpath';
+		$path = JPath::clean(JPATH_ROOT.'/addmodelpath');
 		JController::addModelPath($path);
 
 		// The default path is the class file folder/forms
