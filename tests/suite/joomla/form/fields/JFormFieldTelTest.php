@@ -8,7 +8,7 @@
  */
 
 /**
- * Test class for JForm.
+ * Test class for JFormFieldTel.
  *
  * @package		Joomla.UnitTest
  * @subpackage  Form

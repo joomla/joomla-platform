@@ -35,13 +35,15 @@ class JParameterTest extends PHPUnit_Framework_TestCase
 		$p = new JParameterInspector('');
 		$p->addElementPath(str_replace('\\', '/', __DIR__));
 
+		$d = DIRECTORY_SEPARATOR;
+		
 		$this->assertThat(
 			$p->getElementPath(),
 			$this->equalTo(
 				array(
 					// addElementPath appends the slash for some reason.
-					str_replace('\\', '/', __DIR__.'/'),
-					str_replace('\\', '/', JPATH_PLATFORM.'/joomla/html/parameter/element')
+					str_replace('\\', '/', __DIR__).$d,
+					JPATH_PLATFORM.$d.'joomla'.$d.'html/parameter/element'
 				)
 			)
 		);
