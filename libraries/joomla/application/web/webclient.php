@@ -56,7 +56,7 @@ class JWebClient
 	 * @var    integer  The detected rendering engine used by the web client.
 	 * @since  11.3
 	 */
-	protected $engine;
+	public $engine;
 
 	/**
 	 * @var    integer  The detected browser used by the web client.
@@ -80,7 +80,7 @@ class JWebClient
 	 * @var    array  The priority order detected accepted encodings for the client.
 	 * @since  11.3
 	 */
-	protected $encodings = array();
+	public $encodings = array();
 
 	/**
 	 * @var    string  The web client's user agent string.
