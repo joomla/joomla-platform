@@ -99,8 +99,9 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 	/**
 	 * Tests the JDatabaseMySQL escape method.
 	 *
-	 * @param   string   $text   The string to be escaped.
-	 * @param   boolean  $extra  Optional parameter to provide extra escaping.
+	 * @param   string   $text    The string to be escaped.
+	 * @param   boolean  $extra   Optional parameter to provide extra escaping.
+	 * @param   string   $result  The expected result
 	 *
 	 * @return  void
 	 *
