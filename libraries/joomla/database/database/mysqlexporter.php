@@ -63,8 +63,6 @@ class JDatabaseExporterMySQL
 	 *
 	 * Sets up the default options for the exporter.
 	 *
-	 * @return  JDatabaseExporterMySQL
-	 *
 	 * @since   11.1
 	 */
 	public function __construct()
@@ -255,7 +253,7 @@ class JDatabaseExporterMySQL
 		{
 			$this->from = array($from);
 		}
-		else if (is_array($from))
+		elseif (is_array($from))
 		{
 			$this->from = $from;
 		}

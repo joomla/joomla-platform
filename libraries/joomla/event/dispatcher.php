@@ -26,6 +26,14 @@ jimport('joomla.base.observable');
 class JDispatcher extends JObservable
 {
 	/**
+	 * Stores the singleton instance of the dispatcher.
+	 *
+	 * @var    JDispatcher
+	 * @since  11.3
+	 */
+	protected static $instance = null;
+
+	/**
 	 * Returns the global Event Dispatcher object, only creating it
 	 * if it doesn't already exist.
 	 *
@@ -35,14 +43,12 @@ class JDispatcher extends JObservable
 	 */
 	public static function getInstance()
 	{
-		static $instance;
-
-		if (!is_object($instance))
+		if (self::$instance === null)
 		{
-			$instance = new JDispatcher;
+			self::$instance = new JDispatcher;
 		}
 
-		return $instance;
+		return self::$instance;
 	}
 
 	/**
@@ -79,8 +85,8 @@ class JDispatcher extends JObservable
 	 * Triggers an event by dispatching arguments to all observers that handle
 	 * the event and returning their return values.
 	 *
-	 * @param   string   $event  The event to trigger.
-	 * @param   array    $args   An array of arguments.
+	 * @param   string  $event  The event to trigger.
+	 * @param   array   $args   An array of arguments.
 	 *
 	 * @return  array  An array of results from each function call.
 	 *

@@ -15,15 +15,23 @@
 abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * The saved factory state.
-	 *
-	 * @var    array
+	 * @var    array  The saved factory state.
 	 * @since  11.1
 	 */
-	protected $factoryState = array();
+	protected $savedFactoryState = array(
+		'application' => null,
+		'config' => null,
+		'dates' => null,
+		'session' => null,
+		'language' => null,
+		'document' => null,
+		'acl' => null,
+		'database' => null,
+		'mailer' => null
+	);
 
 	/**
-	 * @var    errorState
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $savedErrorState;
@@ -55,12 +63,9 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 	{
 		foreach ($array as $method => $return)
 		{
-			$mockObject
-				->expects($this->any())
+			$mockObject->expects($this->any())
 				->method($method)
-				->will(
-					$this->returnValue($return)
-				);
+				->will($this->returnValue($return));
 		}
 	}
 
@@ -87,11 +92,10 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 			else
 			{
 				$methodName = $method;
-				$callback = array(get_called_class(), 'mock'.$method);
+				$callback = array(get_called_class(), 'mock' . $method);
 			}
 
-			$mockObject
-				->expects($this->any())
+			$mockObject->expects($this->any())
 				->method($methodName)
 				->will($this->returnCallback($callback));
 		}
@@ -150,27 +154,9 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 	protected function setErrorCallback($testName)
 	{
 		$callbackHandlers = array(
-			E_NOTICE => array(
-				'mode' => 'callback',
-				'options' => array(
-					$testName,
-					'errorCallback'
-				)
-			),
-			E_WARNING => array(
-				'mode' => 'callback',
-				'options' => array(
-					$testName,
-					'errorCallback'
-				)
-			),
-			E_ERROR => array(
-				'mode' => 'callback',
-				'options' => array(
-					$testName,
-					'errorCallback'
-				)
-			),
+			E_NOTICE => array('mode' => 'callback', 'options' => array($testName, 'errorCallback')),
+			E_WARNING => array('mode' => 'callback', 'options' => array($testName, 'errorCallback')),
+			E_ERROR => array('mode' => 'callback', 'options' => array($testName, 'errorCallback'))
 		);
 		$this->setErrorHandlers($callbackHandlers);
 	}
@@ -237,11 +223,11 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 	 */
 	public function expectedErrorCallback($error)
 	{
-		foreach ($this->expectedErrors AS $key => $err)
+		foreach ($this->expectedErrors as $key => $err)
 		{
 			$thisError = true;
 
-			foreach ($err AS $prop => $value)
+			foreach ($err as $prop => $value)
 			{
 				if ($error->get($prop) !== $value)
 				{
@@ -256,6 +242,7 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 			}
 
 		}
+
 		$this->fail('An unexpected error occurred - ' . $error->get('message'));
 
 		return $error;
@@ -272,7 +259,7 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * If passed without argument, the array is initialized if it hsn't been already
 	 *
-	 * @param   unsure  $error
+	 * @param   mixed  $error
 	 *
 	 * @return  void
 	 *
@@ -287,6 +274,7 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 			JError::setErrorHandling(E_WARNING, 'callback', array($this, 'expectedErrorCallback'));
 			JError::setErrorHandling(E_ERROR, 'callback', array($this, 'expectedErrorCallback'));
 		}
+
 		if (!is_null($error))
 		{
 			$this->expectedErrors[] = $error;
@@ -336,27 +324,32 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Gets a mock application object.
 	 *
-	 * @return  object
+	 * @return  JApplication
 	 *
 	 * @since   11.3
 	 */
 	protected function getMockApplication()
 	{
-		require_once JPATH_TESTS.'/suite/joomla/application/JApplicationMock.php';
+		// Load the real class first otherwise the mock will be used if jimport is called again.
+		require_once JPATH_PLATFORM . '/joomla/application/application.php';
+
+		// Load the mock class builder.
+		require_once JPATH_TESTS . '/includes/mocks/JApplicationMock.php';
 
 		return JApplicationGlobalMock::create($this);
 	}
 
 	/**
-	 * Gets a mock database object.
+	 * Gets a mock configuration object.
 	 *
-	 * @return  object
+	 * @return  JConfig
 	 *
 	 * @since   11.3
 	 */
 	protected function getMockConfig()
 	{
-		require_once JPATH_TESTS.'/suite/joomla/application/JConfigMock.php';
+		// Load the mock class builder.
+		require_once JPATH_TESTS . '/includes/mocks/JConfigMock.php';
 
 		return JConfigGlobalMock::create($this);
 	}
@@ -364,27 +357,73 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Gets a mock database object.
 	 *
-	 * @return  object
+	 * @return  JDatabase
 	 *
 	 * @since   11.3
 	 */
 	protected function getMockDatabase()
 	{
-		require_once JPATH_TESTS.'/suite/joomla/database/JDatabaseMock.php';
+		// Load the real class first otherwise the mock will be used if jimport is called again.
+		require_once JPATH_PLATFORM . '/joomla/database/database.php';
+
+		// Load the mock class builder.
+		require_once JPATH_TESTS . '/includes/mocks/JDatabaseMock.php';
 
 		return JDatabaseGlobalMock::create($this);
 	}
 
 	/**
+	 * Gets a mock dispatcher object.
+	 *
+	 * @param   boolean  $defaults  Add default register and trigger methods for testing.
+	 *
+	 * @return  JDispatcher
+	 *
+	 * @since   11.3
+	 */
+	protected function getMockDispatcher($defaults = true)
+	{
+		// Load the real class first otherwise the mock will be used if jimport is called again.
+		require_once JPATH_PLATFORM . '/joomla/event/dispatcher.php';
+
+		// Load the mock class builder.
+		require_once JPATH_TESTS . '/includes/mocks/JDispatcherMock.php';
+
+		return JDispatcherGlobalMock::create($this, $defaults);
+	}
+
+	/**
+	 * Gets a mock document object.
+	 *
+	 * @return  JDocument
+	 *
+	 * @since   11.3
+	 */
+	protected function getMockDocument()
+	{
+		// Load the real class first otherwise the mock will be used if jimport is called again.
+		require_once JPATH_PLATFORM . '/joomla/document/document.php';
+
+		// Load the mock class builder.
+		require_once JPATH_TESTS . '/includes/mocks/JDocumentMock.php';
+
+		return JDocumentGlobalMock::create($this);
+	}
+
+	/**
 	 * Gets a mock language object.
 	 *
-	 * @return  object
+	 * @return  JLanguage
 	 *
 	 * @since   11.3
 	 */
 	protected function getMockLanguage()
 	{
-		require_once JPATH_TESTS.'/suite/joomla/language/JLanguageMock.php';
+		// Load the real class first otherwise the mock will be used if jimport is called again.
+		require_once JPATH_PLATFORM . '/joomla/language/language.php';
+
+		// Load the mock class builder.
+		require_once JPATH_TESTS . '/includes/mocks/JLanguageMock.php';
 
 		return JLanguageGlobalMock::create($this);
 	}
@@ -392,14 +431,24 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Gets a mock session object.
 	 *
-	 * @return  object
+	 * @param   array  $options  An array of key-value options for the JSession mock.
+	 *                           getId : the value to be returned by the mock getId method
+	 *                           get.user.id : the value to assign to the user object id returned by get('user')
+	 *                           get.user.name : the value to assign to the user object name returned by get('user')
+	 *                           get.user.username : the value to assign to the user object username returned by get('user')
+	 *
+	 * @return  JSession
 	 *
 	 * @since   11.3
 	 */
-	protected function getMockSession()
+	protected function getMockSession($options = array())
 	{
-		require_once JPATH_TESTS.'/suite/joomla/session/JSessionMock.php';
+		// Load the real class first otherwise the mock will be used if jimport is called again.
+		require_once JPATH_PLATFORM . '/joomla/session/session.php';
 
-		return JSessionGlobalMock::create($this);
+		// Load the mock class builder.
+		require_once JPATH_TESTS . '/includes/mocks/JSessionMock.php';
+
+		return JSessionGlobalMock::create($this, $options);
 	}
 }

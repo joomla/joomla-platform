@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die();
 
 JLoader::register('JDocumentRenderer', dirname(__FILE__) . '/renderer.php');
+jimport('joomla.environment.response');
 jimport('joomla.filter.filteroutput');
 
 /**
@@ -201,8 +202,6 @@ class JDocument extends JObject
 	 *
 	 * @param   array  $options  Associative array of options
 	 *
-	 * @return  JDocument
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($options = array())
@@ -384,7 +383,7 @@ class JDocument extends JObject
 		{
 			$result = $this->getGenerator();
 		}
-		else if ($name == 'description')
+		elseif ($name == 'description')
 		{
 			$result = $this->getDescription();
 		}
@@ -423,7 +422,7 @@ class JDocument extends JObject
 		{
 			$this->setGenerator($content);
 		}
-		else if ($name == 'description')
+		elseif ($name == 'description')
 		{
 			$this->setDescription($content);
 		}

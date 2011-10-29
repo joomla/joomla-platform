@@ -65,7 +65,7 @@ class JFormFieldEditor extends JFormField
 		{
 			$buttons = true;
 		}
-		else if ($buttons == 'false' || $buttons == 'no' || $buttons == '0')
+		elseif ($buttons == 'false' || $buttons == 'no' || $buttons == '0')
 		{
 			$buttons = false;
 		}
@@ -136,7 +136,7 @@ class JFormFieldEditor extends JFormField
 				}
 			}
 
-			// Create the JEditor intance based on the given editor.
+			// Create the JEditor instance based on the given editor.
 			$this->editor = JFactory::getEditor($editor ? $editor : null);
 		}
 

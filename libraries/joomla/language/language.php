@@ -160,8 +160,6 @@ class JLanguage extends JObject
 	 * @param   string   $lang   The language
 	 * @param   boolean  $debug  Indicates if language debugging is enabled.
 	 *
-	 * @return  JLanguage
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($lang = null, $debug = false)
@@ -290,6 +288,12 @@ class JLanguage extends JObject
 	 */
 	public function _($string, $jsSafe = false, $interpretBackSlashes = true)
 	{
+		// Detect empty string
+		if ($string == '')
+		{
+			return '';
+		}
+
 		$key = strtoupper($string);
 
 		if (isset($this->strings[$key]))
@@ -332,7 +336,7 @@ class JLanguage extends JObject
 			// Javascript filter
 			$string = addslashes($string);
 		}
-		else if ($interpretBackSlashes)
+		elseif ($interpretBackSlashes)
 		{
 			// Interpret \n and \t characters
 			$string = str_replace(array('\\\\', '\t', '\n'), array("\\", "\t", "\n"), $string);
@@ -892,7 +896,7 @@ class JLanguage extends JObject
 					$this->errorfiles[$filename] = $filename . '&#160;: error(s) in line(s) ' . implode(', ', $errors);
 				}
 			}
-			else if ($php_errormsg)
+			elseif ($php_errormsg)
 			{
 				// We didn't find any errors but there's probably a parse notice.
 				$this->errorfiles['PHP' . $filename] = 'PHP parser errors :' . $php_errormsg;

@@ -55,7 +55,7 @@ class JInstallerPackage extends JAdapterInstance
 	/**
 	 * Custom install method
 	 *
-	 * @return  boolean  True on success
+	 * @return  int  The extension id
 	 *
 	 * @since   11.1
 	 */
@@ -121,7 +121,7 @@ class JInstallerPackage extends JAdapterInstance
 				if (is_dir($file))
 				{
 					// If it's actually a directory then fill it up
-					$package = Array();
+					$package = array();
 					$package['dir'] = $file;
 					$package['type'] = JInstallerHelper::detectType($file);
 				}
@@ -155,7 +155,7 @@ class JInstallerPackage extends JAdapterInstance
 		// Extension Registration
 
 		$row = JTable::getInstance('extension');
-		$eid = $row->find(Array('element' => strtolower($this->get('element')), 'type' => 'package'));
+		$eid = $row->find(array('element' => strtolower($this->get('element')), 'type' => 'package'));
 		if ($eid)
 		{
 			$row->load($eid);
@@ -188,7 +188,7 @@ class JInstallerPackage extends JAdapterInstance
 		// Finalization and Cleanup Section
 
 		// Lastly, we will copy the manifest file to its appropriate place.
-		$manifest = Array();
+		$manifest = array();
 		$manifest['src'] = $this->parent->getPath('manifest');
 		$manifest['dest'] = JPATH_MANIFESTS . '/packages/' . basename($this->parent->getPath('manifest'));
 
@@ -200,7 +200,7 @@ class JInstallerPackage extends JAdapterInstance
 			);
 			return false;
 		}
-		return true;
+		return $row->extension_id;
 	}
 
 	/**
@@ -269,8 +269,8 @@ class JInstallerPackage extends JAdapterInstance
 
 		/*
 		 * Check for a valid XML root tag.
-		 * @todo: Remove backwards compatability in a future version
-		 * Should be 'extension', but for backward compatability we will accept 'install'.
+		 * @todo: Remove backwards compatibility in a future version
+		 * Should be 'extension', but for backward compatibility we will accept 'install'.
 		 */
 		if ($xml->getName() != 'install' && $xml->getName() != 'extension')
 		{
@@ -321,7 +321,7 @@ class JInstallerPackage extends JAdapterInstance
 	 *
 	 * @param   string   $type    The extension type.
 	 * @param   string   $id      The name of the extension (the element field).
-	 * @param   integer  $client  The appliaction id (0: Joomla CMS site; 1: Joomla CMS administrator).
+	 * @param   integer  $client  The application id (0: Joomla CMS site; 1: Joomla CMS administrator).
 	 * @param   string   $group   The extension group (mainly for plugins).
 	 *
 	 * @return  integer

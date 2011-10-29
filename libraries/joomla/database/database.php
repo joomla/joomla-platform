@@ -173,26 +173,28 @@ abstract class JDatabase implements JDatabaseInterface
 		$connectors = array();
 
 		// Get a list of types.
-		$types = JFolder::folders(dirname(__FILE__));
+		$types = JFolder::files(dirname(__FILE__).'/database');
 
 		// Loop through the types and find the ones that are available.
 		foreach ($types as $type)
 		{
-			// Ignore some folders.
-			if (($type == 'database') || ($type == 'table') || ($type == '.') || ($type == '..'))
+			// Ignore some files.
+			if (($type == 'index.html') || stripos($type,'importer') || stripos($type,'exporter') || stripos($type,'query') || stripos($type,'exception'))
 			{
 				continue;
 			}
 
 			// Derive the class name from the type.
-			$class = 'JDatabaseDriver' . ucfirst(trim($type));
+			$class = str_ireplace(array('.php', 'sql'), array('', 'SQL'), 'JDatabase' . ucfirst(trim($type)));
+
 
 			// If the class doesn't exist, let's look for it and register it.
 			if (!class_exists($class))
 			{
 
+
 				// Derive the file path for the driver class.
-				$path = dirname(__FILE__) . '/' . $type . '/driver.php';
+				$path = dirname(__FILE__) . '/database/' . $type;
 
 				// If the file exists register the class with our class loader.
 				if (file_exists($path))
@@ -215,7 +217,8 @@ abstract class JDatabase implements JDatabaseInterface
 			// Sweet!  Our class exists, so now we just need to know if it passes it's test method.
 			if (call_user_func_array(array($class, 'test'), array()))
 			{
-				$connectors[] = $type;
+				// Connector names should not have file extensions.
+				$connectors[] = str_ireplace('.php','',$type);			
 			}
 		}
 
@@ -314,7 +317,7 @@ abstract class JDatabase implements JDatabaseInterface
 			{
 				$instance = new $class($options);
 			}
-			catch (DatabaseException $e)
+			catch (JDatabaseException $e)
 			{
 
 				// Legacy error handling switch based on the JError::$legacy switch.
@@ -431,8 +434,6 @@ abstract class JDatabase implements JDatabaseInterface
 	 * Constructor.
 	 *
 	 * @param   array  $options  List of options used to configure the connection
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -1022,7 +1023,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * Method to get an array of the result set rows from the database query where each row is an object.  The array
 	 * of objects can optionally be keyed by a field name, but defaults to a sequential numeric array.
 	 *
-	 * NOTE: Chosing to key the result array by a non-unique field name can result in unwanted
+	 * NOTE: Choosing to key the result array by a non-unique field name can result in unwanted
 	 * behavior and should be avoided.
 	 *
 	 * @param   string  $key    The name of a field on which to key the result array.
@@ -1130,7 +1131,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * Method to get an array of the result set rows from the database query where each row is an array.  The array
 	 * of objects can optionally be keyed by a field offset, but defaults to a sequential numeric array.
 	 *
-	 * NOTE: Chosing to key the result array by a non-unique field can result in unwanted
+	 * NOTE: Choosing to key the result array by a non-unique field can result in unwanted
 	 * behavior and should be avoided.
 	 *
 	 * @param   string  $key  The name of a field on which to key the result array.
