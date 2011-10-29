@@ -32,9 +32,18 @@ class JElementModuleLayoutsTest extends PHPUnit_Framework_TestCase {
      * This method is called after a test is executed.
      */
     protected function tearDown() {
-        
+
     }
 
+	/**
+	 * @todo Implement testFetchElement().
+	 */
+	public function testFetchElement() {
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+				'This test has not been implemented yet.'
+		);
+	}
 }
 
 ?>
