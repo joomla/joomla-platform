@@ -12,22 +12,22 @@
  *
  * @package		Joomla.UnitTest
  * @subpackage  Form
- * @since       11.1
+ * @since       11.3
  */
-class JFormFieldUsergroupTest extends JoomlaDatabaseTestCase
+class JFormFieldSQLTest extends JoomlaDatabaseTestCase
 {
 	/**
 	 * Sets up dependencies for the test.
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 */
 	protected function setUp()
 	{
 		jimport('joomla.form.form');
 		jimport('joomla.form.formfield');
-		require_once JPATH_PLATFORM.'/joomla/form/fields/usergroup.php';
+		require_once JPATH_PLATFORM.'/joomla/form/fields/sql.php';
 		include_once dirname(__DIR__).'/inspectors.php';
 	}
 
@@ -48,19 +48,19 @@ class JFormFieldUsergroupTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 */
 	public function testGetInput()
 	{
 		$form = new JFormInspector('form1');
 
 		$this->assertThat(
-			$form->load('<form><field name="usergroup" type="usergroup" class="inputbox" disabled="true" onclick="window.reload()"><option value="*">None</option><item value="nothing">Fake</item></field></form>'),
+			$form->load('<form><field name="sql" type="sql" key_field="id" query="SELECT * FROM `jos_categories`"><option value="*">None</option></field></form>'),
 			$this->isTrue(),
 			'Line:'.__LINE__.' XML string should load successfully.'
 		);
 
-		$field = new JFormFieldUsergroup($form);
+		$field = new JFormFieldSQL($form);
 
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),
