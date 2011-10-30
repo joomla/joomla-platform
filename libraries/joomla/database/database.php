@@ -1274,6 +1274,18 @@ abstract class JDatabase implements JDatabaseInterface
 				$j = $n;
 			}
 
+			// If we don't know the tablePrefix we need to try to learn it from the database object.
+			if (empty($this->tablePrefix))
+			{
+				// Make sure we have a database object.
+				if (empty($db))
+				{
+					$db	= JFactory::getDbo();
+				}
+				// Get the prefix from the database object.
+				$this->tablePrefix = $db->get('tablePrefix');
+			}
+
 			$literal .= str_replace($prefix, $this->tablePrefix, substr($sql, $startPos, $j - $startPos));
 			$startPos = $j;
 
