@@ -173,7 +173,7 @@ abstract class JDatabase implements JDatabaseInterface
 		$connectors = array();
 
 		// Get a list of types.
-		$types = JFolder::files(dirname(__FILE__) . '/database')
+		$types = JFolder::files(dirname(__FILE__) . '/database');
 
 		// Loop through the types and find the ones that are available.
 		foreach ($types as $type)
@@ -1273,6 +1273,18 @@ abstract class JDatabase implements JDatabaseInterface
 			if ($j === false)
 			{
 				$j = $n;
+			}
+
+			// If we don't know the tablePrefix we need to try to learn it from the database object.
+			if (empty($this->tablePrefix))
+			{
+				// Make sure we have a database object.
+				if (empty($db))
+				{
+					$db	= JFactory::getDbo();
+				}
+				// Get the prefix from the database object.
+				$this->tablePrefix = $db->get('tablePrefix');
 			}
 
 			$literal .= str_replace($prefix, $this->tablePrefix, substr($sql, $startPos, $j - $startPos));
