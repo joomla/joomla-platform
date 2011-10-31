@@ -8,46 +8,54 @@
  */
 
 /**
- * Test class for JForm.
+ * Test class for JFormFieldEMail.
  *
- * @package		Joomla.UnitTest
+ * @package     Joomla.UnitTest
  * @subpackage  Form
+ * @since       11.3
  */
-class JFormFieldSessionHandlersTest extends JoomlaTestCase
+class JFormFieldEMailTest extends JoomlaTestCase
 {
 	/**
-	 * Sets up dependancies for the test.
+	 * Sets up dependencies for the test.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
 	 */
 	protected function setUp()
 	{
 		jimport('joomla.form.form');
 		jimport('joomla.form.formfield');
-		require_once JPATH_PLATFORM.'/joomla/form/fields/sessionhandler.php';
+		jimport('joomla.form.helper');
+		require_once JPATH_PLATFORM.'/joomla/form/fields/email.php';
 		include_once dirname(__DIR__).'/inspectors.php';
 	}
 
 	/**
 	 * Test the getInput method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
 	 */
 	public function testGetInput()
 	{
 		$form = new JFormInspector('form1');
 
 		$this->assertThat(
-			$form->load('<form><field name="sessionhandler" type="sessionhandler" /></form>'),
+			$form->load('<form><field name="email" type="email" /></form>'),
 			$this->isTrue(),
 			'Line:'.__LINE__.' XML string should load successfully.'
 		);
 
-		$field = new JFormFieldSessionhandler($form);
+		$field = new JFormFieldEmail($form);
 
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),
 			$this->isTrue(),
 			'Line:'.__LINE__.' The setup method should return true.'
 		);
-
-		$this->markTestIncomplete('Problems encountered in next assertion');
 
 		$this->assertThat(
 			strlen($field->input),

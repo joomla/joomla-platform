@@ -8,15 +8,17 @@
  */
 
 /**
- * Test class for JForm.
+ * Test class for JFormFieldDatabaseconnection.
  *
  * @package		Joomla.UnitTest
  * @subpackage  Form
+ * @since       11.3
  */
 class JFormFieldDatabaseConnectionTest extends JoomlaTestCase
 {
 	/**
-	 * Sets up dependancies for the test.
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
 	 */
 	protected function setUp()
 	{
@@ -28,13 +30,17 @@ class JFormFieldDatabaseConnectionTest extends JoomlaTestCase
 
 	/**
 	 * Test the getInput method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
 	 */
 	public function testGetInput()
 	{
 		$form = new JFormInspector('form1');
 
 		$this->assertThat(
-			$form->load('<form><field name="databaseconnection" type="databaseconnection" /></form>'),
+			$form->load('<form><field name="databaseconnection" type="databaseconnection" supported="mysqli" /></form>'),
 			$this->isTrue(),
 			'Line:'.__LINE__.' XML string should load successfully.'
 		);
@@ -47,14 +53,30 @@ class JFormFieldDatabaseConnectionTest extends JoomlaTestCase
 			'Line:'.__LINE__.' The setup method should return true.'
 		);
 
-		$this->markTestIncomplete('Problems encountered in next assertion');
+		$this->assertThat(
+			strlen($field->input),
+			$this->greaterThan(0),
+			'Line:'.__LINE__.' The getInput method should return something without error; in this case, a "Mysqli" option.'
+		);
+
+		$this->assertThat(
+			$form->load('<form><field name="databaseconnection" type="databaseconnection" supported="non-existing" /></form>'),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		$field = new JFormFieldDatabaseconnection($form);
+
+		$this->assertThat(
+			$field->setup($form->getXml()->field, 'value'),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The setup method should return true.'
+		);
 
 		$this->assertThat(
 			strlen($field->input),
 			$this->greaterThan(0),
-			'Line:'.__LINE__.' The getInput method should return something without error.'
+			'Line:'.__LINE__.' The getInput method should return something without error; in this case, a "None" option.'
 		);
-
-		// TODO: Should check all the attributes have come in properly.
 	}
 }
