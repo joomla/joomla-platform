@@ -76,6 +76,19 @@ else
 // Import the platform.
 require_once JPATH_PLATFORM . '/import.php';
 
+JLoader::register('JSessionStorage', JPATH_PLATFORM.'/joomla/session/storage.php');
+JLoader::register('JRegistryFormat', JPATH_PLATFORM.'/joomla/registry/format.php');
+JLoader::register('JButton', JPATH_PLATFORM.'/joomla/html/toolbar/button.php');
+JLoader::register('JElement', JPATH_PLATFORM.'/joomla/html/parameter/element.php');
+JLoader::register('JButton', JPATH_PLATFORM.'/joomla/html/toolbar/button.php');
+JLoader::discover('JHTML', JPATH_PLATFORM.'/joomla/html/html');
+JLoader::register('JCacheStorage', JPATH_PLATFORM.'/joomla/cache/storage.php');
+JLoader::register('JCacheController', JPATH_PLATFORM.'/joomla/cache/controller.php');
+JLoader::register('JTable', JPATH_PLATFORM.'/joomla/database/table.php');
+JLoader::register('JDatabase', JPATH_PLATFORM.'/joomla/database/database.php');
+JLoader::register('JDocumentRenderer', JPATH_PLATFORM.'/joomla/document/renderer.php');
+JLoader::register('JFormHelper', JPATH_PLATFORM.'/joomla/form/helper.php');
+
 // Include the base test cases.
 require_once JPATH_TESTS . '/includes/JoomlaTestCase.php';
 require_once JPATH_TESTS . '/includes/JoomlaDatabaseTestCase.php';
