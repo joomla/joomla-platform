@@ -243,12 +243,14 @@ class JDatabaseSQLSrv extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	function dropTable($tableName, $ifExists = true)
+	public function dropTable($tableName, $ifExists = true)
 	{
 		$query = $this->getQuery(true);
 
 		$this->setQuery(
-			'IF EXISTS(SELECT TABLE_NAME FROM' . ' INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ' . $query->quote($tableName) . ') DROP TABLE'
+			'IF EXISTS(SELECT TABLE_NAME FROM'.
+			' INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '.
+			$query->quote($tableName).') DROP TABLE '.$tableName
 		);
 
 		$this->query();
@@ -924,4 +926,51 @@ class JDatabaseSQLSrv extends JDatabase
 
 		return $sql;
 	}
+	
+	/**
+	 * Show tables in the database
+	 */
+	public function showTables($dbName) {
+		$this->setQuery("select NAME from ".$dbName."..sysobjects where xtype='U'");
+		
+		return $this->loadResultArray();
+	}
+	
+	/*
+	 * Rename the table
+	 * @param string $oldTable the name of the table to be renamed
+	 * @param string $prefix for the table - used to rename constraints in non-mysql databases
+	 * @param string $backup table prefix
+	 * @param string $newTable newTable name
+	 */
+	public function renameTable($oldTable, $prefix = null, $backup = null, $newTable)  {
+		 $constraints = array();
+		 
+		 if(!is_null($prefix) && !is_null($backup)){
+		 	$constraints = $this->_get_table_constraints($oldTable);
+		 }
+		 print_r($constraints);
+		 if(!empty($constraints))
+		 	$this->_renameConstraints($constraints, $prefix, $backup);
+		 $this->setQuery("sp_rename ".$oldTable." ".$newTable);
+		 $this->query();
+	}
+	
+	/**
+	 * Locks the table - No op for SQLServer and SQLAzure
+	 * @param object $table
+	 * @return 
+	 */
+	public function lock($table) {
+		
+		return true;
+	}
+	/**
+	 * Unlocks the table  Locks the table - No op for SQLServer and SQLAzure
+	 * @return 
+	 */
+	public function unlock() {
+		return true;
+	}
+	
 }

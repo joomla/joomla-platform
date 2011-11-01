@@ -1134,8 +1134,7 @@ class JTableNested extends JTable
 		if (!$sibling = $this->_getNode($node->rgt + 1, 'left'))
 		{
 			// Error message set in getNode method.
-			$query->unlock($this->_db);
-			$this->_locked = false;
+			$this->_unlock();
 			return false;
 		}
 

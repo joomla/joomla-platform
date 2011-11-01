@@ -211,6 +211,18 @@ abstract class JDatabaseQuery
 	 * @since  11.1
 	 */
 	protected $order = null;
+	
+	/**
+	 * @var   object  The drop table element.
+	 * @since 11.1
+	 */
+	protected $drop = null;
+	
+	/**
+	 * @var   object  The auto increment insert field element.
+	 * @since 11.1
+	 */
+	protected $auto_increment_field = null;
 
 	/**
 	 * Magic method to provide method alias support for quote() and quoteName().
@@ -359,8 +371,17 @@ abstract class JDatabaseQuery
 					$query .= (string) $this->values;
 				}
 
+
+				if ($this->where) {
+					$query .= (string) $this->where;
+				}
+
 				break;
-		}
+				
+			case 'drop':
+				$query .= (string) $this->drop;
+
+				break;
 
 		return $query;
 	}
@@ -448,6 +469,7 @@ abstract class JDatabaseQuery
 			case 'insert':
 				$this->insert = null;
 				$this->type = null;
+				$this->auto_increment_field = null;
 				break;
 
 			case 'from':
@@ -485,6 +507,10 @@ abstract class JDatabaseQuery
 			case 'values':
 				$this->values = null;
 				break;
+				
+			case 'drop':
+				$this->drop = null;
+				break;
 
 			default:
 				$this->type = null;
@@ -501,6 +527,8 @@ abstract class JDatabaseQuery
 				$this->order = null;
 				$this->columns = null;
 				$this->values = null;
+				$this->drop = null;
+				$this->auto_increment_field = null;
 				break;
 		}
 
