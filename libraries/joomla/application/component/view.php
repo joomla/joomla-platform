@@ -49,6 +49,13 @@ class JView extends JObject
 	protected $_defaultModel = null;
 
 	/**
+	 * The plugin group to load for the view
+	 * 
+	 * @var string
+	 */
+	protected $group = null;
+	
+	/**
 	 * Layout name
 	 *
 	 * @var    string
@@ -194,15 +201,28 @@ class JView extends JObject
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 * @param   string  $common  Common template to use for this view
 	 *
 	 * @return  mixed  A string if successful, otherwise a JError object.
 	 *
 	 * @see     fetch()
 	 * @since   11.1
 	 */
-	function display($tpl = null)
+	public function display($tpl = null, $common = null)
 	{
-		$result = $this->loadTemplate($tpl);
+		$group = isset($this->group) ? $this->group : 'content';
+
+		// Import the approriate plugin group.
+		JPluginHelper::importPlugin($group);
+
+		// Get the dispatcher.
+		$dispatcher	= JDispatcher::getInstance();
+		$context = ucfirst(substr(JRequest::getCmd('option'),4)).'.'.$this->getName();
+
+		// Trigger the form preparation event.
+		$results = $dispatcher->trigger('onViewDisplay', array($context, $this));
+
+		$result = $this->loadTemplate($tpl, $common);
 		if (JError::isError($result))
 		{
 			return $result;
@@ -583,13 +603,15 @@ class JView extends JObject
 	/**
 	 * Load a template file -- first look in the templates folder for an override
 	 *
-	 * @param   string  $tpl  The name of the template source file; automatically searches the template paths and compiles as needed.
+	 * @param   string  $tpl     The name of the template source file; automatically searches the template paths and compiles as needed.
+	 * @param   string  $common  Common template to load
+	 * @param   mixed   $data    Data that can be handed over to do recursion
 	 *
-	 * @return  string  The output of the the template script.
+	 * @return  string  The output of the template script.
 	 *
 	 * @since   11.1
 	 */
-	public function loadTemplate($tpl = null)
+	public function loadTemplate($tpl = null, $common = null, $data = null)
 	{
 		// clear prior output
 		$this->_output = null;
@@ -598,11 +620,14 @@ class JView extends JObject
 		$layout = $this->getLayout();
 		$layoutTemplate = $this->getLayoutTemplate();
 
+		// clean variables
+		$tpl  = isset($tpl) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $tpl) : null;
+
 		// Create the template file name based on the layout
-		$file = isset($tpl) ? $layout . '_' . $tpl : $layout;
+		$file = isset($tpl) ? $layout.'_'.$tpl : $layout;
+		
 		// Clean the file name
 		$file = preg_replace('/[^A-Z0-9_\.-]/i', '', $file);
-		$tpl = isset($tpl) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $tpl) : $tpl;
 
 		// Load the language file for the template
 		$lang = JFactory::getLanguage();
@@ -619,14 +644,16 @@ class JView extends JObject
 
 		// Load the template script
 		jimport('joomla.filesystem.path');
-		$filetofind = $this->_createFileName('template', array('name' => $file));
-		$this->_template = JPath::find($this->_path['template'], $filetofind);
+		$this->_template = JPath::find($this->_path['template'], $file.'.'.$this->_layoutExt);
 
 		// If alternate layout can't be found, fall back to default layout
-		if ($this->_template == false)
+		if (!$this->_template && isset($common))
 		{
-			$filetofind = $this->_createFileName('', array('name' => 'default' . (isset($tpl) ? '_' . $tpl : $tpl)));
-			$this->_template = JPath::find($this->_path['template'], $filetofind);
+			$this->_template = JPath::find($this->_path['template'], $common.'.'.$this->_layoutExt);
+		}
+		elseif (!$this->_template)
+		{
+			$this->_template = JPath::find($this->_path['template'], 'default'.(isset($tpl) ? '_' . $tpl : $tpl).'.php');
 		}
 
 		if ($this->_template != false)
@@ -634,6 +661,8 @@ class JView extends JObject
 			// Unset so as not to introduce into template scope
 			unset($tpl);
 			unset($file);
+			unset($common);
+			unset($template);
 
 			// Never allow a 'this' property
 			if (isset($this->this))
