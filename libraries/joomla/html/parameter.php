@@ -65,7 +65,7 @@ class JParameter extends JRegistry
 		parent::__construct('_default');
 
 		// Set base path.
-		$this->_elementPath[] = dirname(__FILE__) . '/parameter/element';
+		$this->addElementPath(JPATH_PLATFORM.'/joomla/html/parameter/element');
 
 		if ($data = trim($data))
 		{
@@ -501,10 +501,10 @@ class JParameter extends JRegistry
 			$dir = trim($dir);
 
 			// Add trailing separators as needed.
-			if (substr($dir, -1) != DIRECTORY_SEPARATOR)
+			if (!in_array(substr($dir, -1), array(DIRECTORY_SEPARATOR, '/')))
 			{
 				// Directory
-				$dir .= DIRECTORY_SEPARATOR;
+				$dir .= '/';
 			}
 
 			// Add to the top of the search dirs.

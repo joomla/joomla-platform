@@ -28,19 +28,19 @@ ini_set('display_errors', 1);
  */
 if (!defined('JPATH_TESTS'))
 {
-	define('JPATH_TESTS', realpath(__DIR__));
+	define('JPATH_TESTS', str_replace(DIRECTORY_SEPARATOR, '/', realpath(__DIR__)));
 }
 if (!defined('JPATH_PLATFORM'))
 {
-	define('JPATH_PLATFORM', realpath(dirname(JPATH_TESTS) . '/libraries'));
+	define('JPATH_PLATFORM', str_replace(DIRECTORY_SEPARATOR, '/', realpath(dirname(JPATH_TESTS) . '/libraries')));
 }
 if (!defined('JPATH_BASE'))
 {
-	define('JPATH_BASE', realpath(JPATH_TESTS . '/tmp'));
+	define('JPATH_BASE', str_replace(DIRECTORY_SEPARATOR, '/', realpath(JPATH_TESTS . '/tmp')));
 }
 if (!defined('JPATH_ROOT'))
 {
-	define('JPATH_ROOT', realpath(JPATH_BASE));
+	define('JPATH_ROOT', str_replace(DIRECTORY_SEPARATOR, '/', realpath(JPATH_BASE)));
 }
 if (!defined('JPATH_CACHE'))
 {
@@ -75,19 +75,6 @@ else
 
 // Import the platform.
 require_once JPATH_PLATFORM . '/import.php';
-
-JLoader::register('JSessionStorage', JPATH_PLATFORM.'/joomla/session/storage.php');
-JLoader::register('JRegistryFormat', JPATH_PLATFORM.'/joomla/registry/format.php');
-JLoader::register('JButton', JPATH_PLATFORM.'/joomla/html/toolbar/button.php');
-JLoader::register('JElement', JPATH_PLATFORM.'/joomla/html/parameter/element.php');
-JLoader::register('JButton', JPATH_PLATFORM.'/joomla/html/toolbar/button.php');
-JLoader::discover('JHTML', JPATH_PLATFORM.'/joomla/html/html');
-JLoader::register('JCacheStorage', JPATH_PLATFORM.'/joomla/cache/storage.php');
-JLoader::register('JCacheController', JPATH_PLATFORM.'/joomla/cache/controller.php');
-JLoader::register('JTable', JPATH_PLATFORM.'/joomla/database/table.php');
-JLoader::register('JDatabase', JPATH_PLATFORM.'/joomla/database/database.php');
-JLoader::register('JDocumentRenderer', JPATH_PLATFORM.'/joomla/document/renderer.php');
-JLoader::register('JFormHelper', JPATH_PLATFORM.'/joomla/form/helper.php');
 
 // Include the base test cases.
 require_once JPATH_TESTS . '/includes/JoomlaTestCase.php';
