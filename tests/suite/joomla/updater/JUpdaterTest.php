@@ -47,8 +47,8 @@ class JUpdaterTest extends PHPUnit_Framework_TestCase {
     	);
 
     	$this->assertThat(
-    		$this->object->get('_basepath'),
-    		$this->equalTo(JPATH_PLATFORM.$d.'joomla'.$d.'updater')
+    		str_replace(DIRECTORY_SEPARATOR, '/', $this->object->get('_basepath')),
+    		$this->equalTo(JPATH_PLATFORM.'/joomla/updater')
     	);
 
     	$this->assertThat(
