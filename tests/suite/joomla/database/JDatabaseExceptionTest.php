@@ -35,6 +35,14 @@ class JDatabaseExceptionTest extends PHPUnit_Framework_TestCase {
         
     }
 
+	/**
+	 * @todo Decide how to Implement.
+	 */
+	public function testDummy()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
 }
 
 ?>

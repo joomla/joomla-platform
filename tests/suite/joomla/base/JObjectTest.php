@@ -154,10 +154,12 @@ class JObjectTest extends PHPUnit_Framework_TestCase {
 			$this->o->getError(20),
 			'Should return false, since the error does not exist'
 		);
-		$this->o->setError(new Exception('error'));
+		
+		$exception = new Exception('error');
+		$this->o->setError($exception);
 		$this->assertThat(
 			$this->o->getError(3, true),
-			$this->equalTo('error')
+			$this->equalTo((string)$exception)
 		);
 	}
 

@@ -62,13 +62,14 @@ class JUpdaterTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @todo Implement testGetInstance().
+     * Test JUpdater::getInstance().
+     * 
+     * @return  void
+     * 
+     * @since   11.3
      */
     public function testGetInstance() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->assertInstanceOf('JUpdater', JUpdater::getInstance());
     }
 
     /**
