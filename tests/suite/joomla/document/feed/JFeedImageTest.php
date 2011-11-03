@@ -24,7 +24,7 @@ class JFeedImageTest extends PHPUnit_Framework_TestCase {
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        $this->object = new JFeedImage;
+        //$this->object = new JFeedImage;
     }
 
     /**
@@ -35,6 +35,14 @@ class JFeedImageTest extends PHPUnit_Framework_TestCase {
         
     }
 
+	/**
+	 * @todo Decide how to Implement.
+	 */
+	public function testDummy()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
 }
 
 ?>
