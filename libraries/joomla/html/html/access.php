@@ -53,9 +53,10 @@ abstract class JHtmlAccess
 		$query->group('a.id');
 		if (!$user->authorise('core.admin'))
 		{
-			// Users that are not super-users can ONLY see the the view levels that they are authorized for
+			// Users that are not super-users can ONLY see the
+			// the view levels that they are authorized for
 			$access_levels = array_unique($user->authorisedLevels());
-			$query->where('a.id in ('.implode(',', $access_levels).')');
+			$query->where('a.id in (' . implode(',', $access_levels) . ')');
 		}
 		$query->order('a.ordering ASC');
 		$query->order($query->qn('title') . ' ASC');
