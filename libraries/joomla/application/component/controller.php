@@ -152,6 +152,7 @@ class JController extends JObject
 	 * @param   string  $prefix  A prefix for models
 	 *
 	 * @return  void
+	 *
 	 * @deprecated    12.3	Use JLoader::discover instead
 	 */
 	public static function addModelPath($path, $prefix = '')
@@ -1145,4 +1146,3 @@ class JController extends JObject
 		return $this;
 	}
 }
-

@@ -9,6 +9,9 @@
 
 defined('JPATH_PLATFORM') or die();
 
+// Discover all core tables
+JLoader::discover('JTable', __DIR__ . '/table');
+
 /**
  * Abstract Table class
  *
@@ -20,10 +23,6 @@ defined('JPATH_PLATFORM') or die();
  * @since       11.1
  * @tutorial	Joomla.Platform/jtable.cls
  */
-
-// Discover all core tables
-JLoader::discover('JTable', __DIR__ . '/table');
-
 abstract class JTable extends JObject
 {
 	/**
@@ -1519,4 +1518,3 @@ abstract class JTable extends JObject
 		return true;
 	}
 }
-

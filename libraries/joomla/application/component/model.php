@@ -545,4 +545,3 @@ abstract class JModel extends JObject
 		$dispatcher->trigger($this->event_clean_cache, $options);
 	}
 }
-
