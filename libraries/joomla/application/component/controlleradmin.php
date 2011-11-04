@@ -149,7 +149,7 @@ class JControllerAdmin extends JController
 	}
 
 	/**
-	 * Method to publish a list of taxa
+	 * Method to publish a list of items
 	 *
 	 * @return  void
 	 *
@@ -192,11 +192,11 @@ class JControllerAdmin extends JController
 				{
 					$ntext = $this->text_prefix . '_N_ITEMS_PUBLISHED';
 				}
-				else if ($value == 0)
+				elseif ($value == 0)
 				{
 					$ntext = $this->text_prefix . '_N_ITEMS_UNPUBLISHED';
 				}
-				else if ($value == 2)
+				elseif ($value == 2)
 				{
 					$ntext = $this->text_prefix . '_N_ITEMS_ARCHIVED';
 				}
@@ -215,7 +215,7 @@ class JControllerAdmin extends JController
 	/**
 	 * Changes the order of one or more records.
 	 *
-	 * @return  void
+	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
 	 */
@@ -250,7 +250,7 @@ class JControllerAdmin extends JController
 	/**
 	 * Method to save the submitted ordering values for records.
 	 *
-	 * @return  void
+	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
 	 */
@@ -292,7 +292,7 @@ class JControllerAdmin extends JController
 	/**
 	 * Check in of one or more records.
 	 *
-	 * @return  void
+	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
 	 */

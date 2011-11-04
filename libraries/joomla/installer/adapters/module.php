@@ -245,8 +245,7 @@ class JInstallerModule extends JAdapterInstance
 			// Update function available or
 			// Update tag detected
 			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-				|| is_a($updateElement, 'JXMLElement')
-			)
+				|| is_a($updateElement, 'JXMLElement'))
 			{
 				// Force this one
 				$this->parent->setOverwrite(true);
@@ -258,10 +257,10 @@ class JInstallerModule extends JAdapterInstance
 					$this->route = 'Update';
 				}
 			}
-			else if (!$this->parent->getOverwrite())
+			elseif (!$this->parent->getOverwrite())
 			{
 				// Overwrite is set
-				// We didn't have overwrite set, find an udpate function or find an update tag so lets call it safe
+				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
 				$this->parent
 					->abort(
 						JText::sprintf(
@@ -477,7 +476,7 @@ class JInstallerModule extends JAdapterInstance
 				$this->parent->setSchemaVersion($this->manifest->update->schemas, $row->extension_id);
 			}
 		}
-		else if (strtolower($this->route) == 'update')
+		elseif (strtolower($this->route) == 'update')
 		{
 			if ($this->manifest->update)
 			{
@@ -572,7 +571,7 @@ class JInstallerModule extends JAdapterInstance
 	 */
 	public function discover()
 	{
-		$results = Array();
+		$results = array();
 		$site_list = JFolder::folders(JPATH_SITE . '/modules');
 		$admin_list = JFolder::folders(JPATH_ADMINISTRATOR . '/modules');
 		$site_info = JApplicationHelper::getClientInfo('site', true);
@@ -610,7 +609,7 @@ class JInstallerModule extends JAdapterInstance
 	/**
 	 * Custom discover_install method
 	 *
-	 * @return void
+	 * @return  mixed  Extension ID on success, boolean false on failure
 	 *
 	 * @since   11.1
 	 */

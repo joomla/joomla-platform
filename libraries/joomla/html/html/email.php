@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Utility class for cloaking email adresses
+ * Utility class for cloaking email addresses
  *
  * @package     Joomla.Platform
  * @subpackage  HTML
@@ -104,7 +104,7 @@ abstract class JHtmlEmail
 	}
 
 	/**
-	 * Convrt encoded text
+	 * Convert encoded text
 	 *
 	 * @param   string  $text  Text to convert
 	 *

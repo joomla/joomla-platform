@@ -32,7 +32,7 @@ define('JAUTHENTICATE_STATUS_CANCEL', 2);
 define('JAUTHENTICATE_STATUS_FAILURE', 4);
 
 /**
- * Authenthication class, provides an interface for the Joomla authentication system
+ * Authentication class, provides an interface for the Joomla authentication system
  *
  * @package     Joomla.Platform
  * @subpackage  User
@@ -88,8 +88,6 @@ class JAuthentication extends JObservable
 	/**
 	 * Constructor
 	 *
-	 * @return  JAuthentication
-	 *
 	 * @since   11.1
 	 */
 	public function __construct()
@@ -128,7 +126,7 @@ class JAuthentication extends JObservable
 	}
 
 	/**
-	 * Finds out if a set of login credentials are valid by asking all obvserving
+	 * Finds out if a set of login credentials are valid by asking all observing
 	 * objects to run their respective authentication routines.
 	 *
 	 * @param   array  $credentials  Array holding the user credentials.
@@ -139,7 +137,7 @@ class JAuthentication extends JObservable
 	 * @see     JAuthenticationResponse
 	 * @since   11.1
 	 */
-	public function authenticate($credentials, $options = Array())
+	public function authenticate($credentials, $options = array())
 	{
 		// Initialise variables.
 		$auth = false;
@@ -147,11 +145,11 @@ class JAuthentication extends JObservable
 		// Get plugins
 		$plugins = JPluginHelper::getPlugin('authentication');
 
-		// Create authencication response
+		// Create authentication response
 		$response = new JAuthenticationResponse;
 
 		/*
-		 * Loop through the plugins and check of the creditials can be used to authenticate
+		 * Loop through the plugins and check of the credentials can be used to authenticate
 		 * the user
 		 *
 		 * Any errors raised in the plugin should be returned via the JAuthenticationResponse
@@ -213,13 +211,13 @@ class JAuthentication extends JObservable
 	 *
 	 * @since  11.2
 	 */
-	public static function authorise($response, $options = Array())
+	public static function authorise($response, $options = array())
 	{
 		// Get plugins in case they haven't been loaded already
 		JPluginHelper::getPlugin('user');
 		JPluginHelper::getPlugin('authentication');
 		$dispatcher = JDispatcher::getInstance();
-		$results = $dispatcher->trigger('onUserAuthorisation', Array($response, $options));
+		$results = $dispatcher->trigger('onUserAuthorisation', array($response, $options));
 		return $results;
 	}
 }
@@ -346,8 +344,6 @@ class JAuthenticationResponse extends JObject
 
 	/**
 	 * Constructor
-	 *
-	 * @return  JAuthenticationResponse
 	 *
 	 * @since   11.1
 	 */

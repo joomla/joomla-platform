@@ -78,8 +78,6 @@ class JForm
 	 * @param   string  $name     The name of the form.
 	 * @param   array   $options  An array of form options.
 	 *
-	 * @return  void
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($name, array $options = array())
@@ -125,7 +123,7 @@ class JForm
 				// Handle a JRegistry.
 				$data = $data->toArray();
 			}
-			else if ($data instanceof JObject)
+			elseif ($data instanceof JObject)
 			{
 				// Handle a JObject.
 				$data = $data->getProperties();
@@ -146,7 +144,7 @@ class JForm
 				// If the field exists set the value.
 				$this->data->set($k, $v);
 			}
-			else if (is_object($v) || JArrayHelper::isAssociative($v))
+			elseif (is_object($v) || JArrayHelper::isAssociative($v))
 			{
 				// If the value is an object or an associative array hand it off to the recursive bind level method.
 				$this->bindLevel($k, $v);
@@ -180,7 +178,7 @@ class JForm
 				// If the field exists set the value.
 				$this->data->set($group . '.' . $k, $v);
 			}
-			else if (is_object($v) || JArrayHelper::isAssociative($v))
+			elseif (is_object($v) || JArrayHelper::isAssociative($v))
 			{
 				// If the value is an object or an associative array, hand it off to the recursive bind level method
 				$this->bindLevel($group . '.' . $k, $v);
@@ -1319,7 +1317,7 @@ class JForm
 					$return = call_user_func(explode('::', $filter), $value);
 				}
 				// Filter using a callback function if specified.
-				else if (function_exists($filter))
+				elseif (function_exists($filter))
 				{
 					$return = call_user_func($filter, $value);
 				}
@@ -1522,7 +1520,7 @@ class JForm
 				}
 			}
 		}
-		else if ($group === false)
+		elseif ($group === false)
 		{
 			// Get only field elements not in a group.
 			$fields = $this->xml->xpath('descendant::fields[not(@name)]/field | descendant::fields[not(@name)]/fieldset/field ');
