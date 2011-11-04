@@ -43,7 +43,11 @@ class JFormFieldImage extends JFormField
 
 		// Initialize some field attributes.
 		$attr .= $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : '';
-
+		$attr .= $this->element['alt'] ? ' alt="'.(string) $this->element['alt'].'"' : '';
+		$attr .= $this->element['title'] ? ' title="'.(string) $this->element['title'].'"' : '';
+		$attr .= $this->element['width'] ? ' width="'.(string) $this->element['width'].'"' : '';
+		$attr .= $this->element['height'] ? ' height="'.(string) $this->element['height'].'"' : '';
+		
 		// Initialize JavaScript field attributes.
 		$attr .= $this->element['onclick'] ? ' onclick="'.(string) $this->element['onclick'].'"' : '';
 
@@ -51,15 +55,13 @@ class JFormFieldImage extends JFormField
 		$directory = (string) $this->element['directory'];
 
 		// Compile source
-		$src = JURI::base(true) . '/' . $directory . '/' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8');
+		$src = JURI::root(true) . '/' . $directory . '/' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8');
 
 		$html = array();
 
 		// The image container and tag
-		$html[] = '<div class="fltlft">';
 		$html[] = ' <img src="'. $src .'"'.
 					' id="'. $this->id .'"'.$attr.' />';
-		$html[] = '</div>';
 
 		return implode("\n", $html);
 	}
