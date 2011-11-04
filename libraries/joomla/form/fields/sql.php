@@ -45,8 +45,8 @@ class JFormFieldSQL extends JFormFieldList
 		$options = array();
 
 		// Initialize some field attributes.
-		$key = $this->element['key_field'] ? (string) $this->element['key_field'] : 'value';
-		$value = $this->element['value_field'] ? (string) $this->element['value_field'] : (string) $this->element['name'];
+		$key = $this->element['key_field'] ? (string) $this->element['key_field'] : (string) $this->element['name'];
+		$value = $this->element['value_field'] ? (string) $this->element['value_field'] : 'value';
 		$translate = $this->element['translate'] ? (string) $this->element['translate'] : false;
 		$query = (string) $this->element['query'];
 
@@ -71,11 +71,11 @@ class JFormFieldSQL extends JFormFieldList
 			{
 				if ($translate == true)
 				{
-					$options[] = JHtml::_('select.option', $item->$key, JText::_($item->$value));
+					$options[] = JHtml::_('select.option', $item->$value, JText::_($item->$key));
 				}
 				else
 				{
-					$options[] = JHtml::_('select.option', $item->$key, $item->$value);
+					$options[] = JHtml::_('select.option', $item->$value, $item->$key);
 				}
 			}
 		}
