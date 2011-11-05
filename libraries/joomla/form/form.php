@@ -1660,7 +1660,7 @@ class JForm
 			// Compute the field path
 			if ($group)
 			{
-				$path = $group.'.'.(string) $element['name'];
+				$path = $group . '.' . (string) $element['name'];
 			}
 			else
 			{
