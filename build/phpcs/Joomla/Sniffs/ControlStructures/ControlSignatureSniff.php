@@ -50,21 +50,20 @@ class Joomla_Sniffs_ControlStructures_ControlSignatureSniff extends PHP_CodeSnif
 	protected function getPatterns()
 	{
 		return array(
-			'if (...)EOL...{EOL',
-			'}EOL...elseif (...)EOL...{EOL',
-			'}EOL...elseEOL...{EOL',
+			'if (...)EOL...{EOL...}EOL',
+			'}EOL...elseif (...)EOL...{EOL...}EOL',
+			'}EOL...elseEOL...{EOL...}EOL',
 
 			'tryEOL...{EOL...}EOL',
-			'catch (...)EOL...{EOL',
+			'}EOL...catch (...)EOL...{EOL...}EOL',
 
-			'doEOL...{EOL',
-			'}EOL...while (...);EOL',
-			'while (...)EOL',
+			'doEOL...{EOL...}EOL...while (...);EOL',
+			'while (...)EOL...{EOL...}EOL',
 
-			'for (...)EOL...{EOL',
-			'foreach (...)EOL...{EOL',
+			'for (...)EOL...{EOL...}EOL',
+			'foreach (...)EOL...{EOL...}EOL',
 
-			'switch (...)EOL...{EOL',
+			'switch (...)EOL...{EOL...}EOL',
 		);
 
 	}//end getPatterns()
