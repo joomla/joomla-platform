@@ -23,7 +23,7 @@ jimport('joomla.log.log');
  * @package     Joomla.Platform
  * @subpackage  Environment
  * @since       11.1
- * @deprecated   This API may be changed in the near future and should not be considered stable
+ * @deprecated  This API may be changed in the near future and should not be considered stable
  */
 class JBrowser extends JObject
 {
