@@ -65,7 +65,7 @@ class JParameter extends JRegistry
 		parent::__construct('_default');
 
 		// Set base path.
-		$this->addElementPath(JPATH_PLATFORM.'/joomla/html/parameter/element');
+		$this->addElementPath(JPATH_PLATFORM . '/joomla/html/parameter/element');
 
 		if ($data = trim($data))
 		{
