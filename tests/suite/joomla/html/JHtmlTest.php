@@ -1390,3 +1390,4 @@ class JHtmlTest extends JoomlaTestCase
 		);
 	}
 }
+
