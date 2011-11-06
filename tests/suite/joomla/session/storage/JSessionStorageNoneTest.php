@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/joomla/session/storage/none.php';
+//include_once JPATH_PLATFORM . '/joomla/session/storage/none.php';
 
 /**
  * Test class for JSessionStorageNone.
@@ -24,7 +24,7 @@ class JSessionStorageNoneTest extends PHPUnit_Framework_TestCase {
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        $this->object = new JSessionStorageNone;
+        //$this->object = new JSessionStorageNone;
     }
 
     /**
