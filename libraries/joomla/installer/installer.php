@@ -33,7 +33,7 @@ class JInstaller extends JAdapter
 	protected $_paths = array();
 
 	/**
-	 * True if packakge is an upgrade
+	 * True if package is an upgrade
 	 *
 	 * @var    boolean
 	 * @since  11.1
@@ -114,8 +114,6 @@ class JInstaller extends JAdapter
 
 	/**
 	 * Constructor
-	 *
-	 * @return  JInstaller
 	 *
 	 * @since   11.1
 	 */
@@ -362,7 +360,7 @@ class JInstaller extends JAdapter
 
 					// Remove the entry from the #__extensions table
 					$query->delete($db->quoteName('#__extensions'));
-					$query->where($db->quoteName('extension_id').' = ' . (int) $step['id']);
+					$query->where($db->quoteName('extension_id') . ' = ' . (int) $step['id']);
 					$db->setQuery($query);
 					$stepval = $db->query();
 
@@ -1932,7 +1930,6 @@ class JInstaller extends JAdapter
 			// Check for a valid XML root tag.
 			// @todo: Remove backwards compatability in a future version
 			// Should be 'extension', but for backward compatability we will accept 'extension' or 'install'.
-
 			// 1.5 uses 'install'
 			// 1.6 uses 'extension'
 			if ($xml->getName() != 'install' && $xml->getName() != 'extension')
@@ -1996,7 +1993,7 @@ class JInstaller extends JAdapter
 	 * @param   array  $old_files  An array of JXMLElement objects that are the old files
 	 * @param   array  $new_files  An array of JXMLElement objects that are the new files
 	 *
-	 * @return  array  An array with the delete files and folders in findDeletedFiles[files] and findDeletedFiles[folders] resepctively
+	 * @return  array  An array with the delete files and folders in findDeletedFiles[files] and findDeletedFiles[folders] respectively
 	 *
 	 * @since   11.1
 	 */

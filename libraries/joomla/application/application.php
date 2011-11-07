@@ -154,7 +154,7 @@ class JApplication extends JObject
 	 *
 	 * @param   mixed   $client  A client identifier or name.
 	 * @param   array   $config  An optional associative array of configuration settings.
-	 * @param   strong  $prefix  A prefix for class names
+	 * @param   string  $prefix  A prefix for class names
 	 *
 	 * @return  JApplication A JApplication object.
 	 *
@@ -409,7 +409,7 @@ class JApplication extends JObject
 		// so we will output a javascript redirect statement.
 		if (headers_sent())
 		{
-			echo "<script>document.location.href='".htmlspecialchars($url)."';</script>\n";
+			echo "<script>document.location.href='" . htmlspecialchars($url) . "';</script>\n";
 		}
 		else
 		{
@@ -420,13 +420,15 @@ class JApplication extends JObject
 			if ($navigator->isBrowser('msie') && !utf8_is_ascii($url))
 			{
 				// MSIE type browser and/or server cause issues when url contains utf8 character,so use a javascript redirect method
-				echo '<html><head><meta http-equiv="content-type" content="text/html; charset='.$document->getCharset().'" /><script>document.location.href=\''.htmlspecialchars($url).'\';</script></head></html>';
+				echo '<html><head><meta http-equiv="content-type" content="text/html; charset=' . $document->getCharset() . '" />'
+					.'<script>document.location.href=\'' . htmlspecialchars($url) . '\';</script></head></html>';
 			}
 			elseif (!$moved and $navigator->isBrowser('konqueror'))
 			{
 				// WebKit browser (identified as konqueror by Joomla!) - Do not use 303, as it causes subresources
 				// reload (https://bugs.webkit.org/show_bug.cgi?id=38690)
-				echo '<html><head><meta http-equiv="content-type" content="text/html; charset='.$document->getCharset().'" /><meta http-equiv="refresh" content="0; url='.htmlspecialchars($url).'" /></head></html>';
+				echo '<html><head><meta http-equiv="content-type" content="text/html; charset=' . $document->getCharset() . '" />'
+					.'<meta http-equiv="refresh" content="0; url=' . htmlspecialchars($url) . '" /></head></html>';
 			}
 			else
 			{
@@ -1049,7 +1051,7 @@ class JApplication extends JObject
 		if (($this->getCfg('session_handler') != 'database' && ($time % 2 || $session->isNew()))
 			|| ($this->getCfg('session_handler') == 'database' && $session->isNew()))
 		{
-				$this->checkSession();
+			$this->checkSession();
 		}
 
 		return $session;
@@ -1074,7 +1076,7 @@ class JApplication extends JObject
 		$query = $db->getQuery(true);
 		$db->setQuery(
 			'SELECT ' . $query->qn('session_id') . ' FROM ' . $query->qn('#__session') . ' WHERE ' . $query->qn('session_id') . ' = ' .
-				$query->q($session->getId()),
+			$query->q($session->getId()),
 			0, 1
 		);
 		$exists = $db->loadResult();
@@ -1086,17 +1088,17 @@ class JApplication extends JObject
 			{
 				$db->setQuery(
 					'INSERT INTO ' . $query->qn('#__session') . ' (' . $query->qn('session_id') . ', ' . $query->qn('client_id') . ', ' .
-						$query->qn('time') . ')' . ' VALUES (' . $query->q($session->getId()) . ', ' . (int) $this->getClientId() . ', ' .
-						(int) time() . ')'
+					$query->qn('time') . ')' . ' VALUES (' . $query->q($session->getId()) . ', ' . (int) $this->getClientId() . ', ' .
+					(int) time() . ')'
 				);
 			}
 			else
 			{
 				$db->setQuery(
 					'INSERT INTO ' . $query->qn('#__session') . ' (' . $query->qn('session_id') . ', ' . $query->qn('client_id') . ', ' .
-						$query->qn('guest') . ', ' . $query->qn('time') . ', ' . $query->qn('userid') . ', ' . $query->qn('username') . ')' .
-						' VALUES (' . $query->q($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . (int) $user->get('guest') . ', ' .
-						(int) $session->get('session.timer.start') . ', ' . (int) $user->get('id') . ', ' . $query->q($user->get('username')) . ')'
+					$query->qn('guest') . ', ' . $query->qn('time') . ', ' . $query->qn('userid') . ', ' . $query->qn('username') . ')' .
+					' VALUES (' . $query->q($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . (int) $user->get('guest') . ', ' .
+					(int) $session->get('session.timer.start') . ', ' . (int) $user->get('id') . ', ' . $query->q($user->get('username')) . ')'
 				);
 			}
 
