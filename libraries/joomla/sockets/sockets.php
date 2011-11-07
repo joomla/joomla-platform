@@ -17,9 +17,9 @@ defined('JPATH_PLATFORM') or die;
  * This class allows for simple but smart objects with get and set methods
  * and an internal error handler.
  *
- * Based on phpSocketDaemon 1.0
- * Copyright (C) 2006 Chris Chabot <chabotc@xs4all.nl>
- * See http://www.chabotc.nl/ for more information
+ * Based on PHP Socket Programming Tutorial - http://michaelcamden.me/?p=36
+ * Copyright (C) 2011 Michael Camden
+ * See http://michaelcamden.me/ for more information
  *
  * @package     Joomla.Platform
  * @subpackage  Base
@@ -27,152 +27,137 @@ defined('JPATH_PLATFORM') or die;
  */
 class JSockets
 {
-  public $socket;
-  public $bind_address;
-  public $bind_port;
-  public $domain;
-  public $type;
-  public $protocol;
-	public $client;
-  public $local_addr;
-  public $local_port;
-  public $read_buffer    = '';
-  public $write_buffer   = '';
+	/**
+	 * Domain type to use when creating the socket
+	 * @var int
+	 */
+	public $domain = AF_INET;
+	/**
+	 * The stream type to use when creating the socket
+	 * @var int
+	 */
+	public $type = SOCK_STREAM;
+	/**
+	 * The protocol to use when creating the socket
+	 * @var int
+	 */
+	public $protocol = SOL_TCP;
 
-  public function __construct($bind_address = 0, $bind_port = 0, $domain = AF_INET, $type = SOCK_STREAM, $protocol = SOL_TCP)
-  {
-    $this->bind_address = $bind_address;
-    $this->bind_port    = $bind_port;
-    $this->domain       = $domain;
-    $this->type         = $type;
-    $this->protocol     = $protocol;
+	/**
+	 * Stores a reference to the created socket
+	 * @var Resource
+	 */
+	public $link = null;
+	/**
+	 * Array of connected children
+	 * @var array
+	 */
+	public $threads = array();
+	/**
+	 * Bool which determines if the socket is listening or not
+	 * @var boolean
+	 */
+	private $listening = false;
 
-    if (($this->socket = @socket_create($domain, $type, $protocol)) === false) {
-      throw new Exception("Could not create socket: ".socket_strerror(socket_last_error($this->socket)));
-    }
-  }
+	/**
+	 * Creates a new Socket.
+	 *
+	 * @param array $args
+	 * @param int $args[domain] AF_INET|AF_INET6|AF_UNIX
+	 * @param int $args[type] SOCK_STREAM|SOCK_DGRAM|SOCK_SEQPACKET|SOCK_RAW|SOCK_UDM
+	 * @param int $args[protocol] SOL_TCP|SOL_UDP
+	 * @return Socket
+	 */
+	public function __construct(array $args = null) {
 
-  public function __destruct()
-  {
-    if (is_resource($this->socket)) {
-      $this->close();
-    }
-  }
+	  // Default socket info
+	  $defaults = array(
+      "domain" => AF_INET,
+      "type" => SOCK_STREAM,
+      "protocol" => SOL_TCP
+	  );
+	  if($args == null) {
+      $args = array();
+	  }
+	  // Merge $args in to $defaults
+	  $args = array_merge($defaults, $args);
 
-  public function get_error()
-  {
-    $error = socket_strerror(socket_last_error($this->socket));
-    socket_clear_error($this->socket);
-    return $error;
-  }
+	  // Store these values for later, just in case
+	  $this->domain = $args['domain'];
+	  $this->type = $args['type'];
+	  $this->protocol = $args['protocol'];
 
-  public function close()
-  {
-    if (is_resource($this->socket)) {
-      @socket_shutdown($this->socket, 2);
-      @socket_close($this->socket);
-    }
-    $this->socket = (int)$this->socket;
-  }
+	  if(($this->link = socket_create($this->domain, $this->type, $this->protocol)) === false) {
+      throw new JException("Unable to create Socket. PHP said, " . $this->getLastError(), socket_last_error());
+	  }
+	}
+	/**
+	 * At destruct, close the socket
+	 */
+	public function __destruct() {
+	  @$this->close();
+	}
+	/**
+	 * Closes the listening socket
+	 * 
+	 * @return void
+	 */
+	public function close() {
+	  $this->listening = false;
 
-  public function write($socket, $buffer, $length = 4096)
-  {
-    if (!is_resource($socket)) {
-		  if (!is_resource($this->socket)) {
-		    throw new Exception("Invalid socket or resource");
-				return false;
-		  }else{
-				$socket = $this->socket;
-			}
-    }
+	  // @see http://www.php.net/manual/en/function.socket-close.php#66810
+	  $socketOptions = array('l_onoff' => 1, 'l_linger' => 0);
+	  socket_set_option($this->link, SOL_SOCKET, SO_LINGER, $socketOptions);
 
-		if (($ret = socket_write($socket, $buffer, $length)) === false) {
-      throw new Exception("Could not write to socket: ".$this->get_error()."\n");
-    }
-    return $ret;
-  }
-
-  public function read($socket = null, $length = 4096)
-  {
-    if (!is_resource($socket)) {
-		  if (!is_resource($this->socket)) {
-		    throw new Exception("Invalid socket or resource");
-				return false;
-		  }else{
-				$socket = $this->socket;
-			}
-    }
-
-		if (($ret = socket_read($socket, $length, PHP_NORMAL_READ)) == false) {
-      throw new Exception("Could not read from socket: ".$this->get_error()."\n");
-    }
-    return $ret;
-  }
-
-  public function connect($remote_address, $remote_port)
-  {
-    $this->remote_address = $remote_address;
-    $this->remote_port    = $remote_port;
-    if (!is_resource($this->socket)) {
-      throw new Exception("Invalid socket or resource");
-    } elseif (!socket_connect($this->socket, $remote_address, $remote_port)) {
-      throw new Exception("Could not connect to {$remote_address} - {$remote_port}: ".$this->get_error()."\n");
-    }
-  }
-
-  public function listen($backlog = 128)
-  {
-    if (!is_resource($this->socket)) {
-      throw new Exception("Invalid socket or resource");
-    } elseif (!@socket_listen($this->socket, $backlog)) {
-      throw new Exception("Could not listen to {$this->bind_address} - {$this->bind_port}: ".$this->get_error()."\n");
-    }
-  }
-
-  public function accept()
-  {
-    if (!is_resource($this->socket)) {
-      throw new Exception("Invalid socket or resource");
-    } elseif (($client = socket_accept($this->socket)) === false) {
-      throw new Exception("Could not accept connection to {$this->bind_address} - {$this->bind_port}: ".$this->get_error()."\n");
-    }
-    return $client;
-  }
-
-  public function set_non_block()
-  {
-    if (!is_resource($this->socket)) {
-      throw new Exception("Invalid socket or resource");
-    } elseif (!@socket_set_nonblock($this->socket)) {
-      throw new Exception("Could not set socket non_block: ".$this->get_error()."\n");
-    }
-  }
-
-  public function set_block()
-  {
-    if (!is_resource($this->socket)) {
-      throw new Exception("Invalid socket or resource");
-    } elseif (!@socket_set_block($this->socket)) {
-      throw new Exception("Could not set socket non_block: ".$this->get_error()."\n");
-    }
-  }
-
-  public function set_recieve_timeout($sec, $usec)
-  {
-    if (!is_resource($this->socket)) {
-      throw new Exception("Invalid socket or resource");
-    } elseif (!@socket_set_option($this->socket, SOL_SOCKET, SO_RCVTIMEO, array("sec" => $sec, "usec" => $usec))) {
-      throw new Exception("Could not set socket recieve timeout: ".$this->get_error()."\n");
-    }
-  }
-
-  public function set_reuse_address($reuse = true)
-  {
-    $reuse = $reuse ? 1 : 0;
-    if (!is_resource($this->socket)) {
-      throw new Exception("Invalid socket or resource");
-    } elseif (!@socket_set_option($this->socket, SOL_SOCKET, SO_REUSEADDR, $reuse)) {
-      throw new Exception("Could not set SO_REUSEADDR to '$reuse': ".$this->get_error()."\n");
-    }
-  }
+	  socket_close($this->link);
+	}
+	/**
+	 * Sends a message to a child. Set child as "all" to send to all children.
+	 * 
+	 * @param string $message
+	 * @return void
+	 */
+	public function send($child, $message) {
+	  if($this->link === null) {
+      throw new JException("Socket not connected");
+	  }
+	  if(empty($message)) {
+      return;
+	  }
+	  if(is_string($child) && strcasecmp($child, "all") === 0) {
+      foreach($this->threads as $thread) {
+        $thread->write($message . "\n");
+      }
+	  }
+	  else {
+      $child->write($message . "\n");
+	  }
+	}
+	/**
+	 * Terminates all active child connections
+	 *
+	 * @return void;
+	 */
+	public function killAll() {
+	  foreach($this->threads as $child) {
+      $child->close();
+	  }
+	  $this->listening = false;
+	  $this->close();
+	}
+	/**
+	 * Returns the last error on the socket specified. If no socket is specified
+	 * the last error that occured is returned.
+	 * 
+	 * @param Resource $socket 
+	 * @return string
+	 */
+	public function getLastError($socket = null) {
+	  if(empty($socket)) {
+      return socket_strerror(socket_last_error());
+	  }
+	  else {
+      return socket_strerror(socket_last_error($socket));
+	  }
+	}
 }

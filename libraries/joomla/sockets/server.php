@@ -22,19 +22,93 @@ jimport('joomla.sockets.sockets');
  */
 class JSocketsServer extends JSockets
 {
+	/**
+	 * Creates a new Socket.
+	 *
+	 * @param array $args
+	 * @param int $args[domain] AF_INET|AF_INET6|AF_UNIX
+	 * @param int $args[type] SOCK_STREAM|SOCK_DGRAM|SOCK_SEQPACKET|SOCK_RAW|SOCK_UDM
+	 * @param int $args[protocol] SOL_TCP|SOL_UDP
+	 * @return Socket
+	 */
+	public function __construct(array $args = null) {
+		// Parent construct
+		parent::__construct();
 
-  public function __construct($bind_address = 0, $bind_port = 0)
-  {
-		// Adapter base path, class prefix
-		parent::__construct($bind_address, $bind_port);
+		// Include Child
+		include_once ( JPATH_PLATFORM . '/joomla/sockets/child.php' );
+	}
+	/**
+	 * After calling this method, the Socket will start to listen on the port
+	 * specified or the default port. 
+	 * 
+	 * @see Socket::$port
+	 * @param string $host
+	 * @param int $port 
+	 */
+	public function listen($host = "localhost", $port = 9999) {
 
-		// Bind the socket
-    if (!socket_bind($this->socket, $bind_address, $bind_port)) {
-      throw new Exception("Could not bind socket to [$this->bind_address - $this->bind_port]: ".socket_strerror(socket_last_error($this->socket)));
-    }
+	  if($this->link === null) {
+	      throw new JException("No socket available, cannot listen");
+	  }
+	  
+	  // Set a valid port to listen on
+	  //if($port <= 1024) {
+	  //    $port = 9999;
+	  //}
 
-    if (!@socket_getsockname($this->socket, $this->local_addr, $this->local_port)) {
-      throw new Exception("Could not retrieve local address & port: ".socket_strerror(socket_last_error($this->socket)));
-    }
-  }
+	  socket_set_nonblock($this->link);
+
+	  // Bind to the host/port
+	  if(!socket_bind($this->link, $host, $port)) {
+	      throw new JException("Cannot bind to $host:$port. PHP said, " . $this->getLastError($this->link));
+	  }
+	  // Try to listen
+	  if(!socket_listen($this->link)) {
+	      throw new JException("Cannot listen on $host:$port. PHP said, " . $this->getLastError($this->link));
+	  }
+
+	  echo "Listening on $host:$port\n";
+
+	  $this->listening = true;
+
+	  // Start main loop
+	  while($this->listening) {
+      // Accept new connections
+      if(($thread = @socket_accept($this->link)) !== false) {
+        $child = new JSocketsChild($thread);
+        array_push($this->threads, $child);
+
+        echo "Accepted child, " . $child->getInfo() . "\n";
+      }
+
+      // Loop through children, listen for read
+      foreach($this->threads as $index => $child) {
+        try {
+          $msg = $child->read();
+        } catch (JException $e) {
+          // Child socket closed unexpectedly, remove from active
+          // threads
+
+          echo "Terminating child at $index\n";
+          unset($this->threads[$index]);
+          continue;
+        }
+        $msg = trim($msg);
+        
+        if($msg !== false && !empty($msg)) {
+          $command = strtolower($msg);
+          switch($command) {
+              case "end":
+                  $this->killAll();
+                  die("Kill message received\n");
+              break;
+          }
+          echo "Received message: $msg\n";
+
+          $this->send($child, "You said: $msg\n");
+        }
+      }
+	  }
+	}
 }
