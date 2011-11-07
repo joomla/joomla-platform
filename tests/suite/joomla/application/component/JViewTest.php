@@ -272,7 +272,7 @@ class JViewTest extends PHPUnit_Framework_TestCase
 			$this->equalTo('inspector')
 		);
 		
-		$view->_name = 'inspector2';
+		$view->name = 'inspector2';
 		
 		$this->assertThat(
 			$view->getName(),

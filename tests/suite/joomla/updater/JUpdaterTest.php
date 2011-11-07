@@ -83,16 +83,6 @@ class JUpdaterTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @todo Implement testArrayUnique().
-     */
-    public function testArrayUnique() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
-
-    /**
      * @todo Implement testUpdate().
      */
     public function testUpdate() {

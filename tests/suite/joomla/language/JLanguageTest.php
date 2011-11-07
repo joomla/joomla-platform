@@ -456,16 +456,6 @@ class JLanguageTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @todo Implement test_parseLanguageFiles().
-     */
-    public function test_parseLanguageFiles() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
-
-    /**
      * @todo Implement testParseLanguageFiles().
      */
     public function testParseLanguageFiles() {
@@ -476,29 +466,9 @@ class JLanguageTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @todo Implement test_parseXMLLanguageFiles().
-     */
-    public function test_parseXMLLanguageFiles() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
-
-    /**
      * @todo Implement testParseXMLLanguageFiles().
      */
     public function testParseXMLLanguageFiles() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @todo Implement test_parseXMLLanguageFile().
-     */
-    public function test_parseXMLLanguageFile() {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
                 'This test has not been implemented yet.'

@@ -471,10 +471,12 @@ class JRegistry
 	 */
 	public function loadXML($data, $namespace = null)
 	{
+		// @codeCoverageIgnoreStart
 		// Deprecation warning.
 		JLog::add('JRegistry::loadXML() is deprecated.', JLog::WARNING, 'deprecated');
 
 		return $this->loadString($data, 'XML');
+		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -492,10 +494,12 @@ class JRegistry
 	 */
 	public function loadINI($data, $namespace = null, $options = array())
 	{
+		// @codeCoverageIgnoreStart
 		// Deprecation warning.
 		JLog::add('JRegistry::loadINI() is deprecated.', JLog::WARNING, 'deprecated');
 
 		return $this->loadString($data, 'INI', $options);
+		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -511,10 +515,12 @@ class JRegistry
 	 */
 	public function loadJSON($data)
 	{
+		// @codeCoverageIgnoreStart
 		// Deprecation warning.
 		JLog::add('JRegistry::loadJSON() is deprecated.', JLog::WARNING, 'deprecated');
 
 		return $this->loadString($data, 'JSON');
+		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -530,11 +536,13 @@ class JRegistry
 	 */
 	public function makeNameSpace($namespace)
 	{
+		// @codeCoverageIgnoreStart
 		// Deprecation warning.
 		JLog::add('JRegistry::makeNameSpace() is deprecated.', JLog::WARNING, 'deprecated');
 
 		//$this->_registry[$namespace] = array('data' => new stdClass());
 		return true;
+		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -548,11 +556,13 @@ class JRegistry
 	 */
 	public function getNameSpaces()
 	{
+		// @codeCoverageIgnoreStart
 		// Deprecation warning.
 		JLog::add('JRegistry::getNameSpaces() is deprecated.', JLog::WARNING, 'deprecated');
 
 		//return array_keys($this->_registry);
 		return array();
+		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -569,6 +579,7 @@ class JRegistry
 	 */
 	public function getValue($path, $default = null)
 	{
+		// @codeCoverageIgnoreStart
 		// Deprecation warning.
 		JLog::add('JRegistry::getValue() is deprecated.', JLog::WARNING, 'deprecated');
 
@@ -579,6 +590,7 @@ class JRegistry
 			$path = implode('.', $parts);
 		}
 		return $this->get($path, $default);
+		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -595,6 +607,7 @@ class JRegistry
 	 */
 	public function setValue($path, $value)
 	{
+		// @codeCoverageIgnoreStart
 		// Deprecation warning.
 		JLog::add('JRegistry::setValue() is deprecated.', JLog::WARNING, 'deprecated');
 
@@ -605,6 +618,7 @@ class JRegistry
 			$path = implode('.', $parts);
 		}
 		return $this->set($path, $value);
+		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -620,9 +634,11 @@ class JRegistry
 	 */
 	public function loadSetupFile()
 	{
+		// @codeCoverageIgnoreStart
 		// Deprecation warning.
 		JLog::add('JRegistry::loadXML() is deprecated.', JLog::WARNING, 'deprecated');
 
 		return true;
+		// @codeCoverageIgnoreEnd
 	}
 }
