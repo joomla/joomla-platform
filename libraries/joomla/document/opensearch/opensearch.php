@@ -82,8 +82,7 @@ class JDocumentOpensearch extends JDocument
 
 		foreach ($dirs as $dir)
 		{
-			if (file_exists($dir . '/favicon.ico'))
-			{
+			if (file_exists($dir . '/favicon.ico')) {
 
 				$path = str_replace(JPATH_BASE . DS, '', $dir);
 				$path = str_replace('\\', '/', $path);
@@ -151,8 +150,7 @@ class JDocumentOpensearch extends JDocument
 			$elUrl = $xml->createElementNS($osns, 'Url');
 			$elUrl->setAttribute('type', $url->type);
 			// Results is the defualt value so we don't need to add it
-			if ($url->rel != 'results')
-			{
+			if ($url->rel != 'results') {
 				$elUrl->setAttribute('rel', $url->rel);
 			}
 			$elUrl->setAttribute('template', $url->template);

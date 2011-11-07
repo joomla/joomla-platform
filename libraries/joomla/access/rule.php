@@ -39,8 +39,7 @@ class JRule
 	public function __construct($identities)
 	{
 		// Convert string input to an array.
-		if (is_string($identities))
-		{
+		if (is_string($identities)) {
 			$identities = json_decode($identities, true);
 		}
 
@@ -70,13 +69,11 @@ class JRule
 	 */
 	public function mergeIdentities($identities)
 	{
-		if ($identities instanceof JRule)
-		{
+		if ($identities instanceof JRule) {
 			$identities = $identities->getData();
 		}
 
-		if (is_array($identities))
-		{
+		if (is_array($identities)) {
 			foreach ($identities as $identity => $allow)
 			{
 				$this->mergeIdentity($identity, $allow);
@@ -100,16 +97,13 @@ class JRule
 		$allow = (int) ((boolean) $allow);
 
 		// Check that the identity exists.
-		if (isset($this->data[$identity]))
-		{
+		if (isset($this->data[$identity])) {
 			// Explicit deny always wins a merge.
-			if ($this->data[$identity] !== 0)
-			{
+			if ($this->data[$identity] !== 0) {
 				$this->data[$identity] = $allow;
 			}
 		}
-		else
-		{
+		else {
 			$this->data[$identity] = $allow;
 		}
 	}
@@ -132,10 +126,8 @@ class JRule
 		$result = null;
 
 		// Check that the inputs are valid.
-		if (!empty($identities))
-		{
-			if (!is_array($identities))
-			{
+		if (!empty($identities)) {
+			if (!is_array($identities)) {
 				$identities = array($identities);
 			}
 
@@ -145,13 +137,11 @@ class JRule
 				$identity = (int) $identity;
 
 				// Check if the identity is known.
-				if (isset($this->data[$identity]))
-				{
+				if (isset($this->data[$identity])) {
 					$result = (boolean) $this->data[$identity];
 
 					// An explicit deny wins.
-					if ($result === false)
-					{
+					if ($result === false) {
 						break;
 					}
 				}

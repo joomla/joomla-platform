@@ -140,8 +140,7 @@ class JFilterInput extends JObject
 	{
 		$sig = md5(serialize(array($tagsArray, $attrArray, $tagsMethod, $attrMethod, $xssAuto)));
 
-		if (empty(self::$instances[$sig]))
-		{
+		if (empty(self::$instances[$sig])) {
 			self::$instances[$sig] = new JFilterInput($tagsArray, $attrArray, $tagsMethod, $attrMethod, $xssAuto);
 		}
 
@@ -162,8 +161,7 @@ class JFilterInput extends JObject
 	public function clean($source, $type = 'string')
 	{
 		// Handle the type constraint
-		switch (strtoupper($type))
-		{
+		switch (strtoupper($type)) {
 			case 'INT':
 			case 'INTEGER':
 				// Only use the first integer value
@@ -230,28 +228,23 @@ class JFilterInput extends JObject
 
 			default:
 				// Are we dealing with an array?
-				if (is_array($source))
-				{
+				if (is_array($source)) {
 					foreach ($source as $key => $value)
 					{
 						// filter element for XSS and other 'bad' code etc.
-						if (is_string($value))
-						{
+						if (is_string($value)) {
 							$source[$key] = $this->_remove($this->_decode($value));
 						}
 					}
 					$result = $source;
 				}
-				else
-				{
+				else {
 					// Or a string?
-					if (is_string($source) && !empty($source))
-					{
+					if (is_string($source) && !empty($source)) {
 						// filter source for XSS and other 'bad' code etc.
 						$result = $this->_remove($this->_decode($source));
 					}
-					else
-					{
+					else {
 						// Not an array or string.. return the passed parameter
 						$result = $source;
 					}
@@ -337,8 +330,7 @@ class JFilterInput extends JObject
 
 			// Check for mal-formed tag where we have a second '<' before the first '>'
 			$nextOpenTag = (strlen($postTag) > $tagOpen_start) ? strpos($postTag, '<', $tagOpen_start + 1) : false;
-			if (($nextOpenTag !== false) && ($nextOpenTag < $tagOpen_end))
-			{
+			if (($nextOpenTag !== false) && ($nextOpenTag < $tagOpen_end)) {
 				// At this point we have a mal-formed tag -- remove the offending open
 				$postTag = substr($postTag, 0, $tagOpen_start) . substr($postTag, $tagOpen_start + 1);
 				$tagOpen_start = strpos($postTag, '<');
@@ -346,8 +338,7 @@ class JFilterInput extends JObject
 			}
 
 			// Let's catch any non-terminated tags and skip over them
-			if ($tagOpen_end === false)
-			{
+			if ($tagOpen_end === false) {
 				$postTag = substr($postTag, $tagOpen_start + 1);
 				$tagOpen_start = strpos($postTag, '<');
 				continue;
@@ -356,8 +347,7 @@ class JFilterInput extends JObject
 			// Do we have a nested tag?
 			$tagOpen_nested = strpos($fromTagOpen, '<');
 			$tagOpen_nested_end = strpos(substr($postTag, $tagOpen_end), '>');
-			if (($tagOpen_nested !== false) && ($tagOpen_nested < $tagOpen_end))
-			{
+			if (($tagOpen_nested !== false) && ($tagOpen_nested < $tagOpen_end)) {
 				$preTag .= substr($postTag, 0, ($tagOpen_nested + 1));
 				$postTag = substr($postTag, ($tagOpen_nested + 1));
 				$tagOpen_start = strpos($postTag, '<');
@@ -373,15 +363,13 @@ class JFilterInput extends JObject
 			$currentSpace = strpos($tagLeft, ' ');
 
 			// Are we an open tag or a close tag?
-			if (substr($currentTag, 0, 1) == '/')
-			{
+			if (substr($currentTag, 0, 1) == '/') {
 				// Close Tag
 				$isCloseTag = true;
 				list ($tagName) = explode(' ', $currentTag);
 				$tagName = substr($tagName, 1);
 			}
-			else
-			{
+			else {
 				// Open Tag
 				$isCloseTag = false;
 				list ($tagName) = explode(' ', $currentTag);
@@ -392,8 +380,7 @@ class JFilterInput extends JObject
 			 * OR no tagname
 			 * OR remove if xssauto is on and tag is blacklisted
 			 */
-			if ((!preg_match("/^[a-z][a-z0-9]*$/i", $tagName)) || (!$tagName) || ((in_array(strtolower($tagName), $this->tagBlacklist)) && ($this->xssAuto)))
-			{
+			if ((!preg_match("/^[a-z][a-z0-9]*$/i", $tagName)) || (!$tagName) || ((in_array(strtolower($tagName), $this->tagBlacklist)) && ($this->xssAuto))) {
 				$postTag = substr($postTag, ($tagLength + 2));
 				$tagOpen_start = strpos($postTag, '<');
 				// Strip tag
@@ -417,8 +404,7 @@ class JFilterInput extends JObject
 				$startAttPosition = 0;
 
 				// Find position of equal and open quotes ignoring
-				if (preg_match('#\s*=\s*\"#', $fromSpace, $matches, PREG_OFFSET_CAPTURE))
-				{
+				if (preg_match('#\s*=\s*\"#', $fromSpace, $matches, PREG_OFFSET_CAPTURE)) {
 					$startAtt = $matches[0][0];
 					$startAttPosition = $matches[0][1];
 					$closeQuotes = strpos(substr($fromSpace, ($startAttPosition + strlen($startAtt))), '"') + $startAttPosition + strlen($startAtt);
@@ -428,47 +414,37 @@ class JFilterInput extends JObject
 				}
 
 				// Do we have an attribute to process? [check for equal sign]
-				if ($fromSpace != '/' && (($nextEqual && $nextSpace && $nextSpace < $nextEqual) || !$nextEqual))
-				{
-					if (!$nextEqual)
-					{
+				if ($fromSpace != '/' && (($nextEqual && $nextSpace && $nextSpace < $nextEqual) || !$nextEqual)) {
+					if (!$nextEqual) {
 						$attribEnd = strpos($fromSpace, '/') - 1;
 					}
-					else
-					{
+					else {
 						$attribEnd = $nextSpace - 1;
 					}
 					// If there is an ending, use this, if not, do not worry.
-					if ($attribEnd > 0)
-					{
+					if ($attribEnd > 0) {
 						$fromSpace = substr($fromSpace, $attribEnd + 1);
 					}
 				}
-				if (strpos($fromSpace, '=') !== false)
-				{
+				if (strpos($fromSpace, '=') !== false) {
 					// If the attribute value is wrapped in quotes we need to grab the substring from
 					// the closing quote, otherwise grab until the next space.
-					if (($openQuotes !== false) && (strpos(substr($fromSpace, ($openQuotes + 1)), '"') !== false))
-					{
+					if (($openQuotes !== false) && (strpos(substr($fromSpace, ($openQuotes + 1)), '"') !== false)) {
 						$attr = substr($fromSpace, 0, ($closeQuotes + 1));
 					}
-					else
-					{
+					else {
 						$attr = substr($fromSpace, 0, $nextSpace);
 					}
 				}
 				// No more equal signs so add any extra text in the tag into the attribute array [eg. checked]
-				else
-				{
-					if ($fromSpace != '/')
-					{
+				else {
+					if ($fromSpace != '/') {
 						$attr = substr($fromSpace, 0, $nextSpace);
 					}
 				}
 
 				// Last Attribute Pair
-				if (!$attr && $fromSpace != '/')
-				{
+				if (!$attr && $fromSpace != '/') {
 					$attr = $fromSpace;
 				}
 
@@ -484,11 +460,9 @@ class JFilterInput extends JObject
 			$tagFound = in_array(strtolower($tagName), $this->tagsArray);
 
 			// If the tag is allowed let's append it to the output string.
-			if ((!$tagFound && $this->tagsMethod) || ($tagFound && !$this->tagsMethod))
-			{
+			if ((!$tagFound && $this->tagsMethod) || ($tagFound && !$this->tagsMethod)) {
 				// Reconstruct tag with allowed attributes
-				if (!$isCloseTag)
-				{
+				if (!$isCloseTag) {
 					// Open or single tag
 					$attrSet = $this->_cleanAttributes($attrSet);
 					$preTag .= '<' . $tagName;
@@ -498,18 +472,15 @@ class JFilterInput extends JObject
 					}
 
 					// Reformat single tags to XHTML
-					if (strpos($fromTagOpen, '</' . $tagName))
-					{
+					if (strpos($fromTagOpen, '</' . $tagName)) {
 						$preTag .= '>';
 					}
-					else
-					{
+					else {
 						$preTag .= ' />';
 					}
 				}
 				// Closing tag
-				else
-				{
+				else {
 					$preTag .= '</' . $tagName . '>';
 				}
 			}
@@ -520,8 +491,7 @@ class JFilterInput extends JObject
 		}
 
 		// Append any code after the end of tags and return
-		if ($postTag != '<')
-		{
+		if ($postTag != '<') {
 			$preTag .= $postTag;
 		}
 
@@ -547,8 +517,7 @@ class JFilterInput extends JObject
 		for ($i = 0; $i < $count; $i++)
 		{
 			// Skip blank spaces
-			if (!$attrSet[$i])
-			{
+			if (!$attrSet[$i]) {
 				continue;
 			}
 
@@ -562,14 +531,12 @@ class JFilterInput extends JObject
 
 			if ((!preg_match('/[a-z]*$/i', $attrSubSet[0]))
 				|| (($this->xssAuto) && ((in_array(strtolower($attrSubSet[0]), $this->attrBlacklist))
-				|| (substr($attrSubSet[0], 0, 2) == 'on'))))
-			{
+				|| (substr($attrSubSet[0], 0, 2) == 'on')))) {
 				continue;
 			}
 
 			// XSS attribute value filtering
-			if (isset($attrSubSet[1]))
-			{
+			if (isset($attrSubSet[1])) {
 				// trim leading and trailing spaces
 				$attrSubSet[1] = trim($attrSubSet[1]);
 				// strips unicode, hex, etc
@@ -579,21 +546,18 @@ class JFilterInput extends JObject
 				// Strip double quotes
 				$attrSubSet[1] = str_replace('"', '', $attrSubSet[1]);
 				// Convert single quotes from either side to doubles (Single quotes shouldn't be used to pad attr values)
-				if ((substr($attrSubSet[1], 0, 1) == "'") && (substr($attrSubSet[1], (strlen($attrSubSet[1]) - 1), 1) == "'"))
-				{
+				if ((substr($attrSubSet[1], 0, 1) == "'") && (substr($attrSubSet[1], (strlen($attrSubSet[1]) - 1), 1) == "'")) {
 					$attrSubSet[1] = substr($attrSubSet[1], 1, (strlen($attrSubSet[1]) - 2));
 				}
 				// Strip slashes
 				$attrSubSet[1] = stripslashes($attrSubSet[1]);
 			}
-			else
-			{
+			else {
 				continue;
 			}
 
 			// Autostrip script tags
-			if (self::checkAttribute($attrSubSet))
-			{
+			if (self::checkAttribute($attrSubSet)) {
 				continue;
 			}
 
@@ -601,21 +565,17 @@ class JFilterInput extends JObject
 			$attrFound = in_array(strtolower($attrSubSet[0]), $this->attrArray);
 
 			// If the tag is allowed lets keep it
-			if ((!$attrFound && $this->attrMethod) || ($attrFound && !$this->attrMethod))
-			{
+			if ((!$attrFound && $this->attrMethod) || ($attrFound && !$this->attrMethod)) {
 				// Does the attribute have a value?
-				if (empty($attrSubSet[1]) === false)
-				{
+				if (empty($attrSubSet[1]) === false) {
 					$newSet[] = $attrSubSet[0] . '="' . $attrSubSet[1] . '"';
 				}
-				elseif ($attrSubSet[1] === "0")
-				{
+				elseif ($attrSubSet[1] === "0") {
 					// Special Case
 					// Is the value 0?
 					$newSet[] = $attrSubSet[0] . '="0"';
 				}
-				else
-				{
+				else {
 					// Leave empty attributes alone
 					$newSet[] = $attrSubSet[0] . '=""';
 				}
@@ -638,8 +598,7 @@ class JFilterInput extends JObject
 	{
 		static $ttr;
 
-		if (!is_array($ttr))
-		{
+		if (!is_array($ttr)) {
 			// Entity decode
 			$trans_tbl = get_html_translation_table(HTML_ENTITIES);
 			foreach ($trans_tbl as $k => $v)
@@ -684,13 +643,11 @@ class JFilterInput extends JObject
 			$pregMatch = ($quote == '"') ? '#(\"\s*/\s*>|\"\s*>|\"\s+|\"$)#' : "#(\'\s*/\s*>|\'\s*>|\'\s+|\'$)#";
 
 			// get the portion after attribute value
-			if (preg_match($pregMatch, substr($remainder, $nextBefore), $matches, PREG_OFFSET_CAPTURE))
-			{
+			if (preg_match($pregMatch, substr($remainder, $nextBefore), $matches, PREG_OFFSET_CAPTURE)) {
 				// We have a closing quote
 				$nextAfter = $nextBefore + $matches[0][1];
 			}
-			else
-			{
+			else {
 				// No closing quote
 				$nextAfter = strlen($remainder);
 			}
@@ -721,17 +678,14 @@ class JFilterInput extends JObject
 		// Strip any comments out (in the form of /*...*/)
 		$test = preg_replace('#\/\*.*\*\/#U', '', $source);
 		// Test for :expression
-		if (!stripos($test, ':expression'))
-		{
+		if (!stripos($test, ':expression')) {
 			// Not found, so we are done
 			$return = $source;
 		}
-		else
-		{
+		else {
 			// At this point, we have stripped out the comments and have found :expression
 			// Test stripped string for :expression followed by a '('
-			if (preg_match_all('#:expression\s*\(#', $test, $matches))
-			{
+			if (preg_match_all('#:expression\s*\(#', $test, $matches)) {
 				// If found, remove :expression
 				$test = str_ireplace(':expression', '', $test);
 				$return = $test;

@@ -38,8 +38,7 @@ abstract class JHtmlString
 	public static function truncate($text, $length = 0, $noSplit = true, $allowHtml = true)
 	{
 		// Check if HTML tags are allowed.
-		if (!$allowHtml)
-		{
+		if (!$allowHtml) {
 			// Deal with spacing issues in the input.
 			$text = str_replace('>', '> ', $text);
 			$text = str_replace(array('&nbsp;', '&#160;'), ' ', $text);
@@ -55,29 +54,24 @@ abstract class JHtmlString
 		}
 
 		// Truncate the item text if it is too long.
-		if ($length > 0 && JString::strlen($text) > $length)
-		{
+		if ($length > 0 && JString::strlen($text) > $length) {
 			// Find the first space within the allowed length.
 			$tmp = JString::substr($text, 0, $length);
 
-			if ($noSplit)
-			{
+			if ($noSplit) {
 				$offset = JString::strrpos($tmp, ' ');
-				if (JString::strrpos($tmp, '<') > JString::strrpos($tmp, '>'))
-				{
+				if (JString::strrpos($tmp, '<') > JString::strrpos($tmp, '>')) {
 					$offset = JString::strrpos($tmp, '<');
 				}
 				$tmp = JString::substr($tmp, 0, $offset);
 
 				// If we don't have 3 characters of room, go to the second space within the limit.
-				if (JString::strlen($tmp) > $length - 3)
-				{
+				if (JString::strlen($tmp) > $length - 3) {
 					$tmp = JString::substr($tmp, 0, JString::strrpos($tmp, ' '));
 				}
 			}
 
-			if ($allowHtml)
-			{
+			if ($allowHtml) {
 				// Put all opened tags into an array
 				preg_match_all("#<([a-z][a-z0-9]*)\b.*?(?!/)>#i", $tmp, $result);
 				$openedTags = $result[1];
@@ -90,8 +84,7 @@ abstract class JHtmlString
 
 				$numOpened = count($openedTags);
 				// All tags are closed
-				if (count($closedTags) == $numOpened)
-				{
+				if (count($closedTags) == $numOpened) {
 					return $tmp . '...';
 				}
 
@@ -100,12 +93,10 @@ abstract class JHtmlString
 				// Close tags
 				for ($i = 0; $i < $numOpened; $i++)
 				{
-					if (!in_array($openedTags[$i], $closedTags))
-					{
+					if (!in_array($openedTags[$i], $closedTags)) {
 						$tmp .= "</" . $openedTags[$i] . ">";
 					}
-					else
-					{
+					else {
 						unset($closedTags[array_search($openedTags[$i], $closedTags)]);
 					}
 				}
@@ -138,8 +129,7 @@ abstract class JHtmlString
 	public static function abridge($text, $length = 50, $intro = 30)
 	{
 		// Abridge the item text if it is too long.
-		if (JString::strlen($text) > $length)
-		{
+		if (JString::strlen($text) > $length) {
 			// Determine the remaining text length.
 			$remainder = $length - ($intro + 3);
 

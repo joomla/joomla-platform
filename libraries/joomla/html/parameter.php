@@ -67,20 +67,16 @@ class JParameter extends JRegistry
 		// Set base path.
 		$this->_elementPath[] = dirname(__FILE__) . '/parameter/element';
 
-		if ($data = trim($data))
-		{
-			if (strpos($data, '{') === 0)
-			{
+		if ($data = trim($data)) {
+			if (strpos($data, '{') === 0) {
 				$this->loadString($data);
 			}
-			else
-			{
+			else {
 				$this->loadINI($data);
 			}
 		}
 
-		if ($path)
-		{
+		if ($path) {
 			$this->loadSetupFile($path);
 		}
 
@@ -125,19 +121,15 @@ class JParameter extends JRegistry
 		// Deprecation warning.
 		JLog::add('JParameter::setXML is deprecated.', JLog::WARNING, 'deprecated');
 
-		if (is_object($xml))
-		{
-			if ($group = $xml->attributes('group'))
-			{
+		if (is_object($xml)) {
+			if ($group = $xml->attributes('group')) {
 				$this->_xml[$group] = $xml;
 			}
-			else
-			{
+			else {
 				$this->_xml['_default'] = $xml;
 			}
 
-			if ($dir = $xml->attributes('addpath'))
-			{
+			if ($dir = $xml->attributes('addpath')) {
 				$this->addElementPath(JPATH_ROOT . str_replace('/', DS, $dir));
 			}
 		}
@@ -159,17 +151,14 @@ class JParameter extends JRegistry
 		// Deprecation warning.
 		JLog::add('JParameter::bind is deprecated.', JLog::WARNING, 'deprecated');
 
-		if (is_array($data))
-		{
+		if (is_array($data)) {
 
 			return $this->loadArray($data);
 		}
-		elseif (is_object($data))
-		{
+		elseif (is_object($data)) {
 			return $this->loadObject($data);
 		}
-		else
-		{
+		else {
 			return $this->loadString($data);
 		}
 	}
@@ -190,16 +179,14 @@ class JParameter extends JRegistry
 		// Deprecation warning.
 		JLog::add('JParameter::render is deprecated.', JLog::WARNING, 'deprecated');
 
-		if (!isset($this->_xml[$group]))
-		{
+		if (!isset($this->_xml[$group])) {
 			return false;
 		}
 
 		$params = $this->getParams($name, $group);
 		$html = array();
 
-		if ($description = $this->_xml[$group]->attributes('description'))
-		{
+		if ($description = $this->_xml[$group]->attributes('description')) {
 			// Add the params description to the display
 			$desc = JText::_($description);
 			$html[] = '<p class="paramrow_desc">' . $desc . '</p>';
@@ -207,19 +194,16 @@ class JParameter extends JRegistry
 
 		foreach ($params as $param)
 		{
-			if ($param[0])
-			{
+			if ($param[0]) {
 				$html[] = $param[0];
 				$html[] = $param[1];
 			}
-			else
-			{
+			else {
 				$html[] = $param[1];
 			}
 		}
 
-		if (count($params) < 1)
-		{
+		if (count($params) < 1) {
 			$html[] = "<p class=\"noparams\">" . JText::_('JLIB_HTML_NO_PARAMETERS_FOR_THIS_ITEM') . "</p>";
 		}
 
@@ -243,8 +227,7 @@ class JParameter extends JRegistry
 		// Deprecation warning.
 		JLog::add('JParameter::renderToArray is deprecated.', JLog::WARNING, 'deprecated');
 
-		if (!isset($this->_xml[$group]))
-		{
+		if (!isset($this->_xml[$group])) {
 			return false;
 		}
 		$results = array();
@@ -271,12 +254,10 @@ class JParameter extends JRegistry
 		// Deprecation warning.
 		JLog::add('JParameter::getNumParams is deprecated.', JLog::WARNING, 'deprecated');
 
-		if (!isset($this->_xml[$group]) || !count($this->_xml[$group]->children()))
-		{
+		if (!isset($this->_xml[$group]) || !count($this->_xml[$group]->children())) {
 			return false;
 		}
-		else
-		{
+		else {
 			return count($this->_xml[$group]->children());
 		}
 	}
@@ -294,8 +275,7 @@ class JParameter extends JRegistry
 		// Deprecation warning.
 		JLog::add('JParameter::getGroups is deprecated.', JLog::WARNING, 'deprecated');
 
-		if (!is_array($this->_xml))
-		{
+		if (!is_array($this->_xml)) {
 
 			return false;
 		}
@@ -325,8 +305,7 @@ class JParameter extends JRegistry
 		// Deprecation warning.
 		JLog::add('JParameter::getParams is deprecated.', JLog::WARNING, 'deprecated');
 
-		if (!isset($this->_xml[$group]))
-		{
+		if (!isset($this->_xml[$group])) {
 
 			return false;
 		}
@@ -362,8 +341,7 @@ class JParameter extends JRegistry
 		$element = $this->loadElement($type);
 
 		// Check for an error.
-		if ($element === false)
-		{
+		if ($element === false) {
 			$result = array();
 			$result[0] = $node->attributes('name');
 			$result[1] = JText::_('Element not defined for type') . ' = ' . $type;
@@ -391,14 +369,11 @@ class JParameter extends JRegistry
 	{
 		$result = false;
 
-		if ($path)
-		{
+		if ($path) {
 			$xml = JFactory::getXMLParser('Simple');
 
-			if ($xml->loadFile($path))
-			{
-				if ($params = $xml->document->params)
-				{
+			if ($xml->loadFile($path)) {
+				if ($params = $xml->document->params) {
 					foreach ($params as $param)
 					{
 						$this->setXML($param);
@@ -407,8 +382,7 @@ class JParameter extends JRegistry
 				}
 			}
 		}
-		else
-		{
+		else {
 			$result = true;
 		}
 
@@ -430,39 +404,32 @@ class JParameter extends JRegistry
 	{
 		$signature = md5($type);
 
-		if ((isset($this->_elements[$signature]) && !($this->_elements[$signature] instanceof __PHP_Incomplete_Class)) && $new === false)
-		{
+		if ((isset($this->_elements[$signature]) && !($this->_elements[$signature] instanceof __PHP_Incomplete_Class)) && $new === false) {
 			return $this->_elements[$signature];
 		}
 
 		$elementClass = 'JElement' . $type;
-		if (!class_exists($elementClass))
-		{
-			if (isset($this->_elementPath))
-			{
+		if (!class_exists($elementClass)) {
+			if (isset($this->_elementPath)) {
 				$dirs = $this->_elementPath;
 			}
-			else
-			{
+			else {
 				$dirs = array();
 			}
 
 			$file = JFilterInput::getInstance()->clean(str_replace('_', DS, $type) . '.php', 'path');
 
 			jimport('joomla.filesystem.path');
-			if ($elementFile = JPath::find($dirs, $file))
-			{
+			if ($elementFile = JPath::find($dirs, $file)) {
 				include_once $elementFile;
 			}
-			else
-			{
+			else {
 				$false = false;
 				return $false;
 			}
 		}
 
-		if (!class_exists($elementClass))
-		{
+		if (!class_exists($elementClass)) {
 			$false = false;
 			return $false;
 		}
@@ -501,8 +468,7 @@ class JParameter extends JRegistry
 			$dir = trim($dir);
 
 			// Add trailing separators as needed.
-			if (substr($dir, -1) != DIRECTORY_SEPARATOR)
-			{
+			if (substr($dir, -1) != DIRECTORY_SEPARATOR) {
 				// Directory
 				$dir .= DIRECTORY_SEPARATOR;
 			}

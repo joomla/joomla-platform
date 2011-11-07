@@ -51,18 +51,15 @@ class JFormFieldInteger extends JFormFieldList
 		$step = (int) $this->element['step'];
 
 		// Sanity checks.
-		if ($step == 0)
-		{
+		if ($step == 0) {
 			// Step of 0 will create an endless loop.
 			return $options;
 		}
-		elseif ($first < $last && $step < 0)
-		{
+		elseif ($first < $last && $step < 0) {
 			// A negative step will never reach the last number.
 			return $options;
 		}
-		elseif ($first > $last && $step > 0)
-		{
+		elseif ($first > $last && $step > 0) {
 			// A position step will never reach the last number.
 			return $options;
 		}

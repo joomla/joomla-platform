@@ -40,8 +40,7 @@ class JInstallerTemplate extends JAdapterInstance
 	{
 		$source = $this->parent->getPath('source');
 
-		if (!$source)
-		{
+		if (!$source) {
 			$this->parent
 				->setPath(
 				'source',
@@ -55,8 +54,7 @@ class JInstallerTemplate extends JAdapterInstance
 		$client = (string) $this->manifest->attributes()->client;
 
 		// Load administrator language if not set.
-		if (!$client)
-		{
+		if (!$client) {
 			$client = 'ADMINISTRATOR';
 		}
 
@@ -82,21 +80,18 @@ class JInstallerTemplate extends JAdapterInstance
 		$xml = $this->parent->getManifest();
 
 		// Get the client application target
-		if ($cname = (string) $xml->attributes()->client)
-		{
+		if ($cname = (string) $xml->attributes()->client) {
 			// Attempt to map the client to a base path
 			jimport('joomla.application.helper');
 			$client = JApplicationHelper::getClientInfo($cname, true);
-			if ($client === false)
-			{
+			if ($client === false) {
 				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_UNKNOWN_CLIENT', $cname));
 				return false;
 			}
 			$basePath = $client->path;
 			$clientId = $client->id;
 		}
-		else
-		{
+		else {
 			// No client attribute was found so we assume the site as the client
 			$cname = 'site';
 			$basePath = JPATH_SITE;
@@ -118,26 +113,22 @@ class JInstallerTemplate extends JAdapterInstance
 		$this->parent->setPath('extension_root', $basePath . '/templates/' . $element);
 
 		// if it's on the fs...
-		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->getOverwrite() || $this->parent->getUpgrade()))
-		{
+		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->getOverwrite() || $this->parent->getUpgrade())) {
 			$updateElement = $xml->update;
 			// Upgrade manually set or
 			// Update function available or
 			// Update tag detected
 			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-				|| is_a($updateElement, 'JXMLElement'))
-			{
+				|| is_a($updateElement, 'JXMLElement')) {
 				// Force this one
 				$this->parent->setOverwrite(true);
 				$this->parent->setUpgrade(true);
-				if ($id)
-				{
+				if ($id) {
 					// if there is a matching extension mark this as an update; semantics really
 					$this->route = 'update';
 				}
 			}
-			elseif (!$this->parent->getOverwrite())
-			{
+			elseif (!$this->parent->getOverwrite()) {
 				// Overwrite is not set
 				// If we didn't have overwrite set, find an update function or find an update tag so let's call it safe
 				$this->parent
@@ -155,8 +146,7 @@ class JInstallerTemplate extends JAdapterInstance
 		 * If the template directory already exists, then we will assume that the template is already
 		 * installed or another template is using that directory.
 		 */
-		if (file_exists($this->parent->getPath('extension_root')) && !$this->parent->getOverwrite())
-		{
+		if (file_exists($this->parent->getPath('extension_root')) && !$this->parent->getOverwrite()) {
 			JError::raiseWarning(
 				100,
 				JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_ANOTHER_TEMPLATE_USING_DIRECTORY', $this->parent->getPath('extension_root'))
@@ -166,10 +156,8 @@ class JInstallerTemplate extends JAdapterInstance
 
 		// If the template directory does not exist, let's create it
 		$created = false;
-		if (!file_exists($this->parent->getPath('extension_root')))
-		{
-			if (!$created = JFolder::create($this->parent->getPath('extension_root')))
-			{
+		if (!file_exists($this->parent->getPath('extension_root'))) {
+			if (!$created = JFolder::create($this->parent->getPath('extension_root'))) {
 				$this->parent
 					->abort(JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_FAILED_CREATE_DIRECTORY', $this->parent->getPath('extension_root')));
 
@@ -179,30 +167,26 @@ class JInstallerTemplate extends JAdapterInstance
 
 		// If we created the template directory and will want to remove it if we have to roll back
 		// the installation, let's add it to the installation step stack
-		if ($created)
-		{
+		if ($created) {
 			$this->parent->pushStep(array('type' => 'folder', 'path' => $this->parent->getPath('extension_root')));
 		}
 
 		// Copy all the necessary files
-		if ($this->parent->parseFiles($xml->files, -1) === false)
-		{
+		if ($this->parent->parseFiles($xml->files, -1) === false) {
 			// Install failed, rollback changes
 			$this->parent->abort();
 
 			return false;
 		}
 
-		if ($this->parent->parseFiles($xml->images, -1) === false)
-		{
+		if ($this->parent->parseFiles($xml->images, -1) === false) {
 			// Install failed, rollback changes
 			$this->parent->abort();
 
 			return false;
 		}
 
-		if ($this->parent->parseFiles($xml->css, -1) === false)
-		{
+		if ($this->parent->parseFiles($xml->css, -1) === false) {
 			// Install failed, rollback changes
 			$this->parent->abort();
 
@@ -217,8 +201,7 @@ class JInstallerTemplate extends JAdapterInstance
 		$this->parent->set('message', JText::_((string) $xml->description));
 
 		// Lastly, we will copy the manifest file to its appropriate place.
-		if (!$this->parent->copyManifest(-1))
-		{
+		if (!$this->parent->copyManifest(-1)) {
 			// Install failed, rollback changes
 			$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_TPL_INSTALL_COPY_SETUP'));
 
@@ -229,12 +212,10 @@ class JInstallerTemplate extends JAdapterInstance
 
 		$row = JTable::getInstance('extension');
 
-		if ($this->route == 'update' && $id)
-		{
+		if ($this->route == 'update' && $id) {
 			$row->load($id);
 		}
-		else
-		{
+		else {
 			$row->type = 'template';
 			$row->element = $this->get('element');
 			// There is no folder for templates
@@ -249,16 +230,14 @@ class JInstallerTemplate extends JAdapterInstance
 		$row->name = $this->get('name'); // name might change in an update
 		$row->manifest_cache = $this->parent->generateManifestCache();
 
-		if (!$row->store())
-		{
+		if (!$row->store()) {
 			// Install failed, roll back changes
 			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_ROLLBACK', $db->stderr(true)));
 
 			return false;
 		}
 
-		if ($this->route == 'install')
-		{
+		if ($this->route == 'install') {
 			//insert record in #__template_styles
 			$query = $db->getQuery(true);
 			$query->insert('#__template_styles');
@@ -307,16 +286,14 @@ class JInstallerTemplate extends JAdapterInstance
 		// This should give us the necessary information to proceed.
 		$row = JTable::getInstance('extension');
 
-		if (!$row->load((int) $id) || !strlen($row->element))
-		{
+		if (!$row->load((int) $id) || !strlen($row->element)) {
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_ERRORUNKOWNEXTENSION'));
 			return false;
 		}
 
 		// Is the template we are trying to uninstall a core one?
 		// Because that is not a good idea...
-		if ($row->protected)
-		{
+		if ($row->protected) {
 			JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_WARNCORETEMPLATE', $row->name));
 			return false;
 		}
@@ -325,8 +302,7 @@ class JInstallerTemplate extends JAdapterInstance
 		$clientId = $row->client_id;
 
 		// For a template the id will be the template name which represents the subfolder of the templates folder that the template resides in.
-		if (!$name)
-		{
+		if (!$name) {
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_ID_EMPTY'));
 
 			return false;
@@ -337,8 +313,7 @@ class JInstallerTemplate extends JAdapterInstance
 		$query = 'SELECT COUNT(*) FROM #__template_styles' . ' WHERE home = 1 AND template = ' . $db->Quote($name);
 		$db->setQuery($query);
 
-		if ($db->loadResult() != 0)
-		{
+		if ($db->loadResult() != 0) {
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_DEFAULT'));
 
 			return false;
@@ -347,8 +322,7 @@ class JInstallerTemplate extends JAdapterInstance
 		// Get the template root path
 		$client = JApplicationHelper::getClientInfo($clientId);
 
-		if (!$client)
-		{
+		if (!$client) {
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_INVALID_CLIENT'));
 			return false;
 		}
@@ -359,8 +333,7 @@ class JInstallerTemplate extends JAdapterInstance
 		// We do findManifest to avoid problem when uninstalling a list of extensions: getManifest cache its manifest file
 		$this->parent->findManifest();
 		$manifest = $this->parent->getManifest();
-		if (!($manifest instanceof JXMLElement))
-		{
+		if (!($manifest instanceof JXMLElement)) {
 			// Kill the extension entry
 			$row->delete($row->extension_id);
 			unset($row);
@@ -376,12 +349,10 @@ class JInstallerTemplate extends JAdapterInstance
 		$this->parent->removeFiles($manifest->languages, $clientId);
 
 		// Delete the template directory
-		if (JFolder::exists($this->parent->getPath('extension_root')))
-		{
+		if (JFolder::exists($this->parent->getPath('extension_root'))) {
 			$retval = JFolder::delete($this->parent->getPath('extension_root'));
 		}
-		else
-		{
+		else {
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_DIRECTORY'));
 			$retval = false;
 		}
@@ -418,8 +389,7 @@ class JInstallerTemplate extends JAdapterInstance
 
 		foreach ($site_list as $template)
 		{
-			if ($template == 'system')
-			{
+			if ($template == 'system') {
 				continue;
 
 				// Ignore special system template
@@ -437,8 +407,7 @@ class JInstallerTemplate extends JAdapterInstance
 
 		foreach ($admin_list as $template)
 		{
-			if ($template == 'system')
-			{
+			if ($template == 'system') {
 				continue;
 
 				// Ignore special system template
@@ -475,12 +444,10 @@ class JInstallerTemplate extends JAdapterInstance
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$description = (string) $this->parent->manifest->description;
 
-		if ($description)
-		{
+		if ($description) {
 			$this->parent->set('message', JText::_($description));
 		}
-		else
-		{
+		else {
 			$this->parent->set('message', '');
 		}
 
@@ -500,8 +467,7 @@ class JInstallerTemplate extends JAdapterInstance
 
 		$this->parent->extension->params = $this->parent->getParams();
 
-		if ($this->parent->extension->store())
-		{
+		if ($this->parent->extension->store()) {
 			//insert record in #__template_styles
 			$db = $this->parent->getDbo();
 			$query = $db->getQuery(true);
@@ -516,8 +482,7 @@ class JInstallerTemplate extends JAdapterInstance
 
 			return $this->parent->extension->get('extension_id');
 		}
-		else
-		{
+		else {
 			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_TPL_DISCOVER_STORE_DETAILS'));
 
 			return false;
@@ -543,12 +508,10 @@ class JInstallerTemplate extends JAdapterInstance
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->name = $manifest_details['name'];
 
-		try
-		{
+		try {
 			return $this->parent->extension->store();
 		}
-		catch (JException $e)
-		{
+		catch (JException $e) {
 			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_TPL_REFRESH_MANIFEST_CACHE'));
 			return false;
 		}

@@ -35,21 +35,17 @@ class JFilterOutput
 	 */
 	public static function objectHTMLSafe(&$mixed, $quote_style = ENT_QUOTES, $exclude_keys = '')
 	{
-		if (is_object($mixed))
-		{
+		if (is_object($mixed)) {
 			foreach (get_object_vars($mixed) as $k => $v)
 			{
-				if (is_array($v) || is_object($v) || $v == null || substr($k, 1, 1) == '_')
-				{
+				if (is_array($v) || is_object($v) || $v == null || substr($k, 1, 1) == '_') {
 					continue;
 				}
 
-				if (is_string($exclude_keys) && $k == $exclude_keys)
-				{
+				if (is_string($exclude_keys) && $k == $exclude_keys) {
 					continue;
 				}
-				elseif (is_array($exclude_keys) && in_array($k, $exclude_keys))
-				{
+				elseif (is_array($exclude_keys) && in_array($k, $exclude_keys)) {
 					continue;
 				}
 

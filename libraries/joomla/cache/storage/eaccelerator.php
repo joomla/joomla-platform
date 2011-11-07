@@ -46,8 +46,7 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 		$cache_content = eaccelerator_get($cache_id);
-		if ($cache_content === null)
-		{
+		if ($cache_content === null) {
 			return false;
 		}
 		return $cache_content;
@@ -76,16 +75,13 @@ class JCacheStorageEaccelerator extends JCacheStorage
 			$name = ltrim($key['name'], ':');
 			$namearr = explode('-', $name);
 
-			if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
-			{
+			if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache') {
 				$group = $namearr[2];
 
-				if (!isset($data[$group]))
-				{
+				if (!isset($data[$group])) {
 					$item = new JCacheStorageHelper($group);
 				}
-				else
-				{
+				else {
 					$item = $data[$group];
 				}
 
@@ -149,15 +145,13 @@ class JCacheStorageEaccelerator extends JCacheStorage
 
 		$secret = $this->_hash;
 
-		if (is_array($keys))
-		{
+		if (is_array($keys)) {
 			foreach ($keys as $key)
 			{
 				/* Trim leading ":" to work around list_keys namespace bug in eAcc. This will still work when bug is fixed */
 				$key['name'] = ltrim($key['name'], ':');
 
-				if (strpos($key['name'], $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
-				{
+				if (strpos($key['name'], $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group') {
 					eaccelerator_rm($key['name']);
 				}
 			}
@@ -211,8 +205,7 @@ class JCacheStorageEaccelerator extends JCacheStorage
 
 		$data_lock = eaccelerator_lock($cache_id);
 
-		if ($data_lock === false)
-		{
+		if ($data_lock === false) {
 
 			$lock_counter = 0;
 
@@ -221,8 +214,7 @@ class JCacheStorageEaccelerator extends JCacheStorage
 			while ($data_lock === false)
 			{
 
-				if ($lock_counter > $looptime)
-				{
+				if ($lock_counter > $looptime) {
 					$returning->locked = false;
 					$returning->locklooped = true;
 					break;

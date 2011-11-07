@@ -57,13 +57,11 @@ class JDocumentError extends JDocument
 	 */
 	public function setError($error)
 	{
-		if (JError::isError($error))
-		{
+		if (JError::isError($error)) {
 			$this->_error = & $error;
 			return true;
 		}
-		else
-		{
+		else {
 			return false;
 		}
 	}
@@ -81,8 +79,7 @@ class JDocumentError extends JDocument
 	public function render($cache = false, $params = array())
 	{
 		// If no error object is set return null
-		if (!isset($this->_error))
-		{
+		if (!isset($this->_error)) {
 			return;
 		}
 
@@ -94,8 +91,7 @@ class JDocumentError extends JDocument
 		$directory = isset($params['directory']) ? $params['directory'] : 'templates';
 		$template = isset($params['template']) ? JFilterInput::getInstance()->clean($params['template'], 'cmd') : 'system';
 
-		if (!file_exists($directory . '/' . $template . '/' . $file))
-		{
+		if (!file_exists($directory . '/' . $template . '/' . $file)) {
 			$template = 'system';
 		}
 
@@ -127,8 +123,7 @@ class JDocumentError extends JDocument
 		$contents = '';
 
 		// Check to see if we have a valid template file
-		if (file_exists($directory . '/' . $filename))
-		{
+		if (file_exists($directory . '/' . $filename)) {
 			// Store the file path
 			$this->_file = $directory . '/' . $filename;
 
@@ -153,8 +148,7 @@ class JDocumentError extends JDocument
 	{
 		$contents = null;
 		$backtrace = $this->_error->getTrace();
-		if (is_array($backtrace))
-		{
+		if (is_array($backtrace)) {
 			ob_start();
 			$j = 1;
 			echo '<table cellpadding="0" cellspacing="0" class="Table">';
@@ -170,20 +164,16 @@ class JDocumentError extends JDocument
 			{
 				echo '	<tr>';
 				echo '		<td class="TD">' . $j . '</td>';
-				if (isset($backtrace[$i]['class']))
-				{
+				if (isset($backtrace[$i]['class'])) {
 					echo '	<td class="TD">' . $backtrace[$i]['class'] . $backtrace[$i]['type'] . $backtrace[$i]['function'] . '()</td>';
 				}
-				else
-				{
+				else {
 					echo '	<td class="TD">' . $backtrace[$i]['function'] . '()</td>';
 				}
-				if (isset($backtrace[$i]['file']))
-				{
+				if (isset($backtrace[$i]['file'])) {
 					echo '		<td class="TD">' . $backtrace[$i]['file'] . ':' . $backtrace[$i]['line'] . '</td>';
 				}
-				else
-				{
+				else {
 					echo '		<td class="TD">&#160;</td>';
 				}
 				echo '	</tr>';

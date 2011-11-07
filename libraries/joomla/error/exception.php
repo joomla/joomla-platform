@@ -124,42 +124,34 @@ class JException extends Exception
 		$this->code = $code;
 		$this->message = $msg;
 
-		if ($info != null)
-		{
+		if ($info != null) {
 			$this->info = $info;
 		}
 
-		if ($backtrace && function_exists('debug_backtrace'))
-		{
+		if ($backtrace && function_exists('debug_backtrace')) {
 			$this->backtrace = debug_backtrace();
 
 			for ($i = count($this->backtrace) - 1; $i >= 0; --$i)
 			{
 				++$i;
-				if (isset($this->backtrace[$i]['file']))
-				{
+				if (isset($this->backtrace[$i]['file'])) {
 					$this->file = $this->backtrace[$i]['file'];
 				}
-				if (isset($this->backtrace[$i]['line']))
-				{
+				if (isset($this->backtrace[$i]['line'])) {
 					$this->line = $this->backtrace[$i]['line'];
 				}
-				if (isset($this->backtrace[$i]['class']))
-				{
+				if (isset($this->backtrace[$i]['class'])) {
 					$this->class = $this->backtrace[$i]['class'];
 				}
-				if (isset($this->backtrace[$i]['function']))
-				{
+				if (isset($this->backtrace[$i]['function'])) {
 					$this->function = $this->backtrace[$i]['function'];
 				}
-				if (isset($this->backtrace[$i]['type']))
-				{
+				if (isset($this->backtrace[$i]['type'])) {
 					$this->type = $this->backtrace[$i]['type'];
 				}
 
 				$this->args = false;
-				if (isset($this->backtrace[$i]['args']))
-				{
+				if (isset($this->backtrace[$i]['args'])) {
 					$this->args = $this->backtrace[$i]['args'];
 				}
 				break;
@@ -213,8 +205,7 @@ class JException extends Exception
 	 */
 	public function get($property, $default = null)
 	{
-		if (isset($this->$property))
-		{
+		if (isset($this->$property)) {
 			return $this->$property;
 		}
 		return $default;
@@ -234,12 +225,10 @@ class JException extends Exception
 	public function getProperties($public = true)
 	{
 		$vars = get_object_vars($this);
-		if ($public)
-		{
+		if ($public) {
 			foreach ($vars as $key => $value)
 			{
-				if ('_' == substr($key, 0, 1))
-				{
+				if ('_' == substr($key, 0, 1)) {
 					unset($vars[$key]);
 				}
 			}
@@ -265,24 +254,20 @@ class JException extends Exception
 		JLog::add('JException::getError is deprecated.', JLog::WARNING, 'deprecated');
 
 		// Find the error
-		if ($i === null)
-		{
+		if ($i === null) {
 			// Default, return the last message
 			$error = end($this->_errors);
 		}
-		elseif (!array_key_exists($i, $this->_errors))
-		{
+		elseif (!array_key_exists($i, $this->_errors)) {
 			// If $i has been specified but does not exist, return false
 			return false;
 		}
-		else
-		{
+		else {
 			$error = $this->_errors[$i];
 		}
 
 		// Check if only the string is requested
-		if (JError::isError($error) && $toString)
-		{
+		if (JError::isError($error) && $toString) {
 			return (string) $error;
 		}
 
@@ -347,8 +332,7 @@ class JException extends Exception
 		// Cast to an array
 		$properties = (array) $properties;
 
-		if (is_array($properties))
-		{
+		if (is_array($properties)) {
 			foreach ($properties as $k => $v)
 			{
 				$this->$k = $v;

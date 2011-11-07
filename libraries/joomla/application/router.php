@@ -57,12 +57,10 @@ class JRouter extends JObject
 	 */
 	public function __construct($options = array())
 	{
-		if (array_key_exists('mode', $options))
-		{
+		if (array_key_exists('mode', $options)) {
 			$this->_mode = $options['mode'];
 		}
-		else
-		{
+		else {
 			$this->_mode = JROUTER_MODE_RAW;
 		}
 	}
@@ -82,27 +80,23 @@ class JRouter extends JObject
 	{
 		static $instances;
 
-		if (!isset($instances))
-		{
+		if (!isset($instances)) {
 			$instances = array();
 		}
 
-		if (empty($instances[$client]))
-		{
+		if (empty($instances[$client])) {
 			// Load the router object
 			$info = JApplicationHelper::getClientInfo($client, true);
 
 			$path = $info->path . '/includes/router.php';
-			if (file_exists($path))
-			{
+			if (file_exists($path)) {
 				include_once $path;
 
 				// Create a JRouter object
 				$classname = 'JRouter' . ucfirst($client);
 				$instance = new $classname($options);
 			}
-			else
-			{
+			else {
 				$error = JError::raiseError(500, JText::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client));
 				return $error;
 			}
@@ -130,14 +124,12 @@ class JRouter extends JObject
 		$vars = $this->_processParseRules($uri);
 
 		// Parse RAW URL
-		if ($this->_mode == JROUTER_MODE_RAW)
-		{
+		if ($this->_mode == JROUTER_MODE_RAW) {
 			$vars += $this->_parseRawRoute($uri);
 		}
 
 		// Parse SEF URL
-		if ($this->_mode == JROUTER_MODE_SEF)
-		{
+		if ($this->_mode == JROUTER_MODE_SEF) {
 			$vars += $this->_parseSefRoute($uri);
 		}
 
@@ -162,14 +154,12 @@ class JRouter extends JObject
 		$this->_processBuildRules($uri);
 
 		// Build RAW URL
-		if ($this->_mode == JROUTER_MODE_RAW)
-		{
+		if ($this->_mode == JROUTER_MODE_RAW) {
 			$this->_buildRawRoute($uri);
 		}
 
 		// Build SEF URL : mysite/route/index.php?var=x
-		if ($this->_mode == JROUTER_MODE_SEF)
-		{
+		if ($this->_mode == JROUTER_MODE_SEF) {
 			$this->_buildSefRoute($uri);
 		}
 
@@ -215,8 +205,7 @@ class JRouter extends JObject
 	 */
 	public function setVar($key, $value, $create = true)
 	{
-		if ($create || array_key_exists($key, $this->_vars))
-		{
+		if ($create || array_key_exists($key, $this->_vars)) {
 			$this->_vars[$key] = $value;
 		}
 	}
@@ -233,12 +222,10 @@ class JRouter extends JObject
 	 */
 	public function setVars($vars = array(), $merge = true)
 	{
-		if ($merge)
-		{
+		if ($merge) {
 			$this->_vars = array_merge($this->_vars, $vars);
 		}
-		else
-		{
+		else {
 			$this->_vars = $vars;
 		}
 	}
@@ -255,8 +242,7 @@ class JRouter extends JObject
 	public function getVar($key)
 	{
 		$result = null;
-		if (isset($this->_vars[$key]))
-		{
+		if (isset($this->_vars[$key])) {
 			$result = $this->_vars[$key];
 		}
 		return $result;
@@ -406,11 +392,9 @@ class JRouter extends JObject
 	protected function _createURI($url)
 	{
 		// Create full URL if we are only appending variables to it
-		if (substr($url, 0, 1) == '&')
-		{
+		if (substr($url, 0, 1) == '&') {
 			$vars = array();
-			if (strpos($url, '&amp;') !== false)
-			{
+			if (strpos($url, '&amp;') !== false) {
 				$url = str_replace('&amp;', '&', $url);
 			}
 
@@ -420,8 +404,7 @@ class JRouter extends JObject
 
 			foreach ($vars as $key => $var)
 			{
-				if ($var == "")
-				{
+				if ($var == "") {
 					unset($vars[$key]);
 				}
 			}

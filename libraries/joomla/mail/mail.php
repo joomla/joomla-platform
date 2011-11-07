@@ -47,13 +47,11 @@ class JMail extends PHPMailer
 	{
 		static $instances;
 
-		if (!isset($instances))
-		{
+		if (!isset($instances)) {
 			$instances = array();
 		}
 
-		if (empty($instances[$id]))
-		{
+		if (empty($instances[$id])) {
 			$instances[$id] = new JMail;
 		}
 
@@ -69,15 +67,13 @@ class JMail extends PHPMailer
 	 */
 	public function Send()
 	{
-		if (($this->Mailer == 'mail') && !function_exists('mail'))
-		{
+		if (($this->Mailer == 'mail') && !function_exists('mail')) {
 			return JError::raiseNotice(500, JText::_('JLIB_MAIL_FUNCTION_DISABLED'));
 		}
 
 		@$result = parent::Send();
 
-		if ($result == false)
-		{
+		if ($result == false) {
 			// TODO: Set an appropriate error number
 			$result = JError::raiseNotice(500, JText::_($this->ErrorInfo));
 		}
@@ -97,18 +93,15 @@ class JMail extends PHPMailer
 	 */
 	public function setSender($from)
 	{
-		if (is_array($from))
-		{
+		if (is_array($from)) {
 			// If $from is an array we assume it has an address and a name
 			$this->SetFrom(JMailHelper::cleanLine($from[0]), JMailHelper::cleanLine($from[1]));
 		}
-		elseif (is_string($from))
-		{
+		elseif (is_string($from)) {
 			// If it is a string we assume it is just the address
 			$this->SetFrom(JMailHelper::cleanLine($from));
 		}
-		else
-		{
+		else {
 			// If it is neither, we throw a warning
 			JError::raiseWarning(0, JText::sprintf('JLIB_MAIL_INVALID_EMAIL_SENDER', $from));
 		}
@@ -165,16 +158,14 @@ class JMail extends PHPMailer
 	public function addRecipient($recipient, $name = '')
 	{
 		// If the recipient is an array, add each recipient... otherwise just add the one
-		if (is_array($recipient))
-		{
+		if (is_array($recipient)) {
 			foreach ($recipient as $to)
 			{
 				$to = JMailHelper::cleanLine($to);
 				$this->AddAddress($to);
 			}
 		}
-		else
-		{
+		else {
 			$recipient = JMailHelper::cleanLine($recipient);
 			$this->AddAddress($recipient);
 		}
@@ -195,18 +186,15 @@ class JMail extends PHPMailer
 	public function addCC($cc, $name = '')
 	{
 		// If the carbon copy recipient is an array, add each recipient... otherwise just add the one
-		if (isset($cc))
-		{
-			if (is_array($cc))
-			{
+		if (isset($cc)) {
+			if (is_array($cc)) {
 				foreach ($cc as $to)
 				{
 					$to = JMailHelper::cleanLine($to);
 					parent::AddCC($to);
 				}
 			}
-			else
-			{
+			else {
 				$cc = JMailHelper::cleanLine($cc);
 				parent::AddCC($cc);
 			}
@@ -228,18 +216,15 @@ class JMail extends PHPMailer
 	public function addBCC($bcc, $name = '')
 	{
 		// If the blind carbon copy recipient is an array, add each recipient... otherwise just add the one
-		if (isset($bcc))
-		{
-			if (is_array($bcc))
-			{
+		if (isset($bcc)) {
+			if (is_array($bcc)) {
 				foreach ($bcc as $to)
 				{
 					$to = JMailHelper::cleanLine($to);
 					parent::AddBCC($to);
 				}
 			}
-			else
-			{
+			else {
 				$bcc = JMailHelper::cleanLine($bcc);
 				parent::AddBCC($bcc);
 			}
@@ -263,17 +248,14 @@ class JMail extends PHPMailer
 	public function addAttachment($attachment, $name = '', $encoding = 'base64', $type = 'application/octet-stream')
 	{
 		// If the file attachments is an array, add each file... otherwise just add the one
-		if (isset($attachment))
-		{
-			if (is_array($attachment))
-			{
+		if (isset($attachment)) {
+			if (is_array($attachment)) {
 				foreach ($attachment as $file)
 				{
 					parent::AddAttachment($file);
 				}
 			}
-			else
-			{
+			else {
 				parent::AddAttachment($attachment);
 			}
 		}
@@ -295,8 +277,7 @@ class JMail extends PHPMailer
 	public function addReplyTo($replyto, $name = '')
 	{
 		// Take care of reply email addresses
-		if (is_array($replyto[0]))
-		{
+		if (is_array($replyto[0])) {
 			foreach ($replyto as $to)
 			{
 				$to0 = JMailHelper::cleanLine($to[0]);
@@ -304,8 +285,7 @@ class JMail extends PHPMailer
 				parent::AddReplyTo($to0, $to1);
 			}
 		}
-		else
-		{
+		else {
 			$replyto0 = JMailHelper::cleanLine($replyto[0]);
 			$replyto1 = JMailHelper::cleanLine($replyto[1]);
 			parent::AddReplyTo($replyto0, $replyto1);
@@ -327,14 +307,12 @@ class JMail extends PHPMailer
 	{
 		$this->Sendmail = $sendmail;
 
-		if (!empty($this->Sendmail))
-		{
+		if (!empty($this->Sendmail)) {
 			$this->IsSendmail();
 
 			return true;
 		}
-		else
-		{
+		else {
 			$this->IsMail();
 
 			return false;
@@ -363,20 +341,17 @@ class JMail extends PHPMailer
 		$this->Password = $pass;
 		$this->Port = $port;
 
-		if ($secure == 'ssl' || $secure == 'tls')
-		{
+		if ($secure == 'ssl' || $secure == 'tls') {
 			$this->SMTPSecure = $secure;
 		}
 
 		if (($this->SMTPAuth !== null && $this->Host !== null && $this->Username !== null && $this->Password !== null)
-			|| ($this->SMTPAuth === null && $this->Host !== null))
-		{
+			|| ($this->SMTPAuth === null && $this->Host !== null)) {
 			$this->IsSMTP();
 
 			return true;
 		}
-		else
-		{
+		else {
 			$this->IsMail();
 
 			return false;
@@ -410,8 +385,7 @@ class JMail extends PHPMailer
 		$this->setBody($body);
 
 		// Are we sending the email as HTML?
-		if ($mode)
-		{
+		if ($mode) {
 			$this->IsHTML(true);
 		}
 
@@ -421,8 +395,7 @@ class JMail extends PHPMailer
 		$this->addAttachment($attachment);
 
 		// Take care of reply email addresses
-		if (is_array($replyTo))
-		{
+		if (is_array($replyTo)) {
 			$numReplyTo = count($replyTo);
 
 			for ($i = 0; $i < $numReplyTo; $i++)
@@ -430,8 +403,7 @@ class JMail extends PHPMailer
 				$this->addReplyTo(array($replyTo[$i], $replyToName[$i]));
 			}
 		}
-		elseif (isset($replyTo))
-		{
+		elseif (isset($replyTo)) {
 			$this->addReplyTo(array($replyTo, $replyToName));
 		}
 

@@ -146,8 +146,7 @@ class JDocumentHTML extends JDocument
 	 */
 	public function setHeadData($data)
 	{
-		if (empty($data) || !is_array($data))
-		{
+		if (empty($data) || !is_array($data)) {
 			return;
 		}
 
@@ -177,8 +176,7 @@ class JDocumentHTML extends JDocument
 	public function mergeHeadData($data)
 	{
 
-		if (empty($data) || !is_array($data))
-		{
+		if (empty($data) || !is_array($data)) {
 			return;
 		}
 
@@ -190,8 +188,7 @@ class JDocumentHTML extends JDocument
 			: $this->description;
 		$this->link = (isset($data['link'])) ? $data['link'] : $this->link;
 
-		if (isset($data['metaTags']))
-		{
+		if (isset($data['metaTags'])) {
 			foreach ($data['metaTags'] as $type1 => $data1)
 			{
 				$booldog = $type1 == 'http-equiv' ? true : false;
@@ -209,12 +206,10 @@ class JDocumentHTML extends JDocument
 			? array_merge($this->_styleSheets, $data['styleSheets'])
 			: $this->_styleSheets;
 
-		if (isset($data['style']))
-		{
+		if (isset($data['style'])) {
 			foreach ($data['style'] as $type => $stdata)
 			{
-				if (!isset($this->_style[strtolower($type)]) || !stristr($this->_style[strtolower($type)], $stdata))
-				{
+				if (!isset($this->_style[strtolower($type)]) || !stristr($this->_style[strtolower($type)], $stdata)) {
 					$this->addStyleDeclaration($stdata, $type);
 				}
 			}
@@ -224,12 +219,10 @@ class JDocumentHTML extends JDocument
 			? array_merge($this->_scripts, $data['scripts'])
 			: $this->_scripts;
 
-		if (isset($data['script']))
-		{
+		if (isset($data['script'])) {
 			foreach ($data['script'] as $type => $sdata)
 			{
-				if (!isset($this->_script[strtolower($type)]) || !stristr($this->_script[strtolower($type)], $sdata))
-				{
+				if (!isset($this->_script[strtolower($type)]) || !stristr($this->_script[strtolower($type)], $sdata)) {
 					$this->addScriptDeclaration($sdata, $type);
 				}
 			}
@@ -321,36 +314,30 @@ class JDocumentHTML extends JDocument
 	public function getBuffer($type = null, $name = null, $attribs = array())
 	{
 		// If no type is specified, return the whole buffer
-		if ($type === null)
-		{
+		if ($type === null) {
 			return parent::$_buffer;
 		}
 
 		$result = null;
-		if (isset(parent::$_buffer[$type][$name]))
-		{
+		if (isset(parent::$_buffer[$type][$name])) {
 			return parent::$_buffer[$type][$name];
 		}
 
 		// If the buffer has been explicitly turned off don't display or attempt to render
-		if ($result === false)
-		{
+		if ($result === false) {
 			return null;
 		}
 
 		$renderer = $this->loadRenderer($type);
-		if ($this->_caching == true && $type == 'modules')
-		{
+		if ($this->_caching == true && $type == 'modules') {
 			$cache = JFactory::getCache('com_modules', '');
 			$hash = md5(serialize(array($name, $attribs, $result, $renderer)));
 			$cbuffer = $cache->get('cbuffer_' . $type);
 
-			if (isset($cbuffer[$hash]))
-			{
+			if (isset($cbuffer[$hash])) {
 				return JCache::getWorkarounds($cbuffer[$hash], array('mergehead' => 1));
 			}
-			else
-			{
+			else {
 
 				$options = array();
 				$options['nopathway'] = 1;
@@ -368,8 +355,7 @@ class JDocumentHTML extends JDocument
 			}
 
 		}
-		else
-		{
+		else {
 			$this->setBuffer($renderer->render($name, $attribs, $result), $type, $name);
 		}
 
@@ -389,8 +375,7 @@ class JDocumentHTML extends JDocument
 	public function setBuffer($content, $options = array())
 	{
 		// The following code is just for backward compatibility.
-		if (func_num_args() > 1 && !is_array($options))
-		{
+		if (func_num_args() > 1 && !is_array($options)) {
 			$args = func_get_args();
 			$options = array();
 			$options['type'] = $args[1];
@@ -430,12 +415,10 @@ class JDocumentHTML extends JDocument
 	{
 		$this->_caching = $caching;
 
-		if (!empty($this->_template))
-		{
+		if (!empty($this->_template)) {
 			$data = $this->_renderTemplate();
 		}
-		else
-		{
+		else {
 			$this->parse($params);
 			$data = $this->_renderTemplate();
 		}
@@ -484,15 +467,13 @@ class JDocumentHTML extends JDocument
 	{
 		static $children;
 
-		if (!isset($children))
-		{
+		if (!isset($children)) {
 			$dbo = JFactory::getDbo();
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 			$where = array();
 			$active = $menu->getActive();
-			if ($active)
-			{
+			if ($active) {
 				$query->getQuery(true);
 				$query->select('COUNT(*)');
 				$query->from('#__menu');
@@ -500,8 +481,7 @@ class JDocumentHTML extends JDocument
 				$query->where('published = 1');
 				$children = $dbo->loadResult();
 			}
-			else
-			{
+			else {
 				$children = 0;
 			}
 		}
@@ -526,8 +506,7 @@ class JDocumentHTML extends JDocument
 		$contents = '';
 
 		// Check to see if we have a valid template file
-		if (file_exists($directory . '/' . $filename))
-		{
+		if (file_exists($directory . '/' . $filename)) {
 			// Store the file path
 			$this->_file = $directory . '/' . $filename;
 
@@ -544,8 +523,7 @@ class JDocumentHTML extends JDocument
 		foreach ($dirs as $dir)
 		{
 			$icon = $dir . 'favicon.ico';
-			if (file_exists($icon))
-			{
+			if (file_exists($icon)) {
 				$path = str_replace(JPATH_BASE . '/', '', $dir);
 				$path = str_replace('\\', '/', $path);
 				$this->addFavicon(JURI::base(true) . '/' . $path . 'favicon.ico');
@@ -573,8 +551,7 @@ class JDocumentHTML extends JDocument
 		$template = $filter->clean($params['template'], 'cmd');
 		$file = $filter->clean($params['file'], 'cmd');
 
-		if (!file_exists($directory . '/' . $template . '/' . $file))
-		{
+		if (!file_exists($directory . '/' . $template . '/' . $file)) {
 			$template = 'system';
 		}
 
@@ -611,8 +588,7 @@ class JDocumentHTML extends JDocument
 	{
 		$matches = array();
 
-		if (preg_match_all('#<jdoc:include\ type="([^"]+)" (.*)\/>#iU', $this->_template, $matches))
-		{
+		if (preg_match_all('#<jdoc:include\ type="([^"]+)" (.*)\/>#iU', $this->_template, $matches)) {
 			$template_tags_first = array();
 			$template_tags_last = array();
 
@@ -624,12 +600,10 @@ class JDocumentHTML extends JDocument
 				$name = isset($attribs['name']) ? $attribs['name'] : null;
 
 				// Separate buffers to be executed first and last
-				if ($type == 'module' || $type == 'modules')
-				{
+				if ($type == 'module' || $type == 'modules') {
 					$template_tags_first[$matches[0][$i]] = array('type' => $type, 'name' => $name, 'attribs' => $attribs);
 				}
-				else
-				{
+				else {
 					$template_tags_last[$matches[0][$i]] = array('type' => $type, 'name' => $name, 'attribs' => $attribs);
 				}
 			}

@@ -30,12 +30,10 @@ class JInputCookie extends JInput
 	 */
 	public function __construct($source = null, $options = array())
 	{
-		if (isset($options['filter']))
-		{
+		if (isset($options['filter'])) {
 			$this->filter = $options['filter'];
 		}
-		else
-		{
+		else {
 			$this->filter = JFilterInput::getInstance();
 		}
 

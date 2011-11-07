@@ -49,8 +49,7 @@ class JUpdater extends JAdapter
 	{
 		static $instance;
 
-		if (!isset($instance))
-		{
+		if (!isset($instance)) {
 			$instance = new JUpdater;
 		}
 		return $instance;
@@ -69,8 +68,7 @@ class JUpdater extends JAdapter
 	{
 		// Check if fopen is allowed
 		$result = ini_get('allow_url_fopen');
-		if (empty($result))
-		{
+		if (empty($result)) {
 			JError::raiseWarning('101', JText::_('JLIB_UPDATER_ERROR_COLLECTION_FOPEN'));
 			return false;
 		}
@@ -78,12 +76,10 @@ class JUpdater extends JAdapter
 		$dbo = $this->getDBO();
 		$retval = false;
 		// Push it into an array
-		if (!is_array($eid))
-		{
+		if (!is_array($eid)) {
 			$query = 'SELECT DISTINCT update_site_id, type, location FROM #__update_sites WHERE enabled = 1';
 		}
-		else
-		{
+		else {
 			$query = 'SELECT DISTINCT update_site_id, type, location FROM #__update_sites' .
 				' WHERE update_site_id IN' .
 				'  (SELECT update_site_id FROM #__update_sites_extensions WHERE extension_id IN (' . implode(',', $eid) . '))';
@@ -95,21 +91,17 @@ class JUpdater extends JAdapter
 		{
 			$result = &$results[$i];
 			$this->setAdapter($result['type']);
-			if (!isset($this->_adapters[$result['type']]))
-			{
+			if (!isset($this->_adapters[$result['type']])) {
 				// Ignore update sites requiring adapters we don't have installed
 				continue;
 			}
 			$update_result = $this->_adapters[$result['type']]->findUpdate($result);
-			if (is_array($update_result))
-			{
-				if (array_key_exists('update_sites', $update_result) && count($update_result['update_sites']))
-				{
+			if (is_array($update_result)) {
+				if (array_key_exists('update_sites', $update_result) && count($update_result['update_sites'])) {
 					$results = JArrayHelper::arrayUnique(array_merge($results, $update_result['update_sites']));
 					$result_count = count($results);
 				}
-				if (array_key_exists('updates', $update_result) && count($update_result['updates']))
-				{
+				if (array_key_exists('updates', $update_result) && count($update_result['updates'])) {
 					for ($k = 0, $count = count($update_result['updates']); $k < $count; $k++)
 					{
 						$current_update = &$update_result['updates'][$k];
@@ -132,32 +124,26 @@ class JUpdater extends JAdapter
 								'folder' => strtolower($current_update->get('folder'))
 							)
 						);
-						if (!$uid)
-						{
+						if (!$uid) {
 							// Set the extension id
-							if ($eid)
-							{
+							if ($eid) {
 								// We have an installed extension, check the update is actually newer
 								$extension->load($eid);
 								$data = json_decode($extension->manifest_cache, true);
-								if (version_compare($current_update->version, $data['version'], '>') == 1)
-								{
+								if (version_compare($current_update->version, $data['version'], '>') == 1) {
 									$current_update->extension_id = $eid;
 									$current_update->store();
 								}
 							}
-							else
-							{
+							else {
 								// A potentially new extension to be installed
 								$current_update->store();
 							}
 						}
-						else
-						{
+						else {
 							$update->load($uid);
 							// if there is an update, check that the version is newer then replaces
-							if (version_compare($current_update->version, $update->version, '>') == 1)
-							{
+							if (version_compare($current_update->version, $update->version, '>') == 1) {
 								$current_update->store();
 							}
 						}
@@ -165,8 +151,7 @@ class JUpdater extends JAdapter
 				}
 				$update_result = true;
 			}
-			elseif ($retval)
-			{
+			elseif ($retval) {
 				$update_result = true;
 			}
 		}
@@ -207,8 +192,7 @@ class JUpdater extends JAdapter
 		$updaterow = JTable::getInstance('update');
 		$updaterow->load($id);
 		$update = new JUpdate;
-		if ($update->loadFromXML($updaterow->detailsurl))
-		{
+		if ($update->loadFromXML($updaterow->detailsurl)) {
 			return $update->install();
 		}
 		return false;

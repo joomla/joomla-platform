@@ -70,8 +70,7 @@ class JImage
 	public function __construct($source = null)
 	{
 		// Verify that GD support for PHP is available.
-		if (!extension_loaded('gd'))
-		{
+		if (!extension_loaded('gd')) {
 			// @codeCoverageIgnoreStart
 			JLog::add('The GD extension for PHP is not available.', JLog::ERROR);
 			throw new RuntimeException('The GD extension for PHP is not available.');
@@ -79,8 +78,7 @@ class JImage
 		}
 
 		// Determine which image types are supported by GD, but only once.
-		if (!isset(self::$formats[IMAGETYPE_JPEG]))
-		{
+		if (!isset(self::$formats[IMAGETYPE_JPEG])) {
 			$info = gd_info();
 			self::$formats[IMAGETYPE_JPEG] = ($info['JPEG Support']) ? true : false;
 			self::$formats[IMAGETYPE_PNG] = ($info['PNG Support']) ? true : false;
@@ -88,12 +86,10 @@ class JImage
 		}
 
 		// If the source input is a resource, set it as the image handle.
-		if (is_resource($source) && (get_resource_type($source) == 'gd'))
-		{
+		if (is_resource($source) && (get_resource_type($source) == 'gd')) {
 			$this->handle = &$source;
 		}
-		elseif (!empty($source) && is_string($source))
-		{
+		elseif (!empty($source) && is_string($source)) {
 			// If the source input is not empty, assume it is a path and populate the image handle.
 			$this->loadFile($source);
 		}
@@ -115,15 +111,13 @@ class JImage
 	public static function getImageFileProperties($path)
 	{
 		// Make sure the file exists.
-		if (!file_exists($path))
-		{
+		if (!file_exists($path)) {
 			throw new InvalidArgumentException('The image file does not exist.');
 		}
 
 		// Get the image file information.
 		$info = getimagesize($path);
-		if (!$info)
-		{
+		if (!$info) {
 			// @codeCoverageIgnoreStart
 			throw new RuntimeException('Unable to get properties for the image.');
 			// @codeCoverageIgnoreEnd
@@ -161,8 +155,7 @@ class JImage
 	public function crop($width, $height, $left, $top, $createNew = true)
 	{
 		// Make sure the resource handle is valid.
-		if (!$this->isLoaded())
-		{
+		if (!$this->isLoaded()) {
 			throw new LogicException('No valid image was loaded.');
 		}
 
@@ -185,8 +178,7 @@ class JImage
 		imagealphablending($handle, false);
 		imagesavealpha($handle, true);
 
-		if ($this->isTransparent())
-		{
+		if ($this->isTransparent()) {
 			// Get the transparent color values for the current image.
 			$rgba = imageColorsForIndex($this->handle, imagecolortransparent($this->handle));
 			$color = imageColorAllocate($this->handle, $rgba['red'], $rgba['green'], $rgba['blue']);
@@ -197,14 +189,12 @@ class JImage
 
 			imagecopyresized($handle, $this->handle, 0, 0, $left, $top, $width, $height, $width, $height);
 		}
-		else
-		{
+		else {
 			imagecopyresampled($handle, $this->handle, 0, 0, $left, $top, $width, $height, $width, $height);
 		}
 
 		// If we are cropping to a new image, create a new JImage object.
-		if ($createNew)
-		{
+		if ($createNew) {
 			// @codeCoverageIgnoreStart
 			$new = new JImage($handle);
 
@@ -212,8 +202,7 @@ class JImage
 			// @codeCoverageIgnoreEnd
 		}
 		// Swap out the current handle for the new image handle.
-		else
-		{
+		else {
 			$this->handle = $handle;
 
 			return $this;
@@ -236,8 +225,7 @@ class JImage
 	public function filter($type, $options = array())
 	{
 		// Make sure the resource handle is valid.
-		if (!$this->isLoaded())
-		{
+		if (!$this->isLoaded()) {
 			throw new LogicException('No valid image was loaded.');
 		}
 
@@ -261,8 +249,7 @@ class JImage
 	public function getHeight()
 	{
 		// Make sure the resource handle is valid.
-		if (!$this->isLoaded())
-		{
+		if (!$this->isLoaded()) {
 			throw new LogicException('No valid image was loaded.');
 		}
 
@@ -280,8 +267,7 @@ class JImage
 	public function getWidth()
 	{
 		// Make sure the resource handle is valid.
-		if (!$this->isLoaded())
-		{
+		if (!$this->isLoaded()) {
 			throw new LogicException('No valid image was loaded.');
 		}
 
@@ -310,8 +296,7 @@ class JImage
 	public function isLoaded()
 	{
 		// Make sure the resource handle is valid.
-		if (!is_resource($this->handle) || (get_resource_type($this->handle) != 'gd'))
-		{
+		if (!is_resource($this->handle) || (get_resource_type($this->handle) != 'gd')) {
 			return false;
 		}
 
@@ -329,8 +314,7 @@ class JImage
 	public function isTransparent()
 	{
 		// Make sure the resource handle is valid.
-		if (!$this->isLoaded())
-		{
+		if (!$this->isLoaded()) {
 			throw new LogicException('No valid image was loaded.');
 		}
 
@@ -351,8 +335,7 @@ class JImage
 	public function loadFile($path)
 	{
 		// Make sure the file exists.
-		if (!file_exists($path))
-		{
+		if (!file_exists($path)) {
 			throw new InvalidArgumentException('The image file does not exist.');
 		}
 
@@ -360,12 +343,10 @@ class JImage
 		$properties = self::getImageFileProperties($path);
 
 		// Attempt to load the image based on the MIME-Type
-		switch ($properties->mime)
-		{
+		switch ($properties->mime) {
 			case 'image/gif':
 				// Make sure the image type is supported.
-				if (empty(self::$formats[IMAGETYPE_GIF]))
-				{
+				if (empty(self::$formats[IMAGETYPE_GIF])) {
 					// @codeCoverageIgnoreStart
 					JLog::add('Attempting to load an image of unsupported type GIF.', JLog::ERROR);
 					throw new RuntimeException('Attempting to load an image of unsupported type GIF.');
@@ -374,8 +355,7 @@ class JImage
 
 				// Attempt to create the image handle.
 				$handle = imagecreatefromgif($path);
-				if (!is_resource($handle))
-				{
+				if (!is_resource($handle)) {
 					// @codeCoverageIgnoreStart
 					throw new RuntimeException('Unable to process GIF image.');
 					// @codeCoverageIgnoreEnd
@@ -385,8 +365,7 @@ class JImage
 
 			case 'image/jpeg':
 				// Make sure the image type is supported.
-				if (empty(self::$formats[IMAGETYPE_JPEG]))
-				{
+				if (empty(self::$formats[IMAGETYPE_JPEG])) {
 					// @codeCoverageIgnoreStart
 					JLog::add('Attempting to load an image of unsupported type JPG.', JLog::ERROR);
 					throw new RuntimeException('Attempting to load an image of unsupported type JPG.');
@@ -395,8 +374,7 @@ class JImage
 
 				// Attempt to create the image handle.
 				$handle = imagecreatefromjpeg($path);
-				if (!is_resource($handle))
-				{
+				if (!is_resource($handle)) {
 					// @codeCoverageIgnoreStart
 					throw new RuntimeException('Unable to process JPG image.');
 					// @codeCoverageIgnoreEnd
@@ -406,8 +384,7 @@ class JImage
 
 			case 'image/png':
 				// Make sure the image type is supported.
-				if (empty(self::$formats[IMAGETYPE_PNG]))
-				{
+				if (empty(self::$formats[IMAGETYPE_PNG])) {
 					// @codeCoverageIgnoreStart
 					JLog::add('Attempting to load an image of unsupported type PNG.', JLog::ERROR);
 					throw new RuntimeException('Attempting to load an image of unsupported type PNG.');
@@ -416,8 +393,7 @@ class JImage
 
 				// Attempt to create the image handle.
 				$handle = imagecreatefrompng($path);
-				if (!is_resource($handle))
-				{
+				if (!is_resource($handle)) {
 					// @codeCoverageIgnoreStart
 					throw new RuntimeException('Unable to process PNG image.');
 					// @codeCoverageIgnoreEnd
@@ -452,8 +428,7 @@ class JImage
 	public function resize($width, $height, $createNew = true, $scaleMethod = JImage::SCALE_INSIDE)
 	{
 		// Make sure the resource handle is valid.
-		if (!$this->isLoaded())
-		{
+		if (!$this->isLoaded()) {
 			throw new LogicException('No valid image was loaded.');
 		}
 
@@ -473,8 +448,7 @@ class JImage
 		imagealphablending($handle, false);
 		imagesavealpha($handle, true);
 
-		if ($this->isTransparent())
-		{
+		if ($this->isTransparent()) {
 			// Get the transparent color values for the current image.
 			$rgba = imageColorsForIndex($this->handle, imagecolortransparent($this->handle));
 			$color = imageColorAllocate($this->handle, $rgba['red'], $rgba['green'], $rgba['blue']);
@@ -485,14 +459,12 @@ class JImage
 
 			imagecopyresized($handle, $this->handle, 0, 0, 0, 0, $dimensions->width, $dimensions->height, $this->getWidth(), $this->getHeight());
 		}
-		else
-		{
+		else {
 			imagecopyresampled($handle, $this->handle, 0, 0, 0, 0, $dimensions->width, $dimensions->height, $this->getWidth(), $this->getHeight());
 		}
 
 		// If we are resizing to a new image, create a new JImage object.
-		if ($createNew)
-		{
+		if ($createNew) {
 			// @codeCoverageIgnoreStart
 			$new = new JImage($handle);
 
@@ -500,8 +472,7 @@ class JImage
 			// @codeCoverageIgnoreEnd
 		}
 		// Swap out the current handle for the new image handle.
-		else
-		{
+		else {
 			$this->handle = $handle;
 
 			return $this;
@@ -524,8 +495,7 @@ class JImage
 	public function rotate($angle, $background = -1, $createNew = true)
 	{
 		// Make sure the resource handle is valid.
-		if (!$this->isLoaded())
-		{
+		if (!$this->isLoaded()) {
 			throw new LogicException('No valid image was loaded.');
 		}
 
@@ -546,8 +516,7 @@ class JImage
 		$handle = imagerotate($handle, $angle, $background);
 
 		// If we are resizing to a new image, create a new JImage object.
-		if ($createNew)
-		{
+		if ($createNew) {
 			// @codeCoverageIgnoreStart
 			$new = new JImage($handle);
 
@@ -555,8 +524,7 @@ class JImage
 			// @codeCoverageIgnoreEnd
 		}
 		// Swap out the current handle for the new image handle.
-		else
-		{
+		else {
 			$this->handle = $handle;
 
 			return $this;
@@ -579,13 +547,11 @@ class JImage
 	public function toFile($path, $type = IMAGETYPE_JPEG, $options = array())
 	{
 		// Make sure the resource handle is valid.
-		if (!$this->isLoaded())
-		{
+		if (!$this->isLoaded()) {
 			throw new LogicException('No valid image was loaded.');
 		}
 
-		switch ($type)
-		{
+		switch ($type) {
 			case IMAGETYPE_GIF:
 				imagegif($this->handle, $path);
 				break;
@@ -617,8 +583,7 @@ class JImage
 
 		// Verify that the filter type exists.
 		$className = 'JImageFilter' . ucfirst($type);
-		if (!class_exists($className))
-		{
+		if (!class_exists($className)) {
 			JLog::add('The ' . ucfirst($type) . ' image filter is not available.', JLog::ERROR);
 			throw new RuntimeException('The ' . ucfirst($type) . ' image filter is not available.');
 		}
@@ -627,8 +592,7 @@ class JImage
 		$instance = new $className($this->handle);
 
 		// Verify that the filter type is valid.
-		if (!($instance instanceof JImageFilter))
-		{
+		if (!($instance instanceof JImageFilter)) {
 			// @codeCoverageIgnoreStart
 			JLog::add('The ' . ucfirst($type) . ' image filter is not valid.', JLog::ERROR);
 			throw new RuntimeException('The ' . ucfirst($type) . ' image filter is not valid.');
@@ -655,8 +619,7 @@ class JImage
 		// Instantiate variables.
 		$dimensions = new stdClass;
 
-		switch ($scaleMethod)
-		{
+		switch ($scaleMethod) {
 			case JImage::SCALE_FILL:
 				$dimensions->width = intval(round($width));
 				$dimensions->height = intval(round($height));
@@ -667,12 +630,10 @@ class JImage
 				$rx = $this->getWidth() / $width;
 				$ry = $this->getHeight() / $height;
 
-				if ($scaleMethod == JImage::SCALE_INSIDE)
-				{
+				if ($scaleMethod == JImage::SCALE_INSIDE) {
 					$ratio = ($rx > $ry) ? $rx : $ry;
 				}
-				else
-				{
+				else {
 					$ratio = ($rx < $ry) ? $rx : $ry;
 				}
 
@@ -704,13 +665,11 @@ class JImage
 		$height = ($height === null) ? $width : $height;
 
 		// If we were given a percentage, calculate the integer value.
-		if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', $height))
-		{
+		if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', $height)) {
 			$height = intval(round($this->getHeight() * floatval(str_replace('%', '', $height)) / 100));
 		}
 		// Else do some rounding so we come out with a sane integer value.
-		else
-		{
+		else {
 			$height = intval(round(floatval($height)));
 		}
 
@@ -747,13 +706,11 @@ class JImage
 		$width = ($width === null) ? $height : $width;
 
 		// If we were given a percentage, calculate the integer value.
-		if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', $width))
-		{
+		if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', $width)) {
 			$width = intval(round($this->getWidth() * floatval(str_replace('%', '', $width)) / 100));
 		}
 		// Else do some rounding so we come out with a sane integer value.
-		else
-		{
+		else {
 			$width = intval(round(floatval($width)));
 		}
 

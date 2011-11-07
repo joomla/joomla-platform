@@ -44,8 +44,7 @@ class JTableExtension extends JTable
 	function check()
 	{
 		// Check for valid name
-		if (trim($this->name) == '' || trim($this->element) == '')
-		{
+		if (trim($this->name) == '' || trim($this->element) == '') {
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
 			return false;
 		}
@@ -66,15 +65,13 @@ class JTableExtension extends JTable
 	 */
 	function bind($array, $ignore = '')
 	{
-		if (isset($array['params']) && is_array($array['params']))
-		{
+		if (isset($array['params']) && is_array($array['params'])) {
 			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
-		if (isset($array['control']) && is_array($array['control']))
-		{
+		if (isset($array['control']) && is_array($array['control'])) {
 			$registry = new JRegistry;
 			$registry->loadArray($array['control']);
 			$array['control'] = (string) $registry;
@@ -130,15 +127,12 @@ class JTableExtension extends JTable
 		$state = (int) $state;
 
 		// If there are no primary keys set check to see if the instance key is set.
-		if (empty($pks))
-		{
-			if ($this->$k)
-			{
+		if (empty($pks)) {
+			if ($this->$k) {
 				$pks = array($this->$k);
 			}
 			// Nothing to set publishing state on, return false.
-			else
-			{
+			else {
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 				return false;
 			}
@@ -148,12 +142,10 @@ class JTableExtension extends JTable
 		$where = $k . '=' . implode(' OR ' . $k . '=', $pks);
 
 		// Determine if there is checkin support for the table.
-		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time'))
-		{
+		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time')) {
 			$checkin = '';
 		}
-		else
-		{
+		else {
 			$checkin = ' AND (checked_out = 0 OR checked_out = ' . (int) $userId . ')';
 		}
 
@@ -165,15 +157,13 @@ class JTableExtension extends JTable
 		$this->_db->query();
 
 		// Check for a database error.
-		if ($this->_db->getErrorNum())
-		{
+		if ($this->_db->getErrorNum()) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
 
 		// If checkin is supported and all rows were adjusted, check them in.
-		if ($checkin && (count($pks) == $this->_db->getAffectedRows()))
-		{
+		if ($checkin && (count($pks) == $this->_db->getAffectedRows())) {
 			// Checkin the rows.
 			foreach ($pks as $pk)
 			{
@@ -182,8 +172,7 @@ class JTableExtension extends JTable
 		}
 
 		// If the JTable instance value is in the list of primary keys that were set, set the instance.
-		if (in_array($this->$k, $pks))
-		{
+		if (in_array($this->$k, $pks)) {
 			$this->enabled = $state;
 		}
 

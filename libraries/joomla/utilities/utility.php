@@ -139,8 +139,7 @@ class JUtility
 		// Let's grab all the key/value pairs using a regular expression
 		preg_match_all('/([\w:-]+)[\s]?=[\s]?"([^"]*)"/i', $string, $attr);
 
-		if (is_array($attr))
-		{
+		if (is_array($attr)) {
 			$numPairs = count($attr[1]);
 			for ($i = 0; $i < $numPairs; $i++)
 			{
@@ -236,8 +235,7 @@ class JUtility
 		$val = trim($val);
 		$last = strtolower($val{strlen($val) - 1});
 
-		switch ($last)
-		{
+		switch ($last) {
 			// The 'G' modifier is available since PHP 5.1.0
 			case 'g':
 				$val *= 1024;

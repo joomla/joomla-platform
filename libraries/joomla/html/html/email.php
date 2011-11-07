@@ -49,13 +49,10 @@ abstract class JHtmlEmail
 		$replacement .= "\n var addy" . $rand . " = '" . @$mail[0] . "' + '&#64;';";
 		$replacement .= "\n addy" . $rand . " = addy" . $rand . " + '" . implode("' + '&#46;' + '", $mail_parts) . "';";
 
-		if ($mailto)
-		{
+		if ($mailto) {
 			// Special handling when mail text is different from mail address
-			if ($text)
-			{
-				if ($email)
-				{
+			if ($text) {
+				if ($email) {
 					// Convert text
 					$text = JHtmlEmail::_convertEncoding($text);
 					// Split email by @ symbol
@@ -64,23 +61,20 @@ abstract class JHtmlEmail
 					$replacement .= "\n var addy_text" . $rand . " = '" . @$text[0] . "' + '&#64;' + '" . implode("' + '&#46;' + '", @$text_parts)
 						. "';";
 				}
-				else
-				{
+				else {
 					$replacement .= "\n var addy_text" . $rand . " = '" . $text . "';";
 				}
 				$replacement .= "\n document.write('<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>');";
 				$replacement .= "\n document.write(addy_text" . $rand . ");";
 				$replacement .= "\n document.write('<\/a>');";
 			}
-			else
-			{
+			else {
 				$replacement .= "\n document.write('<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>');";
 				$replacement .= "\n document.write(addy" . $rand . ");";
 				$replacement .= "\n document.write('<\/a>');";
 			}
 		}
-		else
-		{
+		else {
 			$replacement .= "\n document.write(addy" . $rand . ");";
 		}
 		$replacement .= "\n //-->";

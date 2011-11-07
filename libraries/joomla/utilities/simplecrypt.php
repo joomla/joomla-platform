@@ -35,12 +35,10 @@ class JSimpleCrypt extends JObject
 	 */
 	public function __construct($key = null)
 	{
-		if ($key)
-		{
+		if ($key) {
 			$this->_key = (string) $key;
 		}
-		else
-		{
+		else {
 			$conf = &JFactory::getConfig();
 			$this->_key = md5($conf->get('secret'));
 		}
@@ -103,8 +101,7 @@ class JSimpleCrypt extends JObject
 		(string) $c1 = substr($s1, $j + 1, 1); // get the char at postion $j + 1, length 1
 		(int) $k = 0;
 
-		switch ($c)
-		{
+		switch ($c) {
 			case "A":
 				$k += 160;
 				break;
@@ -131,8 +128,7 @@ class JSimpleCrypt extends JObject
 				break;
 		}
 
-		switch ($c1)
-		{
+		switch ($c1) {
 			case "A":
 				$k += 10;
 				break;
@@ -242,12 +238,10 @@ class JSimpleCrypt extends JObject
 	protected function _intToHex($i)
 	{
 		(int) $j = (int) $i / 16;
-		if ((int) $j == 0)
-		{
+		if ((int) $j == 0) {
 			(string) $s = " ";
 		}
-		else
-		{
+		else {
 			(string) $s = strtoupper(dechex($j));
 		}
 		(int) $k = (int) $i - (int) $j * 16;

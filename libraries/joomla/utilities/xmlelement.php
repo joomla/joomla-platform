@@ -94,15 +94,12 @@ class JXMLElement extends SimpleXMLElement
 		}
 
 		// If there are no children and it contains no data, end it off with a />
-		if (!count($this->children()) && !(string) $this)
-		{
+		if (!count($this->children()) && !(string) $this) {
 			$out .= " />";
 		}
-		else
-		{
+		else {
 			// If there are children
-			if (count($this->children()))
-			{
+			if (count($this->children())) {
 				// Close off the start tag
 				$out .= '>';
 
@@ -120,8 +117,7 @@ class JXMLElement extends SimpleXMLElement
 				$out .= ($compressed) ? '' : "\n" . str_repeat($indent, $level);
 
 			}
-			elseif ((string) $this)
-			{
+			elseif ((string) $this) {
 				// If there is data, close off the start tag and add the data
 				$out .= '>' . htmlspecialchars((string) $this, ENT_COMPAT, 'UTF-8');
 			}

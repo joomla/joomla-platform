@@ -10,8 +10,7 @@
 defined('JPATH_PLATFORM') or die();
 
 // Detect if we have full UTF-8 and unicode PCRE support.
-if (!defined('JCOMPAT_UNICODE_PROPERTIES'))
-{
+if (!defined('JCOMPAT_UNICODE_PROPERTIES')) {
 	define('JCOMPAT_UNICODE_PROPERTIES', (bool) @preg_match('/\pL/u', 'a'));
 }
 
@@ -62,20 +61,17 @@ class JFormRule
 		$name = (string) $element['name'];
 
 		// Check for a valid regex.
-		if (empty($this->regex))
-		{
+		if (empty($this->regex)) {
 			throw new JException(JText::sprintf('JLIB_FORM_INVALID_FORM_RULE', get_class($this)));
 		}
 
 		// Add unicode property support if available.
-		if (JCOMPAT_UNICODE_PROPERTIES)
-		{
+		if (JCOMPAT_UNICODE_PROPERTIES) {
 			$this->modifiers = (strpos($this->modifiers, 'u') !== false) ? $this->modifiers : $this->modifiers . 'u';
 		}
 
 		// Test the value against the regular expression.
-		if (preg_match(chr(1) . $this->regex . chr(1) . $this->modifiers, $value))
-		{
+		if (preg_match(chr(1) . $this->regex . chr(1) . $this->modifiers, $value)) {
 			return true;
 		}
 

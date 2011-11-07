@@ -45,8 +45,7 @@ class JCacheController
 		// Overwrite default options with given options
 		foreach ($options as $option => $value)
 		{
-			if (isset($options[$option]))
-			{
+			if (isset($options[$option])) {
 				$this->options[$option] = $options[$option];
 			}
 		}
@@ -86,17 +85,14 @@ class JCacheController
 
 		$class = 'JCacheController' . ucfirst($type);
 
-		if (!class_exists($class))
-		{
+		if (!class_exists($class)) {
 			// Search for the class file in the JCache include paths.
 			jimport('joomla.filesystem.path');
 
-			if ($path = JPath::find(JCacheController::addIncludePath(), strtolower($type) . '.php'))
-			{
+			if ($path = JPath::find(JCacheController::addIncludePath(), strtolower($type) . '.php')) {
 				include_once $path;
 			}
-			else
-			{
+			else {
 				JError::raiseError(500, 'Unable to load Cache Controller: ' . $type);
 			}
 		}
@@ -146,12 +142,10 @@ class JCacheController
 	{
 		static $paths;
 
-		if (!isset($paths))
-		{
+		if (!isset($paths)) {
 			$paths = array();
 		}
-		if (!empty($path) && !in_array($path, $paths))
-		{
+		if (!empty($path) && !in_array($path, $paths)) {
 			jimport('joomla.filesystem.path');
 			array_unshift($paths, JPath::clean($path));
 		}
@@ -173,25 +167,21 @@ class JCacheController
 		$data = false;
 		$data = $this->cache->get($id, $group);
 
-		if ($data === false)
-		{
+		if ($data === false) {
 			$locktest = new stdClass;
 			$locktest->locked = null;
 			$locktest->locklooped = null;
 			$locktest = $this->cache->lock($id, $group);
-			if ($locktest->locked == true && $locktest->locklooped == true)
-			{
+			if ($locktest->locked == true && $locktest->locklooped == true) {
 				$data = $this->cache->get($id, $group);
 			}
-			if ($locktest->locked == true)
-			{
+			if ($locktest->locked == true) {
 				$this->cache->unlock($id, $group);
 			}
 		}
 
 		// Check again because we might get it from second attempt
-		if ($data !== false)
-		{
+		if ($data !== false) {
 			$data = unserialize(trim($data)); // trim to fix unserialize errors
 		}
 		return $data;
@@ -216,15 +206,13 @@ class JCacheController
 
 		$locktest = $this->cache->lock($id, $group);
 
-		if ($locktest->locked == false && $locktest->locklooped == true)
-		{
+		if ($locktest->locked == false && $locktest->locklooped == true) {
 			$locktest = $this->cache->lock($id, $group);
 		}
 
 		$sucess = $this->cache->store(serialize($data), $id, $group);
 
-		if ($locktest->locked == true)
-		{
+		if ($locktest->locked == true) {
 			$this->cache->unlock($id, $group);
 		}
 

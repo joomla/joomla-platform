@@ -44,20 +44,17 @@ class JFormRuleEquals extends JFormRule
 		$field = (string) $element['field'];
 
 		// Check that a validation field is set.
-		if (!$field)
-		{
+		if (!$field) {
 			return new JException(JText::sprintf('JLIB_FORM_INVALID_FORM_RULE', get_class($this)));
 		}
 
 		// Check that a valid JForm object is given for retrieving the validation field value.
-		if (!($form instanceof JForm))
-		{
+		if (!($form instanceof JForm)) {
 			return new JException(JText::sprintf('JLIB_FORM_INVALID_FORM_OBJECT', get_class($this)));
 		}
 
 		// Test the two values against each other.
-		if ($value == $input->get($field))
-		{
+		if ($value == $input->get($field)) {
 			return true;
 		}
 

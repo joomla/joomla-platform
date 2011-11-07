@@ -55,23 +55,19 @@ class JElementFolderlist extends JElement
 		$options = array();
 		foreach ($folders as $folder)
 		{
-			if ($exclude)
-			{
-				if (preg_match(chr(1) . $exclude . chr(1), $folder))
-				{
+			if ($exclude) {
+				if (preg_match(chr(1) . $exclude . chr(1), $folder)) {
 					continue;
 				}
 			}
 			$options[] = JHtml::_('select.option', $folder, $folder);
 		}
 
-		if (!$node->attributes('hide_none'))
-		{
+		if (!$node->attributes('hide_none')) {
 			array_unshift($options, JHtml::_('select.option', '-1', JText::_('JOPTION_DO_NOT_USE')));
 		}
 
-		if (!$node->attributes('hide_default'))
-		{
+		if (!$node->attributes('hide_default')) {
 			array_unshift($options, JHtml::_('select.option', '', JText::_('JOPTION_USE_DEFAULT')));
 		}
 

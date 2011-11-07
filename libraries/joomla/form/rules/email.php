@@ -48,21 +48,18 @@ class JFormRuleEmail extends JFormRule
 	{
 		// If the field is empty and not required, the field is valid.
 		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
-		if (!$required && empty($value))
-		{
+		if (!$required && empty($value)) {
 			return true;
 		}
 
 		// Test the value against the regular expression.
-		if (!parent::test($element, $value, $group, $input, $form))
-		{
+		if (!parent::test($element, $value, $group, $input, $form)) {
 			return false;
 		}
 
 		// Check if we should test for uniqueness.
 		$unique = ((string) $element['unique'] == 'true' || (string) $element['unique'] == 'unique');
-		if ($unique)
-		{
+		if ($unique) {
 
 			// Get the database object and a new query object.
 			$db = JFactory::getDBO();
@@ -82,13 +79,11 @@ class JFormRuleEmail extends JFormRule
 			$duplicate = (bool) $db->loadResult();
 
 			// Check for a database error.
-			if ($db->getErrorNum())
-			{
+			if ($db->getErrorNum()) {
 				JError::raiseWarning(500, $db->getErrorMsg());
 			}
 
-			if ($duplicate)
-			{
+			if ($duplicate) {
 				return false;
 			}
 		}

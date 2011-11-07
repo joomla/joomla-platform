@@ -128,8 +128,7 @@ class JPaneTabs extends JPane
 
 		parent::__construct($params);
 
-		if (!$loaded)
-		{
+		if (!$loaded) {
 			$this->_loadBehavior($params);
 			$loaded = true;
 		}
@@ -235,13 +234,11 @@ class JPaneTabs extends JPane
 		$opt['display'] = (isset($params['startOffset'])) ? (int) $params['startOffset'] : null;
 		foreach ($opt as $k => $v)
 		{
-			if ($v)
-			{
+			if ($v) {
 				$options .= $k . ': ' . $v . ',';
 			}
 		}
-		if (substr($options, -1) == ',')
-		{
+		if (substr($options, -1) == ',') {
 			$options = substr($options, 0, -1);
 		}
 		$options .= '}';
@@ -282,8 +279,7 @@ class JPaneSliders extends JPane
 
 		parent::__construct($params);
 
-		if (!$loaded)
-		{
+		if (!$loaded) {
 			$this->_loadBehavior($params);
 			$loaded = true;
 		}
@@ -396,13 +392,11 @@ class JPaneSliders extends JPane
 		$opt['alwaysHide'] = (isset($params['allowAllClose']) && (!$params['allowAllClose'])) ? 'false' : 'true';
 		foreach ($opt as $k => $v)
 		{
-			if ($v)
-			{
+			if ($v) {
 				$options .= $k . ': ' . $v . ',';
 			}
 		}
-		if (substr($options, -1) == ',')
-		{
+		if (substr($options, -1) == ',') {
 			$options = substr($options, 0, -1);
 		}
 		$options .= '}';

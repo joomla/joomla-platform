@@ -32,8 +32,7 @@ class JDatabaseQueryMySQL extends JDatabaseQuery
 	 */
 	function concatenate($values, $separator = null)
 	{
-		if ($separator)
-		{
+		if ($separator) {
 			$concat_string = 'CONCAT_WS(' . $this->quote($separator);
 
 			foreach ($values as $value)
@@ -43,8 +42,7 @@ class JDatabaseQueryMySQL extends JDatabaseQuery
 
 			return $concat_string . ')';
 		}
-		else
-		{
+		else {
 			return 'CONCAT(' . implode(',', $values) . ')';
 		}
 	}

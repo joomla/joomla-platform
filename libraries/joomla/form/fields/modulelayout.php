@@ -49,8 +49,7 @@ class JFormFieldModuleLayout extends JFormField
 		// Get the client id.
 		$clientId = $this->element['client_id'];
 
-		if (is_null($clientId) && $this->form instanceof JForm)
-		{
+		if (is_null($clientId) && $this->form instanceof JForm) {
 			$clientId = $this->form->getValue('client_id');
 		}
 		$clientId = (int) $clientId;
@@ -60,8 +59,7 @@ class JFormFieldModuleLayout extends JFormField
 		// Get the module.
 		$module = (string) $this->element['module'];
 
-		if (empty($module) && ($this->form instanceof JForm))
-		{
+		if (empty($module) && ($this->form instanceof JForm)) {
 			$module = $this->form->getValue('module');
 		}
 
@@ -72,16 +70,14 @@ class JFormFieldModuleLayout extends JFormField
 		$template = preg_replace('#\W#', '', $template);
 
 		// Get the style.
-		if ($this->form instanceof JForm)
-		{
+		if ($this->form instanceof JForm) {
 			$template_style_id = $this->form->getValue('template_style_id');
 		}
 
 		$template_style_id = preg_replace('#\W#', '', $template_style_id);
 
 		// If an extension and view are present build the options.
-		if ($module && $client)
-		{
+		if ($module && $client) {
 
 			// Load language file
 			$lang = JFactory::getLanguage();
@@ -101,13 +97,11 @@ class JFormFieldModuleLayout extends JFormField
 			$query->where('e.type = ' . $db->quote('template'));
 			$query->where('e.enabled = 1');
 
-			if ($template)
-			{
+			if ($template) {
 				$query->where('e.element = ' . $db->quote($template));
 			}
 
-			if ($template_style_id)
-			{
+			if ($template_style_id) {
 				$query->join('LEFT', '#__template_styles as s on s.template=e.element');
 				$query->where('s.id=' . (int) $template_style_id);
 			}
@@ -117,8 +111,7 @@ class JFormFieldModuleLayout extends JFormField
 			$templates = $db->loadObjectList('element');
 
 			// Check for a database error.
-			if ($db->getErrorNum())
-			{
+			if ($db->getErrorNum()) {
 				JError::raiseWarning(500, $db->getErrorMsg());
 			}
 
@@ -132,8 +125,7 @@ class JFormFieldModuleLayout extends JFormField
 			$groups = array();
 
 			// Add the layout options from the module path.
-			if (is_dir($module_path) && ($module_layouts = JFolder::files($module_path, '^[^_]*\.php$')))
-			{
+			if (is_dir($module_path) && ($module_layouts = JFolder::files($module_path, '^[^_]*\.php$'))) {
 				// Create the group for the module
 				$groups['_'] = array();
 				$groups['_']['id'] = $this->id . '__';
@@ -150,8 +142,7 @@ class JFormFieldModuleLayout extends JFormField
 			}
 
 			// Loop on all templates
-			if ($templates)
-			{
+			if ($templates) {
 				foreach ($templates as $template)
 				{
 					// Load language file
@@ -166,19 +157,16 @@ class JFormFieldModuleLayout extends JFormField
 					$template_path = JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $module);
 
 					// Add the layout options from the template path.
-					if (is_dir($template_path) && ($files = JFolder::files($template_path, '^[^_]*\.php$')))
-					{
+					if (is_dir($template_path) && ($files = JFolder::files($template_path, '^[^_]*\.php$'))) {
 						foreach ($files as $i => $file)
 						{
 							// Remove layout that already exist in component ones
-							if (in_array($file, $module_layouts))
-							{
+							if (in_array($file, $module_layouts)) {
 								unset($files[$i]);
 							}
 						}
 
-						if (count($files))
-						{
+						if (count($files)) {
 							// Create the group for the template
 							$groups[$template->element] = array();
 							$groups[$template->element]['id'] = $this->id . '_' . $template->element;
@@ -214,8 +202,7 @@ class JFormFieldModuleLayout extends JFormField
 
 			return implode($html);
 		}
-		else
-		{
+		else {
 
 			return '';
 		}

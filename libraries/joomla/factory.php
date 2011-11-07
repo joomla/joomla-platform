@@ -92,12 +92,10 @@ abstract class JFactory
 	 */
 	public static function getApplication($id = null, $config = array(), $prefix = 'J')
 	{
-		if (!self::$application)
-		{
+		if (!self::$application) {
 			jimport('joomla.application.application');
 
-			if (!$id)
-			{
+			if (!$id) {
 				JError::raiseError(500, 'Application Instantiation Error');
 			}
 
@@ -122,10 +120,8 @@ abstract class JFactory
 	 */
 	public static function getConfig($file = null, $type = 'PHP')
 	{
-		if (!self::$config)
-		{
-			if ($file === null)
-			{
+		if (!self::$config) {
+			if ($file === null) {
 				$file = JPATH_PLATFORM . '/config.php';
 			}
 
@@ -149,8 +145,7 @@ abstract class JFactory
 	 */
 	public static function getSession($options = array())
 	{
-		if (!self::$session)
-		{
+		if (!self::$session) {
 			self::$session = self::_createSession($options);
 		}
 
@@ -169,8 +164,7 @@ abstract class JFactory
 	 */
 	public static function getLanguage()
 	{
-		if (!self::$language)
-		{
+		if (!self::$language) {
 			self::$language = self::_createLanguage();
 		}
 
@@ -189,8 +183,7 @@ abstract class JFactory
 	 */
 	public static function getDocument()
 	{
-		if (!self::$document)
-		{
+		if (!self::$document) {
 			self::$document = self::_createDocument();
 		}
 
@@ -213,23 +206,18 @@ abstract class JFactory
 	{
 		jimport('joomla.user.user');
 
-		if (is_null($id))
-		{
+		if (is_null($id)) {
 			$instance = self::getSession()->get('user');
-			if (!($instance instanceof JUser))
-			{
+			if (!($instance instanceof JUser)) {
 				$instance = JUser::getInstance();
 			}
 		}
-		else
-		{
+		else {
 			$current = self::getSession()->get('user');
-			if ($current->id != $id)
-			{
+			if ($current->id != $id) {
 				$instance = JUser::getInstance($id);
 			}
-			else
-			{
+			else {
 				$instance = self::getSession()->get('user');
 			}
 		}
@@ -253,8 +241,7 @@ abstract class JFactory
 	public static function getCache($group = '', $handler = 'callback', $storage = null)
 	{
 		$hash = md5($group . $handler . $storage);
-		if (isset(self::$cache[$hash]))
-		{
+		if (isset(self::$cache[$hash])) {
 			return self::$cache[$hash];
 		}
 		$handler = ($handler == 'function') ? 'callback' : $handler;
@@ -263,8 +250,7 @@ abstract class JFactory
 
 		$options = array('defaultgroup' => $group);
 
-		if (isset($storage))
-		{
+		if (isset($storage)) {
 			$options['storage'] = $storage;
 		}
 
@@ -287,8 +273,7 @@ abstract class JFactory
 	 */
 	public static function getACL()
 	{
-		if (!self::$acl)
-		{
+		if (!self::$acl) {
 			jimport('joomla.access.access');
 			self::$acl = new JAccess;
 		}
@@ -308,8 +293,7 @@ abstract class JFactory
 	 */
 	public static function getDbo()
 	{
-		if (!self::$database)
-		{
+		if (!self::$database) {
 			//get the debug configuration setting
 			$conf = self::getConfig();
 			$debug = $conf->get('debug');
@@ -333,8 +317,7 @@ abstract class JFactory
 	 */
 	public static function getMailer()
 	{
-		if (!self::$mailer)
-		{
+		if (!self::$mailer) {
 			self::$mailer = self::_createMailer();
 		}
 		$copy = clone self::$mailer;
@@ -358,8 +341,7 @@ abstract class JFactory
 
 		$cache = self::getCache('feed_parser', 'callback');
 
-		if ($cache_time > 0)
-		{
+		if ($cache_time > 0) {
 			$cache->setLifeTime($cache_time);
 		}
 
@@ -371,12 +353,10 @@ abstract class JFactory
 
 		$contents = $cache->get(array($simplepie, 'init'), null, false, false);
 
-		if ($contents)
-		{
+		if ($contents) {
 			return $simplepie;
 		}
-		else
-		{
+		else {
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_UTIL_ERROR_LOADING_FEED_DATA'));
 		}
 
@@ -402,8 +382,7 @@ abstract class JFactory
 
 		$doc = null;
 
-		switch (strtolower($type))
-		{
+		switch (strtolower($type)) {
 			case 'rss':
 			case 'atom':
 				$cache_time = isset($options['cache_time']) ? $options['cache_time'] : 0;
@@ -447,24 +426,20 @@ abstract class JFactory
 		// Disable libxml errors and allow to fetch error information as needed
 		libxml_use_internal_errors(true);
 
-		if ($isFile)
-		{
+		if ($isFile) {
 			// Try to load the XML file
 			$xml = simplexml_load_file($data, 'JXMLElement');
 		}
-		else
-		{
+		else {
 			// Try to load the XML string
 			$xml = simplexml_load_string($data, 'JXMLElement');
 		}
 
-		if (empty($xml))
-		{
+		if (empty($xml)) {
 			// There was an error
 			JError::raiseWarning(100, JText::_('JLIB_UTIL_ERROR_XML_LOAD'));
 
-			if ($isFile)
-			{
+			if ($isFile) {
 				JError::raiseWarning(100, $data);
 			}
 
@@ -491,8 +466,7 @@ abstract class JFactory
 		jimport('joomla.html.editor');
 
 		//get the editor configuration setting
-		if (is_null($editor))
-		{
+		if (is_null($editor)) {
 			$conf = self::getConfig();
 			$editor = $conf->get('editor');
 		}
@@ -537,23 +511,19 @@ abstract class JFactory
 		$language = self::getLanguage();
 		$locale = $language->getTag();
 
-		if (!isset($classname) || $locale != $mainLocale)
-		{
+		if (!isset($classname) || $locale != $mainLocale) {
 			//Store the locale for future reference
 			$mainLocale = $locale;
 
-			if ($mainLocale !== false)
-			{
+			if ($mainLocale !== false) {
 				$classname = str_replace('-', '_', $mainLocale) . 'Date';
 
-				if (!class_exists($classname))
-				{
+				if (!class_exists($classname)) {
 					//The class does not exist, default to JDate
 					$classname = 'JDate';
 				}
 			}
-			else
-			{
+			else {
 				//No tag, so default to JDate
 				$classname = 'JDate';
 			}
@@ -561,8 +531,7 @@ abstract class JFactory
 
 		$key = $time . '-' . ($tzOffset instanceof DateTimeZone ? $tzOffset->getName() : (string) $tzOffset);
 
-		if (!isset(self::$dates[$classname][$key]))
-		{
+		if (!isset(self::$dates[$classname][$key])) {
 			self::$dates[$classname][$key] = new $classname($time, $tzOffset);
 		}
 
@@ -587,8 +556,7 @@ abstract class JFactory
 	{
 		jimport('joomla.registry.registry');
 
-		if (is_file($file))
-		{
+		if (is_file($file)) {
 			include_once $file;
 		}
 
@@ -602,8 +570,7 @@ abstract class JFactory
 		$name = 'JConfig' . $namespace;
 
 		// Handle the PHP configuration type.
-		if ($type == 'PHP' && class_exists($name))
-		{
+		if ($type == 'PHP' && class_exists($name)) {
 			// Create the JConfig object
 			$config = new $name;
 
@@ -635,8 +602,7 @@ abstract class JFactory
 		$options['expire'] = ($conf->get('lifetime')) ? $conf->get('lifetime') * 60 : 900;
 
 		$session = JSession::getInstance($handler, $options);
-		if ($session->getState() == 'expired')
-		{
+		if ($session->getState() == 'expired') {
 			$session->restart();
 		}
 
@@ -670,17 +636,14 @@ abstract class JFactory
 
 		$db = JDatabase::getInstance($options);
 
-		if (JError::isError($db))
-		{
-			if (!headers_sent())
-			{
+		if (JError::isError($db)) {
+			if (!headers_sent()) {
 				header('HTTP/1.1 500 Internal Server Error');
 			}
 			jexit('Database Error: ' . (string) $db);
 		}
 
-		if ($db->getErrorNum() > 0)
-		{
+		if ($db->getErrorNum() > 0) {
 			JError::raiseError(500, JText::sprintf('JLIB_UTIL_ERROR_CONNECT_DATABASE', $db->getErrorNum(), $db->getErrorMsg()));
 		}
 
@@ -721,8 +684,7 @@ abstract class JFactory
 		$mail->SetFrom(JMailHelper::cleanLine($mailfrom), JMailHelper::cleanLine($fromname), 0);
 
 		// Default mailer is to use PHP's mail function
-		switch ($mailer)
-		{
+		switch ($mailer) {
 			case 'smtp':
 				$mail->useSMTP($smtpauth, $smtphost, $smtpuser, $smtppass, $smtpsecure, $smtpport);
 				break;
@@ -807,33 +769,28 @@ abstract class JFactory
 		$context['http']['user_agent'] = $version->getUserAgent($ua, $uamask);
 		$context['ftp']['overwrite'] = true;
 
-		if ($use_prefix)
-		{
+		if ($use_prefix) {
 			jimport('joomla.client.helper');
 			$FTPOptions = JClientHelper::getCredentials('ftp');
 			$SCPOptions = JClientHelper::getCredentials('scp');
 
-			if ($FTPOptions['enabled'] == 1 && $use_network)
-			{
+			if ($FTPOptions['enabled'] == 1 && $use_network) {
 				$prefix = 'ftp://' . $FTPOptions['user'] . ':' . $FTPOptions['pass'] . '@' . $FTPOptions['host'];
 				$prefix .= $FTPOptions['port'] ? ':' . $FTPOptions['port'] : '';
 				$prefix .= $FTPOptions['root'];
 			}
-			elseif ($SCPOptions['enabled'] == 1 && $use_network)
-			{
+			elseif ($SCPOptions['enabled'] == 1 && $use_network) {
 				$prefix = 'ssh2.sftp://' . $SCPOptions['user'] . ':' . $SCPOptions['pass'] . '@' . $SCPOptions['host'];
 				$prefix .= $SCPOptions['port'] ? ':' . $SCPOptions['port'] : '';
 				$prefix .= $SCPOptions['root'];
 			}
-			else
-			{
+			else {
 				$prefix = JPATH_ROOT . '/';
 			}
 
 			$retval = new JStream($prefix, JPATH_ROOT, $context);
 		}
-		else
-		{
+		else {
 			$retval = new JStream('', '', $context);
 		}
 

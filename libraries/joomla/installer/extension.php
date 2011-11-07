@@ -92,13 +92,11 @@ class JExtension extends JObject
 	 */
 	function __construct(JXMLElement $element = null)
 	{
-		if ($element && is_a($element, 'JXMLElement'))
-		{
+		if ($element && is_a($element, 'JXMLElement')) {
 			$this->type = (string) $element->attributes()->type;
 			$this->id = (string) $element->attributes()->id;
 
-			switch ($this->type)
-			{
+			switch ($this->type) {
 				case 'component':
 					// By default a component doesn't have anything
 					break;
@@ -108,12 +106,10 @@ class JExtension extends JObject
 				case 'language':
 					$this->client = (string) $element->attributes()->client;
 					$tmp_client_id = JApplicationHelper::getClientInfo($this->client, 1);
-					if ($tmp_client_id == null)
-					{
+					if ($tmp_client_id == null) {
 						JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_EXTENSION_INVALID_CLIENT_IDENTIFIER'));
 					}
-					else
-					{
+					else {
 						$this->client_id = $tmp_client_id->id;
 					}
 					break;
@@ -125,13 +121,11 @@ class JExtension extends JObject
 				default:
 					// Catch all
 					// Get and set client and group if we don't recognise the extension
-					if ($client = (string) $element->attributes()->client)
-					{
+					if ($client = (string) $element->attributes()->client) {
 						$this->client_id = JApplicationHelper::getClientInfo($this->client, 1);
 						$this->client_id = $this->client_id->id;
 					}
-					if ($group = (string) $element->attributes()->group)
-					{
+					if ($group = (string) $element->attributes()->group) {
 						$this->group = (string) $element->attributes()->group;
 					}
 					break;

@@ -28,8 +28,7 @@ class JSessionStorageApc extends JSessionStorage
 	 */
 	public function __construct($options = array())
 	{
-		if (!$this->test())
-		{
+		if (!$this->test()) {
 			return JError::raiseError(404, JText::_('JLIB_SESSION_APC_EXTENSION_NOT_AVAILABLE'));
 		}
 

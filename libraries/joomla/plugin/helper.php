@@ -43,24 +43,20 @@ abstract class JPluginHelper
 		$plugins = self::_load();
 
 		// Find the correct plugin(s) to return.
-		if (!$plugin)
-		{
+		if (!$plugin) {
 			foreach ($plugins as $p)
 			{
 				// Is this the right plugin?
-				if ($p->type == $type)
-				{
+				if ($p->type == $type) {
 					$result[] = $p;
 				}
 			}
 		}
-		else
-		{
+		else {
 			foreach ($plugins as $p)
 			{
 				// Is this plugin in the right group?
-				if ($p->type == $type && $p->name == $plugin)
-				{
+				if ($p->type == $type && $p->name == $plugin) {
 					$result = $p;
 					break;
 				}
@@ -105,13 +101,11 @@ abstract class JPluginHelper
 
 		// check for the default args, if so we can optimise cheaply
 		$defaults = false;
-		if (is_null($plugin) && $autocreate == true && is_null($dispatcher))
-		{
+		if (is_null($plugin) && $autocreate == true && is_null($dispatcher)) {
 			$defaults = true;
 		}
 
-		if (!isset($loaded[$type]) || !$defaults)
-		{
+		if (!isset($loaded[$type]) || !$defaults) {
 			$results = null;
 
 			// Load the plugins from the database.
@@ -120,16 +114,14 @@ abstract class JPluginHelper
 			// Get the specified plugin(s).
 			for ($i = 0, $t = count($plugins); $i < $t; $i++)
 			{
-				if ($plugins[$i]->type == $type && ($plugin === null || $plugins[$i]->name == $plugin))
-				{
+				if ($plugins[$i]->type == $type && ($plugin === null || $plugins[$i]->name == $plugin)) {
 					self::_import($plugins[$i], $autocreate, $dispatcher);
 					$results = true;
 				}
 			}
 
 			// Bail out early if we're not using default args
-			if (!$defaults)
-			{
+			if (!$defaults) {
 				return $results;
 			}
 			$loaded[$type] = $results;
@@ -159,34 +151,27 @@ abstract class JPluginHelper
 		$legacypath = JPATH_PLUGINS . '/' . $plugin->type . '/' . $plugin->name . '.php';
 		$path = JPATH_PLUGINS . '/' . $plugin->type . '/' . $plugin->name . '/' . $plugin->name . '.php';
 
-		if (!isset($paths[$path]) || !isset($paths[$legacypath]))
-		{
+		if (!isset($paths[$path]) || !isset($paths[$legacypath])) {
 			$pathExists = file_exists($path);
-			if ($pathExists || file_exists($legacypath))
-			{
+			if ($pathExists || file_exists($legacypath)) {
 				$path = $pathExists ? $path : $legacypath;
 
 				jimport('joomla.plugin.plugin');
-				if (!isset($paths[$path]))
-				{
+				if (!isset($paths[$path])) {
 					require_once $path;
 				}
 				$paths[$path] = true;
 
-				if ($autocreate)
-				{
+				if ($autocreate) {
 					// Makes sure we have an event dispatcher
-					if (!is_object($dispatcher))
-					{
+					if (!is_object($dispatcher)) {
 						$dispatcher = JDispatcher::getInstance();
 					}
 
 					$className = 'plg' . $plugin->type . $plugin->name;
-					if (class_exists($className))
-					{
+					if (class_exists($className)) {
 						// Load the plugin from the database.
-						if (!isset($plugin->params))
-						{
+						if (!isset($plugin->params)) {
 							// Seems like this could just go bye bye completely
 							$plugin = self::getPlugin($plugin->type, $plugin->name);
 						}
@@ -196,8 +181,7 @@ abstract class JPluginHelper
 					}
 				}
 			}
-			else
-			{
+			else {
 				$paths[$path] = false;
 			}
 		}
@@ -212,8 +196,7 @@ abstract class JPluginHelper
 	 */
 	protected static function _load()
 	{
-		if (self::$plugins !== null)
-		{
+		if (self::$plugins !== null) {
 			return self::$plugins;
 		}
 
@@ -222,8 +205,7 @@ abstract class JPluginHelper
 
 		$levels = implode(',', $user->getAuthorisedViewLevels());
 
-		if (!self::$plugins = $cache->get($levels))
-		{
+		if (!self::$plugins = $cache->get($levels)) {
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 
@@ -237,8 +219,7 @@ abstract class JPluginHelper
 
 			self::$plugins = $db->setQuery($query)->loadObjectList();
 
-			if ($error = $db->getErrorMsg())
-			{
+			if ($error = $db->getErrorMsg()) {
 				JError::raiseWarning(500, $error);
 				return false;
 			}

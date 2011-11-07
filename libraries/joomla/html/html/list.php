@@ -53,13 +53,11 @@ abstract class JHtmlList
 	 */
 	public static function images($name, $active = null, $javascript = null, $directory = null, $extensions = "bmp|gif|jpg|png")
 	{
-		if (!$directory)
-		{
+		if (!$directory) {
 			$directory = '/images/';
 		}
 
-		if (!$javascript)
-		{
+		if (!$javascript) {
 			$javascript = "onchange=\"if (document.forms.adminForm." . $name
 				. ".options[selectedIndex].value!='') {document.imagelib.src='..$directory' + document.forms.adminForm." . $name
 				. ".options[selectedIndex].value} else {document.imagelib.src='media/system/images/blank.png'}\"";
@@ -71,8 +69,7 @@ abstract class JHtmlList
 
 		foreach ($imageFiles as $file)
 		{
-			if (preg_match('#(' . $extensions . ')$#', $file))
-			{
+			if (preg_match('#(' . $extensions . ')$#', $file)) {
 				$images[] = JHtml::_('select.option', $file);
 			}
 		}
@@ -109,14 +106,12 @@ abstract class JHtmlList
 		$items = $db->loadObjectList();
 
 		// Check for a database error.
-		if ($db->getErrorNum())
-		{
+		if ($db->getErrorNum()) {
 			JError::raiseNotice(500, $db->getErrorMsg());
 			return false;
 		}
 
-		if (empty($items))
-		{
+		if (empty($items)) {
 			$options[] = JHtml::_('select.option', 1, JText::_('JOPTION_ORDER_FIRST'));
 			return $options;
 		}
@@ -125,12 +120,10 @@ abstract class JHtmlList
 		for ($i = 0, $n = count($items); $i < $n; $i++)
 		{
 			$items[$i]->text = JText::_($items[$i]->text);
-			if (JString::strlen($items[$i]->text) > $chop)
-			{
+			if (JString::strlen($items[$i]->text) > $chop) {
 				$text = JString::substr($items[$i]->text, 0, $chop) . "...";
 			}
-			else
-			{
+			else {
 				$text = $items[$i]->text;
 			}
 
@@ -159,23 +152,18 @@ abstract class JHtmlList
 	 */
 	public static function specificordering($value, $id, $query, $neworder = 0)
 	{
-		if (is_object($value))
-		{
+		if (is_object($value)) {
 			$value = $value->ordering;
 		}
 
-		if ($id)
-		{
+		if ($id) {
 			$neworder = 0;
 		}
-		else
-		{
-			if ($neworder)
-			{
+		else {
+			if ($neworder) {
 				$neworder = 1;
 			}
-			else
-			{
+			else {
 				$neworder = -1;
 			}
 		}
@@ -198,24 +186,19 @@ abstract class JHtmlList
 	 */
 	public static function ordering($name, $query, $attribs = null, $selected = null, $neworder = null, $chop = null)
 	{
-		if (empty($attribs))
-		{
+		if (empty($attribs)) {
 			$attribs = 'class="inputbox" size="1"';
 		}
 
-		if (empty($neworder))
-		{
+		if (empty($neworder)) {
 			$orders = JHtml::_('list.genericordering', $query);
 			$html = JHtml::_('select.genericlist', $orders, $name, array('list.attr' => $attribs, 'list.select' => (int) $selected));
 		}
-		else
-		{
-			if ($neworder > 0)
-			{
+		else {
+			if ($neworder > 0) {
 				$text = JText::_('JGLOBAL_NEWITEMSLAST_DESC');
 			}
-			elseif ($neworder <= 0)
-			{
+			elseif ($neworder <= 0) {
 				$text = JText::_('JGLOBAL_NEWITEMSFIRST_DESC');
 			}
 			$html = '<input type="hidden" name="' . $name . '" value="' . (int) $selected . '" />' . '<span class="readonly">' . $text . '</span>';
@@ -243,8 +226,7 @@ abstract class JHtmlList
 		$query = $db->getQuery(true);
 
 		$and = '';
-		if ($reg)
-		{
+		if ($reg) {
 			// Does not include registered users in the list
 			// @deprecated
 			$query->where('m.group_id != 2');
@@ -257,13 +239,11 @@ abstract class JHtmlList
 		$query->order($order);
 		$db->setQuery($query);
 
-		if ($nouser)
-		{
+		if ($nouser) {
 			$users[] = JHtml::_('select.option', '0', JText::_('JOPTION_NO_USER'));
 			$users = array_merge($users, $db->loadObjectList());
 		}
-		else
-		{
+		else {
 			$users = $db->loadObjectList();
 		}
 
@@ -299,23 +279,19 @@ abstract class JHtmlList
 	public static function positions($name, $active = null, $javascript = null, $none = 1, $center = 1, $left = 1, $right = 1, $id = false)
 	{
 		$pos = array();
-		if ($none)
-		{
+		if ($none) {
 			$pos[''] = JText::_('JNONE');
 		}
 
-		if ($center)
-		{
+		if ($center) {
 			$pos['center'] = JText::_('JGLOBAL_CENTER');
 		}
 
-		if ($left)
-		{
+		if ($left) {
 			$pos['left'] = JText::_('JGLOBAL_LEFT');
 		}
 
-		if ($right)
-		{
+		if ($right) {
 			$pos['right'] = JText::_('JGLOBAL_RIGHT');
 		}
 
@@ -355,8 +331,7 @@ abstract class JHtmlList
 		JLog::add('JList::category is deprecated.', JLog::WARNING, 'deprecated');
 
 		$categories = JHtml::_('category.options', $extension);
-		if ($sel_cat)
-		{
+		if ($sel_cat) {
 			array_unshift($categories, JHtml::_('select.option', '0', JText::_('JOPTION_SELECT_CATEGORY')));
 		}
 

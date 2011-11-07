@@ -79,13 +79,11 @@ class JCacheStorage
 
 		// Set time threshold value.  If the lifetime is not set, default to 60 (0 is BAD)
 		// _threshold is now available ONLY as a legacy (it's deprecated).  It's no longer used in the core.
-		if (empty($this->_lifetime))
-		{
+		if (empty($this->_lifetime)) {
 			$this->_threshold = $this->_now - 60;
 			$this->_lifetime = 60;
 		}
-		else
-		{
+		else {
 			$this->_threshold = $this->_now - $this->_lifetime;
 		}
 
@@ -108,18 +106,15 @@ class JCacheStorage
 
 		JCacheStorage::addIncludePath(JPATH_PLATFORM . '/joomla/cache/storage');
 
-		if (!isset($handler))
-		{
+		if (!isset($handler)) {
 			$conf = JFactory::getConfig();
 			$handler = $conf->get('cache_handler');
-			if (empty($handler))
-			{
+			if (empty($handler)) {
 				return JError::raiseWarning(500, JText::_('JLIB_CACHE_ERROR_CACHE_HANDLER_NOT_SET'));
 			}
 		}
 
-		if (is_null($now))
-		{
+		if (is_null($now)) {
 			$now = time();
 		}
 
@@ -128,16 +123,13 @@ class JCacheStorage
 		$handler = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $handler));
 
 		$class = 'JCacheStorage' . ucfirst($handler);
-		if (!class_exists($class))
-		{
+		if (!class_exists($class)) {
 			// Search for the class file in the JCacheStorage include paths.
 			jimport('joomla.filesystem.path');
-			if ($path = JPath::find(JCacheStorage::addIncludePath(), strtolower($handler) . '.php'))
-			{
+			if ($path = JPath::find(JCacheStorage::addIncludePath(), strtolower($handler) . '.php')) {
 				include_once $path;
 			}
-			else
-			{
+			else {
 				return JError::raiseWarning(500, JText::sprintf('JLIB_CACHE_ERROR_CACHE_STORAGE_LOAD', $handler));
 			}
 		}
@@ -170,8 +162,7 @@ class JCacheStorage
 	 */
 	public function getAll()
 	{
-		if (!class_exists('JCacheStorageHelper', false))
-		{
+		if (!class_exists('JCacheStorageHelper', false)) {
 			include_once JPATH_PLATFORM . '/joomla/cache/storage/helpers/helper.php';
 		}
 		return;
@@ -311,13 +302,11 @@ class JCacheStorage
 	{
 		static $paths;
 
-		if (!isset($paths))
-		{
+		if (!isset($paths)) {
 			$paths = array();
 		}
 
-		if (!empty($path) && !in_array($path, $paths))
-		{
+		if (!empty($path) && !in_array($path, $paths)) {
 			jimport('joomla.filesystem.path');
 			array_unshift($paths, JPath::clean($path));
 		}

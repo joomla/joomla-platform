@@ -74,37 +74,31 @@ class JControllerForm extends JController
 		parent::__construct($config);
 
 		// Guess the option as com_NameOfController
-		if (empty($this->option))
-		{
+		if (empty($this->option)) {
 			$this->option = 'com_' . strtolower($this->getName());
 		}
 
 		// Guess the JText message prefix. Defaults to the option.
-		if (empty($this->text_prefix))
-		{
+		if (empty($this->text_prefix)) {
 			$this->text_prefix = strtoupper($this->option);
 		}
 
 		// Guess the context as the suffix, eg: OptionControllerContent.
-		if (empty($this->context))
-		{
+		if (empty($this->context)) {
 			$r = null;
-			if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r))
-			{
+			if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r)) {
 				JError::raiseError(500, JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'));
 			}
 			$this->context = strtolower($r[2]);
 		}
 
 		// Guess the item view as the context.
-		if (empty($this->view_item))
-		{
+		if (empty($this->view_item)) {
 			$this->view_item = $this->context;
 		}
 
 		// Guess the list view as the plural of the item view.
-		if (empty($this->view_list))
-		{
+		if (empty($this->view_list)) {
 			// @TODO Probably worth moving to an inflector class based on
 			// http://kuwamoto.org/2007/12/17/improved-pluralizing-in-php-actionscript-and-ror/
 
@@ -121,8 +115,7 @@ class JControllerForm extends JController
 			// check for matches using regular expressions
 			foreach ($plural as $pattern)
 			{
-				if (preg_match($pattern[0], $this->view_item))
-				{
+				if (preg_match($pattern[0], $this->view_item)) {
 					$this->view_list = preg_replace($pattern[0], $pattern[1], $this->view_item);
 					break;
 				}
@@ -149,8 +142,7 @@ class JControllerForm extends JController
 		$context = "$this->option.edit.$this->context";
 
 		// Access check.
-		if (!$this->allowAdd())
-		{
+		if (!$this->allowAdd()) {
 			// Set the internal error and also the redirect error.
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'));
 			$this->setMessage($this->getError(), 'error');
@@ -230,12 +222,10 @@ class JControllerForm extends JController
 		// Initialise variables.
 		$recordId = isset($data[$key]) ? $data[$key] : '0';
 
-		if ($recordId)
-		{
+		if ($recordId) {
 			return $this->allowEdit($data, $key);
 		}
-		else
-		{
+		else {
 			return $this->allowAdd($data);
 		}
 	}
@@ -257,14 +247,12 @@ class JControllerForm extends JController
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 
 		// Attempt to run the batch operation.
-		if ($model->batch($vars, $cid))
-		{
+		if ($model->batch($vars, $cid)) {
 			$this->setMessage(JText::_('JLIB_APPLICATION_SUCCESS_BATCH'));
 
 			return true;
 		}
-		else
-		{
+		else {
 			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_FAILED', $model->getError()));
 			return false;
 		}
@@ -290,19 +278,16 @@ class JControllerForm extends JController
 		$checkin = property_exists($table, 'checked_out');
 		$context = "$this->option.edit.$this->context";
 
-		if (empty($key))
-		{
+		if (empty($key)) {
 			$key = $table->getKeyName();
 		}
 
 		$recordId = JRequest::getInt($key);
 
 		// Attempt to check-in the current record.
-		if ($recordId)
-		{
+		if ($recordId) {
 			// Check we are holding the id in the edit list.
-			if (!$this->checkEditId($context, $recordId))
-			{
+			if (!$this->checkEditId($context, $recordId)) {
 				// Somehow the person just went to the form - we don't allow that.
 				$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
 				$this->setMessage($this->getError(), 'error');
@@ -317,10 +302,8 @@ class JControllerForm extends JController
 				return false;
 			}
 
-			if ($checkin)
-			{
-				if ($model->checkin($recordId) === false)
-				{
+			if ($checkin) {
+				if ($model->checkin($recordId) === false) {
 					// Check-in failed, go back to the record and display a notice.
 					$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
 					$this->setMessage($this->getError(), 'error');
@@ -373,14 +356,12 @@ class JControllerForm extends JController
 		$append = '';
 
 		// Determine the name of the primary key for the data.
-		if (empty($key))
-		{
+		if (empty($key)) {
 			$key = $table->getKeyName();
 		}
 
 		// To avoid data collisions the urlVar may be different from the primary key.
-		if (empty($urlVar))
-		{
+		if (empty($urlVar)) {
 			$urlVar = $key;
 		}
 
@@ -389,8 +370,7 @@ class JControllerForm extends JController
 		$checkin = property_exists($table, 'checked_out');
 
 		// Access check.
-		if (!$this->allowEdit(array($key => $recordId), $key))
-		{
+		if (!$this->allowEdit(array($key => $recordId), $key)) {
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
 			$this->setMessage($this->getError(), 'error');
 
@@ -405,8 +385,7 @@ class JControllerForm extends JController
 		}
 
 		// Attempt to check-out the new record for editing and redirect.
-		if ($checkin && !$model->checkout($recordId))
-		{
+		if ($checkin && !$model->checkout($recordId)) {
 			// Check-out failed, display a notice but allow the user to see the record.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()));
 			$this->setMessage($this->getError(), 'error');
@@ -420,8 +399,7 @@ class JControllerForm extends JController
 
 			return false;
 		}
-		else
-		{
+		else {
 			// Check-out succeeded, push the new record id into the session.
 			$this->holdEditId($context, $recordId);
 			$app->setUserState($context . '.data', null);
@@ -450,8 +428,7 @@ class JControllerForm extends JController
 	 */
 	public function getModel($name = '', $prefix = '', $config = array('ignore_request' => true))
 	{
-		if (empty($name))
-		{
+		if (empty($name)) {
 			$name = $this->context;
 		}
 
@@ -475,18 +452,15 @@ class JControllerForm extends JController
 		$append = '';
 
 		// Setup redirect info.
-		if ($tmpl)
-		{
+		if ($tmpl) {
 			$append .= '&tmpl=' . $tmpl;
 		}
 
-		if ($layout)
-		{
+		if ($layout) {
 			$append .= '&layout=' . $layout;
 		}
 
-		if ($recordId)
-		{
+		if ($recordId) {
 			$append .= '&' . $urlVar . '=' . $recordId;
 		}
 
@@ -506,8 +480,7 @@ class JControllerForm extends JController
 		$append = '';
 
 		// Setup redirect info.
-		if ($tmpl)
-		{
+		if ($tmpl) {
 			$append .= '&tmpl=' . $tmpl;
 		}
 
@@ -555,14 +528,12 @@ class JControllerForm extends JController
 		$task = $this->getTask();
 
 		// Determine the name of the primary key for the data.
-		if (empty($key))
-		{
+		if (empty($key)) {
 			$key = $table->getKeyName();
 		}
 
 		// To avoid data collisions the urlVar may be different from the primary key.
-		if (empty($urlVar))
-		{
+		if (empty($urlVar)) {
 			$urlVar = $key;
 		}
 
@@ -571,8 +542,7 @@ class JControllerForm extends JController
 		$session = JFactory::getSession();
 		$registry = $session->get('registry');
 
-		if (!$this->checkEditId($context, $recordId))
-		{
+		if (!$this->checkEditId($context, $recordId)) {
 			// Somehow the person just went to the form and tried to save it. We don't allow that.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
 			$this->setMessage($this->getError(), 'error');
@@ -591,11 +561,9 @@ class JControllerForm extends JController
 		$data[$key] = $recordId;
 
 		// The save2copy task needs to be handled slightly differently.
-		if ($task == 'save2copy')
-		{
+		if ($task == 'save2copy') {
 			// Check-in the original row.
-			if ($checkin && $model->checkin($data[$key]) === false)
-			{
+			if ($checkin && $model->checkin($data[$key]) === false) {
 				// Check-in failed. Go back to the item and display a notice.
 				$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
 				$this->setMessage($this->getError(), 'error');
@@ -616,8 +584,7 @@ class JControllerForm extends JController
 		}
 
 		// Access check.
-		if (!$this->allowSave($data, $key))
-		{
+		if (!$this->allowSave($data, $key)) {
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
 			$this->setMessage($this->getError(), 'error');
 
@@ -635,8 +602,7 @@ class JControllerForm extends JController
 		// Sometimes the form needs some posted data, such as for plugins and modules.
 		$form = $model->getForm($data, false);
 
-		if (!$form)
-		{
+		if (!$form) {
 			$app->enqueueMessage($model->getError(), 'error');
 
 			return false;
@@ -646,20 +612,17 @@ class JControllerForm extends JController
 		$validData = $model->validate($form, $data);
 
 		// Check for validation errors.
-		if ($validData === false)
-		{
+		if ($validData === false) {
 			// Get the validation messages.
 			$errors = $model->getErrors();
 
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
 			{
-				if (JError::isError($errors[$i]))
-				{
+				if (JError::isError($errors[$i])) {
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				}
-				else
-				{
+				else {
 					$app->enqueueMessage($errors[$i], 'warning');
 				}
 			}
@@ -679,8 +642,7 @@ class JControllerForm extends JController
 		}
 
 		// Attempt to save the data.
-		if (!$model->save($validData))
-		{
+		if (!$model->save($validData)) {
 			// Save the data in the session.
 			$app->setUserState($context . '.data', $validData);
 
@@ -699,8 +661,7 @@ class JControllerForm extends JController
 		}
 
 		// Save succeeded, so check-in the record.
-		if ($checkin && $model->checkin($validData[$key]) === false)
-		{
+		if ($checkin && $model->checkin($validData[$key]) === false) {
 			// Save the data in the session.
 			$app->setUserState($context . '.data', $validData);
 
@@ -727,8 +688,7 @@ class JControllerForm extends JController
 		);
 
 		// Redirect the user and adjust session state based on the chosen task.
-		switch ($task)
-		{
+		switch ($task) {
 			case 'apply':
 				// Set the record data in the session.
 				$recordId = $model->getState($this->context . '.id');

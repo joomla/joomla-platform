@@ -84,13 +84,11 @@ class JProfiler extends JObject
 	{
 		static $instances;
 
-		if (!isset($instances))
-		{
+		if (!isset($instances)) {
 			$instances = array();
 		}
 
-		if (empty($instances[$prefix]))
-		{
+		if (empty($instances[$prefix])) {
 			$instances[$prefix] = new JProfiler($prefix);
 		}
 
@@ -112,8 +110,7 @@ class JProfiler extends JObject
 	public function mark($label)
 	{
 		$current = self::getmicrotime() - $this->_start;
-		if (function_exists('memory_get_usage'))
-		{
+		if (function_exists('memory_get_usage')) {
 			$current_mem = memory_get_usage() / 1048576;
 			$mark = sprintf(
 				'<code>%s %.3f seconds (+%.3f); %0.2f MB (%s%0.3f) - %s</code>',
@@ -125,8 +122,7 @@ class JProfiler extends JObject
 				$label
 			);
 		}
-		else
-		{
+		else {
 			$mark = sprintf('<code>%s %.3f seconds (+%.3f) - %s</code>', $this->_prefix, $current, $current - $this->_previous_time, $label);
 		}
 
@@ -161,28 +157,23 @@ class JProfiler extends JObject
 	 */
 	public function getMemory()
 	{
-		if (function_exists('memory_get_usage'))
-		{
+		if (function_exists('memory_get_usage')) {
 			return memory_get_usage();
 		}
-		else
-		{
+		else {
 			// Initialise variables.
 			$output = array();
 			$pid = getmypid();
 
-			if ($this->_iswin)
-			{
+			if ($this->_iswin) {
 				// Windows workaround
 				@exec('tasklist /FI "PID eq ' . $pid . '" /FO LIST', $output);
-				if (!isset($output[5]))
-				{
+				if (!isset($output[5])) {
 					$output[5] = null;
 				}
 				return substr($output[5], strpos($output[5], ':') + 1);
 			}
-			else
-			{
+			else {
 				@exec("ps -o rss -p $pid", $output);
 				return $output[1] * 1024;
 			}

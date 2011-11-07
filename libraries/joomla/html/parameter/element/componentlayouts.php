@@ -55,8 +55,7 @@ class JElementComponentLayouts extends JElementList
 		$db->setQuery($query);
 		$template = $db->loadResult();
 
-		if ($view = $node->attributes('view') && $extn = $node->attributes('extension'))
-		{
+		if ($view = $node->attributes('view') && $extn = $node->attributes('extension')) {
 			$view = preg_replace('#\W#', '', $view);
 			$extn = preg_replace('#\W#', '', $extn);
 			$path1 = JPATH_SITE . '/components/' . $extn . '/views/' . $view . '/tmpl';
@@ -64,8 +63,7 @@ class JElementComponentLayouts extends JElementList
 			$options[] = JHtml::_('select.option', '', JText::_('JOPTION_USE_MENU_REQUEST_SETTING'));
 		}
 
-		if ($path1 && $path2)
-		{
+		if ($path1 && $path2) {
 			jimport('joomla.filesystem.file');
 			$path1 = JPath::clean($path1);
 			$path2 = JPath::clean($path2);
@@ -76,8 +74,7 @@ class JElementComponentLayouts extends JElementList
 				$options[] = JHtml::_('select.option', JFile::stripExt($file));
 			}
 
-			if (is_dir($path2) && $files = JFolder::files($path2, '^[^_]*\.php$'))
-			{
+			if (is_dir($path2) && $files = JFolder::files($path2, '^[^_]*\.php$')) {
 				$options[] = JHtml::_('select.optgroup', JText::_('JOPTION_FROM_DEFAULT_TEMPLATE'));
 				foreach ($files as $file)
 				{

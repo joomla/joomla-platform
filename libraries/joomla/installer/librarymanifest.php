@@ -104,8 +104,7 @@ class JLibraryManifest extends JObject
 	 */
 	function __construct($xmlpath = '')
 	{
-		if (strlen($xmlpath))
-		{
+		if (strlen($xmlpath)) {
 			$this->loadManifestFromXML($xmlpath);
 		}
 	}
@@ -124,13 +123,11 @@ class JLibraryManifest extends JObject
 		$this->manifest_file = JFile::stripExt(basename($xmlfile));
 
 		$xml = JFactory::getXML($xmlfile);
-		if (!$xml)
-		{
+		if (!$xml) {
 			$this->_errors[] = JText::sprintf('JLIB_INSTALLER_ERROR_LOAD_XML', $xmlfile);
 			return false;
 		}
-		else
-		{
+		else {
 			$this->name = (string) $xml->name;
 			$this->libraryname = (string) $xml->libraryname;
 			$this->version = (string) $xml->version;
@@ -143,8 +140,7 @@ class JLibraryManifest extends JObject
 			$this->packagerurl = (string) $xml->packagerurl;
 			$this->update = (string) $xml->update;
 
-			if (isset($xml->files) && isset($xml->files->file) && count($xml->files->file))
-			{
+			if (isset($xml->files) && isset($xml->files->file) && count($xml->files->file)) {
 				foreach ($xml->files->file as $file)
 				{
 					$this->filelist[] = (string) $file;

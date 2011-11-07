@@ -31,8 +31,7 @@ abstract class JHtmlContent
 	 */
 	public static function prepare($text, $params = null, $context = 'text')
 	{
-		if ($params === null)
-		{
+		if ($params === null) {
 			$params = new JObject;
 		}
 		$article = new stdClass;

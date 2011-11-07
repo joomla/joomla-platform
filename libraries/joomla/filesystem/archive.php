@@ -38,18 +38,15 @@ class JArchive
 		$ext = JFile::getExt(strtolower($archivename));
 
 		// Check if a tar is embedded...gzip/bzip2 can just be plain files!
-		if (JFile::getExt(JFile::stripExt(strtolower($archivename))) == 'tar')
-		{
+		if (JFile::getExt(JFile::stripExt(strtolower($archivename))) == 'tar') {
 			$untar = true;
 		}
 
-		switch ($ext)
-		{
+		switch ($ext) {
 			case 'zip':
 				$adapter = JArchive::getAdapter('zip');
 
-				if ($adapter)
-				{
+				if ($adapter) {
 					$result = $adapter->extract($archivename, $extractdir);
 				}
 				break;
@@ -57,8 +54,7 @@ class JArchive
 			case 'tar':
 				$adapter = JArchive::getAdapter('tar');
 
-				if ($adapter)
-				{
+				if ($adapter) {
 					$result = $adapter->extract($archivename, $extractdir);
 				}
 				break;
@@ -72,31 +68,26 @@ class JArchive
 				// This may just be an individual file (e.g. sql script)
 				$adapter = JArchive::getAdapter('gzip');
 
-				if ($adapter)
-				{
+				if ($adapter) {
 					$config = JFactory::getConfig();
 					$tmpfname = $config->get('tmp_path') . '/' . uniqid('gzip');
 					$gzresult = $adapter->extract($archivename, $tmpfname);
 
-					if (JError::isError($gzresult))
-					{
+					if (JError::isError($gzresult)) {
 						@unlink($tmpfname);
 
 						return false;
 					}
 
-					if ($untar)
-					{
+					if ($untar) {
 						// Try to untar the file
 						$tadapter = JArchive::getAdapter('tar');
 
-						if ($tadapter)
-						{
+						if ($tadapter) {
 							$result = $tadapter->extract($tmpfname, $extractdir);
 						}
 					}
-					else
-					{
+					else {
 						$path = JPath::clean($extractdir);
 						JFolder::create($path);
 						$result = JFile::copy($tmpfname, $path . '/' . JFile::stripExt(JFile::getName(strtolower($archivename))), null, 1);
@@ -115,30 +106,25 @@ class JArchive
 				// This may just be an individual file (e.g. sql script)
 				$adapter = JArchive::getAdapter('bzip2');
 
-				if ($adapter)
-				{
+				if ($adapter) {
 					$config = JFactory::getConfig();
 					$tmpfname = $config->get('tmp_path') . '/' . uniqid('bzip2');
 					$bzresult = $adapter->extract($archivename, $tmpfname);
 
-					if (JError::isError($bzresult))
-					{
+					if (JError::isError($bzresult)) {
 						@unlink($tmpfname);
 						return false;
 					}
 
-					if ($untar)
-					{
+					if ($untar) {
 						// Try to untar the file
 						$tadapter = JArchive::getAdapter('tar');
 
-						if ($tadapter)
-						{
+						if ($tadapter) {
 							$result = $tadapter->extract($tmpfname, $extractdir);
 						}
 					}
-					else
-					{
+					else {
 						$path = JPath::clean($extractdir);
 						JFolder::create($path);
 						$result = JFile::copy($tmpfname, $path . '/' . JFile::stripExt(JFile::getName(strtolower($archivename))), null, 1);
@@ -154,8 +140,7 @@ class JArchive
 				break;
 		}
 
-		if (!$result || JError::isError($result))
-		{
+		if (!$result || JError::isError($result)) {
 			return false;
 		}
 
@@ -175,25 +160,20 @@ class JArchive
 	{
 		static $adapters;
 
-		if (!isset($adapters))
-		{
+		if (!isset($adapters)) {
 			$adapters = array();
 		}
 
-		if (!isset($adapters[$type]))
-		{
+		if (!isset($adapters[$type])) {
 			// Try to load the adapter object
 			$class = 'JArchive' . ucfirst($type);
 
-			if (!class_exists($class))
-			{
+			if (!class_exists($class)) {
 				$path = dirname(__FILE__) . '/archive/' . strtolower($type) . '.php';
-				if (file_exists($path))
-				{
+				if (file_exists($path)) {
 					require_once $path;
 				}
-				else
-				{
+				else {
 					JError::raiseError(500, JText::_('JLIB_FILESYSTEM_UNABLE_TO_LOAD_ARCHIVE'));
 				}
 			}

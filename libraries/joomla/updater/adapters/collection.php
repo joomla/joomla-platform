@@ -99,15 +99,12 @@ class JUpdaterCollection extends JUpdateAdapter
 		$tag = $this->_getStackLocation();
 		// Reset the data
 		eval('$this->' . $tag . '->_data = "";');
-		switch ($name)
-		{
+		switch ($name) {
 			case 'CATEGORY':
-				if (isset($attrs['REF']))
-				{
+				if (isset($attrs['REF'])) {
 					$this->update_sites[] = array('type' => 'collection', 'location' => $attrs['REF'], 'update_site_id' => $this->_update_site_id);
 				}
-				else
-				{
+				else {
 					// This item will have children, so prepare to attach them
 					$this->pop_parent = 1;
 				}
@@ -118,11 +115,9 @@ class JUpdaterCollection extends JUpdateAdapter
 				foreach ($this->_updatecols as $col)
 				{
 					// Reset the values if it doesn't exist
-					if (!array_key_exists($col, $attrs))
-					{
+					if (!array_key_exists($col, $attrs)) {
 						$attrs[$col] = '';
-						if ($col == 'CLIENT_ID')
-						{
+						if ($col == 'CLIENT_ID') {
 							$attrs[$col] = 'site';
 						}
 					}
@@ -144,19 +139,16 @@ class JUpdaterCollection extends JUpdateAdapter
 				// Note: Whilst the version is a regexp here, the targetplatform is not (new extension per platform)
 				//		Additionally, the version is a regexp here and it may also be in an extension file if the extension is
 				//		compatible against multiple versions of the same platform (e.g. a library)
-				if (!isset($values['targetplatform']))
-				{
+				if (!isset($values['targetplatform'])) {
 					$values['targetplatform'] = $product;
 				}
 				// set this to ourself as a default
-				if (!isset($values['targetplatformversion']))
-				{
+				if (!isset($values['targetplatformversion'])) {
 					$values['targetplatformversion'] = $ver->RELEASE;
 				}
 				// set this to ourself as a default
 				// validate that we can install the extension
-				if ($product == $values['targetplatform'] && preg_match('/' . $values['targetplatformversion'] . '/', $ver->RELEASE))
-				{
+				if ($product == $values['targetplatform'] && preg_match('/' . $values['targetplatformversion'] . '/', $ver->RELEASE)) {
 					$update->bind($values);
 					$this->updates[] = $update;
 				}
@@ -178,11 +170,9 @@ class JUpdaterCollection extends JUpdateAdapter
 	protected function _endElement($parser, $name)
 	{
 		$lastcell = array_pop($this->_stack);
-		switch ($name)
-		{
+		switch ($name) {
 			case 'CATEGORY':
-				if ($this->pop_parent)
-				{
+				if ($this->pop_parent) {
 					$this->pop_parent = 0;
 					array_pop($this->parent);
 				}
@@ -205,10 +195,8 @@ class JUpdaterCollection extends JUpdateAdapter
 	{
 		$url = $options['location'];
 		$this->_update_site_id = $options['update_site_id'];
-		if (substr($url, -4) != '.xml')
-		{
-			if (substr($url, -1) != '/')
-			{
+		if (substr($url, -4) != '.xml') {
+			if (substr($url, -1) != '/') {
 				$url .= '/';
 			}
 			$url .= 'update.xml';
@@ -219,8 +207,7 @@ class JUpdaterCollection extends JUpdateAdapter
 		$this->updates = array();
 		$dbo = $this->parent->getDBO();
 
-		if (!($fp = @fopen($url, "r")))
-		{
+		if (!($fp = @fopen($url, "r"))) {
 			$query = $dbo->getQuery(true);
 			$query->update('#__update_sites');
 			$query->set('enabled = 0');
@@ -240,8 +227,7 @@ class JUpdaterCollection extends JUpdateAdapter
 
 		while ($data = fread($fp, 8192))
 		{
-			if (!xml_parse($this->xml_parser, $data, feof($fp)))
-			{
+			if (!xml_parse($this->xml_parser, $data, feof($fp))) {
 				JLog::add("Error parsing url: " . $url, JLog::WARNING, 'updater');
 				$app = JFactory::getApplication();
 				$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_PARSE_URL', $url), 'warning');

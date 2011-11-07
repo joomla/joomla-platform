@@ -118,32 +118,26 @@ class JWebClient
 	public function __construct($userAgent = null, $acceptEncoding = null, $acceptLanguage = null)
 	{
 		// If no explicit user agent string was given attempt to use the implicit one from server environment.
-		if (empty($userAgent) && isset($_SERVER['HTTP_USER_AGENT']))
-		{
+		if (empty($userAgent) && isset($_SERVER['HTTP_USER_AGENT'])) {
 			$this->userAgent = $_SERVER['HTTP_USER_AGENT'];
 		}
-		else
-		{
+		else {
 			$this->userAgent = $userAgent;
 		}
 
 		// If no explicit acceptable encoding string was given attempt to use the implicit one from server environment.
-		if (empty($acceptEncoding) && isset($_SERVER['HTTP_ACCEPT_ENCODING']))
-		{
+		if (empty($acceptEncoding) && isset($_SERVER['HTTP_ACCEPT_ENCODING'])) {
 			$this->acceptEncoding = $_SERVER['HTTP_ACCEPT_ENCODING'];
 		}
-		else
-		{
+		else {
 			$this->acceptEncoding = $acceptEncoding;
 		}
 
 		// If no explicit acceptable languages string was given attempt to use the implicit one from server environment.
-		if (empty($acceptLanguage) && isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
-		{
+		if (empty($acceptLanguage) && isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
 			$this->acceptLanguage = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
 		}
-		else
-		{
+		else {
 			$this->acceptLanguage = $acceptLanguage;
 		}
 	}
@@ -159,49 +153,42 @@ class JWebClient
 	 */
 	public function __get($name)
 	{
-		switch ($name)
-		{
+		switch ($name) {
 			case 'mobile':
 			case 'platform':
-				if (empty($this->detection['platform']))
-				{
+				if (empty($this->detection['platform'])) {
 					$this->detectPlatform($this->userAgent);
 				}
 				break;
 
 			case 'engine':
-				if (empty($this->detection['engine']))
-				{
+				if (empty($this->detection['engine'])) {
 					$this->detectEngine($this->userAgent);
 				}
 				break;
 
 			case 'browser':
 			case 'browserVersion':
-				if (empty($this->detection['browser']))
-				{
+				if (empty($this->detection['browser'])) {
 					$this->detectBrowser($this->userAgent);
 				}
 				break;
 
 			case 'languages':
-				if (empty($this->detection['acceptLanguage']))
-				{
+				if (empty($this->detection['acceptLanguage'])) {
 					$this->detectLanguage($this->acceptLanguage);
 				}
 				break;
 
 			case 'encodings':
-				if (empty($this->detection['acceptEncoding']))
-				{
+				if (empty($this->detection['acceptEncoding'])) {
 					$this->detectEncoding($this->acceptEncoding);
 				}
 				break;
 		}
 
 		// Return the property if it exists.
-		if (isset($this->$name))
-		{
+		if (isset($this->$name)) {
 			return $this->$name;
 		}
 	}
@@ -218,58 +205,47 @@ class JWebClient
 	protected function detectBrowser($userAgent)
 	{
 		// Attempt to detect the browser type.  Obviously we are only worried about major browsers.
-		if ((stripos($userAgent, 'MSIE') !== false) && (stripos($userAgent, 'Opera') === false))
-		{
+		if ((stripos($userAgent, 'MSIE') !== false) && (stripos($userAgent, 'Opera') === false)) {
 			$this->browser = self::IE;
 			$patternBrowser = 'MSIE';
 		}
-		elseif ((stripos($userAgent, 'Firefox') !== false) && (stripos($userAgent, 'like Firefox') === false))
-		{
+		elseif ((stripos($userAgent, 'Firefox') !== false) && (stripos($userAgent, 'like Firefox') === false)) {
 			$this->browser = self::FIREFOX;
 			$patternBrowser = 'Firefox';
 		}
-		elseif (stripos($userAgent, 'Chrome') !== false)
-		{
+		elseif (stripos($userAgent, 'Chrome') !== false) {
 			$this->browser = self::CHROME;
 			$patternBrowser = 'Chrome';
 		}
-		elseif (stripos($userAgent, 'Safari') !== false)
-		{
+		elseif (stripos($userAgent, 'Safari') !== false) {
 			$this->browser = self::SAFARI;
 			$patternBrowser = 'Safari';
 		}
-		elseif (stripos($userAgent, 'Opera') !== false)
-		{
+		elseif (stripos($userAgent, 'Opera') !== false) {
 			$this->browser = self::OPERA;
 			$patternBrowser = 'Opera';
 		}
 
 		// If we detected a known browser let's attempt to determine the version.
-		if ($this->browser)
-		{
+		if ($this->browser) {
 			// Build the REGEX pattern to match the browser version string within the user agent string.
 			$pattern = '#(?<browser>Version|' . $patternBrowser . ')[/ ]+(?<version>[0-9.|a-zA-Z.]*)#';
 
 			// Attempt to find version strings in the user agent string.
 			$matches = array();
-			if (preg_match_all($pattern, $userAgent, $matches))
-			{
+			if (preg_match_all($pattern, $userAgent, $matches)) {
 				// Do we have both a Version and browser match?
-				if (count($matches['browser']) > 1)
-				{
+				if (count($matches['browser']) > 1) {
 					// See whether Version or browser came first, and use the number accordingly.
-					if (strripos($userAgent, 'Version') < strripos($userAgent, $patternBrowser))
-					{
+					if (strripos($userAgent, 'Version') < strripos($userAgent, $patternBrowser)) {
 						$this->browserVersion = $matches['version'][0];
 					}
-					else
-					{
+					else {
 						$this->browserVersion = $matches['version'][1];
 					}
 				}
 				// We only have a Version or a browser so use what we have.
-				else
-				{
+				else {
 					$this->browserVersion = $matches['version'][0];
 				}
 			}
@@ -309,33 +285,27 @@ class JWebClient
 	protected function detectEngine($userAgent)
 	{
 		// Attempt to detect the client engine -- starting with the most popular ... for now.
-		if (stripos($userAgent, 'MSIE') !== false || stripos($userAgent, 'Trident') !== false)
-		{
+		if (stripos($userAgent, 'MSIE') !== false || stripos($userAgent, 'Trident') !== false) {
 			$this->engine = self::TRIDENT;
 		}
 		// Evidently blackberry uses WebKit and doesn't necessarily report it.  Bad RIM.
-		elseif (stripos($userAgent, 'AppleWebKit') !== false || stripos($userAgent, 'blackberry') !== false)
-		{
+		elseif (stripos($userAgent, 'AppleWebKit') !== false || stripos($userAgent, 'blackberry') !== false) {
 			$this->engine = self::WEBKIT;
 		}
 		// We have to check for like Gecko because some other browsers spoof Gecko.
-		elseif (stripos($userAgent, 'Gecko') !== false && stripos($userAgent, 'like Gecko') === false)
-		{
+		elseif (stripos($userAgent, 'Gecko') !== false && stripos($userAgent, 'like Gecko') === false) {
 			$this->engine = self::GECKO;
 		}
 		// Sometimes Opera browsers don't say Presto.
-		elseif (stripos($userAgent, 'Opera') !== false || stripos($userAgent, 'Presto') !== false)
-		{
+		elseif (stripos($userAgent, 'Opera') !== false || stripos($userAgent, 'Presto') !== false) {
 			$this->engine = self::PRESTO;
 		}
 		// *sigh*
-		elseif (stripos($userAgent, 'KHTML') !== false)
-		{
+		elseif (stripos($userAgent, 'KHTML') !== false) {
 			$this->engine = self::KHTML;
 		}
 		// Lesser known engine but it finishes off the major list from Wikipedia :-)
-		elseif (stripos($userAgent, 'Amaya') !== false)
-		{
+		elseif (stripos($userAgent, 'Amaya') !== false) {
 			$this->engine = self::AMAYA;
 		}
 
@@ -373,55 +343,45 @@ class JWebClient
 	protected function detectPlatform($userAgent)
 	{
 		// Attempt to detect the client platform.
-		if (stripos($userAgent, 'Windows') !== false)
-		{
+		if (stripos($userAgent, 'Windows') !== false) {
 			$this->platform = self::WINDOWS;
 
 			// Let's look at the specific mobile options in the windows space.
-			if (stripos($userAgent, 'Windows Phone') !== false)
-			{
+			if (stripos($userAgent, 'Windows Phone') !== false) {
 				$this->mobile = true;
 				$this->platform = self::WINDOWS_PHONE;
 			}
-			elseif (stripos($userAgent, 'Windows CE') !== false)
-			{
+			elseif (stripos($userAgent, 'Windows CE') !== false) {
 				$this->mobile = true;
 				$this->platform = self::WINDOWS_CE;
 			}
 		}
 		// Interestingly 'iPhone' is present in all iOS devices so far including iPad and iPods.
-		elseif (stripos($userAgent, 'iPhone') !== false)
-		{
+		elseif (stripos($userAgent, 'iPhone') !== false) {
 			$this->mobile = true;
 			$this->platform = self::IPHONE;
 
 			// Let's look at the specific mobile options in the windows space.
-			if (stripos($userAgent, 'iPad') !== false)
-			{
+			if (stripos($userAgent, 'iPad') !== false) {
 				$this->platform = self::IPAD;
 			}
-			elseif (stripos($userAgent, 'iPod') !== false)
-			{
+			elseif (stripos($userAgent, 'iPod') !== false) {
 				$this->platform = self::IPOD;
 			}
 		}
 		// This has to come after the iPhone check because mac strings are also present in iOS devices.
-		elseif (preg_match('/macintosh|mac os x/i', $userAgent))
-		{
+		elseif (preg_match('/macintosh|mac os x/i', $userAgent)) {
 			$this->platform = self::MAC;
 		}
-		elseif (stripos($userAgent, 'Blackberry') !== false)
-		{
+		elseif (stripos($userAgent, 'Blackberry') !== false) {
 			$this->mobile = true;
 			$this->platform = self::BLACKBERRY;
 		}
-		elseif (stripos($userAgent, 'Android') !== false)
-		{
+		elseif (stripos($userAgent, 'Android') !== false) {
 			$this->mobile = true;
 			$this->platform = self::ANDROID;
 		}
-		elseif (stripos($userAgent, 'Linux') !== false)
-		{
+		elseif (stripos($userAgent, 'Linux') !== false) {
 			$this->platform = self::LINUX;
 		}
 

@@ -124,12 +124,10 @@ class JElement extends JObject
 		JLog::add('JElement::fetchTooltip is deprecated.', JLog::WARNING, 'deprecated');
 
 		$output = '<label id="' . $control_name . $name . '-lbl" for="' . $control_name . $name . '"';
-		if ($description)
-		{
+		if ($description) {
 			$output .= ' class="hasTip" title="' . JText::_($label) . '::' . JText::_($description) . '">';
 		}
-		else
-		{
+		else {
 			$output .= '>';
 		}
 		$output .= JText::_($label) . '</label>';

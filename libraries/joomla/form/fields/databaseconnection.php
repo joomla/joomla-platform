@@ -59,21 +59,18 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 		 * are supported.
 		 */
 		$supported =  $this->element['supported'];
-		if (!empty($supported))
-		{
+		if (!empty($supported)) {
 			$supported =  explode(',', $supported);
 			foreach ($supported as $support)
 			{
-				if (in_array($support, $available))
-				{
+				if (in_array($support, $available)) {
 					$options[$support] = ucfirst($support);
 				}
 			}
 		}
 		// This will come into play if an application is installed that requires
 		// a database that is not available on the server.
-		if (empty($options))
-		{
+		if (empty($options)) {
 			$options[''] = JText::_('JNONE');
 		}
 		return $options;

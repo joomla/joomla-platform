@@ -105,14 +105,12 @@ class JDatabaseImporterMySQL
 	public function check()
 	{
 		// Check if the db connector has been set.
-		if (!($this->db instanceof JDatabaseMySql))
-		{
+		if (!($this->db instanceof JDatabaseMySql)) {
 			throw new Exception('JPLATFORM_ERROR_DATABASE_CONNECTOR_WRONG_TYPE');
 		}
 
 		// Check if the tables have been specified.
-		if (empty($this->from))
-		{
+		if (empty($this->from)) {
 			throw new Exception('JPLATFORM_ERROR_NO_TABLES_SPECIFIED');
 		}
 
@@ -195,8 +193,7 @@ class JDatabaseImporterMySQL
 		{
 			$fName = (string) $field['Field'];
 
-			if (isset($oldFields[$fName]))
-			{
+			if (isset($oldFields[$fName])) {
 				// The field exists, check it's the same.
 				$column = $oldFields[$fName];
 
@@ -204,16 +201,14 @@ class JDatabaseImporterMySQL
 				$change = ((string) $field['Type'] != $column->Type) || ((string) $field['Null'] != $column->Null)
 					|| ((string) $field['Default'] != $column->Default) || ((string) $field['Extra'] != $column->Extra);
 
-				if ($change)
-				{
+				if ($change) {
 					$alters[] = $this->getChangeColumnSQL($table, $field);
 				}
 
 				// Unset this field so that what we have left are fields that need to be removed.
 				unset($oldFields[$fName]);
 			}
-			else
-			{
+			else {
 				// The field is new.
 				$alters[] = $this->getAddColumnSQL($table, $field);
 			}
@@ -234,15 +229,13 @@ class JDatabaseImporterMySQL
 		foreach ($newLookup as $name => $keys)
 		{
 			// Check if there are keys on this field in the existing table.
-			if (isset($oldLookup[$name]))
-			{
+			if (isset($oldLookup[$name])) {
 				$same = true;
 				$newCount = count($newLookup[$name]);
 				$oldCount = count($oldLookup[$name]);
 
 				// There is a key on this field in the old and new tables. Are they the same?
-				if ($newCount == $oldCount)
-				{
+				if ($newCount == $oldCount) {
 					// Need to loop through each key and do a fine grained check.
 					for ($i = 0; $i < $newCount; $i++)
 					{
@@ -272,21 +265,18 @@ class JDatabaseImporterMySQL
 						//						echo '<br />Same = '.($same ? 'true' : 'false');
 						//						echo '</pre>';
 
-						if (!$same)
-						{
+						if (!$same) {
 							// Break out of the loop. No need to check further.
 							break;
 						}
 					}
 				}
-				else
-				{
+				else {
 					// Count is different, just drop and add.
 					$same = false;
 				}
 
-				if (!$same)
-				{
+				if (!$same) {
 					$alters[] = $this->getDropKeySQL($table, $name);
 					$alters[] = $this->getAddKeySQL($table, $keys);
 				}
@@ -294,8 +284,7 @@ class JDatabaseImporterMySQL
 				// Unset this field so that what we have left are fields that need to be removed.
 				unset($oldLookup[$name]);
 			}
-			else
-			{
+			else {
 				// This is a new key.
 				$alters[] = $this->getAddKeySQL($table, $keys);
 			}
@@ -304,12 +293,10 @@ class JDatabaseImporterMySQL
 		// Any keys left are orphans.
 		foreach ($oldLookup as $name => $keys)
 		{
-			if (strtoupper($name) == 'PRIMARY')
-			{
+			if (strtoupper($name) == 'PRIMARY') {
 				$alters[] = $this->getDropPrimaryKeySQL($table);
 			}
-			else
-			{
+			else {
 				$alters[] = $this->getDropKeySQL($table, $name);
 			}
 		}
@@ -359,33 +346,26 @@ class JDatabaseImporterMySQL
 
 		$sql = $this->db->quoteName($fName) . ' ' . $fType;
 
-		if ($fNull == 'NO')
-		{
-			if (in_array($fType, $blobs) || $fDefault === null)
-			{
+		if ($fNull == 'NO') {
+			if (in_array($fType, $blobs) || $fDefault === null) {
 				$sql .= ' NOT NULL';
 			}
-			else
-			{
+			else {
 				// TODO Don't quote numeric values.
 				$sql .= ' NOT NULL DEFAULT ' . $this->db->quote($fDefault);
 			}
 		}
-		else
-		{
-			if ($fDefault === null)
-			{
+		else {
+			if ($fDefault === null) {
 				$sql .= ' DEFAULT NULL';
 			}
-			else
-			{
+			else {
 				// TODO Don't quote numeric values.
 				$sql .= ' DEFAULT ' . $this->db->quote($fDefault);
 			}
 		}
 
-		if ($fExtra)
-		{
+		if ($fExtra) {
 			$sql .= ' ' . strtoupper($fExtra);
 		}
 
@@ -458,16 +438,13 @@ class JDatabaseImporterMySQL
 		$lookup = array();
 		foreach ($keys as $key)
 		{
-			if ($key instanceof SimpleXMLElement)
-			{
+			if ($key instanceof SimpleXMLElement) {
 				$kName = (string) $key['Key_name'];
 			}
-			else
-			{
+			else {
 				$kName = $key->Key_name;
 			}
-			if (empty($lookup[$kName]))
-			{
+			if (empty($lookup[$kName])) {
 				$lookup[$kName] = array();
 			}
 			$lookup[$kName][] = $key;
@@ -498,24 +475,20 @@ class JDatabaseImporterMySQL
 		$kComment = (string) $columns[0]['Comment'];
 
 		$prefix = '';
-		if ($kName == 'PRIMARY')
-		{
+		if ($kName == 'PRIMARY') {
 			$prefix = 'PRIMARY ';
 		}
-		elseif ($kNonUnique == 0)
-		{
+		elseif ($kNonUnique == 0) {
 			$prefix = 'UNIQUE ';
 		}
 
 		$nColumns = count($columns);
 		$kColumns = array();
 
-		if ($nColumns == 1)
-		{
+		if ($nColumns == 1) {
 			$kColumns[] = $this->db->quoteName($kColumn);
 		}
-		else
-		{
+		else {
 			foreach ($columns as $column)
 			{
 				$kColumns[] = (string) $column['Column_name'];
@@ -564,12 +537,10 @@ class JDatabaseImporterMySQL
 		$tables = $this->db->getTableList();
 		$result = true;
 
-		if ($this->from instanceof SimpleXMLElement)
-		{
+		if ($this->from instanceof SimpleXMLElement) {
 			$xml = $this->from;
 		}
-		else
-		{
+		else {
 			$xml = new SimpleXMLElement($this->from);
 		}
 
@@ -582,41 +553,34 @@ class JDatabaseImporterMySQL
 			$tableName = (string) $table['name'];
 			$tableName = preg_replace('|^#__|', $prefix, $tableName);
 
-			if (in_array($tableName, $tables))
-			{
+			if (in_array($tableName, $tables)) {
 				// The table already exists. Now check if there is any difference.
-				if ($queries = $this->getAlterTableSQL($xml->database->table_structure))
-				{
+				if ($queries = $this->getAlterTableSQL($xml->database->table_structure)) {
 					// Run the queries to upgrade the data structure.
 					foreach ($queries as $query)
 					{
 						$this->db->setQuery((string) $query);
-						if (!$this->db->query())
-						{
+						if (!$this->db->query()) {
 							$this->addLog('Fail: ' . $this->db->getQuery());
 							throw new Exception($this->db->getErrorMsg());
 						}
-						else
-						{
+						else {
 							$this->addLog('Pass: ' . $this->db->getQuery());
 						}
 					}
 
 				}
 			}
-			else
-			{
+			else {
 				// This is a new table.
 				$sql = $this->xmlToCreate($table);
 
 				$this->db->setQuery((string) $sql);
-				if (!$this->db->query())
-				{
+				if (!$this->db->query()) {
 					$this->addLog('Fail: ' . $this->db->getQuery());
 					throw new Exception($this->db->getErrorMsg());
 				}
-				else
-				{
+				else {
 					$this->addLog('Pass: ' . $this->db->getQuery());
 				}
 			}

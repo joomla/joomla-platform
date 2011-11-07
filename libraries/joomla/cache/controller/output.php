@@ -52,30 +52,24 @@ class JCacheControllerOutput extends JCacheController
 		$this->_locktest->locked = null;
 		$this->_locktest->locklooped = null;
 
-		if ($data === false)
-		{
+		if ($data === false) {
 			$this->_locktest = $this->cache->lock($id, $group);
-			if ($this->_locktest->locked == true && $this->_locktest->locklooped == true)
-			{
+			if ($this->_locktest->locked == true && $this->_locktest->locklooped == true) {
 				$data = $this->cache->get($id, $group);
 			}
 		}
 
-		if ($data !== false)
-		{
+		if ($data !== false) {
 			$data = unserialize(trim($data));
 			echo $data;
-			if ($this->_locktest->locked == true)
-			{
+			if ($this->_locktest->locked == true) {
 				$this->cache->unlock($id, $group);
 			}
 			return true;
 		}
-		else
-		{
+		else {
 			// Nothing in cache... let's start the output buffer and start collecting data for next time.
-			if ($this->_locktest->locked == false)
-			{
+			if ($this->_locktest->locked == false) {
 				$this->_locktest = $this->cache->lock($id, $group);
 			}
 			ob_start();
@@ -112,8 +106,7 @@ class JCacheControllerOutput extends JCacheController
 		// Get the storage handler and store the cached data
 		$ret = $this->cache->store(serialize($data), $id, $group);
 
-		if ($this->_locktest->locked == true)
-		{
+		if ($this->_locktest->locked == true) {
 			$this->cache->unlock($id, $group);
 		}
 

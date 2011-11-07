@@ -54,8 +54,7 @@ class JSessionStorageMemcache extends JSessionStorage
 	 */
 	public function __construct($options = array())
 	{
-		if (!$this->test())
-		{
+		if (!$this->test()) {
 			return JError::raiseError(404, JText::_('JLIB_SESSION_MEMCACHE_EXTENSION_NOT_AVAILABLE'));
 		}
 
@@ -63,13 +62,11 @@ class JSessionStorageMemcache extends JSessionStorage
 
 		$config = JFactory::getConfig();
 		$params = $config->get('memcache_settings');
-		if (!is_array($params))
-		{
+		if (!is_array($params)) {
 			$params = unserialize(stripslashes($params));
 		}
 
-		if (!$params)
-		{
+		if (!$params) {
 			$params = array();
 		}
 
@@ -140,20 +137,16 @@ class JSessionStorageMemcache extends JSessionStorage
 	public function write($id, $session_data)
 	{
 		$sess_id = 'sess_' . $id;
-		if ($this->_db->get($sess_id . '_expire'))
-		{
+		if ($this->_db->get($sess_id . '_expire')) {
 			$this->_db->replace($sess_id . '_expire', time(), 0);
 		}
-		else
-		{
+		else {
 			$this->_db->set($sess_id . '_expire', time(), 0);
 		}
-		if ($this->_db->get($sess_id))
-		{
+		if ($this->_db->get($sess_id)) {
 			$this->_db->replace($sess_id, $session_data, $this->_compress);
 		}
-		else
-		{
+		else {
 			$this->_db->set($sess_id, $session_data, $this->_compress);
 		}
 		return;
@@ -216,13 +209,11 @@ class JSessionStorageMemcache extends JSessionStorage
 		$expire = $this->_db->get($key . '_expire');
 
 		// set prune period
-		if ($expire + $lifetime < time())
-		{
+		if ($expire + $lifetime < time()) {
 			$this->_db->delete($key);
 			$this->_db->delete($key . '_expire');
 		}
-		else
-		{
+		else {
 			$this->_db->replace($key . '_expire', time());
 		}
 	}

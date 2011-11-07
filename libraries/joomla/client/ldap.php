@@ -107,16 +107,13 @@ class JLDAP extends JObject
 	 */
 	function __construct($configObj = null)
 	{
-		if (is_object($configObj))
-		{
+		if (is_object($configObj)) {
 			$vars = get_class_vars(get_class($this));
 			foreach (array_keys($vars) as $var)
 			{
-				if (substr($var, 0, 1) != '_')
-				{
+				if (substr($var, 0, 1) != '_') {
 					$param = $configObj->get($var);
-					if ($param)
-					{
+					if ($param) {
 						$this->$var = $param;
 					}
 				}
@@ -133,35 +130,27 @@ class JLDAP extends JObject
 	 */
 	function connect()
 	{
-		if ($this->host == '')
-		{
+		if ($this->host == '') {
 			return false;
 		}
 		$this->_resource = @ ldap_connect($this->host, $this->port);
-		if ($this->_resource)
-		{
-			if ($this->use_ldapV3)
-			{
-				if (!@ldap_set_option($this->_resource, LDAP_OPT_PROTOCOL_VERSION, 3))
-				{
+		if ($this->_resource) {
+			if ($this->use_ldapV3) {
+				if (!@ldap_set_option($this->_resource, LDAP_OPT_PROTOCOL_VERSION, 3)) {
 					return false;
 				}
 			}
-			if (!@ldap_set_option($this->_resource, LDAP_OPT_REFERRALS, intval($this->no_referrals)))
-			{
+			if (!@ldap_set_option($this->_resource, LDAP_OPT_REFERRALS, intval($this->no_referrals))) {
 				return false;
 			}
-			if ($this->negotiate_tls)
-			{
-				if (!@ldap_start_tls($this->_resource))
-				{
+			if ($this->negotiate_tls) {
+				if (!@ldap_start_tls($this->_resource)) {
 					return false;
 				}
 			}
 			return true;
 		}
-		else
-		{
+		else {
 			return false;
 		}
 	}
@@ -190,16 +179,13 @@ class JLDAP extends JObject
 	 */
 	function setDN($username, $nosub = 0)
 	{
-		if ($this->users_dn == '' || $nosub)
-		{
+		if ($this->users_dn == '' || $nosub) {
 			$this->_dn = $username;
 		}
-		elseif (strlen($username))
-		{
+		elseif (strlen($username)) {
 			$this->_dn = str_replace('[username]', $username, $this->users_dn);
 		}
-		else
-		{
+		else {
 			$this->_dn = '';
 		}
 	}
@@ -242,12 +228,10 @@ class JLDAP extends JObject
 	 */
 	function bind($username = null, $password = null, $nosub = 0)
 	{
-		if (is_null($username))
-		{
+		if (is_null($username)) {
 			$username = $this->username;
 		}
-		if (is_null($password))
-		{
+		if (is_null($password)) {
 			$password = $this->password;
 		}
 		$this->setDN($username, $nosub);
@@ -288,12 +272,10 @@ class JLDAP extends JObject
 	function search($filters, $dnoverride = null)
 	{
 		$attributes = array();
-		if ($dnoverride)
-		{
+		if ($dnoverride) {
 			$dn = $dnoverride;
 		}
-		else
-		{
+		else {
 			$dn = $this->base_dn;
 		}
 
@@ -302,17 +284,14 @@ class JLDAP extends JObject
 		foreach ($filters as $search_filter)
 		{
 			$search_result = @ldap_search($resource, $dn, $search_filter);
-			if ($search_result && ($count = @ldap_count_entries($resource, $search_result)) > 0)
-			{
+			if ($search_result && ($count = @ldap_count_entries($resource, $search_result)) > 0) {
 				for ($i = 0; $i < $count; $i++)
 				{
 					$attributes[$i] = array();
-					if (!$i)
-					{
+					if (!$i) {
 						$firstentry = @ldap_first_entry($resource, $search_result);
 					}
-					else
-					{
+					else {
 						$firstentry = @ldap_next_entry($resource, $firstentry);
 					}
 					// Load user-specified attributes
@@ -320,8 +299,7 @@ class JLDAP extends JObject
 					// Ldap returns an array of arrays, fit this into attributes result array
 					foreach ($attributes_array as $ki => $ai)
 					{
-						if (is_array($ai))
-						{
+						if (is_array($ai)) {
 							$subcount = $ai['count'];
 							$attributes[$i][$ki] = array();
 							for ($k = 0; $k < $subcount; $k++)
@@ -416,12 +394,10 @@ class JLDAP extends JObject
 		$cn = substr($dn, 0, strpos($dn, ','));
 		$result = @ldap_read($this->_resource, $base, $cn);
 
-		if ($result)
-		{
+		if ($result) {
 			return @ldap_get_entries($this->_resource, $result);
 		}
-		else
-		{
+		else {
 			return $result;
 		}
 	}
@@ -511,8 +487,7 @@ class JLDAP extends JObject
 		foreach ($parts as $int)
 		{
 			$tmp = dechex($int);
-			if (strlen($tmp) != 2)
-			{
+			if (strlen($tmp) != 2) {
 				$tmp = '0' . $tmp;
 			}
 			$address .= '\\' . $tmp;
@@ -550,8 +525,7 @@ class JLDAP extends JObject
 		$addrtype = intval(substr($networkaddress, 0, 1));
 		$networkaddress = substr($networkaddress, 2); // throw away bytes 0 and 1 which should be the addrtype and the "#" separator
 
-		if (($addrtype == 8) || ($addrtype = 9))
-		{
+		if (($addrtype == 8) || ($addrtype = 9)) {
 			// TODO 1.6: If UDP or TCP, (TODO fill addrport and) strip portnumber information from address
 			$networkaddress = substr($networkaddress, (strlen($networkaddress) - 4));
 		}
@@ -573,26 +547,22 @@ class JLDAP extends JObject
 			'URL',
 			'Count');
 		$len = strlen($networkaddress);
-		if ($len > 0)
-		{
+		if ($len > 0) {
 			for ($i = 0; $i < $len; $i += 1)
 			{
 				$byte = substr($networkaddress, $i, 1);
 				$addr .= ord($byte);
-				if (($addrtype == 1) || ($addrtype == 8) || ($addrtype = 9))
-				{
+				if (($addrtype == 1) || ($addrtype == 8) || ($addrtype = 9)) {
 					// dot separate IP addresses...
 					$addr .= ".";
 				}
 			}
-			if (($addrtype == 1) || ($addrtype == 8) || ($addrtype = 9))
-			{
+			if (($addrtype == 1) || ($addrtype == 8) || ($addrtype = 9)) {
 				// strip last period from end of $addr
 				$addr = substr($addr, 0, strlen($addr) - 1);
 			}
 		}
-		else
-		{
+		else {
 			$addr .= JText::_('JLIB_CLIENT_ERROR_LDAP_ADDRESS_NOT_AVAILABLE');
 		}
 		return array('protocol' => $addrtypes[$addrtype], 'address' => $addr);
@@ -611,8 +581,7 @@ class JLDAP extends JObject
 	function generatePassword($password, $type = 'md5')
 	{
 		$userpassword = '';
-		switch (strtolower($type))
-		{
+		switch (strtolower($type)) {
 			case 'sha':
 				$userpassword = '{SHA}' . base64_encode(pack('H*', sha1($password)));
 			case 'md5':

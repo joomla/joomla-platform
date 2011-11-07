@@ -44,28 +44,24 @@ abstract class JModelForm extends JModel
 	public function checkin($pk = null)
 	{
 		// Only attempt to check the row in if it exists.
-		if ($pk)
-		{
+		if ($pk) {
 			$user = JFactory::getUser();
 
 			// Get an instance of the row to checkin.
 			$table = $this->getTable();
-			if (!$table->load($pk))
-			{
+			if (!$table->load($pk)) {
 				$this->setError($table->getError());
 				return false;
 			}
 
 			// Check if this is the user having previously checked out the row.
-			if ($table->checked_out > 0 && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
-			{
+			if ($table->checked_out > 0 && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin')) {
 				$this->setError(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
 				return false;
 			}
 
 			// Attempt to check the row in.
-			if (!$table->checkin($pk))
-			{
+			if (!$table->checkin($pk)) {
 				$this->setError($table->getError());
 				return false;
 			}
@@ -86,28 +82,24 @@ abstract class JModelForm extends JModel
 	public function checkout($pk = null)
 	{
 		// Only attempt to check the row in if it exists.
-		if ($pk)
-		{
+		if ($pk) {
 			$user = JFactory::getUser();
 
 			// Get an instance of the row to checkout.
 			$table = $this->getTable();
-			if (!$table->load($pk))
-			{
+			if (!$table->load($pk)) {
 				$this->setError($table->getError());
 				return false;
 			}
 
 			// Check if this is the user having previously checked out the row.
-			if ($table->checked_out > 0 && $table->checked_out != $user->get('id'))
-			{
+			if ($table->checked_out > 0 && $table->checked_out != $user->get('id')) {
 				$this->setError(JText::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
 				return false;
 			}
 
 			// Attempt to check the row out.
-			if (!$table->checkout($user->get('id'), $pk))
-			{
+			if (!$table->checkout($user->get('id'), $pk)) {
 				$this->setError($table->getError());
 				return false;
 			}
@@ -151,8 +143,7 @@ abstract class JModelForm extends JModel
 		$hash = md5($source . serialize($options));
 
 		// Check if we can use a previously loaded form.
-		if (isset($this->_forms[$hash]) && !$clear)
-		{
+		if (isset($this->_forms[$hash]) && !$clear) {
 			return $this->_forms[$hash];
 		}
 
@@ -160,17 +151,14 @@ abstract class JModelForm extends JModel
 		JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
 		JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
 
-		try
-		{
+		try {
 			$form = JForm::getInstance($name, $source, $options, false, $xpath);
 
-			if (isset($options['load_data']) && $options['load_data'])
-			{
+			if (isset($options['load_data']) && $options['load_data']) {
 				// Get the data for the form.
 				$data = $this->loadFormData();
 			}
-			else
-			{
+			else {
 				$data = array();
 			}
 
@@ -182,8 +170,7 @@ abstract class JModelForm extends JModel
 			$form->bind($data);
 
 		}
-		catch (Exception $e)
-		{
+		catch (Exception $e) {
 			$this->setError($e->getMessage());
 			return false;
 		}
@@ -231,13 +218,11 @@ abstract class JModelForm extends JModel
 		$results = $dispatcher->trigger('onContentPrepareForm', array($form, $data));
 
 		// Check for errors encountered while preparing the form.
-		if (count($results) && in_array(false, $results, true))
-		{
+		if (count($results) && in_array(false, $results, true)) {
 			// Get the last error.
 			$error = $dispatcher->getError();
 
-			if (!JError::isError($error))
-			{
+			if (!JError::isError($error)) {
 				throw new Exception($error);
 			}
 		}
@@ -263,15 +248,13 @@ abstract class JModelForm extends JModel
 		$return = $form->validate($data, $group);
 
 		// Check for an error.
-		if (JError::isError($return))
-		{
+		if (JError::isError($return)) {
 			$this->setError($return->getMessage());
 			return false;
 		}
 
 		// Check the validation results.
-		if ($return === false)
-		{
+		if ($return === false) {
 			// Get the validation messages from the form.
 			foreach ($form->getErrors() as $message)
 			{

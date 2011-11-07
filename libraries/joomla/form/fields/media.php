@@ -50,14 +50,12 @@ class JFormFieldMedia extends JFormField
 		$assetField = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
 		$authorField = $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
 		$asset = $this->form->getValue($assetField) ? $this->form->getValue($assetField) : (string) $this->element['asset_id'];
-		if ($asset == '')
-		{
+		if ($asset == '') {
 			$asset = JRequest::getCmd('option');
 		}
 
 		$link = (string) $this->element['link'];
-		if (!self::$initialised)
-		{
+		if (!self::$initialised) {
 
 			// Load the modal behavior script.
 			JHtml::_('behavior.modal');
@@ -97,19 +95,16 @@ class JFormFieldMedia extends JFormField
 		$html[] = '</div>';
 
 		$directory = (string) $this->element['directory'];
-		if ($this->value && file_exists(JPATH_ROOT . '/' . $this->value))
-		{
+		if ($this->value && file_exists(JPATH_ROOT . '/' . $this->value)) {
 			$folder = explode('/', $this->value);
 			array_shift($folder);
 			array_pop($folder);
 			$folder = implode('/', $folder);
 		}
-		elseif (file_exists(JPATH_ROOT . '/' . JComponentHelper::getParams('com_media')->get('image_path', 'images') . '/' . $directory))
-		{
+		elseif (file_exists(JPATH_ROOT . '/' . JComponentHelper::getParams('com_media')->get('image_path', 'images') . '/' . $directory)) {
 			$folder = $directory;
 		}
-		else
-		{
+		else {
 			$folder = '';
 		}
 		// The button.

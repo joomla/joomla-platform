@@ -42,14 +42,12 @@ class JRegistryFormatXML extends JRegistryFormat
 		// Iterate over the object members.
 		foreach ((array) $object as $k => $v)
 		{
-			if (is_scalar($v))
-			{
+			if (is_scalar($v)) {
 				$n = $root->addChild($nodeName, $v);
 				$n->addAttribute('name', $k);
 				$n->addAttribute('type', gettype($v));
 			}
-			else
-			{
+			else {
 				$n = $root->addChild($nodeName);
 				$n->addAttribute('name', $k);
 				$n->addAttribute('type', gettype($v));
@@ -98,8 +96,7 @@ class JRegistryFormatXML extends JRegistryFormat
 	 */
 	protected function getValueFromNode($node)
 	{
-		switch ($node['type'])
-		{
+		switch ($node['type']) {
 			case 'integer':
 				$value = (string) $node;
 				return (int) $value;
@@ -150,14 +147,12 @@ class JRegistryFormatXML extends JRegistryFormat
 		// Iterate over the object members.
 		foreach ((array) $var as $k => $v)
 		{
-			if (is_scalar($v))
-			{
+			if (is_scalar($v)) {
 				$n = $node->addChild($nodeName, $v);
 				$n->addAttribute('name', $k);
 				$n->addAttribute('type', gettype($v));
 			}
-			else
-			{
+			else {
 				$n = $node->addChild($nodeName);
 				$n->addAttribute('name', $k);
 				$n->addAttribute('type', gettype($v));

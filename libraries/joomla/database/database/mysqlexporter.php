@@ -98,8 +98,7 @@ class JDatabaseExporterMySQL
 		$buffer = '';
 
 		// Get the format.
-		switch ($this->asFormat)
-		{
+		switch ($this->asFormat) {
 			case 'xml':
 			default:
 				$buffer = $this->buildXml();
@@ -203,14 +202,12 @@ class JDatabaseExporterMySQL
 	public function check()
 	{
 		// Check if the db connector has been set.
-		if (!($this->db instanceof JDatabaseMySQL))
-		{
+		if (!($this->db instanceof JDatabaseMySQL)) {
 			throw new Exception('JPLATFORM_ERROR_DATABASE_CONNECTOR_WRONG_TYPE');
 		}
 
 		// Check if the tables have been specified.
-		if (empty($this->from))
-		{
+		if (empty($this->from)) {
 			throw new Exception('JPLATFORM_ERROR_NO_TABLES_SPECIFIED');
 		}
 
@@ -249,16 +246,13 @@ class JDatabaseExporterMySQL
 	 */
 	public function from($from)
 	{
-		if (is_string($from))
-		{
+		if (is_string($from)) {
 			$this->from = array($from);
 		}
-		elseif (is_array($from))
-		{
+		elseif (is_array($from)) {
 			$this->from = $from;
 		}
-		else
-		{
+		else {
 			throw new Exception('JPLATFORM_ERROR_INPUT_REQUIRES_STRING_OR_ARRAY');
 		}
 

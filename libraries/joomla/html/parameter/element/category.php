@@ -50,23 +50,19 @@ class JElementCategory extends JElement
 		$class = $node->attributes('class');
 		$filter = explode(',', $node->attributes('filter'));
 
-		if (!isset($extension))
-		{
+		if (!isset($extension)) {
 			// Alias for extension
 			$extension = $node->attributes('scope');
-			if (!isset($extension))
-			{
+			if (!isset($extension)) {
 				$extension = 'com_content';
 			}
 		}
 
-		if (!$class)
-		{
+		if (!$class) {
 			$class = "inputbox";
 		}
 
-		if (count($filter) < 1)
-		{
+		if (count($filter) < 1) {
 			$filter = null;
 		}
 

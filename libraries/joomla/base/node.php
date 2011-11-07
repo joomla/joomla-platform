@@ -57,8 +57,7 @@ class JNode extends JObject
 	 */
 	function addChild(&$child)
 	{
-		if ($child instanceof Jnode)
-		{
+		if ($child instanceof Jnode) {
 			$child->setParent($this);
 		}
 	}
@@ -76,15 +75,12 @@ class JNode extends JObject
 	 */
 	function setParent(&$parent)
 	{
-		if ($parent instanceof JNode || is_null($parent))
-		{
+		if ($parent instanceof JNode || is_null($parent)) {
 			$hash = spl_object_hash($this);
-			if (!is_null($this->_parent))
-			{
+			if (!is_null($this->_parent)) {
 				unset($this->_parent->children[$hash]);
 			}
-			if (!is_null($parent))
-			{
+			if (!is_null($parent)) {
 				$parent->_children[$hash] = & $this;
 			}
 			$this->_parent = & $parent;

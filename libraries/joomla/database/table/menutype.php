@@ -43,15 +43,13 @@ class JTableMenuType extends JTable
 	function check()
 	{
 		$this->menutype = JApplication::stringURLSafe($this->menutype);
-		if (empty($this->menutype))
-		{
+		if (empty($this->menutype)) {
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENUTYPE_EMPTY'));
 			return false;
 		}
 
 		// Sanitise data.
-		if (trim($this->title) == '')
-		{
+		if (trim($this->title) == '') {
 			$this->title = $this->menutype;
 		}
 
@@ -62,8 +60,7 @@ class JTableMenuType extends JTable
 			'SELECT COUNT(id)' . ' FROM #__menu_types' . ' WHERE menutype = ' . $db->quote($this->menutype) . '  AND id <> ' . (int) $this->id
 		);
 
-		if ($db->loadResult())
-		{
+		if ($db->loadResult()) {
 			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_MENUTYPE_EXISTS', $this->menutype));
 			return false;
 		}
@@ -87,8 +84,7 @@ class JTableMenuType extends JTable
 	 */
 	public function store($updateNulls = false)
 	{
-		if ($this->id)
-		{
+		if ($this->id) {
 			// Get the user id
 			$userId = JFactory::getUser()->id;
 
@@ -104,8 +100,7 @@ class JTableMenuType extends JTable
 			$query->where('checked_out !=' . (int) $userId);
 			$query->where('checked_out !=0');
 			$this->_db->setQuery($query);
-			if ($this->_db->loadRowList())
-			{
+			if ($this->_db->loadRowList()) {
 				$this->setError(
 					JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), JText::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
 				);
@@ -121,8 +116,7 @@ class JTableMenuType extends JTable
 			$query->where('checked_out !=' . (int) $userId);
 			$query->where('checked_out !=0');
 			$this->_db->setQuery($query);
-			if ($this->_db->loadRowList())
-			{
+			if ($this->_db->loadRowList()) {
 				$this->setError(
 					JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), JText::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
 				);
@@ -135,8 +129,7 @@ class JTableMenuType extends JTable
 			$query->set('menutype=' . $this->_db->quote($this->menutype));
 			$query->where('menutype=' . $this->_db->quote($table->menutype));
 			$this->_db->setQuery($query);
-			if (!$this->_db->query())
-			{
+			if (!$this->_db->query()) {
 				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), $this->_db->getErrorMsg()));
 				return false;
 			}
@@ -151,8 +144,7 @@ class JTableMenuType extends JTable
 			$query->where('module=' . $this->_db->quote('mod_menu'));
 			$query->where('params LIKE ' . $this->_db->quote('%"menutype":' . json_encode($table->menutype) . '%'));
 			$this->_db->setQuery($query);
-			if (!$this->_db->query())
-			{
+			if (!$this->_db->query()) {
 				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), $this->_db->getErrorMsg()));
 				return false;
 			}
@@ -177,8 +169,7 @@ class JTableMenuType extends JTable
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
 		// If no primary key is given, return false.
-		if ($pk !== null)
-		{
+		if ($pk !== null) {
 			// Get the user id
 			$userId = JFactory::getUser()->id;
 
@@ -194,8 +185,7 @@ class JTableMenuType extends JTable
 			$query->where('client_id=0');
 			$query->where('(checked_out NOT IN (0,' . (int) $userId . ') OR home=1 AND language=' . $this->_db->quote('*') . ')');
 			$this->_db->setQuery($query);
-			if ($this->_db->loadRowList())
-			{
+			if ($this->_db->loadRowList()) {
 				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', get_class($this), JText::_('JLIB_DATABASE_ERROR_MENUTYPE')));
 				return false;
 			}
@@ -209,8 +199,7 @@ class JTableMenuType extends JTable
 			$query->where('checked_out !=' . (int) $userId);
 			$query->where('checked_out !=0');
 			$this->_db->setQuery($query);
-			if ($this->_db->loadRowList())
-			{
+			if ($this->_db->loadRowList()) {
 				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', get_class($this), JText::_('JLIB_DATABASE_ERROR_MENUTYPE')));
 				return false;
 			}
@@ -222,8 +211,7 @@ class JTableMenuType extends JTable
 			$query->where('menutype=' . $this->_db->quote($table->menutype));
 			$query->where('client_id=0');
 			$this->_db->setQuery($query);
-			if (!$this->_db->query())
-			{
+			if (!$this->_db->query()) {
 				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', get_class($this), $this->_db->getErrorMsg()));
 				return false;
 			}
@@ -235,8 +223,7 @@ class JTableMenuType extends JTable
 			$query->where('module=' . $this->_db->quote('mod_menu'));
 			$query->where('params LIKE ' . $this->_db->quote('%"menutype":' . json_encode($table->menutype) . '%'));
 			$this->_db->setQuery($query);
-			if (!$this->_db->query())
-			{
+			if (!$this->_db->query()) {
 				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', get_class($this), $this->_db->getErrorMsg()));
 				return false;
 			}

@@ -62,26 +62,21 @@ class JArrayHelper
 	 */
 	public static function toInteger(&$array, $default = null)
 	{
-		if (is_array($array))
-		{
+		if (is_array($array)) {
 			foreach ($array as $i => $v)
 			{
 				$array[$i] = (int) $v;
 			}
 		}
-		else
-		{
-			if ($default === null)
-			{
+		else {
+			if ($default === null) {
 				$array = array();
 			}
-			elseif (is_array($default))
-			{
+			elseif (is_array($default)) {
 				JArrayHelper::toInteger($default, null);
 				$array = $default;
 			}
-			else
-			{
+			else {
 				$array = array((int) $default);
 			}
 		}
@@ -100,17 +95,14 @@ class JArrayHelper
 	public static function toObject(&$array, $class = 'stdClass')
 	{
 		$obj = null;
-		if (is_array($array))
-		{
+		if (is_array($array)) {
 			$obj = new $class;
 			foreach ($array as $k => $v)
 			{
-				if (is_array($v))
-				{
+				if (is_array($v)) {
 					$obj->$k = JArrayHelper::toObject($v, $class);
 				}
-				else
-				{
+				else {
 					$obj->$k = $v;
 				}
 			}
@@ -134,21 +126,17 @@ class JArrayHelper
 	{
 		$output = array();
 
-		if (is_array($array))
-		{
+		if (is_array($array)) {
 			foreach ($array as $key => $item)
 			{
-				if (is_array($item))
-				{
-					if ($keepOuterKey)
-					{
+				if (is_array($item)) {
+					if ($keepOuterKey) {
 						$output[] = $key;
 					}
 					// This is value is an array, go and do it again!
 					$output[] = JArrayHelper::toString($item, $inner_glue, $outer_glue, $keepOuterKey);
 				}
-				else
-				{
+				else {
 					$output[] = $key . $inner_glue . '"' . $item . '"';
 				}
 			}
@@ -170,12 +158,10 @@ class JArrayHelper
 	 */
 	public static function fromObject($p_obj, $recurse = true, $regex = null)
 	{
-		if (is_object($p_obj))
-		{
+		if (is_object($p_obj)) {
 			return self::_fromObject($p_obj, $recurse, $regex);
 		}
-		else
-		{
+		else {
 			return null;
 		}
 	}
@@ -193,34 +179,28 @@ class JArrayHelper
 	 */
 	protected static function _fromObject($item, $recurse, $regex)
 	{
-		if (is_object($item))
-		{
+		if (is_object($item)) {
 			$result = array();
 			foreach (get_object_vars($item) as $k => $v)
 			{
-				if (!$regex || preg_match($regex, $k))
-				{
-					if ($recurse)
-					{
+				if (!$regex || preg_match($regex, $k)) {
+					if ($recurse) {
 						$result[$k] = self::_fromObject($v, $recurse, $regex);
 					}
-					else
-					{
+					else {
 						$result[$k] = $v;
 					}
 				}
 			}
 		}
-		elseif (is_array($item))
-		{
+		elseif (is_array($item)) {
 			$result = array();
 			foreach ($item as $k => $v)
 			{
 				$result[$k] = self::_fromObject($v, $recurse, $regex);
 			}
 		}
-		else
-		{
+		else {
 			$result = $item;
 		}
 		return $result;
@@ -240,20 +220,17 @@ class JArrayHelper
 	{
 		$result = array();
 
-		if (is_array($array))
-		{
+		if (is_array($array)) {
 			$n = count($array);
 
 			for ($i = 0; $i < $n; $i++)
 			{
 				$item = &$array[$i];
 
-				if (is_array($item) && isset($item[$index]))
-				{
+				if (is_array($item) && isset($item[$index])) {
 					$result[] = $item[$index];
 				}
-				elseif (is_object($item) && isset($item->$index))
-				{
+				elseif (is_object($item) && isset($item->$index)) {
 					$result[] = $item->$index;
 				}
 				// else ignore the entry
@@ -279,20 +256,17 @@ class JArrayHelper
 		// Initialise variables.
 		$result = null;
 
-		if (isset($array[$name]))
-		{
+		if (isset($array[$name])) {
 			$result = $array[$name];
 		}
 
 		// Handle the default case
-		if (is_null($result))
-		{
+		if (is_null($result)) {
 			$result = $default;
 		}
 
 		// Handle the type constraint
-		switch (strtoupper($type))
-		{
+		switch (strtoupper($type)) {
 			case 'INT':
 			case 'INTEGER':
 				// Only use the first integer value
@@ -313,8 +287,7 @@ class JArrayHelper
 				break;
 
 			case 'ARRAY':
-				if (!is_array($result))
-				{
+				if (!is_array($result)) {
 					$result = array($result);
 				}
 				break;
@@ -346,12 +319,10 @@ class JArrayHelper
 	 */
 	public static function isAssociative($array)
 	{
-		if (is_array($array))
-		{
+		if (is_array($array)) {
 			foreach (array_keys($array) as $k => $v)
 			{
-				if ($k !== $v)
-				{
+				if ($k !== $v) {
 					return true;
 				}
 			}
@@ -378,44 +349,37 @@ class JArrayHelper
 		foreach ($source as $index => $value)
 		{
 			// Determine the name of the pivot key, and its value.
-			if (is_array($value))
-			{
+			if (is_array($value)) {
 				// If the key does not exist, ignore it.
-				if (!isset($value[$key]))
-				{
+				if (!isset($value[$key])) {
 					continue;
 				}
 
 				$resultKey = $value[$key];
 				$resultValue = &$source[$index];
 			}
-			elseif (is_object($value))
-			{
+			elseif (is_object($value)) {
 				// If the key does not exist, ignore it.
-				if (!isset($value->$key))
-				{
+				if (!isset($value->$key)) {
 					continue;
 				}
 
 				$resultKey = $value->$key;
 				$resultValue = &$source[$index];
 			}
-			else
-			{
+			else {
 				// Just a scalar value.
 				$resultKey = $value;
 				$resultValue = $index;
 			}
 
 			// The counter tracks how many times a key has been used.
-			if (empty($counter[$resultKey]))
-			{
+			if (empty($counter[$resultKey])) {
 				// The first time around we just assign the value to the key.
 				$result[$resultKey] = $resultValue;
 				$counter[$resultKey] = 1;
 			}
-			elseif ($counter[$resultKey] == 1)
-			{
+			elseif ($counter[$resultKey] == 1) {
 				// If there is a second time, we convert the value into an array.
 				$result[$resultKey] = array(
 					$result[$resultKey],
@@ -423,8 +387,7 @@ class JArrayHelper
 				);
 				$counter[$resultKey]++;
 			}
-			else
-			{
+			else {
 				// After the second time, no need to track any more. Just append to the existing array.
 				$result[$resultKey][] = $resultValue;
 			}
@@ -450,8 +413,7 @@ class JArrayHelper
 	 */
 	public static function sortObjects(&$a, $k, $direction = 1, $caseSensitive = true, $locale = false)
 	{
-		if (!is_array($locale) or !is_array($locale[0]))
-		{
+		if (!is_array($locale) or !is_array($locale[0])) {
 			$locale = array($locale);
 		}
 
@@ -487,45 +449,37 @@ class JArrayHelper
 
 		for ($i = 0, $count = count($key); $i < $count; $i++)
 		{
-			if (isset(self::$sortDirection[$i]))
-			{
+			if (isset(self::$sortDirection[$i])) {
 				$direction = self::$sortDirection[$i];
 			}
 
-			if (isset(self::$sortCase[$i]))
-			{
+			if (isset(self::$sortCase[$i])) {
 				$caseSensitive = self::$sortCase[$i];
 			}
 
-			if (isset(self::$sortLocale[$i]))
-			{
+			if (isset(self::$sortLocale[$i])) {
 				$locale = self::$sortLocale[$i];
 			}
 
 			$va = $a->$key[$i];
 			$vb = $b->$key[$i];
 
-			if ((is_bool($va) or is_numeric($va)) and (is_bool($vb) or is_numeric($vb)))
-			{
+			if ((is_bool($va) or is_numeric($va)) and (is_bool($vb) or is_numeric($vb))) {
 				$cmp = $va - $vb;
 			}
-			elseif ($caseSensitive)
-			{
+			elseif ($caseSensitive) {
 				$cmp = JString::strcmp($va, $vb, $locale);
 			}
-			else
-			{
+			else {
 				$cmp = JString::strcasecmp($va, $vb, $locale);
 			}
 
-			if ($cmp > 0)
-			{
+			if ($cmp > 0) {
 
 				return $direction;
 			}
 
-			if ($cmp < 0)
-			{
+			if ($cmp < 0) {
 				return -$direction;
 			}
 		}
@@ -545,8 +499,7 @@ class JArrayHelper
 	 */
 	public static function arrayUnique($myArray)
 	{
-		if (!is_array($myArray))
-		{
+		if (!is_array($myArray)) {
 			return $myArray;
 		}
 

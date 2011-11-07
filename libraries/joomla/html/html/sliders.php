@@ -76,8 +76,7 @@ abstract class JHtmlSliders
 	protected static function _loadBehavior($group, $params = array())
 	{
 		static $loaded = array();
-		if (!array_key_exists($group, $loaded))
-		{
+		if (!array_key_exists($group, $loaded)) {
 			$loaded[$group] = true;
 			// Include mootools framework.
 			JHtml::_('behavior.framework', true);
@@ -104,13 +103,11 @@ abstract class JHtmlSliders
 			$opt['alwaysHide'] = (isset($params['allowAllClose']) && (!$params['allowAllClose'])) ? 'false' : 'true';
 			foreach ($opt as $k => $v)
 			{
-				if ($v)
-				{
+				if ($v) {
 					$options .= $k . ': ' . $v . ',';
 				}
 			}
-			if (substr($options, -1) == ',')
-			{
+			if (substr($options, -1) == ',') {
 				$options = substr($options, 0, -1);
 			}
 			$options .= '}';

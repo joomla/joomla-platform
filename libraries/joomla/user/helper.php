@@ -37,8 +37,7 @@ abstract class JUserHelper
 		$user = new JUser((int) $userId);
 
 		// Add the user to the group if necessary.
-		if (!in_array($groupId, $user->groups))
-		{
+		if (!in_array($groupId, $user->groups)) {
 			// Get the title of the group.
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
@@ -49,14 +48,12 @@ abstract class JUserHelper
 			$title = $db->loadResult();
 
 			// Check for a database error.
-			if ($db->getErrorNum())
-			{
+			if ($db->getErrorNum()) {
 				return new Exception($db->getErrorMsg());
 			}
 
 			// If the group does not exist, return an exception.
-			if (!$title)
-			{
+			if (!$title) {
 				return new Exception(JText::_('JLIB_USER_EXCEPTION_ACCESS_USERGROUP_INVALID'));
 			}
 
@@ -64,8 +61,7 @@ abstract class JUserHelper
 			$user->groups[$title] = $groupId;
 
 			// Store the user object.
-			if (!$user->save())
-			{
+			if (!$user->save()) {
 				return new Exception($user->getError());
 			}
 		}
@@ -76,8 +72,7 @@ abstract class JUserHelper
 
 		// Set the group data for the user object in the session.
 		$temp = JFactory::getUser();
-		if ($temp->id == $userId)
-		{
+		if ($temp->id == $userId) {
 			$temp->groups = $user->groups;
 		}
 
@@ -118,14 +113,12 @@ abstract class JUserHelper
 
 		// Remove the user from the group if necessary.
 		$key = array_search($groupId, $user->groups);
-		if ($key !== false)
-		{
+		if ($key !== false) {
 			// Remove the user from the group.
 			unset($user->groups[$key]);
 
 			// Store the user object.
-			if (!$user->save())
-			{
+			if (!$user->save()) {
 				return new JException($user->getError());
 			}
 		}
@@ -136,8 +129,7 @@ abstract class JUserHelper
 
 		// Set the group data for the user object in the session.
 		$temp = JFactory::getUser();
-		if ($temp->id == $userId)
-		{
+		if ($temp->id == $userId) {
 			$temp->groups = $user->groups;
 		}
 
@@ -173,8 +165,7 @@ abstract class JUserHelper
 		$results = $db->loadObjectList();
 
 		// Check for a database error.
-		if ($db->getErrorNum())
-		{
+		if ($db->getErrorNum()) {
 			return new Exception($db->getErrorMsg());
 		}
 
@@ -185,8 +176,7 @@ abstract class JUserHelper
 		}
 
 		// Store the user object.
-		if (!$user->save())
-		{
+		if (!$user->save()) {
 			return new Exception($user->getError());
 		}
 
@@ -196,8 +186,7 @@ abstract class JUserHelper
 
 		// Set the group data for the user object in the session.
 		$temp = JFactory::getUser();
-		if ($temp->id == $userId)
-		{
+		if ($temp->id == $userId) {
 			$temp->groups = $user->groups;
 		}
 
@@ -215,13 +204,11 @@ abstract class JUserHelper
 	 */
 	function getProfile($userId = 0)
 	{
-		if ($userId == 0)
-		{
+		if ($userId == 0) {
 			$user = JFactory::getUser();
 			$userId = $user->id;
 		}
-		else
-		{
+		else {
 			$user = JFactory::getUser((int) $userId);
 		}
 
@@ -262,22 +249,19 @@ abstract class JUserHelper
 		$id = intval($db->loadResult());
 
 		// Is it a valid user to activate?
-		if ($id)
-		{
+		if ($id) {
 			$user = JUser::getInstance((int) $id);
 
 			$user->set('block', '0');
 			$user->set('activation', '');
 
 			// Time to take care of business.... store the user.
-			if (!$user->save())
-			{
+			if (!$user->save()) {
 				JError::raiseWarning("SOME_ERROR_CODE", $user->getError());
 				return false;
 			}
 		}
-		else
-		{
+		else {
 			JError::raiseWarning("SOME_ERROR_CODE", JText::_('JLIB_USER_ERROR_UNABLE_TO_FIND_USER'));
 			return false;
 		}
@@ -329,8 +313,7 @@ abstract class JUserHelper
 		$salt = JUserHelper::getSalt($encryption, $salt, $plaintext);
 
 		// Encrypt the password.
-		switch ($encryption)
-		{
+		switch ($encryption) {
 			case 'plain':
 				return $plaintext;
 
@@ -375,12 +358,10 @@ abstract class JUserHelper
 				for ($i = 0; $i < 1000; $i++)
 				{
 					$new = ($i & 1) ? $plaintext : substr($binary, 0, 16);
-					if ($i % 3)
-					{
+					if ($i % 3) {
 						$new .= $salt;
 					}
-					if ($i % 7)
-					{
+					if ($i % 7) {
 						$new .= $plaintext;
 					}
 					$new .= ($i & 1) ? substr($binary, 0, 16) : $plaintext;
@@ -392,8 +373,7 @@ abstract class JUserHelper
 				{
 					$k = $i + 6;
 					$j = $i + 12;
-					if ($j == 16)
-					{
+					if ($j == 16) {
 						$j = 5;
 					}
 					$p[] = JUserHelper::_toAPRMD5((ord($binary[$i]) << 16) | (ord($binary[$k]) << 8) | (ord($binary[$j])), 5);
@@ -429,60 +409,49 @@ abstract class JUserHelper
 	public static function getSalt($encryption = 'md5-hex', $seed = '', $plaintext = '')
 	{
 		// Encrypt the password.
-		switch ($encryption)
-		{
+		switch ($encryption) {
 			case 'crypt':
 			case 'crypt-des':
-				if ($seed)
-				{
+				if ($seed) {
 					return substr(preg_replace('|^{crypt}|i', '', $seed), 0, 2);
 				}
-				else
-				{
+				else {
 					return substr(md5(mt_rand()), 0, 2);
 				}
 				break;
 
 			case 'crypt-md5':
-				if ($seed)
-				{
+				if ($seed) {
 					return substr(preg_replace('|^{crypt}|i', '', $seed), 0, 12);
 				}
-				else
-				{
+				else {
 					return '$1$' . substr(md5(mt_rand()), 0, 8) . '$';
 				}
 				break;
 
 			case 'crypt-blowfish':
-				if ($seed)
-				{
+				if ($seed) {
 					return substr(preg_replace('|^{crypt}|i', '', $seed), 0, 16);
 				}
-				else
-				{
+				else {
 					return '$2$' . substr(md5(mt_rand()), 0, 12) . '$';
 				}
 				break;
 
 			case 'ssha':
-				if ($seed)
-				{
+				if ($seed) {
 					return substr(preg_replace('|^{SSHA}|', '', $seed), -20);
 				}
-				else
-				{
+				else {
 					return mhash_keygen_s2k(MHASH_SHA1, $plaintext, substr(pack('h*', md5(mt_rand())), 0, 8), 4);
 				}
 				break;
 
 			case 'smd5':
-				if ($seed)
-				{
+				if ($seed) {
 					return substr(preg_replace('|^{SMD5}|', '', $seed), -16);
 				}
-				else
-				{
+				else {
 					return mhash_keygen_s2k(MHASH_MD5, $plaintext, substr(pack('h*', md5(mt_rand())), 0, 8), 4);
 				}
 				break;
@@ -490,12 +459,10 @@ abstract class JUserHelper
 			case 'aprmd5': /* 64 characters that are valid for APRMD5 passwords. */
 				$APRMD5 = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
-				if ($seed)
-				{
+				if ($seed) {
 					return substr(preg_replace('/^\$apr1\$(.{8}).*/', '\\1', $seed), 0, 8);
 				}
-				else
-				{
+				else {
 					$salt = '';
 					for ($i = 0; $i < 8; $i++)
 					{
@@ -507,8 +474,7 @@ abstract class JUserHelper
 
 			default:
 				$salt = '';
-				if ($seed)
-				{
+				if ($seed) {
 					$salt = $seed;
 				}
 				return $salt;
@@ -532,8 +498,7 @@ abstract class JUserHelper
 		$makepass = '';
 
 		$stat = @stat(__FILE__);
-		if (empty($stat) || !is_array($stat))
-		{
+		if (empty($stat) || !is_array($stat)) {
 			$stat = array(php_uname());
 		}
 

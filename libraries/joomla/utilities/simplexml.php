@@ -121,8 +121,7 @@ class JSimpleXML extends JObject
 		// Deprecation warning.
 		JLog::add('JSimpleXML::__construct() is deprecated.', JLog::WARNING, 'deprecated');
 
-		if (! function_exists('xml_parser_create'))
-		{
+		if (! function_exists('xml_parser_create')) {
 			// TODO throw warning
 			return false;
 		}
@@ -133,8 +132,7 @@ class JSimpleXML extends JObject
 		// Check parser resource
 		xml_set_object($this->_parser, $this);
 		xml_parser_set_option($this->_parser, XML_OPTION_CASE_FOLDING, 0);
-		if (is_array($options))
-		{
+		if (is_array($options)) {
 			foreach ($options as $option => $value)
 			{
 				xml_parser_set_option($this->_parser, $option, $value);
@@ -195,20 +193,17 @@ class JSimpleXML extends JObject
 		JLog::add('JSimpleXML::loadfile() is deprecated.', JLog::WARNING, 'deprecated');
 
 		//Check to see of the path exists
-		if (!file_exists($path))
-		{
+		if (!file_exists($path)) {
 
 			return false;
 		}
 
 		//Get the XML document loaded into a variable
 		$xml = trim(file_get_contents($path));
-		if ($xml == '')
-		{
+		if ($xml == '') {
 			return false;
 		}
-		else
-		{
+		else {
 			$this->_parse($xml);
 
 			return true;
@@ -294,8 +289,7 @@ class JSimpleXML extends JObject
 		JLog::add('JSimpleXML::_parse() is deprecated.', JLog::WARNING, 'deprecated');
 
 		//Error handling
-		if (!xml_parse($this->_parser, $data))
-		{
+		if (!xml_parse($this->_parser, $data)) {
 			$this->_handleError(
 				xml_get_error_code($this->_parser), xml_get_current_line_number($this->_parser),
 				xml_get_current_column_number($this->_parser)
@@ -372,8 +366,7 @@ class JSimpleXML extends JObject
 
 		//  Check to see if tag is root-level
 		$count = count($this->_stack);
-		if ($count == 0)
-		{
+		if ($count == 0) {
 			// If so, set the document as the current tag
 			$classname = get_class($this) . 'Element';
 			$this->document = new $classname($name, $attrs);
@@ -382,8 +375,7 @@ class JSimpleXML extends JObject
 			$this->_stack = array('document');
 		}
 		// If it isn't root level, use the stack to find the parent
-		else
-		{
+		else {
 			// Get the name which points to the current direct parent, relative to $this
 			$parent = $this->_getStackLocation();
 
@@ -559,8 +551,7 @@ class JSimpleXMLElement extends JObject
 		// Deprecation warning.
 		JLog::add('JSimpleXMLElement::attributes() is deprecated.', JLog::WARNING, 'deprecated');
 
-		if (!isset($attribute))
-		{
+		if (!isset($attribute)) {
 			return $this->_attributes;
 		}
 
@@ -693,14 +684,12 @@ class JSimpleXMLElement extends JObject
 
 		//If there is no array already set for the tag name being added,
 		//create an empty array for it
-		if (!isset($this->$name))
-		{
+		if (!isset($this->$name)) {
 			$this->$name = array();
 		}
 
 		// set the level if not already specified
-		if ($level == null)
-		{
+		if ($level == null) {
 			$level = ($this->_level + 1);
 		}
 
@@ -736,15 +725,13 @@ class JSimpleXMLElement extends JObject
 		$name = $child->name();
 		for ($i = 0, $n = count($this->_children); $i < $n; $i++)
 		{
-			if ($this->_children[$i] == $child)
-			{
+			if ($this->_children[$i] == $child) {
 				unset($this->_children[$i]);
 			}
 		}
 		for ($i = 0, $n = count($this->{$name}); $i < $n; $i++)
 		{
-			if ($this->{$name}[$i] == $child)
-			{
+			if ($this->{$name}[$i] == $child) {
 				unset($this->{$name}[$i]);
 			}
 		}
@@ -776,21 +763,18 @@ class JSimpleXMLElement extends JObject
 			$found = false;
 			foreach ($tmp->_children as $child)
 			{
-				if (strtoupper($child->_name) == strtoupper($node))
-				{
+				if (strtoupper($child->_name) == strtoupper($node)) {
 					$tmp = &$child;
 					$found = true;
 					break;
 				}
 			}
-			if (!$found)
-			{
+			if (!$found) {
 				break;
 			}
 		}
 
-		if ($found)
-		{
+		if ($found) {
 			return $tmp;
 		}
 
@@ -816,8 +800,7 @@ class JSimpleXMLElement extends JObject
 
 		$callback($this, $args);
 		// Map to all children
-		if ($n = count($this->_children))
-		{
+		if ($n = count($this->_children)) {
 			for ($i = 0; $i < $n; $i++)
 			{
 				$this->_children[$i]->map($callback, $args);
@@ -841,12 +824,10 @@ class JSimpleXMLElement extends JObject
 		JLog::add('JSimpleXMLElement::toString() is deprecated.', JLog::WARNING, 'deprecated');
 
 		// Start a new line, indent by the number indicated in $this->level, add a <, and add the name of the tag
-		if ($whitespace)
-		{
+		if ($whitespace) {
 			$out = "\n" . str_repeat("\t", $this->_level) . '<' . $this->_name;
 		}
-		else
-		{
+		else {
 			$out = '<' . $this->_name;
 		}
 
@@ -857,16 +838,13 @@ class JSimpleXMLElement extends JObject
 		}
 
 		// If there are no children and it contains no data, end it off with a />
-		if (empty($this->_children) && empty($this->_data))
-		{
+		if (empty($this->_children) && empty($this->_data)) {
 			$out .= " />";
 		}
 		// Otherwise...
-		else
-		{
+		else {
 			// If there are children
-			if (!empty($this->_children))
-			{
+			if (!empty($this->_children)) {
 				// Close off the start tag
 				$out .= '>';
 
@@ -877,8 +855,7 @@ class JSimpleXMLElement extends JObject
 				}
 
 				// Add the newline and indentation to go along with the close tag
-				if ($whitespace)
-				{
+				if ($whitespace) {
 					$out .= "\n" . str_repeat("\t", $this->_level);
 				}
 			}

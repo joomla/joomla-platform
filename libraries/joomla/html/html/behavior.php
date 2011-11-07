@@ -37,24 +37,21 @@ abstract class JHtmlBehavior
 		$type = $extras ? 'more' : 'core';
 
 		// Only load once
-		if (!empty($loaded[$type]))
-		{
+		if (!empty($loaded[$type])) {
 			return;
 		}
 
 		JHtml::core($debug);
 
 		// If no debugging value is set, use the configuration setting
-		if ($debug === null)
-		{
+		if ($debug === null) {
 			$config = JFactory::getConfig();
 			$debug = $config->get('debug');
 		}
 
 		$uncompressed = $debug ? '-uncompressed' : '';
 
-		if ($type != 'core' && empty($loaded['core']))
-		{
+		if ($type != 'core' && empty($loaded['core'])) {
 			self::framework(false, $debug);
 		}
 
@@ -96,14 +93,12 @@ abstract class JHtmlBehavior
 	{
 		static $caption;
 
-		if (!isset($caption))
-		{
+		if (!isset($caption)) {
 			$caption = array();
 		}
 
 		// Only load once
-		if (isset($caption[$selector]))
-		{
+		if (isset($caption[$selector])) {
 			return;
 		}
 
@@ -141,8 +136,7 @@ abstract class JHtmlBehavior
 		static $loaded = false;
 
 		// Only load once
-		if ($loaded)
-		{
+		if ($loaded) {
 			return;
 		}
 
@@ -167,8 +161,7 @@ abstract class JHtmlBehavior
 		static $loaded = false;
 
 		// Only load once
-		if ($loaded)
-		{
+		if ($loaded) {
 			return;
 		}
 
@@ -207,8 +200,7 @@ abstract class JHtmlBehavior
 		static $loaded = false;
 
 		// Only load once
-		if ($loaded)
-		{
+		if ($loaded) {
 			return;
 		}
 
@@ -251,8 +243,7 @@ abstract class JHtmlBehavior
 	{
 		static $tips;
 
-		if (!isset($tips))
-		{
+		if (!isset($tips)) {
 			$tips = array();
 		}
 
@@ -260,8 +251,7 @@ abstract class JHtmlBehavior
 		self::framework(true);
 
 		$sig = md5(serialize(array($selector, $params)));
-		if (isset($tips[$sig]) && ($tips[$sig]))
-		{
+		if (isset($tips[$sig]) && ($tips[$sig])) {
 			return;
 		}
 
@@ -269,8 +259,7 @@ abstract class JHtmlBehavior
 		$opt['maxTitleChars']	= (isset($params['maxTitleChars']) && ($params['maxTitleChars'])) ? (int) $params['maxTitleChars'] : 50;
 		// offsets needs an array in the format: array('x'=>20, 'y'=>30)
 		$opt['offset']			= (isset($params['offset']) && (is_array($params['offset']))) ? $params['offset'] : null;
-		if (!isset($opt['offset']))
-		{
+		if (!isset($opt['offset'])) {
 			// Supporting offsets parameter which was working in mootools 1.2 (Joomla!1.5)
 			$opt['offset']		= (isset($params['offsets']) && (is_array($params['offsets']))) ? $params['offsets'] : null;
 		}
@@ -333,8 +322,7 @@ abstract class JHtmlBehavior
 		$document = JFactory::getDocument();
 
 		// Load the necessary files if they haven't yet been loaded
-		if (!isset($included))
-		{
+		if (!isset($included)) {
 			// Include MooTools framework
 			self::framework();
 
@@ -346,14 +334,12 @@ abstract class JHtmlBehavior
 			$included = true;
 		}
 
-		if (!isset($modals))
-		{
+		if (!isset($modals)) {
 			$modals = array();
 		}
 
 		$sig = md5(serialize(array($selector, $params)));
-		if (isset($modals[$sig]) && ($modals[$sig]))
-		{
+		if (isset($modals[$sig]) && ($modals[$sig])) {
 			return;
 		}
 
@@ -411,14 +397,12 @@ abstract class JHtmlBehavior
 	{
 		static $multiselect;
 
-		if (!isset($multiselect))
-		{
+		if (!isset($multiselect)) {
 			$multiselect = array();
 		}
 
 		// Only load once
-		if (isset($multiselect[$id]))
-		{
+		if (isset($multiselect[$id])) {
 			return;
 		}
 
@@ -464,8 +448,7 @@ abstract class JHtmlBehavior
 
 		static $uploaders;
 
-		if (!isset($uploaders))
-		{
+		if (!isset($uploaders)) {
 			$uploaders = array();
 
 			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_FILENAME');
@@ -491,8 +474,7 @@ abstract class JHtmlBehavior
 			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_ALL_FILES');
 		}
 
-		if (isset($uploaders[$id]) && ($uploaders[$id]))
-		{
+		if (isset($uploaders[$id]) && ($uploaders[$id])) {
 			return;
 		}
 
@@ -544,13 +526,11 @@ abstract class JHtmlBehavior
 		$opt['onComplete']			= (isset($params['onComplete'])) ? '\\' . $params['onComplete'] : null;
 		$opt['onFileSuccess']		= (isset($params['onFileSuccess'])) ? '\\' . $params['onFileSuccess'] : $onFileSuccess;
 
-		if (!isset($params['startButton']))
-		{
+		if (!isset($params['startButton'])) {
 			$params['startButton'] = 'upload-start';
 		}
 
-		if (!isset($params['clearButton']))
-		{
+		if (!isset($params['clearButton'])) {
 			$params['clearButton'] = 'upload-clear';
 		}
 
@@ -620,8 +600,7 @@ abstract class JHtmlBehavior
 	{
 		static $trees;
 
-		if (!isset($trees))
-		{
+		if (!isset($trees)) {
 			$trees = array();
 		}
 
@@ -632,8 +611,7 @@ abstract class JHtmlBehavior
 		JHtml::_('script', 'system/mootree' . $uncompressed . '.js', true, true, false, false);
 		JHtml::_('stylesheet', 'system/mootree.css', array(), true);
 
-		if (isset($trees[$id]) && ($trees[$id]))
-		{
+		if (isset($trees[$id]) && ($trees[$id])) {
 			return;
 		}
 
@@ -689,8 +667,7 @@ abstract class JHtmlBehavior
 		static $loaded = false;
 
 		// Only load once
-		if ($loaded)
-		{
+		if ($loaded) {
 			return;
 		}
 
@@ -704,8 +681,7 @@ abstract class JHtmlBehavior
 		JHtml::_('script', $tag . '/calendar-setup' . $uncompressed . '.js', false, true);
 
 		$translation = JHtmlBehavior::_calendartranslation();
-		if ($translation)
-		{
+		if ($translation) {
 			$document->addScriptDeclaration($translation);
 		}
 		$loaded = true;
@@ -723,8 +699,7 @@ abstract class JHtmlBehavior
 		static $loaded = false;
 
 		// Only load once
-		if ($loaded)
-		{
+		if ($loaded) {
 			return;
 		}
 
@@ -778,8 +753,7 @@ abstract class JHtmlBehavior
 		static $loaded = false;
 
 		// Only load once
-		if ($loaded)
-		{
+		if ($loaded) {
 			return;
 		}
 
@@ -792,8 +766,7 @@ abstract class JHtmlBehavior
 		// Refresh time is 1 minute less than the liftime assined in the configuration.php file.
 
 		// the longest refresh period is one hour to prevent integer overflow.
-		if ($refreshTime > 3600000 || $refreshTime <= 0)
-		{
+		if ($refreshTime > 3600000 || $refreshTime <= 0) {
 			$refreshTime = 3600000;
 		}
 
@@ -826,8 +799,7 @@ abstract class JHtmlBehavior
 		static $loaded = false;
 
 		// Only load once
-		if ($loaded)
-		{
+		if ($loaded) {
 			return;
 		}
 
@@ -862,15 +834,12 @@ abstract class JHtmlBehavior
 		// Iterate over array to build objects
 		foreach ((array) $array as $k => $v)
 		{
-			if (is_null($v))
-			{
+			if (is_null($v)) {
 				continue;
 			}
 
-			if (is_bool($v))
-			{
-				if ($k === 'fullScreen')
-				{
+			if (is_bool($v)) {
+				if ($k === 'fullScreen') {
 					$object .= 'size: { ';
 					$object .= 'x: ';
 					$object .= 'window.getSize().x-80';
@@ -880,27 +849,23 @@ abstract class JHtmlBehavior
 					$object .= ' }';
 					$object .= ',';
 				}
-				else
-				{
+				else {
 					$object .= ' ' . $k . ': ';
 					$object .= ($v) ? 'true' : 'false';
 					$object .= ',';
 				}
 			}
-			elseif (!is_array($v) && !is_object($v))
-			{
+			elseif (!is_array($v) && !is_object($v)) {
 				$object .= ' ' . $k . ': ';
 				$object .= (is_numeric($v) || strpos($v, '\\') === 0) ? (is_numeric($v)) ? $v : substr($v, 1) : "'" . $v . "'";
 				$object .= ',';
 			}
-			else
-			{
+			else {
 				$object .= ' ' . $k . ': ' . JHtmlBehavior::_getJSObject($v) . ',';
 			}
 		}
 
-		if (substr($object, -1) == ',')
-		{
+		if (substr($object, -1) == ',') {
 			$object = substr($object, 0, -1);
 		}
 
@@ -920,8 +885,7 @@ abstract class JHtmlBehavior
 	{
 		static $jsscript = 0;
 
-		if ($jsscript == 0)
-		{
+		if ($jsscript == 0) {
 			$return = 'Calendar._DN = new Array ("' . JText::_('SUNDAY', true) . '", "' . JText::_('MONDAY', true) . '", "'
 				. JText::_('TUESDAY', true) . '", "' . JText::_('WEDNESDAY', true) . '", "' . JText::_('THURSDAY', true) . '", "'
 				. JText::_('FRIDAY', true) . '", "' . JText::_('SATURDAY', true) . '", "' . JText::_('SUNDAY', true) . '");'
@@ -971,8 +935,7 @@ Calendar._TT["ABOUT_TIME"] = "\n\n" +
 			$jsscript = 1;
 			return $return;
 		}
-		else
-		{
+		else {
 			return false;
 		}
 	}

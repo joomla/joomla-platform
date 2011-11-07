@@ -43,8 +43,7 @@ abstract class JHtmlMenu
 	 */
 	public static function menus()
 	{
-		if (empty(self::$menus))
-		{
+		if (empty(self::$menus)) {
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 			$query->select('menutype AS value, title AS text');
@@ -66,8 +65,7 @@ abstract class JHtmlMenu
 	 */
 	public static function menuitems($config = array())
 	{
-		if (empty(self::$items))
-		{
+		if (empty(self::$items)) {
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 			$query->select('menutype AS value, title AS text');
@@ -84,14 +82,11 @@ abstract class JHtmlMenu
 			$query->where('a.client_id = 0');
 
 			// Filter on the published state
-			if (isset($config['published']))
-			{
-				if (is_numeric($config['published']))
-				{
+			if (isset($config['published'])) {
+				if (is_numeric($config['published'])) {
 					$query->where('a.published = ' . (int) $config['published']);
 				}
-				elseif ($config['published'] === '')
-				{
+				elseif ($config['published'] === '') {
 					$query->where('a.published IN (0,1)');
 				}
 			}
@@ -105,8 +100,7 @@ abstract class JHtmlMenu
 			$lookup = array();
 			foreach ($items as &$item)
 			{
-				if (!isset($lookup[$item->menutype]))
-				{
+				if (!isset($lookup[$item->menutype])) {
 					$lookup[$item->menutype] = array();
 				}
 				$lookup[$item->menutype][] = &$item;
@@ -124,8 +118,7 @@ abstract class JHtmlMenu
 				self::$items[] = JHtml::_('select.option', $menu->value . '.1', JText::_('JLIB_HTML_ADD_TO_THIS_MENU'));
 
 				// Menu items:
-				if (isset($lookup[$menu->value]))
-				{
+				if (isset($lookup[$menu->value])) {
 					foreach ($lookup[$menu->value] as &$item)
 					{
 						self::$items[] = JHtml::_('select.option', $menu->value . '.' . $item->value, $item->text);
@@ -182,8 +175,7 @@ abstract class JHtmlMenu
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		if ($id)
-		{
+		if ($id) {
 			$query->select('ordering AS value, title AS text');
 			$query->from($db->quoteName('#__menu'));
 			$query->where($db->quoteName('menutype') . ' = ' . $db->quote($row->menutype));
@@ -196,8 +188,7 @@ abstract class JHtmlMenu
 				array('list.attr' => 'class="inputbox" size="1"', 'list.select' => intval($row->ordering))
 			);
 		}
-		else
-		{
+		else {
 			$ordering = '<input type="hidden" name="ordering" value="' . $row->ordering . '" />' . JText::_('JGLOBAL_NEWITEMSLAST_DESC');
 		}
 
@@ -229,13 +220,11 @@ abstract class JHtmlMenu
 		$mitems = $db->loadObjectList();
 
 		// Check for a database error.
-		if ($db->getErrorNum())
-		{
+		if ($db->getErrorNum()) {
 			JError::raiseNotice(500, $db->getErrorMsg());
 		}
 
-		if (!$mitems)
-		{
+		if (!$mitems) {
 			$mitems = array();
 		}
 
@@ -259,16 +248,13 @@ abstract class JHtmlMenu
 		$mitems_spacer = $mitems_temp[0]->menutype;
 
 		$mitems = array();
-		if ($all | $unassigned)
-		{
+		if ($all | $unassigned) {
 			$mitems[] = JHtml::_('select.option', '<OPTGROUP>', JText::_('JOPTION_MENUS'));
 
-			if ($all)
-			{
+			if ($all) {
 				$mitems[] = JHtml::_('select.option', 0, JText::_('JALL'));
 			}
-			if ($unassigned)
-			{
+			if ($unassigned) {
 				$mitems[] = JHtml::_('select.option', -1, JText::_('JOPTION_UNASSIGNED'));
 			}
 
@@ -279,10 +265,8 @@ abstract class JHtmlMenu
 		$tmpMenuType = null;
 		foreach ($list as $list_a)
 		{
-			if ($list_a->menutype != $lastMenuType)
-			{
-				if ($tmpMenuType)
-				{
+			if ($list_a->menutype != $lastMenuType) {
+				if ($tmpMenuType) {
 					$mitems[] = JHtml::_('select.option', '</OPTGROUP>');
 				}
 				$mitems[] = JHtml::_('select.option', '<OPTGROUP>', $list_a->menutype);
@@ -292,8 +276,7 @@ abstract class JHtmlMenu
 
 			$mitems[] = JHtml::_('select.option', $list_a->id, $list_a->title);
 		}
-		if ($lastMenuType !== null)
-		{
+		if ($lastMenuType !== null) {
 			$mitems[] = JHtml::_('select.option', '</OPTGROUP>');
 		}
 
@@ -317,29 +300,24 @@ abstract class JHtmlMenu
 	 */
 	public static function treerecurse($id, $indent, $list, &$children, $maxlevel = 9999, $level = 0, $type = 1)
 	{
-		if (@$children[$id] && $level <= $maxlevel)
-		{
+		if (@$children[$id] && $level <= $maxlevel) {
 			foreach ($children[$id] as $v)
 			{
 				$id = $v->id;
 
-				if ($type)
-				{
+				if ($type) {
 					$pre = '<sup>|_</sup>&#160;';
 					$spacer = '.&#160;&#160;&#160;&#160;&#160;&#160;';
 				}
-				else
-				{
+				else {
 					$pre = '- ';
 					$spacer = '&#160;&#160;';
 				}
 
-				if ($v->parent_id == 0)
-				{
+				if ($v->parent_id == 0) {
 					$txt = $v->title;
 				}
-				else
-				{
+				else {
 					$txt = $pre . $v->title;
 				}
 				$pt = $v->parent_id;

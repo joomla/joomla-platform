@@ -53,21 +53,17 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 	{
 		$query = '';
 
-		switch ($this->type)
-		{
+		switch ($this->type) {
 			case 'insert':
 				$query .= (string) $this->insert;
 
 				// Set method
-				if ($this->set)
-				{
+				if ($this->set) {
 					$query .= (string) $this->set;
 				}
 				// Columns-Values method
-				elseif ($this->values)
-				{
-					if ($this->columns)
-					{
+				elseif ($this->values) {
+					if ($this->columns) {
 						$query .= (string) $this->where;
 					}
 
@@ -131,12 +127,10 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 	 */
 	function concatenate($values, $separator = null)
 	{
-		if ($separator)
-		{
+		if ($separator) {
 			return '(' . implode('+' . $this->quote($separator) . '+', $values) . ')';
 		}
-		else
-		{
+		else {
 			return '(' . implode('+', $values) . ')';
 		}
 	}

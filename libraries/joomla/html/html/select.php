@@ -84,13 +84,11 @@ abstract class JHtmlSelect
 	{
 		// Set default options
 		$options = array_merge(JHtml::$formatOptions, array('format.depth' => 0, 'id' => false));
-		if (is_array($attribs) && func_num_args() == 3)
-		{
+		if (is_array($attribs) && func_num_args() == 3) {
 			// Assume we have an options array
 			$options = array_merge($options, $attribs);
 		}
-		else
-		{
+		else {
 			// Get options from the parameters
 			$options['id'] = $idtag;
 			$options['list.attr'] = $attribs;
@@ -100,18 +98,14 @@ abstract class JHtmlSelect
 			$options['list.select'] = $selected;
 		}
 		$attribs = '';
-		if (isset($options['list.attr']))
-		{
-			if (is_array($options['list.attr']))
-			{
+		if (isset($options['list.attr'])) {
+			if (is_array($options['list.attr'])) {
 				$attribs = JArrayHelper::toString($options['list.attr']);
 			}
-			else
-			{
+			else {
 				$attribs = $options['list.attr'];
 			}
-			if ($attribs != '')
-			{
+			if ($attribs != '') {
 				$attribs = ' ' . $attribs;
 			}
 		}
@@ -167,25 +161,20 @@ abstract class JHtmlSelect
 		);
 
 		// Apply option rules
-		if ($options['group.items'] === null)
-		{
+		if ($options['group.items'] === null) {
 			$options['group.label'] = null;
 		}
 
 		$attribs = '';
 
-		if (isset($options['list.attr']))
-		{
-			if (is_array($options['list.attr']))
-			{
+		if (isset($options['list.attr'])) {
+			if (is_array($options['list.attr'])) {
 				$attribs = JArrayHelper::toString($options['list.attr']);
 			}
-			else
-			{
+			else {
 				$attribs = $options['list.attr'];
 			}
-			if ($attribs != '')
-			{
+			if ($attribs != '') {
 				$attribs = ' ' . $attribs;
 			}
 		}
@@ -206,52 +195,42 @@ abstract class JHtmlSelect
 			$id = '';
 			$noGroup = is_int($dataKey);
 
-			if ($options['group.items'] == null)
-			{
+			if ($options['group.items'] == null) {
 				// Sub-list is an associative array
 				$subList = $group;
 			}
-			elseif (is_array($group))
-			{
+			elseif (is_array($group)) {
 				// Sub-list is in an element of an array.
 				$subList = $group[$options['group.items']];
-				if (isset($group[$options['group.label']]))
-				{
+				if (isset($group[$options['group.label']])) {
 					$label = $group[$options['group.label']];
 					$noGroup = false;
 				}
-				if (isset($options['group.id']) && isset($group[$options['group.id']]))
-				{
+				if (isset($options['group.id']) && isset($group[$options['group.id']])) {
 					$id = $group[$options['group.id']];
 					$noGroup = false;
 				}
 			}
-			elseif (is_object($group))
-			{
+			elseif (is_object($group)) {
 				// Sub-list is in a property of an object
 				$subList = $group->$options['group.items'];
-				if (isset($group->$options['group.label']))
-				{
+				if (isset($group->$options['group.label'])) {
 					$label = $group->$options['group.label'];
 					$noGroup = false;
 				}
-				if (isset($options['group.id']) && isset($group->$options['group.id']))
-				{
+				if (isset($options['group.id']) && isset($group->$options['group.id'])) {
 					$id = $group->$options['group.id'];
 					$noGroup = false;
 				}
 			}
-			else
-			{
+			else {
 				throw new JException('Invalid group contents.', 1, E_WARNING);
 			}
 
-			if ($noGroup)
-			{
+			if ($noGroup) {
 				$html .= self::options($subList, $options);
 			}
-			else
-			{
+			else {
 				$html .= $groupIndent . '<optgroup' . (empty($id) ? '' : ' id="' . $id . '"') . ' label="'
 					. ($options['group.label.toHtml'] ? htmlspecialchars($label, ENT_COMPAT, 'UTF-8') : $label) . '">' . $options['format.eol']
 					. self::options($subList, $options) . $groupIndent . '</optgroup>' . $options['format.eol'];
@@ -284,16 +263,14 @@ abstract class JHtmlSelect
 	{
 		// Set default options
 		$options = array_merge(JHtml::$formatOptions, array('format.depth' => 0, 'option.format' => '', 'id' => null));
-		if (is_array($attribs) && func_num_args() == 5)
-		{
+		if (is_array($attribs) && func_num_args() == 5) {
 			// Assume we have an options array
 			$options = array_merge($options, $attribs);
 			// Extract the format and remove it from downstream options
 			$format = $options['option.format'];
 			unset($options['option.format']);
 		}
-		else
-		{
+		else {
 			// Get options from the parameters
 			$options['list.attr'] = $attribs;
 			$options['list.select'] = $selected;
@@ -336,8 +313,7 @@ abstract class JHtmlSelect
 		static $state = 'open';
 
 		// Toggle between open and close states:
-		switch ($state)
-		{
+		switch ($state) {
 			case 'open':
 				$obj = new stdClass;
 				$obj->$optKey = '<OPTGROUP>';
@@ -390,13 +366,11 @@ abstract class JHtmlSelect
 	{
 		$options = array('attr' => null, 'disable' => false, 'option.attr' => null, 'option.disable' => 'disable', 'option.key' => 'value',
 			'option.label' => null, 'option.text' => 'text');
-		if (is_array($optKey))
-		{
+		if (is_array($optKey)) {
 			// Merge in caller's options
 			$options = array_merge($options, $optKey);
 		}
-		else
-		{
+		else {
 			// Get options from the parameters
 			$options['option.key'] = $optKey;
 			$options['option.text'] = $optText;
@@ -411,25 +385,21 @@ abstract class JHtmlSelect
 		 * a label name, initialise to an empty string.
 		 */
 		$hasProperty = $options['option.label'] !== null;
-		if (isset($options['label']))
-		{
+		if (isset($options['label'])) {
 			$labelProperty = $hasProperty ? $options['option.label'] : 'label';
 			$obj->$labelProperty = $options['label'];
 		}
-		elseif ($hasProperty)
-		{
+		elseif ($hasProperty) {
 			$obj->$options['option.label'] = '';
 		}
 
 		// Set attributes only if there is a property and a value
-		if ($options['attr'] !== null)
-		{
+		if ($options['attr'] !== null) {
 			$obj->$options['option.attr'] = $options['attr'];
 		}
 
 		// Set disable only if it has a property and a value
-		if ($options['disable'] !== null)
-		{
+		if ($options['disable'] !== null) {
 			$obj->$options['option.disable'] = $options['disable'];
 		}
 		return $obj;
@@ -486,13 +456,11 @@ abstract class JHtmlSelect
 			array('format.depth' => 0, 'groups' => true, 'list.select' => null, 'list.translate' => false)
 		);
 
-		if (is_array($optKey))
-		{
+		if (is_array($optKey)) {
 			// Set default options and overwrite with anything passed in
 			$options = array_merge($options, $optKey);
 		}
-		else
-		{
+		else {
 			// Get options from the parameters
 			$options['option.key'] = $optKey;
 			$options['option.text'] = $optText;
@@ -509,50 +477,39 @@ abstract class JHtmlSelect
 			$extra = '';
 			$label = '';
 			$id = '';
-			if (is_array($element))
-			{
+			if (is_array($element)) {
 				$key = $options['option.key'] === null ? $elementKey : $element[$options['option.key']];
 				$text = $element[$options['option.text']];
-				if (isset($element[$options['option.attr']]))
-				{
+				if (isset($element[$options['option.attr']])) {
 					$attr = $element[$options['option.attr']];
 				}
-				if (isset($element[$options['option.id']]))
-				{
+				if (isset($element[$options['option.id']])) {
 					$id = $element[$options['option.id']];
 				}
-				if (isset($element[$options['option.label']]))
-				{
+				if (isset($element[$options['option.label']])) {
 					$label = $element[$options['option.label']];
 				}
-				if (isset($element[$options['option.disable']]) && $element[$options['option.disable']])
-				{
+				if (isset($element[$options['option.disable']]) && $element[$options['option.disable']]) {
 					$extra .= ' disabled="disabled"';
 				}
 			}
-			elseif (is_object($element))
-			{
+			elseif (is_object($element)) {
 				$key = $options['option.key'] === null ? $elementKey : $element->$options['option.key'];
 				$text = $element->$options['option.text'];
-				if (isset($element->$options['option.attr']))
-				{
+				if (isset($element->$options['option.attr'])) {
 					$attr = $element->$options['option.attr'];
 				}
-				if (isset($element->$options['option.id']))
-				{
+				if (isset($element->$options['option.id'])) {
 					$id = $element->$options['option.id'];
 				}
-				if (isset($element->$options['option.label']))
-				{
+				if (isset($element->$options['option.label'])) {
 					$label = $element->$options['option.label'];
 				}
-				if (isset($element->$options['option.disable']) && $element->$options['option.disable'])
-				{
+				if (isset($element->$options['option.disable']) && $element->$options['option.disable']) {
 					$extra .= ' disabled="disabled"';
 				}
 			}
-			else
-			{
+			else {
 				// This is a simple associative array
 				$key = $elementKey;
 				$text = $element;
@@ -565,62 +522,50 @@ abstract class JHtmlSelect
 			// deprecated at some point in the future.
 
 			$key = (string) $key;
-			if ($options['groups'] && $key == '<OPTGROUP>')
-			{
+			if ($options['groups'] && $key == '<OPTGROUP>') {
 				$html .= $baseIndent . '<optgroup label="' . ($options['list.translate'] ? JText::_($text) : $text) . '">' . $options['format.eol'];
 				$baseIndent = str_repeat($options['format.indent'], ++$options['format.depth']);
 			}
-			elseif ($options['groups'] && $key == '</OPTGROUP>')
-			{
+			elseif ($options['groups'] && $key == '</OPTGROUP>') {
 				$baseIndent = str_repeat($options['format.indent'], --$options['format.depth']);
 				$html .= $baseIndent . '</optgroup>' . $options['format.eol'];
 			}
-			else
-			{
+			else {
 				// if no string after hyphen - take hyphen out
 				$splitText = explode(' - ', $text, 2);
 				$text = $splitText[0];
-				if (isset($splitText[1]))
-				{
+				if (isset($splitText[1])) {
 					$text .= ' - ' . $splitText[1];
 				}
 
-				if ($options['list.translate'] && !empty($label))
-				{
+				if ($options['list.translate'] && !empty($label)) {
 					$label = JText::_($label);
 				}
-				if ($options['option.label.toHtml'])
-				{
+				if ($options['option.label.toHtml']) {
 					$label = htmlentities($label);
 				}
-				if (is_array($attr))
-				{
+				if (is_array($attr)) {
 					$attr = JArrayHelper::toString($attr);
 				}
-				else
-				{
+				else {
 					$attr = trim($attr);
 				}
 				$extra = ($id ? ' id="' . $id . '"' : '') . ($label ? ' label="' . $label . '"' : '') . ($attr ? ' ' . $attr : '') . $extra;
-				if (is_array($options['list.select']))
-				{
+				if (is_array($options['list.select'])) {
 					foreach ($options['list.select'] as $val)
 					{
 						$key2 = is_object($val) ? $val->$options['option.key'] : $val;
-						if ($key == $key2)
-						{
+						if ($key == $key2) {
 							$extra .= ' selected="selected"';
 							break;
 						}
 					}
 				}
-				elseif ((string) $key == (string) $options['list.select'])
-				{
+				elseif ((string) $key == (string) $options['list.select']) {
 					$extra .= ' selected="selected"';
 				}
 
-				if ($options['list.translate'])
-				{
+				if ($options['list.translate']) {
 					$text = JText::_($text);
 				}
 
@@ -657,8 +602,7 @@ abstract class JHtmlSelect
 		reset($data);
 		$html = '';
 
-		if (is_array($attribs))
-		{
+		if (is_array($attribs)) {
 			$attribs = JArrayHelper::toString($attribs);
 		}
 
@@ -672,20 +616,17 @@ abstract class JHtmlSelect
 
 			$extra = '';
 			$extra .= $id ? ' id="' . $obj->id . '"' : '';
-			if (is_array($selected))
-			{
+			if (is_array($selected)) {
 				foreach ($selected as $val)
 				{
 					$k2 = is_object($val) ? $val->$optKey : $val;
-					if ($k == $k2)
-					{
+					if ($k == $k2) {
 						$extra .= ' selected="selected"';
 						break;
 					}
 				}
 			}
-			else
-			{
+			else {
 				$extra .= ((string) $k == (string) $selected ? ' checked="checked"' : '');
 			}
 			$html .= "\n\t" . '<input type="radio" name="' . $name . '"' . ' id="' . $id_text . $k . '" value="' . $k . '"' . ' ' . $extra . ' '

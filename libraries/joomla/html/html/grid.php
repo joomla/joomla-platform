@@ -44,13 +44,11 @@ abstract class JHtmlGrid
 		$task = ($value) ? $taskOff : $taskOn;
 		$toggle = (!$task) ? false : true;
 
-		if ($toggle)
-		{
+		if ($toggle) {
 			$html = '<a class="grid_' . $bool . ' hasTip" title="' . $title . '" rel="{id:\'cb' . $i . '\', task:\'' . $task
 				. '\'}" href="#toggle"></a>';
 		}
-		else
-		{
+		else {
 			$html = '<a class="grid_' . $bool . '" rel="{id:\'cb' . $i . '\', task:\'' . $task . '\'}"></a>';
 		}
 
@@ -77,12 +75,10 @@ abstract class JHtmlGrid
 		$images = array('sort_asc.png', 'sort_desc.png');
 		$index = intval($direction == 'desc');
 
-		if ($order != $selected)
-		{
+		if ($order != $selected) {
 			$direction = $new_direction;
 		}
-		else
-		{
+		else {
 			$direction = ($direction == 'desc') ? 'asc' : 'desc';
 		}
 
@@ -90,8 +86,7 @@ abstract class JHtmlGrid
 			. JText::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN') . '">';
 		$html .= JText::_($title);
 
-		if ($order == $selected)
-		{
+		if ($order == $selected) {
 			$html .= JHtml::_('image', 'system/' . $images[$index], '', null, true);
 		}
 
@@ -112,12 +107,10 @@ abstract class JHtmlGrid
 	 */
 	public static function id($rowNum, $recId, $checkedOut = false, $name = 'cid')
 	{
-		if ($checkedOut)
-		{
+		if ($checkedOut) {
 			return '';
 		}
-		else
-		{
+		else {
 			return '<input type="checkbox" id="cb' . $rowNum . '" name="' . $name . '[]" value="' . $recId
 				. '" onclick="isChecked(this.checked);" title="' . JText::sprintf('JGRID_CHECKBOX_ROW_N', ($rowNum + 1)) . '" />';
 		}
@@ -142,28 +135,23 @@ abstract class JHtmlGrid
 		JLog::add('JGrid::access is deprecated.', JLog::WARNING, 'deprecated');
 
 		// TODO: This needs to be reworked to suit the new access levels
-		if ($row->access <= 1)
-		{
+		if ($row->access <= 1) {
 			$color_access = 'class="allow"';
 			$task_access = 'accessregistered';
 		}
-		elseif ($row->access == 1)
-		{
+		elseif ($row->access == 1) {
 			$color_access = 'class="deny"';
 			$task_access = 'accessspecial';
 		}
-		else
-		{
+		else {
 			$color_access = 'class="none"';
 			$task_access = 'accesspublic';
 		}
 
-		if ($archived == -1)
-		{
+		if ($archived == -1) {
 			$href = JText::_($row->groupname);
 		}
-		else
-		{
+		else {
 			$href = '
 			<a href="javascript:void(0);" onclick="return listItemTask(\'cb' . $i . '\',\'' . $task_access . '\')" ' . $color_access . '>
 			' . JText::_($row->groupname) . '</a>';
@@ -189,28 +177,22 @@ abstract class JHtmlGrid
 		$userid = $user->get('id');
 
 		$result = false;
-		if ($row instanceof JTable)
-		{
+		if ($row instanceof JTable) {
 			$result = $row->isCheckedOut($userid);
 		}
-		else
-		{
+		else {
 			$result = JTable::isCheckedOut($userid, $row->checked_out);
 		}
 
 		$checked = '';
-		if ($result)
-		{
+		if ($result) {
 			$checked = JHtmlGrid::_checkedOut($row);
 		}
-		else
-		{
-			if ($identifier == 'id')
-			{
+		else {
+			if ($identifier == 'id') {
 				$checked = JHtml::_('grid.id', $i, $row->$identifier);
 			}
-			else
-			{
+			else {
 				$checked = JHtml::_('grid.id', $i, $row->$identifier, $result, $identifier);
 			}
 		}
@@ -233,8 +215,7 @@ abstract class JHtmlGrid
 	 */
 	public static function published($value, $i, $img1 = 'tick.png', $img0 = 'publish_x.png', $prefix = '')
 	{
-		if (is_object($value))
-		{
+		if (is_object($value)) {
 			$value = $value->published;
 		}
 
@@ -267,13 +248,11 @@ abstract class JHtmlGrid
 	{
 		$state = array('' => '- ' . JText::_('JLIB_HTML_SELECT_STATE') . ' -', 'P' => JText::_($published), 'U' => JText::_($unpublished));
 
-		if ($archived)
-		{
+		if ($archived) {
 			$state['A'] = JText::_($archived);
 		}
 
-		if ($trashed)
-		{
+		if ($trashed) {
 			$state['T'] = JText::_($trashed);
 		}
 
@@ -322,8 +301,7 @@ abstract class JHtmlGrid
 	{
 		$hover = '';
 
-		if ($overlib)
-		{
+		if ($overlib) {
 			$text = addslashes(htmlspecialchars($row->editor, ENT_COMPAT, 'UTF-8'));
 
 			$date = JHtml::_('date', $row->checked_out_time, JText::_('DATE_FORMAT_LC1'));
@@ -348,8 +326,7 @@ abstract class JHtmlGrid
 	{
 		static $loaded;
 
-		if (!$loaded)
-		{
+		if (!$loaded) {
 			// Build the behavior script.
 			$js = '
 		window.addEvent(\'domready\', function(){

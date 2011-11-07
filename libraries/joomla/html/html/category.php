@@ -41,8 +41,7 @@ abstract class JHtmlCategory
 	{
 		$hash = md5($extension . '.' . serialize($config));
 
-		if (!isset(self::$items[$hash]))
-		{
+		if (!isset(self::$items[$hash])) {
 			$config = (array) $config;
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
@@ -55,14 +54,11 @@ abstract class JHtmlCategory
 			$query->where('extension = ' . $db->quote($extension));
 
 			// Filter on the published state
-			if (isset($config['filter.published']))
-			{
-				if (is_numeric($config['filter.published']))
-				{
+			if (isset($config['filter.published'])) {
+				if (is_numeric($config['filter.published'])) {
 					$query->where('a.published = ' . (int) $config['filter.published']);
 				}
-				elseif (is_array($config['filter.published']))
-				{
+				elseif (is_array($config['filter.published'])) {
 					JArrayHelper::toInteger($config['filter.published']);
 					$query->where('a.published IN (' . implode(',', $config['filter.published']) . ')');
 				}
@@ -101,8 +97,7 @@ abstract class JHtmlCategory
 	{
 		$hash = md5($extension . '.' . serialize($config));
 
-		if (!isset(self::$items[$hash]))
-		{
+		if (!isset(self::$items[$hash])) {
 			$config = (array) $config;
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
@@ -115,14 +110,11 @@ abstract class JHtmlCategory
 			$query->where('extension = ' . $db->quote($extension));
 
 			// Filter on the published state
-			if (isset($config['filter.published']))
-			{
-				if (is_numeric($config['filter.published']))
-				{
+			if (isset($config['filter.published'])) {
+				if (is_numeric($config['filter.published'])) {
 					$query->where('a.published = ' . (int) $config['filter.published']);
 				}
-				elseif (is_array($config['filter.published']))
-				{
+				elseif (is_array($config['filter.published'])) {
 					JArrayHelper::toInteger($config['filter.published']);
 					$query->where('a.published IN (' . implode(',', $config['filter.published']) . ')');
 				}

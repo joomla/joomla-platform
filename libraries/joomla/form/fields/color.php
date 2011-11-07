@@ -44,14 +44,12 @@ class JFormFieldColor extends JFormField
 		$classes = (string) $this->element['class'];
 		$disabled = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
 
-		if (!$disabled)
-		{
+		if (!$disabled) {
 			JHtml::_('behavior.colorpicker');
 			$classes .= ' input-colorpicker';
 		}
 
-		if (empty($this->value))
-		{
+		if (empty($this->value)) {
 			// A color field can't be empty, we default to black. This is the same as the HTML5 spec.
 			$this->value = '#000000';
 		}

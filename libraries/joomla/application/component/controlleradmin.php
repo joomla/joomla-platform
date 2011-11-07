@@ -68,23 +68,19 @@ class JControllerAdmin extends JController
 		$this->registerTask('orderdown', 'reorder');
 
 		// Guess the option as com_NameOfController.
-		if (empty($this->option))
-		{
+		if (empty($this->option)) {
 			$this->option = 'com_' . strtolower($this->getName());
 		}
 
 		// Guess the JText message prefix. Defaults to the option.
-		if (empty($this->text_prefix))
-		{
+		if (empty($this->text_prefix)) {
 			$this->text_prefix = strtoupper($this->option);
 		}
 
 		// Guess the list view as the suffix, eg: OptionControllerSuffix.
-		if (empty($this->view_list))
-		{
+		if (empty($this->view_list)) {
 			$r = null;
-			if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r))
-			{
+			if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r)) {
 				JError::raiseError(500, JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'));
 			}
 			$this->view_list = strtolower($r[2]);
@@ -106,12 +102,10 @@ class JControllerAdmin extends JController
 		// Get items to remove from the request.
 		$cid = JRequest::getVar('cid', array(), '', 'array');
 
-		if (!is_array($cid) || count($cid) < 1)
-		{
+		if (!is_array($cid) || count($cid) < 1) {
 			JError::raiseWarning(500, JText::_($this->text_prefix . '_NO_ITEM_SELECTED'));
 		}
-		else
-		{
+		else {
 			// Get the model.
 			$model = $this->getModel();
 
@@ -120,12 +114,10 @@ class JControllerAdmin extends JController
 			JArrayHelper::toInteger($cid);
 
 			// Remove the items.
-			if ($model->delete($cid))
-			{
+			if ($model->delete($cid)) {
 				$this->setMessage(JText::plural($this->text_prefix . '_N_ITEMS_DELETED', count($cid)));
 			}
-			else
-			{
+			else {
 				$this->setMessage($model->getError());
 			}
 		}
@@ -169,12 +161,10 @@ class JControllerAdmin extends JController
 		$task = $this->getTask();
 		$value = JArrayHelper::getValue($data, $task, 0, 'int');
 
-		if (empty($cid))
-		{
+		if (empty($cid)) {
 			JError::raiseWarning(500, JText::_($this->text_prefix . '_NO_ITEM_SELECTED'));
 		}
-		else
-		{
+		else {
 			// Get the model.
 			$model = $this->getModel();
 
@@ -182,26 +172,20 @@ class JControllerAdmin extends JController
 			JArrayHelper::toInteger($cid);
 
 			// Publish the items.
-			if (!$model->publish($cid, $value))
-			{
+			if (!$model->publish($cid, $value)) {
 				JError::raiseWarning(500, $model->getError());
 			}
-			else
-			{
-				if ($value == 1)
-				{
+			else {
+				if ($value == 1) {
 					$ntext = $this->text_prefix . '_N_ITEMS_PUBLISHED';
 				}
-				elseif ($value == 0)
-				{
+				elseif ($value == 0) {
 					$ntext = $this->text_prefix . '_N_ITEMS_UNPUBLISHED';
 				}
-				elseif ($value == 2)
-				{
+				elseif ($value == 2) {
 					$ntext = $this->text_prefix . '_N_ITEMS_ARCHIVED';
 				}
-				else
-				{
+				else {
 					$ntext = $this->text_prefix . '_N_ITEMS_TRASHED';
 				}
 				$this->setMessage(JText::plural($ntext, count($cid)));
@@ -231,15 +215,13 @@ class JControllerAdmin extends JController
 
 		$model = $this->getModel();
 		$return = $model->reorder($ids, $inc);
-		if ($return === false)
-		{
+		if ($return === false) {
 			// Reorder failed.
 			$message = JText::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
 			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
 			return false;
 		}
-		else
-		{
+		else {
 			// Reorder succeeded.
 			$message = JText::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
 			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
@@ -273,15 +255,13 @@ class JControllerAdmin extends JController
 		// Save the ordering
 		$return = $model->saveorder($pks, $order);
 
-		if ($return === false)
-		{
+		if ($return === false) {
 			// Reorder failed
 			$message = JText::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
 			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
 			return false;
 		}
-		else
-		{
+		else {
 			// Reorder succeeded.
 			$this->setMessage(JText::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
 			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
@@ -307,15 +287,13 @@ class JControllerAdmin extends JController
 
 		$model = $this->getModel();
 		$return = $model->checkin($ids);
-		if ($return === false)
-		{
+		if ($return === false) {
 			// Checkin failed.
 			$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
 			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
 			return false;
 		}
-		else
-		{
+		else {
 			// Checkin succeeded.
 			$message = JText::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
 			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);

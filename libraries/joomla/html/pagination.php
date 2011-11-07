@@ -76,13 +76,11 @@ class JPagination extends JObject
 		$this->limit = (int) max($limit, 0);
 		$this->prefix = $prefix;
 
-		if ($this->limit > $this->total)
-		{
+		if ($this->limit > $this->total) {
 			$this->limitstart = 0;
 		}
 
-		if (!$this->limit)
-		{
+		if (!$this->limit) {
 			$this->limit = $total;
 			$this->limitstart = 0;
 		}
@@ -91,14 +89,12 @@ class JPagination extends JObject
 		 * If limitstart is greater than total (i.e. we are asked to display records that don't exist)
 		 * then set limitstart to display the last natural page of results
 		 */
-		if ($this->limitstart > $this->total - $this->limit)
-		{
+		if ($this->limitstart > $this->total - $this->limit) {
 			$this->limitstart = max(0, (int) (ceil($this->total / $this->limit) - 1) * $this->limit);
 		}
 
 		// Set the total pages and current page values.
-		if ($this->limit > 0)
-		{
+		if ($this->limit > 0) {
 			$this->set('pages.total', ceil($this->total / $this->limit));
 			$this->set('pages.current', ceil(($this->limitstart + 1) / $this->limit));
 		}
@@ -106,30 +102,24 @@ class JPagination extends JObject
 		// Set the pagination iteration loop values.
 		$displayedPages = 10;
 		$this->set('pages.start', $this->get('pages.current') - ($displayedPages / 2));
-		if ($this->get('pages.start') < 1)
-		{
+		if ($this->get('pages.start') < 1) {
 			$this->set('pages.start', 1);
 		}
-		if (($this->get('pages.start') + $displayedPages) > $this->get('pages.total'))
-		{
+		if (($this->get('pages.start') + $displayedPages) > $this->get('pages.total')) {
 			$this->set('pages.stop', $this->get('pages.total'));
-			if ($this->get('pages.total') < $displayedPages)
-			{
+			if ($this->get('pages.total') < $displayedPages) {
 				$this->set('pages.start', 1);
 			}
-			else
-			{
+			else {
 				$this->set('pages.start', $this->get('pages.total') - $displayedPages + 1);
 			}
 		}
-		else
-		{
+		else {
 			$this->set('pages.stop', ($this->get('pages.start') + $displayedPages - 1));
 		}
 
 		// If we are viewing all records set the view all flag to true.
-		if ($limit == 0)
-		{
+		if ($limit == 0) {
 			$this->_viewall = true;
 		}
 	}
@@ -151,12 +141,10 @@ class JPagination extends JObject
 		$result = isset($this->_additionalUrlParams[$key]) ? $this->_additionalUrlParams[$key] : null;
 
 		// If the passed parameter value is null unset the parameter, otherwise set it to the given value.
-		if ($value === null)
-		{
+		if ($value === null) {
 			unset($this->_additionalUrlParams[$key]);
 		}
-		else
-		{
+		else {
 			$this->_additionalUrlParams[$key] = $value;
 		}
 
@@ -204,8 +192,7 @@ class JPagination extends JObject
 	public function getData()
 	{
 		static $data;
-		if (!is_object($data))
-		{
+		if (!is_object($data)) {
 			$data = $this->_buildDataObject();
 		}
 		return $data;
@@ -222,8 +209,7 @@ class JPagination extends JObject
 	{
 		// Initialise variables.
 		$html = null;
-		if ($this->get('pages.total') > 1)
-		{
+		if ($this->get('pages.total') > 1) {
 			$html .= JText::sprintf('JLIB_HTML_PAGE_CURRENT_OF_TOTAL', $this->get('pages.current'), $this->get('pages.total'));
 		}
 		return $html;
@@ -243,23 +229,19 @@ class JPagination extends JObject
 		$fromResult = $this->limitstart + 1;
 
 		// If the limit is reached before the end of the list.
-		if ($this->limitstart + $this->limit < $this->total)
-		{
+		if ($this->limitstart + $this->limit < $this->total) {
 			$toResult = $this->limitstart + $this->limit;
 		}
-		else
-		{
+		else {
 			$toResult = $this->total;
 		}
 
 		// If there are results found.
-		if ($this->total > 0)
-		{
+		if ($this->total > 0) {
 			$msg = JText::sprintf('JLIB_HTML_RESULTS_OF', $fromResult, $toResult, $this->total);
 			$html .= "\n" . $msg;
 		}
-		else
-		{
+		else {
 			$html .= "\n" . JText::_('JLIB_HTML_NO_RECORDS_FOUND');
 		}
 
@@ -287,48 +269,39 @@ class JPagination extends JObject
 		$listOverride = false;
 
 		$chromePath = JPATH_THEMES . '/' . $app->getTemplate() . '/html/pagination.php';
-		if (file_exists($chromePath))
-		{
+		if (file_exists($chromePath)) {
 			include_once $chromePath;
-			if (function_exists('pagination_item_active') && function_exists('pagination_item_inactive'))
-			{
+			if (function_exists('pagination_item_active') && function_exists('pagination_item_inactive')) {
 				$itemOverride = true;
 			}
-			if (function_exists('pagination_list_render'))
-			{
+			if (function_exists('pagination_list_render')) {
 				$listOverride = true;
 			}
 		}
 
 		// Build the select list
-		if ($data->all->base !== null)
-		{
+		if ($data->all->base !== null) {
 			$list['all']['active'] = true;
 			$list['all']['data'] = ($itemOverride) ? pagination_item_active($data->all) : $this->_item_active($data->all);
 		}
-		else
-		{
+		else {
 			$list['all']['active'] = false;
 			$list['all']['data'] = ($itemOverride) ? pagination_item_inactive($data->all) : $this->_item_inactive($data->all);
 		}
 
-		if ($data->start->base !== null)
-		{
+		if ($data->start->base !== null) {
 			$list['start']['active'] = true;
 			$list['start']['data'] = ($itemOverride) ? pagination_item_active($data->start) : $this->_item_active($data->start);
 		}
-		else
-		{
+		else {
 			$list['start']['active'] = false;
 			$list['start']['data'] = ($itemOverride) ? pagination_item_inactive($data->start) : $this->_item_inactive($data->start);
 		}
-		if ($data->previous->base !== null)
-		{
+		if ($data->previous->base !== null) {
 			$list['previous']['active'] = true;
 			$list['previous']['data'] = ($itemOverride) ? pagination_item_active($data->previous) : $this->_item_active($data->previous);
 		}
-		else
-		{
+		else {
 			$list['previous']['active'] = false;
 			$list['previous']['data'] = ($itemOverride) ? pagination_item_inactive($data->previous) : $this->_item_inactive($data->previous);
 		}
@@ -336,46 +309,38 @@ class JPagination extends JObject
 		$list['pages'] = array(); //make sure it exists
 		foreach ($data->pages as $i => $page)
 		{
-			if ($page->base !== null)
-			{
+			if ($page->base !== null) {
 				$list['pages'][$i]['active'] = true;
 				$list['pages'][$i]['data'] = ($itemOverride) ? pagination_item_active($page) : $this->_item_active($page);
 			}
-			else
-			{
+			else {
 				$list['pages'][$i]['active'] = false;
 				$list['pages'][$i]['data'] = ($itemOverride) ? pagination_item_inactive($page) : $this->_item_inactive($page);
 			}
 		}
 
-		if ($data->next->base !== null)
-		{
+		if ($data->next->base !== null) {
 			$list['next']['active'] = true;
 			$list['next']['data'] = ($itemOverride) ? pagination_item_active($data->next) : $this->_item_active($data->next);
 		}
-		else
-		{
+		else {
 			$list['next']['active'] = false;
 			$list['next']['data'] = ($itemOverride) ? pagination_item_inactive($data->next) : $this->_item_inactive($data->next);
 		}
 
-		if ($data->end->base !== null)
-		{
+		if ($data->end->base !== null) {
 			$list['end']['active'] = true;
 			$list['end']['data'] = ($itemOverride) ? pagination_item_active($data->end) : $this->_item_active($data->end);
 		}
-		else
-		{
+		else {
 			$list['end']['active'] = false;
 			$list['end']['data'] = ($itemOverride) ? pagination_item_inactive($data->end) : $this->_item_inactive($data->end);
 		}
 
-		if ($this->total > $this->limit)
-		{
+		if ($this->total > $this->limit) {
 			return ($listOverride) ? pagination_list_render($list) : $this->_list_render($list);
 		}
-		else
-		{
+		else {
 			return '';
 		}
 	}
@@ -401,11 +366,9 @@ class JPagination extends JObject
 		$list['pageslinks'] = $this->getPagesLinks();
 
 		$chromePath = JPATH_THEMES . '/' . $app->getTemplate() . '/html/pagination.php';
-		if (file_exists($chromePath))
-		{
+		if (file_exists($chromePath)) {
 			include_once $chromePath;
-			if (function_exists('pagination_list_footer'))
-			{
+			if (function_exists('pagination_list_footer')) {
 				return pagination_list_footer($list);
 			}
 		}
@@ -438,8 +401,7 @@ class JPagination extends JObject
 		$selected = $this->_viewall ? 0 : $this->limit;
 
 		// Build the select list.
-		if ($app->isAdmin())
-		{
+		if ($app->isAdmin()) {
 			$html = JHtml::_(
 				'select.genericlist',
 				$limits,
@@ -450,8 +412,7 @@ class JPagination extends JObject
 				$selected
 			);
 		}
-		else
-		{
+		else {
 			$html = JHtml::_(
 				'select.genericlist',
 				$limits,
@@ -481,12 +442,10 @@ class JPagination extends JObject
 	 */
 	public function orderUpIcon($i, $condition = true, $task = 'orderup', $alt = 'JLIB_HTML_MOVE_UP', $enabled = true, $checkbox = 'cb')
 	{
-		if (($i > 0 || ($i + $this->limitstart > 0)) && $condition)
-		{
+		if (($i > 0 || ($i + $this->limitstart > 0)) && $condition) {
 			return JHtml::_('jgrid.orderUp', $i, $task, '', $alt, $enabled, $checkbox);
 		}
-		else
-		{
+		else {
 			return '&#160;';
 		}
 	}
@@ -508,12 +467,10 @@ class JPagination extends JObject
 	 */
 	public function orderDownIcon($i, $n, $condition = true, $task = 'orderdown', $alt = 'JLIB_HTML_MOVE_DOWN', $enabled = true, $checkbox = 'cb')
 	{
-		if (($i < $n - 1 || $i + $this->limitstart < $this->total - 1) && $condition)
-		{
+		if (($i < $n - 1 || $i + $this->limitstart < $this->total - 1) && $condition) {
 			return JHtml::_('jgrid.orderDown', $i, $task, '', $alt, $enabled, $checkbox);
 		}
-		else
-		{
+		else {
 			return '&#160;';
 		}
 	}
@@ -579,21 +536,17 @@ class JPagination extends JObject
 	protected function _item_active(&$item)
 	{
 		$app = JFactory::getApplication();
-		if ($app->isAdmin())
-		{
-			if ($item->base > 0)
-			{
+		if ($app->isAdmin()) {
+			if ($item->base > 0) {
 				return "<a title=\"" . $item->text . "\" onclick=\"document.adminForm." . $this->prefix . "limitstart.value=" . $item->base
 					. "; Joomla.submitform();return false;\">" . $item->text . "</a>";
 			}
-			else
-			{
+			else {
 				return "<a title=\"" . $item->text . "\" onclick=\"document.adminForm." . $this->prefix
 					. "limitstart.value=0; Joomla.submitform();return false;\">" . $item->text . "</a>";
 			}
 		}
-		else
-		{
+		else {
 			return "<a title=\"" . $item->text . "\" href=\"" . $item->link . "\" class=\"pagenav\">" . $item->text . "</a>";
 		}
 	}
@@ -610,12 +563,10 @@ class JPagination extends JObject
 	protected function _item_inactive(&$item)
 	{
 		$app = JFactory::getApplication();
-		if ($app->isAdmin())
-		{
+		if ($app->isAdmin()) {
 			return "<span>" . $item->text . "</span>";
 		}
-		else
-		{
+		else {
 			return "<span class=\"pagenav\">" . $item->text . "</span>";
 		}
 	}
@@ -634,8 +585,7 @@ class JPagination extends JObject
 
 		// Build the additional URL parameters string.
 		$params = '';
-		if (!empty($this->_additionalUrlParams))
-		{
+		if (!empty($this->_additionalUrlParams)) {
 			foreach ($this->_additionalUrlParams as $key => $value)
 			{
 				$params .= '&' . $key . '=' . $value;
@@ -643,8 +593,7 @@ class JPagination extends JObject
 		}
 
 		$data->all = new JPaginationObject(JText::_('JLIB_HTML_VIEW_ALL'), $this->prefix);
-		if (!$this->_viewall)
-		{
+		if (!$this->_viewall) {
 			$data->all->base = '0';
 			$data->all->link = JRoute::_($params . '&' . $this->prefix . 'limitstart=');
 		}
@@ -653,8 +602,7 @@ class JPagination extends JObject
 		$data->start = new JPaginationObject(JText::_('JLIB_HTML_START'), $this->prefix);
 		$data->previous = new JPaginationObject(JText::_('JPREV'), $this->prefix);
 
-		if ($this->get('pages.current') > 1)
-		{
+		if ($this->get('pages.current') > 1) {
 			$page = ($this->get('pages.current') - 2) * $this->limit;
 
 			// Set the empty for removal from route
@@ -670,8 +618,7 @@ class JPagination extends JObject
 		$data->next = new JPaginationObject(JText::_('JNEXT'), $this->prefix);
 		$data->end = new JPaginationObject(JText::_('JLIB_HTML_END'), $this->prefix);
 
-		if ($this->get('pages.current') < $this->get('pages.total'))
-		{
+		if ($this->get('pages.current') < $this->get('pages.total')) {
 			$next = $this->get('pages.current') * $this->limit;
 			$end = ($this->get('pages.total') - 1) * $this->limit;
 
@@ -690,8 +637,7 @@ class JPagination extends JObject
 			//$offset = $offset == 0 ? '' : $offset;
 
 			$data->pages[$i] = new JPaginationObject($i, $this->prefix);
-			if ($i != $this->get('pages.current') || $this->_viewall)
-			{
+			if ($i != $this->get('pages.current') || $this->_viewall) {
 				$data->pages[$i]->base = $offset;
 				$data->pages[$i]->link = JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $offset);
 			}

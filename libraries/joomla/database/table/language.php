@@ -41,8 +41,7 @@ class JTableLanguage extends JTable
 	 */
 	public function check()
 	{
-		if (trim($this->title) == '')
-		{
+		if (trim($this->title) == '') {
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_LANGUAGE_NO_TITLE'));
 			return false;
 		}

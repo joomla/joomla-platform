@@ -43,8 +43,7 @@ class JDispatcher extends JObservable
 	 */
 	public static function getInstance()
 	{
-		if (self::$instance === null)
-		{
+		if (self::$instance === null) {
 			self::$instance = new JDispatcher;
 		}
 
@@ -64,19 +63,16 @@ class JDispatcher extends JObservable
 	public function register($event, $handler)
 	{
 		// Are we dealing with a class or function type handler?
-		if (function_exists($handler))
-		{
+		if (function_exists($handler)) {
 			// Ok, function type event handler... let's attach it.
 			$method = array('event' => $event, 'handler' => $handler);
 			$this->attach($method);
 		}
-		elseif (class_exists($handler))
-		{
+		elseif (class_exists($handler)) {
 			// Ok, class type event handler... let's instantiate and attach it.
 			$this->attach(new $handler($this));
 		}
-		else
-		{
+		else {
 			JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('JLIB_EVENT_ERROR_DISPATCHER', $handler));
 		}
 	}
@@ -106,8 +102,7 @@ class JDispatcher extends JObservable
 		$event = strtolower($event);
 
 		// Check if any plugins are attached to the event.
-		if (!isset($this->_methods[$event]) || empty($this->_methods[$event]))
-		{
+		if (!isset($this->_methods[$event]) || empty($this->_methods[$event])) {
 			// No Plugins Associated To Event!
 			return $result;
 		}
@@ -115,24 +110,20 @@ class JDispatcher extends JObservable
 		foreach ($this->_methods[$event] as $key)
 		{
 			// Check if the plugin is present.
-			if (!isset($this->_observers[$key]))
-			{
+			if (!isset($this->_observers[$key])) {
 				continue;
 			}
 
 			// Fire the event for an object based observer.
-			if (is_object($this->_observers[$key]))
-			{
+			if (is_object($this->_observers[$key])) {
 				$args['event'] = $event;
 				$value = $this->_observers[$key]->update($args);
 			}
 			// Fire the event for a function based observer.
-			elseif (is_array($this->_observers[$key]))
-			{
+			elseif (is_array($this->_observers[$key])) {
 				$value = call_user_func_array($this->_observers[$key]['handler'], $args);
 			}
-			if (isset($value))
-			{
+			if (isset($value)) {
 				$result[] = $value;
 			}
 		}

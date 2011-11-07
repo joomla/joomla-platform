@@ -73,8 +73,7 @@ abstract class JButton extends JObject
 		$action = call_user_func_array(array(&$this, 'fetchButton'), $definition);
 
 		// Build id attribute
-		if ($id)
-		{
+		if ($id) {
 			$id = "id=\"$id\"";
 		}
 

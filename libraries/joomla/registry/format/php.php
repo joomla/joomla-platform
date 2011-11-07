@@ -35,12 +35,10 @@ class JRegistryFormatPHP extends JRegistryFormat
 		$vars = '';
 		foreach (get_object_vars($object) as $k => $v)
 		{
-			if (is_scalar($v))
-			{
+			if (is_scalar($v)) {
 				$vars .= "\tpublic $" . $k . " = '" . addcslashes($v, '\\\'') . "';\n";
 			}
-			elseif (is_array($v))
-			{
+			elseif (is_array($v)) {
 				$vars .= "\tpublic $" . $k . " = " . $this->getArrayString($v) . ";\n";
 			}
 		}
@@ -50,8 +48,7 @@ class JRegistryFormatPHP extends JRegistryFormat
 		$str .= "}";
 
 		// Use the closing tag if it not set to false in parameters.
-		if (!isset($params['closingtag']) || $params['closingtag'] !== false)
-		{
+		if (!isset($params['closingtag']) || $params['closingtag'] !== false) {
 			$str .= "\n?>";
 		}
 
@@ -90,12 +87,10 @@ class JRegistryFormatPHP extends JRegistryFormat
 		{
 			$s .= ($i) ? ', ' : '';
 			$s .= '"' . $k . '" => ';
-			if (is_array($v))
-			{
+			if (is_array($v)) {
 				$s .= $this->getArrayString($v);
 			}
-			else
-			{
+			else {
 				$s .= '"' . addslashes($v) . '"';
 			}
 			$i++;

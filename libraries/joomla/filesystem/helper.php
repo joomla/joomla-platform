@@ -37,53 +37,44 @@ class JFilesystemHelper
 	{
 		$sch = parse_url($url, PHP_URL_SCHEME);
 
-		if (($sch != 'http') && ($sch != 'https') && ($sch != 'ftp') && ($sch != 'ftps'))
-		{
+		if (($sch != 'http') && ($sch != 'https') && ($sch != 'ftp') && ($sch != 'ftps')) {
 			return false;
 		}
 
-		if (($sch == 'http') || ($sch == 'https'))
-		{
+		if (($sch == 'http') || ($sch == 'https')) {
 			$headers = get_headers($url, 1);
 
-			if ((!array_key_exists('Content-Length', $headers)))
-			{
+			if ((!array_key_exists('Content-Length', $headers))) {
 				return false;
 			}
 
 			return $headers['Content-Length'];
 		}
 
-		if (($sch == 'ftp') || ($sch == 'ftps'))
-		{
+		if (($sch == 'ftp') || ($sch == 'ftps')) {
 			$server = parse_url($url, PHP_URL_HOST);
 			$port = parse_url($url, PHP_URL_PORT);
 			$path = parse_url($url, PHP_URL_PATH);
 			$user = parse_url($url, PHP_URL_USER);
 			$pass = parse_url($url, PHP_URL_PASS);
 
-			if ((!$server) || (!$path))
-			{
+			if ((!$server) || (!$path)) {
 				return false;
 			}
 
-			if (!$port)
-			{
+			if (!$port) {
 				$port = 21;
 			}
 
-			if (!$user)
-			{
+			if (!$user) {
 				$user = 'anonymous';
 			}
 
-			if (!$pass)
-			{
+			if (!$pass) {
 				$pass = '';
 			}
 
-			switch ($sch)
-			{
+			switch ($sch) {
 				case 'ftp':
 					$ftpid = ftp_connect($server, $port);
 					break;
@@ -93,23 +84,20 @@ class JFilesystemHelper
 					break;
 			}
 
-			if (!$ftpid)
-			{
+			if (!$ftpid) {
 				return false;
 			}
 
 			$login = ftp_login($ftpid, $user, $pass);
 
-			if (!$login)
-			{
+			if (!$login) {
 				return false;
 			}
 
 			$ftpsize = ftp_size($ftpid, $path);
 			ftp_close($ftpid);
 
-			if ($ftpsize == -1)
-			{
+			if ($ftpsize == -1) {
 				return false;
 			}
 
@@ -132,8 +120,7 @@ class JFilesystemHelper
 	{
 		$sch = parse_url($url, PHP_URL_SCHEME);
 
-		if (($sch != 'ftp') && ($sch != 'ftps'))
-		{
+		if (($sch != 'ftp') && ($sch != 'ftps')) {
 			return false;
 		}
 
@@ -143,28 +130,23 @@ class JFilesystemHelper
 		$user = parse_url($url, PHP_URL_USER);
 		$pass = parse_url($url, PHP_URL_PASS);
 
-		if ((!$server) || (!$path))
-		{
+		if ((!$server) || (!$path)) {
 			return false;
 		}
 
-		if (!$port)
-		{
+		if (!$port) {
 			$port = 21;
 		}
 
-		if (!$user)
-		{
+		if (!$user) {
 			$user = 'anonymous';
 		}
 
-		if (!$pass)
-		{
+		if (!$pass) {
 			$pass = '';
 		}
 
-		switch ($sch)
-		{
+		switch ($sch) {
 			case 'ftp':
 				$ftpid = ftp_connect($server, $port);
 				break;
@@ -174,15 +156,13 @@ class JFilesystemHelper
 				break;
 		}
 
-		if (!$ftpid)
-		{
+		if (!$ftpid) {
 			return false;
 		}
 
 		$login = ftp_login($ftpid, $user, $pass);
 
-		if (!$login)
-		{
+		if (!$login) {
 			return false;
 		}
 
@@ -219,8 +199,7 @@ class JFilesystemHelper
 		// Really quite cool what php can do with arrays when you let it...
 		static $streams;
 
-		if (!$streams)
-		{
+		if (!$streams) {
 			$streams = array_merge(stream_get_wrappers(), JFilesystemHelper::getJStreams());
 		}
 
@@ -265,8 +244,7 @@ class JFilesystemHelper
 	{
 		static $streams;
 
-		if (!$streams)
-		{
+		if (!$streams) {
 			$streams = array_map(array('JFile', 'stripExt'), JFolder::files(dirname(__FILE__) . '/streams', '.php'));
 		}
 
