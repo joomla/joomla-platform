@@ -589,6 +589,22 @@ abstract class JDatabase implements JDatabaseInterface
 	{
 		return $this->count;
 	}
+
+	/**
+	 * Get the query string to alter the database character set.
+	 *
+	 * @param	string	The database name
+	 *
+	 * @return  string	The query that alter the database query string
+	 *
+	 * @since   11.3
+	 */
+	public function getAlterDbCharacterSet( $dbName )
+	{
+		$query = 'ALTER DATABASE '.$this->quoteName($dbName).' CHARACTER SET `utf8`';
+		
+		return $query;
+	}
 	
 	/**
 	 * Get the query string to create new Database.
@@ -1469,7 +1485,11 @@ abstract class JDatabase implements JDatabaseInterface
 		$where = '';
 
 		// Create the base update statement.
-		$statement = 'UPDATE ' . $this->quoteName($table) . ' SET %s WHERE %s';
+		//$statement = 'UPDATE ' . $this->quoteName($table) . ' SET %s WHERE %s';
+		// multidb
+		$query = $this->getQuery(true);
+		$query->update($table);
+		$stmt = '%s WHERE %s';
 
 		// Iterate over the object variables to build the query fields/value pairs.
 		foreach (get_object_vars($object) as $k => $v)
@@ -1518,7 +1538,11 @@ abstract class JDatabase implements JDatabaseInterface
 		}
 
 		// Set the query and execute the update.
-		$this->setQuery(sprintf($statement, implode(",", $fields), $where));
+		//$this->setQuery(sprintf($statement, implode(",", $fields), $where));
+		//multidb
+		$query->set(sprintf($stmt, implode(",", $fields), $where));
+		$this->setQuery($query);
+		
 		return $this->query();
 	}
 
