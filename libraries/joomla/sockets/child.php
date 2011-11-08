@@ -68,7 +68,7 @@ class JSocketsChild {
     $buffer = false;
     do {
       $in = "";
-      $in = @socket_read($this->link, $bufferSize);
+      $in = socket_read($this->link, $bufferSize);
 
       // Connection reset
       if($this->getLastErrorNo() == self::PEER_RESET) {
@@ -77,35 +77,15 @@ class JSocketsChild {
       }
 
       if(!empty($in)) {
-          if($buffer === false) {
-              $buffer = "";
-          }
-          $buffer .= $in;
+				return $in;;
       }
       // Socket error, close
       else if($in === '') {
           throw new JException("Socket closed unexpectedly");
           break;
       }
+
     } while(!empty($in));
-
-    /**
-     * Sometimes when the connection is closed unexpectedly, like
-     * if someone presses the exit button in the window, a series of
-     * question marks (?) are sent as binary characters to the server. 
-     * Converting them to hex, returns 04 then to ASCII returns (?); So,
-     * if the returned buffer is not false, and the resulting text is only
-     * made up of ?'s then kill the buffer.
-     */
-
-    if($buffer !== false) {
-        $tmp = bin2hex($buffer);
-        if(($cnt = preg_match_all("/(04)/", $tmp, $matches)) > 0 && $cnt*2 == strlen($tmp)) {
-            $buffer = false;
-        }
-    }
-    
-    return $buffer;
   }
   /**
    * At destruct, close the socket
