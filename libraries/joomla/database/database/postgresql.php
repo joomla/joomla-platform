@@ -39,7 +39,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 *
 	 * @var string
 	 */
-	protected $nameQuote = '\'';
+	protected $nameQuote = '"';
 
 	/**
 	 * Operator used for concatenation
@@ -76,7 +76,7 @@ class JDatabasePostgreSQL extends JDatabase
 		}
 
 		// connect to the server
-		if (!($this->connection = @pg_connect( "host=$host user=$user password=$password dbname=$database" ))) {
+		if (!($this->connection = @pg_connect( "host={$host} dbname={$database} user={$user} password={$password}" ))) {
 			// Legacy error handling switch based on the JError::$legacy switch.
 			// @deprecated  11.3
 			if (JError::$legacy) {
@@ -162,12 +162,20 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	function dropTable($tableName, $ifExists = true)
 	{
-		$query = $this->getQuery(true);
+		//$query = $this->getQuery(true);
 
-		$this->setQuery(
-			'DROP TABLE '.
+		$query = 'DROP TABLE ' ;
+		if ( $ifExists )
+			$query .= ' IF EXISTS ';
+		
+		$query .= $this->quoteName($tableName) ; 
+			/*($ifExists ? ' IF EXISTS ' : '') .
+			$query->quoteName($tableName) ;
+			*/
+		$this->setQuery( $query
+			/*'DROP TABLE '.
 			($ifExists ? 'IF EXISTS ' : '').
-			$query->quoteName($tableName)
+			$query->quoteName($tableName)*/
 		);
 
 		$this->query();
@@ -516,6 +524,22 @@ class JDatabasePostgreSQL extends JDatabase
 	{
 		pg_set_client_encoding( $this->connection, 'UTF8' );
 	}
+
+	/**
+	 * Returns an array containing database's table list.
+	 *
+	 * @return	array	The database's table list.
+	 */
+	public function showTables()
+	{
+		$query = "SELECT table_name FROM information_schema.tables " .
+				 "WHERE table_type = 'BASE TABLE' AND ". 
+				 "table_schema NOT IN ('pg_catalog', 'information_schema')";
+		
+		$this->setQuery( $query );
+		$tableList = $this->loadColumn();
+		return $tableList;
+	}
 	
 	/**
 	 * Method to fetch a row from the result set cursor as an array.
@@ -557,7 +581,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	protected function fetchObject($cursor = null, $class = 'stdClass')
 	{
-		return pg_fetch_object($cursor ? $cursor : $this->cursor, $class);
+		return pg_fetch_object( is_null($cursor) ? $this->cursor : $cursor, null, $class );
 	}
 
 	/**
@@ -634,37 +658,42 @@ class JDatabasePostgreSQL extends JDatabase
 	 * @since   11.3
 	 * @throws  JDatabaseException
 	 */
-	public function getTableColumns( $tables, $typeonly = true )
+	public function getTableColumns( $table, $typeonly = true )
 	{
-		settype($tables, 'array'); //force to array
+		//settype($table, 'array'); //force to array
 		$result = array();
 		
 		// To check if table exists and prevent SQL injection
-		$tableList = $this->getTableList();
+		//$tableList = $this->getTableList();
 		
-		foreach ($tables as $tblval) 
-		{
-			if ( in_array($tblval, $tableList) )
-			{
-				$query = $this->getQuery();
-				$query->select('column_name,data_type')
+		//foreach ($tables as $tblval) 
+		//{
+			//if ( in_array($tblval, $tableList) )
+			//{
+			$tableSub = $this->replacePrefix( $table );
+			//$tableSub = str_replace('#__', $this->tablePrefix, $table);
+			
+				$query = $this->getQuery(true);
+				$query->select('column_name, data_type, collation_name, is_nullable, column_default')
 					  ->from( 'information_schema.columns' )
-					  ->where( 'table_name=' . $this->quote($tblval) );
+					  ->where( 'table_name=' . $this->quote($tableSub) ); /*$tblval*/
 				$this->setQuery($query);
 				
 				$fields = $this->loadObjectList();
 	
 				if ($typeonly) {
 					foreach ($fields as $field) {
-						$result[$tblval][$field->column_name] = preg_replace("/[(0-9)]/",'', $field->data_type );
+						//$result[$tableSub][$field->column_name] = preg_replace("/[(0-9)]/",'', $field->data_type );
+						$result[$field->column_name] = preg_replace("/[(0-9)]/",'', $field->data_type );
 					}
 				} else {
 					foreach ($fields as $field) {
-						$result[$tblval][$field->column_name] = $field;
+						//$result[$tableSub][$field->column_name] = $field;
+						$result[$field->column_name] = $field;
 					}
 				}
-			}
-		}
+			//}
+		//}
 
 		return $result;
 	}
@@ -700,6 +729,22 @@ class JDatabasePostgreSQL extends JDatabase
 		$random = $this->loadRow();
 		
 		return $random['random'];
+	}
+
+	/**
+	 * Get the query string to alter the database character set.
+	 *
+	 * @param	string	The database name
+	 *
+	 * @return  string	The query that alter the database query string
+	 *
+	 * @since   11.3
+	 */
+	public function getAlterDbCharacterSet( $dbName )
+	{
+		$query = 'ALTER DATABASE '.$dbName.' SET CLIENT_ENCODING TO \'UTF8\'';
+		
+		return $query;
 	}
 
 	/**
@@ -742,11 +787,110 @@ class JDatabasePostgreSQL extends JDatabase
 		}
 		else 
 		{
+			/* Rename indexes */
+			$this->setQuery('SELECT relname 
+							 FROM pg_class 
+							 WHERE oid IN ( 
+							 	SELECT indexrelid 
+							 	FROM pg_index, pg_class 
+							 	WHERE pg_class.relname=' . $this->quote($oldTable,true) . ' 
+							 	AND pg_class.oid=pg_index.indrelid 
+							 );' );
+			
+			$oldIndexes = $this->loadColumn();
+			foreach ($oldIndexes as $oldIndex)
+			{
+				$changedIdxName = str_replace($oldTable, $newTable, $oldIndex);
+				$this->setQuery('ALTER INDEX ' . $this->escape($oldIndex) . ' RENAME TO ' . $this->escape($changedIdxName) );
+				$this->query();
+			}
+			
+			
+			/* Rename sequence */
+			$this->setQuery('SELECT relname
+							 FROM pg_class
+							 WHERE relkind = \'S\'
+							 AND relnamespace IN (
+							 	SELECT oid
+							 	FROM pg_namespace
+							 	WHERE nspname NOT LIKE \'pg_%\'
+							 	AND nspname != \'information_schema\'
+							 )
+							 AND relname LIKE \'%' . $oldTable . '%\' ;' );
+			
+			$oldSequences = $this->loadColumn();
+			foreach ($oldSequences as $oldSequence)
+			{
+				$changedSequenceName = str_replace($oldTable, $newTable, $oldSequence);
+				$this->setQuery('ALTER SEQUENCE ' . $this->escape($oldSequence) . ' RENAME TO ' . $this->escape($changedSequenceName) );
+				$this->query();
+			}
+			
+			
+			/* Rename table */
 			$this->setQuery('ALTER TABLE ' . $this->escape($oldTable) . ' RENAME TO ' . $this->escape($newTable) );
 			$this->query();
 		}
 
 		return true;
+	}
+
+	/**
+	 * This function replaces a string identifier <var>$prefix</var> with the string held is the
+	 * <var>tablePrefix</var> class variable.
+	 *
+	 * @param   string  $sql     The SQL statement to prepare.
+	 * @param   string  $prefix  The common table prefix.
+	 *
+	 * @return  string  The processed SQL statement.
+	 *
+	 * @since   11.1
+	 */
+	public function replacePrefix($sql, $prefix = '#__')
+	{
+		$sql = trim($sql);
+		$replacedQuery = '';
+
+		if ( strpos($sql, '\'') )
+		{
+			// sequence name quoted with ' ' but need to be replaced
+			if ( strpos($sql, 'currval') )
+			{
+				$sql = explode('currval(', $sql);
+				for ( $nIndex = 1; $nIndex < count($sql); $nIndex = $nIndex + 2 ) 
+				{
+					$sql[$nIndex] = str_replace($prefix, $this->tablePrefix, $sql[$nIndex]);
+				}
+				$sql = implode('currval(', $sql);
+			}
+			
+			// sequence name quoted with ' ' but need to be replaced
+			if ( strpos($sql, 'nextval') )
+			{
+				$sql = explode('nextval(', $sql);
+				for ( $nIndex = 1; $nIndex < count($sql); $nIndex = $nIndex + 2 ) 
+				{
+					$sql[$nIndex] = str_replace($prefix, $this->tablePrefix, $sql[$nIndex]);
+				}
+				$sql = implode('nextval(', $sql);
+			}
+			
+			$explodedQuery = explode('\'', $sql);
+			
+			for ( $nIndex = 0; $nIndex < count($explodedQuery); $nIndex = $nIndex + 2 ) 
+			{
+				if ( strpos($explodedQuery[$nIndex], $prefix) )
+					$explodedQuery[$nIndex] = str_replace($prefix, $this->tablePrefix, $explodedQuery[$nIndex]);
+			}
+			
+			$replacedQuery = implode('\'', $explodedQuery);
+		}
+		else
+		{
+			$replacedQuery = str_replace($prefix, $this->tablePrefix, $sql);
+		}
+		
+		return $replacedQuery;
 	}
 
 	/**
