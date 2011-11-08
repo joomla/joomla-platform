@@ -64,11 +64,40 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 */
 	public function dataGetCreateDbQuery()
 	{
-		$option = array( 'user' => 'testName', 'database' => 'testDb' );
+		$obj = new stdClass;
+		$obj->db_user = 'testName';
+		$obj->db_name = 'testDb';
+		
 		return array(
-				array( $option, null )
+				array( $obj, null )
 			);
 	}
+
+	/**
+	 * Data for the TestReplacePrefix test.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.3
+	 */
+	public function dataTestReplacePrefix()
+	{
+		return array(
+			/* no prefix inside, no change */
+			array('SELECT * FROM table', '#__', 'SELECT * FROM table'),
+			/* the prefix inside double quote has to be changed */
+			array('SELECT * FROM "#__table"', '#__', 'SELECT * FROM "jos_table"'),
+			/* the prefix inside single quote hasn't to be changed */
+			array('SELECT * FROM \'#__table\'', '#__', 'SELECT * FROM \'#__table\''),
+			/* mixed quote case */
+			array('SELECT * FROM \'#__table\', "#__tableSecond"', '#__', 'SELECT * FROM \'#__table\', "jos_tableSecond"'),
+			/* the prefix used in sequence name (single quote) has to be changed */
+			array('SELECT * FROM currval(\'#__table_id_seq\'::regclass)', '#__', 'SELECT * FROM currval(\'jos_table_id_seq\'::regclass)'),
+			/* using another prefix */
+			array('SELECT * FROM "#!-_table"', '#!-_', 'SELECT * FROM "jos_table"'),
+		);
+	}
+	
 	
 	/**
 	 * Gets the data set to be loaded into the database during setup
@@ -506,36 +535,8 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 * @since   11.1
 	 */
 	public function testLoadObjectList()
-	{
-		$this->markTestSkipped('Skipped because of error: Allowed memory size of 134217728 bytes exhausted.');
-		/* Allowed memory size of 134217728 bytes exhausted
+	{		
 		$query = $this->object->getQuery(true);
-		$query->select('*');
-		$query->from('jos_dbtest');
-		$query->order('id');
-		$query->where('id=1');
-		$this->object->setQuery($query);
-		$result = $this->object->loadObjectList();
-
-		$expected = array();
-
-		$objCompare = new stdClass;
-		$objCompare->id = 1;
-		$objCompare->title = 'Testing';
-		$objCompare->start_date = '1980-04-18 00:00:00';
-		$objCompare->description = 'one';
-
-		$expected[] = clone $objCompare;
-		
-		$this->assertThat(
-			$result,
-			$this->equalTo($expected),
-			__LINE__
-		); */
-		
-		/*
-		 * Allowed memory size of 134217728 bytes exhausted*/
-		/*$query = $this->object->getQuery(true);
 		$query->select('*');
 		$query->from('jos_dbtest');
 		$query->order('id');
@@ -580,7 +581,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 			$result,
 			$this->equalTo($expected),
 			__LINE__
-		);*/
+		);
 	}
 
 	/**
@@ -920,7 +921,33 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	{
 		$this->markTestSkipped('This command is tested inside testTransactionRollback.');
 	}
-	
+
+	/**
+	 * Tests the JDatabasePostgreSQL replacePrefix method.
+	 * 
+	 * @param   stringToReplace	$text	The string in which replace the prefix.
+	 * @param   prefix			$text   The prefix.
+	 * @param   expected		$text   The string expected.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 * @dataProvider  dataTestReplacePrefix
+	 */
+	public function testReplacePrefix( $stringToReplace, $prefix, $expected )
+	{
+		//$this->markTestSkipped('This command is tested inside testTransactionRollback.');
+		
+		
+		$result = $this->object->replacePrefix($stringToReplace, $prefix);
+		
+		$this->assertThat(
+			$result,
+			$this->equalTo($expected),
+			__LINE__
+		);
+	}
+
 	/**
 	 * @todo Implement testTransactionSavepoint().
 	 */
@@ -936,11 +963,11 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 *
 	 * @dataProvider dataGetCreateDbQuery
 	 */
-	public function getCreateDbQuery( $options, $utf )
+	public function testGetCreateDbQuery( $options, $utf )
 	{
 		//$this->markTestSkipped('This command is tested inside testCreateDatabase.');
 
-		$expected = 'CREATE DATABASE ' . $options['database'] . ' OWNER ' . $options['user'];
+		$expected = 'CREATE DATABASE ' . $options->db_name . ' OWNER ' . $options->db_user ;
 
 		$result = $this->object->getCreateDbQuery($options, $utf);
 		
@@ -949,7 +976,6 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 			$this->equalTo($expected),
 			__LINE__
 		);
-		
 	}
 	
 }
