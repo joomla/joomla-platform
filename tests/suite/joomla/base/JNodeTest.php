@@ -98,6 +98,31 @@ class JNodeTest extends PHPUnit_Framework_TestCase {
 			'_parent',
 			$this->object
 		);
+		
+		$newParent2 = new JNode;
+		$this->object->setParent( $newParent2 );
+		$this->assertAttributeEquals(
+			$newParent2,
+			'_parent',
+			$this->object
+		);
+	}
+	
+	/**
+	 * Test JNode::hasChildren().
+	 * 
+	 * @since 11.3
+	 */
+	public function testHasParent() {
+		$this->assertFalse(
+			$this->object->hasParent()
+		);
+		
+		$newParent = new JNode;
+		$this->object->setParent( $newParent );
+		$this->assertTrue(
+			$this->object->hasParent()
+		);
 	}
 
 	/**
