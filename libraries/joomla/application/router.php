@@ -53,8 +53,6 @@ class JRouter extends JObject
 	 *
 	 * @param   array  $options  Array of options
 	 *
-	 * @return  void
-	 *
 	 * @since 11.1
 	 */
 	public function __construct($options = array())
@@ -462,7 +460,7 @@ class JRouter extends JObject
 	 *
 	 * @return  array  Array of decoded route segments
 	 *
-	 * @since 11,1
+	 * @since 11.1
 	 */
 	protected function _decodeSegments($segments)
 	{

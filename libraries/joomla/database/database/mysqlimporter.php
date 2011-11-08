@@ -61,8 +61,6 @@ class JDatabaseImporterMySQL
 	 *
 	 * Sets up the default options for the exporter.
 	 *
-	 * @return  JDatabaseImporterMySQL
-	 *
 	 * @since   11.1
 	 */
 	public function __construct()
@@ -504,7 +502,7 @@ class JDatabaseImporterMySQL
 		{
 			$prefix = 'PRIMARY ';
 		}
-		else if ($kNonUnique == 0)
+		elseif ($kNonUnique == 0)
 		{
 			$prefix = 'UNIQUE ';
 		}

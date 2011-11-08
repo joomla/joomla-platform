@@ -65,7 +65,7 @@ class JPackageManifest extends JObject
 	 *
 	 * @var JExtension[] filelist List of files in this package
 	 */
-	var $filelist = Array();
+	var $filelist = array();
 
 	/**
 	 * @var string manifest_file Path to the manifest file
@@ -76,8 +76,6 @@ class JPackageManifest extends JObject
 	 * Constructor
 	 *
 	 * @param   string  $xmlpath  Path to XML manifest file.
-	 *
-	 * @return  object  JPackageManifest
 	 *
 	 * @since
 	 */

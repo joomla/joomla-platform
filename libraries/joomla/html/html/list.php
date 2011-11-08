@@ -45,7 +45,7 @@ abstract class JHtmlList
 	 * @param   string  $active      The selected item
 	 * @param   string  $javascript  Alternative javascript
 	 * @param   string  $directory   Directory the images are stored in
-	 * @param   string  $extensions  Allowd extensions
+	 * @param   string  $extensions  Allowed extensions
 	 *
 	 * @return  array  Image names
 	 *
@@ -214,7 +214,7 @@ abstract class JHtmlList
 			{
 				$text = JText::_('JGLOBAL_NEWITEMSLAST_DESC');
 			}
-			else if ($neworder <= 0)
+			elseif ($neworder <= 0)
 			{
 				$text = JText::_('JGLOBAL_NEWITEMSFIRST_DESC');
 			}
@@ -231,7 +231,7 @@ abstract class JHtmlList
 	 * @param   integer  $nouser      If set include an option to select no user
 	 * @param   string   $javascript  Custom javascript
 	 * @param   string   $order       Specify a field to order by
-	 * @param   string   $reg         Deprecated  Exludes users who are explictly in group 2.
+	 * @param   string   $reg         Deprecated  Excludes users who are explicitly in group 2.
 	 *
 	 * @return  string   The HTML for a list of users list of users
 	 *

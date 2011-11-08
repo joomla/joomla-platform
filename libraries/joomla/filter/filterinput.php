@@ -560,7 +560,9 @@ class JFilterInput extends JObject
 			// Remove all "non-regular" attribute names
 			// AND blacklisted attributes
 
-			if ((!preg_match('/[a-z]*$/i', $attrSubSet[0])) || (($this->xssAuto) && ((in_array(strtolower($attrSubSet[0]), $this->attrBlacklist)) || (substr($attrSubSet[0], 0, 2) == 'on'))))
+			if ((!preg_match('/[a-z]*$/i', $attrSubSet[0]))
+				|| (($this->xssAuto) && ((in_array(strtolower($attrSubSet[0]), $this->attrBlacklist))
+				|| (substr($attrSubSet[0], 0, 2) == 'on'))))
 			{
 				continue;
 			}
@@ -606,7 +608,7 @@ class JFilterInput extends JObject
 				{
 					$newSet[] = $attrSubSet[0] . '="' . $attrSubSet[1] . '"';
 				}
-				else if ($attrSubSet[1] === "0")
+				elseif ($attrSubSet[1] === "0")
 				{
 					// Special Case
 					// Is the value 0?

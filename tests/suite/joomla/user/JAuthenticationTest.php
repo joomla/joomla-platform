@@ -56,7 +56,7 @@ class JAuthenticationTest extends JoomlaTestCase
 		JDispatcherInspector::setInstance($dispatcher);
 
 		// Mock the authentication plugin
-		require_once __DIR__.'/TestStubs/FakeAuthenticationPlugin.php';
+		require_once __DIR__.'/stubs/FakeAuthenticationPlugin.php';
 
 		// Inject the mocked plugin list.
 		JPluginHelperInspector::setPlugins(
@@ -197,43 +197,43 @@ class JAuthenticationTest extends JoomlaTestCase
 	 */
 	public function casesAuthorise()
 	{
-		$cases = Array();
+		$cases = array();
 		$expect = new JAuthenticationResponse;
 		$response = new JAuthenticationResponse;
 
 		$response->username = 'test';
 		$expect->status = JAuthentication::STATUS_SUCCESS;
 
-		$cases[] = Array(
+		$cases[] = array(
 			clone($response),
-			Array(clone($expect)),
+			array(clone($expect)),
 			'Successful login'
 		);
 
 		$response->username = 'denied';
 		$expect->status = JAuthentication::STATUS_DENIED;
 
-		$cases[] = Array(
+		$cases[] = array(
 			clone($response),
-			Array(clone($expect)),
+			array(clone($expect)),
 			'Denied (blocked) login'
 		);
 
 		$response->username = 'expired';
 		$expect->status = JAuthentication::STATUS_EXPIRED;
 
-		$cases[] = Array(
+		$cases[] = array(
 			clone($response),
-			Array(clone($expect)),
+			array(clone($expect)),
 			'Expired login'
 		);
 
 		$response->username = 'unknown';
 		$expect->status = JAuthentication::STATUS_UNKNOWN;
 
-		$cases[] = Array(
+		$cases[] = array(
 			clone($response),
-			Array(clone($expect)),
+			array(clone($expect)),
 			'Unknown login'
 		);
 

@@ -186,8 +186,8 @@ class JFormFieldComponentLayout extends JFormField
 						|| $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, null, false, false)
 						|| $lang->load('tpl_' . $template->element . '.sys', $client->path, $lang->getDefault(), false, false)
 						|| $lang->load(
-							'tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, $lang->getDefault(), false, false
-						);
+						'tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, $lang->getDefault(), false, false
+					);
 
 					$template_path = JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $extn . '/' . $view);
 
@@ -205,8 +205,7 @@ class JFormFieldComponentLayout extends JFormField
 						{
 							// Remove layout files that exist in the component folder or that have XML files
 							if ((in_array(JFile::stripext(JFile::getName($file)), $component_layouts))
-											|| (in_array(JFile::stripext(JFile::getName($file)), $xml_files))
-							)
+								|| (in_array(JFile::stripext(JFile::getName($file)), $xml_files)))
 							{
 								unset($files[$i]);
 							}

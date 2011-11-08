@@ -53,9 +53,9 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 	{
 		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
 
-		$dataSet->addTable('jos_categories', JPATH_TESTS . '/stubs/jos_categories.csv');
-		$dataSet->addTable('jos_assets', JPATH_TESTS . '/stubs/jos_assets.csv');
-		$dataSet->addTable('jos_menu', JPATH_TESTS . '/stubs/jos_menu.csv');
+		$dataSet->addTable('jos_categories', __DIR__ . '/stubs/jos_categories.csv');
+		$dataSet->addTable('jos_assets', __DIR__ . '/stubs/jos_assets.csv');
+		$dataSet->addTable('jos_menu', __DIR__ . '/stubs/jos_menu.csv');
 
 		return $dataSet;
 	}
@@ -129,11 +129,11 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		$this->assertAttributeEquals('after', '_location', $table);
 
 		// Test with explicit locations
-		$table->setLocation(20,'before');
+		$table->setLocation(20, 'before');
 		$this->assertAttributeEquals('before', '_location', $table);
 
 		// Test that invalid location returns false
-		$this->assertFalse($table->setLocation(20,'xxx'));
+		$this->assertFalse($table->setLocation(20, 'xxx'));
 	}
 
 	public function testMove()
@@ -593,9 +593,9 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 
 		// Unpublish 19 and 20
 		$pks = array('19');
-		$table->publish($pks,'0');
+		$table->publish($pks, '0');
 		$pks = array('20');
-		$table->publish($pks,'0');
+		$table->publish($pks, '0');
 		// Try to publish 20
 		$this->assertFalse($table->publish($pks, '1'), 'Line: '.__LINE__.' Should not publish child if parent is not published');
 		$treeTemp = $table->getTree('1');
@@ -722,7 +722,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		// Swap orders of id's 21 and 22 (both level 4)
 		// And reverse order of 64, 65, 66, 67, 75 (all level 5 with parent 22)
 		$idArray = array('21', '22', '64', '65', '66', '67', '75');
-		$lftArray = array(2, 1, 9 , 8, 7 ,6, 5);
+		$lftArray = array(2, 1, 9 , 8, 7 , 6, 5);
 		$this->assertEquals(136, $table->saveorder($idArray, $lftArray), 'Line: '.__LINE__.' saveorder should succeed');
 		$tree = $table->getTree('1');
 		$this->checkLftRgt($tree);

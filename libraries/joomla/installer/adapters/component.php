@@ -46,7 +46,7 @@ class JInstallerComponent extends JAdapterInstance
 
 	/**
 	 *
-	 * The list of current files fo the Joomla! CMS adminisrator that are installed and is read
+	 * The list of current files fo the Joomla! CMS administrator that are installed and is read
 	 * from the manifest on disk in the update area to handle doing a diff
 	 * and deleting files that are in the old files list and not in the new
 	 * files list.
@@ -102,10 +102,10 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			$this->parent
 				->setPath(
-					'source',
-					($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) .
-						'/components/' . $this->parent->extension->element
-				);
+				'source',
+				($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) .
+				'/components/' . $this->parent->extension->element
+			);
 		}
 
 		$this->manifest = $this->parent->getManifest();
@@ -127,7 +127,7 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			$element = $this->manifest->administration->files;
 		}
-		else if ($this->manifest->files)
+		elseif ($this->manifest->files)
 		{
 			$element = $this->manifest->files;
 		}
@@ -214,12 +214,11 @@ class JInstallerComponent extends JAdapterInstance
 			// Update tag detected
 
 			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-				|| $updateElement
-			)
+				|| $updateElement)
 			{
 				return $this->update(); // transfer control to the update function
 			}
-			else if (!$this->parent->getOverwrite())
+			elseif (!$this->parent->getOverwrite())
 			{
 				// Overwrite is set.
 				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
@@ -1614,7 +1613,7 @@ class JInstallerComponent extends JAdapterInstance
 
 			return false;
 		}
-		else if (!empty($ids))
+		elseif (!empty($ids))
 		{
 			// Iterate the items to delete each one.
 			foreach ($ids as $menuid)

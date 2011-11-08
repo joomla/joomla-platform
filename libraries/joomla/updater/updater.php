@@ -29,8 +29,6 @@ class JUpdater extends JAdapter
 	/**
 	 * Constructor
 	 *
-	 * @return  JUpdater
-	 *
 	 * @since   11.1
 	 */
 	public function __construct()
@@ -88,7 +86,7 @@ class JUpdater extends JAdapter
 		{
 			$query = 'SELECT DISTINCT update_site_id, type, location FROM #__update_sites' .
 				' WHERE update_site_id IN' .
-				'  (SELECT update_site_id FROM #__update_sites_extensions WHERE extension_id IN ('. implode(',', $eid) . '))';
+				'  (SELECT update_site_id FROM #__update_sites_extensions WHERE extension_id IN (' . implode(',', $eid) . '))';
 		}
 		$dbo->setQuery($query);
 		$results = $dbo->loadAssocList();
@@ -119,21 +117,21 @@ class JUpdater extends JAdapter
 						$extension = JTable::getInstance('extension');
 						$uid = $update
 							->find(
-								array(
-									'element' => strtolower($current_update->get('element')), 'type' => strtolower($current_update->get('type')),
-									'client_id' => strtolower($current_update->get('client_id')),
-									'folder' => strtolower($current_update->get('folder'))
-								)
-							);
+							array(
+								'element' => strtolower($current_update->get('element')), 'type' => strtolower($current_update->get('type')),
+								'client_id' => strtolower($current_update->get('client_id')),
+								'folder' => strtolower($current_update->get('folder'))
+							)
+						);
 
 						$eid = $extension
 							->find(
-								array(
-									'element' => strtolower($current_update->get('element')), 'type' => strtolower($current_update->get('type')),
-									'client_id' => strtolower($current_update->get('client_id')),
-									'folder' => strtolower($current_update->get('folder'))
-								)
-							);
+							array(
+								'element' => strtolower($current_update->get('element')), 'type' => strtolower($current_update->get('type')),
+								'client_id' => strtolower($current_update->get('client_id')),
+								'folder' => strtolower($current_update->get('folder'))
+							)
+						);
 						if (!$uid)
 						{
 							// Set the extension id
@@ -167,7 +165,7 @@ class JUpdater extends JAdapter
 				}
 				$update_result = true;
 			}
-			else if ($retval)
+			elseif ($retval)
 			{
 				$update_result = true;
 			}
