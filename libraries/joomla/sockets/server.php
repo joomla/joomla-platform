@@ -23,11 +23,6 @@ jimport('joomla.sockets.sockets');
 abstract class JSocketsServer extends JSockets
 {
 	/**
-	 * The parent object
-	 * @var Resource
-	 */
-	public $parent = null;
-	/**
 	 * Stores a reference to the created socket
 	 * @var Resource
 	 */
@@ -134,9 +129,11 @@ abstract class JSocketsServer extends JSockets
 
           $command = strtolower($data);
 
+					$childId = array_search($read_sock, $clients)-1;
+
 					// Execute __processCommand method from parent
 					if (method_exists($this, '__processCommand')) {
-						$this->__processCommand($command);
+						$this->__processCommand($childId, $command);
 					} else {
 						throw new JException("__processCommand() method not found");
 					}        
@@ -151,7 +148,7 @@ abstract class JSocketsServer extends JSockets
    * 
 	 * @param string $command
 	 */
-	abstract protected function __processCommand($command = false);
+	abstract protected function __processCommand($childId = 0, $command = false);
 
 
 } // end class
