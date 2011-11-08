@@ -136,7 +136,7 @@ abstract class JSocketsServer extends JSockets
 
 					// Execute __processCommand method from parent
 					if (method_exists($this, '__processCommand')) {
-						$this->__processCommand($child, $command);
+						$this->__processCommand($command);
 					} else {
 						throw new JException("__processCommand() method not found");
 					}        
