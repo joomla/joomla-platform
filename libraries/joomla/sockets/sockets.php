@@ -28,136 +28,136 @@ defined('JPATH_PLATFORM') or die;
 class JSockets
 {
 	/**
-	 * Domain type to use when creating the socket
-	 * @var int
-	 */
+	* Domain type to use when creating the socket
+	* @var int
+	*/
 	public $domain = AF_INET;
 	/**
-	 * The stream type to use when creating the socket
-	 * @var int
-	 */
+	* The stream type to use when creating the socket
+	* @var int
+	*/
 	public $type = SOCK_STREAM;
 	/**
-	 * The protocol to use when creating the socket
-	 * @var int
-	 */
+	* The protocol to use when creating the socket
+	* @var int
+	*/
 	public $protocol = SOL_TCP;
 
 	/**
-	 * Stores a reference to the created socket
-	 * @var Resource
-	 */
+	* Stores a reference to the created socket
+	* @var Resource
+	*/
 	public $link = null;
 	/**
-	 * Array of connected children
-	 * @var array
-	 */
+	* Array of connected children
+	* @var array
+	*/
 	public $threads = array();
 	/**
-	 * Bool which determines if the socket is listening or not
-	 * @var boolean
-	 */
+	* Bool which determines if the socket is listening or not
+	* @var boolean
+	*/
 	private $listening = false;
 
 	/**
-	 * Creates a new Socket.
-	 *
-	 * @param array $args
-	 * @param int $args[domain] AF_INET|AF_INET6|AF_UNIX
-	 * @param int $args[type] SOCK_STREAM|SOCK_DGRAM|SOCK_SEQPACKET|SOCK_RAW|SOCK_UDM
-	 * @param int $args[protocol] SOL_TCP|SOL_UDP
-	 * @return Socket
-	 */
+	* Creates a new Socket.
+	*
+	* @param array $args
+	* @param int $args[domain] AF_INET|AF_INET6|AF_UNIX
+	* @param int $args[type] SOCK_STREAM|SOCK_DGRAM|SOCK_SEQPACKET|SOCK_RAW|SOCK_UDM
+	* @param int $args[protocol] SOL_TCP|SOL_UDP
+	* @return Socket
+	*/
 	public function __construct(array $args = null) {
 
-	  // Default socket info
-	  $defaults = array(
-      "domain" => AF_INET,
-      "type" => SOCK_STREAM,
-      "protocol" => SOL_TCP
-	  );
-	  if($args == null) {
-      $args = array();
-	  }
-	  // Merge $args in to $defaults
-	  $args = array_merge($defaults, $args);
+		// Default socket info
+		$defaults = array(
+		"domain" => AF_INET,
+		"type" => SOCK_STREAM,
+		"protocol" => SOL_TCP
+		);
+		if($args == null) {
+			$args = array();
+		}
+		// Merge $args in to $defaults
+		$args = array_merge($defaults, $args);
 
-	  // Store these values for later, just in case
-	  $this->domain = $args['domain'];
-	  $this->type = $args['type'];
-	  $this->protocol = $args['protocol'];
+		// Store these values for later, just in case
+		$this->domain = $args['domain'];
+		$this->type = $args['type'];
+		$this->protocol = $args['protocol'];
 
-	  if(($this->link = socket_create($this->domain, $this->type, $this->protocol)) === false) {
-      throw new JException("Unable to create Socket. PHP said, " . $this->getLastError(), socket_last_error());
-	  }
+		if(($this->link = socket_create($this->domain, $this->type, $this->protocol)) === false) {
+			throw new JException("Unable to create Socket. PHP said, " . $this->getLastError(), socket_last_error());
+		}
 	}
 	/**
-	 * At destruct, close the socket
-	 */
+	* At destruct, close the socket
+	*/
 	public function __destruct() {
-	  @$this->close();
+		@$this->close();
 	}
 	/**
-	 * Closes the listening socket
-	 * 
-	 * @return void
-	 */
+	* Closes the listening socket
+	* 
+	* @return void
+	*/
 	public function close() {
-	  $this->listening = false;
+		$this->listening = false;
 
-	  // @see http://www.php.net/manual/en/function.socket-close.php#66810
-	  $socketOptions = array('l_onoff' => 1, 'l_linger' => 0);
-	  socket_set_option($this->link, SOL_SOCKET, SO_LINGER, $socketOptions);
+		// @see http://www.php.net/manual/en/function.socket-close.php#66810
+		$socketOptions = array('l_onoff' => 1, 'l_linger' => 0);
+		socket_set_option($this->link, SOL_SOCKET, SO_LINGER, $socketOptions);
 
-	  socket_close($this->link);
+		socket_close($this->link);
 	}
 	/**
-	 * Sends a message to a child. Set child as "all" to send to all children.
-	 * 
-	 * @param string $message
-	 * @return void
-	 */
+	* Sends a message to a child. Set child as "all" to send to all children.
+	* 
+	* @param string $message
+	* @return void
+	*/
 	public function send($child, $message) {
-	  if($this->link === null) {
-      throw new JException("Socket not connected");
-	  }
-	  if(empty($message)) {
-      return;
-	  }
-	  if(is_string($child) && strcasecmp($child, "all") === 0) {
-      foreach($this->threads as $thread) {
-        $thread->write($message . "\n");
-      }
-	  }
-	  else {
-      $child->write($message . "\n");
-	  }
+		if($this->link === null) {
+			throw new JException("Socket not connected");
+		}
+		if(empty($message)) {
+			return;
+		}
+		if(is_string($child) && strcasecmp($child, "all") === 0) {
+			foreach($this->threads as $thread) {
+				$thread->write($message . "\n");
+			}
+		}
+		else {
+			$child->write($message . "\n");
+		}
 	}
 	/**
-	 * Terminates all active child connections
-	 *
-	 * @return void;
-	 */
+	* Terminates all active child connections
+	*
+	* @return void;
+	*/
 	public function killAll() {
-	  foreach($this->threads as $child) {
-      $child->close();
-	  }
-	  $this->listening = false;
-	  $this->close();
+		foreach($this->threads as $child) {
+			$child->close();
+		}
+		$this->listening = false;
+		$this->close();
 	}
 	/**
-	 * Returns the last error on the socket specified. If no socket is specified
-	 * the last error that occured is returned.
-	 * 
-	 * @param Resource $socket 
-	 * @return string
-	 */
+	* Returns the last error on the socket specified. If no socket is specified
+	* the last error that occured is returned.
+	* 
+	* @param Resource $socket 
+	* @return string
+	*/
 	public function getLastError($socket = null) {
-	  if(empty($socket)) {
-      return socket_strerror(socket_last_error());
-	  }
-	  else {
-      return socket_strerror(socket_last_error($socket));
-	  }
+		if(empty($socket)) {
+			return socket_strerror(socket_last_error());
+		}
+		else {
+			return socket_strerror(socket_last_error($socket));
+		}
 	}
 }
