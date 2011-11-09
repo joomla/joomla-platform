@@ -1225,6 +1225,18 @@ class JLanguage extends JObject
 	}
 
 	/**
+	 * Get the language code of lanagugae instance
+	 *
+	 * @return  string  Previous value.
+	 *
+	 * @since   11.3
+	 */
+	public function getLanguage()
+	{
+		return $this->lang;
+	}
+
+	/**
 	 * Get the language locale based on current language.
 	 *
 	 * @return  array  The locale according to the language.
