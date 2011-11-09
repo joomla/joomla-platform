@@ -84,7 +84,8 @@ abstract class JFolder
 				$files[] = $file;
 			}
 			closedir($dh);
-			foreach ($files as $file) {
+			foreach ($files as $file)
+			{
 				$sfid = $src . '/' . $file;
 				$dfid = $dest . '/' . $file;
 				switch (filetype($sfid))
@@ -124,7 +125,8 @@ abstract class JFolder
 				$files[] = $file;
 			}
 			closedir($dh);
-			foreach ($files as $file) {
+			foreach ($files as $file)
+			{
 				$sfid = $src . '/' . $file;
 				$dfid = $dest . '/' . $file;
 				switch (filetype($sfid))
@@ -587,13 +589,17 @@ abstract class JFolder
 				$fullpath = $path . '/' . $file;
 
 				// Compute the isDir flag
-				if (is_dir($fullpath)) {
-					if (!$findfiles && preg_match("/$filter/", $file) || $recurse) {
+				if (is_dir($fullpath))
+				{
+					if (!$findfiles && preg_match("/$filter/", $file) || $recurse)
+					{
 						$folders[$file] = $fullpath;
 					}
 				}
-				else {
-					if ($findfiles && preg_match("/$filter/", $file)) {
+				else
+				{
+					if ($findfiles && preg_match("/$filter/", $file))
+					{
 						$files[$file] = $fullpath;
 					}
 				}
@@ -603,12 +609,15 @@ abstract class JFolder
 
 		// Add current files
 		ksort($files);
-		foreach ($files as $file=>$fullpath) {
-			if ($full) {
+		foreach ($files as $file=>$fullpath)
+		{
+			if ($full)
+			{
 				// Full path is requested
 				$arr[] = $fullpath;
 			}
-			else {
+			else
+			{
 				// Filename is requested
 				$arr[] = $file;
 			}
@@ -616,24 +625,31 @@ abstract class JFolder
 
 		// scan folders
 		ksort($folders);
-		foreach ($folders as $file=>$fullpath) {
-			if (!$findfiles && preg_match("/$filter/", $file) ) {
-				if ($full) {
+		foreach ($folders as $file=>$fullpath)
+		{
+			if (!$findfiles && preg_match("/$filter/", $file) )
+			{
+				if ($full)
+				{
 					// Full path is requested
 					$arr[] = $fullpath;
 				}
-				else {
+				else
+				{
 					// Folder is requested
 					$arr[] = $file;
 				}
 			}
-			if ($recurse) {
+			if ($recurse)
+			{
 				// Search recursively
-				if (is_integer($recurse)) {
+				if (is_integer($recurse))
+				{
 					// Until depth 0 is reached
 					$arr = array_merge($arr, self::_items($fullpath, $filter, $recurse - 1, $full, $exclude, $excludefilter_string, $findfiles));
 				}
-				else {
+				else
+				{
 					$arr = array_merge($arr, self::_items($fullpath, $filter, $recurse, $full, $exclude, $excludefilter_string, $findfiles));
 				}
 			}
