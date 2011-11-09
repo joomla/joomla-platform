@@ -24,13 +24,29 @@ class JPathway extends JObject
 	 * @var    array  Array to hold the pathway item objects
 	 * @since  11.1
 	 */
-	protected $_pathway = null;
+	protected $pathway = null;
 
 	/**
 	 * @var    integer  Integer number of items in the pathway
 	 * @since  11.1
 	 */
+	protected $count = 0;
+
+	// @codingStandardsIgnoreStart
+	/**
+	 * @var    array  Array to hold the pathway item objects
+	 * @since  11.1
+	 * @deprecated X - use $pathway
+	 */
+	protected $_pathway = null;
+
+	/**
+	 * @var    integer  Integer number of items in the pathway
+	 * @since  11.1
+	 * @deprecated X - use $count
+	 */
 	protected $_count = 0;
+	// @codingStandardsIgnoreEnd
 
 	/**
 	 * @var    array  JPathway instances container.
@@ -48,7 +64,7 @@ class JPathway extends JObject
 	function __construct($options = array())
 	{
 		//Initialise the array
-		$this->_pathway = array();
+		$this->pathway = array();
 	}
 
 	/**
@@ -98,7 +114,7 @@ class JPathway extends JObject
 	 */
 	public function getPathway()
 	{
-		$pw = $this->_pathway;
+		$pw = $this->pathway;
 
 		// Use array_values to reset the array keys numerically
 		return array_values($pw);
@@ -115,11 +131,11 @@ class JPathway extends JObject
 	 */
 	public function setPathway($pathway)
 	{
-		$oldPathway = $this->_pathway;
+		$oldPathway = $this->pathway;
 		$pathway = (array) $pathway;
 
 		// Set the new pathway.
-		$this->_pathway = array_values($pathway);
+		$this->pathway = array_values($pathway);
 
 		return array_values($oldPathway);
 	}
@@ -137,7 +153,7 @@ class JPathway extends JObject
 		$names = array(null);
 
 		// Build the names array using just the names of each pathway item
-		foreach ($this->_pathway as $item)
+		foreach ($this->pathway as $item)
 		{
 			$names[] = $item->name;
 		}
@@ -161,10 +177,10 @@ class JPathway extends JObject
 		// Initialize variables
 		$ret = false;
 
-		if ($this->_pathway[] = $this->_makeItem($name, $link))
+		if ($this->pathway[] = $this->makeItem($name, $link))
 		{
 			$ret = true;
-			$this->_count++;
+			$this->count++;
 		}
 
 		return $ret;
@@ -185,9 +201,9 @@ class JPathway extends JObject
 		// Initialize variables
 		$ret = false;
 
-		if (isset($this->_pathway[$id]))
+		if (isset($this->pathway[$id]))
 		{
-			$this->_pathway[$id]->name = $name;
+			$this->pathway[$id]->name = $name;
 			$ret = true;
 		}
 
@@ -204,7 +220,7 @@ class JPathway extends JObject
 	 *
 	 * @since   11.1
 	 */
-	protected function _makeItem($name, $link)
+	protected function makeItem($name, $link)
 	{
 		$item = new stdClass;
 		$item->name = html_entity_decode($name, ENT_COMPAT, 'UTF-8');
@@ -212,4 +228,22 @@ class JPathway extends JObject
 
 		return $item;
 	}
+
+	// @codingStandardsIgnoreStart
+	/**
+	 * Create and return a new pathway object.
+	 *
+	 * @param   string  $name  Name of the item
+	 * @param   string  $link  Link to the item
+	 *
+	 * @return  JPathway  Pathway item object
+	 *
+	 * @since   11.1
+	 * @deprecated X - use makeItem()
+	 */
+	protected function _makeItem($name, $link)
+	{
+		return $this->makeItem($name, $link);
+	}
+	// @codingStandardsIgnoreEnd
 }
