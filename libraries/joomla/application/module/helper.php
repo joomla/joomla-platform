@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.application.component.helper');
 
@@ -488,7 +488,7 @@ abstract class JModuleHelper
 			case 'static':
 				$ret = $cache->get(
 					array($cacheparams->class,
-					$cacheparams->method),
+						$cacheparams->method),
 					$cacheparams->methodparams,
 					$module->module . md5(serialize($cacheparams->methodparams)),
 					$wrkarounds,

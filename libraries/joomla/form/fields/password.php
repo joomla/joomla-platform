@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.form.formfield');
 
@@ -71,7 +71,7 @@ class JFormFieldPassword extends JFormField
 		$onchange	= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
 		return '<input type="password" name="' . $this->name . '" id="' . $this->id . '"' .
-				' value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' .
-				$auto . $class . $readonly . $disabled . $size . $maxLength . '/>' . $script;
+			' value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' .
+			$auto . $class . $readonly . $disabled . $size . $maxLength . '/>' . $script;
 	}
 }

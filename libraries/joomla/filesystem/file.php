@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.path');
 
@@ -492,7 +492,8 @@ class JFile
 			else
 			{
 				if (is_writeable($baseDir) && move_uploaded_file($src, $dest))
-				{ // Short circuit to prevent file permission errors
+				{
+					// Short circuit to prevent file permission errors
 					if (JPath::setPermissions($dest))
 					{
 						$ret = true;
