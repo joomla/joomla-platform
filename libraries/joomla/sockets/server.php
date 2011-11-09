@@ -1,13 +1,13 @@
 <?php
 /**
- * @version				$Id: 
- * @package				Joomla.Platform
- * @subpackage		JSockets
- * @copyright			Copyright (C) 1996 - 2011 Matware - All rights reserved.
- * @author				Matias Aguirre
- * @email					maguirre@matware.com.ar
- * @link					http://www.matware.com.ar/
- * @license				GNU/GPL http://www.gnu.org/licenses/gpl-2.0-standalone.html
+ * @version       $Id: 
+ * @package       Joomla.Platform
+ * @subpackage    JSockets
+ * @copyright     Copyright (C) 1996 - 2011 Matware - All rights reserved.
+ * @author        Matias Aguirre
+ * @email         maguirre@matware.com.ar
+ * @link          http://www.matware.com.ar/
+ * @license       GNU/GPL http://www.gnu.org/licenses/gpl-2.0-standalone.html
  */
 defined('JPATH_PLATFORM') or die;
 
