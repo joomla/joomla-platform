@@ -35,15 +35,47 @@ class JTreeTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @todo Implement testAddChild().
+	 * Test JTree::__construct().
+	 */
+	public function test__construct() {
+		$this->assertInstanceOf(
+			'JNode',
+			$this->object->get('_root')
+		);
+		
+		$this->assertThat(
+			$this->object->get('_root'),
+			$this->equalTo($this->object->get('_current'))
+		);
+	}
+	
+	/**
+	 * Test JTree::addChild().
 	 */
 	public function testAddChild() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$node = new JNode('node1');
+		
+		$this->object->addChild($node);
+		
+		$this->assertTrue(
+			in_array($node, $this->object->get('_current')->get('_children'))
+		);
+		
+		$node2 = new JNode('node2');
+		$this->object->addChild($node, true);
+		
+		$this->assertThat(
+			$this->object->get('_current'),
+			$this->equalTo($node2)
+		);
+		
+		$this->assertTrue(
+			in_array($node2, $this->object->get('_current')->getParent()->getChildren())
+		);
 	}
 
 	/**
-	 * @todo Implement testGetParent().
+	 * Test JTree::getParent().
 	 */
 	public function testGetParent() {
 		// Remove the following lines when you implement this test.
