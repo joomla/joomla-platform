@@ -70,12 +70,12 @@ abstract class JTable extends JObject
 	protected $_locked = false;
 
 	/**
-	 * Source used when the bind method is called
+	 * Sources used when the bind method is called
 	 *
-	 * @var    array|object|null
+	 * @var    array
 	 * @since  11.3
 	 */
-	protected $_source = null;
+	protected $_sources = array();
 
 	/**
 	 * Object constructor to set table and key fields.  In most cases this will
@@ -408,6 +408,9 @@ abstract class JTable extends JObject
 	 */
 	public function reset()
 	{
+		// Reset the sources
+		$this->_sources = array();
+
 		// Get the default values for the class from the table.
 		foreach ($this->getFields() as $k => $v)
 		{
@@ -424,12 +427,12 @@ abstract class JTable extends JObject
 	 *
 	 * @return  array|object|null  Return null if the bind method has not been called.
 	 *
-	 * @link    http://docs.joomla.org/JTable/getSource
+	 * @link    http://docs.joomla.org/JTable/getSources
 	 * @since   11.3
 	 */
-	public function getSource()
+	public function getSources()
 	{
-		return $this->_source;
+		return $this->_sources;
 	}
 
 	/**
@@ -455,8 +458,8 @@ abstract class JTable extends JObject
 			return false;
 		}
 
-		// Set the source of the bind
-		$this->_source = $src;
+		// Add the source of the bind
+		$this->_sources[] = $src;
 
 		// If the source value is an object, get its accessible properties.
 		if (is_object($src))

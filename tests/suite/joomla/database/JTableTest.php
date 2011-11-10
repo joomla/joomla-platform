@@ -18,9 +18,9 @@ class JTableTest extends PHPUnit_Framework_TestCase {
 	 *
 	 * @since   11.3
 	 */
-	public function getGetSourceData()
+	public function getGetSourcesData()
 	{
-		return JTableTest_DataSet::getGetSourceTest();
+		return JTableTest_DataSet::getGetSourcesTest();
 	}
 
 	/**
@@ -119,19 +119,19 @@ class JTableTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Method that returns the source of a bind
+	 * Method that returns the sources of a bind
 	 *
-	 * @dataProvider  getGetSourceData
+	 * @dataProvider  getGetSourcesData
 	 * @since   11.3
 	 */
-	public function testGetSource($source, $value)
+	public function testGetSources($source, $value)
 	{
 		$mockTable = $this->getMock('JTable', null, array(), '', false);
 		$mockTable->bind($source);
 		$this->assertEquals(
 			$value,
-			$mockTable->getSource(),
-			'Line:'.__LINE__.' getSource has not been set to its value when calling bind.'
+			$mockTable->getSources(),
+			'Line:'.__LINE__.' getSources has not been set to its value when calling bind.'
 		);
 	}
 

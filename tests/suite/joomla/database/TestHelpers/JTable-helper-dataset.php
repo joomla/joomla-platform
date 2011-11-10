@@ -9,21 +9,21 @@
 
 class JTableTest_DataSet
 {
-	public static function getGetSourceTest()
+	public static function getGetSourcesTest()
 	{
 		return array(
 			 // array($src, $expected)
 			array(
 				array('attribute'=>'value'),
-				array('attribute'=>'value')
+				array(array('attribute'=>'value'))
 			),
 			array(
 				(object) array('attribute'=>'value'),
-				(object) array('attribute'=>'value')
+				array((object) array('attribute'=>'value'))
 			),
 			array(
 				'incorrect',
-				null
+				array()
 			),
 		);
 	}
