@@ -194,7 +194,6 @@ abstract class JLoader
 			include_once self::$classes[$class];
 			return true;
 		}
-	}
 
 		return false;
 	}
