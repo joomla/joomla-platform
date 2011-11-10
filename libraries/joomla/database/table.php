@@ -75,7 +75,7 @@ abstract class JTable extends JObject
 	 * @var    array
 	 * @since  11.3
 	 */
-	protected $_sources = array();
+	private $_sources = array();
 
 	/**
 	 * Object constructor to set table and key fields.  In most cases this will
