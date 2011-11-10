@@ -102,7 +102,7 @@ class JDatabasePostgreSQLMock extends JDatabaseGlobalMock
 		// Mock selected methods.
 		$test->assignMockReturns(
 			$mockObject, array(
-				'getNullDate' => '1970-01-01 00:00:00+00'
+				'getNullDate' => '1970-01-01 00:00:00'
 			)
 		);
 
@@ -130,7 +130,7 @@ class JDatabasePostgreSQLMock extends JDatabaseGlobalMock
 	 */
 	public function mockQuote($value)
 	{
-		return "'$value'";
+		return '\'$value\'';
 	}
 
 	/**
@@ -144,6 +144,6 @@ class JDatabasePostgreSQLMock extends JDatabaseGlobalMock
 	 */
 	public function mockQuoteName($value)
 	{
-		return "'$value'";
+		return '"$value"';
 	}
 }
