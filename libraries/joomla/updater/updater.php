@@ -27,6 +27,12 @@ jimport('joomla.log.log');
 class JUpdater extends JAdapter
 {
 	/**
+	 * @var    JUpdater  JUpdater instance container.
+	 * @since  11.3
+	 */
+	protected static $instance;
+
+	/**
 	 * Constructor
 	 *
 	 * @since   11.1
@@ -47,12 +53,11 @@ class JUpdater extends JAdapter
 	 */
 	public static function &getInstance()
 	{
-		static $instance;
-
-		if (!isset($instance)) {
-			$instance = new JUpdater;
+		if (!isset(self::$instance))
+		{
+			self::$instance = new JUpdater;
 		}
-		return $instance;
+		return self::$instance;
 	}
 
 	/**

@@ -86,6 +86,12 @@ class JAuthentication extends JObservable
 	const STATUS_UNKNOWN = 32;
 
 	/**
+	 * @var    JAuthentication  JAuthentication instances container.
+	 * @since  11.3
+	 */
+	protected static $instance;
+
+	/**
 	 * Constructor
 	 *
 	 * @since   11.1
@@ -109,17 +115,12 @@ class JAuthentication extends JObservable
 	 */
 	public static function getInstance()
 	{
-		static $instances;
-
-		if (!isset($instances)) {
-			$instances = array();
+		if (empty(self::$instance))
+		{
+			self::$instance = new JAuthentication;
 		}
 
-		if (empty($instances[0])) {
-			$instances[0] = new JAuthentication;
-		}
-
-		return $instances[0];
+		return self::$instance;
 	}
 
 	/**

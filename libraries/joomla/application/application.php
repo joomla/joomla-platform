@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.application.input');
 jimport('joomla.event.dispatcher');
@@ -85,6 +85,12 @@ class JApplication extends JObject
 	public $input = null;
 
 	/**
+	 * @var    array  JApplication instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   array  $config  A configuration array including optional elements such as session
@@ -155,13 +161,8 @@ class JApplication extends JObject
 	 */
 	public static function getInstance($client, $config = array(), $prefix = 'J')
 	{
-		static $instances;
-
-		if (!isset($instances)) {
-			$instances = array();
-		}
-
-		if (empty($instances[$client])) {
+		if (empty(self::$instances[$client]))
+		{
 			// Load the router object.
 			jimport('joomla.application.helper');
 			$info = JApplicationHelper::getClientInfo($client, true);
@@ -179,10 +180,10 @@ class JApplication extends JObject
 				return $error;
 			}
 
-			$instances[$client] = &$instance;
+			self::$instances[$client] = &$instance;
 		}
 
-		return $instances[$client];
+		return self::$instances[$client];
 	}
 
 	/**
