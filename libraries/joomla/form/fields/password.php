@@ -54,8 +54,7 @@ class JFormFieldPassword extends JFormField
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
 		$script = '';
-		if ($meter)
-		{
+		if ($meter) {
 			JHtml::_('script', 'system/passwordstrength.js', true, true);
 			$script = '<script type="text/javascript">new Form.PasswordStrength("' . $this->id . '",
 				{

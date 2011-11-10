@@ -84,15 +84,13 @@ class JLogEntry
 		$this->message = (string) $message;
 
 		// Sanitize the priority.
-		if (!in_array($priority, $this->priorities, true))
-		{
+		if (!in_array($priority, $this->priorities, true)) {
 			$priority = JLog::INFO;
 		}
 		$this->priority = $priority;
 
 		// Sanitize category if it exists.
-		if (!empty($category))
-		{
+		if (!empty($category)) {
 			$this->category = (string) strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $category));
 		}
 

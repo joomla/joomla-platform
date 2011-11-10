@@ -214,38 +214,31 @@ class JDocument extends JObject
 	{
 		parent::__construct();
 
-		if (array_key_exists('lineend', $options))
-		{
+		if (array_key_exists('lineend', $options)) {
 			$this->setLineEnd($options['lineend']);
 		}
 
-		if (array_key_exists('charset', $options))
-		{
+		if (array_key_exists('charset', $options)) {
 			$this->setCharset($options['charset']);
 		}
 
-		if (array_key_exists('language', $options))
-		{
+		if (array_key_exists('language', $options)) {
 			$this->setLanguage($options['language']);
 		}
 
-		if (array_key_exists('direction', $options))
-		{
+		if (array_key_exists('direction', $options)) {
 			$this->setDirection($options['direction']);
 		}
 
-		if (array_key_exists('tab', $options))
-		{
+		if (array_key_exists('tab', $options)) {
 			$this->setTab($options['tab']);
 		}
 
-		if (array_key_exists('link', $options))
-		{
+		if (array_key_exists('link', $options)) {
 			$this->setLink($options['link']);
 		}
 
-		if (array_key_exists('base', $options))
-		{
+		if (array_key_exists('base', $options)) {
 			$this->setBase($options['base']);
 		}
 	}
@@ -272,8 +265,7 @@ class JDocument extends JObject
 			$ntype = null;
 
 			// Check if the document type exists
-			if (!file_exists($path))
-			{
+			if (!file_exists($path)) {
 				// Default to the raw format
 				$ntype = $type;
 				$type = 'raw';
@@ -281,15 +273,12 @@ class JDocument extends JObject
 
 			// Determine the path and class
 			$class = 'JDocument' . $type;
-			if (!class_exists($class))
-			{
+			if (!class_exists($class)) {
 				$path = dirname(__FILE__) . '/' . $type . '/' . $type . '.php';
-				if (file_exists($path))
-				{
+				if (file_exists($path)) {
 					require_once $path;
 				}
-				else
-				{
+				else {
 					JError::raiseError(500, JText::_('JLIB_DOCUMENT_ERROR_UNABLE_LOAD_DOC_CLASS'));
 				}
 			}
@@ -297,8 +286,7 @@ class JDocument extends JObject
 			$instance = new $class($attributes);
 			self::$instances[$signature] = &$instance;
 
-			if (!is_null($ntype))
-			{
+			if (!is_null($ntype)) {
 				// Set the type to the Document type originally requested
 				$instance->setType($ntype);
 			}
@@ -378,22 +366,17 @@ class JDocument extends JObject
 	{
 		$result = '';
 		$name = strtolower($name);
-		if ($name == 'generator')
-		{
+		if ($name == 'generator') {
 			$result = $this->getGenerator();
 		}
-		elseif ($name == 'description')
-		{
+		elseif ($name == 'description') {
 			$result = $this->getDescription();
 		}
-		else
-		{
-			if ($httpEquiv == true)
-			{
+		else {
+			if ($httpEquiv == true) {
 				$result = @$this->_metaTags['http-equiv'][$name];
 			}
-			else
-			{
+			else {
 				$result = @$this->_metaTags['standard'][$name];
 			}
 		}
@@ -417,28 +400,22 @@ class JDocument extends JObject
 	{
 		$name = strtolower($name);
 
-		if ($name == 'generator')
-		{
+		if ($name == 'generator') {
 			$this->setGenerator($content);
 		}
-		elseif ($name == 'description')
-		{
+		elseif ($name == 'description') {
 			$this->setDescription($content);
 		}
-		else
-		{
-			if ($http_equiv == true)
-			{
+		else {
+			if ($http_equiv == true) {
 				$this->_metaTags['http-equiv'][$name] = $content;
 
 				// Syncing with HTTP-header
-				if ($sync && strtolower($name) == 'content-type')
-				{
+				if ($sync && strtolower($name) == 'content-type') {
 					$this->setMimeEncoding($content, false);
 				}
 			}
-			else
-			{
+			else {
 				$this->_metaTags['standard'][$name] = $content;
 			}
 		}
@@ -479,12 +456,10 @@ class JDocument extends JObject
 	 */
 	public function addScriptDeclaration($content, $type = 'text/javascript')
 	{
-		if (!isset($this->_script[strtolower($type)]))
-		{
+		if (!isset($this->_script[strtolower($type)])) {
 			$this->_script[strtolower($type)] = $content;
 		}
-		else
-		{
+		else {
 			$this->_script[strtolower($type)] .= chr(13) . $content;
 		}
 
@@ -524,12 +499,10 @@ class JDocument extends JObject
 	 */
 	public function addStyleDeclaration($content, $type = 'text/css')
 	{
-		if (!isset($this->_style[strtolower($type)]))
-		{
+		if (!isset($this->_style[strtolower($type)])) {
 			$this->_style[strtolower($type)] = $content;
 		}
-		else
-		{
+		else {
 			$this->_style[strtolower($type)] .= chr(13) . $content;
 		}
 
@@ -811,8 +784,7 @@ class JDocument extends JObject
 		$this->_mime = strtolower($type);
 
 		// Syncing with meta-data
-		if ($sync)
-		{
+		if ($sync) {
 			$this->setMetaData('content-type', $type, true, false);
 		}
 
@@ -842,8 +814,7 @@ class JDocument extends JObject
 	 */
 	public function setLineEnd($style)
 	{
-		switch ($style)
-		{
+		switch ($style) {
 			case 'win':
 				$this->_lineEnd = "\15\12";
 				break;
@@ -913,22 +884,18 @@ class JDocument extends JObject
 	{
 		$class = 'JDocumentRenderer' . $type;
 
-		if (!class_exists($class))
-		{
+		if (!class_exists($class)) {
 			$path = dirname(__FILE__) . '/' . $this->_type . '/renderer/' . $type . '.php';
 
-			if (file_exists($path))
-			{
+			if (file_exists($path)) {
 				require_once $path;
 			}
-			else
-			{
+			else {
 				JError::raiseError(500, JText::_('Unable to load renderer class'));
 			}
 		}
 
-		if (!class_exists($class))
-		{
+		if (!class_exists($class)) {
 			return null;
 		}
 
@@ -963,8 +930,7 @@ class JDocument extends JObject
 	 */
 	public function render($cache = false, $params = array())
 	{
-		if ($mdate = $this->getModifiedDate())
-		{
+		if ($mdate = $this->getModifiedDate()) {
 			JResponse::setHeader('Last-Modified', $mdate /* gmdate('D, d M Y H:i:s', time() + 900) . ' GMT' */);
 		}
 

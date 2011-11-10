@@ -55,28 +55,23 @@ abstract class JPlugin extends JEvent
 	public function __construct(&$subject, $config = array())
 	{
 		// Get the parameters.
-		if (isset($config['params']))
-		{
-			if ($config['params'] instanceof JRegistry)
-			{
+		if (isset($config['params'])) {
+			if ($config['params'] instanceof JRegistry) {
 				$this->params = $config['params'];
 			}
-			else
-			{
+			else {
 				$this->params = new JRegistry;
 				$this->params->loadString($config['params']);
 			}
 		}
 
 		// Get the plugin name.
-		if (isset($config['name']))
-		{
+		if (isset($config['name'])) {
 			$this->_name = $config['name'];
 		}
 
 		// Get the plugin type.
-		if (isset($config['type']))
-		{
+		if (isset($config['type'])) {
 			$this->_type = $config['type'];
 		}
 
@@ -95,8 +90,7 @@ abstract class JPlugin extends JEvent
 	 */
 	public function loadLanguage($extension = '', $basePath = JPATH_ADMINISTRATOR)
 	{
-		if (empty($extension))
-		{
+		if (empty($extension)) {
 			$extension = 'plg_' . $this->_type . '_' . $this->_name;
 		}
 

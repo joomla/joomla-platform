@@ -169,8 +169,7 @@ class JUpdate extends JObject
 		// Reset the data
 		eval('$this->' . $tag . '->_data = "";');
 
-		switch ($name)
-		{
+		switch ($name) {
 			// This is a new update; create a current update
 			case 'UPDATE':
 				$this->_current_update = new stdClass;
@@ -205,32 +204,26 @@ class JUpdate extends JObject
 	public function _endElement($parser, $name)
 	{
 		array_pop($this->_stack);
-		switch ($name)
-		{
+		switch ($name) {
 			// Closing update, find the latest version and check
 			case 'UPDATE':
 				$ver = new JVersion;
 				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd'));
 				if ($product == $this->_current_update->targetplatform->name
-					&& preg_match('/' . $this->_current_update->targetplatform->version . '/', $ver->RELEASE))
-				{
-					if (isset($this->_latest))
-					{
-						if (version_compare($this->_current_update->version->_data, $this->_latest->version->_data, '>') == 1)
-						{
+					&& preg_match('/' . $this->_current_update->targetplatform->version . '/', $ver->RELEASE)) {
+					if (isset($this->_latest)) {
+						if (version_compare($this->_current_update->version->_data, $this->_latest->version->_data, '>') == 1) {
 							$this->_latest = $this->_current_update;
 						}
 					}
-					else
-					{
+					else {
 						$this->_latest = $this->_current_update;
 					}
 				}
 				break;
 			case 'UPDATES':
 				// If the latest item is set then we transfer it to where we want to
-				if (isset($this->_latest))
-				{
+				if (isset($this->_latest)) {
 					foreach (get_object_vars($this->_latest) as $key => $val)
 					{
 						$this->$key = $val;
@@ -238,8 +231,7 @@ class JUpdate extends JObject
 					unset($this->_latest);
 					unset($this->_current_update);
 				}
-				elseif (isset($this->_current_update))
-				{
+				elseif (isset($this->_current_update)) {
 					// The update might be for an older version of j!
 					unset($this->_current_update);
 				}
@@ -279,8 +271,7 @@ class JUpdate extends JObject
 	 */
 	public function loadFromXML($url)
 	{
-		if (!($fp = @fopen($url, 'r')))
-		{
+		if (!($fp = @fopen($url, 'r'))) {
 			// TODO: Add a 'mark bad' setting here somehow
 			JError::raiseWarning('101', JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url));
 			return false;
@@ -293,8 +284,7 @@ class JUpdate extends JObject
 
 		while ($data = fread($fp, 8192))
 		{
-			if (!xml_parse($this->xml_parser, $data, feof($fp)))
-			{
+			if (!xml_parse($this->xml_parser, $data, feof($fp))) {
 				die(
 					sprintf(
 						"XML error: %s at line %d", xml_error_string(xml_get_error_code($this->xml_parser)),

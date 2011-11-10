@@ -50,8 +50,7 @@ abstract class JInstallerHelper
 		// Open the remote server socket for reading
 		$inputHandle = @ fopen($url, "r");
 		$error = strstr($php_errormsg, 'failed to open stream:');
-		if (!$inputHandle)
-		{
+		if (!$inputHandle) {
 			JError::raiseWarning(42, JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $error));
 			return false;
 		}
@@ -59,20 +58,17 @@ abstract class JInstallerHelper
 		$meta_data = stream_get_meta_data($inputHandle);
 		foreach ($meta_data['wrapper_data'] as $wrapper_data)
 		{
-			if (substr($wrapper_data, 0, strlen("Content-Disposition")) == "Content-Disposition")
-			{
+			if (substr($wrapper_data, 0, strlen("Content-Disposition")) == "Content-Disposition") {
 				$contentfilename = explode("\"", $wrapper_data);
 				$target = $contentfilename[1];
 			}
 		}
 
 		// Set the target path if not given
-		if (!$target)
-		{
+		if (!$target) {
 			$target = $config->get('tmp_path') . '/' . self::getFilenameFromURL($url);
 		}
-		else
-		{
+		else {
 			$target = $config->get('tmp_path') . '/' . basename($target);
 		}
 
@@ -82,8 +78,7 @@ abstract class JInstallerHelper
 		while (!feof($inputHandle))
 		{
 			$contents .= fread($inputHandle, 4096);
-			if ($contents === false)
-			{
+			if ($contents === false) {
 				JError::raiseWarning(44, JText::sprintf('JLIB_INSTALLER_ERROR_FAILED_READING_NETWORK_RESOURCES', $php_errormsg));
 				return false;
 			}
@@ -130,8 +125,7 @@ abstract class JInstallerHelper
 		// Do the unpacking of the archive
 		$result = JArchive::extract($archivename, $extractdir);
 
-		if ($result === false)
-		{
+		if ($result === false) {
 			return false;
 		}
 
@@ -151,10 +145,8 @@ abstract class JInstallerHelper
 		 */
 		$dirList = array_merge(JFolder::files($extractdir, ''), JFolder::folders($extractdir, ''));
 
-		if (count($dirList) == 1)
-		{
-			if (JFolder::exists($extractdir . '/' . $dirList[0]))
-			{
+		if (count($dirList) == 1) {
+			if (JFolder::exists($extractdir . '/' . $dirList[0])) {
 				$extractdir = JPath::clean($extractdir . '/' . $dirList[0]);
 			}
 		}
@@ -169,12 +161,10 @@ abstract class JInstallerHelper
 		 * Get the extension type and return the directory/type array on success or
 		 * false on fail.
 		 */
-		if ($retval['type'] = self::detectType($extractdir))
-		{
+		if ($retval['type'] = self::detectType($extractdir)) {
 			return $retval;
 		}
-		else
-		{
+		else {
 			return false;
 		}
 	}
@@ -193,21 +183,18 @@ abstract class JInstallerHelper
 		// Search the install dir for an XML file
 		$files = JFolder::files($p_dir, '\.xml$', 1, true);
 
-		if (!count($files))
-		{
+		if (!count($files)) {
 			JError::raiseWarning(1, JText::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'));
 			return false;
 		}
 
 		foreach ($files as $file)
 		{
-			if (!$xml = JFactory::getXML($file))
-			{
+			if (!$xml = JFactory::getXML($file)) {
 				continue;
 			}
 
-			if ($xml->getName() != 'install' && $xml->getName() != 'extension')
-			{
+			if ($xml->getName() != 'install' && $xml->getName() != 'extension') {
 				unset($xml);
 				continue;
 			}
@@ -235,8 +222,7 @@ abstract class JInstallerHelper
 	 */
 	public static function getFilenameFromURL($url)
 	{
-		if (is_string($url))
-		{
+		if (is_string($url)) {
 			$parts = explode('/', $url);
 			return $parts[count($parts) - 1];
 		}
@@ -258,18 +244,15 @@ abstract class JInstallerHelper
 		$config = JFactory::getConfig();
 
 		// Does the unpacked extension directory exist?
-		if (is_dir($resultdir))
-		{
+		if (is_dir($resultdir)) {
 			JFolder::delete($resultdir);
 		}
 
 		// Is the package file a valid file?
-		if (is_file($package))
-		{
+		if (is_file($package)) {
 			JFile::delete($package);
 		}
-		elseif (is_file(JPath::clean($config->get('tmp_path') . '/' . $package)))
-		{
+		elseif (is_file(JPath::clean($config->get('tmp_path') . '/' . $package))) {
 			// It might also be just a base filename
 			JFile::delete(JPath::clean($config->get('tmp_path') . '/' . $package));
 		}

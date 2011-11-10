@@ -77,62 +77,52 @@ class JInstallerPackage extends JAdapterInstance
 
 		// Get the component description
 		$description = (string) $this->manifest->description;
-		if ($description)
-		{
+		if ($description) {
 			$this->parent->set('message', JText::_($description));
 		}
-		else
-		{
+		else {
 			$this->parent->set('message', '');
 		}
 
 		// Set the installation path
 		$files = $this->manifest->files;
 		$group = (string) $this->manifest->packagename;
-		if (!empty($group))
-		{
+		if (!empty($group)) {
 			// TODO: Remark this location
 			$this->parent->setPath('extension_root', JPATH_ROOT . '/packages/' . implode(DS, explode('/', $group)));
 		}
-		else
-		{
+		else {
 			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_PACK', JText::_('JLIB_INSTALLER_' . strtoupper($this->route))));
 			return false;
 		}
 
 		// Filesystem Processing Section
 
-		if ($folder = $files->attributes()->folder)
-		{
+		if ($folder = $files->attributes()->folder) {
 			$source = $this->parent->getPath('source') . '/' . $folder;
 		}
-		else
-		{
+		else {
 			$source = $this->parent->getPath('source');
 		}
 
 		// Install all necessary files
-		if (count($this->manifest->files->children()))
-		{
+		if (count($this->manifest->files->children())) {
 			foreach ($this->manifest->files->children() as $child)
 			{
 				$file = $source . '/' . $child;
 				jimport('joomla.installer.helper');
-				if (is_dir($file))
-				{
+				if (is_dir($file)) {
 					// If it's actually a directory then fill it up
 					$package = array();
 					$package['dir'] = $file;
 					$package['type'] = JInstallerHelper::detectType($file);
 				}
-				else
-				{
+				else {
 					// If it's an archive
 					$package = JInstallerHelper::unpack($file);
 				}
 				$tmpInstaller = new JInstaller;
-				if (!$tmpInstaller->install($package['dir']))
-				{
+				if (!$tmpInstaller->install($package['dir'])) {
 					$this->parent->abort(
 						JText::sprintf(
 							'JLIB_INSTALLER_ABORT_PACK_INSTALL_ERROR_EXTENSION', JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
@@ -143,8 +133,7 @@ class JInstallerPackage extends JAdapterInstance
 				}
 			}
 		}
-		else
-		{
+		else {
 			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_FILES', JText::_('JLIB_INSTALLER_' . strtoupper($this->route))));
 			return false;
 		}
@@ -156,12 +145,10 @@ class JInstallerPackage extends JAdapterInstance
 
 		$row = JTable::getInstance('extension');
 		$eid = $row->find(array('element' => strtolower($this->get('element')), 'type' => 'package'));
-		if ($eid)
-		{
+		if ($eid) {
 			$row->load($eid);
 		}
-		else
-		{
+		else {
 			$row->name = $this->get('name');
 			$row->type = 'package';
 			$row->element = $this->get('element');
@@ -178,8 +165,7 @@ class JInstallerPackage extends JAdapterInstance
 		// Update the manifest cache for the entry
 		$row->manifest_cache = $this->parent->generateManifestCache();
 
-		if (!$row->store())
-		{
+		if (!$row->store()) {
 			// Install failed, roll back changes
 			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_PACK_INSTALL_ROLLBACK', $row->getError()));
 			return false;
@@ -192,8 +178,7 @@ class JInstallerPackage extends JAdapterInstance
 		$manifest['src'] = $this->parent->getPath('manifest');
 		$manifest['dest'] = JPATH_MANIFESTS . '/packages/' . basename($this->parent->getPath('manifest'));
 
-		if (!$this->parent->copyFiles(array($manifest), true))
-		{
+		if (!$this->parent->copyFiles(array($manifest), true)) {
 			// Install failed, rollback changes
 			$this->parent->abort(
 				JText::sprintf('JLIB_INSTALLER_ABORT_PACK_INSTALL_COPY_SETUP', JText::_('JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_FILES'))
@@ -237,8 +222,7 @@ class JInstallerPackage extends JAdapterInstance
 		$row = JTable::getInstance('extension');
 		$row->load($id);
 
-		if ($row->protected)
-		{
+		if ($row->protected) {
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_WARNCOREPACK'));
 			return false;
 		}
@@ -250,8 +234,7 @@ class JInstallerPackage extends JAdapterInstance
 		$this->parent->setPath('extension_root', JPATH_MANIFESTS . '/packages/' . $manifest->packagename);
 
 		// Because packages may not have their own folders we cannot use the standard method of finding an installation manifest
-		if (!file_exists($manifestFile))
-		{
+		if (!file_exists($manifestFile)) {
 			// TODO: Fail?
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_MISSINGMANIFEST'));
 			return false;
@@ -261,8 +244,7 @@ class JInstallerPackage extends JAdapterInstance
 		$xml = JFactory::getXML($manifestFile);
 
 		// If we cannot load the XML file return false
-		if (!$xml)
-		{
+		if (!$xml) {
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_LOAD_MANIFEST'));
 			return false;
 		}
@@ -272,8 +254,7 @@ class JInstallerPackage extends JAdapterInstance
 		 * @todo: Remove backwards compatibility in a future version
 		 * Should be 'extension', but for backward compatibility we will accept 'install'.
 		 */
-		if ($xml->getName() != 'install' && $xml->getName() != 'extension')
-		{
+		if ($xml->getName() != 'install' && $xml->getName() != 'extension') {
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_INVALID_MANIFEST'));
 			return false;
 		}
@@ -284,16 +265,13 @@ class JInstallerPackage extends JAdapterInstance
 			$tmpInstaller = new JInstaller;
 			$id = $this->_getExtensionID($extension->type, $extension->id, $extension->client, $extension->group);
 			$client = JApplicationHelper::getClientInfo($extension->client, true);
-			if ($id)
-			{
-				if (!$tmpInstaller->uninstall($extension->type, $id, $client->id))
-				{
+			if ($id) {
+				if (!$tmpInstaller->uninstall($extension->type, $id, $client->id)) {
 					$error = true;
 					JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_NOT_PROPER', basename($extension->filename)));
 				}
 			}
-			else
-			{
+			else {
 				JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_UNKNOWN_EXTENSION'));
 			}
 		}
@@ -302,13 +280,11 @@ class JInstallerPackage extends JAdapterInstance
 		$this->parent->removeFiles($xml->languages);
 
 		// clean up manifest file after we're done if there were no errors
-		if (!$error)
-		{
+		if (!$error) {
 			JFile::delete($manifestFile);
 			$row->delete();
 		}
-		else
-		{
+		else {
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_MANIFEST_NOT_REMOVED'));
 		}
 
@@ -339,8 +315,7 @@ class JInstallerPackage extends JAdapterInstance
 		$query->where('type = ' . $db->Quote($type));
 		$query->where('element = ' . $db->Quote($id));
 
-		switch ($type)
-		{
+		switch ($type) {
 			case 'plugin':
 				// Plugins have a folder but not a client
 				$query->where('folder = ' . $db->Quote($group));
@@ -388,12 +363,10 @@ class JInstallerPackage extends JAdapterInstance
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->name = $manifest_details['name'];
 
-		try
-		{
+		try {
 			return $this->parent->extension->store();
 		}
-		catch (JException $e)
-		{
+		catch (JException $e) {
 			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_PACK_REFRESH_MANIFEST_CACHE'));
 			return false;
 		}

@@ -96,8 +96,7 @@ class JEditor extends JObservable
 	public function initialise()
 	{
 		//check if editor is already loaded
-		if (is_null(($this->_editor)))
-		{
+		if (is_null(($this->_editor))) {
 			return;
 		}
 
@@ -108,8 +107,7 @@ class JEditor extends JObservable
 
 		foreach ($results as $result)
 		{
-			if (trim($result))
-			{
+			if (trim($result)) {
 				//$return .= $result;
 				$return = $result;
 			}
@@ -145,8 +143,7 @@ class JEditor extends JObservable
 		$this->_loadEditor($params);
 
 		// Check whether editor is already loaded
-		if (is_null(($this->_editor)))
-		{
+		if (is_null(($this->_editor))) {
 			return;
 		}
 
@@ -172,8 +169,7 @@ class JEditor extends JObservable
 
 		foreach ($results as $result)
 		{
-			if (trim($result))
-			{
+			if (trim($result)) {
 				$return .= $result;
 			}
 		}
@@ -194,8 +190,7 @@ class JEditor extends JObservable
 		$this->_loadEditor();
 
 		// Check whether editor is already loaded
-		if (is_null(($this->_editor)))
-		{
+		if (is_null(($this->_editor))) {
 			return;
 		}
 
@@ -207,8 +202,7 @@ class JEditor extends JObservable
 
 		foreach ($results as $result)
 		{
-			if (trim($result))
-			{
+			if (trim($result)) {
 				$return .= $result;
 			}
 		}
@@ -237,8 +231,7 @@ class JEditor extends JObservable
 
 		foreach ($results as $result)
 		{
-			if (trim($result))
-			{
+			if (trim($result)) {
 				$return .= $result;
 			}
 		}
@@ -269,8 +262,7 @@ class JEditor extends JObservable
 
 		foreach ($results as $result)
 		{
-			if (trim($result))
-			{
+			if (trim($result)) {
 				$return .= $result;
 			}
 		}
@@ -293,8 +285,7 @@ class JEditor extends JObservable
 	{
 		$result = array();
 
-		if (is_bool($buttons) && !$buttons)
-		{
+		if (is_bool($buttons) && !$buttons) {
 			return $result;
 		}
 
@@ -303,22 +294,19 @@ class JEditor extends JObservable
 
 		foreach ($plugins as $plugin)
 		{
-			if (is_array($buttons) && in_array($plugin->name, $buttons))
-			{
+			if (is_array($buttons) && in_array($plugin->name, $buttons)) {
 				continue;
 			}
 
 			$isLoaded = JPluginHelper::importPlugin('editors-xtd', $plugin->name, false);
 			$className = 'plgButton' . $plugin->name;
 
-			if (class_exists($className))
-			{
+			if (class_exists($className)) {
 				$plugin = new $className($this, (array) $plugin);
 			}
 
 			// Try to authenticate
-			if ($temp = $plugin->onDisplay($editor, $this->asset, $this->author))
-			{
+			if ($temp = $plugin->onDisplay($editor, $this->asset, $this->author)) {
 				$result[] = $temp;
 			}
 		}
@@ -338,8 +326,7 @@ class JEditor extends JObservable
 	protected function _loadEditor($config = array())
 	{
 		// Check whether editor is already loaded
-		if (!is_null(($this->_editor)))
-		{
+		if (!is_null(($this->_editor))) {
 			return;
 		}
 
@@ -349,11 +336,9 @@ class JEditor extends JObservable
 		$name = JFilterInput::getInstance()->clean($this->_name, 'cmd');
 		$path = JPATH_PLUGINS . '/editors/' . $name . '.php';
 
-		if (!JFile::exists($path))
-		{
+		if (!JFile::exists($path)) {
 			$path = JPATH_PLUGINS . '/editors/' . $name . '/' . $name . '.php';
-			if (!JFile::exists($path))
-			{
+			if (!JFile::exists($path)) {
 				$message = JText::_('JLIB_HTML_EDITOR_CANNOT_LOAD');
 				JError::raiseWarning(500, $message);
 				return false;
@@ -373,8 +358,7 @@ class JEditor extends JObservable
 		// Build editor plugin classname
 		$name = 'plgEditor' . $this->_name;
 
-		if ($this->_editor = new $name($this, (array) $plugin))
-		{
+		if ($this->_editor = new $name($this, (array) $plugin)) {
 			// Load plugin parameters
 			$this->initialise();
 			JPluginHelper::importPlugin('editors-xtd');

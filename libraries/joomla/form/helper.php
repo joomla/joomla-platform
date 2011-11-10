@@ -108,19 +108,16 @@ class JFormHelper
 		$class = '';
 
 		// Return an entity object if it already exists and we don't need a new one.
-		if (isset($types[$key]) && $new === false)
-		{
+		if (isset($types[$key]) && $new === false) {
 			return $types[$key];
 		}
 
-		if (($class = self::loadClass($entity, $type)) !== false)
-		{
+		if (($class = self::loadClass($entity, $type)) !== false) {
 			// Instantiate a new type object.
 			$types[$key] = new $class;
 			return $types[$key];
 		}
-		else
-		{
+		else {
 			return false;
 		}
 	}
@@ -170,8 +167,7 @@ class JFormHelper
 	protected static function loadClass($entity, $type)
 	{
 		$class = 'JForm' . ucfirst($entity) . ucfirst($type);
-		if (class_exists($class))
-		{
+		if (class_exists($class)) {
 			return $class;
 		}
 
@@ -179,8 +175,7 @@ class JFormHelper
 		$paths = JFormHelper::addPath($entity);
 
 		// If the type is complex, add the base type to the paths.
-		if ($pos = strpos($type, '_'))
-		{
+		if ($pos = strpos($type, '_')) {
 
 			// Add the complex type prefix to the paths.
 			for ($i = 0, $n = count($paths); $i < $n; $i++)
@@ -189,8 +184,7 @@ class JFormHelper
 				$path = $paths[$i] . '/' . strtolower(substr($type, 0, $pos));
 
 				// If the path does not exist, add it.
-				if (!in_array($path, $paths))
-				{
+				if (!in_array($path, $paths)) {
 					array_unshift($paths, $path);
 				}
 			}
@@ -202,11 +196,9 @@ class JFormHelper
 		$type = strtolower($type) . '.php';
 		foreach ($paths as $path)
 		{
-			if ($file = JPath::find($path, $type))
-			{
+			if ($file = JPath::find($path, $type)) {
 				require_once $file;
-				if (class_exists($class))
-				{
+				if (class_exists($class)) {
 					break;
 				}
 			}
@@ -275,8 +267,7 @@ class JFormHelper
 		$paths = &self::$paths[$entity];
 
 		// Add the default entity's search path if not set.
-		if (empty($paths))
-		{
+		if (empty($paths)) {
 			// While we support limited number of entities (form, field and rule)
 			// we can do this simple pluralisation:
 			$entity_plural = $entity . 's';
@@ -292,8 +283,7 @@ class JFormHelper
 		// Add the new paths to the stack if not already there.
 		foreach ($new as $path)
 		{
-			if (!in_array($path, $paths))
-			{
+			if (!in_array($path, $paths)) {
 				array_unshift($paths, trim($path));
 			}
 		}

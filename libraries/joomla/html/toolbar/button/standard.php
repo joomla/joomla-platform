@@ -89,12 +89,10 @@ class JButtonStandard extends JButton
 		$message = JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
 		$message = addslashes($message);
 
-		if ($list)
-		{
+		if ($list) {
 			$cmd = "if (document.adminForm.boxchecked.value==0){alert('$message');}else{ Joomla.submitbutton('$task')}";
 		}
-		else
-		{
+		else {
 			$cmd = "Joomla.submitbutton('$task')";
 		}
 

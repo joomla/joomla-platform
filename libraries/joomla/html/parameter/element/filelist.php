@@ -56,29 +56,23 @@ class JElementFilelist extends JElement
 
 		$options = array();
 
-		if (!$node->attributes('hide_none'))
-		{
+		if (!$node->attributes('hide_none')) {
 			$options[] = JHtml::_('select.option', '-1', JText::_('JOPTION_DO_NOT_USE'));
 		}
 
-		if (!$node->attributes('hide_default'))
-		{
+		if (!$node->attributes('hide_default')) {
 			$options[] = JHtml::_('select.option', '', JText::_('JOPTION_USE_DEFAULT'));
 		}
 
-		if (is_array($files))
-		{
+		if (is_array($files)) {
 			foreach ($files as $file)
 			{
-				if ($exclude)
-				{
-					if (preg_match(chr(1) . $exclude . chr(1), $file))
-					{
+				if ($exclude) {
+					if (preg_match(chr(1) . $exclude . chr(1), $file)) {
 						continue;
 					}
 				}
-				if ($stripExt)
-				{
+				if ($stripExt) {
 					$file = JFile::stripExt($file);
 				}
 				$options[] = JHtml::_('select.option', $file, $file);

@@ -34,15 +34,13 @@ class JImageFilterBrightness extends JImageFilter
 	public function execute(array $options = array())
 	{
 		// Verify that image filter support for PHP is available.
-		if (!function_exists('imagefilter'))
-		{
+		if (!function_exists('imagefilter')) {
 			JLog::add('The imagefilter function for PHP is not available.', JLog::ERROR);
 			throw new RuntimeException('The imagefilter function for PHP is not available.');
 		}
 
 		// Validate that the brightness value exists and is an integer.
-		if (!isset($options[IMG_FILTER_BRIGHTNESS]) || !is_int($options[IMG_FILTER_BRIGHTNESS]))
-		{
+		if (!isset($options[IMG_FILTER_BRIGHTNESS]) || !is_int($options[IMG_FILTER_BRIGHTNESS])) {
 			throw new InvalidArgumentException('No valid brightness value was given.  Expected integer.');
 		}
 

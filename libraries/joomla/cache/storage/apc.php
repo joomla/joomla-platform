@@ -59,16 +59,13 @@ class JCacheStorageApc extends JCacheStorage
 			$name = $key['info'];
 			$namearr = explode('-', $name);
 
-			if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
-			{
+			if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache') {
 				$group = $namearr[2];
 
-				if (!isset($data[$group]))
-				{
+				if (!isset($data[$group])) {
 					$item = new JCacheStorageHelper($group);
 				}
-				else
-				{
+				else {
 					$item = $data[$group];
 				}
 
@@ -136,8 +133,7 @@ class JCacheStorageApc extends JCacheStorage
 		foreach ($keys as $key)
 		{
 
-			if (strpos($key['info'], $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
-			{
+			if (strpos($key['info'], $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group') {
 				apc_delete($key['info']);
 			}
 		}
@@ -160,8 +156,7 @@ class JCacheStorageApc extends JCacheStorage
 
 		foreach ($keys as $key)
 		{
-			if (strpos($key['info'], $secret . '-cache-'))
-			{
+			if (strpos($key['info'], $secret . '-cache-')) {
 				apc_fetch($key['info']);
 			}
 		}
@@ -201,8 +196,7 @@ class JCacheStorageApc extends JCacheStorage
 
 		$data_lock = apc_add($cache_id, 1, $locktime);
 
-		if ($data_lock === false)
-		{
+		if ($data_lock === false) {
 
 			$lock_counter = 0;
 
@@ -210,8 +204,7 @@ class JCacheStorageApc extends JCacheStorage
 			while ($data_lock === false)
 			{
 
-				if ($lock_counter > $looptime)
-				{
+				if ($lock_counter > $looptime) {
 					$returning->locked = false;
 					$returning->locklooped = true;
 					break;

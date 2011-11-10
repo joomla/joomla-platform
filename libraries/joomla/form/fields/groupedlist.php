@@ -45,13 +45,11 @@ class JFormFieldGroupedList extends JFormField
 
 		foreach ($this->element->children() as $element)
 		{
-			switch ($element->getName())
-			{
+			switch ($element->getName()) {
 				// The element is an <option />
 				case 'option':
 					// Initialize the group if necessary.
-					if (!isset($groups[$label]))
-					{
+					if (!isset($groups[$label])) {
 						$groups[$label] = array();
 					}
 
@@ -75,14 +73,12 @@ class JFormFieldGroupedList extends JFormField
 				// The element is a <group />
 				case 'group':
 					// Get the group label.
-					if ($groupLabel = (string) $element['label'])
-					{
+					if ($groupLabel = (string) $element['label']) {
 						$label = JText::_($groupLabel);
 					}
 
 					// Initialize the group if necessary.
-					if (!isset($groups[$label]))
-					{
+					if (!isset($groups[$label])) {
 						$groups[$label] = array();
 					}
 
@@ -90,8 +86,7 @@ class JFormFieldGroupedList extends JFormField
 					foreach ($element->children() as $option)
 					{
 						// Only add <option /> elements.
-						if ($option->getName() != 'option')
-						{
+						if ($option->getName() != 'option') {
 							continue;
 						}
 
@@ -111,8 +106,7 @@ class JFormFieldGroupedList extends JFormField
 						$groups[$label][] = $tmp;
 					}
 
-					if ($groupLabel)
-					{
+					if ($groupLabel) {
 						$label = count($groups);
 					}
 					break;
@@ -156,8 +150,7 @@ class JFormFieldGroupedList extends JFormField
 		$groups = (array) $this->getGroups();
 
 		// Create a read-only list (no name) with a hidden input to store the value.
-		if ((string) $this->element['readonly'] == 'true')
-		{
+		if ((string) $this->element['readonly'] == 'true') {
 			$html[] = JHtml::_(
 				'select.groupedlist', $groups, null,
 				array(
@@ -168,8 +161,7 @@ class JFormFieldGroupedList extends JFormField
 			$html[] = '<input type="hidden" name="' . $this->name . '" value="' . $this->value . '"/>';
 		}
 		// Create a regular list.
-		else
-		{
+		else {
 			$html[] = JHtml::_(
 				'select.groupedlist', $groups, $this->name,
 				array(

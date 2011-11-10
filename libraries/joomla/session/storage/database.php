@@ -65,8 +65,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	{
 		// Get the database connection object and verify its connected.
 		$db = JFactory::getDbo();
-		if (!$db->connected())
-		{
+		if (!$db->connected()) {
 			return false;
 		}
 
@@ -95,8 +94,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	{
 		// Get the database connection object and verify its connected.
 		$db = JFactory::getDbo();
-		if (!$db->connected())
-		{
+		if (!$db->connected()) {
 			return false;
 		}
 
@@ -106,17 +104,14 @@ class JSessionStorageDatabase extends JSessionStorage
 			' SET ' . $db->quoteName('data') . ' = ' . $db->quote($data) . ',' . '	  ' . $db->quoteName('time') . ' = ' . (int) time() .
 			' WHERE ' . $db->quoteName('session_id') . ' = ' . $db->quote($id)
 		);
-		if (!$db->query())
-		{
+		if (!$db->query()) {
 			return false;
 		}
 
-		if ($db->getAffectedRows())
-		{
+		if ($db->getAffectedRows()) {
 			return true;
 		}
-		else
-		{
+		else {
 			// If the session does not exist, we need to insert the session.
 			$db->setQuery(
 				'INSERT INTO ' . $db->quoteName('#__session') .
@@ -140,8 +135,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	{
 		// Get the database connection object and verify its connected.
 		$db = JFactory::getDbo();
-		if (!$db->connected())
-		{
+		if (!$db->connected()) {
 			return false;
 		}
 
@@ -167,8 +161,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	{
 		// Get the database connection object and verify its connected.
 		$db = JFactory::getDbo();
-		if (!$db->connected())
-		{
+		if (!$db->connected()) {
 			return false;
 		}
 

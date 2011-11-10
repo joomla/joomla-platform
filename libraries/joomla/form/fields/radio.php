@@ -93,8 +93,7 @@ class JFormFieldRadio extends JFormField
 		{
 
 			// Only add <option /> elements.
-			if ($option->getName() != 'option')
-			{
+			if ($option->getName() != 'option') {
 				continue;
 			}
 

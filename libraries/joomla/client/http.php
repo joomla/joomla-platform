@@ -54,8 +54,7 @@ class JHttp
 	public function __construct($options = array())
 	{
 		// If a connection timeout is set, use it.
-		if (isset($options['timeout']))
-		{
+		if (isset($options['timeout'])) {
 			$this->timeout = $options['timeout'];
 		}
 	}
@@ -90,18 +89,15 @@ class JHttp
 		// Parse the request url.
 		$uri = JUri::getInstance($url);
 
-		try
-		{
+		try {
 			$connection = $this->connect($uri);
 		}
-		catch (Exception $e)
-		{
+		catch (Exception $e) {
 			return false;
 		}
 
 		// Send the command to the server.
-		if (!$this->sendRequest($connection, 'HEAD', $uri, null, $headers))
-		{
+		if (!$this->sendRequest($connection, 'HEAD', $uri, null, $headers)) {
 			return false;
 		}
 
@@ -124,18 +120,15 @@ class JHttp
 		// Parse the request url.
 		$uri = JUri::getInstance($url);
 
-		try
-		{
+		try {
 			$connection = $this->connect($uri);
 		}
-		catch (Exception $e)
-		{
+		catch (Exception $e) {
 			return false;
 		}
 
 		// Send the command to the server.
-		if (!$this->sendRequest($connection, 'GET', $uri, null, $headers))
-		{
+		if (!$this->sendRequest($connection, 'GET', $uri, null, $headers)) {
 			return false;
 		}
 
@@ -159,18 +152,15 @@ class JHttp
 		// Parse the request url.
 		$uri = JUri::getInstance($url);
 
-		try
-		{
+		try {
 			$connection = $this->connect($uri);
 		}
-		catch (Exception $e)
-		{
+		catch (Exception $e) {
 			return false;
 		}
 
 		// Send the command to the server.
-		if (!$this->sendRequest($connection, 'POST', $uri, $data, $headers))
-		{
+		if (!$this->sendRequest($connection, 'POST', $uri, $data, $headers)) {
 			return false;
 		}
 
@@ -194,17 +184,14 @@ class JHttp
 	protected function sendRequest($connection, $method, JUri $uri, $data = null, $headers = null)
 	{
 		// Make sure the connection is a valid resource.
-		if (is_resource($connection))
-		{
+		if (is_resource($connection)) {
 			// Make sure the connection has not timed out.
 			$meta = stream_get_meta_data($connection);
-			if ($meta['timed_out'])
-			{
+			if ($meta['timed_out']) {
 				throw new Exception('Server connection timed out.', 0);
 			}
 		}
-		else
-		{
+		else {
 			throw new Exception('Not connected to server.', 0);
 		}
 
@@ -217,14 +204,12 @@ class JHttp
 		$request[] = 'Host: ' . $uri->getHost();
 
 		// If no user agent is set use the base one.
-		if (empty($headers) || !isset($headers['User-Agent']))
-		{
+		if (empty($headers) || !isset($headers['User-Agent'])) {
 			$request[] = 'User-Agent: JHttp | JoomlaPlatform/11.3';
 		}
 
 		// If there are custom headers to send add them to the request payload.
-		if (is_array($headers))
-		{
+		if (is_array($headers)) {
 			foreach ($headers as $k => $v)
 			{
 				$request[] = $k . ': ' . $v;
@@ -232,11 +217,9 @@ class JHttp
 		}
 
 		// If we have data to send add it to the request payload.
-		if (!empty($data))
-		{
+		if (!empty($data)) {
 			// If the data is an array, build the request query string.
-			if (is_array($data))
-			{
+			if (is_array($data)) {
 				$data = http_build_query($data);
 			}
 
@@ -281,13 +264,11 @@ class JHttp
 		// Get the response code from the first offset of the response headers.
 		preg_match('/[0-9]{3}/', array_shift($headers), $matches);
 		$code = $matches[0];
-		if (is_numeric($code))
-		{
+		if (is_numeric($code)) {
 			$return->code = (int) $code;
 		}
 		// No valid response code was detected.
-		else
-		{
+		else {
 			throw new Exception('Invalid server response.', 0);
 		}
 
@@ -299,8 +280,7 @@ class JHttp
 		}
 
 		// Set the response body if it exists.
-		if (!empty($response[1]))
-		{
+		if (!empty($response[1])) {
 			$return->body = $response[1];
 		}
 
@@ -326,13 +306,11 @@ class JHttp
 		$host = ($uri->isSSL()) ? 'ssl://' . $uri->getHost() : $uri->getHost();
 
 		// If the port is not explicitly set in the URI detect it.
-		if (!$uri->getPort())
-		{
+		if (!$uri->getPort()) {
 			$port = ($uri->getScheme() == 'https') ? 443 : 80;
 		}
 		// Use the set port.
-		else
-		{
+		else {
 			$port = $uri->getPort();
 		}
 
@@ -340,20 +318,17 @@ class JHttp
 		$key = md5($host . $port);
 
 		// If the connection already exists, use it.
-		if (!empty($this->connections[$key]) && is_resource($this->connections[$key]))
-		{
+		if (!empty($this->connections[$key]) && is_resource($this->connections[$key])) {
 			// Make sure the connection has not timed out.
 			$meta = stream_get_meta_data($this->connections[$key]);
-			if (!$meta['timed_out'])
-			{
+			if (!$meta['timed_out']) {
 				return $this->connections[$key];
 			}
 		}
 
 		// Attempt to connect to the server.
 		$this->connections[$key] = fsockopen($host, $port, $errno, $err, $this->timeout);
-		if ($this->connections[$key])
-		{
+		if ($this->connections[$key]) {
 			stream_set_timeout($this->connections[$key], $this->timeout);
 		}
 

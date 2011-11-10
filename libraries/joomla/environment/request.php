@@ -112,16 +112,14 @@ class JRequest
 
 		// Ensure hash and type are uppercase
 		$hash = strtoupper($hash);
-		if ($hash === 'METHOD')
-		{
+		if ($hash === 'METHOD') {
 			$hash = strtoupper($_SERVER['REQUEST_METHOD']);
 		}
 		$type = strtoupper($type);
 		$sig = $hash . $type . $mask;
 
 		// Get the input hash
-		switch ($hash)
-		{
+		switch ($hash) {
 			case 'GET':
 				$input = &$_GET;
 				break;
@@ -146,39 +144,32 @@ class JRequest
 				break;
 		}
 
-		if (isset($GLOBALS['_JREQUEST'][$name]['SET.' . $hash]) && ($GLOBALS['_JREQUEST'][$name]['SET.' . $hash] === true))
-		{
+		if (isset($GLOBALS['_JREQUEST'][$name]['SET.' . $hash]) && ($GLOBALS['_JREQUEST'][$name]['SET.' . $hash] === true)) {
 			// Get the variable from the input hash
 			$var = (isset($input[$name]) && $input[$name] !== null) ? $input[$name] : $default;
 			$var = self::_cleanVar($var, $mask, $type);
 		}
-		elseif (!isset($GLOBALS['_JREQUEST'][$name][$sig]))
-		{
-			if (isset($input[$name]) && $input[$name] !== null)
-			{
+		elseif (!isset($GLOBALS['_JREQUEST'][$name][$sig])) {
+			if (isset($input[$name]) && $input[$name] !== null) {
 				// Get the variable from the input hash and clean it
 				$var = self::_cleanVar($input[$name], $mask, $type);
 
 				// Handle magic quotes compatibility
-				if (get_magic_quotes_gpc() && ($var != $default) && ($hash != 'FILES'))
-				{
+				if (get_magic_quotes_gpc() && ($var != $default) && ($hash != 'FILES')) {
 					$var = self::_stripSlashesRecursive($var);
 				}
 
 				$GLOBALS['_JREQUEST'][$name][$sig] = $var;
 			}
-			elseif ($default !== null)
-			{
+			elseif ($default !== null) {
 				// Clean the default value
 				$var = self::_cleanVar($default, $mask, $type);
 			}
-			else
-			{
+			else {
 				$var = $default;
 			}
 		}
-		else
-		{
+		else {
 			$var = $GLOBALS['_JREQUEST'][$name][$sig];
 		}
 
@@ -381,8 +372,7 @@ class JRequest
 		JLog::add('JRequest::setVar is deprecated.', JLog::WARNING, 'deprecated');
 
 		// If overwrite is true, makes sure the variable hasn't been set yet
-		if (!$overwrite && array_key_exists($name, $_REQUEST))
-		{
+		if (!$overwrite && array_key_exists($name, $_REQUEST)) {
 			return $_REQUEST[$name];
 		}
 
@@ -391,15 +381,13 @@ class JRequest
 
 		// Get the request hash value
 		$hash = strtoupper($hash);
-		if ($hash === 'METHOD')
-		{
+		if ($hash === 'METHOD') {
 			$hash = strtoupper($_SERVER['REQUEST_METHOD']);
 		}
 
 		$previous = array_key_exists($name, $_REQUEST) ? $_REQUEST[$name] : null;
 
-		switch ($hash)
-		{
+		switch ($hash) {
 			case 'GET':
 				$_GET[$name] = $value;
 				$_REQUEST[$name] = $value;
@@ -464,13 +452,11 @@ class JRequest
 
 		$hash = strtoupper($hash);
 
-		if ($hash === 'METHOD')
-		{
+		if ($hash === 'METHOD') {
 			$hash = strtoupper($_SERVER['REQUEST_METHOD']);
 		}
 
-		switch ($hash)
-		{
+		switch ($hash) {
 			case 'GET':
 				$input = $_GET;
 				break;
@@ -503,8 +489,7 @@ class JRequest
 		$result = self::_cleanVar($input, $mask);
 
 		// Handle magic quotes compatibility
-		if (get_magic_quotes_gpc() && ($hash != 'FILES'))
-		{
+		if (get_magic_quotes_gpc() && ($hash != 'FILES')) {
 			$result = self::_stripSlashesRecursive($result);
 		}
 
@@ -553,24 +538,20 @@ class JRequest
 		JLog::add('JRequest::checkToken is deprecated.', JLog::WARNING, 'deprecated');
 
 		$token = JUtility::getToken();
-		if (!self::getVar($token, '', $method, 'alnum'))
-		{
+		if (!self::getVar($token, '', $method, 'alnum')) {
 			$session = JFactory::getSession();
-			if ($session->isNew())
-			{
+			if ($session->isNew()) {
 				// Redirect to login screen.
 				$app = JFactory::getApplication();
 				$return = JRoute::_('index.php');
 				$app->redirect($return, JText::_('JLIB_ENVIRONMENT_SESSION_EXPIRED'));
 				$app->close();
 			}
-			else
-			{
+			else {
 				return false;
 			}
 		}
-		else
-		{
+		else {
 			return true;
 		}
 	}
@@ -596,8 +577,7 @@ class JRequest
 		self::_cleanArray($_COOKIE);
 		self::_cleanArray($_SERVER);
 
-		if (isset($_SESSION))
-		{
+		if (isset($_SESSION)) {
 			self::_cleanArray($_SESSION);
 		}
 
@@ -609,15 +589,13 @@ class JRequest
 		$ENV = $_ENV;
 		$SERVER = $_SERVER;
 
-		if (isset($_SESSION))
-		{
+		if (isset($_SESSION)) {
 			$SESSION = $_SESSION;
 		}
 
 		foreach ($GLOBALS as $key => $value)
 		{
-			if ($key != 'GLOBALS')
-			{
+			if ($key != 'GLOBALS') {
 				unset($GLOBALS[$key]);
 			}
 		}
@@ -629,8 +607,7 @@ class JRequest
 		$_ENV = $ENV;
 		$_SERVER = $SERVER;
 
-		if (isset($SESSION))
-		{
+		if (isset($SESSION)) {
 			$_SESSION = $SESSION;
 		}
 
@@ -663,12 +640,10 @@ class JRequest
 
 			// PHP Zend_Hash_Del_Key_Or_Index bug
 			$failed |= is_numeric($key);
-			if ($failed)
-			{
+			if ($failed) {
 				jexit('Illegal variable <b>' . implode('</b> or <b>', $banned) . '</b> passed to script.');
 			}
-			if ($globalise)
-			{
+			if ($globalise) {
 				$GLOBALS[$key] = $value;
 			}
 		}
@@ -697,25 +672,21 @@ class JRequest
 		JLog::add('JRequest::cleanVar is deprecated.', JLog::WARNING, 'deprecated');
 
 		// If the no trim flag is not set, trim the variable
-		if (!($mask & 1) && is_string($var))
-		{
+		if (!($mask & 1) && is_string($var)) {
 			$var = trim($var);
 		}
 
 		// Now we handle input filtering
-		if ($mask & 2)
-		{
+		if ($mask & 2) {
 			// If the allow raw flag is set, do not modify the variable
 			$var = $var;
 		}
-		elseif ($mask & 4)
-		{
+		elseif ($mask & 4) {
 			// If the allow HTML flag is set, apply a safe HTML filter to the variable
 			$safeHtmlFilter = JFilterInput::getInstance(null, null, 1, 1);
 			$var = $safeHtmlFilter->clean($var, $type);
 		}
-		else
-		{
+		else {
 			// Since no allow flags were set, we will apply the most strict filter to the variable
 			// $tags, $attr, $tag_method, $attr_method, $xss_auto use defaults.
 			$noHtmlFilter = JFilterInput::getInstance();

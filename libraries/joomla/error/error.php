@@ -98,17 +98,14 @@ abstract class JError
 		// Deprecation warning.
 		JLog::add('JError::getError() is deprecated.', JLog::WARNING, 'deprecated');
 
-		if (!isset(JError::$stack[0]))
-		{
+		if (!isset(JError::$stack[0])) {
 			return false;
 		}
 
-		if ($unset)
-		{
+		if ($unset) {
 			$error = array_shift(JError::$stack);
 		}
-		else
-		{
+		else {
 			$error = &JError::$stack[0];
 		}
 		return $error;
@@ -198,8 +195,7 @@ abstract class JError
 		static $thrown = false;
 
 		// If thrown is hit again, we've come back to JError in the middle of throwing another JError, so die!
-		if ($thrown)
-		{
+		if ($thrown) {
 			self::handleEcho($exception, array());
 			// Inifite loop.
 			jexit();
@@ -212,12 +208,10 @@ abstract class JError
 		$handler = JError::getErrorHandling($level);
 
 		$function = 'handle' . ucfirst($handler['mode']);
-		if (is_callable(array('JError', $function)))
-		{
+		if (is_callable(array('JError', $function))) {
 			$reference = call_user_func_array(array('JError', $function), array(&$exception, (isset($handler['options'])) ? $handler['options'] : array()));
 		}
-		else
-		{
+		else {
 			// This is required to prevent a very unhelpful white-screen-of-death
 			jexit(
 				'JError::raise -> Static method JError::' . $function . ' does not exist.' . ' Contact a developer to debug' .
@@ -358,36 +352,29 @@ abstract class JError
 
 		$function = 'handle' . ucfirst($mode);
 
-		if (!is_callable(array('JError', $function)))
-		{
+		if (!is_callable(array('JError', $function))) {
 			return JError::raiseError(E_ERROR, 'JError:' . JERROR_ILLEGAL_MODE, 'Error Handling mode is not known', 'Mode: ' . $mode . ' is not implemented.');
 		}
 
 		foreach ($levels as $eLevel => $eTitle)
 		{
-			if (($level & $eLevel) != $eLevel)
-			{
+			if (($level & $eLevel) != $eLevel) {
 				continue;
 			}
 
 			// Set callback options
-			if ($mode == 'callback')
-			{
-				if (!is_array($options))
-				{
+			if ($mode == 'callback') {
+				if (!is_array($options)) {
 					return JError::raiseError(E_ERROR, 'JError:' . JERROR_ILLEGAL_OPTIONS, 'Options for callback not valid');
 				}
 
-				if (!is_callable($options))
-				{
+				if (!is_callable($options)) {
 					$tmp = array('GLOBAL');
-					if (is_array($options))
-					{
+					if (is_array($options)) {
 						$tmp[0] = $options[0];
 						$tmp[1] = $options[1];
 					}
-					else
-					{
+					else {
 						$tmp[1] = $options;
 					}
 
@@ -402,8 +389,7 @@ abstract class JError
 
 			// Save settings
 			JError::$handlers[$eLevel] = array('mode' => $mode);
-			if ($options != null)
-			{
+			if ($options != null) {
 				JError::$handlers[$eLevel]['options'] = $options;
 			}
 		}
@@ -467,8 +453,7 @@ abstract class JError
 		// Deprecation warning.
 		JLog::add('JError::registerErrorLevel() is deprecated.', JLog::WARNING, 'deprecated');
 
-		if (isset(JError::$levels[$level]))
-		{
+		if (isset(JError::$levels[$level])) {
 			return false;
 		}
 
@@ -495,8 +480,7 @@ abstract class JError
 		// Deprecation warning.
 		JLog::add('JError::translateErrorLevel() is deprecated.', JLog::WARNING, 'deprecated');
 
-		if (isset(JError::$levels[$level]))
-		{
+		if (isset(JError::$levels[$level])) {
 			return JError::$levels[$level];
 		}
 
@@ -545,51 +529,41 @@ abstract class JError
 		$level_human = JError::translateErrorLevel($error->get('level'));
 
 		// If system debug is set, then output some more information.
-		if (constant('JDEBUG'))
-		{
+		if (constant('JDEBUG')) {
 			$backtrace = $error->getTrace();
 			$trace = '';
 			for ($i = count($backtrace) - 1; $i >= 0; $i--)
 			{
-				if (isset($backtrace[$i]['class']))
-				{
+				if (isset($backtrace[$i]['class'])) {
 					$trace .= sprintf("\n%s %s %s()", $backtrace[$i]['class'], $backtrace[$i]['type'], $backtrace[$i]['function']);
 				}
-				else
-				{
+				else {
 					$trace .= sprintf("\n%s()", $backtrace[$i]['function']);
 				}
 
-				if (isset($backtrace[$i]['file']))
-				{
+				if (isset($backtrace[$i]['file'])) {
 					$trace .= sprintf(' @ %s:%d', $backtrace[$i]['file'], $backtrace[$i]['line']);
 				}
 			}
 		}
 
-		if (isset($_SERVER['HTTP_HOST']))
-		{
+		if (isset($_SERVER['HTTP_HOST'])) {
 			// output as html
 			echo "<br /><b>jos-$level_human</b>: "
 				. $error->get('message') . "<br />\n"
 				. (constant('JDEBUG') ? nl2br($trace) : '');
 		}
-		else
-		{
+		else {
 			// Output as simple text
-			if (defined('STDERR'))
-			{
+			if (defined('STDERR')) {
 				fwrite(STDERR, "J$level_human: " . $error->get('message') . "\n");
-				if (constant('JDEBUG'))
-				{
+				if (constant('JDEBUG')) {
 					fwrite(STDERR, $trace);
 				}
 			}
-			else
-			{
+			else {
 				echo "J$level_human: " . $error->get('message') . "\n";
-				if (constant('JDEBUG'))
-				{
+				if (constant('JDEBUG')) {
 					echo $trace;
 				}
 			}
@@ -619,24 +593,20 @@ abstract class JError
 		$level_human = JError::translateErrorLevel($error->get('level'));
 		$info = $error->get('info');
 
-		if (isset($_SERVER['HTTP_HOST']))
-		{
+		if (isset($_SERVER['HTTP_HOST'])) {
 			// Output as html
 			echo "<br /><b>J$level_human</b>: " . $error->get('message') . "<br />\n";
 
-			if ($info != null)
-			{
+			if ($info != null) {
 				echo "&#160;&#160;&#160;" . $info . "<br />\n";
 			}
 
 			echo $error->getBacktrace(true);
 		}
-		else
-		{
+		else {
 			// Output as simple text
 			echo "J$level_human: " . $error->get('message') . "\n";
-			if ($info != null)
-			{
+			if ($info != null) {
 				echo "\t" . $info . "\n";
 			}
 
@@ -665,21 +635,17 @@ abstract class JError
 
 		$level_human = JError::translateErrorLevel($error->get('level'));
 
-		if (isset($_SERVER['HTTP_HOST']))
-		{
+		if (isset($_SERVER['HTTP_HOST'])) {
 			// Output as html
 			jexit("<br /><b>J$level_human</b>: " . $error->get('message') . "<br />\n");
 		}
-		else
-		{
+		else {
 			// Output as simple text
-			if (defined('STDERR'))
-			{
+			if (defined('STDERR')) {
 				fwrite(STDERR, "J$level_human: " . $error->get('message') . "\n");
 				jexit();
 			}
-			else
-			{
+			else {
 				jexit("J$level_human: " . $error->get('message') . "\n");
 			}
 		}
@@ -732,8 +698,7 @@ abstract class JError
 
 		static $log;
 
-		if ($log == null)
-		{
+		if ($log == null) {
 			jimport('joomla.error.log');
 			$fileName = date('Y-m-d') . '.error.log';
 			$options['format'] = "{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}";
@@ -788,8 +753,7 @@ abstract class JError
 		jimport('joomla.document.document');
 		$app = JFactory::getApplication();
 		$document = JDocument::getInstance('error');
-		if ($document)
-		{
+		if ($document) {
 			$config = JFactory::getConfig();
 
 			// Get the current template from the application
@@ -803,12 +767,10 @@ abstract class JError
 			$data = $document->render(false, array('template' => $template, 'directory' => JPATH_THEMES, 'debug' => $config->get('debug')));
 
 			// Failsafe to get the error displayed.
-			if (empty($data))
-			{
+			if (empty($data)) {
 				self::handleEcho($error, array());
 			}
-			else
-			{
+			else {
 				// Do not allow cache
 				JResponse::allowCache(false);
 
@@ -816,8 +778,7 @@ abstract class JError
 				echo JResponse::toString();
 			}
 		}
-		else
-		{
+		else {
 			// Just echo the error since there is no document
 			// This is a common use case for Command Line Interface applications.
 			self::handleEcho($error, array());
@@ -864,8 +825,7 @@ abstract class JError
 		$contents = null;
 		$backtrace = $error->getTrace();
 
-		if (is_array($backtrace))
-		{
+		if (is_array($backtrace)) {
 			ob_start();
 			$j = 1;
 			echo '<table cellpadding="0" cellspacing="0" class="Table">';
@@ -883,21 +843,17 @@ abstract class JError
 				echo '		<tr>';
 				echo '				<td class="TD">' . $j . '</td>';
 
-				if (isset($backtrace[$i]['class']))
-				{
+				if (isset($backtrace[$i]['class'])) {
 					echo '		<td class="TD">' . $backtrace[$i]['class'] . $backtrace[$i]['type'] . $backtrace[$i]['function'] . '()</td>';
 				}
-				else
-				{
+				else {
 					echo '		<td class="TD">' . $backtrace[$i]['function'] . '()</td>';
 				}
 
-				if (isset($backtrace[$i]['file']))
-				{
+				if (isset($backtrace[$i]['file'])) {
 					echo '				<td class="TD">' . $backtrace[$i]['file'] . ':' . $backtrace[$i]['line'] . '</td>';
 				}
-				else
-				{
+				else {
 					echo '				<td class="TD">&#160;</td>';
 				}
 

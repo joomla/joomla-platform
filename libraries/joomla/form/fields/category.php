@@ -50,22 +50,18 @@ class JFormFieldCategory extends JFormFieldList
 		$published = (string) $this->element['published'];
 
 		// Load the category options for a given extension.
-		if (!empty($extension))
-		{
+		if (!empty($extension)) {
 
 			// Filter over published state or not depending upon if it is present.
-			if ($published)
-			{
+			if ($published) {
 				$options = JHtml::_('category.options', $extension, array('filter.published' => explode(',', $published)));
 			}
-			else
-			{
+			else {
 				$options = JHtml::_('category.options', $extension);
 			}
 
 			// Verify permissions.  If the action attribute is set, then we scan the options.
-			if ($action = (string) $this->element['action'])
-			{
+			if ($action = (string) $this->element['action']) {
 
 				// Get the current user object.
 				$user = JFactory::getUser();
@@ -75,21 +71,18 @@ class JFormFieldCategory extends JFormFieldList
 					// To take save or create in a category you need to have create rights for that category
 					// unless the item is already in that category.
 					// Unset the option if the user isn't authorised for it. In this field assets are always categories.
-					if ($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
-					{
+					if ($user->authorise('core.create', $extension . '.category.' . $option->value) != true) {
 						unset($options[$i]);
 					}
 				}
 
 			}
 
-			if (isset($this->element['show_root']))
-			{
+			if (isset($this->element['show_root'])) {
 				array_unshift($options, JHtml::_('select.option', '0', JText::_('JGLOBAL_ROOT')));
 			}
 		}
-		else
-		{
+		else {
 			JError::raiseWarning(500, JText::_('JLIB_FORM_ERROR_FIELDS_CATEGORY_ERROR_EXTENSION_EMPTY'));
 		}
 

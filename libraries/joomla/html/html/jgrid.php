@@ -41,8 +41,7 @@ abstract class JHtmlJGrid
 	public static function action($i, $task, $prefix = '', $text = '', $active_title = '', $inactive_title = '', $tip = false, $active_class = '',
 		$inactive_class = '', $enabled = true, $translate = true, $checkbox = 'cb')
 	{
-		if (is_array($prefix))
-		{
+		if (is_array($prefix)) {
 			$options = $prefix;
 			$text = array_key_exists('text', $options) ? $options['text'] : $text;
 			$active_title = array_key_exists('active_title', $options) ? $options['active_title'] : $active_title;
@@ -55,12 +54,10 @@ abstract class JHtmlJGrid
 			$checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
-		if ($tip)
-		{
+		if ($tip) {
 			JHtml::_('behavior.tooltip');
 		}
-		if ($enabled)
-		{
+		if ($enabled) {
 			$html[] = '<a class="jgrid' . ($tip ? ' hasTip' : '') . '"';
 			$html[] = ' href="javascript:void(0);" onclick="return listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
 			$html[] = ' title="' . addslashes(htmlspecialchars($translate ? JText::_($active_title) : $active_title, ENT_COMPAT, 'UTF-8')) . '">';
@@ -69,8 +66,7 @@ abstract class JHtmlJGrid
 			$html[] = '</span>';
 			$html[] = '</a>';
 		}
-		else
-		{
+		else {
 			$html[] = '<a class="jgrid' . ($tip ? ' hasTip' : '') . '"';
 			$html[] = ' title="' . addslashes(htmlspecialchars($translate ? JText::_($inactive_title) : $inactive_title, ENT_COMPAT, 'UTF-8')) . '">';
 			$html[] = '<span class="state ' . $inactive_class . '">';
@@ -102,8 +98,7 @@ abstract class JHtmlJGrid
 	 */
 	public static function state($states, $value, $i, $prefix = '', $enabled = true, $translate = true, $checkbox = 'cb')
 	{
-		if (is_array($prefix))
-		{
+		if (is_array($prefix)) {
 			$options = $prefix;
 			$enabled = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
 			$translate = array_key_exists('translate', $options) ? $options['translate'] : $translate;
@@ -143,8 +138,7 @@ abstract class JHtmlJGrid
 	 */
 	public static function published($value, $i, $prefix = '', $enabled = true, $checkbox = 'cb', $publish_up = null, $publish_down = null)
 	{
-		if (is_array($prefix))
-		{
+		if (is_array($prefix)) {
 			$options = $prefix;
 			$enabled = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
 			$checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
@@ -156,8 +150,7 @@ abstract class JHtmlJGrid
 			-2 => array('publish', 'JTRASHED', 'JLIB_HTML_PUBLISH_ITEM', 'JTRASHED', false, 'trash', 'trash'));
 
 		// Special state for dates
-		if ($publish_up || $publish_down)
-		{
+		if ($publish_up || $publish_down) {
 			$nullDate = JFactory::getDBO()->getNullDate();
 			$nowDate = JFactory::getDate()->toUnix();
 
@@ -168,12 +161,10 @@ abstract class JHtmlJGrid
 
 			// Create tip text, only we have publish up or down settings
 			$tips = array();
-			if ($publish_up)
-			{
+			if ($publish_up) {
 				$tips[] = JText::sprintf('JLIB_HTML_PUBLISHED_START', $publish_up->format(JDate::$format, true));
 			}
-			if ($publish_down)
-			{
+			if ($publish_down) {
 				$tips[] = JText::sprintf('JLIB_HTML_PUBLISHED_FINISHED', $publish_down->format(JDate::$format, true));
 			}
 			$tip = empty($tips) ? false : implode('<br/>', $tips);
@@ -182,24 +173,20 @@ abstract class JHtmlJGrid
 			foreach ($states as $key => $state)
 			{
 				// Create special titles for published items
-				if ($key == 1)
-				{
+				if ($key == 1) {
 					$states[$key][2] = $states[$key][3] = 'JLIB_HTML_PUBLISHED_ITEM';
-					if ($publish_up && $nowDate < $publish_up->toUnix())
-					{
+					if ($publish_up && $nowDate < $publish_up->toUnix()) {
 						$states[$key][2] = $states[$key][3] = 'JLIB_HTML_PUBLISHED_PENDING_ITEM';
 						$states[$key][5] = $states[$key][6] = 'pending';
 					}
-					if ($publish_down && $nowDate > $publish_down->toUnix())
-					{
+					if ($publish_down && $nowDate > $publish_down->toUnix()) {
 						$states[$key][2] = $states[$key][3] = 'JLIB_HTML_PUBLISHED_EXPIRED_ITEM';
 						$states[$key][5] = $states[$key][6] = 'expired';
 					}
 				}
 
 				// Add tips to titles
-				if ($tip)
-				{
+				if ($tip) {
 					$states[$key][1] = JText::_($states[$key][1]);
 					$states[$key][2] = JText::_($states[$key][2]) . '::' . $tip;
 					$states[$key][3] = JText::_($states[$key][3]) . '::' . $tip;
@@ -228,8 +215,7 @@ abstract class JHtmlJGrid
 	 */
 	public static function isdefault($value, $i, $prefix = '', $enabled = true, $checkbox = 'cb')
 	{
-		if (is_array($prefix))
-		{
+		if (is_array($prefix)) {
 			$options = $prefix;
 			$enabled = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
 			$checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
@@ -260,24 +246,19 @@ abstract class JHtmlJGrid
 	{
 		// Build the active state filter options.
 		$options = array();
-		if (!array_key_exists('published', $config) || $config['published'])
-		{
+		if (!array_key_exists('published', $config) || $config['published']) {
 			$options[] = JHtml::_('select.option', '1', 'JPUBLISHED');
 		}
-		if (!array_key_exists('unpublished', $config) || $config['unpublished'])
-		{
+		if (!array_key_exists('unpublished', $config) || $config['unpublished']) {
 			$options[] = JHtml::_('select.option', '0', 'JUNPUBLISHED');
 		}
-		if (!array_key_exists('archived', $config) || $config['archived'])
-		{
+		if (!array_key_exists('archived', $config) || $config['archived']) {
 			$options[] = JHtml::_('select.option', '2', 'JARCHIVED');
 		}
-		if (!array_key_exists('trash', $config) || $config['trash'])
-		{
+		if (!array_key_exists('trash', $config) || $config['trash']) {
 			$options[] = JHtml::_('select.option', '-2', 'JTRASHED');
 		}
-		if (!array_key_exists('all', $config) || $config['all'])
-		{
+		if (!array_key_exists('all', $config) || $config['all']) {
 			$options[] = JHtml::_('select.option', '*', 'JALL');
 		}
 		return $options;
@@ -299,8 +280,7 @@ abstract class JHtmlJGrid
 	 */
 	public static function checkedout($i, $editorName, $time, $prefix = '', $enabled = false, $checkbox = 'cb')
 	{
-		if (is_array($prefix))
-		{
+		if (is_array($prefix)) {
 			$options = $prefix;
 			$enabled = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
 			$checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
@@ -335,8 +315,7 @@ abstract class JHtmlJGrid
 	 */
 	public static function orderUp($i, $task = 'orderup', $prefix = '', $text = 'JLIB_HTML_MOVE_UP', $enabled = true, $checkbox = 'cb')
 	{
-		if (is_array($prefix))
-		{
+		if (is_array($prefix)) {
 			$options = $prefix;
 			$text = array_key_exists('text', $options) ? $options['text'] : $text;
 			$enabled = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
@@ -362,8 +341,7 @@ abstract class JHtmlJGrid
 	 */
 	public static function orderDown($i, $task = 'orderdown', $prefix = '', $text = 'JLIB_HTML_MOVE_DOWN', $enabled = true, $checkbox = 'cb')
 	{
-		if (is_array($prefix))
-		{
+		if (is_array($prefix)) {
 			$options = $prefix;
 			$text = array_key_exists('text', $options) ? $options['text'] : $text;
 			$enabled = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;

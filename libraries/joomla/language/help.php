@@ -35,57 +35,48 @@ class JHelp
 		$local = false;
 		$app = JFactory::getApplication();
 
-		if (is_null($component))
-		{
+		if (is_null($component)) {
 			$component = JApplicationHelper::getComponentName();
 		}
 
 		//  Determine the location of the help file.  At this stage the URL
 		//  can contain substitution codes that will be replaced later.
 
-		if ($override)
-		{
+		if ($override) {
 			$url = $override;
 		}
-		else
-		{
+		else {
 			// Get the user help URL.
 			$user = JFactory::getUser();
 			$url = $user->getParam('helpsite');
 
 			// If user hasn't specified a help URL, then get the global one.
-			if ($url == '')
-			{
+			if ($url == '') {
 				$url = $app->getCfg('helpurl');
 			}
 
 			// Component help URL overrides user and global.
-			if ($useComponent)
-			{
+			if ($useComponent) {
 				// Look for help URL in component parameters.
 				$params = JComponentHelper::getParams($component);
 				$url = $params->get('helpURL');
 
-				if ($url == '')
-				{
+				if ($url == '') {
 					$local = true;
 					$url = 'components/{component}/help/{language}/{keyref}';
 				}
 			}
 
 			// Set up a local help URL.
-			if (!$url)
-			{
+			if (!$url) {
 				$local = true;
 				$url = 'help/{language}/{keyref}';
 			}
 		}
 
 		// If the URL is local then make sure we have a valid file extension on the URL.
-		if ($local)
-		{
-			if (!preg_match('#\.html$|\.xml$#i', $ref))
-			{
+		if ($local) {
+			if (!preg_match('#\.html$|\.xml$#i', $ref)) {
 				$url .= '.html';
 			}
 		}
@@ -127,13 +118,11 @@ class JHelp
 
 		// If the help file is local then check it exists.
 		// If it doesn't then fallback to English.
-		if ($local)
-		{
+		if ($local) {
 			$try = str_replace($search, $replace, $url);
 			jimport('joomla.filesystem.file');
 
-			if (!JFile::exists(JPATH_BASE . '/' . $try))
-			{
+			if (!JFile::exists(JPATH_BASE . '/' . $try)) {
 				$replace[3] = 'en-GB';
 				$replace[4] = 'en';
 				$replace[5] = 'GB';
@@ -161,19 +150,16 @@ class JHelp
 		$data = null;
 		$xml = false;
 
-		if (!empty($pathToXml))
-		{
+		if (!empty($pathToXml)) {
 			$xml = JFactory::getXML($pathToXml);
 		}
 
-		if (!$xml)
-		{
+		if (!$xml) {
 			$option['text'] = 'English (GB) help.joomla.org';
 			$option['value'] = 'http://help.joomla.org';
 			$list[] = $option;
 		}
-		else
-		{
+		else {
 			$option = array();
 
 			foreach ($xml->sites->site as $site)

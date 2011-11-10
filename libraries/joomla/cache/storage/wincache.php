@@ -69,23 +69,18 @@ class JCacheStorageWincache extends JCacheStorage
 		{
 			$name = $key['key_name'];
 			$namearr = explode('-', $name);
-			if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
-			{
+			if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache') {
 				$group = $namearr[2];
-				if (!isset($data[$group]))
-				{
+				if (!isset($data[$group])) {
 					$item = new JCacheStorageHelper($group);
 				}
-				else
-				{
+				else {
 					$item = $data[$group];
 				}
-				if (isset($key['value_size']))
-				{
+				if (isset($key['value_size'])) {
 					$item->updateSize($key['value_size'] / 1024);
 				}
-				else
-				{
+				else {
 					// Dummy, WINCACHE version is too low.
 					$item->updateSize(1);
 				}
@@ -149,8 +144,7 @@ class JCacheStorageWincache extends JCacheStorage
 
 		foreach ($keys as $key)
 		{
-			if (strpos($key['key_name'], $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
-			{
+			if (strpos($key['key_name'], $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group') {
 				wincache_ucache_delete($key['key_name']);
 			}
 		}
@@ -173,8 +167,7 @@ class JCacheStorageWincache extends JCacheStorage
 
 		foreach ($keys as $key)
 		{
-			if (strpos($key['key_name'], $secret . '-cache-'))
-			{
+			if (strpos($key['key_name'], $secret . '-cache-')) {
 				wincache_ucache_get($key['key_name']);
 			}
 		}

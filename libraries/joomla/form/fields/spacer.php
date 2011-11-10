@@ -59,12 +59,10 @@ class JFormFieldSpacer extends JFormField
 		$html[] = '<span class="spacer">';
 		$html[] = '<span class="before"></span>';
 		$html[] = '<span class="' . $class . '">';
-		if ((string) $this->element['hr'] == 'true')
-		{
+		if ((string) $this->element['hr'] == 'true') {
 			$html[] = '<hr class="' . $class . '" />';
 		}
-		else
-		{
+		else {
 			$label = '';
 			// Get the label text from the XML element, defaulting to the element name.
 			$text = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
@@ -78,8 +76,7 @@ class JFormFieldSpacer extends JFormField
 			$label .= '<label id="' . $this->id . '-lbl" class="' . $class . '"';
 
 			// If a description is specified, use it to build a tooltip.
-			if (!empty($this->description))
-			{
+			if (!empty($this->description)) {
 				$label .= ' title="'
 					. htmlspecialchars(
 					trim($text, ':') . '::' . ($this->translateDescription ? JText::_($this->description) : $this->description),

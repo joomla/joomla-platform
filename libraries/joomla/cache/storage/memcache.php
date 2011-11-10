@@ -47,8 +47,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	public function __construct($options = array())
 	{
 		parent::__construct($options);
-		if (self::$_db === null)
-		{
+		if (self::$_db === null) {
 			$this->getConnection();
 		}
 	}
@@ -62,8 +61,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	protected function getConnection()
 	{
-		if ((extension_loaded('memcache') && class_exists('Memcache')) != true)
-		{
+		if ((extension_loaded('memcache') && class_exists('Memcache')) != true) {
 			return false;
 		}
 
@@ -82,14 +80,12 @@ class JCacheStorageMemcache extends JCacheStorage
 		self::$_db->addServer($server['host'], $server['port'], $this->_persistent);
 
 		$memcachetest = @self::$_db->connect($server['host'], $server['port']);
-		if ($memcachetest == false)
-		{
+		if ($memcachetest == false) {
 			return JError::raiseError(404, "Could not connect to memcache server");
 		}
 
 		// Memcahed has no list keys, we do our own accounting, initialise key index
-		if (self::$_db->get($this->_hash . '-index') === false)
-		{
+		if (self::$_db->get($this->_hash . '-index') === false) {
 			$empty = array();
 			self::$_db->set($this->_hash . '-index', $empty, $this->_compress, 0);
 		}
@@ -131,27 +127,22 @@ class JCacheStorageMemcache extends JCacheStorage
 
 		$data = array();
 
-		if (!empty($keys))
-		{
+		if (!empty($keys)) {
 			foreach ($keys as $key)
 			{
-				if (empty($key))
-				{
+				if (empty($key)) {
 					continue;
 				}
 				$namearr = explode('-', $key->name);
 
-				if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
-				{
+				if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache') {
 
 					$group = $namearr[2];
 
-					if (!isset($data[$group]))
-					{
+					if (!isset($data[$group])) {
 						$item = new JCacheStorageHelper($group);
 					}
-					else
-					{
+					else {
 						$item = $data[$group];
 					}
 
@@ -180,14 +171,12 @@ class JCacheStorageMemcache extends JCacheStorage
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 
-		if (!$this->lockindex())
-		{
+		if (!$this->lockindex()) {
 			return false;
 		}
 
 		$index = self::$_db->get($this->_hash . '-index');
-		if ($index === false)
-		{
+		if ($index === false) {
 			$index = array();
 		}
 
@@ -199,8 +188,7 @@ class JCacheStorageMemcache extends JCacheStorage
 		$this->unlockindex();
 
 		// prevent double writes, write only if it doesn't exist else replace
-		if (!self::$_db->replace($cache_id, $data, $this->_compress, $this->_lifetime))
-		{
+		if (!self::$_db->replace($cache_id, $data, $this->_compress, $this->_lifetime)) {
 			self::$_db->set($cache_id, $data, $this->_compress, $this->_lifetime);
 		}
 
@@ -221,21 +209,18 @@ class JCacheStorageMemcache extends JCacheStorage
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 
-		if (!$this->lockindex())
-		{
+		if (!$this->lockindex()) {
 			return false;
 		}
 
 		$index = self::$_db->get($this->_hash . '-index');
-		if ($index === false)
-		{
+		if ($index === false) {
 			$index = array();
 		}
 
 		foreach ($index as $key => $value)
 		{
-			if ($value->name == $cache_id)
-			{
+			if ($value->name == $cache_id) {
 				unset($index[$key]);
 			}
 			break;
@@ -260,14 +245,12 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	public function clean($group, $mode = null)
 	{
-		if (!$this->lockindex())
-		{
+		if (!$this->lockindex()) {
 			return false;
 		}
 
 		$index = self::$_db->get($this->_hash . '-index');
-		if ($index === false)
-		{
+		if ($index === false) {
 			$index = array();
 		}
 
@@ -275,8 +258,7 @@ class JCacheStorageMemcache extends JCacheStorage
 		foreach ($index as $key => $value)
 		{
 
-			if (strpos($value->name, $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
-			{
+			if (strpos($value->name, $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group') {
 				self::$_db->delete($value->name, 0);
 				unset($index[$key]);
 			}
@@ -293,8 +275,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	public static function test()
 	{
-		if ((extension_loaded('memcache') && class_exists('Memcache')) != true)
-		{
+		if ((extension_loaded('memcache') && class_exists('Memcache')) != true) {
 			return false;
 		}
 
@@ -305,12 +286,10 @@ class JCacheStorageMemcache extends JCacheStorage
 		$memcache = new Memcache;
 		$memcachetest = @$memcache->connect($host, $port);
 
-		if (!$memcachetest)
-		{
+		if (!$memcachetest) {
 			return false;
 		}
-		else
-		{
+		else {
 			return true;
 		}
 	}
@@ -335,14 +314,12 @@ class JCacheStorageMemcache extends JCacheStorage
 
 		$cache_id = $this->_getCacheId($id, $group);
 
-		if (!$this->lockindex())
-		{
+		if (!$this->lockindex()) {
 			return false;
 		}
 
 		$index = self::$_db->get($this->_hash . '-index');
-		if ($index === false)
-		{
+		if ($index === false) {
 			$index = array();
 		}
 
@@ -355,8 +332,7 @@ class JCacheStorageMemcache extends JCacheStorage
 
 		$data_lock = self::$_db->add($cache_id . '_lock', 1, false, $locktime);
 
-		if ($data_lock === false)
-		{
+		if ($data_lock === false) {
 
 			$lock_counter = 0;
 
@@ -365,8 +341,7 @@ class JCacheStorageMemcache extends JCacheStorage
 			while ($data_lock === false)
 			{
 
-				if ($lock_counter > $looptime)
-				{
+				if ($lock_counter > $looptime) {
 					$returning->locked = false;
 					$returning->locklooped = true;
 					break;
@@ -399,21 +374,18 @@ class JCacheStorageMemcache extends JCacheStorage
 
 		$cache_id = $this->_getCacheId($id, $group) . '_lock';
 
-		if (!$this->lockindex())
-		{
+		if (!$this->lockindex()) {
 			return false;
 		}
 
 		$index = self::$_db->get($this->_hash . '-index');
-		if ($index === false)
-		{
+		if ($index === false) {
 			$index = array();
 		}
 
 		foreach ($index as $key => $value)
 		{
-			if ($value->name == $cache_id)
-			{
+			if ($value->name == $cache_id) {
 				unset($index[$key]);
 			}
 			break;
@@ -436,16 +408,14 @@ class JCacheStorageMemcache extends JCacheStorage
 		$looptime = 300;
 		$data_lock = self::$_db->add($this->_hash . '-index_lock', 1, false, 30);
 
-		if ($data_lock === false)
-		{
+		if ($data_lock === false) {
 
 			$lock_counter = 0;
 
 			// Loop until you find that the lock has been released.  that implies that data get from other thread has finished
 			while ($data_lock === false)
 			{
-				if ($lock_counter > $looptime)
-				{
+				if ($lock_counter > $looptime) {
 					return false;
 					break;
 				}

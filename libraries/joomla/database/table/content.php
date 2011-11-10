@@ -76,8 +76,7 @@ class JTableContent extends JTable
 		$db = $this->getDbo();
 
 		// This is a article under a category.
-		if ($this->catid)
-		{
+		if ($this->catid) {
 			// Build the query to get the asset id for the parent category.
 			$query = $db->getQuery(true);
 			$query->select('asset_id');
@@ -86,19 +85,16 @@ class JTableContent extends JTable
 
 			// Get the asset id from the database.
 			$this->_db->setQuery($query);
-			if ($result = $this->_db->loadResult())
-			{
+			if ($result = $this->_db->loadResult()) {
 				$assetId = (int) $result;
 			}
 		}
 
 		// Return the asset id.
-		if ($assetId)
-		{
+		if ($assetId) {
 			return $assetId;
 		}
-		else
-		{
+		else {
 			return parent::_getAssetParentId($table, $id);
 		}
 	}
@@ -118,39 +114,33 @@ class JTableContent extends JTable
 	public function bind($array, $ignore = '')
 	{
 		// Search for the {readmore} tag and split the text up accordingly.
-		if (isset($array['articletext']))
-		{
+		if (isset($array['articletext'])) {
 			$pattern = '#<hr\s+id=("|\')system-readmore("|\')\s*\/*>#i';
 			$tagPos = preg_match($pattern, $array['articletext']);
 
-			if ($tagPos == 0)
-			{
+			if ($tagPos == 0) {
 				$this->introtext = $array['articletext'];
 				$this->fulltext = '';
 			}
-			else
-			{
+			else {
 				list ($this->introtext, $this->fulltext) = preg_split($pattern, $array['articletext'], 2);
 			}
 		}
 
-		if (isset($array['attribs']) && is_array($array['attribs']))
-		{
+		if (isset($array['attribs']) && is_array($array['attribs'])) {
 			$registry = new JRegistry;
 			$registry->loadArray($array['attribs']);
 			$array['attribs'] = (string) $registry;
 		}
 
-		if (isset($array['metadata']) && is_array($array['metadata']))
-		{
+		if (isset($array['metadata']) && is_array($array['metadata'])) {
 			$registry = new JRegistry;
 			$registry->loadArray($array['metadata']);
 			$array['metadata'] = (string) $registry;
 		}
 
 		// Bind the rules.
-		if (isset($array['rules']) && is_array($array['rules']))
-		{
+		if (isset($array['rules']) && is_array($array['rules'])) {
 			$rules = new JRules($array['rules']);
 			$this->setRules($rules);
 		}
@@ -168,38 +158,32 @@ class JTableContent extends JTable
 	 */
 	public function check()
 	{
-		if (trim($this->title) == '')
-		{
+		if (trim($this->title) == '') {
 			$this->setError(JText::_('COM_CONTENT_WARNING_PROVIDE_VALID_NAME'));
 			return false;
 		}
 
-		if (trim($this->alias) == '')
-		{
+		if (trim($this->alias) == '') {
 			$this->alias = $this->title;
 		}
 
 		$this->alias = JApplication::stringURLSafe($this->alias);
 
-		if (trim(str_replace('-', '', $this->alias)) == '')
-		{
+		if (trim(str_replace('-', '', $this->alias)) == '') {
 			$this->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
 
-		if (trim(str_replace('&nbsp;', '', $this->fulltext)) == '')
-		{
+		if (trim(str_replace('&nbsp;', '', $this->fulltext)) == '') {
 			$this->fulltext = '';
 		}
 
-		if (trim($this->introtext) == '' && trim($this->fulltext) == '')
-		{
+		if (trim($this->introtext) == '' && trim($this->fulltext) == '') {
 			$this->setError(JText::_('JGLOBAL_ARTICLE_MUST_HAVE_TEXT'));
 			return false;
 		}
 
 		// Check the publish down date is not earlier than publish up.
-		if ($this->publish_down > $this->_db->getNullDate() && $this->publish_down < $this->publish_up)
-		{
+		if ($this->publish_down > $this->_db->getNullDate() && $this->publish_down < $this->publish_up) {
 			// Swap the dates.
 			$temp = $this->publish_up;
 			$this->publish_up = $this->publish_down;
@@ -208,8 +192,7 @@ class JTableContent extends JTable
 
 		// Clean up keywords -- eliminate extra spaces between phrases
 		// and cr (\r) and lf (\n) characters from string
-		if (!empty($this->metakey))
-		{
+		if (!empty($this->metakey)) {
 			// Only process if not empty
 			$bad_characters = array("\n", "\r", "\"", "<", ">"); // array of characters to remove
 			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey); // remove bad characters
@@ -218,8 +201,7 @@ class JTableContent extends JTable
 
 			foreach ($keys as $key)
 			{
-				if (trim($key))
-				{
+				if (trim($key)) {
 					// Ignore blank keywords
 					$clean_keys[] = trim($key);
 				}
@@ -244,30 +226,25 @@ class JTableContent extends JTable
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();
 
-		if ($this->id)
-		{
+		if ($this->id) {
 			// Existing item
 			$this->modified = $date->toMySQL();
 			$this->modified_by = $user->get('id');
 		}
-		else
-		{
+		else {
 			// New article. An article created and created_by field can be set by the user,
 			// so we don't touch either of these if they are set.
-			if (!intval($this->created))
-			{
+			if (!intval($this->created)) {
 				$this->created = $date->toMySQL();
 			}
 
-			if (empty($this->created_by))
-			{
+			if (empty($this->created_by)) {
 				$this->created_by = $user->get('id');
 			}
 		}
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Content', 'JTable');
-		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
-		{
+		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0)) {
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
 			return false;
 		}
@@ -298,15 +275,12 @@ class JTableContent extends JTable
 		$state = (int) $state;
 
 		// If there are no primary keys set check to see if the instance key is set.
-		if (empty($pks))
-		{
-			if ($this->$k)
-			{
+		if (empty($pks)) {
+			if ($this->$k) {
 				$pks = array($this->$k);
 			}
 			// Nothing to set publishing state on, return false.
-			else
-			{
+			else {
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 				return false;
 			}
@@ -316,12 +290,10 @@ class JTableContent extends JTable
 		$where = $k . '=' . implode(' OR ' . $k . '=', $pks);
 
 		// Determine if there is checkin support for the table.
-		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time'))
-		{
+		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time')) {
 			$checkin = '';
 		}
-		else
-		{
+		else {
 			$checkin = ' AND (checked_out = 0 OR checked_out = ' . (int) $userId . ')';
 		}
 
@@ -333,15 +305,13 @@ class JTableContent extends JTable
 		$this->_db->query();
 
 		// Check for a database error.
-		if ($this->_db->getErrorNum())
-		{
+		if ($this->_db->getErrorNum()) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
 
 		// If checkin is supported and all rows were adjusted, check them in.
-		if ($checkin && (count($pks) == $this->_db->getAffectedRows()))
-		{
+		if ($checkin && (count($pks) == $this->_db->getAffectedRows())) {
 			// Checkin the rows.
 			foreach ($pks as $pk)
 			{
@@ -350,8 +320,7 @@ class JTableContent extends JTable
 		}
 
 		// If the JTable instance value is in the list of primary keys that were set, set the instance.
-		if (in_array($this->$k, $pks))
-		{
+		if (in_array($this->$k, $pks)) {
 			$this->state = $state;
 		}
 
@@ -373,8 +342,7 @@ class JTableContent extends JTable
 	{
 		$db = JFactory::getDbo();
 
-		if ($mapKeysToText)
-		{
+		if ($mapKeysToText) {
 			$query = 'SELECT name' . ' FROM #__categories' . ' WHERE id = ' . (int) $this->catid;
 			$db->setQuery($query);
 			$this->catid = $db->loadResult();

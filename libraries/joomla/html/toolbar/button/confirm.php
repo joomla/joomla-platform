@@ -93,12 +93,10 @@ class JButtonConfirm extends JButton
 		$message = JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
 		$message = addslashes($message);
 
-		if ($list)
-		{
+		if ($list) {
 			$cmd = "if (document.adminForm.boxchecked.value==0){alert('$message');}else{if (confirm('$msg')){Joomla.submitbutton('$task');}}";
 		}
-		else
-		{
+		else {
 			$cmd = "if (confirm('$msg')){Joomla.submitbutton('$task');}";
 		}
 

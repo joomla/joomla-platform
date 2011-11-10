@@ -58,13 +58,10 @@ class JCacheStorageFile extends JCacheStorage
 
 		$path = $this->_getFilePath($id, $group);
 
-		if ($checkTime == false || ($checkTime == true && $this->_checkExpire($id, $group) === true))
-		{
-			if (file_exists($path))
-			{
+		if ($checkTime == false || ($checkTime == true && $this->_checkExpire($id, $group) === true)) {
+			if (file_exists($path)) {
 				$data = file_get_contents($path);
-				if ($data)
-				{
+				if ($data) {
 					// Remove the initial die() statement
 					$data = str_replace('<?php die("Access Denied"); ?>#x#', '', $data);
 				}
@@ -72,8 +69,7 @@ class JCacheStorageFile extends JCacheStorage
 
 			return $data;
 		}
-		else
-		{
+		else {
 			return false;
 		}
 	}
@@ -131,20 +127,17 @@ class JCacheStorageFile extends JCacheStorage
 
 		$_fileopen = @fopen($path, "wb");
 
-		if ($_fileopen)
-		{
+		if ($_fileopen) {
 			$len = strlen($data);
 			@fwrite($_fileopen, $data, $len);
 			$written = true;
 		}
 
 		// Data integrity check
-		if ($written && ($data == file_get_contents($path)))
-		{
+		if ($written && ($data == file_get_contents($path))) {
 			return true;
 		}
-		else
-		{
+		else {
 			return false;
 		}
 	}
@@ -162,8 +155,7 @@ class JCacheStorageFile extends JCacheStorage
 	public function remove($id, $group)
 	{
 		$path = $this->_getFilePath($id, $group);
-		if (!@unlink($path))
-		{
+		if (!@unlink($path)) {
 			return false;
 		}
 		return true;
@@ -186,27 +178,23 @@ class JCacheStorageFile extends JCacheStorage
 		$return = true;
 		$folder = $group;
 
-		if (trim($folder) == '')
-		{
+		if (trim($folder) == '') {
 			$mode = 'notgroup';
 		}
 
-		switch ($mode)
-		{
+		switch ($mode) {
 			case 'notgroup':
 				$folders = $this->_folders($this->_root);
 				for ($i = 0, $n = count($folders); $i < $n; $i++)
 				{
-					if ($folders[$i] != $folder)
-					{
+					if ($folders[$i] != $folder) {
 						$return |= $this->_deleteFolder($this->_root . '/' . $folders[$i]);
 					}
 				}
 				break;
 			case 'group':
 			default:
-				if (is_dir($this->_root . '/' . $folder))
-				{
+				if (is_dir($this->_root . '/' . $folder)) {
 					$return = $this->_deleteFolder($this->_root . '/' . $folder);
 				}
 				break;
@@ -229,8 +217,7 @@ class JCacheStorageFile extends JCacheStorage
 		foreach ($files as $file)
 		{
 			$time = @filemtime($file);
-			if (($time + $this->_lifetime) < $this->_now || empty($time))
-			{
+			if (($time + $this->_lifetime) < $this->_now || empty($time)) {
 				$result |= @unlink($file);
 			}
 		}
@@ -271,17 +258,14 @@ class JCacheStorageFile extends JCacheStorage
 
 		$_fileopen = @fopen($path, "r+b");
 
-		if ($_fileopen)
-		{
+		if ($_fileopen) {
 			$data_lock = @flock($_fileopen, LOCK_EX);
 		}
-		else
-		{
+		else {
 			$data_lock = false;
 		}
 
-		if ($data_lock === false)
-		{
+		if ($data_lock === false) {
 
 			$lock_counter = 0;
 
@@ -289,8 +273,7 @@ class JCacheStorageFile extends JCacheStorage
 			while ($data_lock === false)
 			{
 
-				if ($lock_counter > $looptime)
-				{
+				if ($lock_counter > $looptime) {
 					$returning->locked = false;
 					$returning->locklooped = true;
 					break;
@@ -323,8 +306,7 @@ class JCacheStorageFile extends JCacheStorage
 
 		$_fileopen = @fopen($path, "r+b");
 
-		if ($_fileopen)
-		{
+		if ($_fileopen) {
 			$ret = @flock($_fileopen, LOCK_UN);
 			@fclose($_fileopen);
 		}
@@ -347,11 +329,9 @@ class JCacheStorageFile extends JCacheStorage
 		$path = $this->_getFilePath($id, $group);
 
 		// check prune period
-		if (file_exists($path))
-		{
+		if (file_exists($path)) {
 			$time = @filemtime($path);
-			if (($time + $this->_lifetime) < $this->_now || empty($time))
-			{
+			if (($time + $this->_lifetime) < $this->_now || empty($time)) {
 				@unlink($path);
 				return false;
 			}
@@ -376,8 +356,7 @@ class JCacheStorageFile extends JCacheStorage
 		$dir = $this->_root . '/' . $group;
 
 		// If the folder doesn't exist try to create it
-		if (!is_dir($dir))
-		{
+		if (!is_dir($dir)) {
 
 			// Make sure the index file is there
 			$indexFile = $dir . '/index.html';
@@ -385,8 +364,7 @@ class JCacheStorageFile extends JCacheStorage
 		}
 
 		// Make sure the folder exists
-		if (!is_dir($dir))
-		{
+		if (!is_dir($dir)) {
 			return false;
 		}
 		return $dir . '/' . $name . '.php';
@@ -404,8 +382,7 @@ class JCacheStorageFile extends JCacheStorage
 	protected function _deleteFolder($path)
 	{
 		// Sanity check
-		if (!$path || !is_dir($path) || empty($this->_root))
-		{
+		if (!$path || !is_dir($path) || empty($this->_root)) {
 			// Bad programmer! Bad Bad programmer!
 			JError::raiseWarning(500, 'JCacheStorageFile::_deleteFolder ' . JText::_('JLIB_FILESYSTEM_ERROR_DELETE_BASE_DIRECTORY'));
 			return false;
@@ -416,8 +393,7 @@ class JCacheStorageFile extends JCacheStorage
 		// Check to make sure path is inside cache folder, we do not want to delete Joomla root!
 		$pos = strpos($path, $this->_cleanPath($this->_root));
 
-		if ($pos === false || $pos > 0)
-		{
+		if ($pos === false || $pos > 0) {
 			JError::raiseWarning(500, 'JCacheStorageFile::_deleteFolder' . JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path));
 			return false;
 		}
@@ -425,15 +401,12 @@ class JCacheStorageFile extends JCacheStorage
 		// Remove all the files in folder if they exist; disable all filtering
 		$files = $this->_filesInFolder($path, '.', false, true, array(), array());
 
-		if (!empty($files) && !is_array($files))
-		{
-			if (@unlink($files) !== true)
-			{
+		if (!empty($files) && !is_array($files)) {
+			if (@unlink($files) !== true) {
 				return false;
 			}
 		}
-		elseif (!empty($files) && is_array($files))
-		{
+		elseif (!empty($files) && is_array($files)) {
 
 			foreach ($files as $file)
 			{
@@ -441,12 +414,10 @@ class JCacheStorageFile extends JCacheStorage
 
 				// In case of restricted permissions we zap it one way or the other
 				// as long as the owner is either the webserver or the ftp
-				if (@unlink($file))
-				{
+				if (@unlink($file)) {
 					// Do nothing
 				}
-				else
-				{
+				else {
 					$filename = basename($file);
 					JError::raiseWarning('SOME_ERROR_CODE', 'JCacheStorageFile::_deleteFolder' . JText::sprintf('JLIB_FILESYSTEM_DELETE_FAILED', $filename));
 					return false;
@@ -459,28 +430,23 @@ class JCacheStorageFile extends JCacheStorage
 
 		foreach ($folders as $folder)
 		{
-			if (is_link($folder))
-			{
+			if (is_link($folder)) {
 				// Don't descend into linked directories, just delete the link.
-				if (@unlink($folder) !== true)
-				{
+				if (@unlink($folder) !== true) {
 					return false;
 				}
 			}
-			elseif ($this->_deleteFolder($folder) !== true)
-			{
+			elseif ($this->_deleteFolder($folder) !== true) {
 				return false;
 			}
 		}
 
 		// In case of restricted permissions we zap it one way or the other
 		// as long as the owner is either the webserver or the ftp
-		if (@rmdir($path))
-		{
+		if (@rmdir($path)) {
 			$ret = true;
 		}
-		else
-		{
+		else {
 			JError::raiseWarning('SOME_ERROR_CODE', 'JCacheStorageFile::_deleteFolder' . JText::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_DELETE', $path));
 			$ret = false;
 		}
@@ -501,12 +467,10 @@ class JCacheStorageFile extends JCacheStorage
 	{
 		$path = trim($path);
 
-		if (empty($path))
-		{
+		if (empty($path)) {
 			$path = $this->_root;
 		}
-		else
-		{
+		else {
 			// Remove double slashes and backslahses and convert all slashes and backslashes to DS
 			$path = preg_replace('#[/\\\\]+#', $ds, $path);
 		}
@@ -540,58 +504,45 @@ class JCacheStorageFile extends JCacheStorage
 		$path = $this->_cleanPath($path);
 
 		// Is the path a folder?
-		if (!is_dir($path))
-		{
+		if (!is_dir($path)) {
 			JError::raiseWarning(21, 'JCacheStorageFile::_filesInFolder' . JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path));
 			return false;
 		}
 
 		// Read the source directory.
-		if (!($handle = @opendir($path)))
-		{
+		if (!($handle = @opendir($path))) {
 			return $arr;
 		}
 
-		if (count($excludefilter))
-		{
+		if (count($excludefilter)) {
 			$excludefilter = '/(' . implode('|', $excludefilter) . ')/';
 		}
-		else
-		{
+		else {
 			$excludefilter = '';
 		}
 		while (($file = readdir($handle)) !== false)
 		{
-			if (($file != '.') && ($file != '..') && (!in_array($file, $exclude)) && (!$excludefilter || !preg_match($excludefilter, $file)))
-			{
+			if (($file != '.') && ($file != '..') && (!in_array($file, $exclude)) && (!$excludefilter || !preg_match($excludefilter, $file))) {
 				$dir = $path . '/' . $file;
 				$isDir = is_dir($dir);
-				if ($isDir)
-				{
-					if ($recurse)
-					{
-						if (is_integer($recurse))
-						{
+				if ($isDir) {
+					if ($recurse) {
+						if (is_integer($recurse)) {
 							$arr2 = $this->_filesInFolder($dir, $filter, $recurse - 1, $fullpath);
 						}
-						else
-						{
+						else {
 							$arr2 = $this->_filesInFolder($dir, $filter, $recurse, $fullpath);
 						}
 
 						$arr = array_merge($arr, $arr2);
 					}
 				}
-				else
-				{
-					if (preg_match("/$filter/", $file))
-					{
-						if ($fullpath)
-						{
+				else {
+					if (preg_match("/$filter/", $file)) {
+						if ($fullpath) {
 							$arr[] = $path . '/' . $file;
 						}
-						else
-						{
+						else {
 							$arr[] = $file;
 						}
 					}
@@ -627,56 +578,44 @@ class JCacheStorageFile extends JCacheStorage
 		$path = $this->_cleanPath($path);
 
 		// Is the path a folder?
-		if (!is_dir($path))
-		{
+		if (!is_dir($path)) {
 			JError::raiseWarning(21, 'JCacheStorageFile::_folders' . JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path));
 			return false;
 		}
 
 		// read the source directory
-		if (!($handle = @opendir($path)))
-		{
+		if (!($handle = @opendir($path))) {
 			return $arr;
 		}
 
-		if (count($excludefilter))
-		{
+		if (count($excludefilter)) {
 			$excludefilter_string = '/(' . implode('|', $excludefilter) . ')/';
 		}
-		else
-		{
+		else {
 			$excludefilter_string = '';
 		}
 		while (($file = readdir($handle)) !== false)
 		{
 			if (($file != '.') && ($file != '..')
 				&& (!in_array($file, $exclude))
-				&& (empty($excludefilter_string) || !preg_match($excludefilter_string, $file)))
-			{
+				&& (empty($excludefilter_string) || !preg_match($excludefilter_string, $file))) {
 				$dir = $path . '/' . $file;
 				$isDir = is_dir($dir);
-				if ($isDir)
-				{
+				if ($isDir) {
 					// Removes filtered directories
-					if (preg_match("/$filter/", $file))
-					{
-						if ($fullpath)
-						{
+					if (preg_match("/$filter/", $file)) {
+						if ($fullpath) {
 							$arr[] = $dir;
 						}
-						else
-						{
+						else {
 							$arr[] = $file;
 						}
 					}
-					if ($recurse)
-					{
-						if (is_integer($recurse))
-						{
+					if ($recurse) {
+						if (is_integer($recurse)) {
 							$arr2 = $this->_folders($dir, $filter, $recurse - 1, $fullpath, $exclude, $excludefilter);
 						}
-						else
-						{
+						else {
 							$arr2 = $this->_folders($dir, $filter, $recurse, $fullpath, $exclude, $excludefilter);
 						}
 

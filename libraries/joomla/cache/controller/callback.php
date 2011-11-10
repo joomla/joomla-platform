@@ -62,18 +62,15 @@ class JCacheControllerCallback extends JCacheController
 	{
 
 		// Normalize callback
-		if (is_array($callback))
-		{
+		if (is_array($callback)) {
 			// We have a standard php callback array -- do nothing
 		}
-		elseif (strstr($callback, '::'))
-		{
+		elseif (strstr($callback, '::')) {
 			// This is shorthand for a static method callback classname::methodname
 			list ($class, $method) = explode('::', $callback);
 			$callback = array(trim($class), trim($method));
 		}
-		elseif (strstr($callback, '->'))
-		{
+		elseif (strstr($callback, '->')) {
 			/*
 			 * This is a really not so smart way of doing this... we provide this for backward compatability but this
 			 * WILL! disappear in a future version.  If you are using this syntax change your code to use the standard
@@ -85,13 +82,11 @@ class JCacheControllerCallback extends JCacheController
 			global $$object_123456789;
 			$callback = array($$object_123456789, $method);
 		}
-		else
-		{
+		else {
 			// We have just a standard function -- do nothing
 		}
 
-		if (!$id)
-		{
+		if (!$id) {
 			// Generate an ID
 			$id = $this->_makeId($callback, $args);
 		}
@@ -103,55 +98,45 @@ class JCacheControllerCallback extends JCacheController
 		$locktest->locked = null;
 		$locktest->locklooped = null;
 
-		if ($data === false)
-		{
+		if ($data === false) {
 			$locktest = $this->cache->lock($id);
-			if ($locktest->locked == true && $locktest->locklooped == true)
-			{
+			if ($locktest->locked == true && $locktest->locklooped == true) {
 				$data = $this->cache->get($id);
 			}
 		}
 
 		$coptions = array();
 
-		if ($data !== false)
-		{
+		if ($data !== false) {
 
 			$cached = unserialize(trim($data));
 			$coptions['mergehead'] = isset($woptions['mergehead']) ? $woptions['mergehead'] : 0;
 			$output = ($wrkarounds == false) ? $cached['output'] : JCache::getWorkarounds($cached['output'], $coptions);
 			$result = $cached['result'];
-			if ($locktest->locked == true)
-			{
+			if ($locktest->locked == true) {
 				$this->cache->unlock($id);
 			}
 
 		}
-		else
-		{
+		else {
 
-			if (!is_array($args))
-			{
+			if (!is_array($args)) {
 				$Args = !empty($args) ? array(&$args) : array();
 			}
-			else
-			{
+			else {
 				$Args = &$args;
 			}
 
-			if ($locktest->locked == false)
-			{
+			if ($locktest->locked == false) {
 				$locktest = $this->cache->lock($id);
 			}
 
-			if (isset($woptions['modulemode']))
-			{
+			if (isset($woptions['modulemode'])) {
 				$document = JFactory::getDocument();
 				$coptions['modulemode'] = $woptions['modulemode'];
 				$coptions['headerbefore'] = $document->getHeadData();
 			}
-			else
-			{
+			else {
 				$coptions['modulemode'] = 0;
 			}
 
@@ -174,8 +159,7 @@ class JCacheControllerCallback extends JCacheController
 
 			// Store the cache data
 			$this->cache->store(serialize($cached), $id);
-			if ($locktest->locked == true)
-			{
+			if ($locktest->locked == true) {
 				$this->cache->unlock($id);
 			}
 		}
@@ -196,8 +180,7 @@ class JCacheControllerCallback extends JCacheController
 	 */
 	protected function _makeId($callback, $args)
 	{
-		if (is_array($callback) && is_object($callback[0]))
-		{
+		if (is_array($callback) && is_object($callback[0])) {
 			$vars = get_object_vars($callback[0]);
 			$vars[] = strtolower(get_class($callback[0]));
 			$callback[0] = $vars;

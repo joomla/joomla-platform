@@ -58,8 +58,7 @@ class JElementModuleLayouts extends JElementList
 		$db->setQuery($query);
 		$template = $db->loadResult();
 
-		if ($module = $node->attributes('module'))
-		{
+		if ($module = $node->attributes('module')) {
 			$base = ($clientId == 1) ? JPATH_ADMINISTRATOR : JPATH_SITE;
 			$module = preg_replace('#\W#', '', $module);
 			$path1 = $base . '/modules/' . $module . '/tmpl';
@@ -67,8 +66,7 @@ class JElementModuleLayouts extends JElementList
 			$options[] = JHTML::_('select.option', '', '');
 		}
 
-		if ($path1 && $path2)
-		{
+		if ($path1 && $path2) {
 			jimport('joomla.filesystem.file');
 			$path1 = JPath::clean($path1);
 			$path2 = JPath::clean($path2);
@@ -79,8 +77,7 @@ class JElementModuleLayouts extends JElementList
 				$options[] = JHTML::_('select.option', JFile::stripExt($file));
 			}
 
-			if (is_dir($path2) && $files = JFolder::files($path2, '^[^_]*\.php$'))
-			{
+			if (is_dir($path2) && $files = JFolder::files($path2, '^[^_]*\.php$')) {
 				$options[] = JHTML::_('select.optgroup', JText::_('JOPTION_FROM_DEFAULT'));
 				foreach ($files as $file)
 				{

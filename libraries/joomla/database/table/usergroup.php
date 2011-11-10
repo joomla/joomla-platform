@@ -42,8 +42,7 @@ class JTableUsergroup extends JTable
 	public function check()
 	{
 		// Validate the title.
-		if ((trim($this->title)) == '')
-		{
+		if ((trim($this->title)) == '') {
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_USERGROUP_TITLE'));
 			return false;
 		}
@@ -59,8 +58,7 @@ class JTableUsergroup extends JTable
 			->where('id <> ' . (int) $this->id);
 		$db->setQuery($query);
 
-		if ($db->loadResult() > 0)
-		{
+		if ($db->loadResult() > 0) {
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_USERGROUP_TITLE_EXISTS'));
 			return false;
 		}
@@ -97,8 +95,7 @@ class JTableUsergroup extends JTable
 			$right = $this->rebuild($children[$i], $right);
 
 			// if there is an update failure, return false to break out of the recursion
-			if ($right === false)
-			{
+			if ($right === false) {
 				return false;
 			}
 		}
@@ -107,8 +104,7 @@ class JTableUsergroup extends JTable
 		// the children of this node we also know the right value
 		$db->setQuery('UPDATE ' . $this->_tbl . ' SET lft=' . (int) $left . ', rgt=' . (int) $right . ' WHERE id=' . (int) $parent_id);
 		// if there is an update failure, return false to break out of the recursion
-		if (!$db->query())
-		{
+		if (!$db->query()) {
 			return false;
 		}
 
@@ -127,8 +123,7 @@ class JTableUsergroup extends JTable
 	 */
 	function store($updateNulls = false)
 	{
-		if ($result = parent::store($updateNulls))
-		{
+		if ($result = parent::store($updateNulls)) {
 			// Rebuild the nested set tree.
 			$this->rebuild();
 		}
@@ -149,20 +144,16 @@ class JTableUsergroup extends JTable
 	{
 		$k = $this->_tbl_key;
 
-		if ($oid)
-		{
+		if ($oid) {
 			$this->load($oid);
 		}
-		if ($this->id == 0)
-		{
+		if ($this->id == 0) {
 			return new JException(JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
 		}
-		if ($this->parent_id == 0)
-		{
+		if ($this->parent_id == 0) {
 			return new JException(JText::_('JLIB_DATABASE_ERROR_DELETE_ROOT_CATEGORIES'));
 		}
-		if ($this->lft == 0 or $this->rgt == 0)
-		{
+		if ($this->lft == 0 or $this->rgt == 0) {
 			return new JException(JText::_('JLIB_DATABASE_ERROR_DELETE_CATEGORY'));
 		}
 
@@ -174,8 +165,7 @@ class JTableUsergroup extends JTable
 			' WHERE c.lft >= ' . (int) $this->lft . ' AND c.rgt <= ' . $this->rgt
 		);
 		$ids = $db->loadColumn();
-		if (empty($ids))
-		{
+		if (empty($ids)) {
 			return new JException(JText::_('JLIB_DATABASE_ERROR_DELETE_CATEGORY'));
 		}
 
@@ -184,8 +174,7 @@ class JTableUsergroup extends JTable
 
 		// Delete the category and its children
 		$db->setQuery('DELETE FROM ' . $db->quoteName($this->_tbl) . ' WHERE id IN (' . implode(',', $ids) . ')');
-		if (!$db->query())
-		{
+		if (!$db->query()) {
 			$this->setError($db->getErrorMsg());
 			return false;
 		}
@@ -205,8 +194,7 @@ class JTableUsergroup extends JTable
 		$query->update('#__viewlevels');
 		$query->where('rules REGEXP "(,|\\\\[)(' . implode('|', $ids) . ')(,|\\\\])"');
 		$db->setQuery($query);
-		if (!$db->query())
-		{
+		if (!$db->query()) {
 			$this->setError($db->getErrorMsg());
 			return false;
 		}
@@ -219,8 +207,7 @@ class JTableUsergroup extends JTable
 		$db->query();
 
 		// Check for a database error.
-		if ($db->getErrorNum())
-		{
+		if ($db->getErrorNum()) {
 			$this->setError($db->getErrorMsg());
 			return false;
 		}

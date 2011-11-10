@@ -118,35 +118,29 @@ class JWeb
 	public function __construct(JInput $input = null, JRegistry $config = null, JWebClient $client = null)
 	{
 		// If a input object is given use it.
-		if ($input instanceof JInput)
-		{
+		if ($input instanceof JInput) {
 			$this->input = $input;
 		}
 		// Create the input based on the application logic.
-		else
-		{
+		else {
 			$this->input = new JInput;
 		}
 
 		// If a config object is given use it.
-		if ($config instanceof JRegistry)
-		{
+		if ($config instanceof JRegistry) {
 			$this->config = $config;
 		}
 		// Instantiate a new configuration object.
-		else
-		{
+		else {
 			$this->config = new JRegistry;
 		}
 
 		// If a client object is given use it.
-		if ($client instanceof JWebClient)
-		{
+		if ($client instanceof JWebClient) {
 			$this->client = $client;
 		}
 		// Instantiate a new web client object.
-		else
-		{
+		else {
 			$this->client = new JWebClient;
 		}
 
@@ -181,14 +175,11 @@ class JWeb
 	public static function getInstance($name = null)
 	{
 		// Only create the object if it doesn't exist.
-		if (empty(self::$instance))
-		{
-			if (class_exists($name) && (is_subclass_of($name, 'JWeb')))
-			{
+		if (empty(self::$instance)) {
+			if (class_exists($name) && (is_subclass_of($name, 'JWeb'))) {
 				self::$instance = new $name;
 			}
-			else
-			{
+			else {
 				self::$instance = new JWeb;
 			}
 		}
@@ -230,61 +221,50 @@ class JWeb
 	public function initialise($session = null, $document = null, $language = null, $dispatcher = null)
 	{
 		// If a session object is given use it.
-		if ($session instanceof JSession)
-		{
+		if ($session instanceof JSession) {
 			$this->session = $session;
 		}
 		// We don't have a session, nor do we want one.
-		elseif ($session === false)
-		{
+		elseif ($session === false) {
 			// Do nothing.
 		}
 		// Create the session based on the application logic.
-		else
-		{
+		else {
 			$this->loadSession();
 		}
 
 		// If a document object is given use it.
-		if ($document instanceof JDocument)
-		{
+		if ($document instanceof JDocument) {
 			$this->document = $document;
 		}
 		// We don't have a document, nor do we want one.
-		elseif ($document === false)
-		{
+		elseif ($document === false) {
 			// Do nothing.
 		}
 		// Create the document based on the application logic.
-		else
-		{
+		else {
 			$this->loadDocument();
 		}
 
 		// If a language object is given use it.
-		if ($language instanceof JLanguage)
-		{
+		if ($language instanceof JLanguage) {
 			$this->language = $language;
 		}
 		// We don't have a language, nor do we want one.
-		elseif ($language === false)
-		{
+		elseif ($language === false) {
 			// Do nothing.
 		}
 		// Create the language based on the application logic.
-		else
-		{
+		else {
 			$this->loadLanguage();
 		}
 
 		// If a dispatcher object is given use it.
-		if ($dispatcher instanceof JDispatcher)
-		{
+		if ($dispatcher instanceof JDispatcher) {
 			$this->dispatcher = $dispatcher;
 		}
 		// Create the dispatcher based on the application logic.
-		else
-		{
+		else {
 			$this->loadDispatcher();
 		}
 
@@ -310,8 +290,7 @@ class JWeb
 		$this->triggerEvent('onAfterExecute');
 
 		// If we have an application document object, render it.
-		if ($this->document instanceof JDocument)
-		{
+		if ($this->document instanceof JDocument) {
 			// Trigger the onBeforeRender event.
 			$this->triggerEvent('onBeforeRender');
 
@@ -323,8 +302,7 @@ class JWeb
 		}
 
 		// If gzip compression is enabled in configuration and the server is compliant, compress the output.
-		if ($this->get('gzip') && !ini_get('zlib.output_compression') && (ini_get('output_handler') != 'ob_gzhandler'))
-		{
+		if ($this->get('gzip') && !ini_get('zlib.output_compression') && (ini_get('output_handler') != 'ob_gzhandler')) {
 			$this->compress();
 		}
 
@@ -372,12 +350,10 @@ class JWeb
 		);
 
 		// Handle the convention-based default case for themes path.
-		if (defined('JPATH_BASE'))
-		{
+		if (defined('JPATH_BASE')) {
 			$options['directory'] = JPATH_BASE . '/themes';
 		}
-		else
-		{
+		else {
 			$options['directory'] = dirname(__FILE__) . '/themes';
 		}
 
@@ -412,26 +388,22 @@ class JWeb
 		$encodings = array_intersect($this->client->encodings, array_keys($supported));
 
 		// If no supported encoding is detected do nothing and return.
-		if (empty($encodings))
-		{
+		if (empty($encodings)) {
 			return;
 		}
 
 		// Verify that headers have not yet been sent, and that our connection is still alive.
-		if ($this->checkHeadersSent() || !$this->checkConnectionAlive())
-		{
+		if ($this->checkHeadersSent() || !$this->checkConnectionAlive()) {
 			return;
 		}
 
 		// Iterate through the encodings and attempt to compress the data using any found supported encodings.
 		foreach ($encodings as $encoding)
 		{
-			if (($supported[$encoding] == 'gz') || ($supported[$encoding] == 'deflate'))
-			{
+			if (($supported[$encoding] == 'gz') || ($supported[$encoding] == 'deflate')) {
 				// Verify that the server supports gzip compression before we attempt to gzip encode the data.
 				// @codeCoverageIgnoreStart
-				if (!extension_loaded('zlib') || ini_get('zlib.output_compression'))
-				{
+				if (!extension_loaded('zlib') || ini_get('zlib.output_compression')) {
 					continue;
 				}
 				// @codeCoverageIgnoreEnd
@@ -442,8 +414,7 @@ class JWeb
 
 				// If there was a problem encoding the data just try the next encoding scheme.
 				// @codeCoverageIgnoreStart
-				if ($gzdata === false)
-				{
+				if ($gzdata === false) {
 					continue;
 				}
 				// @codeCoverageIgnoreEnd
@@ -475,8 +446,7 @@ class JWeb
 		$this->setHeader('Content-Type', $this->mimeType . '; charset=' . $this->charSet);
 
 		// If the response is set to uncachable, we need to set some appropriate headers so browsers don't cache the response.
-		if (!$this->response->cachable)
-		{
+		if (!$this->response->cachable) {
 			// Expires in the past.
 			$this->setHeader('Expires', 'Mon, 1 Jan 2001 00:00:00 GMT', true);
 			// Always modified.
@@ -485,13 +455,11 @@ class JWeb
 			// HTTP 1.0
 			$this->setHeader('Pragma', 'no-cache');
 		}
-		else
-		{
+		else {
 			// Expires.
 			$this->setHeader('Expires', gmdate('D, d M Y H:i:s', time() + 900) . ' GMT');
 			// Last modified.
-			if ($this->modifiedDate instanceof JDate)
-			{
+			if ($this->modifiedDate instanceof JDate) {
 				$this->setHeader('Last-Modified', $this->modifiedDate->format('D, d M Y H:i:s'));
 			}
 		}
@@ -521,8 +489,7 @@ class JWeb
 		jimport('phputf8.utils.ascii');
 
 		// Check for relative internal links.
-		if (preg_match('#^index\.php#', $url))
-		{
+		if (preg_match('#^index\.php#', $url)) {
 			$url = $this->get('uri.base.full') . $url;
 		}
 
@@ -535,8 +502,7 @@ class JWeb
 		 * prepend the URL with our base URL for a proper redirect.  The rudimentary way we are looking
 		 * at this is to simply check whether or not the URL string has a valid scheme or not.
 		 */
-		if (!preg_match('#^[a-z]+\://#i', $url))
-		{
+		if (!preg_match('#^[a-z]+\://#i', $url)) {
 			// Get a JURI instance for the requested URI.
 			$uri = JURI::getInstance($this->get('uri.request'));
 
@@ -544,13 +510,11 @@ class JWeb
 			$prefix = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 
 			// We just need the prefix since we have a path relative to the root.
-			if ($url[0] == '/')
-			{
+			if ($url[0] == '/') {
 				$url = $prefix . $url;
 			}
 			// It's relative to where we are now, so lets add that.
-			else
-			{
+			else {
 				$parts = explode('/', $uri->toString(array('path')));
 				array_pop($parts);
 				$path = implode('/', $parts) . '/';
@@ -559,15 +523,12 @@ class JWeb
 		}
 
 		// If the headers have already been sent we need to send the redirect statement via JavaScript.
-		if ($this->checkHeadersSent())
-		{
+		if ($this->checkHeadersSent()) {
 			echo "<script>document.location.href='$url';</script>\n";
 		}
-		else
-		{
+		else {
 			// We have to use a JavaScript redirect here because MSIE doesn't play nice with utf-8 URLs.
-			if (($this->client->engine == JWebClient::TRIDENT) && !utf8_is_ascii($url))
-			{
+			if (($this->client->engine == JWebClient::TRIDENT) && !utf8_is_ascii($url)) {
 				$html = '<html><head>';
 				$html .= '<meta http-equiv="content-type" content="text/html; charset=' . $this->charSet . '" />';
 				$html .= '<script>document.location.href=\'' . $url . '\';</script>';
@@ -579,8 +540,7 @@ class JWeb
 			 * For WebKit based browsers do not send a 303, as it causes subresource reloading.  You can view the
 			 * bug report at: https://bugs.webkit.org/show_bug.cgi?id=38690
 			 */
-			elseif (!$moved and ($this->client->engine == JWebClient::WEBKIT))
-			{
+			elseif (!$moved and ($this->client->engine == JWebClient::WEBKIT)) {
 				$html = '<html><head>';
 				$html .= '<meta http-equiv="refresh" content="0; url=' . $url . '" />';
 				$html .= '<meta http-equiv="content-type" content="text/html; charset=' . $this->charSet . '" />';
@@ -588,8 +548,7 @@ class JWeb
 
 				echo $html;
 			}
-			else
-			{
+			else {
 				// All other cases use the more efficient HTTP header for redirection.
 				$this->header($moved ? 'HTTP/1.1 301 Moved Permanently' : 'HTTP/1.1 303 See other');
 				$this->header('Location: ' . $url);
@@ -628,12 +587,10 @@ class JWeb
 	public function loadConfiguration($data)
 	{
 		// Load the data into the configuration object.
-		if (is_array($data))
-		{
+		if (is_array($data)) {
 			$this->config->loadArray($data);
 		}
-		elseif (is_object($data))
-		{
+		elseif (is_object($data)) {
 			$this->config->loadObject($data);
 		}
 
@@ -652,8 +609,7 @@ class JWeb
 	 */
 	public function registerEvent($event, $handler)
 	{
-		if ($this->dispatcher instanceof JDispatcher)
-		{
+		if ($this->dispatcher instanceof JDispatcher) {
 			$this->dispatcher->register($event, $handler);
 		}
 
@@ -672,8 +628,7 @@ class JWeb
 	 */
 	public function triggerEvent($event, $args = null)
 	{
-		if ($this->dispatcher instanceof JDispatcher)
-		{
+		if ($this->dispatcher instanceof JDispatcher) {
 			return $this->dispatcher->trigger($event, $args);
 		}
 
@@ -725,8 +680,7 @@ class JWeb
 	 */
 	public function allowCache($allow = null)
 	{
-		if ($allow !== null)
-		{
+		if ($allow !== null) {
 			$this->response->cachable = (bool) $allow;
 		}
 
@@ -753,12 +707,10 @@ class JWeb
 		$value = (string) $value;
 
 		// If the replace flag is set, unset all known headers with the given name.
-		if ($replace)
-		{
+		if ($replace) {
 			foreach ($this->response->headers as $key => $header)
 			{
-				if ($name == $header['name'])
-				{
+				if ($name == $header['name']) {
 					unset($this->response->headers[$key]);
 				}
 			}
@@ -809,17 +761,14 @@ class JWeb
 	 */
 	public function sendHeaders()
 	{
-		if (!$this->checkHeadersSent())
-		{
+		if (!$this->checkHeadersSent()) {
 			foreach ($this->response->headers as $header)
 			{
-				if ('status' == strtolower($header['name']))
-				{
+				if ('status' == strtolower($header['name'])) {
 					// 'status' headers indicate an HTTP status, and need to be handled slightly differently
 					$this->header(ucfirst(strtolower($header['name'])) . ': ' . $header['value'], null, (int) $header['value']);
 				}
-				else
-				{
+				else {
 					$this->header($header['name'] . ': ' . $header['value']);
 				}
 			}
@@ -969,12 +918,10 @@ class JWeb
 		$uri = '';
 
 		// First we need to detect the URI scheme.
-		if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) != 'off'))
-		{
+		if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) != 'off')) {
 			$scheme = 'https://';
 		}
-		else
-		{
+		else {
 			$scheme = 'http://';
 		}
 
@@ -985,20 +932,17 @@ class JWeb
 		 */
 
 		// If PHP_SELF and REQUEST_URI are both populated then we will assume "Apache Mode".
-		if (!empty($_SERVER['PHP_SELF']) && !empty($_SERVER['REQUEST_URI']))
-		{
+		if (!empty($_SERVER['PHP_SELF']) && !empty($_SERVER['REQUEST_URI'])) {
 			// The URI is built from the HTTP_HOST and REQUEST_URI environment variables in an Apache environment.
 			$uri = $scheme . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		}
 		// If not in "Apache Mode" we will assume that we are in an IIS environment and proceed.
-		else
-		{
+		else {
 			// IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable... thanks, MS
 			$uri = $scheme . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
 
 			// If the QUERY_STRING variable exists append it to the URI string.
-			if (isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING']))
-			{
+			if (isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING'])) {
 				$uri .= '?' . $_SERVER['QUERY_STRING'];
 			}
 		}
@@ -1024,28 +968,23 @@ class JWeb
 		// Instantiate variables.
 		$config = array();
 
-		if (empty($file) && defined('JPATH_BASE'))
-		{
+		if (empty($file) && defined('JPATH_BASE')) {
 			$file = JPATH_BASE . '/configuration.php';
 
 			// Applications can choose not to have any configuration data
 			// by not implementing this method and not having a config file.
-			if (!file_exists($file))
-			{
+			if (!file_exists($file)) {
 				$file = '';
 			}
 		}
 
-		if (!empty($file))
-		{
+		if (!empty($file)) {
 			JLoader::register($class, $file);
 
-			if (class_exists($class))
-			{
+			if (class_exists($class)) {
 				$config = new $class;
 			}
-			else
-			{
+			else {
 				throw new Exception('Configuration class does not exist.');
 			}
 		}
@@ -1145,14 +1084,12 @@ class JWeb
 
 		// Instantiate the session object.
 		$session = JSession::getInstance($handler, $options);
-		if ($session->getState() == 'expired')
-		{
+		if ($session->getState() == 'expired') {
 			$session->restart();
 		}
 
 		// If the session is new, load the user and registry objects.
-		if ($session->isNew())
-		{
+		if ($session->isNew()) {
 			$session->set('registry', new JRegistry);
 			$session->set('user', new JUser);
 		}
@@ -1175,25 +1112,21 @@ class JWeb
 	{
 		// Set the request URI.
 		// @codeCoverageIgnoreStart
-		if (!empty($requestUri))
-		{
+		if (!empty($requestUri)) {
 			$this->set('uri.request', $requestUri);
 		}
-		else
-		{
+		else {
 			$this->set('uri.request', $this->detectRequestUri());
 		}
 		// @codeCoverageIgnoreEnd
 
 		// Check to see if an explicit site URI has been set.
 		$siteUri = trim($this->get('site_uri'));
-		if ($siteUri != '')
-		{
+		if ($siteUri != '') {
 			$uri = JUri::getInstance($siteUri);
 		}
 		// No explicit site URI was set so use the system one.
-		else
-		{
+		else {
 			$uri = JUri::getInstance($this->get('uri.request'));
 		}
 
@@ -1208,22 +1141,18 @@ class JWeb
 
 		// Get an explicitly set media URI is present.
 		$mediaURI = trim($this->get('media_uri'));
-		if ($mediaURI)
-		{
-			if (strpos($mediaURI, '://') !== false)
-			{
+		if ($mediaURI) {
+			if (strpos($mediaURI, '://') !== false) {
 				$this->set('uri.media.full', $mediaURI);
 				$this->set('uri.media.path', $mediaURI);
 			}
-			else
-			{
+			else {
 				$this->set('uri.media.full', $this->get('uri.base.host') . $mediaURI);
 				$this->set('uri.media.path', $mediaURI);
 			}
 		}
 		// No explicit media URI was set, build it dynamically from the base uri.
-		else
-		{
+		else {
 			$this->set('uri.media.full', $this->get('uri.base.full') . 'media/');
 			$this->set('uri.media.path', $this->get('uri.base.path') . 'media/');
 		}

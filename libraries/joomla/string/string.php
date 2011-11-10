@@ -13,8 +13,7 @@ defined('JPATH_PLATFORM') or die;
 // PHP mbstring and iconv local configuration
 //
 // Check if mbstring extension is loaded and attempt to load it if not present except for windows
-if (extension_loaded('mbstring') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && dl('mbstring.so'))))
-{
+if (extension_loaded('mbstring') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && dl('mbstring.so')))) {
 	// Make sure to suppress the output in case ini_set is disabled
 	@ini_set('mbstring.internal_encoding', 'UTF-8');
 	@ini_set('mbstring.http_input', 'UTF-8');
@@ -22,8 +21,7 @@ if (extension_loaded('mbstring') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN
 }
 
 // Same for iconv
-if (function_exists('iconv') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && dl('iconv.so'))))
-{
+if (function_exists('iconv') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && dl('iconv.so')))) {
 	// These are settings that can be set inside code
 	iconv_set_encoding("internal_encoding", "UTF-8");
 	iconv_set_encoding("input_encoding", "UTF-8");
@@ -85,35 +83,29 @@ abstract class JString
 		$styleSpec = isset(self::$incrementStyles[$style]) ? self::$incrementStyles[$style] : self::$incrementStyles['default'];
 
 		// Regular expression search and replace patterns.
-		if (is_array($styleSpec[0]))
-		{
+		if (is_array($styleSpec[0])) {
 			$rxSearch = $styleSpec[0][0];
 			$rxReplace = $styleSpec[0][1];
 		}
-		else
-		{
+		else {
 			$rxSearch = $rxReplace = $styleSpec[0];
 		}
 
 		// New and old (existing) sprintf formats.
-		if (is_array($styleSpec[1]))
-		{
+		if (is_array($styleSpec[1])) {
 			$newFormat = $styleSpec[1][0];
 			$oldFormat = $styleSpec[1][1];
 		}
-		else
-		{
+		else {
 			$newFormat = $oldFormat = $styleSpec[1];
 		}
 
 		// Check if we are incrementing an existing pattern, or appending a new one.
-		if (preg_match($rxSearch, $string, $matches))
-		{
+		if (preg_match($rxSearch, $string, $matches)) {
 			$n = empty($n) ? ($matches[1] + 1) : $n;
 			$string = preg_replace($rxReplace, sprintf($oldFormat, $n), $string);
 		}
-		else
-		{
+		else {
 			$n = empty($n) ? 2 : $n;
 			$string .= sprintf($newFormat, $n);
 		}
@@ -137,12 +129,10 @@ abstract class JString
 	 */
 	public static function strpos($str, $search, $offset = false)
 	{
-		if ($offset === false)
-		{
+		if ($offset === false) {
 			return utf8_strpos($str, $search);
 		}
-		else
-		{
+		else {
 			return utf8_strpos($str, $search, $offset);
 		}
 	}
@@ -180,12 +170,10 @@ abstract class JString
 	 */
 	public static function substr($str, $offset, $length = false)
 	{
-		if ($length === false)
-		{
+		if ($length === false) {
 			return utf8_substr($str, $offset);
 		}
-		else
-		{
+		else {
 			return utf8_substr($str, $offset, $length);
 		}
 	}
@@ -265,12 +253,10 @@ abstract class JString
 	public static function str_ireplace($search, $replace, $str, $count = null)
 	{
 		jimport('phputf8.str_ireplace');
-		if ($count === false)
-		{
+		if ($count === false) {
 			return utf8_ireplace($search, $replace, $str);
 		}
-		else
-		{
+		else {
 			return utf8_ireplace($search, $replace, $str, $count);
 		}
 	}
@@ -311,44 +297,36 @@ abstract class JString
 	 */
 	public static function strcasecmp($str1, $str2, $locale = false)
 	{
-		if ($locale)
-		{
+		if ($locale) {
 			// Get current locale
 			$locale0 = setlocale(LC_COLLATE, 0);
-			if (!$locale = setlocale(LC_COLLATE, $locale))
-			{
+			if (!$locale = setlocale(LC_COLLATE, $locale)) {
 				$locale = $locale0;
 			}
 
 			// See if we have successfully set locale to UTF-8
-			if (!stristr($locale, 'UTF-8') && stristr($locale, '_') && preg_match('~\.(\d+)$~', $locale, $m))
-			{
+			if (!stristr($locale, 'UTF-8') && stristr($locale, '_') && preg_match('~\.(\d+)$~', $locale, $m)) {
 				$encoding = 'CP' . $m[1];
 			}
-			elseif (stristr($locale, 'UTF-8'))
-			{
+			elseif (stristr($locale, 'UTF-8')) {
 				$encoding = 'UTF-8';
 			}
-			else
-			{
+			else {
 				$encoding = 'nonrecodable';
 			}
 
 			// if we successfully set encoding it to utf-8 or encoding is sth weird don't recode
-			if ($encoding == 'UTF-8' || $encoding == 'nonrecodable')
-			{
+			if ($encoding == 'UTF-8' || $encoding == 'nonrecodable') {
 				return strcoll(utf8_strtolower($str1), utf8_strtolower($str2));
 			}
-			else
-			{
+			else {
 				return strcoll(
 					self::transcode(utf8_strtolower($str1), 'UTF-8', $encoding),
 					self::transcode(utf8_strtolower($str2), 'UTF-8', $encoding)
 				);
 			}
 		}
-		else
-		{
+		else {
 			return utf8_strcasecmp($str1, $str2);
 		}
 	}
@@ -370,41 +348,33 @@ abstract class JString
 	 */
 	public static function strcmp($str1, $str2, $locale = false)
 	{
-		if ($locale)
-		{
+		if ($locale) {
 			// Get current locale
 			$locale0 = setlocale(LC_COLLATE, 0);
-			if (!$locale = setlocale(LC_COLLATE, $locale))
-			{
+			if (!$locale = setlocale(LC_COLLATE, $locale)) {
 				$locale = $locale0;
 			}
 
 			// See if we have successfully set locale to UTF-8
-			if (!stristr($locale, 'UTF-8') && stristr($locale, '_') && preg_match('~\.(\d+)$~', $locale, $m))
-			{
+			if (!stristr($locale, 'UTF-8') && stristr($locale, '_') && preg_match('~\.(\d+)$~', $locale, $m)) {
 				$encoding = 'CP' . $m[1];
 			}
-			elseif (stristr($locale, 'UTF-8'))
-			{
+			elseif (stristr($locale, 'UTF-8')) {
 				$encoding = 'UTF-8';
 			}
-			else
-			{
+			else {
 				$encoding = 'nonrecodable';
 			}
 
 			// If we successfully set encoding it to utf-8 or encoding is sth weird don't recode
-			if ($encoding == 'UTF-8' || $encoding == 'nonrecodable')
-			{
+			if ($encoding == 'UTF-8' || $encoding == 'nonrecodable') {
 				return strcoll($str1, $str2);
 			}
-			else
-			{
+			else {
 				return strcoll(self::transcode($str1, 'UTF-8', $encoding), self::transcode($str2, 'UTF-8', $encoding));
 			}
 		}
-		else
-		{
+		else {
 			return strcmp($str1, $str2);
 		}
 	}
@@ -426,16 +396,13 @@ abstract class JString
 	public static function strcspn($str, $mask, $start = null, $length = null)
 	{
 		jimport('phputf8.strcspn');
-		if ($start === false && $length === false)
-		{
+		if ($start === false && $length === false) {
 			return utf8_strcspn($str, $mask);
 		}
-		elseif ($length === false)
-		{
+		elseif ($length === false) {
 			return utf8_strcspn($str, $mask, $start);
 		}
-		else
-		{
+		else {
 			return utf8_strcspn($str, $mask, $start, $length);
 		}
 	}
@@ -495,16 +462,13 @@ abstract class JString
 	public static function strspn($str, $mask, $start = null, $length = null)
 	{
 		jimport('phputf8.strspn');
-		if ($start === null && $length === null)
-		{
+		if ($start === null && $length === null) {
 			return utf8_strspn($str, $mask);
 		}
-		elseif ($length === null)
-		{
+		elseif ($length === null) {
 			return utf8_strspn($str, $mask, $start);
 		}
-		else
-		{
+		else {
 			return utf8_strspn($str, $mask, $start, $length);
 		}
 	}
@@ -526,12 +490,10 @@ abstract class JString
 	public static function substr_replace($str, $repl, $start, $length = null)
 	{
 		// loaded by library loader
-		if ($length === false)
-		{
+		if ($length === false) {
 			return utf8_substr_replace($str, $repl, $start);
 		}
-		else
-		{
+		else {
 			return utf8_substr_replace($str, $repl, $start, $length);
 		}
 	}
@@ -554,18 +516,15 @@ abstract class JString
 	 */
 	public static function ltrim($str, $charlist = false)
 	{
-		if (empty($charlist) && $charlist !== false)
-		{
+		if (empty($charlist) && $charlist !== false) {
 			return $str;
 		}
 
 		jimport('phputf8.trim');
-		if ($charlist === false)
-		{
+		if ($charlist === false) {
 			return utf8_ltrim($str);
 		}
-		else
-		{
+		else {
 			return utf8_ltrim($str, $charlist);
 		}
 	}
@@ -587,18 +546,15 @@ abstract class JString
 	 */
 	public static function rtrim($str, $charlist = false)
 	{
-		if (empty($charlist) && $charlist !== false)
-		{
+		if (empty($charlist) && $charlist !== false) {
 			return $str;
 		}
 
 		jimport('phputf8.trim');
-		if ($charlist === false)
-		{
+		if ($charlist === false) {
 			return utf8_rtrim($str);
 		}
-		else
-		{
+		else {
 			return utf8_rtrim($str, $charlist);
 		}
 	}
@@ -620,18 +576,15 @@ abstract class JString
 	 */
 	public static function trim($str, $charlist = false)
 	{
-		if (empty($charlist) && $charlist !== false)
-		{
+		if (empty($charlist) && $charlist !== false) {
 			return $str;
 		}
 
 		jimport('phputf8.trim');
-		if ($charlist === false)
-		{
+		if ($charlist === false) {
 			return utf8_trim($str);
 		}
-		else
-		{
+		else {
 			return utf8_trim($str, $charlist);
 		}
 	}
@@ -683,8 +636,7 @@ abstract class JString
 	 */
 	public static function transcode($source, $from_encoding, $to_encoding)
 	{
-		if (is_string($source))
-		{
+		if (is_string($source)) {
 			/*
 			 * "//TRANSLIT" is appended to the $to_encoding to ensure that when iconv comes
 			 * across a character that cannot be represented in the target charset, it can
@@ -728,41 +680,35 @@ abstract class JString
 		{
 			$in = ord($str{$i});
 
-			if ($mState == 0)
-			{
+			if ($mState == 0) {
 				// When mState is zero we expect either a US-ASCII character or a
 				// multi-octet sequence.
-				if (0 == (0x80 & ($in)))
-				{
+				if (0 == (0x80 & ($in))) {
 					// US-ASCII, pass straight through.
 					$mBytes = 1;
 				}
-				elseif (0xC0 == (0xE0 & ($in)))
-				{
+				elseif (0xC0 == (0xE0 & ($in))) {
 					// First octet of 2 octet sequence
 					$mUcs4 = ($in);
 					$mUcs4 = ($mUcs4 & 0x1F) << 6;
 					$mState = 1;
 					$mBytes = 2;
 				}
-				elseif (0xE0 == (0xF0 & ($in)))
-				{
+				elseif (0xE0 == (0xF0 & ($in))) {
 					// First octet of 3 octet sequence
 					$mUcs4 = ($in);
 					$mUcs4 = ($mUcs4 & 0x0F) << 12;
 					$mState = 2;
 					$mBytes = 3;
 				}
-				elseif (0xF0 == (0xF8 & ($in)))
-				{
+				elseif (0xF0 == (0xF8 & ($in))) {
 					// First octet of 4 octet sequence
 					$mUcs4 = ($in);
 					$mUcs4 = ($mUcs4 & 0x07) << 18;
 					$mState = 3;
 					$mBytes = 4;
 				}
-				elseif (0xF8 == (0xFC & ($in)))
-				{
+				elseif (0xF8 == (0xFC & ($in))) {
 					/* First octet of 5 octet sequence.
 					 *
 					 * This is illegal because the encoded codepoint must be either
@@ -776,8 +722,7 @@ abstract class JString
 					$mState = 4;
 					$mBytes = 5;
 				}
-				elseif (0xFC == (0xFE & ($in)))
-				{
+				elseif (0xFC == (0xFE & ($in))) {
 					// First octet of 6 octet sequence, see comments for 5 octet sequence.
 					$mUcs4 = ($in);
 					$mUcs4 = ($mUcs4 & 1) << 30;
@@ -785,20 +730,17 @@ abstract class JString
 					$mBytes = 6;
 
 				}
-				else
-				{
+				else {
 					/* Current octet is neither in the US-ASCII range nor a legal first
 					 * octet of a multi-octet sequence.
 					 */
 					return false;
 				}
 			}
-			else
-			{
+			else {
 				// When mState is non-zero, we expect a continuation of the multi-octet
 				// sequence
-				if (0x80 == (0xC0 & ($in)))
-				{
+				if (0x80 == (0xC0 & ($in))) {
 					// Legal continuation.
 					$shift = ($mState - 1) * 6;
 					$tmp = $in;
@@ -809,8 +751,7 @@ abstract class JString
 					 * End of the multi-octet sequence. mUcs4 now contains the final
 					 * Unicode codepoint to be output
 					 */
-					if (0 == --$mState)
-					{
+					if (0 == --$mState) {
 						/*
 						 * Check for illegal sequences and codepoints.
 						 */
@@ -819,7 +760,7 @@ abstract class JString
 							|| (4 < $mBytes)
 							|| (($mUcs4 & 0xFFFFF800) == 0xD800) // From Unicode 3.2, surrogate characters are illegal
 							|| ($mUcs4 > 0x10FFFF)) // Codepoints outside the Unicode range are illegal
-						{
+							{
 							return false;
 						}
 
@@ -829,8 +770,7 @@ abstract class JString
 						$mBytes = 1;
 					}
 				}
-				else
-				{
+				else {
 					/**
 					 *((0xC0 & (*in) != 0x80) && (mState != 0))
 					 * Incomplete multi-octet sequence.
@@ -863,8 +803,7 @@ abstract class JString
 	 */
 	public static function compliant($str)
 	{
-		if (strlen($str) == 0)
-		{
+		if (strlen($str) == 0) {
 			return true;
 		}
 		// If even just the first character can be matched, when the /u

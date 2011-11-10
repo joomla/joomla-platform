@@ -66,14 +66,12 @@ class JModelList extends JModel
 		parent::__construct($config);
 
 		// Add the ordering filtering fields white list.
-		if (isset($config['filter_fields']))
-		{
+		if (isset($config['filter_fields'])) {
 			$this->filter_fields = $config['filter_fields'];
 		}
 
 		// Guess the context as Option.ModelName.
-		if (empty($this->context))
-		{
+		if (empty($this->context)) {
 			$this->context = strtolower($this->option . '.' . $this->getName());
 		}
 	}
@@ -96,8 +94,7 @@ class JModelList extends JModel
 		$currentStoreId = $this->getStoreId();
 
 		// If the last store id is different from the current, refresh the query.
-		if ($lastStoreId != $currentStoreId || empty($this->query))
-		{
+		if ($lastStoreId != $currentStoreId || empty($this->query)) {
 			$lastStoreId = $currentStoreId;
 			$this->query = $this->getListQuery();
 		}
@@ -118,8 +115,7 @@ class JModelList extends JModel
 		$store = $this->getStoreId();
 
 		// Try to load the data from internal storage.
-		if (isset($this->cache[$store]))
-		{
+		if (isset($this->cache[$store])) {
 			return $this->cache[$store];
 		}
 
@@ -128,8 +124,7 @@ class JModelList extends JModel
 		$items = $this->_getList($query, $this->getStart(), $this->getState('list.limit'));
 
 		// Check for a database error.
-		if ($this->_db->getErrorNum())
-		{
+		if ($this->_db->getErrorNum()) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
@@ -168,8 +163,7 @@ class JModelList extends JModel
 		$store = $this->getStoreId('getPagination');
 
 		// Try to load the data from internal storage.
-		if (isset($this->cache[$store]))
-		{
+		if (isset($this->cache[$store])) {
 			return $this->cache[$store];
 		}
 
@@ -221,8 +215,7 @@ class JModelList extends JModel
 		$store = $this->getStoreId('getTotal');
 
 		// Try to load the data from internal storage.
-		if (isset($this->cache[$store]))
-		{
+		if (isset($this->cache[$store])) {
 			return $this->cache[$store];
 		}
 
@@ -231,8 +224,7 @@ class JModelList extends JModel
 		$total = (int) $this->_getListCount($query);
 
 		// Check for a database error.
-		if ($this->_db->getErrorNum())
-		{
+		if ($this->_db->getErrorNum()) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
@@ -255,16 +247,14 @@ class JModelList extends JModel
 		$store = $this->getStoreId('getstart');
 
 		// Try to load the data from internal storage.
-		if (isset($this->cache[$store]))
-		{
+		if (isset($this->cache[$store])) {
 			return $this->cache[$store];
 		}
 
 		$start = $this->getState('list.start');
 		$limit = $this->getState('list.limit');
 		$total = $this->getTotal();
-		if ($start > $total - $limit)
-		{
+		if ($start > $total - $limit) {
 			$start = max(0, (int) (ceil($total / $limit) - 1) * $limit);
 		}
 
@@ -293,8 +283,7 @@ class JModelList extends JModel
 	protected function populateState($ordering = null, $direction = null)
 	{
 		// If the context is set, assume that stateful lists are used.
-		if ($this->context)
-		{
+		if ($this->context) {
 			$app = JFactory::getApplication();
 
 			$value = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
@@ -307,8 +296,7 @@ class JModelList extends JModel
 
 			// Check if the ordering field is in the white list, otherwise use the incoming value.
 			$value = $app->getUserStateFromRequest($this->context . '.ordercol', 'filter_order', $ordering);
-			if (!in_array($value, $this->filter_fields))
-			{
+			if (!in_array($value, $this->filter_fields)) {
 				$value = $ordering;
 				$app->setUserState($this->context . '.ordercol', $value);
 			}
@@ -316,15 +304,13 @@ class JModelList extends JModel
 
 			// Check if the ordering direction is valid, otherwise use the incoming value.
 			$value = $app->getUserStateFromRequest($this->context . '.orderdirn', 'filter_order_Dir', $direction);
-			if (!in_array(strtoupper($value), array('ASC', 'DESC', '')))
-			{
+			if (!in_array(strtoupper($value), array('ASC', 'DESC', ''))) {
 				$value = $direction;
 				$app->setUserState($this->context . '.orderdirn', $value);
 			}
 			$this->setState('list.direction', $value);
 		}
-		else
-		{
+		else {
 			$this->setState('list.start', 0);
 			$this->state->set('list.limit', 0);
 		}
@@ -353,18 +339,15 @@ class JModelList extends JModel
 		$cur_state = (!is_null($old_state)) ? $old_state : $default;
 		$new_state = JRequest::getVar($request, null, 'default', $type);
 
-		if (($cur_state != $new_state) && ($resetPage))
-		{
+		if (($cur_state != $new_state) && ($resetPage)) {
 			JRequest::setVar('limitstart', 0);
 		}
 
 		// Save the new value only if it is set in this request.
-		if ($new_state !== null)
-		{
+		if ($new_state !== null) {
 			$app->setUserState($key, $new_state);
 		}
-		else
-		{
+		else {
 			$new_state = $cur_state;
 		}
 

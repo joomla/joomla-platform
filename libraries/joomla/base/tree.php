@@ -60,8 +60,7 @@ class JTree extends JObject
 	function addChild(&$node, $setCurrent = false)
 	{
 		$this->_current->addChild($node);
-		if ($setCurrent)
-		{
+		if ($setCurrent) {
 			$this->_current = &$node;
 		}
 	}

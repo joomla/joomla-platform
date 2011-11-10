@@ -69,45 +69,37 @@ class JCli
 	{
 		// Close the application if we are not executed from the command line.
 		// @codeCoverageIgnoreStart
-		if (!defined('STDOUT') || !defined('STDIN') || !isset($_SERVER['argv']))
-		{
+		if (!defined('STDOUT') || !defined('STDIN') || !isset($_SERVER['argv'])) {
 			$this->close();
 		}
 		// @codeCoverageIgnoreEnd
 
 		// If a input object is given use it.
-		if ($input instanceof JInput)
-		{
+		if ($input instanceof JInput) {
 			$this->input = $input;
 		}
 		// Create the input based on the application logic.
-		else
-		{
-			if (class_exists('Jinput'))
-			{
+		else {
+			if (class_exists('Jinput')) {
 				$this->input = new JInputCLI;
 			}
 		}
 
 		// If a config object is given use it.
-		if ($config instanceof JRegistry)
-		{
+		if ($config instanceof JRegistry) {
 			$this->config = $config;
 		}
 		// Instantiate a new configuration object.
-		else
-		{
+		else {
 			$this->config = new JRegistry;
 		}
 
 		// If a dispatcher object is given use it.
-		if ($dispatcher instanceof JDispatcher)
-		{
+		if ($dispatcher instanceof JDispatcher) {
 			$this->dispatcher = $dispatcher;
 		}
 		// Create the dispatcher based on the application logic.
-		else
-		{
+		else {
 			$this->loadDispatcher();
 		}
 
@@ -151,14 +143,11 @@ class JCli
 	public static function getInstance($name = null)
 	{
 		// Only create the object if it doesn't exist.
-		if (empty(self::$instance))
-		{
-			if (class_exists($name) && (is_subclass_of($name, 'JCli')))
-			{
+		if (empty(self::$instance)) {
+			if (class_exists($name) && (is_subclass_of($name, 'JCli'))) {
 				self::$instance = new $name;
 			}
-			else
-			{
+			else {
 				self::$instance = new JCli;
 			}
 		}
@@ -226,12 +215,10 @@ class JCli
 	public function loadConfiguration($data)
 	{
 		// Load the data into the configuration object.
-		if (is_array($data))
-		{
+		if (is_array($data)) {
 			$this->config->loadArray($data);
 		}
-		elseif (is_object($data))
-		{
+		elseif (is_object($data)) {
 			$this->config->loadObject($data);
 		}
 
@@ -281,8 +268,7 @@ class JCli
 	 */
 	public function registerEvent($event, $handler)
 	{
-		if ($this->dispatcher instanceof JDispatcher)
-		{
+		if ($this->dispatcher instanceof JDispatcher) {
 			$this->dispatcher->register($event, $handler);
 		}
 
@@ -301,8 +287,7 @@ class JCli
 	 */
 	public function triggerEvent($event, $args = null)
 	{
-		if ($this->dispatcher instanceof JDispatcher)
-		{
+		if ($this->dispatcher instanceof JDispatcher) {
 			return $this->dispatcher->trigger($event, $args);
 		}
 
@@ -345,28 +330,23 @@ class JCli
 		// Instantiate variables.
 		$config = array();
 
-		if (empty($file) && defined('JPATH_BASE'))
-		{
+		if (empty($file) && defined('JPATH_BASE')) {
 			$file = JPATH_BASE . '/configuration.php';
 
 			// Applications can choose not to have any configuration data
 			// by not implementing this method and not having a config file.
-			if (!file_exists($file))
-			{
+			if (!file_exists($file)) {
 				$file = '';
 			}
 		}
 
-		if (!empty($file))
-		{
+		if (!empty($file)) {
 			JLoader::register($class, $file);
 
-			if (class_exists($class))
-			{
+			if (class_exists($class)) {
 				$config = new $class;
 			}
-			else
-			{
+			else {
 				throw new Exception('Configuration class does not exist.');
 			}
 		}

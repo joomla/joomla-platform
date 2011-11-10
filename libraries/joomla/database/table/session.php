@@ -51,13 +51,11 @@ class JTableSession extends JTable
 		$this->time = time();
 		$ret = $this->_db->insertObject($this->_tbl, $this, 'session_id');
 
-		if (!$ret)
-		{
+		if (!$ret) {
 			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', strtolower(get_class($this)), $this->_db->stderr()));
 			return false;
 		}
-		else
-		{
+		else {
 			return true;
 		}
 	}
@@ -76,13 +74,11 @@ class JTableSession extends JTable
 		$this->time = time();
 		$ret = $this->_db->updateObject($this->_tbl, $this, 'session_id', $updateNulls);
 
-		if (!$ret)
-		{
+		if (!$ret) {
 			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', strtolower(get_class($this)), $this->_db->stderr()));
 			return false;
 		}
-		else
-		{
+		else {
 			return true;
 		}
 	}
@@ -104,8 +100,7 @@ class JTableSession extends JTable
 		$query = 'DELETE FROM #__session' . ' WHERE userid = ' . $this->_db->Quote($userId) . ' AND client_id IN (' . $clientIds . ')';
 		$this->_db->setQuery($query);
 
-		if (!$this->_db->query())
-		{
+		if (!$this->_db->query()) {
 			$this->setError($this->_db->stderr());
 			return false;
 		}
@@ -145,8 +140,7 @@ class JTableSession extends JTable
 		$query = 'SELECT COUNT(userid) FROM #__session' . ' WHERE userid = ' . $this->_db->Quote($userid);
 		$this->_db->setQuery($query);
 
-		if (!$result = $this->_db->loadResult())
-		{
+		if (!$result = $this->_db->loadResult()) {
 			$this->setError($this->_db->stderr());
 			return false;
 		}
@@ -173,20 +167,17 @@ class JTableSession extends JTable
 		//}
 
 		$k = $this->_tbl_key;
-		if ($oid)
-		{
+		if ($oid) {
 			$this->$k = $oid;
 		}
 
 		$query = 'DELETE FROM ' . $this->_db->quoteName($this->_tbl) . ' WHERE ' . $this->_tbl_key . ' = ' . $this->_db->Quote($this->$k);
 		$this->_db->setQuery($query);
 
-		if ($this->_db->query())
-		{
+		if ($this->_db->query()) {
 			return true;
 		}
-		else
-		{
+		else {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}

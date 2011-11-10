@@ -36,8 +36,7 @@ class JLoggerMessageQueue extends JLogger
 	 */
 	public function addEntry(JLogEntry $entry)
 	{
-		switch ($entry->priority)
-		{
+		switch ($entry->priority) {
 			case JLog::EMERGENCY:
 			case JLog::ALERT:
 			case JLog::CRITICAL:

@@ -54,8 +54,7 @@ class JFormFieldTimezone extends JFormFieldGroupedList
 		$groups = array();
 
 		// If the timezone is not set use the server setting.
-		if (strlen($this->value) == 0)
-		{
+		if (strlen($this->value) == 0) {
 			$value = JFactory::getConfig()->get('offset');
 		}
 
@@ -67,8 +66,7 @@ class JFormFieldTimezone extends JFormFieldGroupedList
 		{
 
 			// Time zones not in a group we will ignore.
-			if (strpos($zone, '/') === false)
-			{
+			if (strpos($zone, '/') === false) {
 				continue;
 			}
 
@@ -76,18 +74,15 @@ class JFormFieldTimezone extends JFormFieldGroupedList
 			list ($group, $locale) = explode('/', $zone, 2);
 
 			// Only use known groups.
-			if (in_array($group, self::$zones))
-			{
+			if (in_array($group, self::$zones)) {
 
 				// Initialize the group if necessary.
-				if (!isset($groups[$group]))
-				{
+				if (!isset($groups[$group])) {
 					$groups[$group] = array();
 				}
 
 				// Only add options where a locale exists.
-				if (!empty($locale))
-				{
+				if (!empty($locale)) {
 					$groups[$group][$zone] = JHtml::_('select.option', $zone, str_replace('_', ' ', $locale), 'value', 'text', false);
 				}
 			}

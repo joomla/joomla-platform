@@ -47,20 +47,16 @@ class JElementUserGroup extends JElement
 		$ctrl = $control_name . '[' . $name . ']';
 		$attribs = ' ';
 
-		if ($v = $node->attributes('size'))
-		{
+		if ($v = $node->attributes('size')) {
 			$attribs .= 'size="' . $v . '"';
 		}
-		if ($v = $node->attributes('class'))
-		{
+		if ($v = $node->attributes('class')) {
 			$attribs .= 'class="' . $v . '"';
 		}
-		else
-		{
+		else {
 			$attribs .= 'class="inputbox"';
 		}
-		if ($m = $node->attributes('multiple'))
-		{
+		if ($m = $node->attributes('multiple')) {
 			$attribs .= 'multiple="multiple"';
 			$ctrl .= '[]';
 			//$value		= implode('|',)

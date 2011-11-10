@@ -82,13 +82,11 @@ class JTableAsset extends JTableNested
 			' WHERE ' . $this->_db->quoteName('name') . ' = ' . $this->_db->Quote($name)
 		);
 		$assetId = (int) $this->_db->loadResult();
-		if (empty($assetId))
-		{
+		if (empty($assetId)) {
 			return false;
 		}
 		// Check for a database error.
-		if ($error = $this->_db->getErrorMsg())
-		{
+		if ($error = $this->_db->getErrorMsg()) {
 			$this->setError($error);
 			return false;
 		}
@@ -108,24 +106,19 @@ class JTableAsset extends JTableNested
 		$this->parent_id = (int) $this->parent_id;
 
 		// JTableNested does not allow parent_id = 0, override this.
-		if ($this->parent_id > 0)
-		{
+		if ($this->parent_id > 0) {
 			$this->_db->setQuery(
 				'SELECT COUNT(id)' . ' FROM ' . $this->_db->quoteName($this->_tbl) .
 				' WHERE ' . $this->_db->quoteName('id') . ' = ' . $this->parent_id
 			);
-			if ($this->_db->loadResult())
-			{
+			if ($this->_db->loadResult()) {
 				return true;
 			}
-			else
-			{
-				if ($error = $this->_db->getErrorMsg())
-				{
+			else {
+				if ($error = $this->_db->getErrorMsg()) {
 					$this->setError($error);
 				}
-				else
-				{
+				else {
 					$this->setError(JText::_('JLIB_DATABASE_ERROR_INVALID_PARENT_ID'));
 				}
 				return false;

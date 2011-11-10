@@ -74,15 +74,12 @@ class JDatabaseMySQLi extends JDatabase
 		 * have to extract them from the host string.
 		 */
 		$tmp = substr(strstr($options['host'], ':'), 1);
-		if (!empty($tmp))
-		{
+		if (!empty($tmp)) {
 			// Get the port number or socket name
-			if (is_numeric($tmp))
-			{
+			if (is_numeric($tmp)) {
 				$options['port'] = $tmp;
 			}
-			else
-			{
+			else {
 				$options['socket'] = $tmp;
 			}
 
@@ -90,26 +87,22 @@ class JDatabaseMySQLi extends JDatabase
 			$options['host'] = substr($options['host'], 0, strlen($options['host']) - (strlen($tmp) + 1));
 
 			// This will take care of the following notation: ":3306"
-			if ($options['host'] == '')
-			{
+			if ($options['host'] == '') {
 				$options['host'] = 'localhost';
 			}
 		}
 
 		// Make sure the MySQLi extension for PHP is installed and enabled.
-		if (!function_exists('mysqli_connect'))
-		{
+		if (!function_exists('mysqli_connect')) {
 
 			// Legacy error handling switch based on the JError::$legacy switch.
 			// @deprecated  12.1
-			if (JError::$legacy)
-			{
+			if (JError::$legacy) {
 				$this->errorNum = 1;
 				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_ADAPTER_MYSQLI');
 				return;
 			}
-			else
-			{
+			else {
 				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_ADAPTER_MYSQLI'));
 			}
 		}
@@ -119,18 +112,15 @@ class JDatabaseMySQLi extends JDatabase
 		);
 
 		// Attempt to connect to the server.
-		if (!$this->connection)
-		{
+		if (!$this->connection) {
 			// Legacy error handling switch based on the JError::$legacy switch.
 			// @deprecated  12.1
-			if (JError::$legacy)
-			{
+			if (JError::$legacy) {
 				$this->errorNum = 2;
 				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_CONNECT_MYSQL');
 				return;
 			}
-			else
-			{
+			else {
 				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_CONNECT_MYSQL'));
 			}
 		}
@@ -142,8 +132,7 @@ class JDatabaseMySQLi extends JDatabase
 		mysqli_query($this->connection, "SET @@SESSION.sql_mode = '';");
 
 		// If auto-select is enabled select the given database.
-		if ($options['select'] && !empty($options['database']))
-		{
+		if ($options['select'] && !empty($options['database'])) {
 			$this->select($options['database']);
 		}
 	}
@@ -155,8 +144,7 @@ class JDatabaseMySQLi extends JDatabase
 	 */
 	public function __destruct()
 	{
-		if (is_object($this->connection))
-		{
+		if (is_object($this->connection)) {
 			mysqli_close($this->connection);
 		}
 	}
@@ -175,8 +163,7 @@ class JDatabaseMySQLi extends JDatabase
 	{
 		$result = mysqli_real_escape_string($this->getConnection(), $text);
 
-		if ($extra)
-		{
+		if ($extra) {
 			$result = addcslashes($result, '%_');
 		}
 
@@ -265,8 +252,7 @@ class JDatabaseMySQLi extends JDatabase
 	public function getExporter()
 	{
 		// Make sure we have an exporter class for this driver.
-		if (!class_exists('JDatabaseExporterMySQLi'))
-		{
+		if (!class_exists('JDatabaseExporterMySQLi')) {
 			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_EXPORTER'));
 		}
 
@@ -287,8 +273,7 @@ class JDatabaseMySQLi extends JDatabase
 	public function getImporter()
 	{
 		// Make sure we have an importer class for this driver.
-		if (!class_exists('JDatabaseImporterMySQLi'))
-		{
+		if (!class_exists('JDatabaseImporterMySQLi')) {
 			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_IMPORTER'));
 		}
 
@@ -324,17 +309,14 @@ class JDatabaseMySQLi extends JDatabase
 	 */
 	function getQuery($new = false)
 	{
-		if ($new)
-		{
+		if ($new) {
 			// Make sure we have a query class for this driver.
-			if (!class_exists('JDatabaseQueryMySQLi'))
-			{
+			if (!class_exists('JDatabaseQueryMySQLi')) {
 				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
 			}
 			return new JDatabaseQueryMySQLi($this);
 		}
-		else
-		{
+		else {
 			return $this->sql;
 		}
 	}
@@ -390,16 +372,14 @@ class JDatabaseMySQLi extends JDatabase
 		$fields = $this->loadObjectList();
 
 		// If we only want the type as the value add just that to the list.
-		if ($typeOnly)
-		{
+		if ($typeOnly) {
 			foreach ($fields as $field)
 			{
 				$result[$field->Field] = preg_replace("/[(0-9)]/", '', $field->Type);
 			}
 		}
 		// If we want the whole field data object add that to the list.
-		else
-		{
+		else {
 			foreach ($fields as $field)
 			{
 				$result[$field->Field] = $field;
@@ -494,22 +474,18 @@ class JDatabaseMySQLi extends JDatabase
 	 */
 	public function query()
 	{
-		if (!is_object($this->connection))
-		{
+		if (!is_object($this->connection)) {
 
 			// Legacy error handling switch based on the JError::$legacy switch.
 			// @deprecated  12.1
-			if (JError::$legacy)
-			{
+			if (JError::$legacy) {
 
-				if ($this->debug)
-				{
+				if ($this->debug) {
 					JError::raiseError(500, 'JDatabaseMySQL::query: ' . $this->errorNum . ' - ' . $this->errorMsg);
 				}
 				return false;
 			}
-			else
-			{
+			else {
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
 				throw new JDatabaseException($this->errorMsg, $this->errorNum);
 			}
@@ -517,14 +493,12 @@ class JDatabaseMySQLi extends JDatabase
 
 		// Take a local copy so that we don't modify the original query and cause issues later
 		$sql = $this->replacePrefix((string) $this->sql);
-		if ($this->limit > 0 || $this->offset > 0)
-		{
+		if ($this->limit > 0 || $this->offset > 0) {
 			$sql .= ' LIMIT ' . $this->offset . ', ' . $this->limit;
 		}
 
 		// If debugging is enabled then let's log the query.
-		if ($this->debug)
-		{
+		if ($this->debug) {
 
 			// Increment the query counter and add the query to the object queue.
 			$this->count++;
@@ -541,24 +515,20 @@ class JDatabaseMySQLi extends JDatabase
 		$this->cursor = mysqli_query($this->connection, $sql);
 
 		// If an error occurred handle it.
-		if (!$this->cursor)
-		{
+		if (!$this->cursor) {
 			$this->errorNum = (int) mysqli_errno($this->connection);
 			$this->errorMsg = (string) mysqli_error($this->connection) . ' SQL=' . $sql;
 
 			// Legacy error handling switch based on the JError::$legacy switch.
 			// @deprecated  12.1
-			if (JError::$legacy)
-			{
+			if (JError::$legacy) {
 
-				if ($this->debug)
-				{
+				if ($this->debug) {
 					JError::raiseError(500, 'JDatabaseMySQL::query: ' . $this->errorNum . ' - ' . $this->errorMsg);
 				}
 				return false;
 			}
-			else
-			{
+			else {
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
 				throw new JDatabaseException($this->errorMsg, $this->errorNum);
 			}
@@ -579,24 +549,20 @@ class JDatabaseMySQLi extends JDatabase
 	 */
 	public function select($database)
 	{
-		if (!$database)
-		{
+		if (!$database) {
 			return false;
 		}
 
-		if (!mysqli_select_db($this->connection, $database))
-		{
+		if (!mysqli_select_db($this->connection, $database)) {
 
 			// Legacy error handling switch based on the JError::$legacy switch.
 			// @deprecated  12.1
-			if (JError::$legacy)
-			{
+			if (JError::$legacy) {
 				$this->errorNum = 3;
 				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT');
 				return false;
 			}
-			else
-			{
+			else {
 				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'));
 			}
 		}
@@ -735,8 +701,7 @@ class JDatabaseMySQLi extends JDatabase
 		$this->sql = 'EXPLAIN ' . $this->sql;
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
-		{
+		if (!($cursor = $this->query())) {
 			return null;
 		}
 
@@ -746,8 +711,7 @@ class JDatabaseMySQLi extends JDatabase
 		$buffer .= '<thead><tr><td colspan="99">' . $this->getQuery() . '</td></tr>';
 		while ($row = $this->fetchAssoc($cursor))
 		{
-			if ($first)
-			{
+			if ($first) {
 				$buffer .= '<tr>';
 				foreach ($row as $k => $v)
 				{
@@ -795,8 +759,7 @@ class JDatabaseMySQLi extends JDatabase
 		$this->errorMsg = '';
 
 		// If the batch is meant to be transaction safe then we need to wrap it in a transaction.
-		if ($transactionSafe)
-		{
+		if ($transactionSafe) {
 			$sql = 'START TRANSACTION;' . rtrim($sql, "; \t\r\n\0") . '; COMMIT;';
 		}
 		$queries = $this->splitSql($sql);
@@ -804,21 +767,17 @@ class JDatabaseMySQLi extends JDatabase
 		foreach ($queries as $query)
 		{
 			$query = trim($query);
-			if ($query != '')
-			{
+			if ($query != '') {
 				$this->cursor = mysqli_query($this->connection, $query);
-				if ($this->debug)
-				{
+				if ($this->debug) {
 					$this->count++;
 					$this->log[] = $query;
 				}
-				if (!$this->cursor)
-				{
+				if (!$this->cursor) {
 					$error = 1;
 					$this->errorNum .= mysqli_errno($this->connection) . ' ';
 					$this->errorMsg .= mysqli_error($this->connection) . " SQL=$query <br />";
-					if ($abortOnError)
-					{
+					if ($abortOnError) {
 						return $this->cursor;
 					}
 				}

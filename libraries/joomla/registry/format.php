@@ -45,15 +45,12 @@ abstract class JRegistryFormat
 		{
 			// Only load the file the class does not exist.
 			$class = 'JRegistryFormat' . $type;
-			if (!class_exists($class))
-			{
+			if (!class_exists($class)) {
 				$path = dirname(__FILE__) . '/format/' . $type . '.php';
-				if (is_file($path))
-				{
+				if (is_file($path)) {
 					include_once $path;
 				}
-				else
-				{
+				else {
 					throw new JException(JText::_('JLIB_REGISTRY_EXCEPTION_LOAD_FORMAT_CLASS'), 500, E_ERROR);
 				}
 			}

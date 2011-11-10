@@ -62,8 +62,7 @@ class JMenu extends JObject
 
 		foreach ($this->_items as $k => $item)
 		{
-			if ($item->home)
-			{
+			if ($item->home) {
 				$this->_default[$item->language] = $item->id;
 			}
 
@@ -92,16 +91,14 @@ class JMenu extends JObject
 			$info = JApplicationHelper::getClientInfo($client, true);
 
 			$path = $info->path . '/includes/menu.php';
-			if (file_exists($path))
-			{
+			if (file_exists($path)) {
 				include_once $path;
 
 				// Create a JPathway object
 				$classname = 'JMenu' . ucfirst($client);
 				$instance = new $classname($options);
 			}
-			else
-			{
+			else {
 				//$error = JError::raiseError(500, 'Unable to load menu: '.$client);
 				//TODO: Solve this
 				$error = null;
@@ -126,8 +123,7 @@ class JMenu extends JObject
 	public function getItem($id)
 	{
 		$result = null;
-		if (isset($this->_items[$id]))
-		{
+		if (isset($this->_items[$id])) {
 			$result = &$this->_items[$id];
 		}
 
@@ -146,8 +142,7 @@ class JMenu extends JObject
 	 */
 	public function setDefault($id, $language = '')
 	{
-		if (isset($this->_items[$id]))
-		{
+		if (isset($this->_items[$id])) {
 			$this->_default[$language] = $id;
 			return true;
 		}
@@ -166,16 +161,13 @@ class JMenu extends JObject
 	 */
 	function getDefault($language = '*')
 	{
-		if (array_key_exists($language, $this->_default))
-		{
+		if (array_key_exists($language, $this->_default)) {
 			return $this->_items[$this->_default[$language]];
 		}
-		elseif (array_key_exists('*', $this->_default))
-		{
+		elseif (array_key_exists('*', $this->_default)) {
 			return $this->_items[$this->_default['*']];
 		}
-		else
-		{
+		else {
 			return 0;
 		}
 	}
@@ -191,8 +183,7 @@ class JMenu extends JObject
 	 */
 	public function setActive($id)
 	{
-		if (isset($this->_items[$id]))
-		{
+		if (isset($this->_items[$id])) {
 			$this->_active = $id;
 			$result = &$this->_items[$id];
 			return $result;
@@ -210,8 +201,7 @@ class JMenu extends JObject
 	 */
 	public function getActive()
 	{
-		if ($this->_active)
-		{
+		if ($this->_active) {
 			$item = &$this->_items[$this->_active];
 			return $item;
 		}
@@ -238,36 +228,29 @@ class JMenu extends JObject
 
 		foreach ($this->_items as $item)
 		{
-			if (!is_object($item))
-			{
+			if (!is_object($item)) {
 				continue;
 			}
 
 			$test = true;
 			for ($i = 0, $count = count($attributes); $i < $count; $i++)
 			{
-				if (is_array($values[$i]))
-				{
-					if (!in_array($item->$attributes[$i], $values[$i]))
-					{
+				if (is_array($values[$i])) {
+					if (!in_array($item->$attributes[$i], $values[$i])) {
 						$test = false;
 						break;
 					}
 				}
-				else
-				{
-					if ($item->$attributes[$i] != $values[$i])
-					{
+				else {
+					if ($item->$attributes[$i] != $values[$i]) {
 						$test = false;
 						break;
 					}
 				}
 			}
 
-			if ($test)
-			{
-				if ($firstonly)
-				{
+			if ($test) {
+				if ($firstonly) {
 					return $item;
 				}
 
@@ -289,12 +272,10 @@ class JMenu extends JObject
 	 */
 	public function getParams($id)
 	{
-		if ($menu = $this->getItem($id))
-		{
+		if ($menu = $this->getItem($id)) {
 			return $menu->params;
 		}
-		else
-		{
+		else {
 			return new JRegistry;
 		}
 	}
@@ -326,12 +307,10 @@ class JMenu extends JObject
 		$menu = $this->getItem($id);
 		$user = JFactory::getUser();
 
-		if ($menu)
-		{
+		if ($menu) {
 			return in_array((int) $menu->access, $user->getAuthorisedViewLevels());
 		}
-		else
-		{
+		else {
 			return true;
 		}
 	}

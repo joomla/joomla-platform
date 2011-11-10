@@ -66,8 +66,7 @@ class JFormFieldTemplateStyle extends JFormFieldGroupedList
 		$query->where('s.client_id = ' . (int) $client->id);
 		$query->order('template');
 		$query->order('title');
-		if ($template)
-		{
+		if ($template) {
 			$query->where('s.template = ' . $db->quote($template));
 		}
 		$query->join('LEFT', '#__extensions as e on e.element=s.template');
@@ -78,8 +77,7 @@ class JFormFieldTemplateStyle extends JFormFieldGroupedList
 		$styles = $db->loadObjectList();
 
 		// Build the grouped list array.
-		if ($styles)
-		{
+		if ($styles) {
 			foreach ($styles as $style)
 			{
 				$template = $style->template;
@@ -89,8 +87,7 @@ class JFormFieldTemplateStyle extends JFormFieldGroupedList
 					|| $lang->load('tpl_' . $template . '.sys', $client->path . '/templates/' . $template, $lang->getDefault(), false, false);
 				$name = JText::_($style->name);
 				// Initialize the group if necessary.
-				if (!isset($groups[$name]))
-				{
+				if (!isset($groups[$name])) {
 					$groups[$name] = array();
 				}
 

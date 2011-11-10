@@ -44,8 +44,7 @@ class JTableUpdate extends JTable
 	public function check()
 	{
 		// check for valid name
-		if (trim($this->name) == '' || trim($this->element) == '')
-		{
+		if (trim($this->name) == '' || trim($this->element) == '') {
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
 			return false;
 		}
@@ -66,15 +65,13 @@ class JTableUpdate extends JTable
 	 */
 	public function bind($array, $ignore = '')
 	{
-		if (isset($array['params']) && is_array($array['params']))
-		{
+		if (isset($array['params']) && is_array($array['params'])) {
 			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
-		if (isset($array['control']) && is_array($array['control']))
-		{
+		if (isset($array['control']) && is_array($array['control'])) {
 			$registry = new JRegistry;
 			$registry->loadArray($array['control']);
 			$array['control'] = (string) $registry;

@@ -69,16 +69,14 @@ class JPathway extends JObject
 			$info = JApplicationHelper::getClientInfo($client, true);
 
 			$path = $info->path . '/includes/pathway.php';
-			if (file_exists($path))
-			{
+			if (file_exists($path)) {
 				include_once $path;
 
 				// Create a JPathway object
 				$classname = 'JPathway' . ucfirst($client);
 				$instance = new $classname($options);
 			}
-			else
-			{
+			else {
 				$error = JError::raiseError(500, JText::sprintf('JLIB_APPLICATION_ERROR_PATHWAY_LOAD', $client));
 				return $error;
 			}
@@ -161,8 +159,7 @@ class JPathway extends JObject
 		// Initialize variables
 		$ret = false;
 
-		if ($this->_pathway[] = $this->_makeItem($name, $link))
-		{
+		if ($this->_pathway[] = $this->_makeItem($name, $link)) {
 			$ret = true;
 			$this->_count++;
 		}
@@ -185,8 +182,7 @@ class JPathway extends JObject
 		// Initialize variables
 		$ret = false;
 
-		if (isset($this->_pathway[$id]))
-		{
+		if (isset($this->_pathway[$id])) {
 			$this->_pathway[$id]->name = $name;
 			$ret = true;
 		}

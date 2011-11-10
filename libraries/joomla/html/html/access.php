@@ -57,20 +57,17 @@ abstract class JHtmlAccess
 		$options = $db->loadObjectList();
 
 		// Check for a database error.
-		if ($db->getErrorNum())
-		{
+		if ($db->getErrorNum()) {
 			JError::raiseWarning(500, $db->getErrorMsg());
 			return null;
 		}
 
 		// If params is an array, push these options to the array
-		if (is_array($params))
-		{
+		if (is_array($params)) {
 			$options = array_merge($params, $options);
 		}
 		// If all levels is allowed, push it into the array.
-		elseif ($params)
-		{
+		elseif ($params) {
 			array_unshift($options, JHtml::_('select.option', '', JText::_('JOPTION_ACCESS_SHOW_ALL_LEVELS')));
 		}
 
@@ -113,8 +110,7 @@ abstract class JHtmlAccess
 		$options = $db->loadObjectList();
 
 		// Check for a database error.
-		if ($db->getErrorNum())
-		{
+		if ($db->getErrorNum()) {
 			JError::raiseNotice(500, $db->getErrorMsg());
 			return null;
 		}
@@ -125,8 +121,7 @@ abstract class JHtmlAccess
 		}
 
 		// If all usergroups is allowed, push it into the array.
-		if ($allowAll)
-		{
+		if ($allowAll) {
 			array_unshift($options, JHtml::_('select.option', '', JText::_('JOPTION_ACCESS_SHOW_ALL_GROUPS')));
 		}
 
@@ -163,8 +158,7 @@ abstract class JHtmlAccess
 		$groups = $db->loadObjectList();
 
 		// Check for a database error.
-		if ($db->getErrorNum())
-		{
+		if ($db->getErrorNum()) {
 			JError::raiseNotice(500, $db->getErrorMsg());
 			return null;
 		}
@@ -178,14 +172,12 @@ abstract class JHtmlAccess
 			$item = &$groups[$i];
 
 			// If checkSuperAdmin is true, only add item if the user is superadmin or the group is not super admin
-			if ((!$checkSuperAdmin) || $isSuperAdmin || (!JAccess::checkGroup($item->id, 'core.admin')))
-			{
+			if ((!$checkSuperAdmin) || $isSuperAdmin || (!JAccess::checkGroup($item->id, 'core.admin'))) {
 				// Setup  the variable attributes.
 				$eid = $count . 'group_' . $item->id;
 				// Don't call in_array unless something is selected
 				$checked = '';
-				if ($selected)
-				{
+				if ($selected) {
 					$checked = in_array($item->id, $selected) ? ' checked="checked"' : '';
 				}
 				$rel = ($item->parent_id > 0) ? ' rel="' . $count . 'group_' . $item->parent_id . '"' : '';
@@ -262,8 +254,7 @@ abstract class JHtmlAccess
 	 */
 	public static function assetgroups($config = array())
 	{
-		if (empty(JHtmlAccess::$asset_groups))
-		{
+		if (empty(JHtmlAccess::$asset_groups)) {
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 
@@ -276,8 +267,7 @@ abstract class JHtmlAccess
 			JHtmlAccess::$asset_groups = $db->loadObjectList();
 
 			// Check for a database error.
-			if ($db->getErrorNum())
-			{
+			if ($db->getErrorNum()) {
 				JError::raiseNotice(500, $db->getErrorMsg());
 				return false;
 			}
@@ -303,8 +293,7 @@ abstract class JHtmlAccess
 		static $count;
 
 		$options = JHtmlAccess::assetgroups();
-		if (isset($config['title']))
-		{
+		if (isset($config['title'])) {
 			array_unshift($options, JHtml::_('select.option', '', $config['title']));
 		}
 

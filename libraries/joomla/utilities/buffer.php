@@ -149,40 +149,33 @@ class JBuffer
 	 */
 	function stream_seek($offset, $whence)
 	{
-		switch ($whence)
-		{
+		switch ($whence) {
 			case SEEK_SET:
-				if ($offset < strlen($this->_buffers[$this->name]) && $offset >= 0)
-				{
+				if ($offset < strlen($this->_buffers[$this->name]) && $offset >= 0) {
 					$this->position = $offset;
 					return true;
 				}
-				else
-				{
+				else {
 					return false;
 				}
 				break;
 
 			case SEEK_CUR:
-				if ($offset >= 0)
-				{
+				if ($offset >= 0) {
 					$this->position += $offset;
 					return true;
 				}
-				else
-				{
+				else {
 					return false;
 				}
 				break;
 
 			case SEEK_END:
-				if (strlen($this->_buffers[$this->name]) + $offset >= 0)
-				{
+				if (strlen($this->_buffers[$this->name]) + $offset >= 0) {
 					$this->position = strlen($this->_buffers[$this->name]) + $offset;
 					return true;
 				}
-				else
-				{
+				else {
 					return false;
 				}
 				break;

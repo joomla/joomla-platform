@@ -39,11 +39,9 @@ abstract class JModuleHelper
 		for ($i = 0; $i < $total; $i++)
 		{
 			// Match the name of the module
-			if ($modules[$i]->name == $name || $modules[$i]->module == $name)
-			{
+			if ($modules[$i]->name == $name || $modules[$i]->module == $name) {
 				// Match the title if we're looking for a specific instance of the module
-				if (!$title || $modules[$i]->title == $title)
-				{
+				if (!$title || $modules[$i]->title == $title) {
 					// Found it
 					$result = &$modules[$i];
 					break; // Found it
@@ -52,8 +50,7 @@ abstract class JModuleHelper
 		}
 
 		// If we didn't find it, and the name is mod_something, create a dummy object
-		if (is_null($result) && substr($name, 0, 4) == 'mod_')
-		{
+		if (is_null($result) && substr($name, 0, 4) == 'mod_') {
 			$result = new stdClass;
 			$result->id = 0;
 			$result->title = '';
@@ -89,16 +86,13 @@ abstract class JModuleHelper
 		$total = count($modules);
 		for ($i = 0; $i < $total; $i++)
 		{
-			if ($modules[$i]->position == $position)
-			{
+			if ($modules[$i]->position == $position) {
 				$result[] = &$modules[$i];
 			}
 		}
 
-		if (count($result) == 0)
-		{
-			if (JRequest::getBool('tp') && JComponentHelper::getParams('com_templates')->get('template_positions_display'))
-			{
+		if (count($result) == 0) {
+			if (JRequest::getBool('tp') && JComponentHelper::getParams('com_templates')->get('template_positions_display')) {
 				$result[0] = JModuleHelper::getModule('mod_' . $position);
 				$result[0]->title = $position;
 				$result[0]->content = $position;
@@ -139,8 +133,7 @@ abstract class JModuleHelper
 	{
 		static $chrome;
 
-		if (constant('JDEBUG'))
-		{
+		if (constant('JDEBUG')) {
 			JProfiler::getInstance('Application')->mark('beforeRenderModule ' . $module->module . ' (' . $module->title . ')');
 		}
 
@@ -163,8 +156,7 @@ abstract class JModuleHelper
 
 		// Load the module
 		// $module->user is a check for 1.0 custom modules and is deprecated refactoring
-		if (empty($module->user) && file_exists($path))
-		{
+		if (empty($module->user) && file_exists($path)) {
 			$lang = JFactory::getLanguage();
 			// 1.5 or Core then 1.6 3PD
 			$lang->load($module->module, JPATH_BASE, null, false, false) ||
@@ -180,18 +172,15 @@ abstract class JModuleHelper
 		}
 
 		// Load the module chrome functions
-		if (!$chrome)
-		{
+		if (!$chrome) {
 			$chrome = array();
 		}
 
 		include_once JPATH_THEMES . '/system/html/modules.php';
 		$chromePath = JPATH_THEMES . '/' . $app->getTemplate() . '/html/modules.php';
 
-		if (!isset($chrome[$chromePath]))
-		{
-			if (file_exists($chromePath))
-			{
+		if (!isset($chrome[$chromePath])) {
+			if (file_exists($chromePath)) {
 				include_once $chromePath;
 			}
 
@@ -199,14 +188,12 @@ abstract class JModuleHelper
 		}
 
 		// Make sure a style is set
-		if (!isset($attribs['style']))
-		{
+		if (!isset($attribs['style'])) {
 			$attribs['style'] = 'none';
 		}
 
 		// Dynamically add outline style
-		if (JRequest::getBool('tp') && JComponentHelper::getParams('com_templates')->get('template_positions_display'))
-		{
+		if (JRequest::getBool('tp') && JComponentHelper::getParams('com_templates')->get('template_positions_display')) {
 			$attribs['style'] .= ' outline';
 		}
 
@@ -215,8 +202,7 @@ abstract class JModuleHelper
 			$chromeMethod = 'modChrome_' . $style;
 
 			// Apply chrome and render module
-			if (function_exists($chromeMethod))
-			{
+			if (function_exists($chromeMethod)) {
 				$module->style = $attribs['style'];
 
 				ob_start();
@@ -229,8 +215,7 @@ abstract class JModuleHelper
 		//revert the scope
 		$app->scope = $scope;
 
-		if (constant('JDEBUG'))
-		{
+		if (constant('JDEBUG')) {
 			JProfiler::getInstance('Application')->mark('afterRenderModule ' . $module->module . ' (' . $module->title . ')');
 		}
 
@@ -252,8 +237,7 @@ abstract class JModuleHelper
 		$template = JFactory::getApplication()->getTemplate();
 		$defaultLayout = $layout;
 
-		if (strpos($layout, ':') !== false)
-		{
+		if (strpos($layout, ':') !== false) {
 			// Get the template and file name from the string
 			$temp = explode(':', $layout);
 			$template = ($temp[0] == '_') ? $template : $temp[0];
@@ -266,12 +250,10 @@ abstract class JModuleHelper
 		$bPath = JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php';
 
 		// If the template has a layout override use it
-		if (file_exists($tPath))
-		{
+		if (file_exists($tPath)) {
 			return $tPath;
 		}
-		else
-		{
+		else {
 			return $bPath;
 		}
 	}
@@ -287,8 +269,7 @@ abstract class JModuleHelper
 	{
 		static $clean;
 
-		if (isset($clean))
-		{
+		if (isset($clean)) {
 			return $clean;
 		}
 
@@ -302,8 +283,7 @@ abstract class JModuleHelper
 		$cache = JFactory::getCache('com_modules', '');
 		$cacheid = md5(serialize(array($Itemid, $groups, $clientId, $lang)));
 
-		if (!($clean = $cache->get($cacheid)))
-		{
+		if (!($clean = $cache->get($cacheid))) {
 			$db = JFactory::getDbo();
 
 			$query = $db->getQuery(true);
@@ -326,8 +306,7 @@ abstract class JModuleHelper
 			$query->where('(mm.menuid = ' . (int) $Itemid . ' OR mm.menuid <= 0)');
 
 			// Filter by language
-			if ($app->isSite() && $app->getLanguageFilter())
-			{
+			if ($app->isSite() && $app->getLanguageFilter()) {
 				$query->where('m.language IN (' . $db->Quote($lang) . ',' . $db->Quote('*') . ')');
 			}
 
@@ -338,8 +317,7 @@ abstract class JModuleHelper
 			$modules = $db->loadObjectList();
 			$clean = array();
 
-			if ($db->getErrorNum())
-			{
+			if ($db->getErrorNum()) {
 				JError::raiseWarning(500, JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $db->getErrorMsg()));
 				return $clean;
 			}
@@ -355,12 +333,10 @@ abstract class JModuleHelper
 				// the Itemid is missing or zero and the module is in exclude mode.
 				$negHit = ($negId === (int) $module->menuid) || (!$negId && (int) $module->menuid < 0);
 
-				if (isset($dupes[$module->id]))
-				{
+				if (isset($dupes[$module->id])) {
 					// If this item has been excluded, keep the duplicate flag set,
 					// but remove any item from the cleaned array.
-					if ($negHit)
-					{
+					if ($negHit) {
 						unset($clean[$module->id]);
 					}
 					continue;
@@ -369,8 +345,7 @@ abstract class JModuleHelper
 				$dupes[$module->id] = true;
 
 				// Only accept modules without explicit exclusions.
-				if (!$negHit)
-				{
+				if (!$negHit) {
 					// Determine if this is a 1.0 style custom module (no mod_ prefix)
 					// This should be eliminated when the class is refactored.
 					// $module->user is deprecated.
@@ -420,13 +395,11 @@ abstract class JModuleHelper
 	 */
 	public static function moduleCache($module, $moduleparams, $cacheparams)
 	{
-		if (!isset($cacheparams->modeparams))
-		{
+		if (!isset($cacheparams->modeparams)) {
 			$cacheparams->modeparams = null;
 		}
 
-		if (!isset($cacheparams->cachegroup))
-		{
+		if (!isset($cacheparams->cachegroup)) {
 			$cacheparams->cachegroup = $module->module;
 		}
 
@@ -435,8 +408,7 @@ abstract class JModuleHelper
 		$conf = JFactory::getConfig();
 
 		// Turn cache off for internal callers if parameters are set to off and for all logged in users
-		if ($moduleparams->get('owncache', null) === '0' || $conf->get('caching') == 0 || $user->get('id'))
-		{
+		if ($moduleparams->get('owncache', null) === '0' || $conf->get('caching') == 0 || $user->get('id')) {
 			$cache->setCaching(false);
 		}
 
@@ -448,8 +420,7 @@ abstract class JModuleHelper
 		$wrkarounds = true;
 		$view_levels = md5(serialize($user->getAuthorisedViewLevels()));
 
-		switch ($cacheparams->cachemode)
-		{
+		switch ($cacheparams->cachemode) {
 			case 'id':
 				$ret = $cache->get(
 					array($cacheparams->class, $cacheparams->method),
@@ -462,15 +433,13 @@ abstract class JModuleHelper
 
 			case 'safeuri':
 				$secureid = null;
-				if (is_array($cacheparams->modeparams))
-				{
+				if (is_array($cacheparams->modeparams)) {
 					$uri = JRequest::get();
 					$safeuri = new stdClass;
 					foreach ($cacheparams->modeparams as $key => $value)
 					{
 						// Use int filter for id/catid to clean out spamy slugs
-						if (isset($uri[$key]))
-						{
+						if (isset($uri[$key])) {
 							$safeuri->$key = JRequest::_cleanVar($uri[$key], 0, $value);
 						}
 					}

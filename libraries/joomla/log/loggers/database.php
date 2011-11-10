@@ -82,8 +82,7 @@ class JLoggerDatabase extends JLogger
 		parent::__construct($options);
 
 		// If both the database object and driver options are empty we want to use the system database connection.
-		if (empty($this->options['db_object']) && empty($this->options['db_driver']))
-		{
+		if (empty($this->options['db_object']) && empty($this->options['db_driver'])) {
 			$this->dbo = JFactory::getDBO();
 			$this->driver = JFactory::getConfig()->get('dbtype');
 			$this->host = JFactory::getConfig()->get('host');
@@ -93,8 +92,7 @@ class JLoggerDatabase extends JLogger
 			$this->prefix = JFactory::getConfig()->get('dbprefix');
 		}
 		// We need to get the database connection settings from the configuration options.
-		else
-		{
+		else {
 			$this->driver = (empty($this->options['db_driver'])) ? 'mysql' : $this->options['db_driver'];
 			$this->host = (empty($this->options['db_host'])) ? '127.0.0.1' : $this->options['db_host'];
 			$this->user = (empty($this->options['db_user'])) ? 'root' : $this->options['db_user'];
@@ -119,8 +117,7 @@ class JLoggerDatabase extends JLogger
 	public function addEntry(JLogEntry $entry)
 	{
 		// Connect to the database if not connected.
-		if (empty($this->dbo))
-		{
+		if (empty($this->dbo)) {
 			$this->connect();
 		}
 
@@ -149,25 +146,21 @@ class JLoggerDatabase extends JLogger
 			'database' => $this->database,
 			'prefix' => $this->prefix);
 
-		try
-		{
+		try {
 			$db = JDatabase::getInstance($options);
 
-			if (JError::isError($db))
-			{
+			if (JError::isError($db)) {
 				throw new LogException('Database Error: ' . (string) $db);
 			}
 
-			if ($db->getErrorNum() > 0)
-			{
+			if ($db->getErrorNum() > 0) {
 				throw new LogException(JText::sprintf('JLIB_UTIL_ERROR_CONNECT_DATABASE', $db->getErrorNum(), $db->getErrorMsg()));
 			}
 
 			// Assign the database connector to the class.
 			$this->dbo = $db;
 		}
-		catch (JDatabaseException $e)
-		{
+		catch (JDatabaseException $e) {
 			throw new LogException($e->getMessage());
 		}
 	}

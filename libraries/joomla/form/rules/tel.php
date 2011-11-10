@@ -40,8 +40,7 @@ class JFormRuleTel extends JFormRule
 	{
 		// If the field is empty and not required, the field is valid.
 		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
-		if (!$required && empty($value))
-		{
+		if (!$required && empty($value)) {
 			return true;
 		}
 		// @see http://www.nanpa.com/
@@ -53,45 +52,37 @@ class JFormRuleTel extends JFormRule
 		// @note that valid ITU-T and EPP must begin with +.
 		$regexarray = array('NANP' => '/^(?:\+?1[-. ]?)?\(?([2-9][0-8][0-9])\)?[-. ]?([2-9][0-9]{2})[-. ]?([0-9]{4})$/',
 			'ITU-T' => '/^\+(?:[0-9] ?){6,14}[0-9]$/', 'EPP' => '/^\+[0-9]{1,3}\.[0-9]{4,14}(?:x.+)?$/');
-		if (isset($element['plan']))
-		{
+		if (isset($element['plan'])) {
 
 			$plan = (string) $element['plan'];
-			if ($plan == 'northamerica' || $plan == 'us')
-			{
+			if ($plan == 'northamerica' || $plan == 'us') {
 				$plan = 'NANP';
 			}
-			elseif ($plan == 'International' || $plan == 'int' || $plan == 'missdn' || !$plan)
-			{
+			elseif ($plan == 'International' || $plan == 'int' || $plan == 'missdn' || !$plan) {
 				$plan = 'ITU-T';
 			}
-			elseif ($plan == 'IETF')
-			{
+			elseif ($plan == 'IETF') {
 				$plan = 'EPP';
 			}
 
 			$regex = $regexarray[$plan];
 			// Test the value against the regular expression.
-			if (preg_match($regex, $value) == false)
-			{
+			if (preg_match($regex, $value) == false) {
 
 				return false;
 			}
 		}
-		else
-		{
+		else {
 			//If the rule is set but no plan is selected just check that there are between
 			//7 and 15 digits inclusive and no illegal characters (but common number separators
 			//are allowed).
 			$cleanvalue = preg_replace('/[+. -(\)]/', '', $value);
 			$regex = '/^[0-9]{7,15}?$/';
-			if (preg_match($regex, $cleanvalue) == true)
-			{
+			if (preg_match($regex, $cleanvalue) == true) {
 
 				return true;
 			}
-			else
-			{
+			else {
 
 				return false;
 			}

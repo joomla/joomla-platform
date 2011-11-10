@@ -85,8 +85,7 @@ class JToolBar extends JObject
 	 */
 	public static function getInstance($name = 'toolbar')
 	{
-		if (empty(self::$instances[$name]))
-		{
+		if (empty(self::$instances[$name])) {
 			self::$instances[$name] = new JToolBar($name);
 		}
 
@@ -193,8 +192,7 @@ class JToolBar extends JObject
 		$button = $this->loadButtonType($type);
 
 		// Check for error.
-		if ($button === false)
-		{
+		if ($button === false) {
 			return JText::sprintf('JLIB_HTML_BUTTON_NOT_DEFINED', $type);
 		}
 		return $button->render($node);
@@ -213,45 +211,37 @@ class JToolBar extends JObject
 	public function loadButtonType($type, $new = false)
 	{
 		$signature = md5($type);
-		if (isset($this->_buttons[$signature]) && $new === false)
-		{
+		if (isset($this->_buttons[$signature]) && $new === false) {
 			return $this->_buttons[$signature];
 		}
 
-		if (!class_exists('JButton'))
-		{
+		if (!class_exists('JButton')) {
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_HTML_BUTTON_BASE_CLASS'));
 			return false;
 		}
 
 		$buttonClass = 'JButton' . $type;
-		if (!class_exists($buttonClass))
-		{
-			if (isset($this->_buttonPath))
-			{
+		if (!class_exists($buttonClass)) {
+			if (isset($this->_buttonPath)) {
 				$dirs = $this->_buttonPath;
 			}
-			else
-			{
+			else {
 				$dirs = array();
 			}
 
 			$file = JFilterInput::getInstance()->clean(str_replace('_', DS, strtolower($type)) . '.php', 'path');
 
 			jimport('joomla.filesystem.path');
-			if ($buttonFile = JPath::find($dirs, $file))
-			{
+			if ($buttonFile = JPath::find($dirs, $file)) {
 				include_once $buttonFile;
 			}
-			else
-			{
+			else {
 				JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('JLIB_HTML_BUTTON_NO_LOAD', $buttonClass, $buttonFile));
 				return false;
 			}
 		}
 
-		if (!class_exists($buttonClass))
-		{
+		if (!class_exists($buttonClass)) {
 			//return	JError::raiseError('SOME_ERROR_CODE', "Module file $buttonFile does not contain class $buttonClass.");
 			return false;
 		}
@@ -288,8 +278,7 @@ class JToolBar extends JObject
 			$dir = trim($dir);
 
 			// Add trailing separators as needed.
-			if (substr($dir, -1) != DIRECTORY_SEPARATOR)
-			{
+			if (substr($dir, -1) != DIRECTORY_SEPARATOR) {
 				// Directory
 				$dir .= DIRECTORY_SEPARATOR;
 			}

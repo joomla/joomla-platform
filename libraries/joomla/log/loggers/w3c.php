@@ -44,8 +44,7 @@ class JLoggerW3C extends JLoggerFormattedText
 	public function __construct(array &$options)
 	{
 		// The name of the text file defaults to 'error.w3c.php' if not explicitly given.
-		if (empty($options['text_file']))
-		{
+		if (empty($options['text_file'])) {
 			$options['text_file'] = 'error.w3c.php';
 		}
 

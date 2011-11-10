@@ -39,8 +39,7 @@ abstract class JHtmlNumber
 		// on 32-bit systems
 		$precision = (int) $precision;
 
-		if (empty($bytes))
-		{
+		if (empty($bytes)) {
 			return 0;
 		}
 
@@ -50,8 +49,7 @@ abstract class JHtmlNumber
 		$i = floor(log($bytes, 1024));
 
 		// User supplied method:
-		if ($unit !== 'auto' && in_array($unit, $unitTypes))
-		{
+		if ($unit !== 'auto' && in_array($unit, $unitTypes)) {
 			$i = array_search($unit, $unitTypes, true);
 		}
 

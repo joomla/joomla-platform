@@ -39,15 +39,13 @@ class JApplicationHelper
 	{
 		static $option;
 
-		if ($option)
-		{
+		if ($option) {
 			return $option;
 		}
 
 		$option = strtolower(JRequest::getCmd('option'));
 
-		if (empty($option))
-		{
+		if (empty($option)) {
 			$option = $default;
 		}
 
@@ -72,8 +70,7 @@ class JApplicationHelper
 	public static function getClientInfo($id = null, $byName = false)
 	{
 		// Only create the array if it does not exist
-		if (self::$_clients === null)
-		{
+		if (self::$_clients === null) {
 			$obj = new stdClass;
 
 			// Site Client
@@ -96,25 +93,20 @@ class JApplicationHelper
 		}
 
 		// If no client id has been passed return the whole array
-		if (is_null($id))
-		{
+		if (is_null($id)) {
 			return self::$_clients;
 		}
 
 		// Are we looking for client information by id or by name?
-		if (!$byName)
-		{
-			if (isset(self::$_clients[$id]))
-			{
+		if (!$byName) {
+			if (isset(self::$_clients[$id])) {
 				return self::$_clients[$id];
 			}
 		}
-		else
-		{
+		else {
 			foreach (self::$_clients as $client)
 			{
-				if ($client->name == strtolower($id))
-				{
+				if ($client->name == strtolower($id)) {
 					return $client;
 				}
 			}
@@ -134,20 +126,17 @@ class JApplicationHelper
 	 */
 	public static function addClientInfo($client)
 	{
-		if (is_array($client))
-		{
+		if (is_array($client)) {
 			$client = (object) $client;
 		}
 
-		if (!is_object($client))
-		{
+		if (!is_object($client)) {
 			return false;
 		}
 
 		$info = self::getClientInfo();
 
-		if (!isset($client->id))
-		{
+		if (!isset($client->id)) {
 			$client->id = count($info);
 		}
 
@@ -171,28 +160,24 @@ class JApplicationHelper
 		// Check needed for handling of custom/new module XML file loading
 		$check = (($varname == 'mod0_xml') || ($varname == 'mod1_xml'));
 
-		if (!$user_option && !$check)
-		{
+		if (!$user_option && !$check) {
 			$user_option = JRequest::getCmd('option');
 		}
-		else
-		{
+		else {
 			$user_option = JFilterInput::getInstance()->clean($user_option, 'path');
 		}
 
 		$result = null;
 		$name = substr($user_option, 4);
 
-		switch ($varname)
-		{
+		switch ($varname) {
 			case 'front':
 				$result = self::_checkPath('/components/' . $user_option . '/' . $name . '.php', 0);
 				break;
 
 			case 'html':
 			case 'front_html':
-				if (!($result = self::_checkPath('/templates/' . JApplication::getTemplate() . '/components/' . $name . '.html.php', 0)))
-				{
+				if (!($result = self::_checkPath('/templates/' . JApplication::getTemplate() . '/components/' . $name . '.html.php', 0))) {
 					$result = self::_checkPath('/components/' . $user_option . '/' . $name . '.html.php', 0);
 				}
 				break;
@@ -213,8 +198,7 @@ class JApplicationHelper
 			case 'admin':
 				$path = '/components/' . $user_option . '/admin.' . $name . '.php';
 				$result = self::_checkPath($path, -1);
-				if ($result == null)
-				{
+				if ($result == null) {
 					$path = '/components/' . $user_option . '/' . $name . '.php';
 					$result = self::_checkPath($path, -1);
 				}
@@ -231,8 +215,7 @@ class JApplicationHelper
 				break;
 
 			case 'class':
-				if (!($result = self::_checkPath('/components/' . $user_option . '/' . $name . '.class.php')))
-				{
+				if (!($result = self::_checkPath('/components/' . $user_option . '/' . $name . '.class.php'))) {
 					$result = self::_checkPath('/includes/' . $name . '.php');
 				}
 				break;
@@ -292,8 +275,7 @@ class JApplicationHelper
 	public static function parseXMLInstallFile($path)
 	{
 		// Read the file to see if it's a valid component XML file
-		if (!$xml = JFactory::getXML($path))
-		{
+		if (!$xml = JFactory::getXML($path)) {
 			return false;
 		}
 
@@ -302,8 +284,7 @@ class JApplicationHelper
 		// Should be 'install', but for backward compatibility we will accept 'extension'.
 		// Languages use 'metafile' instead
 
-		if ($xml->getName() != 'install' && $xml->getName() != 'extension' && $xml->getName() != 'metafile')
-		{
+		if ($xml->getName() != 'install' && $xml->getName() != 'extension' && $xml->getName() != 'metafile') {
 			unset($xml);
 			return false;
 		}
@@ -344,8 +325,7 @@ class JApplicationHelper
 		// Read the file to see if it's a valid component XML file
 		$xml = JFactory::getXML($path);
 
-		if (!$xml)
-		{
+		if (!$xml) {
 			return false;
 		}
 
@@ -354,8 +334,7 @@ class JApplicationHelper
 		 *
 		 * Should be 'langMetaData'.
 		 */
-		if ($xml->getName() != 'metafile')
-		{
+		if ($xml->getName() != 'metafile') {
 			unset($xml);
 			return false;
 		}
@@ -391,15 +370,12 @@ class JApplicationHelper
 	protected static function _checkPath($path, $checkAdmin = 1)
 	{
 		$file = JPATH_SITE . $path;
-		if ($checkAdmin > -1 && file_exists($file))
-		{
+		if ($checkAdmin > -1 && file_exists($file)) {
 			return $file;
 		}
-		elseif ($checkAdmin != 0)
-		{
+		elseif ($checkAdmin != 0) {
 			$file = JPATH_ADMINISTRATOR . $path;
-			if (file_exists($file))
-			{
+			if (file_exists($file)) {
 				return $file;
 			}
 		}

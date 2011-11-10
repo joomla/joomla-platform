@@ -40,15 +40,13 @@ class JFormRuleColor extends JFormRule
 	{
 		$value = trim($value);
 
-		if (empty($value))
-		{
+		if (empty($value)) {
 			// A color field can't be empty, we default to black. This is the same as the HTML5 spec.
 			$value = '#000000';
 			return true;
 		}
 
-		if ($value[0] != '#')
-		{
+		if ($value[0] != '#') {
 			return false;
 		}
 
@@ -56,8 +54,7 @@ class JFormRuleColor extends JFormRule
 		$value = ltrim($value, '#');
 
 		// The value must be 6 or 3 characters long
-		if (!((strlen($value) == 6 || strlen($value) == 3) && ctype_xdigit($value)))
-		{
+		if (!((strlen($value) == 6 || strlen($value) == 3) && ctype_xdigit($value))) {
 			return false;
 		}
 

@@ -61,16 +61,13 @@ class JFormFieldEditor extends JFormField
 		// Build the buttons array.
 		$buttons = (string) $this->element['buttons'];
 
-		if ($buttons == 'true' || $buttons == 'yes' || $buttons == '1')
-		{
+		if ($buttons == 'true' || $buttons == 'yes' || $buttons == '1') {
 			$buttons = true;
 		}
-		elseif ($buttons == 'false' || $buttons == 'no' || $buttons == '0')
-		{
+		elseif ($buttons == 'false' || $buttons == 'no' || $buttons == '0') {
 			$buttons = false;
 		}
-		else
-		{
+		else {
 			$buttons = explode(',', $buttons);
 		}
 
@@ -97,16 +94,14 @@ class JFormFieldEditor extends JFormField
 	protected function &getEditor()
 	{
 		// Only create the editor if it is not already created.
-		if (empty($this->editor))
-		{
+		if (empty($this->editor)) {
 			// Initialize variables.
 			$editor = null;
 
 			// Get the editor type attribute. Can be in the form of: editor="desired|alternative".
 			$type = trim((string) $this->element['editor']);
 
-			if ($type)
-			{
+			if ($type) {
 				// Get the list of editor types.
 				$types = explode('|', $type);
 
@@ -129,8 +124,7 @@ class JFormFieldEditor extends JFormField
 					$editor = $db->loadResult();
 
 					// If an editor was found stop looking.
-					if ($editor)
-					{
+					if ($editor) {
 						break;
 					}
 				}

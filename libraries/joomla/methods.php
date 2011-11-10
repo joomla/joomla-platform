@@ -37,13 +37,11 @@ class JRoute
 		$router = $app->getRouter();
 
 		// Make sure that we have our router
-		if (!$router)
-		{
+		if (!$router) {
 			return null;
 		}
 
-		if ((strpos($url, '&') !== 0) && (strpos($url, 'index.php') !== 0))
-		{
+		if ((strpos($url, '&') !== 0) && (strpos($url, 'index.php') !== 0)) {
 			return $url;
 		}
 
@@ -61,14 +59,12 @@ class JRoute
 		 * https and need to set our secure URL to the current request URL, if not, and the scheme is
 		 * 'http', then we need to do a quick string manipulation to switch schemes.
 		 */
-		if ((int) $ssl)
-		{
+		if ((int) $ssl) {
 			$uri = JURI::getInstance();
 
 			// Get additional parts.
 			static $prefix;
-			if (!$prefix)
-			{
+			if (!$prefix) {
 				$prefix = $uri->toString(array('host', 'port'));
 			}
 
@@ -76,8 +72,7 @@ class JRoute
 			$scheme = ((int) $ssl === 1) ? 'https' : 'http';
 
 			// Make sure our URL path begins with a slash.
-			if (!preg_match('#^/#', $url))
-			{
+			if (!preg_match('#^/#', $url)) {
 				$url = '/' . $url;
 			}
 
@@ -85,8 +80,7 @@ class JRoute
 			$url = $scheme . '://' . $prefix . $url;
 		}
 
-		if ($xhtml)
-		{
+		if ($xhtml) {
 			$url = htmlspecialchars($url);
 		}
 
@@ -131,32 +125,25 @@ class JText
 	public static function _($string, $jsSafe = false, $interpretBackSlashes = true, $script = false)
 	{
 		$lang = JFactory::getLanguage();
-		if (is_array($jsSafe))
-		{
-			if (array_key_exists('interpretBackSlashes', $jsSafe))
-			{
+		if (is_array($jsSafe)) {
+			if (array_key_exists('interpretBackSlashes', $jsSafe)) {
 				$interpretBackSlashes = (boolean) $jsSafe['interpretBackSlashes'];
 			}
-			if (array_key_exists('script', $jsSafe))
-			{
+			if (array_key_exists('script', $jsSafe)) {
 				$script = (boolean) $jsSafe['script'];
 			}
-			if (array_key_exists('jsSafe', $jsSafe))
-			{
+			if (array_key_exists('jsSafe', $jsSafe)) {
 				$jsSafe = (boolean) $jsSafe['jsSafe'];
 			}
-			else
-			{
+			else {
 				$jsSafe = false;
 			}
 		}
-		if ($script)
-		{
+		if ($script) {
 			self::$strings[$string] = $lang->_($string, $jsSafe, $interpretBackSlashes);
 			return $string;
 		}
-		else
-		{
+		else {
 			return $lang->_($string, $jsSafe, $interpretBackSlashes);
 		}
 	}
@@ -181,12 +168,10 @@ class JText
 	public static function alt($string, $alt, $jsSafe = false, $interpretBackSlashes = true, $script = false)
 	{
 		$lang = JFactory::getLanguage();
-		if ($lang->hasKey($string . '_' . $alt))
-		{
+		if ($lang->hasKey($string . '_' . $alt)) {
 			return self::_($string . '_' . $alt, $jsSafe, $interpretBackSlashes);
 		}
-		else
-		{
+		else {
 			return self::_($string, $jsSafe, $interpretBackSlashes);
 		}
 	}
@@ -223,45 +208,38 @@ class JText
 		$args = func_get_args();
 		$count = count($args);
 
-		if ($count > 1)
-		{
+		if ($count > 1) {
 			// Try the key from the language plural potential suffixes
 			$found = false;
 			$suffixes = $lang->getPluralSuffixes((int) $n);
 			foreach ($suffixes as $suffix)
 			{
 				$key = $string . '_' . $suffix;
-				if ($lang->hasKey($key))
-				{
+				if ($lang->hasKey($key)) {
 					$found = true;
 					break;
 				}
 			}
-			if (!$found)
-			{
+			if (!$found) {
 				// Not found so revert to the original.
 				$key = $string;
 			}
-			if (is_array($args[$count - 1]))
-			{
+			if (is_array($args[$count - 1])) {
 				$args[0] = $lang->_(
 					$key, array_key_exists('jsSafe', $args[$count - 1]) ? $args[$count - 1]['jsSafe'] : false,
 					array_key_exists('interpretBackSlashes', $args[$count - 1]) ? $args[$count - 1]['interpretBackSlashes'] : true
 				);
-				if (array_key_exists('script', $args[$count - 1]) && $args[$count - 1]['script'])
-				{
+				if (array_key_exists('script', $args[$count - 1]) && $args[$count - 1]['script']) {
 					self::$strings[$key] = call_user_func_array('sprintf', $args);
 					return $key;
 				}
 			}
-			else
-			{
+			else {
 				$args[0] = $lang->_($key);
 			}
 			return call_user_func_array('sprintf', $args);
 		}
-		elseif ($count > 0)
-		{
+		elseif ($count > 0) {
 
 			// Default to the normal sprintf handling.
 			$args[0] = $lang->_($string);
@@ -297,23 +275,19 @@ class JText
 		$lang = JFactory::getLanguage();
 		$args = func_get_args();
 		$count = count($args);
-		if ($count > 0)
-		{
-			if (is_array($args[$count - 1]))
-			{
+		if ($count > 0) {
+			if (is_array($args[$count - 1])) {
 				$args[0] = $lang->_(
 					$string, array_key_exists('jsSafe', $args[$count - 1]) ? $args[$count - 1]['jsSafe'] : false,
 					array_key_exists('interpretBackSlashes', $args[$count - 1]) ? $args[$count - 1]['interpretBackSlashes'] : true
 				);
 
-				if (array_key_exists('script', $args[$count - 1]) && $args[$count - 1]['script'])
-				{
+				if (array_key_exists('script', $args[$count - 1]) && $args[$count - 1]['script']) {
 					self::$strings[$string] = call_user_func_array('sprintf', $args);
 					return $string;
 				}
 			}
-			else
-			{
+			else {
 				$args[0] = $lang->_($string);
 			}
 			return call_user_func_array('sprintf', $args);
@@ -337,17 +311,14 @@ class JText
 		$lang = JFactory::getLanguage();
 		$args = func_get_args();
 		$count = count($args);
-		if ($count > 0)
-		{
-			if (is_array($args[$count - 1]))
-			{
+		if ($count > 0) {
+			if (is_array($args[$count - 1])) {
 				$args[0] = $lang->_(
 					$string, array_key_exists('jsSafe', $args[$count - 1]) ? $args[$count - 1]['jsSafe'] : false,
 					array_key_exists('interpretBackSlashes', $args[$count - 1]) ? $args[$count - 1]['interpretBackSlashes'] : true
 				);
 			}
-			else
-			{
+			else {
 				$args[0] = $lang->_($string);
 			}
 			return call_user_func_array('printf', $args);
@@ -368,26 +339,21 @@ class JText
 	 */
 	public static function script($string = null, $jsSafe = false, $interpretBackSlashes = true)
 	{
-		if (is_array($jsSafe))
-		{
-			if (array_key_exists('interpretBackSlashes', $jsSafe))
-			{
+		if (is_array($jsSafe)) {
+			if (array_key_exists('interpretBackSlashes', $jsSafe)) {
 				$interpretBackSlashes = (boolean) $jsSafe['interpretBackSlashes'];
 			}
 
-			if (array_key_exists('jsSafe', $jsSafe))
-			{
+			if (array_key_exists('jsSafe', $jsSafe)) {
 				$jsSafe = (boolean) $jsSafe['jsSafe'];
 			}
-			else
-			{
+			else {
 				$jsSafe = false;
 			}
 		}
 
 		// Add the string to the array if not null.
-		if ($string !== null)
-		{
+		if ($string !== null) {
 			// Normalize the key and translate the string.
 			self::$strings[strtoupper($string)] = JFactory::getLanguage()->_($string, $jsSafe, $interpretBackSlashes);
 		}

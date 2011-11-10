@@ -72,12 +72,10 @@ class JFormFieldUser extends JFormField
 
 		// Load the current username if available.
 		$table = JTable::getInstance('user');
-		if ($this->value)
-		{
+		if ($this->value) {
 			$table->load($this->value);
 		}
-		else
-		{
+		else {
 			$table->username = JText::_('JLIB_FORM_SELECT_USER');
 		}
 
@@ -90,8 +88,7 @@ class JFormFieldUser extends JFormField
 		// Create the user select button.
 		$html[] = '<div class="button2-left">';
 		$html[] = '  <div class="blank">';
-		if ($this->element['readonly'] != 'true')
-		{
+		if ($this->element['readonly'] != 'true') {
 			$html[] = '		<a class="modal_' . $this->id . '" title="' . JText::_('JLIB_FORM_CHANGE_USER') . '"' . ' href="' . $link . '"'
 				. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
 			$html[] = '			' . JText::_('JLIB_FORM_CHANGE_USER') . '</a>';

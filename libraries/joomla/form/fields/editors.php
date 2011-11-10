@@ -67,8 +67,7 @@ class JFormFieldEditors extends JFormFieldList
 		}
 
 		// Check for a database error.
-		if ($db->getErrorNum())
-		{
+		if ($db->getErrorNum()) {
 			JError::raiseWarning(500, $db->getErrorMsg());
 		}
 

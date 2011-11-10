@@ -48,12 +48,10 @@ class JElementMenuItem extends JElement
 		$db = JFactory::getDbo();
 
 		$menuType = $this->_parent->get('menu_type');
-		if (!empty($menuType))
-		{
+		if (!empty($menuType)) {
 			$where = ' WHERE menutype = ' . $db->Quote($menuType);
 		}
-		else
-		{
+		else {
 			$where = ' WHERE 1';
 		}
 
@@ -63,8 +61,7 @@ class JElementMenuItem extends JElement
 		$db->setQuery($query);
 		$menuTypes = $db->loadObjectList();
 
-		if ($state = $node->attributes('state'))
-		{
+		if ($state = $node->attributes('state')) {
 			$where .= ' AND published = ' . (int) $state;
 		}
 
@@ -79,8 +76,7 @@ class JElementMenuItem extends JElement
 		// TODO: use node model
 		$children = array();
 
-		if ($menuItems)
-		{
+		if ($menuItems) {
 			// First pass - collect children
 			foreach ($menuItems as $v)
 			{
@@ -108,26 +104,22 @@ class JElementMenuItem extends JElement
 
 		foreach ($menuTypes as $type)
 		{
-			if ($menuType == '')
-			{
+			if ($menuType == '') {
 				$options[] = JHtml::_('select.option', '0', '&#160;', 'value', 'text', true);
 				$options[] = JHtml::_('select.option', $type->menutype, $type->title . ' - ' . JText::_('JGLOBAL_TOP'), 'value', 'text', true);
 			}
-			if (isset($groupedList[$type->menutype]))
-			{
+			if (isset($groupedList[$type->menutype])) {
 				$n = count($groupedList[$type->menutype]);
 				for ($i = 0; $i < $n; $i++)
 				{
 					$item = &$groupedList[$type->menutype][$i];
 
 					// If menutype is changed but item is not saved yet, use the new type in the list
-					if (JRequest::getString('option', '', 'get') == 'com_menus')
-					{
+					if (JRequest::getString('option', '', 'get') == 'com_menus') {
 						$currentItemArray = JRequest::getVar('cid', array(0), '', 'array');
 						$currentItemId = (int) $currentItemArray[0];
 						$currentItemType = JRequest::getString('type', $item->type, 'get');
-						if ($currentItemId == $item->id && $currentItemType != $item->type)
-						{
+						if ($currentItemId == $item->id && $currentItemType != $item->type) {
 							$item->type = $currentItemType;
 						}
 					}

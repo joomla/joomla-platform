@@ -63,14 +63,12 @@ class JCache extends JObject
 		// Overwrite default options with given options
 		foreach ($options as $option => $value)
 		{
-			if (isset($options[$option]) && $options[$option] !== '')
-			{
+			if (isset($options[$option]) && $options[$option] !== '') {
 				$this->_options[$option] = $options[$option];
 			}
 		}
 
-		if (empty($this->_options['storage']))
-		{
+		if (empty($this->_options['storage'])) {
 			$this->_options['caching'] = false;
 		}
 	}
@@ -108,13 +106,11 @@ class JCache extends JObject
 			$name = substr($handler, 0, strrpos($handler, '.'));
 			$class = 'JCacheStorage' . $name;
 
-			if (!class_exists($class))
-			{
+			if (!class_exists($class)) {
 				include_once dirname(__FILE__) . '/storage/' . $name . '.php';
 			}
 
-			if (call_user_func_array(array(trim($class), 'test'), array()))
-			{
+			if (call_user_func_array(array(trim($class), 'test'), array())) {
 				$names[] = $name;
 			}
 		}
@@ -179,8 +175,7 @@ class JCache extends JObject
 
 		// Get the storage
 		$handler = $this->_getStorage();
-		if (!JError::isError($handler) && $this->_options['caching'])
-		{
+		if (!JError::isError($handler) && $this->_options['caching']) {
 			return $handler->get($id, $group, $this->_options['checkTime']);
 		}
 		return false;
@@ -197,8 +192,7 @@ class JCache extends JObject
 	{
 		// Get the storage
 		$handler = $this->_getStorage();
-		if (!JError::isError($handler) && $this->_options['caching'])
-		{
+		if (!JError::isError($handler) && $this->_options['caching']) {
 			return $handler->getAll();
 		}
 		return false;
@@ -222,8 +216,7 @@ class JCache extends JObject
 
 		// Get the storage and store the cached data
 		$handler = $this->_getStorage();
-		if (!JError::isError($handler) && $this->_options['caching'])
-		{
+		if (!JError::isError($handler) && $this->_options['caching']) {
 			$handler->_lifetime = $this->_options['lifetime'];
 			return $handler->store($id, $group, $data);
 		}
@@ -247,8 +240,7 @@ class JCache extends JObject
 
 		// Get the storage
 		$handler = $this->_getStorage();
-		if (!JError::isError($handler))
-		{
+		if (!JError::isError($handler)) {
 			return $handler->remove($id, $group);
 		}
 		return false;
@@ -274,8 +266,7 @@ class JCache extends JObject
 
 		// Get the storage handler
 		$handler = $this->_getStorage();
-		if (!JError::isError($handler))
-		{
+		if (!JError::isError($handler)) {
 			return $handler->clean($group, $mode);
 		}
 		return false;
@@ -292,8 +283,7 @@ class JCache extends JObject
 	{
 		// Get the storage handler
 		$handler = $this->_getStorage();
-		if (!JError::isError($handler))
-		{
+		if (!JError::isError($handler)) {
 			return $handler->gc();
 		}
 		return false;
@@ -323,11 +313,9 @@ class JCache extends JObject
 		// Allow storage handlers to perform locking on their own
 		// NOTE drivers with lock need also unlock or unlocking will fail because of false $id
 		$handler = $this->_getStorage();
-		if (!JError::isError($handler) && $this->_options['locking'] == true && $this->_options['caching'] == true)
-		{
+		if (!JError::isError($handler) && $this->_options['locking'] == true && $this->_options['caching'] == true) {
 			$locked = $handler->lock($id, $group, $locktime);
-			if ($locked !== false)
-			{
+			if ($locked !== false) {
 				return $locked;
 			}
 		}
@@ -340,27 +328,23 @@ class JCache extends JObject
 		$looptime = $locktime * 10;
 		$id2 = $id . '_lock';
 
-		if ($this->_options['locking'] == true && $this->_options['caching'] == true)
-		{
+		if ($this->_options['locking'] == true && $this->_options['caching'] == true) {
 			$data_lock = $this->get($id2, $group);
 
 		}
-		else
-		{
+		else {
 			$data_lock = false;
 			$returning->locked = false;
 		}
 
-		if ($data_lock !== false)
-		{
+		if ($data_lock !== false) {
 			$lock_counter = 0;
 
 			// loop until you find that the lock has been released.  that implies that data get from other thread has finished
 			while ($data_lock !== false)
 			{
 
-				if ($lock_counter > $looptime)
-				{
+				if ($lock_counter > $looptime) {
 					$returning->locked = false;
 					$returning->locklooped = true;
 					break;
@@ -372,8 +356,7 @@ class JCache extends JObject
 			}
 		}
 
-		if ($this->_options['locking'] == true && $this->_options['caching'] == true)
-		{
+		if ($this->_options['locking'] == true && $this->_options['caching'] == true) {
 			$returning->locked = $this->store(1, $id2, $group);
 		}
 
@@ -401,18 +384,15 @@ class JCache extends JObject
 
 		//allow handlers to perform unlocking on their own
 		$handler = $this->_getStorage();
-		if (!JError::isError($handler) && $this->_options['caching'])
-		{
+		if (!JError::isError($handler) && $this->_options['caching']) {
 			$unlocked = $handler->unlock($id, $group);
-			if ($unlocked !== false)
-			{
+			if ($unlocked !== false) {
 				return $unlocked;
 			}
 		}
 
 		// fallback
-		if ($this->_options['caching'])
-		{
+		if ($this->_options['caching']) {
 			$unlock = $this->remove($id . '_lock', $group);
 		}
 
@@ -430,8 +410,7 @@ class JCache extends JObject
 	{
 		$hash = md5(serialize($this->_options));
 
-		if (isset(self::$_handler[$hash]))
-		{
+		if (isset(self::$_handler[$hash])) {
 			return self::$_handler[$hash];
 		}
 
@@ -458,18 +437,15 @@ class JCache extends JObject
 		$body = null;
 
 		// Get the document head out of the cache.
-		if (isset($options['mergehead']) && $options['mergehead'] == 1 && isset($data['head']) && !empty($data['head']))
-		{
+		if (isset($options['mergehead']) && $options['mergehead'] == 1 && isset($data['head']) && !empty($data['head'])) {
 			$document->mergeHeadData($data['head']);
 		}
-		elseif (isset($data['head']) && method_exists($document, 'setHeadData'))
-		{
+		elseif (isset($data['head']) && method_exists($document, 'setHeadData')) {
 			$document->setHeadData($data['head']);
 		}
 
 		// If the pathway buffer is set in the cache data, get it.
-		if (isset($data['pathway']) && is_array($data['pathway']))
-		{
+		if (isset($data['pathway']) && is_array($data['pathway'])) {
 			// Push the pathway data into the pathway object.
 			$pathway = $app->getPathWay();
 			$pathway->setPathway($data['pathway']);
@@ -477,8 +453,7 @@ class JCache extends JObject
 
 		// @todo check if the following is needed, seems like it should be in page cache
 		// If a module buffer is set in the cache data, get it.
-		if (isset($data['module']) && is_array($data['module']))
-		{
+		if (isset($data['module']) && is_array($data['module'])) {
 			// Iterate through the module positions and push them into the document buffer.
 			foreach ($data['module'] as $name => $contents)
 			{
@@ -486,8 +461,7 @@ class JCache extends JObject
 			}
 		}
 
-		if (isset($data['body']))
-		{
+		if (isset($data['body'])) {
 			// The following code searches for a token in the cached page and replaces it with the
 			// proper token.
 			$token = JUtility::getToken();
@@ -519,23 +493,19 @@ class JCache extends JObject
 		$loptions['nomodules'] = 0;
 		$loptions['modulemode'] = 0;
 
-		if (isset($options['nopathway']))
-		{
+		if (isset($options['nopathway'])) {
 			$loptions['nopathway'] = $options['nopathway'];
 		}
 
-		if (isset($options['nohead']))
-		{
+		if (isset($options['nohead'])) {
 			$loptions['nohead'] = $options['nohead'];
 		}
 
-		if (isset($options['nomodules']))
-		{
+		if (isset($options['nomodules'])) {
 			$loptions['nomodules'] = $options['nomodules'];
 		}
 
-		if (isset($options['modulemode']))
-		{
+		if (isset($options['modulemode'])) {
 			$loptions['modulemode'] = $options['modulemode'];
 		}
 
@@ -547,8 +517,7 @@ class JCache extends JObject
 		$buffer1 = $document->getBuffer();
 
 		// Make sure the module buffer is an array.
-		if (!isset($buffer1['module']) || !is_array($buffer1['module']))
-		{
+		if (!isset($buffer1['module']) || !is_array($buffer1['module'])) {
 			$buffer1['module'] = array();
 		}
 
@@ -556,11 +525,9 @@ class JCache extends JObject
 		$cached['body'] = $data;
 
 		// Document head data
-		if ($loptions['nohead'] != 1 && method_exists($document, 'getHeadData'))
-		{
+		if ($loptions['nohead'] != 1 && method_exists($document, 'getHeadData')) {
 
-			if ($loptions['modulemode'] == 1)
-			{
+			if ($loptions['modulemode'] == 1) {
 				$headnow = $document->getHeadData();
 				$unset = array('title', 'description', 'link', 'links', 'metaTags');
 
@@ -576,35 +543,30 @@ class JCache extends JObject
 				foreach ($headnow as $now => $value)
 				{
 					$newvalue = array_diff_assoc($headnow[$now], isset($options['headerbefore'][$now]) ? $options['headerbefore'][$now] : array());
-					if (!empty($newvalue))
-					{
+					if (!empty($newvalue)) {
 						$cached['head'][$now] = $newvalue;
 					}
 				}
 
 			}
-			else
-			{
+			else {
 				$cached['head'] = $document->getHeadData();
 			}
 		}
 
 		// Pathway data
-		if ($app->isSite() && $loptions['nopathway'] != 1)
-		{
+		if ($app->isSite() && $loptions['nopathway'] != 1) {
 			$pathway = $app->getPathWay();
 			$cached['pathway'] = isset($data['pathway']) ? $data['pathway'] : $pathway->getPathway();
 		}
 
-		if ($loptions['nomodules'] != 1)
-		{
+		if ($loptions['nomodules'] != 1) {
 			// @todo Check if the following is needed, seems like it should be in page cache
 			// Get the module buffer after component execution.
 			$buffer2 = $document->getBuffer();
 
 			// Make sure the module buffer is an array.
-			if (!isset($buffer2['module']) || !is_array($buffer2['module']))
-			{
+			if (!isset($buffer2['module']) || !is_array($buffer2['module'])) {
 				$buffer2['module'] = array();
 			}
 
@@ -628,8 +590,7 @@ class JCache extends JObject
 		// Get url parameters set by plugins
 		$registeredurlparams = $app->get('registeredurlparams');
 
-		if (empty($registeredurlparams))
-		{
+		if (empty($registeredurlparams)) {
 			/*
 			$registeredurlparams = new stdClass;
 			$registeredurlparams->Itemid 	= 'INT';
@@ -671,12 +632,10 @@ class JCache extends JObject
 	{
 		static $paths;
 
-		if (!isset($paths))
-		{
+		if (!isset($paths)) {
 			$paths = array();
 		}
-		if (!empty($path) && !in_array($path, $paths))
-		{
+		if (!empty($path) && !in_array($path, $paths)) {
 			jimport('joomla.filesystem.path');
 			array_unshift($paths, JPath::clean($path));
 		}

@@ -76,8 +76,7 @@ abstract class JHtmlTabs
 	{
 		static $loaded = array();
 
-		if (!array_key_exists($group, $loaded))
-		{
+		if (!array_key_exists($group, $loaded)) {
 			// Include MooTools framework
 			JHtml::_('behavior.framework', true);
 
@@ -91,14 +90,12 @@ abstract class JHtmlTabs
 
 			foreach ($opt as $k => $v)
 			{
-				if ($v)
-				{
+				if ($v) {
 					$options .= $k . ': ' . $v . ',';
 				}
 			}
 
-			if (substr($options, -1) == ',')
-			{
+			if (substr($options, -1) == ',') {
 				$options = substr($options, 0, -1);
 			}
 

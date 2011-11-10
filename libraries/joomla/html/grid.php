@@ -91,12 +91,10 @@ class JGrid
 	 */
 	function setTableOptions($options = array(), $replace = false)
 	{
-		if ($replace)
-		{
+		if ($replace) {
 			$this->options = $options;
 		}
-		else
-		{
+		else {
 			$this->options = array_merge($this->options, $options);
 		}
 		return $this;
@@ -154,8 +152,7 @@ class JGrid
 	function deleteColumn($name)
 	{
 		$index = array_search($name, $this->columns);
-		if ($index !== false)
-		{
+		if ($index !== false) {
 			unset($this->columns[$index]);
 			$this->columns = array_values($this->columns);
 		}
@@ -195,14 +192,11 @@ class JGrid
 	{
 		$this->rows[]['_row'] = $options;
 		$this->activeRow = count($this->rows) - 1;
-		if ($special)
-		{
-			if ($special === 1)
-			{
+		if ($special) {
+			if ($special === 1) {
 				$this->specialRows['header'][] = $this->activeRow;
 			}
-			else
-			{
+			else {
 				$this->specialRows['footer'][] = $this->activeRow;
 			}
 		}
@@ -280,15 +274,13 @@ class JGrid
 	 */
 	function setRowCell($name, $content, $option = array(), $replace = true)
 	{
-		if ($replace || !isset($this->rows[$this->activeRow][$name]))
-		{
+		if ($replace || !isset($this->rows[$this->activeRow][$name])) {
 			$cell = new stdClass;
 			$cell->options = $option;
 			$cell->content = $content;
 			$this->rows[$this->activeRow][$name] = $cell;
 		}
-		else
-		{
+		else {
 			$this->rows[$this->activeRow][$name]->content .= $content;
 			$this->rows[$this->activeRow][$name]->options = $option;
 		}
@@ -307,17 +299,14 @@ class JGrid
 	 */
 	function getRow($id = false)
 	{
-		if ($id === false)
-		{
+		if ($id === false) {
 			$id = $this->activeRow;
 		}
 
-		if (isset($this->rows[(int)$id]))
-		{
+		if (isset($this->rows[(int)$id])) {
 			return $this->rows[(int)$id];
 		}
-		else
-		{
+		else {
 			return false;
 		}
 	}
@@ -333,14 +322,11 @@ class JGrid
 	 */
 	function getRows($special = false)
 	{
-		if ($special)
-		{
-			if ($special === 1)
-			{
+		if ($special) {
+			if ($special === 1) {
 				return $this->specialRows['header'];
 			}
-			else
-			{
+			else {
 				return $this->specialRows['footer'];
 			}
 		}
@@ -360,18 +346,15 @@ class JGrid
 	{
 		unset($this->rows[$id]);
 
-		if (in_array($id, $this->specialRows['header']))
-		{
+		if (in_array($id, $this->specialRows['header'])) {
 			unset($this->specialRows['header'][array_search($id, $this->specialRows['header'])]);
 		}
 
-		if (in_array($id, $this->specialRows['footer']))
-		{
+		if (in_array($id, $this->specialRows['footer'])) {
 			unset($this->specialRows['footer'][array_search($id, $this->specialRows['footer'])]);
 		}
 
-		if ($this->activeRow == $id)
-		{
+		if ($this->activeRow == $id) {
 			end($this->rows);
 			$this->activeRow = key($this->rows);
 		}
@@ -391,19 +374,16 @@ class JGrid
 		$output = array();
 		$output[] = '<table' . $this->renderAttributes($this->getTableOptions()) . '>';
 
-		if (count($this->specialRows['header']))
-		{
+		if (count($this->specialRows['header'])) {
 			$output[] = $this->renderArea($this->specialRows['header'], 'thead', 'th');
 		}
 
-		if (count($this->specialRows['footer']))
-		{
+		if (count($this->specialRows['footer'])) {
 			$output[] = $this->renderArea($this->specialRows['footer'], 'tfoot');
 		}
 
 		$ids = array_diff(array_keys($this->rows), array_merge($this->specialRows['header'], $this->specialRows['footer']));
-		if (count($ids))
-		{
+		if (count($ids)) {
 			$output[] = $this->renderArea($ids);
 		}
 
@@ -431,8 +411,7 @@ class JGrid
 			$output[] = "\t<tr" . $this->renderAttributes($this->rows[$id]['_row']) . ">\n";
 			foreach ($this->getColumns() as $name)
 			{
-				if (isset($this->rows[$id][$name]))
-				{
+				if (isset($this->rows[$id][$name])) {
 					$column = $this->rows[$id][$name];
 					$output[] = "\t\t<" . $cell . $this->renderAttributes($column->options) . '>' . $column->content . '</' . $cell . ">\n";
 				}
@@ -456,8 +435,7 @@ class JGrid
 	 */
 	protected function renderAttributes($attributes)
 	{
-		if (count((array)$attributes) == 0)
-		{
+		if (count((array)$attributes) == 0) {
 			return '';
 		}
 		$return = array();

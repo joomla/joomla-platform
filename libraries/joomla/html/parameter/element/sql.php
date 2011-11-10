@@ -52,14 +52,12 @@ class JElementSQL extends JElement
 		$options = $db->loadObjectlist();
 
 		// Check for an error.
-		if ($db->getErrorNum())
-		{
+		if ($db->getErrorNum()) {
 			JError::raiseWarning(500, $db->getErrorMsg());
 			return false;
 		}
 
-		if (!$options)
-		{
+		if (!$options) {
 			$options = array();
 		}
 

@@ -53,8 +53,7 @@ class JCacheStorageCachelite extends JCacheStorage
 			'hashedDirectoryLevel' => 0,
 			'caching' => $options['caching']);
 
-		if (self::$CacheLiteInstance === null)
-		{
+		if (self::$CacheLiteInstance === null) {
 			$this->initCache($cloptions);
 		}
 	}
@@ -148,16 +147,14 @@ class JCacheStorageCachelite extends JCacheStorage
 		$dir = $this->_root . '/' . $group;
 
 		// If the folder doesn't exist try to create it
-		if (!is_dir($dir))
-		{
+		if (!is_dir($dir)) {
 			// Make sure the index file is there
 			$indexFile = $dir . '/index.html';
 			@mkdir($dir) && file_put_contents($indexFile, '<!DOCTYPE html><title></title>');
 		}
 
 		// Make sure the folder exists
-		if (!is_dir($dir))
-		{
+		if (!is_dir($dir)) {
 			return false;
 		}
 
@@ -165,12 +162,10 @@ class JCacheStorageCachelite extends JCacheStorage
 		$this->_getCacheId($id, $group);
 		$success = self::$CacheLiteInstance->save($data, $this->rawname, $group);
 
-		if ($success == true)
-		{
+		if ($success == true) {
 			return $success;
 		}
-		else
-		{
+		else {
 			return false;
 		}
 	}
@@ -191,12 +186,10 @@ class JCacheStorageCachelite extends JCacheStorage
 		$this->_getCacheId($id, $group);
 		$success = self::$CacheLiteInstance->remove($this->rawname, $group);
 
-		if ($success == true)
-		{
+		if ($success == true) {
 			return $success;
 		}
-		else
-		{
+		else {
 			return false;
 		}
 	}
@@ -217,59 +210,50 @@ class JCacheStorageCachelite extends JCacheStorage
 	{
 		jimport('joomla.filesystem.folder');
 
-		if (trim($group) == '')
-		{
+		if (trim($group) == '') {
 			$clmode = 'notgroup';
 		}
 
-		if ($mode == null)
-		{
+		if ($mode == null) {
 			$clmode = 'group';
 		}
 
-		switch ($mode)
-		{
+		switch ($mode) {
 			case 'notgroup':
 				$clmode = 'notingroup';
 				$success = self::$CacheLiteInstance->clean($group, $clmode);
 				break;
 
 			case 'group':
-				if (is_dir($this->_root . '/' . $group))
-				{
+				if (is_dir($this->_root . '/' . $group)) {
 					$clmode = $group;
 					self::$CacheLiteInstance->setOption('cacheDir', $this->_root . '/' . $group . '/');
 					$success = self::$CacheLiteInstance->clean($group, $clmode);
 					$return = JFolder::delete($this->_root . '/' . $group);
 				}
-				else
-				{
+				else {
 					$success = true;
 				}
 
 				break;
 
 			default:
-				if (is_dir($this->_root . '/' . $group))
-				{
+				if (is_dir($this->_root . '/' . $group)) {
 					$clmode = $group;
 					self::$CacheLiteInstance->setOption('cacheDir', $this->_root . '/' . $group . '/');
 					$success = self::$CacheLiteInstance->clean($group, $clmode);
 				}
-				else
-				{
+				else {
 					$success = true;
 				}
 
 				break;
 		}
 
-		if ($success == true)
-		{
+		if ($success == true) {
 			return $success;
 		}
-		else
-		{
+		else {
 			return false;
 		}
 	}
@@ -289,19 +273,16 @@ class JCacheStorageCachelite extends JCacheStorage
 		$test = self::$CacheLiteInstance;
 		$success1 = self::$CacheLiteInstance->_cleanDir($this->_root . '/', false, 'old');
 
-		if (!($dh = opendir($this->_root . '/')))
-		{
+		if (!($dh = opendir($this->_root . '/'))) {
 			return false;
 		}
 
 		while ($file = readdir($dh))
 		{
-			if (($file != '.') && ($file != '..') && ($file != '.svn'))
-			{
+			if (($file != '.') && ($file != '..') && ($file != '.svn')) {
 				$file2 = $this->_root . '/' . $file;
 
-				if (is_dir($file2))
-				{
+				if (is_dir($file2)) {
 					$result = ($result and (self::$CacheLiteInstance->_cleanDir($file2 . '/', false, 'old')));
 				}
 			}
@@ -323,12 +304,10 @@ class JCacheStorageCachelite extends JCacheStorage
 	{
 		@include_once 'Cache/Lite.php';
 
-		if (class_exists('Cache_Lite'))
-		{
+		if (class_exists('Cache_Lite')) {
 			return true;
 		}
-		else
-		{
+		else {
 			return false;
 		}
 	}

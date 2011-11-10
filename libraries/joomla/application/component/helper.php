@@ -38,21 +38,17 @@ class JComponentHelper
 	 */
 	public static function getComponent($option, $strict = false)
 	{
-		if (!isset(self::$_components[$option]))
-		{
-			if (self::_load($option))
-			{
+		if (!isset(self::$_components[$option])) {
+			if (self::_load($option)) {
 				$result = self::$_components[$option];
 			}
-			else
-			{
+			else {
 				$result = new stdClass;
 				$result->enabled = $strict ? false : true;
 				$result->params = new JRegistry;
 			}
 		}
-		else
-		{
+		else {
 			$result = self::$_components[$option];
 		}
 
@@ -117,8 +113,7 @@ class JComponentHelper
 			|| $lang->load('tpl_' . $template, JPATH_BASE, $lang->getDefault(), false, false)
 			|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", $lang->getDefault(), false, false);
 
-		if (empty($option))
-		{
+		if (empty($option)) {
 			// Throw 404 if no component
 			JError::raiseError(404, JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'));
 			return;
@@ -139,18 +134,15 @@ class JComponentHelper
 		define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/' . $option);
 
 		// Get component path
-		if ($app->isAdmin() && file_exists(JPATH_COMPONENT . '/admin.' . $file . '.php'))
-		{
+		if ($app->isAdmin() && file_exists(JPATH_COMPONENT . '/admin.' . $file . '.php')) {
 			$path = JPATH_COMPONENT . '/admin.' . $file . '.php';
 		}
-		else
-		{
+		else {
 			$path = JPATH_COMPONENT . '/' . $file . '.php';
 		}
 
 		// If component is disabled throw error
-		if (!self::isEnabled($option) || !file_exists($path))
-		{
+		if (!self::isEnabled($option) || !file_exists($path)) {
 			JError::raiseError(404, JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'));
 		}
 
@@ -173,8 +165,7 @@ class JComponentHelper
 		// Build the component toolbar
 		jimport('joomla.application.helper');
 
-		if (($path = JApplicationHelper::getPath('toolbar')) && $app->isAdmin())
-		{
+		if (($path = JApplicationHelper::getPath('toolbar')) && $app->isAdmin()) {
 			// Get the task again, in case it has changed
 			$task = JRequest::getString('task');
 
@@ -211,16 +202,14 @@ class JComponentHelper
 
 		self::$_components[$option] = $cache->get(array($db, 'loadObject'), null, $option, false);
 
-		if ($error = $db->getErrorMsg() || empty(self::$_components[$option]))
-		{
+		if ($error = $db->getErrorMsg() || empty(self::$_components[$option])) {
 			// Fatal error.
 			JError::raiseWarning(500, JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $error));
 			return false;
 		}
 
 		// Convert the params to an object.
-		if (is_string(self::$_components[$option]->params))
-		{
+		if (is_string(self::$_components[$option]->params)) {
 			$temp = new JRegistry;
 			$temp->loadString(self::$_components[$option]->params);
 			self::$_components[$option]->params = $temp;

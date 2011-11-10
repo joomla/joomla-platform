@@ -46,8 +46,7 @@ class JElementTimezones extends JElement
 		// Deprecation warning.
 		JLog::add('JElementTimeZones::_fetchElement() is deprecated.', JLog::WARNING, 'deprecated');
 
-		if (!strlen($value))
-		{
+		if (!strlen($value)) {
 			$conf = JFactory::getConfig();
 			$value = $conf->get('offset');
 		}

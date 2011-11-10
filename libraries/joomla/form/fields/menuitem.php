@@ -56,8 +56,7 @@ class JFormFieldMenuItem extends JFormFieldGroupedList
 		$items = MenusHelper::getMenuLinks($menuType, 0, 0, $published, $language);
 
 		// Build group for a specific menu type.
-		if ($menuType)
-		{
+		if ($menuType) {
 			// Initialize the group.
 			$groups[$menuType] = array();
 
@@ -68,8 +67,7 @@ class JFormFieldMenuItem extends JFormFieldGroupedList
 			}
 		}
 		// Build groups for all menu types.
-		else
-		{
+		else {
 			// Build the groups arrays.
 			foreach ($items as $menu)
 			{

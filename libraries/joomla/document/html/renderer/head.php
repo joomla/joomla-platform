@@ -63,8 +63,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 
 		// Generate base tag (need to happen first)
 		$base = $document->getBase();
-		if (!empty($base))
-		{
+		if (!empty($base)) {
 			$buffer .= $tab . '<base href="' . $document->getBase() . '" />' . $lnEnd;
 		}
 
@@ -73,13 +72,11 @@ class JDocumentRendererHead extends JDocumentRenderer
 		{
 			foreach ($tag as $name => $content)
 			{
-				if ($type == 'http-equiv')
-				{
+				if ($type == 'http-equiv') {
 					$content .= '; charset=' . $document->getCharset();
 					$buffer .= $tab . '<meta http-equiv="' . $name . '" content="' . htmlspecialchars($content) . '"' . $tagEnd . $lnEnd;
 				}
-				elseif ($type == 'standard' && !empty($content))
-				{
+				elseif ($type == 'standard' && !empty($content)) {
 					$buffer .= $tab . '<meta name="' . $name . '" content="' . htmlspecialchars($content) . '"' . $tagEnd . $lnEnd;
 				}
 			}
@@ -87,8 +84,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 
 		// Don't add empty descriptions
 		$documentDescription = $document->getDescription();
-		if ($documentDescription)
-		{
+		if ($documentDescription) {
 			$buffer .= $tab . '<meta name="description" content="' . htmlspecialchars($documentDescription) . '" />' . $lnEnd;
 		}
 
@@ -99,8 +95,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 		foreach ($document->_links as $link => $linkAtrr)
 		{
 			$buffer .= $tab . '<link href="' . $link . '" ' . $linkAtrr['relType'] . '="' . $linkAtrr['relation'] . '"';
-			if ($temp = JArrayHelper::toString($linkAtrr['attribs']))
-			{
+			if ($temp = JArrayHelper::toString($linkAtrr['attribs'])) {
 				$buffer .= ' ' . $temp;
 			}
 			$buffer .= ' />' . $lnEnd;
@@ -110,12 +105,10 @@ class JDocumentRendererHead extends JDocumentRenderer
 		foreach ($document->_styleSheets as $strSrc => $strAttr)
 		{
 			$buffer .= $tab . '<link rel="stylesheet" href="' . $strSrc . '" type="' . $strAttr['mime'] . '"';
-			if (!is_null($strAttr['media']))
-			{
+			if (!is_null($strAttr['media'])) {
 				$buffer .= ' media="' . $strAttr['media'] . '" ';
 			}
-			if ($temp = JArrayHelper::toString($strAttr['attribs']))
-			{
+			if ($temp = JArrayHelper::toString($strAttr['attribs'])) {
 				$buffer .= ' ' . $temp;
 			}
 			$buffer .= $tagEnd . $lnEnd;
@@ -127,16 +120,14 @@ class JDocumentRendererHead extends JDocumentRenderer
 			$buffer .= $tab . '<style type="' . $type . '">' . $lnEnd;
 
 			// This is for full XHTML support.
-			if ($document->_mime != 'text/html')
-			{
+			if ($document->_mime != 'text/html') {
 				$buffer .= $tab . $tab . '<![CDATA[' . $lnEnd;
 			}
 
 			$buffer .= $content . $lnEnd;
 
 			// See above note
-			if ($document->_mime != 'text/html')
-			{
+			if ($document->_mime != 'text/html') {
 				$buffer .= $tab . $tab . ']]>' . $lnEnd;
 			}
 			$buffer .= $tab . '</style>' . $lnEnd;
@@ -146,16 +137,13 @@ class JDocumentRendererHead extends JDocumentRenderer
 		foreach ($document->_scripts as $strSrc => $strAttr)
 		{
 			$buffer .= $tab . '<script src="' . $strSrc . '"';
-			if (!is_null($strAttr['mime']))
-			{
+			if (!is_null($strAttr['mime'])) {
 				$buffer .= ' type="' . $strAttr['mime'] . '"';
 			}
-			if ($strAttr['defer'])
-			{
+			if ($strAttr['defer']) {
 				$buffer .= ' defer="defer"';
 			}
-			if ($strAttr['async'])
-			{
+			if ($strAttr['async']) {
 				$buffer .= ' async="async"';
 			}
 			$buffer .= '></script>' . $lnEnd;
@@ -167,24 +155,21 @@ class JDocumentRendererHead extends JDocumentRenderer
 			$buffer .= $tab . '<script type="' . $type . '">' . $lnEnd;
 
 			// This is for full XHTML support.
-			if ($document->_mime != 'text/html')
-			{
+			if ($document->_mime != 'text/html') {
 				$buffer .= $tab . $tab . '<![CDATA[' . $lnEnd;
 			}
 
 			$buffer .= $content . $lnEnd;
 
 			// See above note
-			if ($document->_mime != 'text/html')
-			{
+			if ($document->_mime != 'text/html') {
 				$buffer .= $tab . $tab . ']]>' . $lnEnd;
 			}
 			$buffer .= $tab . '</script>' . $lnEnd;
 		}
 
 		// Generate script language declarations.
-		if (count(JText::script()))
-		{
+		if (count(JText::script())) {
 			$buffer .= $tab . '<script type="text/javascript">' . $lnEnd;
 			$buffer .= $tab . $tab . '(function() {' . $lnEnd;
 			$buffer .= $tab . $tab . $tab . 'var strings = ' . json_encode(JText::script()) . ';' . $lnEnd;

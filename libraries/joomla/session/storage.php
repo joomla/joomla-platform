@@ -55,16 +55,13 @@ abstract class JSessionStorage extends JObject
 		{
 			$class = 'JSessionStorage' . ucfirst($name);
 
-			if (!class_exists($class))
-			{
+			if (!class_exists($class)) {
 				$path = dirname(__FILE__) . '/storage/' . $name . '.php';
 
-				if (file_exists($path))
-				{
+				if (file_exists($path)) {
 					require_once $path;
 				}
-				else
-				{
+				else {
 					// No call to JError::raiseError here, as it tries to close the non-existing session
 					jexit('Unable to load session storage class: ' . $name);
 				}

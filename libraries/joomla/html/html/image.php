@@ -47,13 +47,11 @@ abstract class JHtmlImage
 		static $paths;
 		$app = JFactory::getApplication();
 
-		if (!$paths)
-		{
+		if (!$paths) {
 			$paths = array();
 		}
 
-		if (is_array($attribs))
-		{
+		if (is_array($attribs)) {
 			$attribs = JArrayHelper::toString($attribs);
 		}
 
@@ -62,25 +60,19 @@ abstract class JHtmlImage
 		// Strip HTML.
 		$alt = html_entity_decode($alt, ENT_COMPAT, 'UTF-8');
 
-		if ($altFile)
-		{
+		if ($altFile) {
 			$src = $altFolder . $altFile;
 		}
-		elseif ($altFile == -1)
-		{
+		elseif ($altFile == -1) {
 			return '';
 		}
-		else
-		{
+		else {
 			$path = JPATH_SITE . '/templates/' . $cur_template . '/images/' . $file;
-			if (!isset($paths[$path]))
-			{
-				if (file_exists(JPATH_SITE . '/templates/' . $cur_template . '/images/' . $file))
-				{
+			if (!isset($paths[$path])) {
+				if (file_exists(JPATH_SITE . '/templates/' . $cur_template . '/images/' . $file)) {
 					$paths[$path] = 'templates/' . $cur_template . '/images/' . $file;
 				}
-				else
-				{
+				else {
 					// Outputs only path to image.
 					$paths[$path] = $folder . $file;
 				}
@@ -88,8 +80,7 @@ abstract class JHtmlImage
 			$src = $paths[$path];
 		}
 
-		if (substr($src, 0, 1) == "/")
-		{
+		if (substr($src, 0, 1) == "/") {
 			$src = substr_replace($src, '', 0, 1);
 		}
 
@@ -97,8 +88,7 @@ abstract class JHtmlImage
 		$src = JURI::base(true) . '/' . $src;
 
 		// Outputs actual HTML <img> tag.
-		if ($asTag)
-		{
+		if ($asTag) {
 			return '<img src="' . $src . '" alt="' . $alt . '" ' . $attribs . ' />';
 		}
 
@@ -133,8 +123,7 @@ abstract class JHtmlImage
 
 		$app = JFactory::getApplication();
 
-		if (is_array($attribs))
-		{
+		if (is_array($attribs)) {
 			$attribs = JArrayHelper::toString($attribs);
 		}
 
@@ -143,36 +132,28 @@ abstract class JHtmlImage
 		// Strip HTML.
 		$alt = html_entity_decode($alt, ENT_COMPAT, 'UTF-8');
 
-		if ($altFile)
-		{
+		if ($altFile) {
 			$image = $altFolder . $altFile;
 		}
-		elseif ($altFile == -1)
-		{
+		elseif ($altFile == -1) {
 			$image = '';
 		}
-		else
-		{
-			if (file_exists(JPATH_ADMINISTRATOR . '/templates/' . $cur_template . '/images/' . $file))
-			{
+		else {
+			if (file_exists(JPATH_ADMINISTRATOR . '/templates/' . $cur_template . '/images/' . $file)) {
 				$image = 'templates/' . $cur_template . '/images/' . $file;
 			}
-			else
-			{
+			else {
 				// Compatibility with previous versions.
-				if (substr($folder, 0, 14) == "/administrator")
-				{
+				if (substr($folder, 0, 14) == "/administrator") {
 					$image = substr($folder, 15) . $file;
 				}
-				else
-				{
+				else {
 					$image = $folder . $file;
 				}
 			}
 		}
 
-		if (substr($image, 0, 1) == "/")
-		{
+		if (substr($image, 0, 1) == "/") {
 			$image = substr_replace($image, '', 0, 1);
 		}
 
@@ -180,8 +161,7 @@ abstract class JHtmlImage
 		$image = JURI::base(true) . '/' . $image;
 
 		// Outputs actual HTML <img> tag.
-		if ($asTag)
-		{
+		if ($asTag) {
 			$image = '<img src="' . $image . '" alt="' . $alt . '" ' . $attribs . ' />';
 		}
 

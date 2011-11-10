@@ -40,11 +40,9 @@ class JLanguageTransliterate
 		static $UTF8_LOWER_ACCENTS = null;
 		static $UTF8_UPPER_ACCENTS = null;
 
-		if ($case <= 0)
-		{
+		if ($case <= 0) {
 
-			if (is_null($UTF8_LOWER_ACCENTS))
-			{
+			if (is_null($UTF8_LOWER_ACCENTS)) {
 				$UTF8_LOWER_ACCENTS = array(
 					'à' => 'a',
 					'ô' => 'o',
@@ -156,10 +154,8 @@ class JLanguageTransliterate
 			$string = str_replace(array_keys($UTF8_LOWER_ACCENTS), array_values($UTF8_LOWER_ACCENTS), $string);
 		}
 
-		if ($case >= 0)
-		{
-			if (is_null($UTF8_UPPER_ACCENTS))
-			{
+		if ($case >= 0) {
+			if (is_null($UTF8_UPPER_ACCENTS)) {
 				$UTF8_UPPER_ACCENTS = array(
 					'À' => 'A',
 					'Ô' => 'O',

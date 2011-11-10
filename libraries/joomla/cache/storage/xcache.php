@@ -35,8 +35,7 @@ class JCacheStorageXcache extends JCacheStorage
 		$cache_id = $this->_getCacheId($id, $group);
 		$cache_content = xcache_get($cache_id);
 
-		if ($cache_content === null)
-		{
+		if ($cache_content === null) {
 			return false;
 		}
 
@@ -67,16 +66,13 @@ class JCacheStorageXcache extends JCacheStorage
 
 			$namearr = explode('-', $key['name']);
 
-			if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
-			{
+			if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache') {
 				$group = $namearr[2];
 
-				if (!isset($data[$group]))
-				{
+				if (!isset($data[$group])) {
 					$item = new JCacheStorageHelper($group);
 				}
-				else
-				{
+				else {
 					$item = $data[$group];
 				}
 
@@ -121,8 +117,7 @@ class JCacheStorageXcache extends JCacheStorage
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 
-		if (!xcache_isset($cache_id))
-		{
+		if (!xcache_isset($cache_id)) {
 			return true;
 		}
 
@@ -151,8 +146,7 @@ class JCacheStorageXcache extends JCacheStorage
 		$secret = $this->_hash;
 		foreach ($keys as $key)
 		{
-			if (strpos($key['name'], $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
-			{
+			if (strpos($key['name'], $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group') {
 				xcache_unset($key['name']);
 			}
 		}

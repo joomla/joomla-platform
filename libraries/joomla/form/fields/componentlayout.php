@@ -47,8 +47,7 @@ class JFormFieldComponentLayout extends JFormField
 		// Get the client id.
 		$clientId = $this->element['client_id'];
 
-		if (is_null($clientId) && $this->form instanceof JForm)
-		{
+		if (is_null($clientId) && $this->form instanceof JForm) {
 			$clientId = $this->form->getValue('client_id');
 		}
 		$clientId = (int) $clientId;
@@ -58,8 +57,7 @@ class JFormFieldComponentLayout extends JFormField
 		// Get the extension.
 		$extn = (string) $this->element['extension'];
 
-		if (empty($extn) && ($this->form instanceof JForm))
-		{
+		if (empty($extn) && ($this->form instanceof JForm)) {
 			$extn = $this->form->getValue('extension');
 		}
 
@@ -70,8 +68,7 @@ class JFormFieldComponentLayout extends JFormField
 		$template = preg_replace('#\W#', '', $template);
 
 		// Get the style.
-		if ($this->form instanceof JForm)
-		{
+		if ($this->form instanceof JForm) {
 			$template_style_id = $this->form->getValue('template_style_id');
 		}
 
@@ -82,8 +79,7 @@ class JFormFieldComponentLayout extends JFormField
 		$view = preg_replace('#\W#', '', $view);
 
 		// If a template, extension and view are present build the options.
-		if ($extn && $view && $client)
-		{
+		if ($extn && $view && $client) {
 
 			// Load language file
 			$lang = JFactory::getLanguage();
@@ -103,13 +99,11 @@ class JFormFieldComponentLayout extends JFormField
 			$query->where('e.type = ' . $db->quote('template'));
 			$query->where('e.enabled = 1');
 
-			if ($template)
-			{
+			if ($template) {
 				$query->where('e.element = ' . $db->quote($template));
 			}
 
-			if ($template_style_id)
-			{
+			if ($template_style_id) {
 				$query->join('LEFT', '#__template_styles as s on s.template=e.element');
 				$query->where('s.id=' . (int) $template_style_id);
 			}
@@ -119,8 +113,7 @@ class JFormFieldComponentLayout extends JFormField
 			$templates = $db->loadObjectList('element');
 
 			// Check for a database error.
-			if ($db->getErrorNum())
-			{
+			if ($db->getErrorNum()) {
 				JError::raiseWarning(500, $db->getErrorMsg());
 			}
 
@@ -134,14 +127,12 @@ class JFormFieldComponentLayout extends JFormField
 			$groups = array();
 
 			// Add a Use Global option if useglobal="true" in XML file
-			if ($this->element['useglobal'] == 'true')
-			{
+			if ($this->element['useglobal'] == 'true') {
 				$groups[JText::_('JOPTION_FROM_STANDARD')]['items'][] = JHtml::_('select.option', '', JText::_('JGLOBAL_USE_GLOBAL'));
 			}
 
 			// Add the layout options from the component path.
-			if (is_dir($component_path) && ($component_layouts = JFolder::files($component_path, '^[^_]*\.xml$', false, true)))
-			{
+			if (is_dir($component_path) && ($component_layouts = JFolder::files($component_path, '^[^_]*\.xml$', false, true))) {
 				// Create the group for the component
 				$groups['_'] = array();
 				$groups['_']['id'] = $this->id . '__';
@@ -151,16 +142,14 @@ class JFormFieldComponentLayout extends JFormField
 				foreach ($component_layouts as $i => $file)
 				{
 					// Attempt to load the XML file.
-					if (!$xml = simplexml_load_file($file))
-					{
+					if (!$xml = simplexml_load_file($file)) {
 						unset($component_layouts[$i]);
 
 						continue;
 					}
 
 					// Get the help data from the XML file if present.
-					if (!$menu = $xml->xpath('layout[1]'))
-					{
+					if (!$menu = $xml->xpath('layout[1]')) {
 						unset($component_layouts[$i]);
 
 						continue;
@@ -177,8 +166,7 @@ class JFormFieldComponentLayout extends JFormField
 			}
 
 			// Loop on all templates
-			if ($templates)
-			{
+			if ($templates) {
 				foreach ($templates as $template)
 				{
 					// Load language file
@@ -192,8 +180,7 @@ class JFormFieldComponentLayout extends JFormField
 					$template_path = JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $extn . '/' . $view);
 
 					// Add the layout options from the template path.
-					if (is_dir($template_path) && ($files = JFolder::files($template_path, '^[^_]*\.php$', false, true)))
-					{
+					if (is_dir($template_path) && ($files = JFolder::files($template_path, '^[^_]*\.php$', false, true))) {
 						// Files with corresponding XML files are alternate menu items, not alternate layout files
 						// so we need to exclude these files from the list.
 						$xml_files = JFolder::files($template_path, '^[^_]*\.xml$', false, true);
@@ -205,13 +192,11 @@ class JFormFieldComponentLayout extends JFormField
 						{
 							// Remove layout files that exist in the component folder or that have XML files
 							if ((in_array(JFile::stripext(JFile::getName($file)), $component_layouts))
-								|| (in_array(JFile::stripext(JFile::getName($file)), $xml_files)))
-							{
+								|| (in_array(JFile::stripext(JFile::getName($file)), $xml_files))) {
 								unset($files[$i]);
 							}
 						}
-						if (count($files))
-						{
+						if (count($files)) {
 							// Create the group for the template
 							$groups[$template->name] = array();
 							$groups[$template->name]['id'] = $this->id . '_' . $template->element;
@@ -249,8 +234,7 @@ class JFormFieldComponentLayout extends JFormField
 
 			return implode($html);
 		}
-		else
-		{
+		else {
 			return '';
 		}
 	}
