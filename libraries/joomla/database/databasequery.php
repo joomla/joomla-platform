@@ -116,12 +116,9 @@ class JDatabaseQueryElement
 	 */
 	public function __clone()
 	{
-		foreach ($this as $k => $v)
+		if (is_object($v) || is_array($v))
 		{
-			if (is_object($v) || is_array($v))
-			{
-				$this->{$k} = unserialize(serialize($v));
-			}
+			$this->{$k} = unserialize(serialize($v));
 		}
 	}
 }
@@ -1172,12 +1169,9 @@ abstract class JDatabaseQuery
 	 */
 	public function __clone()
 	{
-		foreach ($this as $k => $v)
+		if (is_object($v) || is_array($v))
 		{
-			if (is_object($v) || is_array($v))
-			{
-				$this->{$k} = unserialize(serialize($v));
-			}
+			$this->{$k} = unserialize(serialize($v));
 		}
 	}
 }

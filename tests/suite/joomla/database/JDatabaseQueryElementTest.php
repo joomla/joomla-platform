@@ -236,14 +236,12 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase
 
 		$baseElement = new JDatabaseQueryElement($name = null, $elements = null);
 
-		$baseElement->testArray = array();
+		$baseElement->testArray = array('a', 'b', 'c');
 
 		$cloneElement = clone($baseElement);
 
-		$baseElement->testArray[] = 'a';
-
 		$this->assertFalse($baseElement === $cloneElement);
-		$this->assertEquals(count($cloneElement->testArray), 0);
+		$this->assertFalse($baseElement->testArray === $cloneElement->testArray);
 	}
 
 	/**
