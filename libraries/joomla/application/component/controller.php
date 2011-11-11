@@ -199,16 +199,18 @@ class JController extends JObject
 					$parts['format'] = '';
 				}
 
-				$filename = strtolower($parts['name']) . $parts['format'] . '.php';
+				$filename = strtolower($parts['name'] . $parts['format'] . '.php');
 				break;
 
 			case 'view':
 				if (!empty($parts['type']))
 				{
 					$parts['type'] = '.' . $parts['type'];
+				} else {
+					$parts['type'] = '';
 				}
 
-				$filename = strtolower($parts['name']) . '/view' . $parts['type'] . '.php';
+				$filename = strtolower($parts['name'] . '/view' . $parts['type'] . '.php');
 				break;
 		}
 
