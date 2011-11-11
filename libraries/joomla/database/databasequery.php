@@ -1194,8 +1194,7 @@ abstract class JDatabaseQuery
 	}
 
 	/**
-	 * Method to provide deep copy support to nested objects and
-	 * arrays when cloning.
+	 * Method to lock the database table for writing.
 	 *
 	 * @return  void
 	 *
