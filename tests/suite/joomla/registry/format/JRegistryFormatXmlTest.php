@@ -8,7 +8,6 @@
  */
 
 require_once JPATH_PLATFORM.'/joomla/registry/format.php';
-require_once JPATH_PLATFORM.'/joomla/registry/format/xml.php';
 
 /**
  * Test class for JRegistryFormatXML.
