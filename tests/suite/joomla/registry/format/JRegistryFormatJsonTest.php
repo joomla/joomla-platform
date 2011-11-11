@@ -88,9 +88,15 @@ class JRegistryFormatJSONTest extends PHPUnit_Framework_TestCase
 			$this->equalTo($object2),
 			'Line:'.__LINE__.' The INI string should covert into an object with sections.'
 		);
-
-		$this->markTestIncomplete(
-			'Need to test for bad input.'
+		
+		/**
+		 * Test for bad input
+		 * Everything that is not starting with { is handled by
+		 * JRegistryFormatIni, which we test seperately
+		 */ 
+		$this->assertThat(
+			$class->stringToObject('{key:\'value\''),
+			$this->equalTo(false)
 		);
 	}
 }

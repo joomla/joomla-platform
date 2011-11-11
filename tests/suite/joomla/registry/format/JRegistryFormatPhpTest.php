@@ -47,15 +47,21 @@ class JRegistryFormatPHPTest extends PHPUnit_Framework_TestCase
 	{
 		$tests = array(
 			'Regular Object' => array(
-				self::_objectFactory(array('test1' => 'value1', 'test2' => 'value2')),
+				self::_objectFactory(array('test1' => 'value1', 'test2' => 'value2', 'array' => array('test3' => 'value3'))),
 				array('class' => 'myClass'),
-				'<?php'."\n".'class myClass {'."\n\t".'public $test1 = \'value1\';'."\n\t".'public $test2 = \'value2\';'."\n}\n".'?>'
+				'<?php'."\n".'class myClass {'."\n\t".'public $test1 = \'value1\';'."\n\t".'public $test2 = \'value2\';'."\n\t".'public $array = array("test3" => "value3");'."\n}\n".'?>'
 			),
 			'Object with Double Quote' => array(
 				self::_objectFactory(array('test1' => 'value1"', 'test2' => 'value2')),
 				array('class' => 'myClass'),
 				'<?php'."\n".'class myClass {'."\n\t".'public $test1 = \'value1"\';'."\n\t".'public $test2 = \'value2\';'."\n}\n".'?>'
+			),
+			'Object with nested arrays' => array(
+				self::_objectFactory(array('test1' => array('test2' => array('test3' => 'value3')))),
+				array('class' => 'myClass'),
+				'<?php'."\n".'class myClass {'."\n\t".'public $test1 = array("test2" => array("test3" => "value3"));'."\n}\n".'?>'
 			)
+			
 
 		);
 
@@ -81,6 +87,7 @@ class JRegistryFormatPHPTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testStringToObject()
 	{
-		// This method is not implemented in the class.
+		// This method is not implemented in the class. The test is to achieve 100% code coverage
+		$this->assertTrue($this->instance->stringToObject(''));
 	}
 }
