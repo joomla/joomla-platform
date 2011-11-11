@@ -21,16 +21,40 @@ class JRegistryFormatXMLTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testObjectToString()
 	{
-		$class = new JRegistryFormatXML;
+		$class = JRegistryFormat::getInstance('XML');
 		$options = null;
 		$object = new stdClass;
 		$object->foo = 'bar';
+		$object->quoted = '"stringwithquotes"';
+		$object->booleantrue = true;
+		$object->booleanfalse = false;
+		$object->numericint = 42;
+		$object->numericfloat = 3.1415;
+		$object->section = new stdClass();
+		$object->section->key = 'value';
+		$object->array = array('nestedarray' => array('test1' => 'value1'));
 
+		$string = "<?xml version=\"1.0\"?>\n<registry>".
+			"<node name=\"foo\" type=\"string\">bar</node>".
+			"<node name=\"quoted\" type=\"string\">\"stringwithquotes\"</node>".
+			"<node name=\"booleantrue\" type=\"boolean\">1</node>".
+			"<node name=\"booleanfalse\" type=\"boolean\"></node>".
+			"<node name=\"numericint\" type=\"integer\">42</node>".
+			"<node name=\"numericfloat\" type=\"double\">3.1415</node>".
+			"<node name=\"section\" type=\"object\">".
+				"<node name=\"key\" type=\"string\">value</node>".
+			"</node>".
+			"<node name=\"array\" type=\"array\">".
+				"<node name=\"nestedarray\" type=\"array\">".
+					"<node name=\"test1\" type=\"string\">value1</node>".
+				"</node>".
+			"</node>".
+		"</registry>\n";
+		
 		// Test basic object to string.
-		$string = trim($class->objectToString($object, $options));
 		$this->assertThat(
-			$string,
-			$this->equalTo("<?xml version=\"1.0\"?>\n<registry><node name=\"foo\" type=\"string\">bar</node></registry>")
+			$class->objectToString($object, $options),
+			$this->equalTo($string)
 		);
 	}
 
@@ -39,7 +63,36 @@ class JRegistryFormatXMLTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testStringToObject()
 	{
-		// This method is not implemented in the class.
+		$class = JRegistryFormat::getInstance('XML');
+		$object = new stdClass;
+		$object->foo = 'bar';
+		$object->booleantrue = true;
+		$object->booleanfalse = false;
+		$object->numericint = 42;
+		$object->numericfloat = 3.1415;
+		$object->section = new stdClass();
+		$object->section->key = 'value';
+		$object->array = array('test1' => 'value1');
+
+		$string = "<?xml version=\"1.0\"?>\n<registry>".
+			"<node name=\"foo\" type=\"string\">bar</node>".
+			"<node name=\"booleantrue\" type=\"boolean\">1</node>".
+			"<node name=\"booleanfalse\" type=\"boolean\"></node>".
+			"<node name=\"numericint\" type=\"integer\">42</node>".
+			"<node name=\"numericfloat\" type=\"double\">3.1415</node>".
+			"<node name=\"section\" type=\"object\">".
+				"<node name=\"key\" type=\"string\">value</node>".
+			"</node>".
+			"<node name=\"array\" type=\"array\">".
+				"<node name=\"test1\" type=\"string\">value1</node>".
+			"</node>".
+		"</registry>\n";
+		
+		// Test basic object to string.
+		$this->assertThat(
+			$class->stringToObject($string),
+			$this->equalTo($object)
+		);
 	}
 
 }
