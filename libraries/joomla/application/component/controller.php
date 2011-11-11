@@ -206,7 +206,9 @@ class JController extends JObject
 				if (!empty($parts['type']))
 				{
 					$parts['type'] = '.' . $parts['type'];
-				} else {
+				}
+				else
+				{
 					$parts['type'] = '';
 				}
 
