@@ -23,6 +23,22 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	protected $dbo;
 
 	/**
+	 * Data for the testConcatenate test.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.1
+	 */
+	public function dataTestConcatenate()
+	{
+		return array(
+			// array, separator, expected
+			array(array('first','Second'), null, 'firstSecond'),
+			array(array('first','Second'), 'ABC', 'firstABCSecond'),
+		);
+	}
+	
+	/**
 	 * Data for the testNullDate test.
 	 *
 	 * @return  array
@@ -366,6 +382,21 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 		}
 	}
 
+	/**
+	 * Test for "concatenate" words.
+	 * 
+	 * @dataProvider dataTestConcatenate
+	 */
+	public function testConcatenate( $values, $separator, $expected )
+	{
+		$this->assertThat(
+			$this->object->concatenate($values, $separator),
+			$this->equalTo($expected),
+			'The string was not concatenated properly'
+		);
+	}
+	
+	
 	/**
 	 * Test for FROM clause.
 	 *
