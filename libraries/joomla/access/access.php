@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.access.rules');
 jimport('joomla.utilities.arrayhelper');
@@ -36,6 +36,46 @@ class JAccess
 	 * @since  11.1
 	 */
 	protected static $assetRules = array();
+
+	/**
+	 * Array of user groups.
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
+	protected static $userGroups = array();
+
+	/**
+	 * Array of user group paths.
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
+	protected static $userGroupPaths = array();
+
+	/**
+	 * Array of cached groups by user.
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
+	protected static $groupsByUser = array();
+
+	/**
+	 * Method for clearing static caches.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public static function clearStatics()
+	{
+		self::$viewLevels = array();
+		self::$assetRules = array();
+		self::$userGroups = array();
+		self::$userGroupPaths = array();
+		self::$groupsByUser = array();
+	}
 
 	/**
 	 * Array of user groups.
