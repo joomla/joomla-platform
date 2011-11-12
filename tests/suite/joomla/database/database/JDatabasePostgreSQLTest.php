@@ -936,9 +936,6 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 */
 	public function testReplacePrefix( $stringToReplace, $prefix, $expected )
 	{
-		//$this->markTestSkipped('This command is tested inside testTransactionRollback.');
-		
-		
 		$result = $this->object->replacePrefix($stringToReplace, $prefix);
 		
 		$this->assertThat(
