@@ -80,13 +80,17 @@ class JHtmlMenuTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
-	 * @todo Implement testMenuitemlist().
+	 * Tests the JHtmlMenu::menuitemlist method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
 	 */
 	public function testMenuitemlist()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+		$this->assertThat(
+			JHtmlMenu::menuitemlist('menuitemlist'),
+			$this->StringContains('<option value="mainmenu.101">- Home</option>')
 		);
 	}
 

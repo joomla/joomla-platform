@@ -434,10 +434,12 @@ class JLanguage extends JObject
 	 */
 	public function getPluralSufficesCallback()
 	{
+		// @codeCoverageIgnoreStart
 		// Deprecation warning.
 		JLog::add('JLanguage::_getPluralSufficesCallback() is deprecated.', JLog::WARNING, 'deprecated');
 
 		return $this->getPluralSuffixesCallback();
+		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -1279,10 +1281,12 @@ class JLanguage extends JObject
 	 */
 	public static function _parseLanguageFiles($dir = null)
 	{
+		// @codeCoverageIgnoreStart
 		// Deprecation warning.
 		JLog::add('JLanguage::_parseLanguageFiles() is deprecated.', JLog::WARNING, 'deprecated');
 
 		return self::parseLanguageFiles($dir);
+		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -1325,10 +1329,12 @@ class JLanguage extends JObject
 	 */
 	public static function _parseXMLLanguageFiles($dir = null)
 	{
+		// @codeCoverageIgnoreStart
 		// Deprecation warning.
 		JLog::add('JLanguage::_parseXMLLanguageFiles() is deprecated.', JLog::WARNING, 'deprecated');
 
 		return self::parseXMLLanguageFiles($dir);
+		// @codeCoverageIgnoreEnd
 	}
 
 	/**

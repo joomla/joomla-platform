@@ -17,6 +17,17 @@ require_once JPATH_PLATFORM.'/joomla/html/editor.php';
 class JEditorTest extends PHPUnit_Framework_TestCase
 {
 	/**
+	 * @todo Implement test__construct().
+	 */
+	public function test__construct()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		'This test has not been implemented yet.'
+		);
+	}
+
+	/**
 	 * @todo Implement testGetInstance().
 	 */
 	public function testGetInstance()
@@ -86,6 +97,17 @@ class JEditorTest extends PHPUnit_Framework_TestCase
 	 * @todo Implement testGetButtons().
 	 */
 	public function testGetButtons()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		'This test has not been implemented yet.'
+		);
+	}
+
+	/**
+	 * @todo Implement test_loadEditor().
+	 */
+	public function test_loadEditor()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(

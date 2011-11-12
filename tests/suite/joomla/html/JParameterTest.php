@@ -9,6 +9,9 @@
 
 require_once JPATH_PLATFORM.'/joomla/html/parameter.php';
 
+jimport('joomla.log.log');
+jimport('joomla.filter.filterinput');
+
 class JParameterInspector extends JParameter
 {
 	public function getElementPath()
@@ -41,7 +44,7 @@ class JParameterTest extends PHPUnit_Framework_TestCase
 				array(
 					// addElementPath appends the slash for some reason.
 					str_replace('\\', '/', __DIR__.'/'),
-					str_replace('\\', '/', JPATH_PLATFORM.'/joomla/html/parameter/element')
+					str_replace('\\', '/', JPATH_PLATFORM.'/joomla/html/parameter/element/')
 				)
 			)
 		);
@@ -218,9 +221,37 @@ class JParameterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLoadElement()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+		$params = new JParameter('');
+		
+		$this->assertTrue(is_a($params->loadElement('list'), 'JElementList'));
+		
+		$this->assertFalse($params->loadElement('fake'));
+		
+		require_once JPATH_TESTS.'/suite/joomla/html/parameter/JElementMock.php';
+		
+		$el = $params->loadElement('mock');
+		
+		$this->assertTrue(is_a($el, 'JElementMock'));
+		
+		$this->assertThat(
+			$el->getName(),
+			$this->equalTo('Mock')
+		);
+		
+		$el->name = 'Mock2';
+
+		$el = $params->loadElement('mock');
+
+		$this->assertThat(
+			$el->getName(),
+			$this->equalTo('Mock2')
+		);
+		
+		$el = $params->loadElement('mock', true);
+		
+		$this->assertThat(
+			$el->getName(),
+			$this->equalTo('Mock')
 		);
 	}
 
