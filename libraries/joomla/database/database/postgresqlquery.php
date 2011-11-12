@@ -216,6 +216,31 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	}
 	
 	/**
+	 * Concatenates an array of column names or values.
+	 *
+	 * Usage:
+	 * $query->select($query->concatenate(array('a', 'b')));
+	 *
+	 * @param   array   $values     An array of values to concatenate.
+	 * @param   string  $separator  As separator to place between each value.
+	 *
+	 * @return  string  The concatenated values.
+	 *
+	 * @since   11.1
+	 */
+	function concatenate($values, $separator = null)
+	{
+		if ($separator)
+		{
+			return implode(' || ' . $this->quote($separator) . ' || ', $values) ;
+		}
+		else
+		{
+			return implode(' || ', $values);
+		}
+	}
+	
+	/**
 	 * Gets the current date and time.
 	 *
 	 * @return  string
