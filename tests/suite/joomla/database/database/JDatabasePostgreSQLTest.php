@@ -108,7 +108,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 */
 	protected function getDataSet()
 	{
-		return $this->createXMLDataSet(dirname(__FILE__).'/TestStubs/database.xml');
+		return $this->createXMLDataSet(dirname(__FILE__).'/stubs/database.xml');
 	}
 
 	/**
