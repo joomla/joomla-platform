@@ -6,7 +6,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-//include_once JPATH_PLATFORM . '/joomla/session/storage/database.php';
+include_once JPATH_PLATFORM . '/joomla/session/storage.php';
+jimport('joomla.filter.filterinput');
 
 /**
  * Test class for JSessionStorageDatabase.
@@ -24,7 +25,7 @@ class JSessionStorageDatabaseTest extends PHPUnit_Framework_TestCase {
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        //$this->object = new JSessionStorageDatabase;
+        $this->object = JSessionStorage::getInstance('Database');
     }
 
     /**

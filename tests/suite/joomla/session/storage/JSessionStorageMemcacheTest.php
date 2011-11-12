@@ -6,7 +6,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-//include_once JPATH_PLATFORM . '/joomla/session/storage/memcache.php';
+include_once JPATH_PLATFORM . '/joomla/session/storage.php';
+jimport('joomla.filter.filterinput');
 
 /**
  * Test class for JSessionStorageMemcache.
@@ -24,7 +25,7 @@ class JSessionStorageMemcacheTest extends PHPUnit_Framework_TestCase {
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        //$this->object = new JSessionStorageMemcache;
+		$this->object = JSessionStorage::getInstance('Memcache');
     }
 
     /**

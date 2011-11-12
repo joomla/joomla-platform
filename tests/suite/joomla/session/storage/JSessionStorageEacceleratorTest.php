@@ -6,7 +6,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-//include_once JPATH_PLATFORM . '/joomla/session/storage/eaccelerator.php';
+include_once JPATH_PLATFORM . '/joomla/session/storage.php';
+jimport('joomla.filter.filterinput');
 
 /**
  * Test class for JSessionStorageEaccelerator.
@@ -24,7 +25,7 @@ class JSessionStorageEacceleratorTest extends PHPUnit_Framework_TestCase {
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        //$this->object = new JSessionStorageEaccelerator;
+		$this->object = JSessionStorage::getInstance('Eaccelerator');
     }
 
     /**

@@ -6,7 +6,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-//include_once JPATH_PLATFORM . '/joomla/session/storage/none.php';
+include_once JPATH_PLATFORM . '/joomla/session/storage.php';
+jimport('joomla.filter.filterinput');
 
 /**
  * Test class for JSessionStorageNone.
@@ -24,97 +25,81 @@ class JSessionStorageNoneTest extends PHPUnit_Framework_TestCase {
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        //$this->object = new JSessionStorageNone;
+		$this->object = JSessionStorage::getInstance('None');
     }
 
     /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown() {
-
-    }
-
-    /**
-     * @todo Implement testRegister().
+     * Test JSessionStorageNone::Register().
      */
     public function testRegister() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+    	$this->assertThat(
+    		$this->object->register(),
+    		$this->equalTo(null)
+    	);
     }
 
     /**
-     * @todo Implement testOpen().
+     * Test JSessionStorageNone::open().
      */
     public function testOpen() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+    	$this->assertTrue(
+    		$this->object->open(null, null)
+    	);
     }
 
     /**
-     * @todo Implement testClose().
+     * Test JSessionStorageNone::close().
      */
     public function testClose() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+    	$this->assertTrue(
+    		$this->object->close()
+    	);
     }
 
     /**
-     * @todo Implement testRead().
+     * Test JSessionStorageNone::read().
      */
     public function testRead() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+    	$this->assertTrue(
+    		$this->object->read(null)
+    	);
     }
 
     /**
-     * @todo Implement testWrite().
+     * Test JSessionStorageNone::write().
      */
     public function testWrite() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+    	$this->assertTrue(
+    		$this->object->write(null, null)
+    	);
     }
 
     /**
-     * @todo Implement testDestroy().
+     * Test JSessionStorageNone::destroy().
      */
     public function testDestroy() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+    	$this->assertTrue(
+    		$this->object->destroy(null)
+    	);
     }
 
     /**
-     * @todo Implement testGc().
+     * Test JSessionStorageNone::gc().
      */
     public function testGc() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+    	$this->assertTrue(
+    		$this->object->gc()
+    	);
     }
 
     /**
-     * @todo Implement testTest().
+     * Test JSessionStorageNone::test().
      */
     public function testTest() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+    	$this->assertTrue(
+    		JSessionStorageNone::test()
+    	);
     }
-
 }
 
 ?>

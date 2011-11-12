@@ -6,7 +6,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-//include_once JPATH_PLATFORM . '/joomla/session/storage/wincache.php';
+include_once JPATH_PLATFORM . '/joomla/session/storage.php';
+jimport('joomla.filter.filterinput');
 
 /**
  * Test class for JSessionStorageWincache.
@@ -24,7 +25,7 @@ class JSessionStorageWincacheTest extends PHPUnit_Framework_TestCase {
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        //$this->object = new JSessionStorageWincache;
+		$this->object = JSessionStorage::getInstance('Wincache');
     }
 
     /**
