@@ -192,8 +192,10 @@ class JUpdater extends JAdapter
 	 */
 	public function arrayUnique($myArray)
 	{
+		// @codeCoverageIgnoreStart
 		JLog::add('JUpdater::arrayUnique() is deprecated. See JArrayHelper::arrayUnique().', JLog::WARNING, 'deprecated');
 		return JArrayHelper::arrayUnique($myArray);
+		// @codeCoverageIgnoreEnd
 	}
 
 	/**

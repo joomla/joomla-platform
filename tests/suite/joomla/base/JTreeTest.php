@@ -35,7 +35,22 @@ class JTreeTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @todo Implement testAddChild().
+	 * Test JTree::__construct().
+	 */
+	public function test__construct() {
+		$this->assertInstanceOf(
+			'JNode',
+			$this->object->get('_root')
+		);
+		
+		$this->assertThat(
+			$this->object->get('_root'),
+			$this->equalTo($this->object->get('_current'))
+		);
+	}
+	
+	/**
+	 * @todo Implement addChild().
 	 */
 	public function testAddChild() {
 		// Remove the following lines when you implement this test.
@@ -43,7 +58,7 @@ class JTreeTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @todo Implement testGetParent().
+	 * Test JTree::getParent().
 	 */
 	public function testGetParent() {
 		// Remove the following lines when you implement this test.

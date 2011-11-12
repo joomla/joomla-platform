@@ -8,21 +8,21 @@
  */
 
 /**
- * Test class for JForm.
+ * Test class for JFormFieldComponentLayout.
  *
  * @package		Joomla.UnitTest
  * @subpackage  Form
  */
-class JFormFieldContentLanguagesTest extends JoomlaTestCase
+class JFormFieldComponentLayoutTest extends JoomlaTestCase
 {
 	/**
-	 * Sets up dependancies for the test.
+	 * Sets up dependencies for the test.
 	 */
 	protected function setUp()
 	{
 		jimport('joomla.form.form');
 		jimport('joomla.form.formfield');
-		require_once JPATH_PLATFORM.'/joomla/form/fields/contentlanguage.php';
+		require_once JPATH_PLATFORM.'/joomla/form/fields/componentlayout.php';
 		include_once dirname(__DIR__).'/inspectors.php';
 	}
 
@@ -34,12 +34,12 @@ class JFormFieldContentLanguagesTest extends JoomlaTestCase
 		$form = new JFormInspector('form1');
 
 		$this->assertThat(
-			$form->load('<form><field name="contentlanguage" type="contentlanguage" /></form>'),
+			$form->load('<form><field name="componentlayout" type="componentlayout" /></form>'),
 			$this->isTrue(),
 			'Line:'.__LINE__.' XML string should load successfully.'
 		);
 
-		$field = new JFormFieldContentLanguage($form);
+		$field = new JFormFieldComponentLayout($form);
 
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),

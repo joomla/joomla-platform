@@ -37,6 +37,14 @@ class JWebTest extends JoomlaTestCase
 	const TEST_USER_AGENT = 'Mozilla/5.0';
 
 	/**
+	 * Value for test user agent.
+	 *
+	 * @var    string
+	 * @since  11.3
+	 */
+	const TEST_REQUEST_URI = '/index.php';
+
+	/**
 	 * An instance of a JWeb inspector.
 	 *
 	 * @var    JWebInspector
@@ -91,6 +99,7 @@ class JWebTest extends JoomlaTestCase
 
 		$_SERVER['HTTP_HOST'] = self::TEST_HTTP_HOST;
 		$_SERVER['HTTP_USER_AGENT'] = self::TEST_USER_AGENT;
+		$_SERVER['REQUEST_URI'] = self::TEST_REQUEST_URI;
 
 		// Get a new JWebInspector instance.
 		$this->inspector = new JWebInspector;

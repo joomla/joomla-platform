@@ -12,11 +12,16 @@
  *
  * @package		Joomla.UnitTest
  * @subpackage  Form
+ * @since       11.1
  */
-class JFormFieldCategoryTest extends JoomlaTestCase
+class JFormFieldCategoryTest extends JoomlaDatabaseTestCase
 {
 	/**
-	 * Sets up dependancies for the test.
+	 * Sets up dependencies for the test.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	protected function setUp()
 	{
@@ -27,7 +32,23 @@ class JFormFieldCategoryTest extends JoomlaTestCase
 	}
 
 	/**
+	 * Gets the data set to be loaded into the database during setup
+	 *
+	 * @return  xml dataset
+	 *
+	 * @since   11.3
+	 */
+	protected function getDataSet()
+	{
+		return $this->createXMLDataSet(__DIR__.'/testfiles/JFormField.xml');
+	}
+
+	/**
 	 * Test the getInput method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testGetInput()
 	{
@@ -47,14 +68,10 @@ class JFormFieldCategoryTest extends JoomlaTestCase
 			'Line:'.__LINE__.' The setup method should return true.'
 		);
 
-		$this->markTestIncomplete('Problems encountered in next assertion');
-
 		$this->assertThat(
 			strlen($field->input),
 			$this->greaterThan(0),
 			'Line:'.__LINE__.' The getInput method should return something without error.'
 		);
-
-		// TODO: Should check all the attributes have come in properly.
 	}
 }

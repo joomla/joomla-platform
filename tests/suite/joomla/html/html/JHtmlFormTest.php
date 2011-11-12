@@ -12,18 +12,61 @@ require_once JPATH_PLATFORM.'/joomla/html/html/form.php';
 /**
  * Test class for JHtmlForm.
  *
- * @since  11.1
+ * @package     Joomla.UnitTest
+ * @subpackage  HTML
+ * @since       11.1
  */
-class JHtmlFormTest extends PHPUnit_Framework_TestCase
+class JHtmlFormTest extends JoomlaTestCase
 {
 	/**
-	 * @todo Implement testToken().
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	protected function setUp()
+	{
+		parent::setUp();
+
+		jimport('joomla.utilities.utility');
+		jimport('joomla.filter.filterinput');
+
+		// Need a mock session
+		$this->saveFactoryState();
+
+		JFactory::$session = $this->getMockSession();
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	protected function tearDown()
+	{
+		$this->restoreFactoryState();
+
+		parent::tearDown();
+	}
+
+	/**
+	 * Tests the JHtmlForm::token method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
 	 */
 	public function testToken()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+		$this->assertThat(
+			strlen(JHtmlForm::token()),
+			$this->greaterThan(0),
+			'Line:'.__LINE__.' The token method should return something without error.'
 		);
 	}
 }

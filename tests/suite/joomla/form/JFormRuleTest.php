@@ -7,7 +7,30 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/form/formrule.php';
+jimport('joomla.form.formrule');
+
+/**
+ * General inspector class for JFormRule.
+ *
+ * @package Joomla.UnitTest
+ * @subpackage HTML
+ * @since 11.3
+ */
+class JFormRuleInspector extends JFormRule
+{
+	/**
+	* Sets any property from the class.
+	*
+	* @param string $property The name of the class property.
+	* @param string $value The value of the class property.
+	*
+	* @return void
+	*/
+	public function __set($property, $value)
+	{
+		$this->$property = $value;
+	}
+}
 
 /**
  * Test class for JForm.
@@ -17,30 +40,40 @@ require_once JPATH_PLATFORM.'/joomla/form/formrule.php';
  */
 class JFormRuleTest extends JoomlaTestCase {
 	/**
-	 * @var JFormRule
-	 */
-	protected $object;
-
-	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 */
-	protected function setUp() {
-		$this->object = new JFormRule;
-	}
-
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 */
-	protected function tearDown() {
-	}
-
-	/**
-	 * @todo Implement testTest().
+	 * Test JFormRule::test().
+	 * 
+	 * @return  void
+	 * 
+	 * @since   11.3
 	 */
 	public function testTest() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		jimport('joomla.utilities.xmlelement');
+		
+		$rule = new JFormRuleInspector;
+		$xml = simplexml_load_string('<form><field name="foo" /></form>', 'JXMLElement');
+
+		$rule->regex = '^[a-zA-Z]+$';
+		
+		$this->assertThat(
+			$rule->test($xml, 'truestring'),
+			$this->equalTo(true)
+		);
+		
+		$this->assertThat(
+			$rule->test($xml, '%wrongstring%'),
+			$this->equalTo(false)
+		);
+		
+		//Test illegal regular expression
+		$rule->regex = null;
+		try
+		{
+			$rule->test($xml->field, 'bogus');
+		}
+		catch (JException $e)
+		{
+			return;
+		}
+		$this->fail('JFormRule::test() should throw a JException when no regexp is present');
 	}
 }
