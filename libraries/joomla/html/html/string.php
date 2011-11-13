@@ -174,7 +174,7 @@ abstract class JHtmlString
 			JHtml::_('script', 'system/highlighter' . $uncompressed . '.js', true, true);
 
 			// Add the terms to highlight.
-			$doc->addScriptDeclaration("window.highlight = [\"".implode('","', $terms)."\"];");
+			$doc->addScriptDeclaration("window.highlight = [\"" . implode('","', $terms) . "\"];");
 		}
 	}
 }
