@@ -102,7 +102,8 @@ class JDatabasePostgreSQLMock extends JDatabaseGlobalMock
 		// Mock selected methods.
 		$test->assignMockReturns(
 			$mockObject, array(
-				'getNullDate' => '1970-01-01 00:00:00'
+				'getNullDate' => '1970-01-01 00:00:00',
+				'getDateFormat' => 'Y-m-d H:i:s'
 			)
 		);
 
@@ -120,6 +121,29 @@ class JDatabasePostgreSQLMock extends JDatabaseGlobalMock
 	}
 
 	/**
+	 * Callback for the dbo setQuery method.
+	 *
+	 * @param  string  $new  True to get a new query, false to get the last query.
+	 *
+	 * @return void
+	 *
+	 * @since  11.3
+	 */
+	public function mockGetQuery($new = false)
+	{
+		if ($new)
+		{
+			require_once __DIR__.'/JDatabasePostgreSQLQueryDummy.php';
+
+			return new JDatabasePostgreSQLQueryDummy;
+		}
+		else
+		{
+			return self::$lastQuery;
+		}
+	}
+	
+	/**
 	 * Mocking the quote method.
 	 *
 	 * @param  string  $value  The value to be quoted.
@@ -130,7 +154,7 @@ class JDatabasePostgreSQLMock extends JDatabaseGlobalMock
 	 */
 	public function mockQuote($value)
 	{
-		return '\'$value\'';
+		return "'$value'";
 	}
 
 	/**
@@ -144,6 +168,21 @@ class JDatabasePostgreSQLMock extends JDatabaseGlobalMock
 	 */
 	public function mockQuoteName($value)
 	{
-		return '"$value"';
+		return "\"$value\"";
 	}
+
+	/**
+	 * Callback for the dbo setQuery method.
+	 *
+	 * @param  string  $query  The query.
+	 *
+	 * @return void
+	 *
+	 * @since  11.3
+	 */
+	public function mockSetQuery($query)
+	{
+		self::$lastQuery = $query;
+	}
+	
 }
