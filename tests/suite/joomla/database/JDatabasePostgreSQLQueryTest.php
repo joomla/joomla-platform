@@ -21,22 +21,6 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	 * @var  JDatbabase  A mock of the JDatabase object for testing purposes.
 	 */
 	protected $dbo;
-
-	/**
-	 * Data for the testConcatenate test.
-	 *
-	 * @return  array
-	 *
-	 * @since   11.1
-	 */
-	public function dataTestConcatenate()
-	{
-		return array(
-			// array, separator, expected
-			array(array('first','Second'), null, 'firstSecond'),
-			array(array('first','Second'), 'ABC', 'firstABCSecond'),
-		);
-	}
 	
 	/**
 	 * Data for the testNullDate test.
@@ -49,8 +33,8 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	{
 		return array(
 			// quoted, expected
-			array(true, "'1970-01-01 00:00:00+00'"),
-			array(false, "1970-01-01 00:00:00+00"),
+			array(true, "'1970-01-01 00:00:00'"),
+			array(false, "1970-01-01 00:00:00"),
 		);
 	}
 
@@ -65,7 +49,7 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	{
 		return array(
 			// text, escaped, expected
-			array('text', false, "'text'"),
+			array('text', false, '\'text\''),
 		);
 	}
 	
@@ -111,12 +95,37 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	}
 	
 	/**
+	 * A mock callback for the database escape method.
+	 *
+	 * We use this method to ensure that JDatabaseQuery's escape method uses the
+	 * the database object's escape method.
+	 *
+	 * @param   string  $text  The input text.
+	 *
+	 * @return  string
+	 *
+	 * @since   11.3
+	 */
+	public function getMockEscape($text)
+	{
+		return "_{$text}_";
+	}
+	
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp()
 	{
 		$this->dbo = $this->getMockDatabase();
+		
+		// Mock the escape method to ensure the API is calling the DBO's escape method.
+		$this->assignMockCallbacks(
+			$this->dbo,
+			array(
+				'escape' => array($this, 'getMockEscape'),
+			)
+		);
 	}
 
 	/**
@@ -128,12 +137,37 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	}
 
 	/**
-	 * @todo Implement test__toString().
+	 * Test for the JDatabaseQueryPostgreSQL::__string method for a 'select' case.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
-	public function test__toString()
+	public function test__toStringSelect()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
+
+		$q->select('a.id')
+			->from('a')
+			->innerJoin('b ON b.id = a.id')
+			->where('b.id = 1')
+			->group('a.id')
+				->having('COUNT(a.id) > 3')
+			->order('a.id');
+
+		$this->assertThat(
+			(string) $q,
+			$this->equalTo(
+				"\nSELECT a.id" .
+				"\nFROM a" .
+				"\nINNER JOIN b ON b.id = a.id" .
+				"\nWHERE b.id = 1" .
+				"\nGROUP BY a.id" .
+				"\nHAVING COUNT(a.id) > 3" .
+				"\nORDER BY a.id"
+			),
+			'Tests for correct rendering.'
+		);
 	}
 
 	/**
@@ -384,18 +418,23 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 
 	/**
 	 * Test for "concatenate" words.
-	 * 
-	 * @dataProvider dataTestConcatenate
 	 */
-	public function testConcatenate( $values, $separator, $expected )
+	public function testConcatenate()
 	{
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
+
 		$this->assertThat(
-			$this->object->concatenate($values, $separator),
-			$this->equalTo($expected),
-			'The string was not concatenated properly'
+			$q->concatenate(array('foo', 'bar')),
+			$this->equalTo('foo || bar'),
+			'Tests without separator.'
+		);
+
+		$this->assertThat(
+			$q->concatenate(array('foo', 'bar'), ' and '),
+			$this->equalTo("foo || '_ and _' || bar"),
+			'Tests without separator.'
 		);
 	}
-	
 	
 	/**
 	 * Test for FROM clause.
@@ -548,6 +587,7 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 			'The nullDate method should be a proxy for the JDatabase::getNullDate method.'
 		);
 	}
+	
 	/**
 	 * Test for ORDER clause.
 	 *
@@ -606,7 +646,7 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 
 		$this->assertThat(
 			$q->quoteName("test"),
-			$this->equalTo("'test'"),
+			$this->equalTo('"test"'),
 			'The quoteName method should be a proxy for the JDatabase::escape method.'
 		);
 	}
@@ -623,8 +663,8 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
 
 		$this->assertThat(
-			$q->quoteName("test"),
-			$this->equalTo("'test'"),
+			$q->quoteName('test'),
+			$this->equalTo('"test"'),
 			'The quoteName method should be a proxy for the JDatabase::escape method.'
 		);
 	}
@@ -697,9 +737,22 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 					$this->equalTo($query->where) );
 	}
 	
-	
-	
-	
+	/**
+	 * Tests the JDatabaseQueryPostgreSQL::escape method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testEscape()
+	{
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
+
+		$this->assertThat(
+			$q->escape('foo'),
+			$this->equalTo('_foo_')
+		);
+	}
 	
 	/* TO CONVERT */
 	/**
