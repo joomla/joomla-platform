@@ -447,17 +447,20 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	public function query()
 	{
-		if (!is_resource($this->connection)) {
+		if (!is_resource($this->connection)) 
+		{
 			// Legacy error handling switch based on the JError::$legacy switch.
 			// @deprecated  11.3
-			if (JError::$legacy) {
-
-				if ($this->debug) {
+			if (JError::$legacy) 
+			{
+				if ($this->debug) 
+				{
 					JError::raiseError(500, 'JDatabasePostgreSQL::query: '.$this->errorNum.' - '.$this->errorMsg);
 				}
 				return false;
 			}
-			else {
+			else 
+			{
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
 				throw new JDatabaseException;
 			}
@@ -465,12 +468,14 @@ class JDatabasePostgreSQL extends JDatabase
 
 		// Take a local copy so that we don't modify the original query and cause issues later
 		$sql = $this->replacePrefix((string) $this->sql);
-		if ($this->limit > 0 || $this->offset > 0) {
+		if ($this->limit > 0 || $this->offset > 0) 
+		{
 			$sql .= ' LIMIT '.$this->limit.' OFFSET '.$this->offset;
 		}
 		
 		// If debugging is enabled then let's log the query.
-		if ($this->debug) {
+		if ($this->debug) 
+		{
 			// Increment the query counter and add the query to the object queue.
 			$this->count++;
 			$this->log[] = $sql;
@@ -484,20 +489,23 @@ class JDatabasePostgreSQL extends JDatabase
 		// Execute the query.
 		$this->cursor = pg_query( $this->connection, $sql );
 
-		if (!$this->cursor) {
+		if (!$this->cursor) 
+		{
 			$this->errorNum = (int) pg_result_error_field( $this->cursor, PGSQL_DIAG_SQLSTATE ) . ' ';
 			$this->errorMsg = (string) pg_result_error_field( $this->cursor, PGSQL_DIAG_MESSAGE_PRIMARY )." SQL=$sql <br />";
 			
 			// Legacy error handling switch based on the JError::$legacy switch.
 			// @deprecated  11.3
-			if (JError::$legacy) {
-
-				if ($this->debug) {
+			if (JError::$legacy) 
+			{
+				if ($this->debug) 
+				{
 					JError::raiseError(500, 'JDatabasePostgreSQL::query: '.$this->errorNum.' - '.$this->errorMsg );
 				}
 				return false;
 			}
-			else {
+			else 
+			{
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
 				throw new JDatabaseException;
 			}
@@ -660,40 +668,27 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	public function getTableColumns( $table, $typeonly = true )
 	{
-		//settype($table, 'array'); //force to array
 		$result = array();
+
+		$tableSub = $this->replacePrefix( $table );
 		
-		// To check if table exists and prevent SQL injection
-		//$tableList = $this->getTableList();
+		$query = $this->getQuery(true);
+		$query->select('column_name, data_type, collation_name, is_nullable, column_default')
+			  ->from( 'information_schema.columns' )
+			  ->where( 'table_name=' . $this->quote($tableSub) ); /*$tblval*/
+		$this->setQuery($query);
 		
-		//foreach ($tables as $tblval) 
-		//{
-			//if ( in_array($tblval, $tableList) )
-			//{
-			$tableSub = $this->replacePrefix( $table );
-			//$tableSub = str_replace('#__', $this->tablePrefix, $table);
-			
-				$query = $this->getQuery(true);
-				$query->select('column_name, data_type, collation_name, is_nullable, column_default')
-					  ->from( 'information_schema.columns' )
-					  ->where( 'table_name=' . $this->quote($tableSub) ); /*$tblval*/
-				$this->setQuery($query);
-				
-				$fields = $this->loadObjectList();
-	
-				if ($typeonly) {
-					foreach ($fields as $field) {
-						//$result[$tableSub][$field->column_name] = preg_replace("/[(0-9)]/",'', $field->data_type );
-						$result[$field->column_name] = preg_replace("/[(0-9)]/",'', $field->data_type );
-					}
-				} else {
-					foreach ($fields as $field) {
-						//$result[$tableSub][$field->column_name] = $field;
-						$result[$field->column_name] = $field;
-					}
-				}
-			//}
-		//}
+		$fields = $this->loadObjectList();
+
+		if ($typeonly) {
+			foreach ($fields as $field) {
+				$result[$field->column_name] = preg_replace("/[(0-9)]/",'', $field->data_type );
+			}
+		} else {
+			foreach ($fields as $field) {
+				$result[$field->column_name] = $field;
+			}
+		}
 
 		return $result;
 	}
