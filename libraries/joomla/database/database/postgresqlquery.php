@@ -16,43 +16,43 @@ jimport('joomla.database.databasequery');
  *
  * @package		Joomla.Framework
  * @subpackage	Database
- * @since		11.1
+ * @since		11.3
  */
 class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 {
 	/**
 	 * @var    object  The FOR UPDATE element used in "FOR UPDATE"  lock
-	 * @since  11.1
+	 * @since  11.3
 	 */
 	protected $forUpdate = null;
 	
 	/**
 	 * @var    object  The FOR SHARE element used in "FOR SHARE"  lock
-	 * @since  11.1
+	 * @since  11.3
 	 */
 	protected $forShare = null;
 	
 	/**
 	 * @var    object  The NOWAIT element used in "FOR SHARE" and "FOR UPDATE" lock
-	 * @since  11.1
+	 * @since  11.3
 	 */
 	protected $noWait = null;
 	
 	/**
 	 * @var    object  The LIMIT element
-	 * @since  11.1
+	 * @since  11.3
 	 */
 	protected $limit = null;
 	
 	/**
 	 * @var    object  The OFFSET element
-	 * @since  11.1
+	 * @since  11.3
 	 */
 	protected $offset = null;
 
 	/**
 	 * @var    object  The RETURNING element of INSERT INTO
-	 * @since  11.1
+	 * @since  11.3
 	 */	
 	protected $returning = null;
 	
@@ -62,7 +62,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 *
 	 * @return  string	The completed query.
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 */
 	public function __toString()
 	{
@@ -170,7 +170,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 */
 	public function clear($clause = null)
 	{
@@ -226,7 +226,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 *
 	 * @return  string  The concatenated values.
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 */
 	function concatenate($values, $separator = null)
 	{
@@ -245,7 +245,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 */
 	public function currentTimestamp()
 	{
@@ -255,9 +255,12 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	/**
 	 * Sets the FOR UPDATE lock on select's output row
 	 * 
-	 * @param		string	$table_name		The table to lock
-	 * @param		boolean	$noWait			Choose if use the NOWAIT option
-	 * @since		11.1
+	 * @param	string	$table_name		The table to lock
+	 * @param	boolean	$noWait			Choose if use the NOWAIT option
+	 * 
+	 * @return	JDatabaseQuery	FOR UPDATE query element
+	 * 
+	 * @since	11.3
 	 */
 	public function forUpdate ($table_name, $glue = ',')
 	{
@@ -275,8 +278,11 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	/**
 	 * Sets the FOR SHARE lock on select's output row
 	 * 
-	 * @param		string	$table_name		The table to lock
-	 * @since		11.1
+	 * @param	string	$table_name		The table to lock
+	 * 
+	 * @return	JDatabaseQuery FOR SHARE query element
+	 * 
+	 * @since	11.3
 	 */
 	public function forShare ($table_name, $glue = ',')
 	{
@@ -294,7 +300,9 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	/**
 	 * Sets the NOWAIT lock on select's output row
 	 * 
-	 * @since		11.1
+	 * @return	JDatabaseQuery	NO WAIT query element
+	 * 
+	 * @since	11.3
 	 */
 	public function noWait ()
 	{
@@ -308,8 +316,9 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
    	/**
    	 * Method to lock the database table for writing.
      *
-	 * @return	Lock query syntax
-	 * @since	11.1
+	 * @return	JDatabaseQuery	Lock query syntax
+	 * 
+	 * @since	11.3
 	 */
 	public function lock($table_name, $lock_type='ACCESS EXCLUSIVE')
 	{
@@ -329,7 +338,8 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 * Unlock does not exist in PostgreSQL, it is automatically done on commit or rollback
 	 *
 	 * @return	boolean	True .
-	 * @since	11.1
+	 * 
+	 * @since	11.3
 	 */
 	public function unlock()  
 	{
@@ -343,7 +353,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 */
 	public function limit( $limit = 0 )
 	{
@@ -361,7 +371,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 */
 	public function offset( $offset = 0 )
 	{
@@ -379,7 +389,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 */
 	public function returning( $pkCol )
 	{
@@ -397,7 +407,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.2
+	 * @since   11.3
 	 */
 	public function getInsertTable ()
 	{
