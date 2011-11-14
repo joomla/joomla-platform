@@ -964,8 +964,58 @@ class JDatabasePostgreSQL extends JDatabase
 		$this->query();
 	}
 	
-	
+	/**
+	 * Execute a query batch.
+	 *
+	 * @param   boolean  $abortOnError     Abort on error.
+	 * @param   boolean  $transactionSafe  Transaction safe queries.
+	 *
+	 * @return  mixed  A database resource if successful, false if not.
+	 *
+	 * @deprecated  12.1
+	 * @since   11.1
+	 */
 	public function queryBatch($abortOnError = true, $transactionSafe = false)
-	{}
+	{
+		// Deprecation warning.
+		JLog::add('JDatabase::queryBatch() is deprecated.', JLog::WARNING, 'deprecated');
+
+		$sql = $this->replacePrefix((string) $this->sql);
+		$this->errorNum = 0;
+		$this->errorMsg = '';
+
+		// If the batch is meant to be transaction safe then we need to wrap it in a transaction.
+		if ($transactionSafe)
+		{
+			$sql = 'START TRANSACTION;' . rtrim($sql, "; \t\r\n\0") . '; COMMIT;';
+		}
+		$queries = $this->splitSql($sql);
+		$error = 0;
+		foreach ($queries as $query)
+		{
+			$query = trim($query);
+			if ($query != '')
+			{
+				$this->cursor = pg_query($query, $this->connection);
+				if ($this->debug)
+				{
+					$this->count++;
+					$this->log[] = $query;
+				}
+				if (!$this->cursor)
+				{
+					$error = 1;
+					$this->errorNum = (int) pg_result_error_field( $this->cursor, PGSQL_DIAG_SQLSTATE ) . ' ';
+					$this->errorMsg = (string) pg_result_error_field( $this->cursor, PGSQL_DIAG_MESSAGE_PRIMARY )." SQL=$sql <br />";
+					
+					if ($abortOnError)
+					{
+						return $this->cursor;
+					}
+				}
+			}
+		}
+		return $error ? false : true;
+	}
 	
 }
