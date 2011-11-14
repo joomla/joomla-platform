@@ -184,10 +184,11 @@ class JDatabasePostgreSQL extends JDatabase
 	}
 	
 	/**
-	 * Description
+	 * Get the number of affected rows for the previous executed SQL statement.
 	 *
 	 * @return int The number of affected rows in the previous operation
-	 * @since 1.0.5
+	 * 
+	 * @since 11.3
 	 */
 	public function getAffectedRows()
 	{
@@ -839,7 +840,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 *
 	 * @return  string  The processed SQL statement.
 	 *
-	 * @since   11.1
+	 * @since   11.3
 	 */
 	public function replacePrefix($sql, $prefix = '#__')
 	{
@@ -973,7 +974,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 * @return  mixed  A database resource if successful, false if not.
 	 *
 	 * @deprecated  12.1
-	 * @since   11.1
+	 * @since   11.3
 	 */
 	public function queryBatch($abortOnError = true, $transactionSafe = false)
 	{
