@@ -14,9 +14,6 @@ JLoader::register('JSessionStorage', dirname(__FILE__) . '/storage.php');
 
 jimport('joomla.environment.request');
 
-jimport('joomla.application.application');
-jimport('joomla.environment.request');
-
 /**
  * Class for managing HTTP sessions
  *
