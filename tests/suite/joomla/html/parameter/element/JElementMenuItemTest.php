@@ -6,6 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+JLoader::register('JElement', JPATH_PLATFORM . '/joomla/html/parameter/element.php');
 include_once JPATH_PLATFORM . '/joomla/html/parameter/element/menuitem.php';
 
 /**
