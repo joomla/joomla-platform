@@ -78,46 +78,6 @@ class JAccess
 	}
 
 	/**
-	 * Array of user groups.
-	 *
-	 * @var    array
-	 * @since  11.1
-	 */
-	protected static $userGroups = array();
-
-	/**
-	 * Array of user group paths.
-	 *
-	 * @var    array
-	 * @since  11.1
-	 */
-	protected static $userGroupPaths = array();
-
-	/**
-	 * Array of cached groups by user.
-	 *
-	 * @var    array
-	 * @since  11.1
-	 */
-	protected static $groupsByUser = array();
-
-	/**
-	 * Method for clearing static caches.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public static function clearStatics()
-	{
-		self::$viewLevels = array();
-		self::$assetRules = array();
-		self::$userGroups = array();
-		self::$userGroupPaths = array();
-		self::$groupsByUser = array();
-	}
-
-	/**
 	 * Method to check if a user is authorised to perform an action, optionally on an asset.
 	 *
 	 * @param   integer  $userId  Id of the user for which to check authorisation.
