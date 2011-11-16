@@ -12,7 +12,6 @@ defined('JPATH_PLATFORM') or die;
 jimport('joomla.application.input');
 jimport('joomla.event.dispatcher');
 jimport('joomla.environment.response');
-jimport('joomla.log.log');
 
 /**
  * Base class for a Joomla! application.
@@ -786,9 +785,6 @@ class JApplication extends JObject
 	 */
 	public function logout($userid = null, $options = array())
 	{
-		// Initialise variables.
-		$retval = false;
-
 		// Get a user object from the JApplication.
 		$user = JFactory::getUser($userid);
 
@@ -977,8 +973,6 @@ class JApplication extends JObject
 	 */
 	protected function _createConfiguration($file)
 	{
-		jimport('joomla.registry.registry');
-
 		JLoader::register('JConfig', $file);
 
 		// Create the JConfig object.

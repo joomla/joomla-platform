@@ -9,11 +9,11 @@
 
 defined('JPATH_PLATFORM') or die;
 
+<<<<<<< HEAD
 jimport('joomla.database.database');
 jimport('joomla.utilities.string');
 
-JLoader::register('JDatabaseQuerySQLSrv', dirname(__FILE__).'/sqlsrvquery.php');
-
+JLoader::register('JDatabaseQuerySQLSrv', dirname(__FILE__) . '/sqlsrvquery.php');
 /**
  * SQL Server database driver
  *
