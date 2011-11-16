@@ -619,11 +619,11 @@ abstract class JDatabase implements JDatabaseInterface
 	 */
 	public function getCreateDbQuery($options, $utf)
 	{
-		if ($utf) 
+		if ($utf)
 		{
 			$query = 'CREATE DATABASE ' . $this->quoteName($options->db_name) . ' CHARACTER SET `utf8`';
 		}
-		else 
+		else
 		{
 			$query = 'CREATE DATABASE ' . $this->quoteName($options->db_name);
 		}
@@ -1546,7 +1546,7 @@ abstract class JDatabase implements JDatabaseInterface
 		// Set the query and execute the update.
 		$query->set(sprintf($stmt, implode(",", $fields), $where));
 		$this->setQuery($query);
-		
+
 		return $this->query();
 	}
 
