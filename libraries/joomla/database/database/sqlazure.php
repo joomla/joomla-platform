@@ -10,10 +10,10 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.database.database');
-jimport('joomla.utilities.string');
 
+jimport('joomla.database.database.sqlsrv');
 JLoader::register('JDatabaseQuerySQLAzure', dirname(__FILE__).'/sqlazurequery.php');
-
+JLoader::register('DatabaseException', JPATH_PLATFORM.'/joomla/database/databaseexception.php');
 /**
  * SQL Server database driver
  *
