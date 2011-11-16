@@ -1,10 +1,10 @@
 <?php
 /**
- * @package    Joomla.Platform
- * @subpackage Database
- * 
- * @copyright  Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Database
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -14,9 +14,9 @@ jimport('joomla.database.databasequery');
 /**
  * Query Building Class.
  *
- * @package    Joomla.Framework
- * @subpackage Database
- * @since      11.3
+ * @package     Joomla.Framework
+ * @subpackage  Database
+ * @since       11.3
  */
 class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 {
@@ -115,9 +115,12 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 				{
 					$query .= (string) $this->forUpdate;
 				}
-				else if ($this->forShare)
+				else
 				{
-					$query .= (string) $this->forShare;
+					if ($this->forShare)
+					{
+						$query .= (string) $this->forShare;
+					}
 				}
 
 				if ($this->noWait)
@@ -161,7 +164,6 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 		return $query;
 	}
 
-	
 	/**
 	 * Clear data from the query or a specific clause of the query.
 	 *
@@ -231,7 +233,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	{
 		if ($separator)
 		{
-			return implode(' || ' . $this->quote($separator) . ' || ', $values) ;
+			return implode(' || ' . $this->quote($separator) . ' || ', $values);
 		}
 		else
 		{
@@ -255,7 +257,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 * Sets the FOR UPDATE lock on select's output row
 	 * 
 	 * @param   string   $table_name  The table to lock
-	 * @param   boolean  $noWait      Choose if use the NOWAIT option
+	 * @param   boolean  $glue        The glue by which to join the conditions. Defaults to ',' .
 	 * 
 	 * @return  JDatabaseQuery  FOR UPDATE query element
 	 * 
@@ -273,13 +275,14 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 		else
 		{
 			$this->forUpdate->append(' OF ' . $table_name);
-		}	
+		}
 	}
 
 	/**
 	 * Sets the FOR SHARE lock on select's output row
 	 * 
-	 * @param   string  $table_name  The table to lock
+	 * @param   string   $table_name  The table to lock
+	 * @param   boolean  $glue        The glue by which to join the conditions. Defaults to ',' .
 	 * 
 	 * @return  JDatabaseQuery  FOR SHARE query element
 	 * 
@@ -296,8 +299,8 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 		}
 		else
 		{
-			$this->forShare->append( ' OF ' . $table_name );
-		}	
+			$this->forShare->append(' OF ' . $table_name);
+		}
 	}
 
 	/**
@@ -320,6 +323,9 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	/**
 	 * Method to lock the database table for writing.
 	 *
+	 * @param   string  $table_name  The table name to lock
+	 * @param   string  $lock_type   Lock table type
+	 * 
 	 * @return   JDatabaseQuery  Lock query syntax
 	 * 
 	 * @since	11.3

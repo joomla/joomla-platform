@@ -1,10 +1,10 @@
 <?php
 /**
- * @package    Joomla.Platform
- * @subpackage Database
- * 
- * @copyright  Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Database
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -14,9 +14,9 @@ JLoader::register('JDatabaseQueryPostgreSQL', dirname(__FILE__) . '/postgresqlqu
 /**
  * PostgreSQL database driver
  *
- * @package    Joomla.Framework
- * @subpackage Database
- * @since      11.3
+ * @package     Joomla.Framework
+ * @subpackage  Database
+ * @since       11.3
  */
 class JDatabasePostgreSQL extends JDatabase
 {
@@ -64,33 +64,37 @@ class JDatabasePostgreSQL extends JDatabase
 		$database	= (isset($options['database'])) ? $options['database']	: '';
 
 		// perform a number of fatality checks, then return gracefully
-		if (!function_exists('pg_connect')) 
+		if (!function_exists('pg_connect'))
 		{
 			// Legacy error handling switch based on the JError::$legacy switch.
 			// @deprecated  11.3
-			if (JError::$legacy) 
+			if (JError::$legacy)
 			{
 				$this->errorNum = 1;
 				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_ADAPTER_POSTGRESQL');
 				return;
 			}
 			else
+			{
 				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_ADAPTER_POSTGRESQL'));
+			}
 		}
 
 		// connect to the server
-		if (!($this->connection = @pg_connect("host={$host} dbname={$database} user={$user} password={$password}"))) 
+		if (!($this->connection = @pg_connect("host={$host} dbname={$database} user={$user} password={$password}")))
 		{
 			// Legacy error handling switch based on the JError::$legacy switch.
 			// @deprecated  11.3
-			if (JError::$legacy) 
+			if (JError::$legacy)
 			{
 				$this->errorNum = 2;
 				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_CONNECT_POSTGRESQL');
 				return;
 			}
 			else
+			{
 				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_CONNECT_POSTGRESQL'));
+			}
 		}
 
 		// finalize initialization
@@ -124,7 +128,7 @@ class JDatabasePostgreSQL extends JDatabase
 	{
 		$result = pg_escape_string($this->getConnection(), $text);
 
-		if ($extra) 
+		if ($extra)
 		{
 			$result = addcslashes($result, '%_');
 		}
@@ -151,7 +155,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	public function connected()
 	{
-		if(is_resource($this->connection)) 
+		if (is_resource($this->connection))
 		{
 			return pg_ping($this->connection);
 		}
@@ -172,7 +176,9 @@ class JDatabasePostgreSQL extends JDatabase
 	{
 		$query = 'DROP TABLE ';
 		if ( $ifExists )
+		{
 			$query .= ' IF EXISTS ';
+		}
 		$query .= $this->quoteName($tableName);
 
 		$this->setQuery($query);
@@ -329,7 +335,7 @@ class JDatabasePostgreSQL extends JDatabase
 			// Get the details columns information.
 			$query = $this->getQuery();
 			$query->select('pgClass2nd.relname, pgIndex.*')
-					->from ('pg_class AS pgClassFirst , pg_index AS pgIndex, pg_class AS pgClass2nd')
+					->from('pg_class AS pgClassFirst , pg_index AS pgIndex, pg_class AS pgClass2nd')
 					->where('pgClassFirst.oid=pgIndex.indrelid')
 					->where('pgClass2nd.relfilenode=pgIndex.indexrelid')
 					->where('pgClassFirst.relname=' . $this->quote($table));
@@ -356,7 +362,8 @@ class JDatabasePostgreSQL extends JDatabase
 				->from('information_schema.tables')
 				->where('table_type=' . $this->quote('BASE TABLE'))
 				->where(
-					'table_schema NOT IN (' . $this->quote('pg_catalog') . ', ' . $this->quote('information_schema') . ' )');
+					'table_schema NOT IN (' . $this->quote('pg_catalog') . ', ' . $this->quote('information_schema') . ' )'
+				);
 		$this->setQuery($query);
 		$tables = $this->loadColumn();
 
@@ -475,11 +482,11 @@ class JDatabasePostgreSQL extends JDatabase
 		$sql = $this->replacePrefix((string) $this->sql);
 		if ($this->limit > 0 || $this->offset > 0)
 		{
-			$sql .= ' LIMIT '.$this->limit.' OFFSET '.$this->offset;
+			$sql .= ' LIMIT ' . $this->limit . ' OFFSET ' . $this->offset;
 		}
-		
+
 		// If debugging is enabled then let's log the query.
-		if ($this->debug) 
+		if ($this->debug)
 		{
 			// Increment the query counter and add the query to the object queue.
 			$this->count++;
@@ -509,7 +516,7 @@ class JDatabasePostgreSQL extends JDatabase
 				}
 				return false;
 			}
-			else 
+			else
 			{
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
 				throw new JDatabaseException;
@@ -629,7 +636,7 @@ class JDatabasePostgreSQL extends JDatabase
 		$temp = $this->sql;
 		$this->sql = "EXPLAIN $this->sql";
 
-		if (!($cur = $this->query())) 
+		if (!($cur = $this->query()))
 		{
 			return null;
 		}
@@ -637,7 +644,7 @@ class JDatabasePostgreSQL extends JDatabase
 
 		$buffer = '<table id="explain-sql">';
 		$buffer .= '<thead><tr><td colspan="99">' . $this->getQuery() . '</td></tr>';
-		while ($row = $this->fetchAssoc($cursor)) 
+		while ($row = $this->fetchAssoc($cursor))
 		{
 			if ($first)
 			{
@@ -698,7 +705,7 @@ class JDatabasePostgreSQL extends JDatabase
 			{
 				$result[$field->column_name] = preg_replace("/[(0-9)]/", '', $field->data_type);
 			}
-		} 
+		}
 		else
 		{
 			foreach ($fields as $field)
@@ -735,7 +742,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 * @return float The random generated number
 	 */
 	public function getRandom()
-	{		
+	{
 		$this->setQuery('SELECT RANDOM()');
 		$random = $this->loadRow();
 
@@ -753,7 +760,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	public function getAlterDbCharacterSet( $dbName )
 	{
-		$query = 'ALTER DATABASE '.$dbName.' SET CLIENT_ENCODING TO \'UTF8\'';
+		$query = 'ALTER DATABASE ' . $dbName . ' SET CLIENT_ENCODING TO \'UTF8\'';
 
 		return $query;
 	}
@@ -797,7 +804,7 @@ class JDatabasePostgreSQL extends JDatabase
 		{
 			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_POSTGRESQL_TABLE_NOT_FOUND'));  // -> Origin Table not found
 		}
-		else 
+		else
 		{
 			/* Rename indexes */
 			$this->setQuery(
@@ -806,9 +813,9 @@ class JDatabasePostgreSQL extends JDatabase
 								WHERE oid IN ( 
 									SELECT indexrelid 
 									FROM pg_index, pg_class 
-									WHERE pg_class.relname=' . $this->quote($oldTable,true) . '
-									AND pg_class.oid=pg_index.indrelid 
-								);');
+									WHERE pg_class.relname=' . $this->quote($oldTable, true) . '
+									AND pg_class.oid=pg_index.indrelid );'
+			);
 
 			$oldIndexes = $this->loadColumn();
 			foreach ($oldIndexes as $oldIndex)
@@ -829,8 +836,9 @@ class JDatabasePostgreSQL extends JDatabase
 									WHERE nspname NOT LIKE \'pg_%\'
 									AND nspname != \'information_schema\'
 								)
-								AND relname LIKE \'%' . $oldTable . '%\' ;');
-			
+								AND relname LIKE \'%' . $oldTable . '%\' ;'
+			);
+
 			$oldSequences = $this->loadColumn();
 			foreach ($oldSequences as $oldSequence)
 			{
@@ -892,9 +900,11 @@ class JDatabasePostgreSQL extends JDatabase
 			for ( $nIndex = 0; $nIndex < count($explodedQuery); $nIndex = $nIndex + 2 )
 			{
 				if ( strpos($explodedQuery[$nIndex], $prefix) )
+				{
 					$explodedQuery[$nIndex] = str_replace($prefix, $this->tablePrefix, $explodedQuery[$nIndex]);
+				}
 			}
-			
+
 			$replacedQuery = implode('\'', $explodedQuery);
 		}
 		else
@@ -932,7 +942,7 @@ class JDatabasePostgreSQL extends JDatabase
 	public function transactionRollback($toSavepoint = null)
 	{
 		$query = 'ROLLBACK';
-		if(!is_null($toSavepoint))
+		if (!is_null($toSavepoint))
 		{
 			$query .= ' TO SAVEPOINT ' . $this->escape($toSavepoint);
 		}
@@ -958,7 +968,8 @@ class JDatabasePostgreSQL extends JDatabase
 	/**
 	 * Method to release a savepoint.
 	 *
-	 * @param   string  $savepointName  Savepoint's name to release 
+	 * @param   string  $savepointName  Savepoint's name to release
+	 * 
 	 * @return  void
 	 *
 	 * @since   11.3
@@ -972,7 +983,8 @@ class JDatabasePostgreSQL extends JDatabase
 	/**
 	 * Method to create a savepoint.
 	 *
-	 * @param	string	Savepoint's name to create
+	 * @param   string  $savepointName  Savepoint's name to create
+	 * 
 	 * @return  void
 	 *
 	 * @since   11.3
@@ -1024,9 +1036,9 @@ class JDatabasePostgreSQL extends JDatabase
 				if (!$this->cursor)
 				{
 					$error = 1;
-					$this->errorNum = (int) pg_result_error_field( $this->cursor, PGSQL_DIAG_SQLSTATE ) . ' ';
-					$this->errorMsg = (string) pg_result_error_field( $this->cursor, PGSQL_DIAG_MESSAGE_PRIMARY )." SQL=$sql <br />";
-					
+					$this->errorNum = (int) pg_result_error_field($this->cursor, PGSQL_DIAG_SQLSTATE) . ' ';
+					$this->errorMsg = (string) pg_result_error_field($this->cursor, PGSQL_DIAG_MESSAGE_PRIMARY) . " SQL=$sql <br />";
+
 					if ($abortOnError)
 					{
 						return $this->cursor;
@@ -1036,5 +1048,5 @@ class JDatabasePostgreSQL extends JDatabase
 		}
 		return $error ? false : true;
 	}
-	
+
 }
