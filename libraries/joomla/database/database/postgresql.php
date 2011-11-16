@@ -1,22 +1,22 @@
 <?php
 /**
- * @package		Joomla.Platform
- * @subpackage	Database
+ * @package    Joomla.Platform
+ * @subpackage Database
  * 
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::register('JDatabaseQueryPostgreSQL', dirname(__FILE__).'/postgresqlquery.php');
+JLoader::register('JDatabaseQueryPostgreSQL', dirname(__FILE__) . '/postgresqlquery.php');
 
 /**
  * PostgreSQL database driver
  *
- * @package		Joomla.Framework
- * @subpackage	Database
- * @since		11.3
+ * @package    Joomla.Framework
+ * @subpackage Database
+ * @since      11.3
  */
 class JDatabasePostgreSQL extends JDatabase
 {
@@ -51,41 +51,46 @@ class JDatabasePostgreSQL extends JDatabase
 	/**
 	 * Database object constructor
 	 *
-	 * @param	array	List of options used to configure the connection
+	 * @param   array  $options  List of options used to configure the connection
+	 * 
 	 * @since	11.3
 	 * @see		JDatabase
 	 */
 	function __construct( $options )
-	{	
+	{
 		$host		= (isset($options['host']))	? $options['host']		: 'localhost';
 		$user		= (isset($options['user']))	? $options['user']		: '';
 		$password	= (isset($options['password']))	? $options['password']	: '';
 		$database	= (isset($options['database'])) ? $options['database']	: '';
 
 		// perform a number of fatality checks, then return gracefully
-		if (!function_exists( 'pg_connect' )) {
+		if (!function_exists('pg_connect')) 
+		{
 			// Legacy error handling switch based on the JError::$legacy switch.
 			// @deprecated  11.3
-			if (JError::$legacy) {
+			if (JError::$legacy) 
+			{
 				$this->errorNum = 1;
-				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_ADAPTER_POSTGRESQL');  // -> 'The PostgreSQL adapter "pg" is not available.';
+				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_ADAPTER_POSTGRESQL');
 				return;
 			}
 			else
-				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_ADAPTER_POSTGRESQL'));  // -> 'The PostgreSQL adapter "pg" is not available.';
+				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_ADAPTER_POSTGRESQL'));
 		}
 
 		// connect to the server
-		if (!($this->connection = @pg_connect( "host={$host} dbname={$database} user={$user} password={$password}" ))) {
+		if (!($this->connection = @pg_connect("host={$host} dbname={$database} user={$user} password={$password}"))) 
+		{
 			// Legacy error handling switch based on the JError::$legacy switch.
 			// @deprecated  11.3
-			if (JError::$legacy) {
+			if (JError::$legacy) 
+			{
 				$this->errorNum = 2;
-				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_CONNECT_POSTGRESQL');  // -> 'The PostgreSQL adapter "pg" is not available.';
+				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_CONNECT_POSTGRESQL');
 				return;
 			}
 			else
-				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_CONNECT_POSTGRESQL'));  // -> 'The PostgreSQL adapter "pg" is not available.';
+				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_CONNECT_POSTGRESQL'));
 		}
 
 		// finalize initialization
@@ -95,21 +100,21 @@ class JDatabasePostgreSQL extends JDatabase
 	/**
 	 * Database object destructor
 	 *
-	 * @return void
 	 * @since 11.3
 	 */
 	public function __destruct()
 	{
-		if (is_resource($this->connection)) {
+		if (is_resource($this->connection))
+		{
 			pg_close($this->connection);
 		}
 	}
-	
+
 	/**
 	 * Method to escape a string for usage in an SQL statement.
 	 *
-	 * @param   string  $text   The string to be escaped.
-	 * @param   boolean    $extra  Optional parameter to provide extra escaping.
+	 * @param   string   $text   The string to be escaped.
+	 * @param   boolean  $extra  Optional parameter to provide extra escaping.
 	 *
 	 * @return  string  The escaped string.
 	 *
@@ -117,15 +122,16 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	public function escape($text, $extra = false)
 	{
-		$result = pg_escape_string( $this->getConnection() , $text );
+		$result = pg_escape_string($this->getConnection(), $text);
 
-		if ($extra) {
+		if ($extra) 
+		{
 			$result = addcslashes($result, '%_');
 		}
 
 		return $result;
 	}
-		
+
 	/**
 	 * Test to see if the PostgreSQL connector is available
 	 *
@@ -133,56 +139,48 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	public static function test()
 	{
-		return (function_exists( 'pg_connect' ));
+		return (function_exists('pg_connect'));
 	}
 
 	/**
 	 * Determines if the connection to the server is active.
 	 *
 	 * @return	boolean
+	 * 
 	 * @since	11.3
 	 */
 	public function connected()
 	{
-		if(is_resource($this->connection)) {
+		if(is_resource($this->connection)) 
+		{
 			return pg_ping($this->connection);
 		}
 		return false;
 	}
-	
-	
+
 	/**
 	 * Drops a table from the database.
 	 *
-	 * @param   string  $tableName  The name of the database table to drop.
-	 * @param   boolean    $ifExists   Optionally specify that the table must exist before it is dropped.
+	 * @param   string   $tableName  The name of the database table to drop.
+	 * @param   boolean  $ifExists   Optionally specify that the table must exist before it is dropped.
 	 *
 	 * @return  boolean	true
+	 * 
 	 * @since   11.3
 	 */
 	function dropTable($tableName, $ifExists = true)
 	{
-		//$query = $this->getQuery(true);
-
-		$query = 'DROP TABLE ' ;
+		$query = 'DROP TABLE ';
 		if ( $ifExists )
 			$query .= ' IF EXISTS ';
-		
-		$query .= $this->quoteName($tableName) ; 
-			/*($ifExists ? ' IF EXISTS ' : '') .
-			$query->quoteName($tableName) ;
-			*/
-		$this->setQuery( $query
-			/*'DROP TABLE '.
-			($ifExists ? 'IF EXISTS ' : '').
-			$query->quoteName($tableName)*/
-		);
+		$query .= $this->quoteName($tableName);
 
+		$this->setQuery($query);
 		$this->query();
 
 		return true;
 	}
-	
+
 	/**
 	 * Get the number of affected rows for the previous executed SQL statement.
 	 *
@@ -192,9 +190,9 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	public function getAffectedRows()
 	{
-		return pg_affected_rows( $this->cursor );
+		return pg_affected_rows($this->cursor);
 	}
-	
+
 	/**
 	 * Method to get the database collation in use by sampling a text field of a table in the database.
 	 *
@@ -204,11 +202,11 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	public function getCollation()
 	{
-		$this->setQuery( 'SHOW LC_COLLATE' );
+		$this->setQuery('SHOW LC_COLLATE');
 		$array = $this->loadAssocList();
 		return $array[0]['lc_collate'];
 	}
-	
+
 	/**
 	 * Gets an exporter class object.
 	 *
@@ -252,11 +250,11 @@ class JDatabasePostgreSQL extends JDatabase
 
 		return $o;
 	}*/
-	
+
 	/**
 	 * Get the number of returned rows for the previous executed SQL statement.
 	 *
-	 * @param   resource  $cursor  An optional database cursor resource to extract the row count from.
+	 * @param   resource  $cur  An optional database cursor resource to extract the row count from.
 	 *
 	 * @return  integer   The number of returned rows.
 	 *
@@ -264,13 +262,13 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	public function getNumRows( $cur = null )
 	{
-		return pg_num_rows( $cur ? $cur : $this->cursor );
+		return pg_num_rows($cur ? $cur : $this->cursor);
 	}
-	
+
 	/**
 	 * Get the current or query, or new JDatabaseQuery object.
 	 *
-	 * @param   boolean   $new  False to return the last query set, True to return a new JDatabaseQuery object.
+	 * @param   boolean  $new  False to return the last query set, True to return a new JDatabaseQuery object.
 	 *
 	 * @return  mixed  The current value of the internal SQL variable or a new JDatabaseQuery object.
 	 *
@@ -279,18 +277,21 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	function getQuery($new = false)
 	{
-		if ($new) {
+		if ($new)
+		{
 			// Make sure we have a query class for this driver.
-			if (!class_exists('JDatabaseQueryPostgreSQL')) {
+			if (!class_exists('JDatabaseQueryPostgreSQL'))
+			{
 				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
 			}
 			return new JDatabaseQueryPostgreSQL($this);
 		}
-		else {
+		else
+		{
 			return $this->sql;
 		}
 	}
-	
+
 	/**
 	 * Shows the table CREATE statement that creates the given tables.
 	 * 
@@ -298,14 +299,16 @@ class JDatabasePostgreSQL extends JDatabase
 	 *
 	 * @param   mixed  $tables  A table name or a list of table names.
 	 *
+	 * @return  char  An empty char because this function is not supported by PostgreSQL.
+	 *
 	 * @since   11.3
 	 * @throws  JDatabaseException
-	 */	
+	 */
 	public function getTableCreate($tables)
 	{
 		return '';
 	}
-	
+
 	/**
 	 * Get the details list of keys for a table.
 	 *
@@ -320,24 +323,24 @@ class JDatabasePostgreSQL extends JDatabase
 	{
 		// To check if table exists and prevent SQL injection
 		$tableList = $this->getTableList();
-		
+
 		if ( in_array($table, $tableList) )
 		{
 			// Get the details columns information.
 			$query = $this->getQuery();
 			$query->select('pgClass2nd.relname, pgIndex.*')
-				  ->from ( 'pg_class AS pgClassFirst , pg_index AS pgIndex, pg_class AS pgClass2nd' )
-				  ->where( 'pgClassFirst.oid=pgIndex.indrelid' )
-				  ->where( 'pgClass2nd.relfilenode=pgIndex.indexrelid' )
-				  ->where( 'pgClassFirst.relname=' . $this->quote($table) );
+					->from ('pg_class AS pgClassFirst , pg_index AS pgIndex, pg_class AS pgClass2nd')
+					->where('pgClassFirst.oid=pgIndex.indrelid')
+					->where('pgClass2nd.relfilenode=pgIndex.indexrelid')
+					->where('pgClassFirst.relname=' . $this->quote($table));
 			$this->setQuery($query);
 			$keys = $this->loadObjectList();
-			
-			return $keys;	
+
+			return $keys;
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Method to get an array of all tables in the database.
 	 *
@@ -350,16 +353,16 @@ class JDatabasePostgreSQL extends JDatabase
 	{
 		$query = $this->getQuery(true);
 		$query->select('table_name')
-			  ->from( 'information_schema.tables' )
-			  ->where( 'table_type=' .  $this->quote('BASE TABLE') )
-			  ->where( 'table_schema NOT IN (' . $this->quote('pg_catalog') . ', '
-			  								   . $this->quote('information_schema') .' )' );
+				->from('information_schema.tables')
+				->where('table_type=' . $this->quote('BASE TABLE'))
+				->where(
+					'table_schema NOT IN (' . $this->quote('pg_catalog') . ', ' . $this->quote('information_schema') . ' )');
 		$this->setQuery($query);
 		$tables = $this->loadColumn();
-		
+
 		return $tables;
 	}
-	
+
 	/**
 	 * Get the version of the database connector.
 	 *
@@ -369,10 +372,10 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	public function getVersion()
 	{
-		$version = pg_version( $this->connection );
+		$version = pg_version($this->connection);
 		return $version['server'];
 	}
-	
+
 	/**
 	 * Determines if the database engine supports UTF-8 character encoding.
 	 *
@@ -387,16 +390,16 @@ class JDatabasePostgreSQL extends JDatabase
 		JLog::add('JDatabasePostgreSQL::hasUTF() is deprecated.', JLog::WARNING, 'deprecated');
 		return true;
 	}
-	
+
 	/**
 	 * Method to get the auto-incremented value from the last INSERT statement.
 	 * To be called after the INSERT statement, it's MANDATORY to have a sequence on 
 	 * every primary key table.
 	 *
-	 *	To get the auto incremented value it's possible to call this function after
-	 *	INSERT INTO query, or use INSERT INTO with RETURNING clause.
+	 * To get the auto incremented value it's possible to call this function after
+	 * INSERT INTO query, or use INSERT INTO with RETURNING clause.
 	 *
-	 *	@example with insertid() call:
+	 * @example with insertid() call:
 	 *		$query = $this->getQuery(true);		
 	 *		$query->insert('jos_dbtest')
 	 *				->columns('title,start_date,description')
@@ -405,7 +408,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 *		$this->query();
 	 *		$id = $this->insertid();
 	 *
-	 *	@example with RETURNING clause:
+	 * @example with RETURNING clause:
 	 *		$query = $this->getQuery(true);		
 	 *		$query->insert('jos_dbtest')
 	 *				->columns('title,start_date,description')
@@ -414,33 +417,34 @@ class JDatabasePostgreSQL extends JDatabase
 	 *		$this->setQuery($query);
 	 *		$id = $this->loadResult();
 	 *
-	 * @return  integer  The value of the auto-increment field from the last inserted row. 
+	 * @return  integer  The value of the auto-increment field from the last inserted row.
+	 * 
 	 * @since   11.3
 	 */
 	public function insertid()
 	{
 		$insertQuery = $this->getQuery();
 		$table = $insertQuery->getInsertTable();
-		
+
 		/* find sequence column name */
 		$colNameQuery = $this->getQuery(true);
 		$colNameQuery->select('column_default')
-					 ->from('information_schema.columns')
-					 ->where("table_name=" . $this->quote($table[0]), 'AND')
-					 ->where("column_default LIKE '%nextval%'");
-		
- 		$this->setQuery( $colNameQuery );
+						->from('information_schema.columns')
+						->where("table_name=" . $this->quote($table[0]), 'AND')
+						->where("column_default LIKE '%nextval%'");
+
+		$this->setQuery($colNameQuery);
 		$colName = $this->loadRow();
 		$changedColName = str_replace('nextval', 'currval', $colName);
-		
+
 		$insertidQuery = $this->getQuery(true);
-		$insertidQuery->select( $changedColName );
-		$this->setQuery( $insertidQuery );
+		$insertidQuery->select($changedColName);
+		$this->setQuery($insertidQuery);
 		$insertVal = $this->loadRow();
-		
-		return $insertVal; 
+
+		return $insertVal;
 	}
-	
+
 	/**
 	 * Execute the query
 	 *
@@ -448,19 +452,19 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	public function query()
 	{
-		if (!is_resource($this->connection)) 
+		if (!is_resource($this->connection))
 		{
 			// Legacy error handling switch based on the JError::$legacy switch.
 			// @deprecated  11.3
-			if (JError::$legacy) 
+			if (JError::$legacy)
 			{
-				if ($this->debug) 
+				if ($this->debug)
 				{
-					JError::raiseError(500, 'JDatabasePostgreSQL::query: '.$this->errorNum.' - '.$this->errorMsg);
+					JError::raiseError(500, 'JDatabasePostgreSQL::query: ' . $this->errorNum . ' - ' . $this->errorMsg);
 				}
 				return false;
 			}
-			else 
+			else
 			{
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
 				throw new JDatabaseException;
@@ -469,7 +473,7 @@ class JDatabasePostgreSQL extends JDatabase
 
 		// Take a local copy so that we don't modify the original query and cause issues later
 		$sql = $this->replacePrefix((string) $this->sql);
-		if ($this->limit > 0 || $this->offset > 0) 
+		if ($this->limit > 0 || $this->offset > 0)
 		{
 			$sql .= ' LIMIT '.$this->limit.' OFFSET '.$this->offset;
 		}
@@ -486,22 +490,22 @@ class JDatabasePostgreSQL extends JDatabase
 		// Reset the error values.
 		$this->errorNum = 0;
 		$this->errorMsg = '';
-		
-		// Execute the query.
-		$this->cursor = pg_query( $this->connection, $sql );
 
-		if (!$this->cursor) 
+		// Execute the query.
+		$this->cursor = pg_query($this->connection, $sql);
+
+		if (!$this->cursor)
 		{
-			$this->errorNum = (int) pg_result_error_field( $this->cursor, PGSQL_DIAG_SQLSTATE ) . ' ';
-			$this->errorMsg = (string) pg_result_error_field( $this->cursor, PGSQL_DIAG_MESSAGE_PRIMARY )." SQL=$sql <br />";
-			
+			$this->errorNum = (int) pg_result_error_field($this->cursor, PGSQL_DIAG_SQLSTATE) . ' ';
+			$this->errorMsg = (string) pg_result_error_field($this->cursor, PGSQL_DIAG_MESSAGE_PRIMARY) . " SQL=$sql <br />";
+
 			// Legacy error handling switch based on the JError::$legacy switch.
 			// @deprecated  11.3
-			if (JError::$legacy) 
+			if (JError::$legacy)
 			{
-				if ($this->debug) 
+				if ($this->debug)
 				{
-					JError::raiseError(500, 'JDatabasePostgreSQL::query: '.$this->errorNum.' - '.$this->errorMsg );
+					JError::raiseError(500, 'JDatabasePostgreSQL::query: ' . $this->errorNum . ' - ' . $this->errorMsg);
 				}
 				return false;
 			}
@@ -513,25 +517,27 @@ class JDatabasePostgreSQL extends JDatabase
 		}
 		return $this->cursor;
 	}
-	
-	
+
 	/**
 	 * Selects the database, but redundant for PostgreSQL
 	 *
-	 * @return boolean Always true
+	 * @param   string  $database  Database name to select.
+	 *
+	 * @return  boolean  Always true
 	 */
-	public function select($database=null) 
+	public function select($database=null)
 	{
 		return true;
 	}
-	
 
 	/**
 	 * Custom settings for UTF support
+	 * 
+	 * @return  void
 	 */
 	public function setUTF()
 	{
-		pg_set_client_encoding( $this->connection, 'UTF8' );
+		pg_set_client_encoding($this->connection, 'UTF8');
 	}
 
 	/**
@@ -542,14 +548,14 @@ class JDatabasePostgreSQL extends JDatabase
 	public function showTables()
 	{
 		$query = "SELECT table_name FROM information_schema.tables " .
-				 "WHERE table_type = 'BASE TABLE' AND ". 
-				 "table_schema NOT IN ('pg_catalog', 'information_schema')";
-		
-		$this->setQuery( $query );
+					"WHERE table_type = 'BASE TABLE' AND " .
+					"table_schema NOT IN ('pg_catalog', 'information_schema')";
+
+		$this->setQuery($query);
 		$tableList = $this->loadColumn();
 		return $tableList;
 	}
-	
+
 	/**
 	 * Method to fetch a row from the result set cursor as an array.
 	 *
@@ -590,7 +596,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	protected function fetchObject($cursor = null, $class = 'stdClass')
 	{
-		return pg_fetch_object( is_null($cursor) ? $this->cursor : $cursor, null, $class );
+		return pg_fetch_object(is_null($cursor) ? $this->cursor : $cursor, null, $class);
 	}
 
 	/**
@@ -606,7 +612,7 @@ class JDatabasePostgreSQL extends JDatabase
 	{
 		pg_free_result($cursor ? $cursor : $this->cursor);
 	}
-	
+
 	/**
 	 * Diagnostic method to return explain information for a query.
 	 *
@@ -619,37 +625,42 @@ class JDatabasePostgreSQL extends JDatabase
 	{
 		// Deprecation warning.
 		JLog::add('JDatabase::explain() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		$temp = $this->sql;
 		$this->sql = "EXPLAIN $this->sql";
 
-		if (!($cur = $this->query())) {
+		if (!($cur = $this->query())) 
+		{
 			return null;
 		}
 		$first = true;
 
 		$buffer = '<table id="explain-sql">';
-		$buffer .= '<thead><tr><td colspan="99">'.$this->getQuery().'</td></tr>';
-		while ($row = $this->fetchAssoc($cursor)) {
-			if ($first) {
+		$buffer .= '<thead><tr><td colspan="99">' . $this->getQuery() . '</td></tr>';
+		while ($row = $this->fetchAssoc($cursor)) 
+		{
+			if ($first)
+			{
 				$buffer .= '<tr>';
-				foreach ($row as $k=>$v) {
-					$buffer .= '<th>'.$k.'</th>';
+				foreach ($row as $k=>$v)
+				{
+					$buffer .= '<th>' . $k . '</th>';
 				}
 				$buffer .= '</tr>';
 				$first = false;
 			}
 			$buffer .= '</thead><tbody><tr>';
-			foreach ($row as $k=>$v) {
-				$buffer .= '<td>'.$v.'</td>';
+			foreach ($row as $k=>$v)
+			{
+				$buffer .= '<td>' . $v . '</td>';
 			}
 			$buffer .= '</tr>';
 		}
 		$buffer .= '</tbody></table>';
-		
+
 		// Restore the original query to it's state before we ran the explain.
 		$this->sql = $temp;
-		
+
 		// Free up system resources and return.
 		$this->freeResult($cursor);
 
@@ -659,58 +670,62 @@ class JDatabasePostgreSQL extends JDatabase
 	/**
 	 * Retrieves field information about a given table.
 	 *
-	 * @param   string  $table     The name of the database table.
-	 * @param   boolean    $typeOnly  True to only return field types.
+	 * @param   string   $table     The name of the database table.
+	 * @param   boolean  $typeOnly  True to only return field types.
 	 *
 	 * @return  array  An array of fields for the database table.
 	 *
 	 * @since   11.3
 	 * @throws  JDatabaseException
 	 */
-	public function getTableColumns( $table, $typeonly = true )
+	public function getTableColumns( $table, $typeOnly = true )
 	{
 		$result = array();
 
-		$tableSub = $this->replacePrefix( $table );
-		
+		$tableSub = $this->replacePrefix($table);
+
 		$query = $this->getQuery(true);
 		$query->select('column_name, data_type, collation_name, is_nullable, column_default')
-			  ->from( 'information_schema.columns' )
-			  ->where( 'table_name=' . $this->quote($tableSub) ); /*$tblval*/
+				->from('information_schema.columns')
+				->where('table_name=' . $this->quote($tableSub));
 		$this->setQuery($query);
-		
+
 		$fields = $this->loadObjectList();
 
-		if ($typeonly) {
-			foreach ($fields as $field) {
-				$result[$field->column_name] = preg_replace("/[(0-9)]/",'', $field->data_type );
+		if ($typeOnly)
+		{
+			foreach ($fields as $field)
+			{
+				$result[$field->column_name] = preg_replace("/[(0-9)]/", '', $field->data_type);
 			}
-		} else {
-			foreach ($fields as $field) {
+		} 
+		else
+		{
+			foreach ($fields as $field)
+			{
 				$result[$field->column_name] = $field;
 			}
 		}
 
 		return $result;
 	}
-	
-	
-	
+
 	/* EXTRA FUNCTION postgreSQL */
-	
+
 	/**
 	 * Get the substring position inside a string
 	 *
-	 * @param string The string being sought
-	 * @param string The string/column being searched
+	 * @param   string  $substring  The string being sought
+	 * @param   string  $string     The string/column being searched
+	 * 
 	 * @return int   The position of $substring in $string
 	 */
 	public function getStringPositionSQL( $substring, $string )
 	{
-		$query = "SELECT POSITION( $substring IN $string )" ;
-		$this->setQuery( $query );
+		$query = "SELECT POSITION( $substring IN $string )";
+		$this->setQuery($query);
 		$position = $this->loadRow();
-		
+
 		return $position['position'];
 	}
 
@@ -721,34 +736,34 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	public function getRandom()
 	{		
-		$this->setQuery( 'SELECT RANDOM()' );
+		$this->setQuery('SELECT RANDOM()');
 		$random = $this->loadRow();
-		
+
 		return $random['random'];
 	}
 
 	/**
 	 * Get the query string to alter the database character set.
 	 *
-	 * @param	string	The database name
+	 * @param   string  $dbName  The database name
 	 *
-	 * @return  string	The query that alter the database query string
+	 * @return  string  The query that alter the database query string
 	 *
 	 * @since   11.3
 	 */
 	public function getAlterDbCharacterSet( $dbName )
 	{
 		$query = 'ALTER DATABASE '.$dbName.' SET CLIENT_ENCODING TO \'UTF8\'';
-		
+
 		return $query;
 	}
 
 	/**
 	 * Get the query string to create new Database in correct PostgreSQL syntax.
 	 * 
-	 * @param	JObject		$options	JObject coming from "initialise" function to pass user 
+	 * @param   JObject  $options  JObject coming from "initialise" function to pass user 
 	 * 									and database name to database driver.
-	 * @param	boolean 	$utf		True if the database supports the UTF-8 character set,
+	 * @param   boolean  $utf      True if the database supports the UTF-8 character set,
 	 * 									not used in PostgreSQL "CREATE DATABASE" query.
 	 * 
 	 * @return  string	The query that creates database, owned by $options['user']
@@ -757,17 +772,18 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	public function getCreateDbQuery($options, $utf)
 	{
-		$query = 'CREATE DATABASE ' . $options->db_name . ' OWNER ' . $options->db_user ;
-		
+		$query = 'CREATE DATABASE ' . $options->db_name . ' OWNER ' . $options->db_user;
+
 		return $query;
 	}
 
 	/**
 	 * Rename a database table
 	 *
-	 * @param	string	The old table name
-	 * @param	string	The new table name
-	 * @return	boolean	True if all was ok
+	 * @param   string  $oldTable  The old table name
+	 * @param   string  $newTable  The new table name
+	 * 
+	 * @return  boolean  True if all was ok
 	 * 
 	 * @throws	JDatabaseException
 	 */
@@ -775,56 +791,56 @@ class JDatabasePostgreSQL extends JDatabase
 	{
 		// To check if table exists and prevent SQL injection
 		$tableList = $this->getTableList();
-		
+
 		// Origin Table does not exist
 		if ( !in_array($oldTable, $tableList) )
 		{
-			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_POSTGRESQL_TABLE_NOT_FOUND'));  // -> Origin Table not found	
+			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_POSTGRESQL_TABLE_NOT_FOUND'));  // -> Origin Table not found
 		}
 		else 
 		{
 			/* Rename indexes */
-			$this->setQuery('SELECT relname 
-							 FROM pg_class 
-							 WHERE oid IN ( 
-							 	SELECT indexrelid 
-							 	FROM pg_index, pg_class 
-							 	WHERE pg_class.relname=' . $this->quote($oldTable,true) . ' 
-							 	AND pg_class.oid=pg_index.indrelid 
-							 );' );
-			
+			$this->setQuery(
+							'SELECT relname 
+								FROM pg_class 
+								WHERE oid IN ( 
+									SELECT indexrelid 
+									FROM pg_index, pg_class 
+									WHERE pg_class.relname=' . $this->quote($oldTable,true) . '
+									AND pg_class.oid=pg_index.indrelid 
+								);');
+
 			$oldIndexes = $this->loadColumn();
 			foreach ($oldIndexes as $oldIndex)
 			{
 				$changedIdxName = str_replace($oldTable, $newTable, $oldIndex);
-				$this->setQuery('ALTER INDEX ' . $this->escape($oldIndex) . ' RENAME TO ' . $this->escape($changedIdxName) );
+				$this->setQuery('ALTER INDEX ' . $this->escape($oldIndex) . ' RENAME TO ' . $this->escape($changedIdxName));
 				$this->query();
 			}
-			
-			
+
 			/* Rename sequence */
-			$this->setQuery('SELECT relname
-							 FROM pg_class
-							 WHERE relkind = \'S\'
-							 AND relnamespace IN (
-							 	SELECT oid
-							 	FROM pg_namespace
-							 	WHERE nspname NOT LIKE \'pg_%\'
-							 	AND nspname != \'information_schema\'
-							 )
-							 AND relname LIKE \'%' . $oldTable . '%\' ;' );
+			$this->setQuery(
+							'SELECT relname
+								FROM pg_class
+								WHERE relkind = \'S\'
+								AND relnamespace IN (
+									SELECT oid
+									FROM pg_namespace
+									WHERE nspname NOT LIKE \'pg_%\'
+									AND nspname != \'information_schema\'
+								)
+								AND relname LIKE \'%' . $oldTable . '%\' ;');
 			
 			$oldSequences = $this->loadColumn();
 			foreach ($oldSequences as $oldSequence)
 			{
 				$changedSequenceName = str_replace($oldTable, $newTable, $oldSequence);
-				$this->setQuery('ALTER SEQUENCE ' . $this->escape($oldSequence) . ' RENAME TO ' . $this->escape($changedSequenceName) );
+				$this->setQuery('ALTER SEQUENCE ' . $this->escape($oldSequence) . ' RENAME TO ' . $this->escape($changedSequenceName));
 				$this->query();
 			}
-			
-			
+
 			/* Rename table */
-			$this->setQuery('ALTER TABLE ' . $this->escape($oldTable) . ' RENAME TO ' . $this->escape($newTable) );
+			$this->setQuery('ALTER TABLE ' . $this->escape($oldTable) . ' RENAME TO ' . $this->escape($newTable));
 			$this->query();
 		}
 
@@ -853,27 +869,27 @@ class JDatabasePostgreSQL extends JDatabase
 			if ( strpos($sql, 'currval') )
 			{
 				$sql = explode('currval(', $sql);
-				for ( $nIndex = 1; $nIndex < count($sql); $nIndex = $nIndex + 2 ) 
+				for ( $nIndex = 1; $nIndex < count($sql); $nIndex = $nIndex + 2 )
 				{
 					$sql[$nIndex] = str_replace($prefix, $this->tablePrefix, $sql[$nIndex]);
 				}
 				$sql = implode('currval(', $sql);
 			}
-			
+
 			// sequence name quoted with ' ' but need to be replaced
 			if ( strpos($sql, 'nextval') )
 			{
 				$sql = explode('nextval(', $sql);
-				for ( $nIndex = 1; $nIndex < count($sql); $nIndex = $nIndex + 2 ) 
+				for ( $nIndex = 1; $nIndex < count($sql); $nIndex = $nIndex + 2 )
 				{
 					$sql[$nIndex] = str_replace($prefix, $this->tablePrefix, $sql[$nIndex]);
 				}
 				$sql = implode('nextval(', $sql);
 			}
-			
+
 			$explodedQuery = explode('\'', $sql);
-			
-			for ( $nIndex = 0; $nIndex < count($explodedQuery); $nIndex = $nIndex + 2 ) 
+
+			for ( $nIndex = 0; $nIndex < count($explodedQuery); $nIndex = $nIndex + 2 )
 			{
 				if ( strpos($explodedQuery[$nIndex], $prefix) )
 					$explodedQuery[$nIndex] = str_replace($prefix, $this->tablePrefix, $explodedQuery[$nIndex]);
@@ -885,7 +901,7 @@ class JDatabasePostgreSQL extends JDatabase
 		{
 			$replacedQuery = str_replace($prefix, $this->tablePrefix, $sql);
 		}
-		
+
 		return $replacedQuery;
 	}
 
@@ -906,6 +922,8 @@ class JDatabasePostgreSQL extends JDatabase
 	/**
 	 * Method to roll back a transaction.
 	 *
+	 * @param   string  $toSavepoint  If present rollback transaction to this savepoint
+	 *
 	 * @return  void
 	 *
 	 * @since   11.3
@@ -918,7 +936,7 @@ class JDatabasePostgreSQL extends JDatabase
 		{
 			$query .= ' TO SAVEPOINT ' . $this->escape($toSavepoint);
 		}
-		
+
 		$this->setQuery($query);
 		$this->query();
 	}
@@ -936,11 +954,11 @@ class JDatabasePostgreSQL extends JDatabase
 		$this->setQuery('START TRANSACTION');
 		$this->query();
 	}
-	
+
 	/**
 	 * Method to release a savepoint.
 	 *
-	 * @param   string	Savepoint's name to release 
+	 * @param   string  $savepointName  Savepoint's name to release 
 	 * @return  void
 	 *
 	 * @since   11.3
@@ -950,7 +968,7 @@ class JDatabasePostgreSQL extends JDatabase
 		$this->setQuery('RELEASE SAVEPOINT ' . $this->escape($savepointName));
 		$this->query();
 	}
-	
+
 	/**
 	 * Method to create a savepoint.
 	 *
@@ -961,10 +979,10 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	public function transactionSavepoint( $savepointName )
 	{
-		$this->setQuery('SAVEPOINT ' . $this->escape($savepointName) );
+		$this->setQuery('SAVEPOINT ' . $this->escape($savepointName));
 		$this->query();
 	}
-	
+
 	/**
 	 * Execute a query batch.
 	 *
