@@ -42,14 +42,14 @@ class JFormFieldImage extends JFormField
 		$attr = '';
 
 		// Initialize some field attributes.
-		$attr .= $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : '';
-		$attr .= $this->element['alt'] ? ' alt="'.(string) $this->element['alt'].'"' : '';
-		$attr .= $this->element['title'] ? ' title="'.(string) $this->element['title'].'"' : '';
-		$attr .= $this->element['width'] ? ' width="'.(string) $this->element['width'].'"' : '';
-		$attr .= $this->element['height'] ? ' height="'.(string) $this->element['height'].'"' : '';
-		
+		$attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
+		$attr .= $this->element['alt'] ? ' alt="' . (string) $this->element['alt'] . '"' : '';
+		$attr .= $this->element['title'] ? ' title="' . (string) $this->element['title'] . '"' : '';
+		$attr .= $this->element['width'] ? ' width="' . (string) $this->element['width'] . '"' : '';
+		$attr .= $this->element['height'] ? ' height="' . (string) $this->element['height'] . '"' : '';
+
 		// Initialize JavaScript field attributes.
-		$attr .= $this->element['onclick'] ? ' onclick="'.(string) $this->element['onclick'].'"' : '';
+		$attr .= $this->element['onclick'] ? ' onclick="' . (string) $this->element['onclick'] . '"' : '';
 
 		// Set directory
 		$directory = (string) $this->element['directory'];
@@ -60,9 +60,10 @@ class JFormFieldImage extends JFormField
 		$html = array();
 
 		// The image container and tag
-		$html[] = ' <img src="'. $src .'"'.
-					' id="'. $this->id .'"'.$attr.' />';
+		$html[] = ' <img src="' . $src . '"'.
+					' id="' . $this->id . '"' . $attr . ' />';
 
 		return implode("\n", $html);
+		
 	}
 }
