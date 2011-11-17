@@ -34,6 +34,7 @@ class JFormFieldImage extends JFormField
 	 * Use attributes to identify specific fields
 	 *
 	 * @return  string  The field input markup.
+	 *
 	 * @since   11.3
 	 */
 	protected function getInput()
@@ -64,6 +65,5 @@ class JFormFieldImage extends JFormField
 					' id="' . $this->id . '"' . $attr . ' />';
 
 		return implode("\n", $html);
-		
 	}
 }
