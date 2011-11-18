@@ -785,9 +785,6 @@ class JApplication extends JObject
 	 */
 	public function logout($userid = null, $options = array())
 	{
-		// Initialise variables.
-		$retval = false;
-
 		// Get a user object from the JApplication.
 		$user = JFactory::getUser($userid);
 
@@ -976,8 +973,6 @@ class JApplication extends JObject
 	 */
 	protected function _createConfiguration($file)
 	{
-		jimport('joomla.registry.registry');
-
 		JLoader::register('JConfig', $file);
 
 		// Create the JConfig object.
