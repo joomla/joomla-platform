@@ -232,6 +232,12 @@ abstract class JDatabaseQuery
 	protected $order = null;
 
 	/**
+	 * @var    object  The truncate element.
+	 * @since  11.3
+	 */
+	protected $truncate = null;
+
+	/**
 	 * Magic method to provide method alias support for quote() and quoteName().
 	 *
 	 * @param   string  $method  The called method.
@@ -379,6 +385,10 @@ abstract class JDatabaseQuery
 				}
 
 				break;
+
+			case 'truncate':
+				$query .= (string) $this->truncate;
+				break;
 		}
 
 		return $query;
@@ -469,6 +479,11 @@ abstract class JDatabaseQuery
 				$this->type = null;
 				break;
 
+			case 'truncate':
+				$this->truncate = null;
+				$this->type = null;
+				break;
+
 			case 'from':
 				$this->from = null;
 				break;
@@ -520,6 +535,7 @@ abstract class JDatabaseQuery
 				$this->order = null;
 				$this->columns = null;
 				$this->values = null;
+				$this->truncate = null;
 				break;
 		}
 
@@ -1079,6 +1095,28 @@ abstract class JDatabaseQuery
 		{
 			$this->set->append($conditions);
 		}
+
+		return $this;
+	}
+
+	/**
+	 * Add a TRUNCATE clause of the query.
+	 *
+	 * Note that this element should be used on it's own.
+	 *
+	 * Usage:
+	 * $query->truncate('#__foo');
+	 *
+	 * @param   string  $table  A table to truncate.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   11.3
+	 */
+	public function truncate($table)
+	{
+		$this->type = 'truncate';
+		$this->truncate = new JDatabaseQueryElement('TRUNCATE TABLE', $table);
 
 		return $this;
 	}
