@@ -1,16 +1,20 @@
 <?php
 /**
- * @copyright  Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
- * @license    GNU General Public License
+ * @package     Joomla.UnitTest
+ * @subpackage  Database
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
+ * @license     GNU General Public License
  */
 
 require_once JPATH_PLATFORM.'/joomla/database/databasequery.php';
 
 /**
- * Class to expose protected properties and methods in JDatabaseQueryExporter for testing purposes.
+ * Class to expose protected properties and methods in JDatabaseQuery for testing purposes.
  *
- * @package    Joomla.UnitTest
- * @subpackage Database
+ * @package     Joomla.UnitTest
+ * @subpackage  Database
+ * @since       11.1
  */
 class JDatabaseQueryInspector extends JDatabaseQuery
 {
