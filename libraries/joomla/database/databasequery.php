@@ -1121,7 +1121,7 @@ abstract class JDatabaseQuery
 		return $this;
 	}
 
- 	/**
+	/**
 	 * Add a table name to the UPDATE clause of the query.
 	 *
 	 * Note that you must not mix insert, update, delete and select method calls when building a query.
