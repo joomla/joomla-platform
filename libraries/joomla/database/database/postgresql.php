@@ -393,7 +393,6 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	public function hasUTF()
 	{
-		jimport('joomla.log.log');
 		JLog::add('JDatabasePostgreSQL::hasUTF() is deprecated.', JLog::WARNING, 'deprecated');
 		return true;
 	}
