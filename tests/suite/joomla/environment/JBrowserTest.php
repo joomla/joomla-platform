@@ -257,14 +257,14 @@ class JBrowserTest extends PHPUnit_Framework_TestCase
 		unset($_SERVER['HTTPS']);
 
 		$this->assertThat(
-			$this->object->isSSLConnection(),
+			JBrowser::isSSLConnection(),
 			$this->equalTo(false)
 		);
 
 		$_SERVER['HTTPS'] = 'on';
 
 		$this->assertThat(
-			$this->object->isSSLConnection(),
+			JBrowser::isSSLConnection(),
 			$this->equalTo(true)
 		);
 	}
