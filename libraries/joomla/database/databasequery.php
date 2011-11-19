@@ -232,18 +232,6 @@ abstract class JDatabaseQuery
 	protected $order = null;
 
 	/**
-	 * @var   object  The lock element.
-	 * @since 11.1
-	 */
-	protected $lock = null;
-
-	/**
-	 * @var   object  The lock element.
-	 * @since 11.1
-	 */
-	protected $unlock = null;
-
-	/**
 	 * Magic method to provide method alias support for quote() and quoteName().
 	 *
 	 * @param   string  $method  The called method.
@@ -391,15 +379,6 @@ abstract class JDatabaseQuery
 				}
 
 				break;
-
-			case 'lock':
-				$query .= (string) $this->lock;
-				break;
-
-			case 'unlock':
-				$query .= (string) $this->unlock;
-				break;
-
 		}
 
 		return $query;
@@ -526,14 +505,6 @@ abstract class JDatabaseQuery
 				$this->values = null;
 				break;
 
-			case 'lock':
-				$this->lock = null;
-				break;
-
-			case 'unlock':
-				$this->unlock = null;
-				break;
-
 			default:
 				$this->type = null;
 				$this->select = null;
@@ -549,8 +520,6 @@ abstract class JDatabaseQuery
 				$this->order = null;
 				$this->columns = null;
 				$this->values = null;
-				$this->lock = null;
-				$this->unlock = null;
 				break;
 		}
 
