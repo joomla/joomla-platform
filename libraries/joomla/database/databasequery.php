@@ -232,18 +232,6 @@ abstract class JDatabaseQuery
 	protected $order = null;
 
 	/**
-	 * @var   object  The lock element.
-	 * @since 11.1
-	 */
-	protected $lock = null;
-
-	/**
-	 * @var   object  The lock element.
-	 * @since 11.1
-	 */
-	protected $unlock = null;
-
-	/**
 	 * Magic method to provide method alias support for quote() and quoteName().
 	 *
 	 * @param   string  $method  The called method.
@@ -391,15 +379,6 @@ abstract class JDatabaseQuery
 				}
 
 				break;
-
-			case 'lock':
-				$query .= (string) $this->lock;
-				break;
-
-			case 'unlock':
-				$query .= (string) $this->unlock;
-				break;
-
 		}
 
 		return $query;
@@ -526,14 +505,6 @@ abstract class JDatabaseQuery
 				$this->values = null;
 				break;
 
-			case 'lock':
-				$this->lock = null;
-				break;
-
-			case 'unlock':
-				$this->unlock = null;
-				break;
-
 			default:
 				$this->type = null;
 				$this->select = null;
@@ -549,8 +520,6 @@ abstract class JDatabaseQuery
 				$this->order = null;
 				$this->columns = null;
 				$this->values = null;
-				$this->lock = null;
-				$this->unlock = null;
 				break;
 		}
 
@@ -1210,50 +1179,5 @@ abstract class JDatabaseQuery
 				$this->{$k} = unserialize(serialize($v));
 			}
 		}
-	}
-
-	/**
-	 * Method to lock the database table for writing.
-	 *
-	 * @param   string  $table_name  The table name to lock
-	 * @param   string  $lock_type   Lock table type
-	 *
-	 * @return  boolean  True on success.
-	 * 
-	 * @since   11.3
-	 */
-	public function lock($table_name, $lock_type)
-	{
-		$this->type = 'lock';
-
-		if (is_null($this->lock))
-		{
-			$this->lock = new JDatabaseQueryElement('LOCK TABLES', " $table_name $lock_type");
-		}
-		else
-		{
-			$this->lock->append(" $table_name $lock_type");
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Method to unlock the database table for writing.
-	 *
-	 * @return  boolean  True on success.
-	 * 
-	 * @since   11.3
-	 */
-	public function unlock()
-	{
-		$this->type = 'unlock';
-
-		if (is_null($this->unlock))
-		{
-			$this->unlock = new JDatabaseQueryElement('UNLOCK TABLES', '');
-		}
-
-		return $this;
 	}
 }
