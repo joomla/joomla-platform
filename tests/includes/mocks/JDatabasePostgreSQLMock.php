@@ -1,24 +1,28 @@
 <?php
 /**
  * @package    Joomla.UnitTest
+ * @author     gpongelli <gabriele.pongelli@gmail.com>
+ * 
  * @copyright  Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
  * @license    GNU General Public License
  */
 
-require_once dirname(__FILE__).'/JDatabaseMock.php';
+require_once dirname(__FILE__) . '/JDatabaseMock.php';
 
 /**
  * Mock class for JDatabase.
  *
- * @package  Joomla.UnitTest
- * @since    11.3
+ * @package     Joomla.UnitTest
+ * @subpackage  Database
+ * 
+ * @since       11.3
  */
 class JDatabasePostgreSQLMock extends JDatabaseGlobalMock
 {
 	/**
 	 * Creates and instance of the mock JDatabase object.
 	 *
-	 * @param   object  $test   A test object.
+	 * @param   object  $test  A test object.
 	 *
 	 * @return  object
 	 *
@@ -123,7 +127,7 @@ class JDatabasePostgreSQLMock extends JDatabaseGlobalMock
 	/**
 	 * Callback for the dbo setQuery method.
 	 *
-	 * @param  string  $new  True to get a new query, false to get the last query.
+	 * @param   string  $new  True to get a new query, false to get the last query.
 	 *
 	 * @return void
 	 *
@@ -133,7 +137,7 @@ class JDatabasePostgreSQLMock extends JDatabaseGlobalMock
 	{
 		if ($new)
 		{
-			require_once __DIR__.'/JDatabasePostgreSQLQueryDummy.php';
+			require_once __DIR__ . '/JDatabasePostgreSQLQueryDummy.php';
 
 			return new JDatabasePostgreSQLQueryDummy;
 		}
@@ -142,11 +146,11 @@ class JDatabasePostgreSQLMock extends JDatabaseGlobalMock
 			return self::$lastQuery;
 		}
 	}
-	
+
 	/**
 	 * Mocking the quote method.
 	 *
-	 * @param  string  $value  The value to be quoted.
+	 * @param   string  $value  The value to be quoted.
 	 *
 	 * @return string  The value passed wrapped in MySQL quotes.
 	 *
@@ -160,7 +164,7 @@ class JDatabasePostgreSQLMock extends JDatabaseGlobalMock
 	/**
 	 * Mock nameQuote method.
 	 *
-	 * @param  string  $value  The value to be quoted.
+	 * @param   string  $value  The value to be quoted.
 	 *
 	 * @return string  The value passed wrapped in MySQL quotes.
 	 *
@@ -174,7 +178,7 @@ class JDatabasePostgreSQLMock extends JDatabaseGlobalMock
 	/**
 	 * Callback for the dbo setQuery method.
 	 *
-	 * @param  string  $query  The query.
+	 * @param   string  $query  The query.
 	 *
 	 * @return void
 	 *
@@ -184,5 +188,4 @@ class JDatabasePostgreSQLMock extends JDatabaseGlobalMock
 	{
 		self::$lastQuery = $query;
 	}
-	
 }
