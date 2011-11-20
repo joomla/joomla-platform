@@ -1,7 +1,7 @@
 <?php
 /**
+ * @version    $Id: JDatabasePostgreSQLQueryTest.php gpongelli $
  * @package    Joomla.UnitTest
- * @author     gpongelli <gabriele.pongelli@gmail.com>
  * 
  * @copyright  Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
  * @license    GNU General Public License
