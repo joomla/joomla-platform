@@ -24,16 +24,12 @@ abstract class JHtmlDate
 	 * @param   string  $date  The date to convert
 	 * @param   string  $unit  The optional unit of measurement to return
 	 *                         if the value of the diff is greater than one
-<<<<<<< HEAD
 	 * @param   string  $time  An optional time to compare to, defaults to now
-=======
->>>>>>> e703814... Add JHtmlDate class with relative time function
 	 *
 	 * @return  string  The converted time string
 	 *
 	 * @since   11.3
 	 */
-<<<<<<< HEAD
 	public static function relative($date, $unit = null, $time = null)
 	{
 		if (is_null($time))
@@ -44,12 +40,6 @@ abstract class JHtmlDate
 
 		// Get the difference in seconds between now and the time
 		$diff = strtotime($time) - strtotime($date);
-=======
-	public static function relative($date, $unit = 'week')
-	{
-		// Get the difference in seconds between now and the time
-		$diff = time() - strtotime($date);
->>>>>>> e703814... Add JHtmlDate class with relative time function
 
 		// Less than a minute
 		if ($diff < 60)
@@ -90,18 +80,10 @@ abstract class JHtmlDate
 		// 1 to 4 weeks
 		if ($diff <= 4 || $unit == 'week')
 		{
-<<<<<<< HEAD
 			return JText::plural('JLIB_HTML_DATE_RELATIVE_WEEKS', $diff);
 		}
 
 		// Over a month, return the absolute time
 		return JHtml::_('date', $date);
-=======
-			return JText::sprintf('JLIB_HTML_DATE_RELATIVE_WEEKS', $diff);
-		}
-
-		// Over a month, return the absolute time
-		return JHtml::date($date);
->>>>>>> e703814... Add JHtmlDate class with relative time function
 	}
 }
