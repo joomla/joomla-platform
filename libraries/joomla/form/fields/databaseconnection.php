@@ -7,10 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.database.database');
-jimport('joomla.html.html');
 jimport('joomla.form.formfield');
 jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('list');
@@ -70,6 +68,14 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 				}
 			}
 		}
+		else
+		{
+			foreach ($available as $support)
+			{
+				$options[$support] = ucfirst($support);
+			}
+		}
+
 		// This will come into play if an application is installed that requires
 		// a database that is not available on the server.
 		if (empty($options))

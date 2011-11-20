@@ -256,7 +256,7 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  Exception
+	 * @expectedException  InvalidArgumentException
 	 * @since   11.3
 	 */
 	public function testGetInstanceException()
@@ -293,9 +293,9 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test JController::getTask().
-	 * 
+	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   11.3
 	 */
 	public function testGetTask()

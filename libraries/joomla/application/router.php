@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Set the available masks for the routing mode
@@ -46,7 +46,10 @@ class JRouter extends JObject
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $_rules = array('build' => array(), 'parse' => array());
+	protected $_rules = array(
+		'build' => array(),
+		'parse' => array()
+	);
 
 	/**
 	 * @var    array  JRouter instances container.
