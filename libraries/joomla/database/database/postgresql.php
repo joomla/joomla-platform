@@ -539,11 +539,11 @@ class JDatabasePostgreSQL extends JDatabase
 	/**
 	 * Custom settings for UTF support
 	 * 
-	 * @return  void
+	 * @return  int  Zero on success, -1 on failure
 	 */
 	public function setUTF()
 	{
-		pg_set_client_encoding($this->connection, 'UTF8');
+		return pg_set_client_encoding($this->connection, 'UTF8');
 	}
 
 	/**
