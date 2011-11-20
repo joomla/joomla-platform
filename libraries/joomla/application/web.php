@@ -374,12 +374,13 @@ class JWeb
 			);
 		}
 
-		if (!isset($options['directory'])){
+		if (!isset($options['directory']))
+		{
 			if ($this->get('themes.base'))
 			{
 				$options['directory'] = $this->get('themes.base');
 			}
-			// Fall back to constants.
+			// Fall back to conventions.
 			else
 			{
 				$options['directory'] = (defined('JPATH_BASE') ? JPATH_BASE : dirname(__FILE__)) . '/themes';
