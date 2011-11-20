@@ -360,21 +360,30 @@ class JWeb
 	 */
 	protected function render()
 	{
-		// Setup the document options.
-		$options = array(
-			'template' => $this->get('theme'),
-			'file' => 'index.php',
-			'params' => ''
-		);
-
-		if ($this->get('themes.base'))
+		if (isset($this->options))
 		{
-			$options['directory'] = $this->get('themes.base');
+			$options = $this->options;
 		}
-		// Fall back to constants.
 		else
 		{
-			$options['directory'] = (defined('JPATH_BASE') ? JPATH_BASE : dirname(__FILE__)) . '/themes';
+			// Setup the document options.
+			$options = array(
+				'template' => $this->get('theme'),
+				'file' => 'index.php',
+				'params' => ''
+			);
+		}
+
+		if (!isset($options['directory'])){
+			if ($this->get('themes.base'))
+			{
+				$options['directory'] = $this->get('themes.base');
+			}
+			// Fall back to constants.
+			else
+			{
+				$options['directory'] = (defined('JPATH_BASE') ? JPATH_BASE : dirname(__FILE__)) . '/themes';
+			}
 		}
 
 		// Parse the document.
