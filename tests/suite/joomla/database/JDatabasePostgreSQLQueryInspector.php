@@ -1,16 +1,22 @@
 <?php
 /**
+ * @package    Joomla.UnitTest
+ * @author     gpongelli <gabriele.pongelli@gmail.com>
+ * 
  * @copyright  Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
  * @license    GNU General Public License
  */
 
-require_once JPATH_PLATFORM.'/joomla/database/database/postgresqlquery.php';
+require_once JPATH_PLATFORM . '/joomla/database/databasequery.php';
+require_once JPATH_PLATFORM . '/joomla/database/database/postgresqlquery.php';
 
 /**
  * Class to expose protected properties and methods in JDatabaseQueryExporter for testing purposes.
  *
- * @package    Joomla.UnitTest
- * @subpackage Database
+ * @package     Joomla.UnitTest
+ * @subpackage  Database
+ * 
+ * @since       11.3
  */
 class JDatabasePostgreSQLQueryInspector extends JDatabaseQueryPostgreSQL
 {
@@ -21,7 +27,6 @@ class JDatabasePostgreSQLQueryInspector extends JDatabaseQueryPostgreSQL
 	 * @param   string  $value     The value of the class property.
 	 *
 	 * @return  void
-	 * @since   11.1
 	 */
 	public function __set($property, $value)
 	{
@@ -34,7 +39,6 @@ class JDatabasePostgreSQLQueryInspector extends JDatabaseQueryPostgreSQL
 	 * @param   string  $property  The name of the class property.
 	 *
 	 * @return  mixed   The value of the class property.
-	 * @since   11.1
 	 */
 	public function get($property)
 	{
