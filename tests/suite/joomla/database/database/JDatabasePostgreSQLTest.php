@@ -48,6 +48,25 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
+	 * Data for the testGetEscaped test, proxies of escape, so same data test.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.3
+	 */
+	public function dataTestGetEscaped()
+	{
+		return array(
+			/* ' will be escaped and become '' */
+			array("'%_abc123", false),
+			array("'%_abc123", true),
+			/* ' and \ will be escaped: the first become '', the latter \\ */
+			array("\'%_abc123", false),
+			array("\'%_abc123", true),
+		);
+	}
+
+	/**
 	 * Data for the testTransactionRollback test.
 	 *
 	 * @return  array
@@ -103,6 +122,18 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 			/* using another prefix */
 			array('SELECT * FROM "#!-_table"', '#!-_', 'SELECT * FROM "jos_table"'),
 		);
+	}
+
+	/**
+	 * Data for testGetVersion test.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.3
+	 */
+	public function dataTestGetVersion()
+	{
+		return array( array('9.0.4') );
 	}
 
 	/**
@@ -263,16 +294,20 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	/**
 	 * Test getEscaped function
 	 * 
-	 * @todo Implement testGetEscaped().
+	 * @param   string  $text   The string to be escaped.
+	 * @param   bool    $extra  Optional parameter to provide extra escaping.
 	 * 
 	 * @return   void
+	 * 
+	 * @dataProvider  dataTestGetEscaped
 	 */
-	public function testGetEscaped()
+	public function testGetEscaped($text, $extra)
 	{
-		// TODO Check that this method proxies to "escape".
-
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertThat(
+			$this->object->escape($text, $extra),
+			$this->equalTo($this->object->getEscaped($text, $extra)),
+			'The string was not escaped properly'
+		);
 	}
 
 	/**
@@ -313,16 +348,24 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
-	 * Test getTableField function.
-	 * 
-	 * @todo Implement testGetTableFields().
+	 * Test getTableColumns function.
 	 * 
 	 * @return   void
 	 */
-	public function testGetTableFields()
+	public function testGetTableColumns()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$tableCol = array(
+						'id' => 'integer',
+						'title' => 'character varying',
+						'start_date' => 'timestamp without time zone',
+						'description' => 'text'
+					);
+
+		$this->assertThat(
+			$this->object->getTableColumns('jos_dbtest'),
+			$this->equalTo($tableCol),
+			__LINE__
+		);
 	}
 
 	/**
@@ -354,15 +397,18 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	/**
 	 * Tests the JDatabasePostgreSQL getVersion method.
 	 * 
+	 * @param   string  $dbVersion  Database version.
+	 * 
 	 * @return  void
 	 *
 	 * @since   11.3
+	 * @dataProvider  dataTestGetVersion
 	 */
-	public function testGetVersion()
+	public function testGetVersion( $dbVersion )
 	{
 		$this->assertThat(
 			$this->object->getVersion(),
-			$this->equalTo("9.0.4"),
+			$this->equalTo($dbVersion),
 			__LINE__
 		);
 	}
@@ -522,14 +568,62 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	/**
 	 * Test loadNextObject function
 	 * 
-	 * @todo Implement testLoadNextObject().
-	 * 
 	 * @return   void
 	 */
 	public function testLoadNextObject()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$query = $this->object->getQuery(true);
+		$query->select('*');
+		$query->from('jos_dbtest');
+		$this->object->setQuery($query);
+
+		$objCompOne = new stdClass;
+		$objCompOne->id = 1;
+		$objCompOne->title = 'Testing';
+		$objCompOne->start_date = '1980-04-18 00:00:00';
+		$objCompOne->description = 'one';
+
+		$objCompTwo = new stdClass;
+		$objCompTwo->id = 2;
+		$objCompTwo->title = 'Testing2';
+		$objCompTwo->start_date = '1980-04-18 00:00:00';
+		$objCompTwo->description = 'one';
+
+		$objCompThree = new stdClass;
+		$objCompThree->id = 3;
+		$objCompThree->title = 'Testing3';
+		$objCompThree->start_date = '1980-04-18 00:00:00';
+		$objCompThree->description = 'three';
+
+		$objCompFour = new stdClass;
+		$objCompFour->id = 4;
+		$objCompFour->title = 'Testing4';
+		$objCompFour->start_date = '1980-04-18 00:00:00';
+		$objCompFour->description = 'four';
+
+		$this->assertThat(
+			$this->object->loadNextObject(),
+			$this->equalTo($objCompOne),
+			__LINE__
+		);
+
+		$this->assertThat(
+			$this->object->loadNextObject(),
+			$this->equalTo($objCompTwo),
+			__LINE__
+		);
+
+		$this->assertThat(
+			$this->object->loadNextObject(),
+			$this->equalTo($objCompThree),
+			__LINE__
+		);
+
+		$this->assertThat(
+			$this->object->loadNextObject(),
+			$this->equalTo($objCompFour),
+			__LINE__
+		);
 	}
 
 	/**
@@ -541,8 +635,39 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 */
 	public function testLoadNextRow()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$query = $this->object->getQuery(true);
+		$query->select('*');
+		$query->from('jos_dbtest');
+		$this->object->setQuery($query);
+
+		$expectedOne = array(1, 'Testing', '1980-04-18 00:00:00', 'one');
+		$expectedTwo = array(2, 'Testing2', '1980-04-18 00:00:00', 'one');
+		$expectedThree = array(3, 'Testing3', '1980-04-18 00:00:00', 'three');
+		$expectedFour = array(4, 'Testing4', '1980-04-18 00:00:00', 'four');
+
+		$this->assertThat(
+			$this->object->loadNextRow(),
+			$this->equalTo($expectedOne),
+			__LINE__
+		);
+
+		$this->assertThat(
+			$this->object->loadNextRow(),
+			$this->equalTo($expectedTwo),
+			__LINE__
+		);
+
+		$this->assertThat(
+			$this->object->loadNextRow(),
+			$this->equalTo($expectedThree),
+			__LINE__
+		);
+
+		$this->assertThat(
+			$this->object->loadNextRow(),
+			$this->equalTo($expectedFour),
+			__LINE__
+		);
 	}
 
 	/**
@@ -797,16 +922,17 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
-	 * Test setUtf function
-	 * 
-	 * @todo Implement testSetUTF().
+	 * Test setUTF function
 	 * 
 	 * @return   void
 	 */
 	public function testSetUTF()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertThat(
+			$this->object->setUTF(),
+			$this->equalTo(0),
+			__LINE__
+		);
 	}
 
 	/**
@@ -1034,8 +1160,6 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 */
 	public function testGetCreateDbQuery( $options, $utf )
 	{
-		//$this->markTestSkipped('This command is tested inside testCreateDatabase.');
-
 		$expected = 'CREATE DATABASE ' . $options->db_name . ' OWNER ' . $options->db_user;
 
 		$result = $this->object->getCreateDbQuery($options, $utf);
