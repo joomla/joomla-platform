@@ -10,13 +10,13 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Joomla Payment Card Interface.
+ * Joomla Payment Card Class.
  *
  * @package     Joomla.Platform
  * @subpackage  Commerce
  * @since       12.1
  */
-abstract class JCommercePaymentCard
+class JCommercePaymentCard extends JCommercePayment
 {
 	/**
 	 * @const  integer Visa
@@ -103,10 +103,90 @@ abstract class JCommercePaymentCard
 	public $type = 0;
 
 	/**
+	 * Method to dectect the payment card type based on number.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function detectType()
+	{
+		// Determine what credit card type the card number is.
+		if (preg_match('/^4[0-9]{12}([0-9]{3})?$/', $this->number))
+		{
+			$this->type = self::VISA;
+		}
+		elseif (preg_match('/^5[1-5][0-9]{14}$/', $this->number))
+		{
+			$this->type = self::MASTERCARD;
+		}
+		elseif (preg_match('/^3[47][0-9]{13}$/', $this->number))
+		{
+			$this->type = self::AMEX;
+		}
+		elseif (preg_match('/^6011[0-9]{12}$/', $this->number))
+		{
+			$this->type = self::DISCOVER;
+		}
+		elseif (preg_match('/^3(0[0-5]|[68][0-9])[0-9]{11}$/', $this->number))
+		{
+			$this->type = self::DINERS_CLUB;
+		}
+		elseif (preg_match('/^(3[0-9]{4}|2131|1800)[0-9]{11}$/', $this->number))
+		{
+			$this->type = self::JCB;
+		}
+		elseif (preg_match('/^5610[0-9]{12}$/', $this->number))
+		{
+			$this->type = self::AU_BANKCARD;
+		}
+		// If the payment card type could not be detected throw an exception.
+		else
+		{
+			throw new UnexpectedValueException('Unknown payment card type.');
+		}
+	}
+
+	/**
+	 * Method to determine whether or not the payment card is for testing purposes or not.
+	 *
+	 * @return  boolean  True if the card is a test card.
+	 *
+	 * @since   12.1
+	 */
+	public function isTest()
+	{
+		return (in_array($this->number, self::$testCardNumbers)) ? true : false;
+	}
+
+	/**
+	 * Method to determine the validity of the payment card details.
+	 *
+	 * @return  boolean  True for a valid payment card.
+	 *
+	 * @since   12.1
+	 * @throws  Exception
+	 */
+	public function isValid()
+	{
+		// Sanitize the payment card number.
+		$this->number = (int) preg_replace('/[^0-9]/', '', $this->number);
+
+		// Detect the payment card type.
+		$this->detectType();
+
+		// Validate the expiration date.
+		$this->validateExpirationDate();
+
+		// Validate the card number.
+		$this->validateCardNumber();
+
+		return true;
+	}
+
+	/**
 	 * Method provides an implementation of the Luhn Algorithm. This algorithm is used to validate
 	 * most payment cards.
-	 *
-	 * @param   integer  $number  Payment card number to validate.
 	 *
 	 * @return  boolean  True if the card number is valid.
 	 *
@@ -114,16 +194,13 @@ abstract class JCommercePaymentCard
 	 * @link    http://en.wikipedia.org/wiki/Luhn_algorithm
 	 * @throws  InvalidArgumentException
 	 */
-	public function validateCardNumber($number)
+	public function validateCardNumber()
 	{
-		// Make sure only integers are used in the payment card number string.
-		$number = preg_replace('/[^0-9]/', '', $number);
-
 		// Iterate over each number in the string in reverse.
-		$number = strrev($number);
-		for ($sum = 0, $i = 0; $i < strlen($number); $i++)
+		$this->number = strrev($this->number);
+		for ($sum = 0, $i = 0; $i < strlen($this->number); $i++)
 		{
-			$current = substr($number, $i, 1);
+			$current = substr($this->number, $i, 1);
 
 			// Double every second digit.
 			if ($i % 2 == 1)
@@ -154,31 +231,28 @@ abstract class JCommercePaymentCard
 	 * Method to validate an expiration date for a payment card.  The date must be in the future, but
 	 * not more than 10 years in the future.
 	 *
-	 * @param   integer  $month   Payment card expiration month to validate.
-	 * @param   integer  $year    Payment card expiration year to validate.
-	 *
 	 * @return  boolean  True if the expiration date is valid.
 	 *
 	 * @since   12.1
 	 * @throws  InvalidArgumentException
 	 */
-	public function validateExpirationDate($month, $year)
+	public function validateExpirationDate()
 	{
-		// Validate the payment card expiration month.
-		if (!is_numeric($month) || ($month <= 0) || ($month >= 13))
+		// Validate the expiration month.
+		if (!is_numeric($this->expirationMonth) || ($this->expirationMonth <= 0) || ($this->expirationMonth >= 13))
 		{
 			throw new InvalidArgumentException('Invalid expiration month.');
 		}
 
-		// Validate the payment card expiration year.
+		// Validate the expiration year.
 		$currentYear = date('Y');
-		if (!is_numeric($year) || ($year < $currentYear) || ($year > ($currentYear + 10)))
+		if (!is_numeric($this->expirationYear) || ($this->expirationYear < $currentYear) || ($this->expirationYear > ($currentYear + 10)))
 		{
 			throw new InvalidArgumentException('Invalid expiration year.');
 		}
 
 		// Make sure expiration date has not passed.
-		if (($year == $currentYear) && ($month < date('n')))
+		if (($this->expirationYear == $currentYear) && ($this->expirationMonth < date('n')))
 		{
 			throw new InvalidArgumentException('Expiration data has passed.');
 		}

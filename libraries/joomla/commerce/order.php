@@ -31,10 +31,10 @@ class JCommerceOrder
 	protected $billingAddress;
 
 	/**
-	 * @var    JPayment
+	 * @var    SplObjectStorage
 	 * @since  12.1
 	 */
-	protected $paymentMethod;
+	protected $paymentMethods;
 
 	/**
 	 * @var    JCommerceAddress
@@ -105,6 +105,22 @@ class JCommerceOrder
 
 		// Wire up the order state.
 		$this->state = isset($state) ? $state : new JCommerceOrderStateNew;
+
+		$this->paymentMethods = new SplObjectStorage;
+	}
+
+	/**
+	 * @param   JPayment  $payment
+	 *
+	 * @return  JCommerceOrder
+	 *
+	 * @since   12.1
+	 */
+	public function addPaymentMethod(JPayment $payment)
+	{
+		$this->paymentMethods->attach($payment);
+
+		return $this;
 	}
 
 	/**
@@ -126,9 +142,9 @@ class JCommerceOrder
 	 *
 	 * @since   12.1
 	 */
-	public function getPaymentMethod()
+	public function getPaymentMethods()
 	{
-		return $this->paymentMethod;
+		return $this->paymentMethods;
 	}
 
 	/**
@@ -144,6 +160,20 @@ class JCommerceOrder
 	}
 
 	/**
+	 * @param   JPayment  $payment
+	 *
+	 * @return  JCommerceOrder
+	 *
+	 * @since   12.1
+	 */
+	public function removePaymentMethod(JPayment $payment)
+	{
+		$this->paymentMethods->detatch($payment);
+
+		return $this;
+	}
+
+	/**
 	 * @param   JCommerceAddress  $address
 	 *
 	 * @return  JCommerceOrder
@@ -153,20 +183,6 @@ class JCommerceOrder
 	public function setBillingAddress(JCommerceAddress $address)
 	{
 		$this->billingAddress = $address;
-
-		return $this;
-	}
-
-	/**
-	 * @param   JPayment  $payment
-	 *
-	 * @return  JCommerceOrder
-	 *
-	 * @since   12.1
-	 */
-	public function setPaymentMethod(JPayment $payment)
-	{
-		$this->paymentMethod = $payment;
 
 		return $this;
 	}
