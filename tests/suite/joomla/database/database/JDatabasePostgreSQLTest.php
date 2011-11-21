@@ -1,5 +1,6 @@
 <?php
 /**
+<<<<<<< HEAD
  * @version    $Id: JDatabasePostgreSQLTest.php gpongelli $
  * @package    Joomla.UnitTest
  * 
@@ -20,6 +21,21 @@ require_once JPATH_PLATFORM . '/joomla/database/database/postgresqlquery.php';
  * @subpackage  Database
  * 
  * @since       11.3
+=======
+ * @version		$Id: JDatabasePostgreSQLTest.php 20196 2011-01-09 02:40:25Z Gabriele Pongelli $
+ * @copyright	Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+require_once JPATH_PLATFORM.'/joomla/log/log.php';
+require_once JPATH_PLATFORM.'/joomla/database/database.php';
+require_once JPATH_PLATFORM.'/joomla/database/database/postgresql.php';
+require_once JPATH_PLATFORM.'/joomla/database/databasequery.php';
+require_once JPATH_PLATFORM.'/joomla/database/database/postgresqlquery.php';
+
+/**
+ * Test class for JDatabasePostgreSQL.
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
  */
 class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 {
@@ -33,7 +49,11 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return  array
 	 *
+<<<<<<< HEAD
 	 * @since   11.3
+=======
+	 * @since   11.1
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 */
 	public function dataTestEscape()
 	{
@@ -48,6 +68,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Data for the testGetEscaped test, proxies of escape, so same data test.
 	 *
 	 * @return  array
@@ -67,11 +88,17 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
+=======
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 * Data for the testTransactionRollback test.
 	 *
 	 * @return  array
 	 *
+<<<<<<< HEAD
 	 * @since   11.3
+=======
+	 * @since   11.1
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 */
 	public function dataTestTransactionRollback()
 	{
@@ -80,20 +107,32 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 			array ( 'transactionSavepoint' , 1 )
 		);
 	}
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	/**
 	 * Data for the getCreateDbQuery test.
 	 *
 	 * @return  array
 	 *
+<<<<<<< HEAD
 	 * @since   11.3
+=======
+	 * @since   11.1
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 */
 	public function dataGetCreateDbQuery()
 	{
 		$obj = new stdClass;
 		$obj->db_user = 'testName';
 		$obj->db_name = 'testDb';
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 		return array(
 				array( $obj, null )
 			);
@@ -123,6 +162,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 			array('SELECT * FROM "#!-_table"', '#!-_', 'SELECT * FROM "jos_table"'),
 		);
 	}
+<<<<<<< HEAD
 
 	/**
 	 * Data for testGetVersion test.
@@ -136,16 +176,28 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 		return array( array('9.0.4') );
 	}
 
+=======
+	
+	
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
 	 * @return  xml dataset
 	 *
+<<<<<<< HEAD
 	 * @since   11.3
 	 */
 	protected function getDataSet()
 	{
 		return $this->createXMLDataSet(dirname(__FILE__) . '/stubs/database.xml');
+=======
+	 * @since   11.1
+	 */
+	protected function getDataSet()
+	{
+		return $this->createXMLDataSet(dirname(__FILE__).'/stubs/database.xml');
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	}
 
 	/**
@@ -154,11 +206,16 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return  void
 	 *
+<<<<<<< HEAD
 	 * @since   11.3
+=======
+	 * @since   11.1
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 */
 	protected function setUp()
 	{
 		@include_once JPATH_TESTS . '/config_pgsql.php';
+<<<<<<< HEAD
 		if (class_exists('JPostgreSQLTestConfig'))
 		{
 			$config = new JPostgreSQLTestConfig;
@@ -168,6 +225,13 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 			$this->markTestSkipped('There is no PostgreSQL test config file present.');
 		}
 
+=======
+		if (class_exists('JPostgreSQLTestConfig')) {
+			$config = new JPostgreSQLTestConfig;
+		} else {
+			$this->markTestSkipped('There is no PostgreSQL test config file present.');
+		}
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 		$this->object = JDatabase::getInstance(
 			array(
 				'driver' => $config->dbtype,
@@ -180,16 +244,25 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 
 		parent::setUp();
 	}
+<<<<<<< HEAD
 
 	/**
 	 * Tear down function used to clean inserted data or insert back deleted data.
 	 * 
 	 * @return   void
+=======
+	
+	
+	/**
+	 * Tear down function used to clean inserted data or insert back deleted data.
+	 * 
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 */
 	protected function tearDown()
 	{
 		parent::tearDown();
 	}
+<<<<<<< HEAD
 
 	/**
 	 * Test destruct
@@ -197,6 +270,12 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 * @todo Implement test__destruct().
 	 * 
 	 * @return   void
+=======
+	
+
+	/**
+	 * @todo Implement test__destruct().
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 */
 	public function test__destruct()
 	{
@@ -206,8 +285,11 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 
 	/**
 	 * Check if connected() method returns true.
+<<<<<<< HEAD
 	 * 
 	 * @return   void
+=======
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 */
 	public function testConnected()
 	{
@@ -221,6 +303,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	/**
 	 * Tests the JDatabasePostgreSQL escape method.
 	 *
+<<<<<<< HEAD
 	 * @param   string  $text    The string to be escaped.
 	 * @param   bool    $extra   Optional parameter to provide extra escaping.
 	 * @param   string  $result  Correct string escaped
@@ -228,6 +311,14 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 * @return  void
 	 *
 	 * @since   11.3
+=======
+	 * @param   string  $text   The string to be escaped.
+	 * @param   bool    $extra  Optional parameter to provide extra escaping.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 * @dataProvider  dataTestEscape
 	 */
 	public function testEscape($text, $extra, $result)
@@ -240,11 +331,15 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Test explain function
 	 * 
 	 * @todo Implement testExplain().
 	 * 
 	 * @return   void
+=======
+	 * @todo Implement testExplain().
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 */
 	public function testExplain()
 	{
@@ -257,7 +352,11 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return  void
 	 *
+<<<<<<< HEAD
 	 * @since   11.3
+=======
+	 * @since   11.1
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 */
 	public function testGetAffectedRows()
 	{
@@ -267,7 +366,11 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 		$this->object->setQuery($query);
 
 		$result = $this->object->query();
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 		$this->assertThat(
 			$this->object->getAffectedRows(),
 			$this->equalTo(4),
@@ -280,7 +383,11 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 * 
 	 * @return  void
 	 *
+<<<<<<< HEAD
 	 * @since   11.3
+=======
+	 * @since   11.1
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 */
 	public function testGetCollation()
 	{
@@ -292,6 +399,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Test getEscaped function
 	 * 
 	 * @param   string  $text   The string to be escaped.
@@ -308,6 +416,16 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 			$this->equalTo($this->object->getEscaped($text, $extra)),
 			'The string was not escaped properly'
 		);
+=======
+	 * @todo Implement testGetEscaped().
+	 */
+	public function testGetEscaped()
+	{
+		// TODO Check that this method proxies to "escape".
+
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	}
 
 	/**
@@ -315,6 +433,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 * 
 	 * @return  void
 	 *
+<<<<<<< HEAD
 	 * @since   11.3
 	 */
 	public function testGetNumRows()
@@ -330,16 +449,37 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 		$this->assertThat(
 			$this->object->getNumRows($res),
 			$this->equalTo(2),
+=======
+	 * @since   11.1
+	 */
+	public function testGetNumRows()
+	{	
+		$query = $this->object->getQuery(true);
+		$query->select('*');
+		$query->from('jos_dbtest');
+		$query->where('description='.$this->object->quote('one'));
+		$this->object->setQuery($query);
+		
+		$res = $this->object->query();
+		
+		$this->assertThat(
+			$this->object->getNumRows( $res ),
+			$this->equalTo( 2 ),
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 			__LINE__
 		);
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Test getTableCreate function
 	 * 
 	 * @todo Implement testGetTableCreate().
 	 * 
 	 * @return   void
+=======
+	 * @todo Implement testGetTableCreate().
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 */
 	public function testGetTableCreate()
 	{
@@ -348,6 +488,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Test getTableColumns function.
 	 * 
 	 * @return   void
@@ -366,6 +507,14 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 			$this->equalTo($tableCol),
 			__LINE__
 		);
+=======
+	 * @todo Implement testGetTableFields().
+	 */
+	public function testGetTableFields()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	}
 
 	/**
@@ -373,6 +522,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 * 
 	 * @return  void
 	 *
+<<<<<<< HEAD
 	 * @since   11.3
 	 */
 	public function testGetTableList()
@@ -387,6 +537,21 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 					"18" => "jos_users",			"19" => "jos_user_profiles",			"20" => "jos_user_usergroup_map" ,
 					"21" => "jos_viewlevels",		"22" => "jos_dbtest" );
 
+=======
+	 * @since   11.1
+	 */
+	public function testGetTableList()
+	{
+		$expected = array( "0" => "jos_assets", "1" => "jos_categories", "2" => "jos_content", 
+					"3" => "jos_core_log_searches",	"4" => "jos_extensions", 				"5" => "jos_languages",
+					"6" => "jos_log_entries",		"7" => "jos_menu", 						"8" => "jos_menu_types", 
+					"9" => "jos_modules",			"10" => "jos_modules_menu",				"11" => "jos_schemas", 
+					"12" => "jos_session",			"13" => "jos_updates",					"14" => "jos_update_categories",	
+					"15" => "jos_update_sites",		"16" => "jos_update_sites_extensions",	"17" => "jos_usergroups",
+		 		 	"18" => "jos_users",			"19" => "jos_user_profiles", 			"20" => "jos_user_usergroup_map",
+					"21" => "jos_viewlevels",		"22" => "jos_dbtest" );
+		
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 		$this->assertThat(
 			$this->object->getTableList(),
 			$this->equalTo($expected),
@@ -397,6 +562,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	/**
 	 * Tests the JDatabasePostgreSQL getVersion method.
 	 * 
+<<<<<<< HEAD
 	 * @param   string  $dbVersion  Database version.
 	 * 
 	 * @return  void
@@ -409,6 +575,17 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 		$this->assertThat(
 			$this->object->getVersion(),
 			$this->equalTo($dbVersion),
+=======
+	 * @return  void
+	 *
+	 * @since   11.1.
+	 */
+	public function testGetVersion()
+	{
+		$this->assertThat(
+			$this->object->getVersion(),
+			$this->equalTo("9.0.4"),
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 			__LINE__
 		);
 	}
@@ -418,7 +595,11 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 * 
 	 * @return  void
 	 *
+<<<<<<< HEAD
 	 * @since   11.3
+=======
+	 * @since   11.1
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 */
 	public function testHasUTF()
 	{
@@ -434,7 +615,11 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 * 
 	 * @return  void
 	 *
+<<<<<<< HEAD
 	 * @since   11.3
+=======
+	 * @since   11.1
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 */
 	public function testInsertid()
 	{
@@ -444,6 +629,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 		$query->from('jos_dbtest')->where('id=5');
 		$this->object->setQuery($query);
 		$result = $this->object->query();
+<<<<<<< HEAD
 
 		/* increment the sequence automatically with INSERT INTO,
 		 * first insert to have a common starting point */
@@ -471,6 +657,35 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 		/* get insertid of last INSERT INTO */
 		$insertIdArray = $this->object->insertid();
 
+=======
+		
+		/* increment the sequence automatically with INSERT INTO, 
+		 * first insert to have a common starting point */
+		$query = $this->object->getQuery(true);		
+		$query->insert('jos_dbtest')
+			  ->columns('title,start_date,description')
+			  ->values("'testTitle','1970-01-01','testDescription'");
+		$this->object->setQuery($query);
+		$this->object->query();
+		
+		/* get the current sequence value */
+		$actualVal = $this->object->getQuery(true);
+		$actualVal->select("currval('jos_dbtest_id_seq'::regclass)");
+	  	$this->object->setQuery( $actualVal );
+	  	$idActualVal = $this->object->loadRow();
+		
+		/* insert again, then call insertid() */
+		$secondInsertQuery = $this->object->getQuery(true);		
+		$secondInsertQuery->insert('jos_dbtest')
+			  	 ->columns('title,start_date,description')
+			  	 ->values("'testTitle2nd','1971-01-01','testDescription2nd'");
+		$this->object->setQuery($secondInsertQuery);
+		$this->object->query();
+		
+		/* get insertid of last INSERT INTO */
+		$insertIdArray = $this->object->insertid();
+		
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 		/* check if first sequence val +1 is equal to last sequence val */
 		$this->assertThat(
 			$insertIdArray[0],
@@ -480,11 +695,15 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Test insertObject function
 	 * 
 	 * @todo Implement testInsertObject().
 	 * 
 	 * @return   void
+=======
+	 * @todo Implement testInsertObject().
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 */
 	public function testInsertObject()
 	{
@@ -497,7 +716,11 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return  void
 	 *
+<<<<<<< HEAD
 	 * @since   11.3
+=======
+	 * @since   11.1
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 */
 	public function testLoadAssoc()
 	{
@@ -519,7 +742,11 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return  void
 	 *
+<<<<<<< HEAD
 	 * @since   11.3
+=======
+	 * @since   11.1
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 */
 	public function testLoadAssocList()
 	{
@@ -531,6 +758,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 
 		$this->assertThat(
 			$result,
+<<<<<<< HEAD
 			$this->equalTo(
 				array(
 					array('title' => 'Testing'),
@@ -539,6 +767,14 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 					array('title' => 'Testing4'),
 				)
 			),
+=======
+			$this->equalTo(array(
+				array('title' => 'Testing'),
+				array('title' => 'Testing2'),
+				array('title' => 'Testing3'),
+				array('title' => 'Testing4'),
+			)),
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 			__LINE__
 		);
 	}
@@ -548,7 +784,11 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return  void
 	 *
+<<<<<<< HEAD
 	 * @since   11.3
+=======
+	 * @since   11.1
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 */
 	public function testLoadColumn()
 	{
@@ -566,6 +806,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Test loadNextObject function
 	 * 
 	 * @return   void
@@ -668,6 +909,23 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 			$this->equalTo($expectedFour),
 			__LINE__
 		);
+=======
+	 * @todo Implement testLoadNextObject().
+	 */
+	public function testLoadNextObject()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * @todo Implement testLoadNextRow().
+	 */
+	public function testLoadNextRow()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	}
 
 	/**
@@ -675,14 +933,22 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return  void
 	 *
+<<<<<<< HEAD
 	 * @since   11.3
+=======
+	 * @since   11.1
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 */
 	public function testLoadObject()
 	{
 		$query = $this->object->getQuery(true);
 		$query->select('*');
 		$query->from('jos_dbtest');
+<<<<<<< HEAD
 		$query->where('description=' . $this->object->quote('three'));
+=======
+		$query->where('description='.$this->object->quote('three'));
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 		$this->object->setQuery($query);
 		$result = $this->object->loadObject();
 
@@ -704,10 +970,17 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return  void
 	 *
+<<<<<<< HEAD
 	 * @since   11.3
 	 */
 	public function testLoadObjectList()
 	{
+=======
+	 * @since   11.1
+	 */
+	public function testLoadObjectList()
+	{		
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 		$query = $this->object->getQuery(true);
 		$query->select('*');
 		$query->from('jos_dbtest');
@@ -761,14 +1034,22 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return  void
 	 *
+<<<<<<< HEAD
 	 * @since   11.3
+=======
+	 * @since   11.1
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 */
 	public function testLoadResult()
 	{
 		$query = $this->object->getQuery(true);
 		$query->select('id');
 		$query->from('jos_dbtest');
+<<<<<<< HEAD
 		$query->where('title=' . $this->object->quote('Testing2'));
+=======
+		$query->where('title='.$this->object->quote('Testing2'));
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 
 		$this->object->setQuery($query);
 		$result = $this->object->loadResult();
@@ -785,6 +1066,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return  void
 	 *
+<<<<<<< HEAD
 	 * @since   11.3
 	 */
 	public function testLoadResultArray()
@@ -793,12 +1075,26 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 		$query->select('Title');
 		$query->from('jos_dbtest');
 		$query->where('description=' . $this->object->quote('one'));
+=======
+	 * @since   11.1
+	 */
+	public function testLoadResultArray()
+	{		
+		$query = $this->object->getQuery(true);
+		$query->select('Title');
+		$query->from('jos_dbtest');
+		$query->where('description='.$this->object->quote('one'));
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 
 		$this->object->setQuery($query);
 		$result = $this->object->loadResultArray();
 
 		$expected = array( 0 => 'Testing', 1 => 'Testing2' );
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 		$this->assertThat(
 			$result,
 			$this->equalTo($expected),
@@ -811,14 +1107,22 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return  void
 	 *
+<<<<<<< HEAD
 	 * @since   11.3
+=======
+	 * @since   11.1
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 */
 	public function testLoadRow()
 	{
 		$query = $this->object->getQuery(true);
 		$query->select('*');
 		$query->from('jos_dbtest');
+<<<<<<< HEAD
 		$query->where('description=' . $this->object->quote('three'));
+=======
+		$query->where('description='.$this->object->quote('three'));
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 		$this->object->setQuery($query);
 		$result = $this->object->loadRow();
 
@@ -836,14 +1140,22 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return  void
 	 *
+<<<<<<< HEAD
 	 * @since   11.3
+=======
+	 * @since   11.1
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 */
 	public function testLoadRowList()
 	{
 		$query = $this->object->getQuery(true);
 		$query->select('*');
 		$query->from('jos_dbtest');
+<<<<<<< HEAD
 		$query->where('description=' . $this->object->quote('one'));
+=======
+		$query->where('description='.$this->object->quote('one'));
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 		$this->object->setQuery($query);
 		$result = $this->object->loadRowList();
 
@@ -864,7 +1176,11 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return  void
 	 *
+<<<<<<< HEAD
 	 * @since   11.3
+=======
+	 * @since   11.1
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 */
 	public function testQuery()
 	{
@@ -874,6 +1190,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 		$query->from('jos_dbtest')->where('id=5');
 		$this->object->setQuery($query);
 		$result = $this->object->query();
+<<<<<<< HEAD
 
 		$query = $this->object->getQuery(true);
 		$query->insert('jos_dbtest')
@@ -884,6 +1201,20 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 		$this->object->setQuery($query);
 		$arr = $this->object->loadResult();
 
+=======
+		
+		
+		$query = $this->object->getQuery(true);		
+		$query->insert('jos_dbtest')
+			  ->columns('id,title,start_date,description')
+			  ->values("5, 'testTitle','1970-01-01','testDescription'")
+			  ->returning('id');
+		
+		$this->object->setQuery($query);
+		$arr = $this->object->loadResult();
+		
+		
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 		$this->assertThat(
 			$arr,
 			$this->equalTo(5),
@@ -892,11 +1223,15 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Test queryBatch, deprecated since 12.1
 	 * 
 	 * @todo Implement testQueryBatch().
 	 * 
 	 * @return   void
+=======
+	 * @todo Implement testQueryBatch().
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 */
 	public function testQueryBatch()
 	{
@@ -909,7 +1244,11 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 * 
 	 * @return  void
 	 *
+<<<<<<< HEAD
 	 * @since   11.3
+=======
+	 * @since   11.1
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 */
 	public function testSelect()
 	{
@@ -922,6 +1261,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Test setUTF function
 	 * 
 	 * @return   void
@@ -933,13 +1273,24 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 			$this->equalTo(0),
 			__LINE__
 		);
+=======
+	 * @todo Implement testSetUTF().
+	 */
+	public function testSetUTF()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	}
 
 	/**
 	 * Test Test method - there really isn't a lot to test here, but
 	 * this is present for the sake of completeness
+<<<<<<< HEAD
 	 * 
 	 * @return   void
+=======
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 */
 	public function testTest()
 	{
@@ -951,23 +1302,34 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Test updateObject function.
 	 * 
 	 * @todo Implement testUpdateObject().
 	 * 
 	 * @return  void
+=======
+	 * @todo Implement testUpdateObject().
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 */
 	public function testUpdateObject()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
+<<<<<<< HEAD
 
+=======
+	
+	
+	
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	/**
 	 * Tests the JDatabasePostgreSQL transactionCommit method.
 	 * 
 	 * @return  void
 	 *
+<<<<<<< HEAD
 	 * @since   11.3
 	 */
 	public function testTransactionCommit()
@@ -993,6 +1355,33 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 
 		$expected = array(6, 'testTitle', '1970-01-01 00:00:00','testDescription');
 
+=======
+	 * @since   11.1
+	 */
+	public function testTransactionCommit()
+	{		
+		$this->object->transactionStart();
+		$queryIns = $this->object->getQuery(true);		
+		$queryIns->insert('jos_dbtest')
+			  	 ->columns('id,title,start_date,description')
+			  	 ->values("6, 'testTitle','1970-01-01','testDescription'");
+		
+		$this->object->setQuery($queryIns);
+		$arr = $this->object->query();
+		
+		$this->object->transactionCommit();
+		
+		/* check if value is present */
+		$queryCheck = $this->object->getQuery(true);		
+		$queryCheck->select('*')
+				 ->from('jos_dbtest')
+				 ->where('id=6');
+		$this->object->setQuery($queryCheck);		 
+		$result = $this->object->loadRow();
+
+		$expected = array(6, 'testTitle', '1970-01-01 00:00:00','testDescription') ;
+		
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 		$this->assertThat(
 			$result,
 			$this->equalTo($expected),
@@ -1004,17 +1393,24 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 * Tests the JDatabasePostgreSQL transactionRollback method, 
 	 * with and without savepoint.
 	 * 
+<<<<<<< HEAD
 	 * @param   string  $toSavepoint  Savepoint name to rollback transaction to
 	 * @param   int     $tupleCount   Number of tuple found after insertion and rollback
 	 * 
 	 * @return  void
 	 *
 	 * @since   11.3
+=======
+	 * @return  void
+	 *
+	 * @since   11.1
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 * @dataProvider dataTestTransactionRollback
 	 */
 	public function testTransactionRollback ( $toSavepoint, $tupleCount )
 	{
 		$this->object->transactionStart();
+<<<<<<< HEAD
 
 		/* try to insert this tuple, inserted only when savepoint != null */
 		$queryIns = $this->object->getQuery(true);
@@ -1024,11 +1420,23 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 		$this->object->setQuery($queryIns);
 		$arr = $this->object->query();
 
+=======
+		
+		/* try to insert this tuple, inserted only when savepoint != null */
+		$queryIns = $this->object->getQuery(true);		
+		$queryIns->insert('jos_dbtest')
+			  	 ->columns('id,title,start_date,description')
+			  	 ->values("7, 'testRollback','1970-01-01','testRollbackSp'");
+		$this->object->setQuery($queryIns);
+		$arr = $this->object->query();
+		
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 		/* create savepoint only if is passed by data provider */
 		if ( !is_null($toSavepoint) )
 		{
 			$this->object->transactionSavepoint($toSavepoint);
 		}
+<<<<<<< HEAD
 
 		/* try to insert this tuple, always rolled back */
 		$queryIns = $this->object->getQuery(true);
@@ -1040,12 +1448,26 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 
 		$this->object->transactionRollback($toSavepoint);
 
+=======
+		
+		/* try to insert this tuple, always rolled back */
+		$queryIns = $this->object->getQuery(true);		
+		$queryIns->insert('jos_dbtest')
+			  	 ->columns('id,title,start_date,description')
+			  	 ->values("8, 'testRollback','1972-01-01','testRollbackSp'");
+		$this->object->setQuery($queryIns);
+		$arr = $this->object->query();
+		
+		$this->object->transactionRollback( $toSavepoint ); 
+		
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 		/* release savepoint and commit only if a savepoint exists */
 		if ( !is_null($toSavepoint) )
 		{
 			$this->object->releaseTransactionSavepoint($toSavepoint);
 			$this->object->transactionCommit();
 		}
+<<<<<<< HEAD
 
 		/* find how many rows have description='testRollbackSp' :
 		 *   - 0 if a savepoint doesn't exist
@@ -1061,6 +1483,24 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 		$this->assertThat(
 			count($result),
 			$this->equalTo($tupleCount),
+=======
+		
+				
+		/* find how many rows have description='testRollbackSp' :
+		 *   - 0 if a savepoint doesn't exist 
+		 *   - 1 if a savepoint exists 
+		 */
+		$queryCheck = $this->object->getQuery(true);		
+		$queryCheck->select('*')
+				 ->from('jos_dbtest')
+				 ->where("description='testRollbackSp'");
+		$this->object->setQuery($queryCheck);		 
+		$result = $this->object->loadRowList();
+		
+		$this->assertThat(
+			count($result),
+			$this->equalTo( $tupleCount ),
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 			__LINE__
 		);
 	}
@@ -1070,6 +1510,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 * 
 	 * @return  void
 	 *
+<<<<<<< HEAD
 	 * @since   11.3
 	 */
 	public function testTransactionStart()
@@ -1090,6 +1531,28 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 					->from('pg_catalog.pg_locks')
 					->where('transactionid NOTNULL');
 		$this->object->setQuery($queryCheck);
+=======
+	 * @since   11.1
+	 */
+	public function testTransactionStart()
+	{
+		$this->object->transactionRollback( );
+		$this->object->transactionStart();
+		$queryIns = $this->object->getQuery(true);		
+		$queryIns->insert('jos_dbtest')
+			  	 ->columns('id,title,start_date,description')
+			  	 ->values("6, 'testTitle','1970-01-01','testDescription'");
+		
+		$this->object->setQuery($queryIns);
+		$arr = $this->object->query();
+		
+		/* check if is present an exclusive lock, it means a transaction is running */
+		$queryCheck = $this->object->getQuery(true);		
+		$queryCheck->select('*')
+			  	   ->from('pg_catalog.pg_locks')
+			  	   ->where('transactionid NOTNULL');
+  	   	$this->object->setQuery($queryCheck);
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 		$result = $this->object->loadAssocList();
 
 		$this->assertThat(
@@ -1098,6 +1561,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 			__LINE__
 		);
 	}
+<<<<<<< HEAD
 
 	/**
 	 * Test for release of transaction savepoint
@@ -1105,6 +1569,11 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 * @todo Implement testReleaseTransactionSavepoint().
 	 * 
 	 * @return  void
+=======
+	
+	/**
+	 * @todo Implement testReleaseTransactionSavepoint().
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 */
 	public function testReleaseTransactionSavepoint( /*$savepointName*/ )
 	{
@@ -1114,6 +1583,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	/**
 	 * Tests the JDatabasePostgreSQL replacePrefix method.
 	 * 
+<<<<<<< HEAD
 	 * @param   text  $stringToReplace  The string in which replace the prefix.
 	 * @param   text  $prefix           The prefix.
 	 * @param   text  $expected         The string expected.
@@ -1121,12 +1591,25 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 * @return  void
 	 *
 	 * @since   11.3
+=======
+	 * @param   stringToReplace	$text	The string in which replace the prefix.
+	 * @param   prefix			$text   The prefix.
+	 * @param   expected		$text   The string expected.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 * @dataProvider  dataTestReplacePrefix
 	 */
 	public function testReplacePrefix( $stringToReplace, $prefix, $expected )
 	{
 		$result = $this->object->replacePrefix($stringToReplace, $prefix);
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 		$this->assertThat(
 			$result,
 			$this->equalTo($expected),
@@ -1135,16 +1618,21 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Test for creation of transaction savepoint
 	 * 
 	 * @todo Implement testTransactionSavepoint().
 	 * 
 	 * @return  void
+=======
+	 * @todo Implement testTransactionSavepoint().
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 */
 	public function testTransactionSavepoint( /*$savepointName*/ )
 	{
 		$this->markTestSkipped('This command is tested inside testTransactionRollback.');
 	}
+<<<<<<< HEAD
 
 	/**
 	 * Tests the JDatabasePostgreSQL getCreateDbQuery method.
@@ -1154,21 +1642,41 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 * @param   boolean  $utf      True if the database supports the UTF-8 character set,
 	 * 									not used in PostgreSQL "CREATE DATABASE" query.
 	 * 
+=======
+	
+	/**
+	 * Tests the JDatabasePostgreSQL getCreateDbQuery method.
+	 * 
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 	 * @return  void
 	 *
 	 * @dataProvider dataGetCreateDbQuery
 	 */
 	public function testGetCreateDbQuery( $options, $utf )
 	{
+<<<<<<< HEAD
 		$expected = 'CREATE DATABASE ' . $options->db_name . ' OWNER ' . $options->db_user;
 
 		$result = $this->object->getCreateDbQuery($options, $utf);
 
+=======
+		//$this->markTestSkipped('This command is tested inside testCreateDatabase.');
+
+		$expected = 'CREATE DATABASE ' . $options->db_name . ' OWNER ' . $options->db_user ;
+
+		$result = $this->object->getCreateDbQuery($options, $utf);
+		
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
 		$this->assertThat(
 			$result,
 			$this->equalTo($expected),
 			__LINE__
 		);
 	}
+<<<<<<< HEAD
 
 }
+=======
+	
+}
+>>>>>>> a178490b6c5e7636abca19a8629ba2638ed6859c
