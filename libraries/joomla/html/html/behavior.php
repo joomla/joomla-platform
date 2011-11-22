@@ -18,8 +18,6 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class JHtmlBehavior
 {
-	protected static $loaded = array();
-
 	/**
 	 * @var   array   array containing information for loaded files
 	 */
