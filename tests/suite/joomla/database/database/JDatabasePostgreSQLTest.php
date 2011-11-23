@@ -173,15 +173,22 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 			$this->markTestSkipped('There is no PostgreSQL test config file present.');
 		}
 
-		$this->object = JDatabase::getInstance(
-			array(
-				'driver' => $config->dbtype,
-				'database' => $config->db,
-				'host' => $config->host,
-				'user' => $config->user,
-				'password' => $config->password
-			)
-		);
+		try
+		{
+			$this->object = JDatabase::getInstance(
+				array(
+					'driver' => $config->dbtype,
+					'database' => $config->db,
+					'host' => $config->host,
+					'user' => $config->user,
+					'password' => $config->password
+				)
+			);
+		}
+		catch (JDatabaseException $jdbException)
+		{
+			$this->markTestSkipped('PostgreSQL database not present or wrong configuration.');
+		}
 
 		parent::setUp();
 	}
