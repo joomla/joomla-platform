@@ -158,6 +158,11 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 */
 	protected function setUp()
 	{
+		if (!extension_loaded('pgsql'))
+		{
+			$this->markTestSkipped('PostgreSQL\'s extension not loaded.');
+		}
+
 		@include_once JPATH_TESTS . '/config_pgsql.php';
 		if (class_exists('JPostgreSQLTestConfig'))
 		{
@@ -630,8 +635,6 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	/**
 	 * Test loadNextRow function
 	 * 
-	 * @todo Implement testLoadNextRow().
-	 * 
 	 * @return   void
 	 */
 	public function testLoadNextRow()
@@ -1101,15 +1104,21 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
-	 * Test for release of transaction savepoint
-	 * 
-	 * @todo Implement testReleaseTransactionSavepoint().
+	 * Test for release of transaction savepoint, correct case is already tested inside
+	 * 		testTransactionRollback, here will be tested a RELEASE SAVEPOINT of an
+	 * 		inexistent savepoint that will throw and exception.
 	 * 
 	 * @return  void
+	 * 
+	 * @expectedException Exception
 	 */
-	public function testReleaseTransactionSavepoint( /*$savepointName*/ )
+	public function testReleaseTransactionSavepoint()
 	{
-		$this->markTestSkipped('This command is tested inside testTransactionRollback.');
+		$this->object->transactionRollback();
+		$this->object->transactionStart();
+
+		/* release a nonexistent savepoint will throw an exception */
+		$this->object->releaseTransactionSavepoint('pippo');
 	}
 
 	/**
