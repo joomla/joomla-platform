@@ -796,4 +796,68 @@ class JDatabaseMySQL extends JDatabase
 		}
 		return $error ? false : true;
 	}
+	/**
+	 * Show tables in the database
+	 */
+	public function showTables($dbName) {
+		$this->setQuery("SHOW TABLES FROM ". $dbName);
+		return $this->loadResultArray();
+	}
+	
+	/*
+	 * Rename the table
+	 * @param string $oldTable the name of the table to be renamed
+	 * @param string $prefix for the table - used to rename constraints in non-mysql databases
+	 * @param string $backup table prefix
+	 * Syntax :RENAME TABLE current_db.tbl_name TO other_db.tbl_name;
+	 * @param string $newTable newTable name
+	 */
+	public function renameTable($oldTable, $prefix = null, $backup = null, $newTable) {
+		$this->setQuery("RENAME TABLE ". $oldTable." TO ". $newTable);
+	
+		$this->query();
+		
+		// Check for a database error.
+		if ($this->getErrorNum()) {
+			$this->setError($this->getErrorMsg());
+
+			return false;
+		}
+
+	}
+	
+	/**
+	 * Locks the table - with over ride in mysql and mysqli only
+	 * @param object $table
+	 * @return 
+	 */
+	public function lock($table) {
+		
+		$this->setQuery('LOCK TABLES '.$this->quoteName($table).' WRITE');
+		$this->query();
+
+		// Check for a database error.
+		if ($this->getErrorNum()) {
+			$this->setError($this->getErrorMsg());
+
+			return false;
+		} 
+		return true;
+	}
+	/**
+	 * Unlocks the table with override in mysql and mysqli only
+	 * @return 
+	 */
+	public function unlock() {
+		$this->setQuery('UNLOCK TABLES');
+		$this->query();
+
+		// Check for a database error.
+		if ($this->getErrorNum()) {
+			$this->setError($this->getErrorMsg());
+
+			return false;
+		}
+		return true;
+	}
 }
