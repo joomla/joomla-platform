@@ -438,8 +438,10 @@ class JDatabaseMySQL extends JDatabase
 	 */
 	public function hasUTF()
 	{
+		// @codeCoverageIgnoreStart
 		JLog::add('JDatabaseMySQL::hasUTF() is deprecated.', JLog::WARNING, 'deprecated');
 		return true;
+		// @codeCoverageIgnoreEnd
 	}
 
 	/**
