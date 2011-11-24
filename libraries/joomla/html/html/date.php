@@ -32,6 +32,9 @@ abstract class JHtmlDate
 	 */
 	public static function relative($date, $unit = null, $time = null)
 	{
+		// Load the package language
+		JHtml::loadLanguage('jhtmldate');
+
 		if (is_null($time))
 		{
 			// Get now

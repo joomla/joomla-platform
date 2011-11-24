@@ -17,38 +17,6 @@ require_once JPATH_PLATFORM.'/joomla/html/html/date.php';
 class JHtmlDateTest extends JoomlaTestCase
 {
 	/**
-	 * Setup for testing.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function setUp()
-	{
-		parent::setUp();
-
-		// We are only coupled to Document and Language in JFactory.
-		$this->saveFactoryState();
-
-		JFactory::$language = $this->getMockLanguage();
-	}
-
-	/**
-	 * Overrides the parent tearDown method.
-	 *
-	 * @return  void
-	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   11.3
-	 */
-	protected function tearDown()
-	{
-		$this->restoreFactoryState();
-
-		parent::tearDown();
-	}
-
-	/**
 	 * @return	array
 	 *
 	 * @since   11.3
@@ -59,28 +27,28 @@ class JHtmlDateTest extends JoomlaTestCase
 			// Element order: result, date, unit, time
 			// result - 1 hour ago
 			array(
-				'JLIB_HTML_DATE_RELATIVE_HOURS',
+				'1 hour ago',
 				JFactory::getDate('2011-10-18 11:00:00'),
 				null,
 				JFactory::getDate('2011-10-18 12:00:00')
 			),
 			// result - 10 days ago
 			array(
-				'JLIB_HTML_DATE_RELATIVE_DAYS',
+				'10 days ago',
 				JFactory::getDate('2011-10-08 12:00:00'),
 				'day',
 				JFactory::getDate('2011-10-18 12:00:00')
 			),
 			// result - 3 weeks ago
 			array(
-				'JLIB_HTML_DATE_RELATIVE_WEEKS',
+				'3 weeks ago',
 				JFactory::getDate('2011-09-27 12:00:00'),
 				'week',
 				JFactory::getDate('2011-10-18 12:00:00')
 			),
 			// result - 10 minutes ago
 			array(
-				'JLIB_HTML_DATE_RELATIVE_MINUTES',
+				'10 minutes ago',
 				JFactory::getDate('2011-10-18 11:50:00'),
 				'minute',
 				JFactory::getDate('2011-10-18 12:00:00')
