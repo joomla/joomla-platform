@@ -283,7 +283,8 @@ class JControllerForm extends JController
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
-		$app = JFactory::getApplication();
+		$app   = JFactory::getApplication();
+		$input = $app->input;
 		$model = $this->getModel();
 		$table = $model->getTable();
 		$checkin = property_exists($table, 'checked_out');
@@ -294,7 +295,7 @@ class JControllerForm extends JController
 			$key = $table->getKeyName();
 		}
 
-		$recordId = JRequest::getInt($key);
+		$recordId = $input->get($key);
 
 		// Attempt to check-in the current record.
 		if ($recordId)
@@ -468,8 +469,10 @@ class JControllerForm extends JController
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
-		$tmpl = JRequest::getCmd('tmpl');
-		$layout = JRequest::getCmd('layout', 'edit');
+		$input = JFactory::getApplication()->input;
+
+		$tmpl = $input->get('tmpl');
+		$layout = $input->get('layout', 'edit');
 		$append = '';
 
 		// Setup redirect info.
@@ -500,7 +503,9 @@ class JControllerForm extends JController
 	 */
 	protected function getRedirectToListAppend()
 	{
-		$tmpl = JRequest::getCmd('tmpl');
+		$input = JFactory::getApplication()->input;
+
+		$tmpl = $input->get('tmpl');
 		$append = '';
 
 		// Setup redirect info.

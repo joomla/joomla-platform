@@ -851,11 +851,13 @@ abstract class JFactory
 	 */
 	protected static function createDocument()
 	{
-		$lang = self::getLanguage();
+		$input = JFactory::getApplication()->input;
+		$lang  = self::getLanguage();
 
 		// Keep backwards compatibility with Joomla! 1.0
-		$raw = JRequest::getBool('no_html');
-		$type = JRequest::getWord('format', $raw ? 'raw' : 'html');
+		// @deprecated remove for 12.1
+		$raw  = $input->get('no_html', null, 'bool');
+		$type = $input->get('format', , $raw ? 'raw' : 'html', 'word');
 
 		$attributes = array('charset' => 'utf-8', 'lineend' => 'unix', 'tab' => '  ', 'language' => $lang->getTag(),
 			'direction' => $lang->isRTL() ? 'rtl' : 'ltr');

@@ -44,14 +44,15 @@ class JApplicationHelper
 			return $option;
 		}
 
-		$option = strtolower(JRequest::getCmd('option'));
+		$input  = JFactory::getApplication()->input;
+		$option = strtolower($input->get('option'));
 
 		if (empty($option))
 		{
 			$option = $default;
 		}
 
-		JRequest::setVar('option', $option);
+		$input->set('option', $option)
 		return $option;
 	}
 
@@ -168,12 +169,13 @@ class JApplicationHelper
 	 */
 	public static function getPath($varname, $user_option = null)
 	{
+		$input = JFactory::getApplication()->input;
 		// Check needed for handling of custom/new module XML file loading
 		$check = (($varname == 'mod0_xml') || ($varname == 'mod1_xml'));
 
 		if (!$user_option && !$check)
 		{
-			$user_option = JRequest::getCmd('option');
+			$user_option = $input->get('option');
 		}
 		else
 		{
