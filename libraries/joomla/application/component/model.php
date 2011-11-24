@@ -502,11 +502,12 @@ abstract class JModel extends JObject
 	protected function cleanCache($group = null, $client_id = 0)
 	{
 		// Initialise variables;
-		$conf = JFactory::getConfig();
+		$conf       = JFactory::getConfig();
+		$input      = JFactory::getApplication()->input;
 		$dispatcher = JDispatcher::getInstance();
 
 		$options = array(
-			'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : JRequest::getCmd('option')),
+			'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : $input->get('option')),
 			'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'));
 
 		$cache = JCache::getInstance('callback', $options);

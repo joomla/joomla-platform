@@ -161,6 +161,7 @@ class JControllerAdmin extends JController
 		JRequest::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		$session = JFactory::getSession();
+		$input   = JFactory::getApplication()->input;
 
 		// Get items to publish from the request.
 		$cid = JRequest::getVar('cid', array(), '', 'array');
@@ -206,8 +207,8 @@ class JControllerAdmin extends JController
 				$this->setMessage(JText::plural($ntext, count($cid)));
 			}
 		}
-		$extension = JRequest::getCmd('extension');
-		$extensionURL = ($extension) ? '&extension=' . JRequest::getCmd('extension') : '';
+		$extension = $input->get('extension');
+		$extensionURL = ($extension) ? '&extension=' . $extension : '';
 		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $extensionURL, false));
 	}
 

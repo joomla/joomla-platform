@@ -233,8 +233,9 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function batchAccess($value, $pks)
 	{
+		$input = JFactory::getApplication()->input;
 		// Check that user has edit permission for items
-		$extension = JRequest::getCmd('option');
+		$extension = $input->get('option');
 		$user = JFactory::getUser();
 		if (!$user->authorise('core.edit', $extension))
 		{
@@ -275,6 +276,7 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function batchCopy($value, $pks)
 	{
+		$input = JFactory::getApplication()->input;
 		$categoryId = (int) $value;
 
 		$table = $this->getTable();
@@ -307,7 +309,7 @@ abstract class JModelAdmin extends JModelForm
 		}
 
 		// Check that the user has create permission for the component
-		$extension = JRequest::getCmd('option');
+		$extension = $input->get('option');
 		$user = JFactory::getUser();
 		if (!$user->authorise('core.create', $extension))
 		{
@@ -394,8 +396,9 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function batchLanguage($value, $pks)
 	{
+		$input = JFactory::getApplication()->input;
 		// Check that user has edit permission for items
-		$extension = JRequest::getCmd('option');
+		$extension = $input->get('option');
 		$user = JFactory::getUser();
 		if (!$user->authorise('core.edit', $extension))
 		{
@@ -436,6 +439,7 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function batchMove($value, $pks)
 	{
+		$input = JFactory::getApplication()->input;
 		$categoryId = (int) $value;
 
 		$table = $this->getTable();
@@ -467,7 +471,7 @@ abstract class JModelAdmin extends JModelForm
 		}
 
 		// Check that user has create and edit permission for the component
-		$extension = JRequest::getCmd('option');
+		$extension = $input->get('option');
 		$user = JFactory::getUser();
 		if (!$user->authorise('core.create', $extension))
 		{
@@ -789,12 +793,13 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function populateState()
 	{
+		$input = JFactory::getApplication()->input;
 		// Initialise variables.
 		$table = $this->getTable();
 		$key = $table->getKeyName();
 
 		// Get the pk of the record from the request.
-		$pk = JRequest::getInt($key);
+		$pk = $input->get($key, null, 'int');
 		$this->setState($this->getName() . '.id', $pk);
 
 		// Load the parameters.

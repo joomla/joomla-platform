@@ -80,6 +80,7 @@ abstract class JModuleHelper
 	 */
 	public static function &getModules($position)
 	{
+		$input = JFactory::getApplication()->input;
 		$position = strtolower($position);
 		$result = array();
 
@@ -96,7 +97,7 @@ abstract class JModuleHelper
 
 		if (count($result) == 0)
 		{
-			if (JRequest::getBool('tp') && JComponentHelper::getParams('com_templates')->get('template_positions_display'))
+			if ($input->get('tp', null, 'bool') && JComponentHelper::getParams('com_templates')->get('template_positions_display'))
 			{
 				$result[0] = JModuleHelper::getModule('mod_' . $position);
 				$result[0]->title = $position;
@@ -143,7 +144,8 @@ abstract class JModuleHelper
 			JProfiler::getInstance('Application')->mark('beforeRenderModule ' . $module->module . ' (' . $module->title . ')');
 		}
 
-		$app = JFactory::getApplication();
+		$app   = JFactory::getApplication();
+		$input = $app->input;
 
 		// Record the scope.
 		$scope = $app->scope;
@@ -203,7 +205,7 @@ abstract class JModuleHelper
 		}
 
 		// Dynamically add outline style
-		if (JRequest::getBool('tp') && JComponentHelper::getParams('com_templates')->get('template_positions_display'))
+		if ($input->get('tp', null, 'bool') && JComponentHelper::getParams('com_templates')->get('template_positions_display'))
 		{
 			$attribs['style'] .= ' outline';
 		}
@@ -290,15 +292,16 @@ abstract class JModuleHelper
 			return $clean;
 		}
 
-		$Itemid = JRequest::getInt('Itemid');
-		$app = JFactory::getApplication();
-		$user = JFactory::getUser();
-		$groups = implode(',', $user->getAuthorisedViewLevels());
-		$lang = JFactory::getLanguage()->getTag();
+		$app      = JFactory::getApplication();
+		$input    = $app->input;
+		$Itemid   = $input->get('Itemid', null, 'int');
+		$user     = JFactory::getUser();
+		$groups   = implode(',', $user->getAuthorisedViewLevels());
+		$lang     = JFactory::getLanguage()->getTag();
 		$clientId = (int) $app->getClientId();
 
-		$cache = JFactory::getCache('com_modules', '');
-		$cacheid = md5(serialize(array($Itemid, $groups, $clientId, $lang)));
+		$cache    = JFactory::getCache('com_modules', '');
+		$cacheid  = md5(serialize(array($Itemid, $groups, $clientId, $lang)));
 
 		if (!($clean = $cache->get($cacheid)))
 		{

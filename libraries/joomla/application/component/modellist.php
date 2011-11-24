@@ -348,14 +348,15 @@ class JModelList extends JModel
 	 */
 	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none', $resetPage = true)
 	{
-		$app = JFactory::getApplication();
+		$app       = JFactory::getApplication();
+		$input     = $app->input;
 		$old_state = $app->getUserState($key);
 		$cur_state = (!is_null($old_state)) ? $old_state : $default;
 		$new_state = JRequest::getVar($request, null, 'default', $type);
 
 		if (($cur_state != $new_state) && ($resetPage))
 		{
-			JRequest::setVar('limitstart', 0);
+			$input->set('limitstart', 0);
 		}
 
 		// Save the new value only if it is set in this request.

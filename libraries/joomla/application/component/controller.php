@@ -233,10 +233,12 @@ class JController extends JObject
 			return self::$instance;
 		}
 
+		$input = JFactory::getApplication()->input;
+
 		// Get the environment configuration.
 		$basePath = array_key_exists('base_path', $config) ? $config['base_path'] : JPATH_COMPONENT;
-		$format = JRequest::getWord('format');
-		$command = JRequest::getVar('task', 'display');
+		$format   = $input->get('format', null, 'word');
+		$command  = $input->get('task', 'display', 'var');
 
 		// Check for array format.
 		$filter = JFilterInput::getInstance();
@@ -261,7 +263,7 @@ class JController extends JObject
 			$path = $basePath . '/controllers/' . $file;
 
 			// Reset the task without the controller context.
-			JRequest::setVar('task', $task);
+			$input->set('task', $task);
 		}
 		else
 		{
@@ -664,9 +666,10 @@ class JController extends JObject
 	public function display($cachable = false, $urlparams = false)
 	{
 		$document = JFactory::getDocument();
+		$input    = JFactory::getApplication()->input;
 		$viewType = $document->getType();
-		$viewName = JRequest::getCmd('view', $this->default_view);
-		$viewLayout = JRequest::getCmd('layout', 'default');
+		$viewName = $input->get('view', $this->default_view);
+		$viewLayout = $input->get('layout', 'default');
 
 		$view = $this->getView($viewName, $viewType, '', array('base_path' => $this->basePath, 'layout' => $viewLayout));
 
@@ -684,8 +687,8 @@ class JController extends JObject
 		// Display the view
 		if ($cachable && $viewType != 'feed' && $conf->get('caching') >= 1)
 		{
-			$option = JRequest::getCmd('option');
-			$cache = JFactory::getCache($option, 'view');
+			$option = $input->get('layout', 'default');
+			$cache = JFactory::getCache($option);
 
 			if (is_array($urlparams))
 			{

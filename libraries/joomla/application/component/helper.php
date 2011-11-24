@@ -107,7 +107,8 @@ class JComponentHelper
 	public static function renderComponent($option, $params = array())
 	{
 		// Initialise variables.
-		$app = JFactory::getApplication();
+		$app   = JFactory::getApplication();
+		$input = $app->input;
 
 		// Load template language files.
 		$template = $app->getTemplate(true)->template;
@@ -154,7 +155,7 @@ class JComponentHelper
 			JError::raiseError(404, JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'));
 		}
 
-		$task = JRequest::getString('task');
+		$task = $input->get('task', null, 'string');
 
 		// Load common and local language files.
 		$lang->load($option, JPATH_BASE, null, false, false) || $lang->load($option, JPATH_COMPONENT, null, false, false)
@@ -173,7 +174,7 @@ class JComponentHelper
 		if (($path = JApplicationHelper::getPath('toolbar')) && $app->isAdmin())
 		{
 			// Get the task again, in case it has changed
-			$task = JRequest::getString('task');
+			$task = $input->get('task', null, 'string');
 
 			// Make the toolbar
 			include_once $path;
