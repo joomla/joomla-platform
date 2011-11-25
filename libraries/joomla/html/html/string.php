@@ -159,7 +159,7 @@ abstract class JHtmlString
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 */
 	public static function highlighter($terms)
 	{
