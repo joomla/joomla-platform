@@ -163,7 +163,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 			$this->markTestSkipped('PostgreSQL\'s extension not loaded.');
 		}
 
-		@include_once JPATH_TESTS . '/config_pgsql.php';
+		@include_once JPATH_TESTS . '/config_postgresql.php';
 		if (class_exists('JPostgreSQLTestConfig'))
 		{
 			$config = new JPostgreSQLTestConfig;
