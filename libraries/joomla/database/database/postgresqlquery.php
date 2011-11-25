@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Query Building Class.
  *
- * @package     Joomla.Framework
+ * @package     Joomla.Platform
  * @subpackage  Database
  * @since       11.3
  */
