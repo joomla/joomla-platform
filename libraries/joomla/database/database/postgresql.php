@@ -363,7 +363,9 @@ class JDatabasePostgreSQL extends JDatabase
 				->where('table_type=' . $this->quote('BASE TABLE'))
 				->where(
 					'table_schema NOT IN (' . $this->quote('pg_catalog') . ', ' . $this->quote('information_schema') . ' )'
-				);
+				)
+				->order('table_name ASC');
+
 		$this->setQuery($query);
 		$tables = $this->loadColumn();
 
