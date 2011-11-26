@@ -360,7 +360,6 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
-<<<<<<< HEAD
 	 * Test getTableColumns function.
 	 * 
 	 * @return   void
@@ -391,14 +390,14 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	public function testGetTableList()
 	{
 		$expected = array(
-					"0" => "jos_assets", "1" => "jos_categories", "2" => "jos_content" ,
-					"3" => "jos_core_log_searches",	"4" => "jos_extensions", 				"5" => "jos_languages",
-					"6" => "jos_log_entries",		"7" => "jos_menu", 						"8" => "jos_menu_types" ,
-					"9" => "jos_modules",			"10" => "jos_modules_menu",				"11" => "jos_schemas" ,
-					"12" => "jos_session",			"13" => "jos_updates",					"14" => "jos_update_categories" ,
-					"15" => "jos_update_sites",		"16" => "jos_update_sites_extensions",	"17" => "jos_usergroups",
-					"18" => "jos_users",			"19" => "jos_user_profiles",			"20" => "jos_user_usergroup_map" ,
-					"21" => "jos_viewlevels",		"22" => "jos_dbtest" );
+					"0" => "jos_assets",			"1" => "jos_categories",	"2" => "jos_content" ,
+					"3" => "jos_core_log_searches",	"4" => "jos_dbtest",		"5" => "jos_extensions",
+					"6" => "jos_languages",			"7" => "jos_log_entries",	"8" => "jos_menu",
+					"9" => "jos_menu_types",		"10" => "jos_modules",		"11" => "jos_modules_menu",
+					"12" => "jos_schemas",			"13" => "jos_session",		"14" => "jos_update_categories",
+					"15" => "jos_update_sites",		"16" => "jos_update_sites_extensions",		"17" => "jos_updates",
+					"18" => "jos_user_profiles",	"19" => "jos_user_usergroup_map",			"20" => "jos_usergroups",
+					"21" => "jos_users",			"22" => "jos_viewlevels");
 
 		$this->assertThat(
 			$this->object->getTableList(),
@@ -451,11 +450,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 */
 	public function testInsertid()
 	{
-		/* REPLACE is not present in PostgreSQL */
-		$query = $this->object->getQuery(true);
-		$query->delete();
-		$query->from('jos_dbtest')->where('id=5');
-		$this->object->setQuery($query);
+		$this->object->setQuery('TRUNCATE TABLE "jos_dbtest"');
 		$result = $this->object->query();
 
 		/* increment the sequence automatically with INSERT INTO,
