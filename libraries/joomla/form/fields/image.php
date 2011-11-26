@@ -61,7 +61,7 @@ class JFormFieldImage extends JFormField
 		$html = array();
 
 		// The image container and tag
-		$html[] = ' <img src="' . $src . '"'.
+		$html[] = ' <img src="' . $src . '"' .
 					' id="' . $this->id . '"' . $attr . ' />';
 
 		return implode("\n", $html);
