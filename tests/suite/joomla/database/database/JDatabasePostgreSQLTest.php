@@ -10,6 +10,7 @@
 require_once JPATH_PLATFORM . '/joomla/log/log.php';
 require_once JPATH_PLATFORM . '/joomla/database/database/postgresql.php';
 require_once JPATH_PLATFORM . '/joomla/database/database/postgresqlquery.php';
+require_once JPATH_TESTS . '/includes/JoomlaDatabasePostgreSQLTestCase.php';
 
 /**
  * Test class for JDatabasePostgreSQL.
@@ -19,7 +20,7 @@ require_once JPATH_PLATFORM . '/joomla/database/database/postgresqlquery.php';
  * 
  * @since       11.3
  */
-class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
+class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 {
 	/**
 	 * @var  JDatabasePostgreSQL
@@ -156,15 +157,13 @@ class JDatabasePostgreSQLTest extends JoomlaDatabaseTestCase
 	 */
 	protected function setUp()
 	{
-		if (!extension_loaded('pgsql'))
-		{
-			$this->markTestSkipped('PostgreSQL\'s extension not loaded.');
-		}
-
-		@include_once JPATH_TESTS . '/config_postgresql.php';
 		if (class_exists('JPostgreSQLTestConfig'))
 		{
 			$config = new JPostgreSQLTestConfig;
+		}
+		elseif (class_exists('JTestConfig'))
+		{
+			$config = new JTestConfig;
 		}
 		else
 		{
