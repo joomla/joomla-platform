@@ -432,7 +432,7 @@ class JDatabasePostgreSQL extends JDatabase
 	public function insertid()
 	{
 		$insertQuery = $this->getQuery();
-		$table = $insertQuery->getInsertTable();
+		$table = $insertQuery->__get('insert')->getElements();
 
 		/* find sequence column name */
 		$colNameQuery = $this->getQuery(true);

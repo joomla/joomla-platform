@@ -443,17 +443,4 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 
 		return $this;
 	}
-
-	/**
-	 * Return the table used in INSERT INTO, used in insertid() to get the 
-	 * 	auto-incremented value.
-	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
-	 *
-	 * @since   11.3
-	 */
-	public function getInsertTable ()
-	{
-		return $this->insert->getElements();
-	}
 }
