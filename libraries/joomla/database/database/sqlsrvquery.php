@@ -68,7 +68,7 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 				{
 					if ($this->columns)
 					{
-						$query .= (string) $this->where;
+						$query .= (string) $this->columns;
 					}
 
 					$tableName = array_shift($this->insert->getElements());
@@ -76,7 +76,15 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 					$query .= 'VALUES ';
 					$query .= (string) $this->values;
 
-					$query = 'SET IDENTITY_INSERT ' . $tableName . ' ON;' . $query . 'SET IDENTITY_INSERT ' . $tableName . ' OFF;';
+					if($this->auto_increment_field) 
+					{
+						$query = 'SET IDENTITY_INSERT ' . $tableName . ' ON;' . $query . 'SET IDENTITY_INSERT ' . $tableName . ' OFF;';
+					}
+					
+					if ($this->where) {
+						$query .= (string) $this->where;
+					}
+
 				}
 
 				break;
@@ -100,7 +108,7 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	public function castAsChar($value)
+	function castAsChar($value)
 	{
 		return 'CAST(' . $value . ' as NVARCHAR(10))';
 	}
@@ -114,7 +122,7 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 	 *
 	 * @since 11.1
 	 */
-	public function charLength($field)
+	function charLength($field)
 	{
 		return 'DATALENGTH(' . $field . ') IS NOT NULL';
 	}
@@ -129,7 +137,7 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	public function concatenate($values, $separator = null)
+	function concatenate($values, $separator = null)
 	{
 		if ($separator)
 		{
@@ -148,7 +156,7 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	public function currentTimestamp()
+	function currentTimestamp()
 	{
 		return 'GETDATE()';
 	}
@@ -162,7 +170,7 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	public function length($value)
+	function length($value)
 	{
 		return 'LEN(' . $value . ')';
 	}
