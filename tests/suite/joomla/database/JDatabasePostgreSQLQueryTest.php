@@ -179,6 +179,34 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	}
 
 	/**
+	 * Test for the JDatabaseQuery::__string method for a 'update' case.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function test__toStringUpdate()
+	{
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
+
+		$q->update('#__foo AS a')
+			->join('INNER', 'b ON b.id = a.id')
+			->set('a.id = 2')
+			->where('b.id = 1');
+
+		$this->assertThat(
+			(string) $q,
+			$this->equalTo(
+				"\nUPDATE #__foo AS a" .
+				"\nSET a.id = 2" .
+				"\nFROM b" .
+				"\nWHERE b.id = 1 AND b.id = a.id"
+			),
+			'Tests for correct rendering.'
+		);
+	}
+
+	/**
 	 * Test for the castAsChar method.
 	 *
 	 * @return  void
