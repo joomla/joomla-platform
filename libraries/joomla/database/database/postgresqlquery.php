@@ -136,7 +136,6 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 
 				if ($this->join)
 				{
-					$joinWord = 'JOIN ';
 					$onWord = ' ON ';
 
 					// workaround for special case of JOIN with UPDATE
@@ -144,28 +143,10 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 					{
 						$joinElem = $join->getElements();
 
-						// find JOIN word
-						$joinPos = strpos($joinElem, $joinWord);
+						$joinArray = explode($onWord, $joinElem[0]);
 
-						// find ON word after JOIN word
-						$onPos = strpos($joinElem, $onWord, $joinPos);
-
-						$startPos = $joinPos+strlen($joinWord);
-						$length = $onPos - $startPos;
-						$joinTable = substr(
-											$joinElem,
-											$startPos,
-											$length
-										);
-
-						// use $joinTable in FROM clause
-						$this->from($joinTable);
-
-						// find join condition and use in WHERE
-						$conditionLen = strlen($joinElem) - ($onPos + strlen($onWord));
-						$joinCondition = substr($joinElem, -$conditionLen, $conditionLen);
-
-						$this->where($joinCondition);
+						$this->from($joinArray[0]);
+						$this->where($joinArray[1]);
 					}
 
 					$query .= (string) $this->from;
