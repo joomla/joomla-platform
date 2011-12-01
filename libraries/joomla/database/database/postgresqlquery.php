@@ -130,6 +130,54 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 
 				break;
 
+			case 'update':
+				$query .= (string) $this->update;
+				$query .= (string) $this->set;
+
+				if ($this->join)
+				{
+					$joinWord = 'JOIN ';
+					$onWord = ' ON ';
+
+					// workaround for special case of JOIN with UPDATE
+					foreach ($this->join as $join)
+					{
+						$joinElem = $join->getElements();
+
+						// find JOIN word
+						$joinPos = strpos($joinElem, $joinWord);
+
+						// find ON word after JOIN word
+						$onPos = strpos($joinElem, $onWord, $joinPos);
+
+						$startPos = $joinPos+strlen($joinWord);
+						$length = $onPos - $startPos;
+						$joinTable = substr(
+											$joinElem,
+											$startPos,
+											$length
+										);
+
+						// use $joinTable in FROM clause
+						$this->from($joinTable);
+
+						// find join condition and use in WHERE
+						$conditionLen = strlen($joinElem) - ($onPos + strlen($onWord));
+						$joinCondition = substr($joinElem, -$conditionLen, $conditionLen);
+
+						$this->where($joinCondition);
+					}
+
+					$query .= (string) $this->from;
+				}
+
+				if ($this->where)
+				{
+					$query .= (string) $this->where;
+				}
+
+				break;
+
 			case 'insert':
 				$query .= (string) $this->insert;
 
