@@ -933,4 +933,25 @@ abstract class JHtml
 
 		return JHtml::$includePaths;
 	}
+
+	/**
+	 * Loads the language file for a package
+	 *
+	 * @param   string  $package  The package name
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public static function loadLanguage($package)
+	{
+		// Load Library language
+		$lang = JFactory::getLanguage();
+
+		// Try the package's file in the current language (without allowing the loading of the file in the default language)
+		$lang->load($package, JPATH_PLATFORM . '/joomla/html', null, false, false)
+		// Fallback to the package's file in the default language
+		|| $lang->load($package, JPATH_PLATFORM . '/joomla/html', null, true);
+
+	}
 }
