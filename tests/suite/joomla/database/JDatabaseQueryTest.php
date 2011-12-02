@@ -86,7 +86,6 @@ class JDatabaseQueryTest extends JoomlaTestCase
 		);
 	}
 
-
 	/**
 	 * Test for the JDatabaseQuery::__call method.
 	 *
