@@ -155,7 +155,7 @@ class JDatabaseMySQLi extends JDatabase
 	 */
 	public function __destruct()
 	{
-		if (is_object($this->connection))
+		if (is_resource($this->connection))
 		{
 			mysqli_close($this->connection);
 		}
@@ -217,7 +217,7 @@ class JDatabaseMySQLi extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	function dropTable($tableName, $ifExists = true)
+	public function dropTable($tableName, $ifExists = true)
 	{
 		$query = $this->getQuery(true);
 
@@ -322,7 +322,7 @@ class JDatabaseMySQLi extends JDatabase
 	 * @since   11.1
 	 * @throws  JDatabaseException
 	 */
-	function getQuery($new = false)
+	public function getQuery($new = false)
 	{
 		if ($new)
 		{
