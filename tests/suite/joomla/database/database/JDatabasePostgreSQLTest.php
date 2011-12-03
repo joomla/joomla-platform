@@ -132,7 +132,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 	 */
 	public function dataTestGetVersion()
 	{
-		return array( array('9.0.4') );
+		return array( array('9.1.1') );
 	}
 
 	/**
