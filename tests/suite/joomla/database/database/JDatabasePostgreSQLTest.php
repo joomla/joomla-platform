@@ -41,8 +41,8 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 			array("'%_abc123", false, '\'\'%_abc123'),
 			array("'%_abc123", true, '\'\'\%\_abc123'),
 			/* ' and \ will be escaped: the first become '', the latter \\ */
-			array("\'%_abc123", false, '\\\\\'\'%_abc123'),
-			array("\'%_abc123", true, '\\\\\'\'\%\_abc123'),
+			array("\'%_abc123", false, '\\\'\'%_abc123'),
+			array("\'%_abc123", true, '\\\'\'\%\_abc123'),
 		);
 	}
 
