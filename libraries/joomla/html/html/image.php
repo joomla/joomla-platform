@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Utility class working with images.
  *
  * @package     Joomla.Platform
- * @subpackage  Html
+ * @subpackage  HTML
  * @since       11.1
  */
 abstract class JHtmlImage
@@ -32,19 +32,28 @@ abstract class JHtmlImage
 	 * @param   array    $attribs    An associative array of attributes to add.
 	 * @param   boolean  $asTag      True (default) to display full tag, false to return just the path.
 	 *
-	 * @deprecated    12.1
+	 * @return  string   The value for the src or if $asTag is true, the full img html.
+	 *
 	 * @since    11.1
+	 *
+	 * @deprecated    12.1
 	 */
-	public static function site($file, $folder = '/images/system/', $altFile = null, $altFolder = '/images/system/', $alt = null, $attribs = null, $asTag = true)
+	public static function site($file, $folder = '/images/system/', $altFile = null, $altFolder = '/images/system/', $alt = null, $attribs = null,
+		$asTag = true)
 	{
+		// Deprecation warning.
+		JLog::add('JImage::site is deprecated.', JLog::WARNING, 'deprecated');
+
 		static $paths;
 		$app = JFactory::getApplication();
 
-		if (!$paths) {
+		if (!$paths)
+		{
 			$paths = array();
 		}
 
-		if (is_array($attribs)) {
+		if (is_array($attribs))
+		{
 			$attribs = JArrayHelper::toString($attribs);
 		}
 
@@ -53,19 +62,22 @@ abstract class JHtmlImage
 		// Strip HTML.
 		$alt = html_entity_decode($alt, ENT_COMPAT, 'UTF-8');
 
-		if ($altFile) {
+		if ($altFile)
+		{
 			$src = $altFolder . $altFile;
 		}
-		else if ($altFile == -1) {
+		elseif ($altFile == -1)
+		{
 			return '';
 		}
 		else
 		{
-			$path = JPATH_SITE .'/templates/'. $cur_template .'/images/'. $file;
+			$path = JPATH_SITE . '/templates/' . $cur_template . '/images/' . $file;
 			if (!isset($paths[$path]))
 			{
-				if (file_exists(JPATH_SITE .'/templates/'. $cur_template .'/images/'. $file)) {
-					$paths[$path] = 'templates/'. $cur_template .'/images/'. $file;
+				if (file_exists(JPATH_SITE . '/templates/' . $cur_template . '/images/' . $file))
+				{
+					$paths[$path] = 'templates/' . $cur_template . '/images/' . $file;
 				}
 				else
 				{
@@ -76,16 +88,18 @@ abstract class JHtmlImage
 			$src = $paths[$path];
 		}
 
-		if (substr($src, 0, 1) == "/") {
+		if (substr($src, 0, 1) == "/")
+		{
 			$src = substr_replace($src, '', 0, 1);
 		}
 
 		// Prepend the base path.
-		$src = JURI::base(true).'/'.$src;
+		$src = JURI::base(true) . '/' . $src;
 
 		// Outputs actual HTML <img> tag.
-		if ($asTag) {
-			return '<img src="'.$src.'" alt="'.$alt.'" '.$attribs.' />';
+		if ($asTag)
+		{
+			return '<img src="' . $src . '" alt="' . $alt . '" ' . $attribs . ' />';
 		}
 
 		return $src;
@@ -97,25 +111,30 @@ abstract class JHtmlImage
 	 * Also can be used in conjunction with the menulist param to create the chosen image
 	 * load the default or use no image
 	 *
-	 * @param   string   $file		The file name, eg foobar.png.
-	 * @param   string   $folder		The path to the image.
-	 * @param   integer  $altFile	Empty: use $file and $folder, -1: show no image, not-empty: use $altFile and $altFolder.
-	 * @param   string   $altFolder	Another path.  Only used for the contact us form based on the value of the imagelist param.
-	 * @param   string   $alt		Alternative text.
-	 * @param   array    $attribs	An associative array of attributes to add.
-	 * @param   bool	$asTag		True (default) to display full tag, false to return just the path.
+	 * @param   string   $file       The file name, eg foobar.png.
+	 * @param   string   $folder     The path to the image.
+	 * @param   integer  $altFile    Empty: use $file and $folder, -1: show no image, not-empty: use $altFile and $altFolder.
+	 * @param   string   $altFolder  Another path.  Only used for the contact us form based on the value of the imagelist param.
+	 * @param   string   $alt        Alternative text.
+	 * @param   array    $attribs    An associative array of attributes to add.
+	 * @param   boolean  $asTag      True (default) to display full tag, false to return just the path.
 	 *
-	 * @return  string
+	 * @return  string   The src or the full img tag if $asTag is true.
 	 *
 	 * @since   11.1
 	 *
 	 * @deprecated  12.1
 	 */
-	public static function administrator($file, $folder = '/images/', $altFile = null, $altFolder = '/images/', $alt = null, $attribs = null, $asTag = true)
+	public static function administrator($file, $folder = '/images/', $altFile = null, $altFolder = '/images/', $alt = null, $attribs = null,
+		$asTag = true)
 	{
+		// Deprecation warning.
+		JLog::add('JImage::administrator is deprecated.', JLog::WARNING, 'deprecated');
+
 		$app = JFactory::getApplication();
 
-		if (is_array($attribs)) {
+		if (is_array($attribs))
+		{
 			$attribs = JArrayHelper::toString($attribs);
 		}
 
@@ -124,38 +143,46 @@ abstract class JHtmlImage
 		// Strip HTML.
 		$alt = html_entity_decode($alt, ENT_COMPAT, 'UTF-8');
 
-		if ($altFile) {
+		if ($altFile)
+		{
 			$image = $altFolder . $altFile;
 		}
-		else if ($altFile == -1) {
+		elseif ($altFile == -1)
+		{
 			$image = '';
 		}
 		else
 		{
-			if (file_exists(JPATH_ADMINISTRATOR .'/templates/'. $cur_template .'/images/'. $file)) {
-				$image = 'templates/'. $cur_template .'/images/'. $file;
+			if (file_exists(JPATH_ADMINISTRATOR . '/templates/' . $cur_template . '/images/' . $file))
+			{
+				$image = 'templates/' . $cur_template . '/images/' . $file;
 			}
 			else
 			{
-				// Compability with previous versions.
-				if (substr($folder, 0, 14) == "/administrator") {
+				// Compatibility with previous versions.
+				if (substr($folder, 0, 14) == "/administrator")
+				{
 					$image = substr($folder, 15) . $file;
-				} else {
+				}
+				else
+				{
 					$image = $folder . $file;
 				}
 			}
 		}
 
-		if (substr($image, 0, 1) == "/") {
+		if (substr($image, 0, 1) == "/")
+		{
 			$image = substr_replace($image, '', 0, 1);
 		}
 
 		// Prepend the base path.
-		$image = JURI::base(true).'/'.$image;
+		$image = JURI::base(true) . '/' . $image;
 
 		// Outputs actual HTML <img> tag.
-		if ($asTag) {
-			$image = '<img src="'. $image .'" alt="'. $alt .'" '.$attribs.' />';
+		if ($asTag)
+		{
+			$image = '<img src="' . $image . '" alt="' . $alt . '" ' . $attribs . ' />';
 		}
 
 		return $image;

@@ -29,6 +29,11 @@ class JAccessTest extends JoomlaDatabaseTestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
+		// Clear the static caches.
+		JAccess::clearStatics();
+
 		$this->object = new JAccess;
 	}
 
@@ -41,7 +46,7 @@ class JAccessTest extends JoomlaDatabaseTestCase
 	 */
 	protected function getDataSet()
 	{
-		return $this->createXMLDataSet(dirname(__FILE__).'/JAccessTest.xml');
+		return $this->createXMLDataSet(__DIR__.'/stubs/S01.xml');
 	}
 
 	/**
@@ -53,12 +58,11 @@ class JAccessTest extends JoomlaDatabaseTestCase
 	 */
 	public function testGetAuthorisedViewLevels()
 	{
-		// Run the parent::setUp() method here to save time (since we only need to run it once)
-		parent::setUp();
-
 		if (defined('DB_NOT_AVAILABLE')) {
 			$this->markTestSkipped('The database is not available');
 		}
+
+		usleep(100);
 
 		$access = new JAccess();
 		$array1 = array(
@@ -143,11 +147,11 @@ class JAccessTest extends JoomlaDatabaseTestCase
               'Line:'.__LINE__.' Explicit deny for editor overrides allow for publisher'
               ),
             'invalid_user_group_login' => array(
-              58, 'core.login.site',3, null,
+              58, 'core.login.site', 3, null,
               'Line:'.__LINE__.' Invalid user and group cannot log in to site'
               ),
             'invalid_action' => array(
-              42, 'complusoft',3, null,
+              42, 'complusoft', 3, null,
               'Line:'.__LINE__.' Invalid action returns null permission'
               ),
             'invalid_asset_id' => array(
@@ -236,11 +240,11 @@ class JAccessTest extends JoomlaDatabaseTestCase
               'Line:'.__LINE__.' Explicit deny for editor overrides allow for publisher'
               ),
             'invalid_user_group_login' => array(
-              99, 'core.login.site',3, null,
+              99, 'core.login.site', 3, null,
               'Line:'.__LINE__.' Invalid user and group cannot log in to site'
               ),
             'invalid_action' => array(
-              8, 'complusoft',3, null,
+              8, 'complusoft', 3, null,
               'Line:'.__LINE__.' Invalid action returns null permission'
               ),
             'invalid_asset_id' => array(
@@ -389,6 +393,13 @@ class JAccessTest extends JoomlaDatabaseTestCase
 		$this->assertThat(
 			$array2,
 			$this->equalTo($access->getGroupsByUser(42, False))
+		);
+		
+		jimport('joomla.application.component.helper');
+		
+		$this->assertThat(
+			$access->getGroupsByUser(null),
+			$this->equalTo(array(1))
 		);
 	}
 

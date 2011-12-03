@@ -22,9 +22,9 @@ defined('JPATH_PLATFORM') or die;
 class JObject
 {
 	/**
-	 * An array of errors
+	 * An array of error messages or JExceptions objects.
 	 *
-	 * @var    array of error messages or JExceptions objects.
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $_errors = array();
@@ -32,16 +32,15 @@ class JObject
 	/**
 	 * Class constructor, overridden in descendant classes.
 	 *
-	 * @param   mixed  $properties	Either and associative array or another
-	 *                 object to set the initial properties of the object.
-	 *
-	 * @return  JObject
+	 * @param   mixed  $properties  Either and associative array or another
+	 *                              object to set the initial properties of the object.
 	 *
 	 * @since   11.1
 	 */
 	public function __construct($properties = null)
 	{
-		if ($properties !== null) {
+		if ($properties !== null)
+		{
 			$this->setProperties($properties);
 		}
 	}
@@ -50,6 +49,7 @@ class JObject
 	 * Magic method to convert the object to a string gracefully.
 	 *
 	 * @return  string  The classname.
+	 *
 	 * @since   11.1
 	 */
 	public function __toString()
@@ -64,9 +64,10 @@ class JObject
 	 * @param   mixed   $default   The default value.
 	 *
 	 * @return  mixed
+	 *
 	 * @since   11.1
 	 */
-	public function def($property, $default=null)
+	public function def($property, $default = null)
 	{
 		$value = $this->get($property, $default);
 		return $this->set($property, $value);
@@ -80,12 +81,14 @@ class JObject
 	 *
 	 * @return  mixed    The value of the property.
 	 *
-	 * @see     getProperties()
 	 * @since   11.1
+	 *
+	 * @see     getProperties()
 	 */
-	public function get($property, $default=null)
+	public function get($property, $default = null)
 	{
-		if (isset($this->$property)) {
+		if (isset($this->$property))
+		{
 			return $this->$property;
 		}
 		return $default;
@@ -98,17 +101,19 @@ class JObject
 	 *
 	 * @return  array
 	 *
-	 * @see     get()
 	 * @since   11.1
+	 *
+	 * @see     get()
 	 */
 	public function getProperties($public = true)
 	{
-		$vars  = get_object_vars($this);
+		$vars = get_object_vars($this);
 		if ($public)
 		{
 			foreach ($vars as $key => $value)
 			{
-				if ('_' == substr($key, 0, 1)) {
+				if ('_' == substr($key, 0, 1))
+				{
 					unset($vars[$key]);
 				}
 			}
@@ -124,6 +129,7 @@ class JObject
 	 * @param   boolean  $toString  Indicates if JError objects should return their error message.
 	 *
 	 * @return  string   Error message
+	 *
 	 * @since   11.1
 	 */
 	public function getError($i = null, $toString = true)
@@ -134,18 +140,20 @@ class JObject
 			// Default, return the last message
 			$error = end($this->_errors);
 		}
-		else if (!array_key_exists($i, $this->_errors))
+		elseif (!array_key_exists($i, $this->_errors))
 		{
 			// If $i has been specified but does not exist, return false
 			return false;
 		}
-		else {
-			$error	= $this->_errors[$i];
+		else
+		{
+			$error = $this->_errors[$i];
 		}
 
 		// Check if only the string is requested
-		if (JError::isError($error) && $toString) {
-			return (string)$error;
+		if (JError::isError($error) && $toString)
+		{
+			return (string) $error;
 		}
 
 		return $error;
@@ -155,6 +163,7 @@ class JObject
 	 * Return all errors, if any.
 	 *
 	 * @return  array  Array of error messages or JErrors.
+	 *
 	 * @since   11.1
 	 */
 	public function getErrors()
@@ -169,6 +178,7 @@ class JObject
 	 * @param   mixed   $value     The value of the property to set.
 	 *
 	 * @return  mixed  Previous value of the property.
+	 *
 	 * @since   11.1
 	 */
 	public function set($property, $value = null)
@@ -185,8 +195,9 @@ class JObject
 	 *
 	 * @return  boolean
 	 *
-	 * @see     set()
 	 * @since   11.1
+	 *
+	 * @see     set()
 	 */
 	public function setProperties($properties)
 	{
@@ -194,7 +205,7 @@ class JObject
 		{
 			foreach ((array) $properties as $k => $v)
 			{
-				// Use the set function which might be overriden.
+				// Use the set function which might be overridden.
 				$this->set($k, $v);
 			}
 			return true;
@@ -218,18 +229,21 @@ class JObject
 	}
 
 	/**
+	 * Converts the object to a string (the class name).
+	 *
 	 * @return  string
 	 *
 	 * @since   11.1
-	 * 
 	 * @deprecated  12.1    Use magic method __toString()
 	 * @see         __toString()
 	 */
-	function toString()
+	public function toString()
 	{
+		// @codeCoverageIgnoreStart
 		// Deprecation warning.
 		JLog::add('JObject::toString() is deprecated.', JLog::WARNING, 'deprecated');
-		
+
 		return $this->__toString();
+		// @codeCoverageIgnoreEnd
 	}
 }

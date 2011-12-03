@@ -57,33 +57,13 @@ class JPlatformTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * This checks for the correct Long Version.
-	 *
-	 * @return void
-	 */
-	public function testGetLongVersion()
-	{
-		$expected = 'Joomla Platform 11.2.0 Dev [ Ember ] 15-Apr-2011 00:00 GMT';
-		$this->assertEquals(
-			$expected,
-			JPlatform::getLongVersion(),
-			'Should get the correct Long Version'
-		);
-	}
-
-	/**
 	 * This checks for the correct Short Version.
 	 *
 	 * @return void
 	 */
 	public function testGetShortVersion()
 	{
-		$expected = '11.2.0';
-		$this->assertEquals(
-			$expected,
-			JPlatform::getShortVersion(),
-			'Should get the correct Short Version'
-		);
+		$this->markTestSkipped('The platform version number is not tested');
 	}
 
 	/**
@@ -109,16 +89,11 @@ class JPlatformTest extends PHPUnit_Framework_TestCase
 				false,
 				'Should not be compatible with null',
 			),
-// 			'itself' => array(
-// 				JPLATFORM,
-// 				true,
-// 				'Should be compatible with itself',
-// 			),
-			'version 11.2.0' => array(
-				'11.2.0',
+ 			'itself' => array(
+ 				JPlatform::RELEASE.'.'.JPlatform::MAINTENANCE,
 				true,
-				'Should be compatible with 11.2.0',
-			),
+ 				'Should be compatible with itself',
+ 			),
 			'version 1.5.22' => array(
 				'1.5.22',
 				false,
@@ -190,4 +165,3 @@ class JPlatformTest extends PHPUnit_Framework_TestCase
 		}
 	}
 }
-

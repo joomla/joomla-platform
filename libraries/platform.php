@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package    Joomla.Platform
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -19,17 +19,17 @@ final class JPlatform
 	// Product name.
 	const PRODUCT = 'Joomla Platform';
 	// Release version.
-	const RELEASE = '11.2';
+	const RELEASE = '11.3';
 	// Maintenance version.
 	const MAINTENANCE = '0';
 	// Development STATUS.
-	const STATUS = 'Dev';
+	const STATUS = 'Stable';
 	// Build number.
 	const BUILD = 0;
 	// Code name.
-	const CODE_NAME = 'Ember';
+	const CODE_NAME = 'Dennis Ritchie';
 	// Release date.
-	const RELEASE_DATE = '15-Apr-2011';
+	const RELEASE_DATE = '23-Nov-2011';
 	// Release time.
 	const RELEASE_TIME = '00:00';
 	// Release timezone.
@@ -63,7 +63,7 @@ final class JPlatform
 	 */
 	public static function getShortVersion()
 	{
-		return self::RELEASE.'.'.self::MAINTENANCE;
+		return self::RELEASE . '.' . self::MAINTENANCE;
 	}
 
 	/**
@@ -75,8 +75,7 @@ final class JPlatform
 	 */
 	public static function getLongVersion()
 	{
-		return self::PRODUCT.' '. self::RELEASE.'.'.self::MAINTENANCE.' '
-				. self::STATUS.' [ '.self::CODE_NAME.' ] '.self::RELEASE_DATE.' '
-				.self::RELEASE_TIME.' '.self::RELEASE_TIME_ZONE;
+		return self::PRODUCT . ' ' . self::RELEASE . '.' . self::MAINTENANCE . ' ' . self::STATUS . ' [ ' . self::CODE_NAME . ' ] '
+			. self::RELEASE_DATE . ' ' . self::RELEASE_TIME . ' ' . self::RELEASE_TIME_ZONE;
 	}
 }
