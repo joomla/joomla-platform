@@ -52,6 +52,14 @@ class JDatabaseMySQLi extends JDatabase
 	protected $nullDate = '0000-00-00 00:00:00';
 
 	/**
+	 * The database connection resource.
+	 *
+	 * @var object
+	 * @since 11.4
+	 */
+	protected $connection;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array  $options  List of options used to configure the connection
