@@ -9,18 +9,21 @@
 
 defined('JPATH_PLATFORM') or die;
 
-// Deprecation warning.
-JLog::add('JDatabaseSQLSrv is deprecated, use JDatabaseDriverSQLSrv instead.', JLog::NOTICE, 'deprecated');
-
 /**
  * SQL Server database driver
  *
  * @package     Joomla.Platform
  * @subpackage  Database
- * @see         http://msdn.microsoft.com/en-us/library/cc296152(SQL.90).aspx
+ * @see         http://msdn.microsoft.com/en-us/library/ee336279.aspx
  * @since       11.1
- * @deprecated  11.4
  */
-class JDatabaseSQLSrv extends JDatabaseDriverSQLSrv
+class JDatabaseDriverSQLAzure extends JDatabaseDriverSQLSrv
 {
+	/**
+	 * The name of the database driver.
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
+	public $name = 'sqlzure';
 }

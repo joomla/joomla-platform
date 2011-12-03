@@ -81,7 +81,7 @@ abstract class JTable extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($table, $key, &$db)
+	function __construct($table, $key, &$db)
 	{
 		// Set internal variables.
 		$this->_tbl = $table;
@@ -325,7 +325,7 @@ abstract class JTable extends JObject
 	/**
 	 * Method to get the JDatabase connector object.
 	 *
-	 * @return  JDatabase  The internal database connector object.
+	 * @return  object  The internal database connector object.
 	 *
 	 * @link    http://docs.joomla.org/JTable/getDBO
 	 * @since   11.1
@@ -367,7 +367,7 @@ abstract class JTable extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function setRules($input)
+	function setRules($input)
 	{
 		if ($input instanceof JRules)
 		{
