@@ -170,8 +170,7 @@ abstract class JHtmlString
 		if ($doc->getType() == 'html' && JFactory::getApplication()->input->get('tmpl', null, 'cmd') !== 'component')
 		{
 			// Add the highlighter media.
-			$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
-			JHtml::_('script', 'system/highlighter' . $uncompressed . '.js', true, true);
+			JHtml::_('script', 'system/highlighter.js', true, true);
 
 			// Add the terms to highlight.
 			$doc->addScriptDeclaration("window.highlight = [\"" . implode('","', $terms) . "\"];");
