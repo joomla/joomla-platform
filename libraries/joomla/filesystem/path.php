@@ -177,7 +177,7 @@ class JPath
 		}
 
 		$path = JPath::clean($path);
-		if (!empty(JPATH_ROOT) && strpos($path, JPath::clean(JPATH_ROOT)) !== 0)
+		if (!defined('JPATH_ROOT') && @constant('JPATH_ROOT') != null && strpos($path, JPath::clean(JPATH_ROOT)) !== 0)
 		{
 			// Don't translate
 			JError::raiseError(20, 'JPath::check Snooping out of bounds @ ' . $path);
