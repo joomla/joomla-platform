@@ -415,9 +415,9 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 	 */
 	public function testGetVersion( $dbVersion )
 	{
-		$this->assertThat(
+		$this->assertGreaterThanOrEqual(
+			$dbVersion,
 			$this->object->getVersion(),
-			$this->equalTo($dbVersion),
 			__LINE__
 		);
 	}
