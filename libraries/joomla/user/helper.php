@@ -89,7 +89,7 @@ abstract class JUserHelper
 	 *
 	 * @param   integer  $userId  The id of the user.
 	 *
-	 * @return  mixed  Array on success, JException on error.
+	 * @return  mixed  Array on success, Exception on error.
 	 *
 	 * @since   11.1
 	 */
@@ -107,7 +107,7 @@ abstract class JUserHelper
 	 * @param   integer  $userId   The id of the user.
 	 * @param   integer  $groupId  The id of the group.
 	 *
-	 * @return  mixed  Boolean true on success, JException on error.
+	 * @return  mixed  Boolean true on success, Exception on error.
 	 *
 	 * @since   11.1
 	 */
@@ -126,7 +126,7 @@ abstract class JUserHelper
 			// Store the user object.
 			if (!$user->save())
 			{
-				return new JException($user->getError());
+				return new Exception($user->getError());
 			}
 		}
 

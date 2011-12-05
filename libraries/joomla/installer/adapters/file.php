@@ -203,7 +203,7 @@ class JInstallerFile extends JAdapterInstance
 		{
 			$db->Query();
 		}
-		catch (JException $e)
+		catch (Exception $e)
 		{
 			// Install failed, roll back changes
 			$this->parent->abort(
@@ -590,7 +590,7 @@ class JInstallerFile extends JAdapterInstance
 		{
 			$db->Query();
 		}
-		catch (JException $e)
+		catch (Exception $e)
 		{
 			// Install failed, roll back changes
 			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_FILE_ROLLBACK', $db->stderr(true)));
@@ -724,7 +724,7 @@ class JInstallerFile extends JAdapterInstance
 		{
 			return $this->parent->extension->store();
 		}
-		catch (JException $e)
+		catch (Exception $e)
 		{
 			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_PACK_REFRESH_MANIFEST_CACHE'));
 			return false;

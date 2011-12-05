@@ -630,7 +630,7 @@ class JInstallerLanguage extends JAdapterInstance
 		{
 			$this->parent->extension->store();
 		}
-		catch (JException $e)
+		catch (Exception $e)
 		{
 			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_LANG_DISCOVER_STORE_DETAILS'));
 			return false;

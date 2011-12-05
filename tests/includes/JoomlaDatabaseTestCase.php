@@ -290,7 +290,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	/**
 	 * Receives the callback from JError and logs the required error information for the test.
 	 *
-	 * @param	JException	The JException object from JError
+	 * @param	Exception	The Exception object from JError
 	 *
 	 * @return	bool	To not continue with JError processing
 	 *
@@ -510,7 +510,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 
 		return JSessionGlobalMock::create($this, $options);
 	}
-	
+
 	/**
 	 * Gets a mock web object.
 	 *
@@ -522,10 +522,10 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	{
 		// Load the real class first otherwise the mock will be used if jimport is called again.
 		require_once JPATH_PLATFORM . '/joomla/application/web.php';
-	
+
 		// Load the mock class builder.
 		require_once JPATH_TESTS . '/includes/mocks/JWebMock.php';
-	
+
 		return JWebGlobalMock::create($this);
 	}
 }
