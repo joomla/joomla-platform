@@ -81,7 +81,7 @@ abstract class JTable extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function __construct($table, $key, &$db)
+	public function __construct($table, $key, &$db)
 	{
 		// Set internal variables.
 		$this->_tbl = $table;
@@ -367,7 +367,7 @@ abstract class JTable extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function setRules($input)
+	public function setRules($input)
 	{
 		if ($input instanceof JRules)
 		{

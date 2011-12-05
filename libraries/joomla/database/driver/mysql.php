@@ -186,7 +186,7 @@ class JDatabaseDriverMySQL extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	function dropTable($tableName, $ifExists = true)
+	public function dropTable($tableName, $ifExists = true)
 	{
 		$query = $this->getQuery(true);
 

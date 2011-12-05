@@ -605,7 +605,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	function columns($columns)
+	public function columns($columns)
 	{
 		if (is_null($this->columns))
 		{
@@ -632,7 +632,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	function concatenate($values, $separator = null)
+	public function concatenate($values, $separator = null)
 	{
 		if ($separator)
 		{
@@ -654,7 +654,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	function currentTimestamp()
+	public function currentTimestamp()
 	{
 		return 'CURRENT_TIMESTAMP()';
 	}
@@ -961,7 +961,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	function length($value)
+	public function length($value)
 	{
 		return 'LENGTH(' . $value . ')';
 	}
@@ -1241,7 +1241,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	function values($values)
+	public function values($values)
 	{
 		if (is_null($this->values))
 		{
