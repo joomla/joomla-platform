@@ -9,9 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-// Load the package.
-jimport('joomla.database');
-
 /**
  * Database interface class.
  *
@@ -1471,6 +1468,22 @@ abstract class JDatabase implements JDatabaseInterface
 	abstract public function transactionStart();
 
 	/**
+	 * Method to truncate a table.
+	 *
+	 * @param   string  $table  The table to truncate
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 * @throws  JDatabaseException
+	 */
+	public function truncateTable($table)
+	{
+		$this->setQuery('TRUNCATE TABLE ' . $this->quoteName($table));
+		$this->query();
+	}
+
+	/**
 	 * Updates a row in a table based on an object's properties.
 	 *
 	 * @param   string   $table    The name of the database table to update.
@@ -1608,7 +1621,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return      string  The explain output.
 	 *
 	 * @deprecated  12.1
-	 * @since       11.4
+	 * @since       11.1
 	 */
 	public function explain()
 	{
