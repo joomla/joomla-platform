@@ -334,6 +334,23 @@ class JFilterInput extends JObject
 			$postTag = substr($postTag, $tagOpen_start);
 			$fromTagOpen = substr($postTag, 1);
 			$tagOpen_end = strpos($fromTagOpen, '>');
+			
+			// Check for comment tag -- this will ignore all HTML within the comment tags
+			if (substr($fromTagOpen, 0, 1) == '!') 
+			{
+				// Find end of comment and skip all within it
+				$tagOpen_end = strpos($fromTagOpen, '-->');
+				if ($tagOpen_end) 
+				{
+					$tagOpen_end += 2;
+					$preTag .= '<' . substr($fromTagOpen, 0, $tagOpen_end);
+					$postTag = substr($postTag, $tagOpen_end + 1);
+				}
+				
+				// If comment tag is not closed, keep the opening tag and text but clean any tags within
+				$tagOpen_start	= strpos($fromTagOpen, '<') + 1;
+				continue;
+			}
 
 			// Check for mal-formed tag where we have a second '<' before the first '>'
 			$nextOpenTag = (strlen($postTag) > $tagOpen_start) ? strpos($postTag, '<', $tagOpen_start + 1) : false;
