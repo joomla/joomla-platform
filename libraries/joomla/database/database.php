@@ -1741,7 +1741,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 *
 	 * @return  boolean  True if supported.
 	 *
-	 * @since   11.4
+	 * @since   11.1
 	 * @deprecated 12.1
 	 */
 	public function hasUTF()
