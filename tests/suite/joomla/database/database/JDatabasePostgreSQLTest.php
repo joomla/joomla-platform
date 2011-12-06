@@ -1109,7 +1109,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 	 * 
 	 * @return  void
 	 * 
-	 * @expectedException Exception
+	 * @expectedException JDatabaseException
 	 */
 	public function testReleaseTransactionSavepoint()
 	{
