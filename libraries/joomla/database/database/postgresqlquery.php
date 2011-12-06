@@ -258,7 +258,7 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	 *
 	 * @since   11.3
 	 */
-	function concatenate($values, $separator = null)
+	public function concatenate($values, $separator = null)
 	{
 		if ($separator)
 		{
