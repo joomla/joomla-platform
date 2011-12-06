@@ -24,7 +24,7 @@ class JTableUser extends JTable
 	 * @var    array
 	 * @since  11.1
 	 */
-	var $groups;
+	public $groups;
 
 	/**
 	 * Constructor
@@ -33,7 +33,7 @@ class JTableUser extends JTable
 	 *
 	 * @since  11.1
 	 */
-	function __construct(&$db)
+	public function __construct(&$db)
 	{
 		parent::__construct('#__users', 'id', $db);
 
@@ -54,7 +54,7 @@ class JTableUser extends JTable
 	 *
 	 * @since   11.1
 	 */
-	function load($userId = null, $reset = true)
+	public function load($userId = null, $reset = true)
 	{
 		// Get the id to load.
 		if ($userId !== null)
@@ -101,7 +101,7 @@ class JTableUser extends JTable
 				. ' WHERE m.user_id = ' . (int) $userId
 			);
 			// Add the groups to the user data.
-			$this->groups = $this->_db->loadAssocList('title', 'id');
+			$this->groups = $this->_db->loadAssocList('id', 'id');
 
 			// Check for an error message.
 			if ($this->_db->getErrorNum())
@@ -124,7 +124,7 @@ class JTableUser extends JTable
 	 *
 	 * @since   11.1
 	 */
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
 		if (key_exists('params', $array) && is_array($array['params']))
 		{
@@ -149,7 +149,7 @@ class JTableUser extends JTable
 				. implode(' OR ' . $this->_db->quoteName('id') . ' = ', $this->groups)
 			);
 			// Set the titles for the user groups.
-			$this->groups = $this->_db->loadAssocList('title', 'id');
+			$this->groups = $this->_db->loadAssocList('id', 'id');
 
 			// Check for a database error.
 			if ($this->_db->getErrorNum())
@@ -169,7 +169,7 @@ class JTableUser extends JTable
 	 *
 	 * @since   11.1
 	 */
-	function check()
+	public function check()
 	{
 		jimport('joomla.mail.helper');
 
@@ -261,7 +261,7 @@ class JTableUser extends JTable
 	 * @link    http://docs.joomla.org/JTable/store
 	 * @since   11.1
 	 */
-	function store($updateNulls = false)
+	public function store($updateNulls = false)
 	{
 		// Get the table key and key value.
 		$k = $this->_tbl_key;
@@ -340,7 +340,7 @@ class JTableUser extends JTable
 	 *
 	 * @since   11.1
 	 */
-	function delete($userId = null)
+	public function delete($userId = null)
 	{
 		// Set the primary key to delete.
 		$k = $this->_tbl_key;
@@ -420,7 +420,7 @@ class JTableUser extends JTable
 	 *
 	 * @since   11.1
 	 */
-	function setLastVisit($timeStamp = null, $userId = null)
+	public function setLastVisit($timeStamp = null, $userId = null)
 	{
 		// Check for User ID
 		if (is_null($userId))

@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package    Joomla.Platform
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 // Set the platform root path as a constant if necessary.
@@ -70,7 +70,7 @@ if (isset($_SERVER['HTTP_HOST']))
 	JLoader::import('joomla.environment.request');
 
 	// If an application flags it doesn't want this, adhere to that.
-	if (!defined('_JREQUEST_NO_CLEAN'))
+	if (!defined('_JREQUEST_NO_CLEAN') && (bool) ini_get('register_globals'))
 	{
 		JRequest::clean();
 	}
