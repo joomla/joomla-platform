@@ -144,7 +144,6 @@ class JTableUsergroup extends JTable
 	 * @return  mixed  True on success, Exception on failure.
 	 *
 	 * @since   11.1
-	 * @throws  Exception
 	 */
 	public function delete($oid = null)
 	{

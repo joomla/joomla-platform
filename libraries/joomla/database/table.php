@@ -425,7 +425,6 @@ abstract class JTable extends JObject
 	 *
 	 * @link    http://docs.joomla.org/JTable/bind
 	 * @since   11.1
-	 * @throws  Exception
 	 */
 	public function bind($src, $ignore = array())
 	{
@@ -477,7 +476,6 @@ abstract class JTable extends JObject
 	 *
 	 * @link    http://docs.joomla.org/JTable/load
 	 * @since   11.1
-	 * @throws  Exception
 	 */
 	public function load($keys = null, $reset = true)
 	{
@@ -577,7 +575,6 @@ abstract class JTable extends JObject
 	 *
 	 * @link	http://docs.joomla.org/JTable/store
 	 * @since   11.1
-	 * @throws  Exception
 	 */
 	public function store($updateNulls = false)
 	{
@@ -750,7 +747,6 @@ abstract class JTable extends JObject
 	 *
 	 * @link	http://docs.joomla.org/JTable/delete
 	 * @since   11.1
-	 * @throws  Exception
 	 */
 	public function delete($pk = null)
 	{
@@ -823,7 +819,6 @@ abstract class JTable extends JObject
 	 *
 	 * @link    http://docs.joomla.org/JTable/checkOut
 	 * @since   11.1
-	 * @throws  Exception
 	 */
 	public function checkOut($userId, $pk = null)
 	{
@@ -880,7 +875,6 @@ abstract class JTable extends JObject
 	 *
 	 * @link    http://docs.joomla.org/JTable/checkIn
 	 * @since   11.1
-	 * @throws  Exception
 	 */
 	public function checkIn($pk = null)
 	{
@@ -934,7 +928,6 @@ abstract class JTable extends JObject
 	 *
 	 * @link    http://docs.joomla.org/JTable/hit
 	 * @since   11.1
-	 * @throws  Exception
 	 */
 	public function hit($pk = null)
 	{
@@ -1023,7 +1016,6 @@ abstract class JTable extends JObject
 	 *
 	 * @link    http://docs.joomla.org/JTable/getNextOrder
 	 * @since   11.1
-	 * @throws  Exception
 	 */
 	public function getNextOrder($where = '')
 	{
@@ -1071,7 +1063,6 @@ abstract class JTable extends JObject
 	 *
 	 * @link    http://docs.joomla.org/JTable/reorder
 	 * @since   11.1
-	 * @throws  Exception
 	 */
 	public function reorder($where = '')
 	{
@@ -1152,11 +1143,10 @@ abstract class JTable extends JObject
 	 * @param   string   $where  WHERE clause to use for limiting the selection of rows to compact the
 	 * ordering values.
 	 *
-	 * @return  mixed    Boolean true on success.
+	 * @return  mixed  Boolean true on success.
 	 *
 	 * @link    http://docs.joomla.org/JTable/move
 	 * @since   11.1
-	 * @throws  Exception
 	 */
 	public function move($delta, $where = '')
 	{
@@ -1279,7 +1269,6 @@ abstract class JTable extends JObject
 	 *
 	 * @link    http://docs.joomla.org/JTable/publish
 	 * @since   11.1
-	 * @throws  Exception
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{

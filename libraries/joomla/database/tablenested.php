@@ -120,11 +120,10 @@ class JTableNested extends JTable
 	 * @param   integer  $pk          Primary key of the node for which to get the path.
 	 * @param   boolean  $diagnostic  Only select diagnostic data for the nested sets.
 	 *
-	 * @return  mixed    Boolean false on failure or array of node objects on success.
+	 * @return  mixed  Boolean false on failure or array of node objects on success.
 	 *
 	 * @link    http://docs.joomla.org/JTableNested/getPath
 	 * @since   11.1
-	 * @throws  Exception
 	 */
 	public function getPath($pk = null, $diagnostic = false)
 	{
@@ -161,11 +160,10 @@ class JTableNested extends JTable
 	 * @param   integer  $pk          Primary key of the node for which to get the tree.
 	 * @param   boolean  $diagnostic  Only select diagnostic data for the nested sets.
 	 *
-	 * @return  mixed    Boolean false on failure or array of node objects on success.
+	 * @return  mixed  Boolean false on failure or array of node objects on success.
 	 *
 	 * @link    http://docs.joomla.org/JTableNested/getTree
 	 * @since   11.1
-	 * @throws  Exception
 	 */
 	public function getTree($pk = null, $diagnostic = false)
 	{
@@ -234,7 +232,6 @@ class JTableNested extends JTable
 	 *
 	 * @link    http://docs.joomla.org/JTableNested/setLocation
 	 * @since   11.1
-	 * @throws  Exception
 	 */
 	public function setLocation($referenceId, $position = 'after')
 	{
@@ -318,7 +315,6 @@ class JTableNested extends JTable
 	 *
 	 * @link    http://docs.joomla.org/JTableNested/moveByReference
 	 * @since   11.1
-	 * @throws  Exception
 	 */
 	public function moveByReference($referenceId, $position = 'after', $pk = null)
 	{
@@ -673,7 +669,6 @@ class JTableNested extends JTable
 	 *
 	 * @link    http://docs.joomla.org/JTable/check
 	 * @since   11.1
-	 * @throws  Exception
 	 */
 	public function check()
 	{
