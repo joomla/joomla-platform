@@ -565,7 +565,7 @@ abstract class JDatabaseDriverPDO extends JDatabase
 			$query = $this->getQuery(true)->setQuery($query);
 		}
 
-		if ($query instanceof JDatabaseQueryLimitable && !empty($offset) && !empty($limit))
+		if ($query instanceof JDatabaseQueryLimitable && !is_null($offset) && !is_null($limit))
 		{
 			$query->setLimit($limit, $offset);
 		}
