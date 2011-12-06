@@ -56,7 +56,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 * @since	11.3
 	 * @see		JDatabase
 	 */
-	function __construct( $options )
+	protected function __construct( $options )
 	{
 		$host		= (isset($options['host']))	? $options['host']		: 'localhost';
 		$user		= (isset($options['user']))	? $options['user']		: '';
@@ -172,7 +172,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 * 
 	 * @since   11.3
 	 */
-	function dropTable($tableName, $ifExists = true)
+	public function dropTable($tableName, $ifExists = true)
 	{
 		$query = 'DROP TABLE ';
 		if ( $ifExists )
@@ -281,7 +281,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 * @since   11.3
 	 * @throws  JDatabaseException
 	 */
-	function getQuery($new = false)
+	public function getQuery($new = false)
 	{
 		if ($new)
 		{
