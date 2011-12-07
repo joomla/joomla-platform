@@ -805,7 +805,7 @@ class JDatabaseMySQL extends JDatabase
 	 * 
 	 * @return  boolean  True
 	 * 
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function renameTable($oldTable, $newTable)
 	{
@@ -824,7 +824,9 @@ class JDatabaseMySQL extends JDatabase
 				return;
 			}
 			else
-				throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MYSQL_TABLE_NOT_FOUND'));  // -> Origin Table not found
+			{
+				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MYSQL_TABLE_NOT_FOUND'));  // -> Origin Table not found
+			}
 		}
 		else
 		{
