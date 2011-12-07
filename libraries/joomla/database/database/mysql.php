@@ -825,7 +825,7 @@ class JDatabaseMySQL extends JDatabase
 			}
 			else
 			{
-				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MYSQL_TABLE_NOT_FOUND'));  // -> Origin Table not found
+				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MYSQL_TABLE_NOT_FOUND'), 100);  // -> Origin Table not found
 			}
 		}
 		else
