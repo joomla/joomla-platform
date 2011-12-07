@@ -475,7 +475,7 @@ class JDatabasePostgreSQL extends JDatabase
 			else
 			{
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-				throw new JDatabaseException;
+				throw new JDatabaseException($this->errorMsg, $this->errorNum);
 			}
 		}
 
@@ -520,7 +520,7 @@ class JDatabasePostgreSQL extends JDatabase
 			else
 			{
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-				throw new JDatabaseException;
+				throw new JDatabaseException($this->errorMsg, $this->errorNum);
 			}
 		}
 		return $this->cursor;
