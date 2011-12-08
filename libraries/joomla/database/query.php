@@ -65,11 +65,11 @@ class JDatabaseQueryElement
 	{
 		if (substr($this->name, -2) == '()')
 		{
-			return PHP_EOL . substr($this->name, 0, -2) . '(' . implode($this->glue, $this->elements) . ')';
+			return "\n" . substr($this->name, 0, -2) . '(' . implode($this->glue, $this->elements) . ')';
 		}
 		else
 		{
-			return PHP_EOL . $this->name . ' ' . implode($this->glue, $this->elements);
+			return "\n" . $this->name . ' ' . implode($this->glue, $this->elements);
 		}
 	}
 
