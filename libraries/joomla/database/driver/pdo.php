@@ -85,7 +85,7 @@ abstract class JDatabaseDriverPDO extends JDatabase
 		$with = array();
 
 		// Find the correct PDO DSN Format to use:
-		switch($options['driver'])
+		switch ($options['driver'])
 		{
 			case 'cubrid':
 				$options['port'] = (isset($options['port'])) ? $options['port'] : 33000;
@@ -268,10 +268,12 @@ abstract class JDatabaseDriverPDO extends JDatabase
 
 		try
 		{
-			$this->connection = new PDO($connectionString,
-										$options['user'],
-										$options['password'],
-										$options['driverOptions']);
+			$this->connection = new PDO(
+				$connectionString,
+				$options['user'],
+				$options['password'],
+				$options['driverOptions']
+			);
 		}
 		catch (PDOException $e)
 		{
@@ -280,14 +282,12 @@ abstract class JDatabaseDriverPDO extends JDatabase
 			if (JError::$legacy)
 			{
 				$this->errorNum = 2;
-				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_CONNECT_PDO') . ': ' .
-								  $e->getMessage();
+				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_CONNECT_PDO') . ': ' . $e->getMessage();
 				return;
 			}
 			else
 			{
-				throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_CONNECT_PDO') . ': ' .
-								  $e->getMessage());
+				throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_CONNECT_PDO') . ': ' . $e->getMessage());
 			}
 		}
 
@@ -382,7 +382,7 @@ abstract class JDatabaseDriverPDO extends JDatabase
 			if ($this->sql instanceof JDatabaseQueryPreparable)
 			{
 				$bounded =& $this->sql->getBounded();
-				foreach($bounded as $key => $obj)
+				foreach ($bounded as $key => $obj)
 				{
 					$this->prepared->bindParam($key, $obj->value, $obj->dataType, $obj->length, $obj->driverOptions);
 				}
@@ -420,9 +420,13 @@ abstract class JDatabaseDriverPDO extends JDatabase
 
 	/**
 	 * Retrieve a PDO database connection attribute
+	 * http://www.php.net/manual/en/pdo.getattribute.php
 	 *
-	 * @param  mixed $key
-	 * @return resource
+	 * Usage: $db->getOption(PDO::ATTR_CASE);
+	 *
+	 * @param   mixed  $key  One of the PDO::ATTR_* Constants
+	 *
+	 * @return mixed
 	 *
 	 * @since  11.4
 	 */
@@ -435,9 +439,14 @@ abstract class JDatabaseDriverPDO extends JDatabase
 	 * Sets an attribute on the PDO database handle.
 	 * http://www.php.net/manual/en/pdo.setattribute.php
 	 *
-	 * @param  integer $key
-	 * @param  mixed   $value
-	 * @return resource
+	 * Usage: $db->setOption(PDO::ATTR_CASE, PDO::CASE_UPPER);
+	 *
+	 * @param   integer  $key    One of the PDO::ATTR_* Constants
+	 * @param   mixed    $value  One of the associated PDO Constants
+	 *                           related to the particular attribute
+	 *                           key.
+	 *
+	 * @return boolean
 	 *
 	 * @since  11.4
 	 */
@@ -504,9 +513,9 @@ abstract class JDatabaseDriverPDO extends JDatabase
 	{
 		if ($cursor instanceof PDOStatement)
 		{
-
+			return $cursor->rowCount();
 		}
-		else if ($this->prepared instanceof PDOStatement)
+		elseif ($this->prepared instanceof PDOStatement)
 		{
 			return $this->prepared->rowCount();
 		}
@@ -546,10 +555,10 @@ abstract class JDatabaseDriverPDO extends JDatabase
 	/**
 	 * Sets the SQL statement string for later execution.
 	 *
-	 * @param   mixed    $query           The SQL statement to set either as a JDatabaseQuery object or a string.
-	 * @param   integer  $offset          The affected row offset to set.
-	 * @param   integer  $limit           The maximum affected rows to set.
-	 * @param   array    $driverOptions   The optional PDO driver options
+	 * @param   mixed    $query          The SQL statement to set either as a JDatabaseQuery object or a string.
+	 * @param   integer  $offset         The affected row offset to set.
+	 * @param   integer  $limit          The maximum affected rows to set.
+	 * @param   array    $driverOptions  The optional PDO driver options
 	 *
 	 * @return  JDatabase  This object to support method chaining.
 	 *

@@ -1222,7 +1222,7 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->setQuery('select * from #__users');
 	 *
-	 * @param   mixed   $sql     An SQL Query
+	 * @param   mixed  $sql  An SQL Query
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *

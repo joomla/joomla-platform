@@ -28,20 +28,20 @@ class JDatabaseDriverOracle extends JDatabaseDriverPDO
 	public $name = 'oracle';
 
 	/**
-     * Returns the current dateformat
-     *
-     * @var   string
-     * @since 11.4
-     */
-    protected $dateformat;
+	 * Returns the current dateformat
+	 *
+	 * @var   string
+	 * @since 11.4
+	 */
+	protected $dateformat;
 
-    /**
-     * Returns the current character set
-     *
-     * @var   string
-     * @since 11.4
-     */
-    protected $charset;
+	/**
+	 * Returns the current character set
+	 *
+	 * @var   string
+	 * @since 11.4
+	 */
+	protected $charset;
 
 	/**
 	 * Constructor.
@@ -54,10 +54,10 @@ class JDatabaseDriverOracle extends JDatabaseDriverPDO
 	{
 		$options['driver'] = 'oci';
 		$options['charset']    = (isset($options['charset'])) ? $options['charset']   : 'AL32UTF8';
-        $options['dateformat'] = (isset($options['dateformat'])) ? $options['dateformat'] : 'RRRR-MM-DD HH24:MI:SS';
+		$options['dateformat'] = (isset($options['dateformat'])) ? $options['dateformat'] : 'RRRR-MM-DD HH24:MI:SS';
 
-        $this->charset = $options['charset'];
-        $this->dateformat = $options['dateformat'];
+		$this->charset = $options['charset'];
+		$this->dateformat = $options['dateformat'];
 
 		// Finalize initialisation
 		parent::__construct($options);
@@ -143,10 +143,10 @@ class JDatabaseDriverOracle extends JDatabaseDriverPDO
      *
      * @since 11.4
      */
-    public function getDateFormat()
-    {
-        return $this->dateformat;
-    }
+	public function getDateFormat()
+	{
+		return $this->dateformat;
+	}
 
 	/**
 	 * Shows the table CREATE statement that creates the given tables.
@@ -205,17 +205,17 @@ class JDatabaseDriverOracle extends JDatabaseDriverPDO
 
 		$this->setOption(PDO::ATTR_CASE, PDO::CASE_UPPER);
 
-        $table = strtoupper($table);
+		$table = strtoupper($table);
 
-        $query->select('*');
-        $query->from('ALL_TAB_COLUMNS');
-        $query->where('table_name = :tableName');
+		$query->select('*');
+		$query->from('ALL_TAB_COLUMNS');
+		$query->where('table_name = :tableName');
 
-        $query->bind(':tableName', $table);
+		$query->bind(':tableName', $table);
 		$this->setQuery($query);
 		$fields = $this->loadObjectList();
 
-		if($typeOnly)
+		if ($typeOnly)
 		{
 			foreach ($fields as $field)
 			{
@@ -272,10 +272,10 @@ class JDatabaseDriverOracle extends JDatabaseDriverPDO
 	/**
 	 * Method to get an array of all tables in the database (schema).
 	 *
+	 * @param   string   $databaseName         The database (schema) name
+	 * @param   boolean  $includeDatabaseName  Whether to include the schema name in the results
 	 *
-	 * @param   string  The database (schema) name
-	 * @param   boolean Whether to include the schema name in the results
-	 * @return  array   An array of all the tables in the database.
+	 * @return  array    An array of all the tables in the database.
 	 *
 	 * @since   11.4
 	 * @throws  RuntimeException
@@ -304,16 +304,16 @@ class JDatabaseDriverOracle extends JDatabaseDriverPDO
 
 		$query->order('table_name');
 
-        $this->setQuery($query);
+		$this->setQuery($query);
 
-        if ($includeDatabaseName)
-        {
+		if ($includeDatabaseName)
+		{
 			$tables = $this->loadAssocList();
-        }
-        else
-        {
+		}
+		else
+		{
 			$tables = $this->loadResultArray();
-        }
+		}
 
 		return $tables;
 	}
@@ -328,9 +328,8 @@ class JDatabaseDriverOracle extends JDatabaseDriverPDO
 	public function getVersion()
 	{
 		$this->setQuery("select value from nls_database_parameters where parameter = 'NLS_RDBMS_VERSION'");
-        return $this->loadResult();
+		return $this->loadResult();
 	}
-
 
 	/**
 	 * Select a database for use.
@@ -355,21 +354,25 @@ class JDatabaseDriverOracle extends JDatabaseDriverPDO
      * that matches the MySQL one used within most Joomla
      * tables.
      *
-     * @param  string  $dateformat
+     * @param   string  $dateformat  Oracle Date Format String
      *
-     * @return void
+     * @return boolean
      *
      * @since  11.4
      */
-    public function setDateFormat($dateformat = 'DD-MON-RR')
-    {
-        $this->setQuery("alter session set nls_date_format = '$dateformat'");
-        if (!$this->execute()) {
-            return false;
-        }
-        $this->dateformat = $dateformat;
-        return true;
-    }
+	public function setDateFormat($dateformat = 'DD-MON-RR')
+	{
+		$this->setQuery("alter session set nls_date_format = '$dateformat'");
+
+		if (!$this->execute())
+		{
+			return false;
+		}
+
+		$this->dateformat = $dateformat;
+
+		return true;
+	}
 
 	/**
 	 * Set the connection to use UTF-8 character encoding.

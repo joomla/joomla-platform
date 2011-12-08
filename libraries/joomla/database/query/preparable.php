@@ -28,15 +28,15 @@ interface JDatabaseQueryPreparable
 	 * bounded from the internal bounded array when the passed in value
 	 * is null.
 	 *
-	 * @param  string|integer  $key            The key that will be used in your SQL
-	 *                                         query to reference the value. Usually
-	 *                                         of the form ':key', but can also be an
-	 *                                         integer.
-	 * @param  mixed           $value         The value that will be bound.
-	 * @param  integer         $dataType       Constant corresponding to a SQL datatype.
-	 * @param  integer         $length         The length of the variable. Usually required
-	 *                                    for OUTPUT variables.
-	 * @param  array       $driverOptions  Optional driver options to be used.
+	 * @param   string|integer  $key            The key that will be used in your SQL
+	 *                                          query to reference the value. Usually
+	 *                                          of the form ':key', but can also be an
+	 *                                          integer.
+	 * @param   mixed           $value          The value that will be bound.
+	 * @param   integer         $dataType       Constant corresponding to a SQL datatype.
+	 * @param   integer         $length         The length of the variable. Usually required
+	 *                                          for OUTPUT variables.
+	 * @param   array           $driverOptions  Optional driver options to be used.
 	 *
 	 * @return JDatabaseQuery
 	 *
@@ -48,6 +48,8 @@ interface JDatabaseQueryPreparable
 	 * Retrieves the internal $bounded array when key is null and
 	 * returns it by reference. If a key is provided then that
 	 * item is returned from the $bounded array if available.
+	 *
+	 * @param   mixed  $key  The bounded variable key to retrieve
 	 *
 	 * @return array|stdClass
 	 *

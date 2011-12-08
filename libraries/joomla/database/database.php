@@ -25,7 +25,7 @@ interface JDatabaseInterface
 	 *
 	 * @since   11.2
 	 */
-	static function test();
+	public static function test();
 }
 
 /**
@@ -630,7 +630,7 @@ abstract class JDatabase implements JDatabaseInterface
 	public function getExporter()
 	{
 		// Derive the class name from the driver.
-		$class = 'JDatabaseExporter'.$this->name;
+		$class = 'JDatabaseExporter' . $this->name;
 
 		// Make sure we have an exporter class for this driver.
 		if (!class_exists($class))
@@ -667,7 +667,7 @@ abstract class JDatabase implements JDatabaseInterface
 	public function getImporter()
 	{
 		// Derive the class name from the driver.
-		$class = 'JDatabaseImporter'.$this->name;
+		$class = 'JDatabaseImporter' . $this->name;
 
 		// Make sure we have an importer class for this driver.
 		if (!class_exists($class))
@@ -709,7 +709,7 @@ abstract class JDatabase implements JDatabaseInterface
 		JLoader::register('JDatabaseQuery', dirname(__FILE__) . '/query.php');
 
 		// Derive the class name from the driver.
-		$class = 'JDatabaseQuery'.$this->name;
+		$class = 'JDatabaseQuery' . $this->name;
 
 		if ($new)
 		{

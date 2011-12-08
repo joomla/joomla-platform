@@ -142,15 +142,14 @@ class JDatabaseDriverSQLite extends JDatabaseDriverPDO
 
 		$this->setOption(PDO::ATTR_CASE, PDO::CASE_UPPER);
 
-        $table = strtoupper($table);
+		$table = strtoupper($table);
 
-        $query->setQuery('pragma table_info( ' . $table . ')');
+		$query->setQuery('pragma table_info( ' . $table . ')');
 
-        //$query->bind(':tableName', $table);
 		$this->setQuery($query);
 		$fields = $this->loadObjectList();
 
-		if($typeOnly)
+		if ($typeOnly)
 		{
 			foreach ($fields as $field)
 			{
@@ -197,7 +196,7 @@ class JDatabaseDriverSQLite extends JDatabaseDriverPDO
 		$this->setQuery($query);
 		$rows = $this->loadObjectList();
 
-		foreach($rows as $column)
+		foreach ($rows as $column)
 		{
 			if ($column->PK == 1)
 			{
@@ -213,9 +212,6 @@ class JDatabaseDriverSQLite extends JDatabaseDriverPDO
 	/**
 	 * Method to get an array of all tables in the database (schema).
 	 *
-	 *
-	 * @param   string  The database (schema) name
-	 * @param   boolean Whether to include the schema name in the results
 	 * @return  array   An array of all the tables in the database.
 	 *
 	 * @since   11.4
@@ -233,7 +229,7 @@ class JDatabaseDriverSQLite extends JDatabaseDriverPDO
 		$query->bind(':type', 'table');
 		$query->order('name');
 
-        $this->setQuery($query);
+		$this->setQuery($query);
 
 		$tables = $this->loadResultArray();
 
@@ -250,9 +246,8 @@ class JDatabaseDriverSQLite extends JDatabaseDriverPDO
 	public function getVersion()
 	{
 		$this->setQuery("SELECT sqlite_version()");
-        return $this->loadResult();
+		return $this->loadResult();
 	}
-
 
 	/**
 	 * Select a database for use.

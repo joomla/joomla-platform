@@ -28,9 +28,9 @@ interface JDatabaseQueryLimitable
 	 * automatically by the __toString() method if it detects that the
 	 * query implements the JDatabaseQueryLimitable interface.
 	 *
-	 * @param   string      $query   The query in string format
-	 * @param   integer     $limit   The limit for the result set
-	 * @param   integer     $offset  The offset for the result set
+	 * @param   string   $query   The query in string format
+	 * @param   integer  $limit   The limit for the result set
+	 * @param   integer  $offset  The offset for the result set
 	 *
 	 * @return  string
 	 *
@@ -45,8 +45,8 @@ interface JDatabaseQueryLimitable
 	 * $query->setLimit(100, 0); (retrieve 100 rows, starting at first record)
 	 * $query->setLimit(50, 50); (retrieve 50 rows, starting at 50th record)
 	 *
-	 * @param   integer   $limit    The limit for the result set
-	 * @param   integer   $offset   The offset for the result set
+	 * @param   integer  $limit   The limit for the result set
+	 * @param   integer  $offset  The offset for the result set
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
