@@ -252,39 +252,6 @@ abstract class JDatabase implements JDatabaseInterface
 			// Derive the class name from the driver.
 			$class = 'JDatabaseDriver' . ucfirst($options['driver']);
 
-			// If the class doesn't exist, let's look for it and register it.
-			if (!class_exists($class))
-			{
-
-				// Derive the file path for the driver class.
-				$path = dirname(__FILE__) . '/driver/' . $options['driver'] . '.php';
-
-				// If the file exists register the class with our class loader.
-				if (file_exists($path))
-				{
-					JLoader::register($class, $path);
-				}
-				// If it doesn't exist we are at an impasse so throw an exception.
-				else
-				{
-
-					// Legacy error handling switch based on the JError::$legacy switch.
-					// @deprecated  12.1
-
-					if (JError::$legacy)
-					{
-						// Deprecation warning.
-						JLog::add('JError is deprecated.', JLog::WARNING, 'deprecated');
-						JError::setErrorHandling(E_ERROR, 'die');
-						return JError::raiseError(500, JText::sprintf('JLIB_DATABASE_ERROR_LOAD_DATABASE_DRIVER', $options['driver']));
-					}
-					else
-					{
-						throw new RuntimeException(JText::sprintf('JLIB_DATABASE_ERROR_LOAD_DATABASE_DRIVER', $options['driver']));
-					}
-				}
-			}
-
 			// If the class still doesn't exist we have nothing left to do but throw an exception.  We did our best.
 			if (!class_exists($class))
 			{
@@ -630,24 +597,13 @@ abstract class JDatabase implements JDatabaseInterface
 	public function getExporter()
 	{
 		// Derive the class name from the driver.
-		$class = 'JDatabaseExporter' . $this->name;
+		$class = 'JDatabaseExporter' . ucfirst($this->name);
 
 		// Make sure we have an exporter class for this driver.
 		if (!class_exists($class))
 		{
-			// Derive the file path for the driver class.
-			$path = dirname(__FILE__) . '/exporter/' . $this->name . '.php';
-
-			// If the file exists register the class with our class loader.
-			if (file_exists($path))
-			{
-				JLoader::register($class, $path);
-			}
 			// If it doesn't exist we are at an impasse so throw an exception.
-			else
-			{
-				throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_MISSING_EXPORTER'));
-			}
+			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_MISSING_EXPORTER'));
 		}
 
 		$o = new $class;
@@ -667,24 +623,13 @@ abstract class JDatabase implements JDatabaseInterface
 	public function getImporter()
 	{
 		// Derive the class name from the driver.
-		$class = 'JDatabaseImporter' . $this->name;
+		$class = 'JDatabaseImporter' . ucfirst($this->name);
 
 		// Make sure we have an importer class for this driver.
 		if (!class_exists($class))
 		{
-			// Derive the file path for the driver class.
-			$path = dirname(__FILE__) . '/importer/' . $this->name . '.php';
-
-			// If the file exists register the class with our class loader.
-			if (file_exists($path))
-			{
-				JLoader::register($class, $path);
-			}
 			// If it doesn't exist we are at an impasse so throw an exception.
-			else
-			{
-				throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_MISSING_IMPORTER'));
-			}
+			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_MISSING_IMPORTER'));
 		}
 
 		$o = new $class;
@@ -705,32 +650,18 @@ abstract class JDatabase implements JDatabaseInterface
 	 */
 	public function getQuery($new = false)
 	{
-		// Make sure the Query class is registered:
-		JLoader::register('JDatabaseQuery', dirname(__FILE__) . '/query.php');
-
 		// Derive the class name from the driver.
-		$class = 'JDatabaseQuery' . $this->name;
+		$class = 'JDatabaseQuery' . ucfirst($this->name);
+
+		// Make sure we have a query class for this driver.
+		if (!class_exists($class))
+		{
+			// If it doesn't exist we are at an impasse so throw an exception.
+			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
+		}
 
 		if ($new)
 		{
-			// Make sure we have a query class for this driver.
-			if (!class_exists($class))
-			{
-				// Derive the file path for the driver class.
-				$path = dirname(__FILE__) . '/query/' . $this->name . '.php';
-
-				// If the file exists register the class with our class loader.
-				if (file_exists($path))
-				{
-					JLoader::register($class, $path);
-				}
-				// If it doesn't exist we are at an impasse so throw an exception.
-				else
-				{
-					throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
-				}
-
-			}
 			return new $class($this);
 		}
 		else
