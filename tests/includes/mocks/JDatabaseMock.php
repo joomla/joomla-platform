@@ -38,6 +38,7 @@ class JDatabaseGlobalMock
 			'connected',
 			'debug',
 			'escape',
+			'execute',
 			'explain',
 			'fetchArray',
 			'fetchAssoc',
