@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Database
  * @since       11.1
  */
-class JDatabaseExporterMySQL
+class JDatabaseExporterMysql
 {
 	/**
 	 * An array of cached data.

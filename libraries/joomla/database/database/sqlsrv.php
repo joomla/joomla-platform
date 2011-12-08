@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 // Deprecation warning.
-JLog::add('JDatabaseSQLSrv is deprecated, use JDatabaseDriverSQLSrv instead.', JLog::NOTICE, 'deprecated');
+JLog::add('JDatabaseSqlsrv is deprecated, use JDatabaseDriverSqlsrv instead.', JLog::NOTICE, 'deprecated');
 
 /**
  * SQL Server database driver
@@ -21,6 +21,6 @@ JLog::add('JDatabaseSQLSrv is deprecated, use JDatabaseDriverSQLSrv instead.', J
  * @since       11.1
  * @deprecated  11.4
  */
-class JDatabaseSQLSrv extends JDatabaseDriverSQLSrv
+class JDatabaseSqlsrv extends JDatabaseDriverSqlsrv
 {
 }

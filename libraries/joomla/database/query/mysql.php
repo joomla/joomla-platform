@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Database
  * @since       11.1
  */
-class JDatabaseQueryMySQL extends JDatabaseQuery implements JDatabaseQueryLimitable
+class JDatabaseQueryMysql extends JDatabaseQuery implements JDatabaseQueryLimitable
 {
 	/**
 	 * @var    interger  The offset for the result set.

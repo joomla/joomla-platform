@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Database
  * @since       11.1
  */
-class JDatabaseExporterMySQLi extends JDatabaseExporterMySQL
+class JDatabaseExporterMysqli extends JDatabaseExporterMysql
 {
 	/**
 	 * Checks if all data and options are in order prior to exporting.

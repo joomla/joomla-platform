@@ -16,6 +16,6 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Database
  * @since       11.4
  */
-class JDatabaseQueryPDO extends JDatabaseQuery
+class JDatabaseQueryPdo extends JDatabaseQuery
 {
 }

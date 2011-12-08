@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 // Deprecation warning.
-JLog::add('JDatabaseSQLAzure is deprecated, use JDatabaseDriverSQLAzure instead.', JLog::NOTICE, 'deprecated');
+JLog::add('JDatabaseSqlazure is deprecated, use JDatabaseDriverSqlazure instead.', JLog::NOTICE, 'deprecated');
 
 /**
  * SQL Server database driver
@@ -21,6 +21,6 @@ JLog::add('JDatabaseSQLAzure is deprecated, use JDatabaseDriverSQLAzure instead.
  * @since       11.1
  * @deprecated  11.4
  */
-class JDatabaseSQLAzure extends JDatabaseDriverSQLAzure
+class JDatabaseSqlazure extends JDatabaseDriverSqlazure
 {
 }

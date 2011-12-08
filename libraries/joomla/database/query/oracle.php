@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Database
  * @since       11.4
  */
-class JDatabaseQueryOracle extends JDatabaseQueryPDO implements JDatabaseQueryPreparable, JDatabaseQueryLimitable
+class JDatabaseQueryOracle extends JDatabaseQueryPdo implements JDatabaseQueryPreparable, JDatabaseQueryLimitable
 {
 	/**
 	 * @var integer

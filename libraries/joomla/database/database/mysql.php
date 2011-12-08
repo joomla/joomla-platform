@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 // Deprecation warning.
-JLog::add('JDatabaseMySQL is deprecated, use JDatabaseDriverMySQL instead.', JLog::NOTICE, 'deprecated');
+JLog::add('JDatabaseMysql is deprecated, use JDatabaseDriverMysql instead.', JLog::NOTICE, 'deprecated');
 
 /**
  * MySQL database driver
@@ -21,6 +21,6 @@ JLog::add('JDatabaseMySQL is deprecated, use JDatabaseDriverMySQL instead.', JLo
  * @since       11.1
  * @deprecated  11.4
  */
-class JDatabaseMySQL extends JDatabaseDriverMySQL
+class JDatabaseMysql extends JDatabaseDriverMysql
 {
 }

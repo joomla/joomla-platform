@@ -10,4 +10,4 @@
 defined('JPATH_PLATFORM') or die;
 
 // Deprecation warning.
-JLog::add('JDatabaseExporterMySQLi has moved to the database/exporter directory.', JLog::NOTICE, 'deprecated');
+JLog::add('JDatabaseExporterMysqli has moved to the database/exporter directory.', JLog::NOTICE, 'deprecated');

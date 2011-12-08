@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @see         http://php.net/pdo
  * @since       11.4
  */
-class JDatabaseDriverSQLite extends JDatabaseDriverPDO
+class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 {
 	/**
 	 * The name of the database driver.

@@ -10,4 +10,4 @@
 defined('JPATH_PLATFORM') or die;
 
 // Deprecation warning.
-JLog::add('JDatabaseQueryMySQL has moved to the database/query directory.', JLog::NOTICE, 'deprecated');
+JLog::add('JDatabaseQueryMysql has moved to the database/query directory.', JLog::NOTICE, 'deprecated');

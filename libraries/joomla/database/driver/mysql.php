@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @see         http://dev.mysql.com/doc/
  * @since       11.1
  */
-class JDatabaseDriverMySQL extends JDatabase
+class JDatabaseDriverMysql extends JDatabase
 {
 	/**
 	 * The name of the database driver.

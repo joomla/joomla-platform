@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @see         http://msdn.microsoft.com/en-us/library/cc296152(SQL.90).aspx
  * @since       11.1
  */
-class JDatabaseDriverSQLSrv extends JDatabase
+class JDatabaseDriverSqlsrv extends JDatabase
 {
 	/**
 	 * The name of the database driver.

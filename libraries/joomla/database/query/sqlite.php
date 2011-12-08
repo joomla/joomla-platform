@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Database
  * @since       11.4
  */
-class JDatabaseQuerySQLite extends JDatabaseQueryPDO implements JDatabaseQueryPreparable, JDatabaseQueryLimitable
+class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPreparable, JDatabaseQueryLimitable
 {
 	/**
 	 * @var integer
