@@ -4,8 +4,6 @@
  * @license    GNU General Public License
  */
 
-require_once JPATH_PLATFORM.'/joomla/database/database/mysqliexporter.php';
-
 /**
  * Tests the JDatabaseMySqlExporter class.
  *
@@ -13,7 +11,7 @@ require_once JPATH_PLATFORM.'/joomla/database/database/mysqliexporter.php';
  * @subpackage Database
  * @since      11.1
  */
-class JDatabaseExporterMySQLiTest extends PHPUnit_Framework_TestCase
+class JDatabaseExporterMySqliTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var    object  The mocked database object for use by test methods.
@@ -32,7 +30,7 @@ class JDatabaseExporterMySQLiTest extends PHPUnit_Framework_TestCase
 		// Set up the database object mock.
 
 		$this->dbo = $this->getMock(
-			'JDatabaseMySqli',
+			'JDatabaseMysqli',
 			array(),
 			array(),
 			'',
@@ -48,7 +46,7 @@ class JDatabaseExporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithNoDbo()
 	{
-		$instance = new JDatabaseExporterMySqli;
+		$instance = new JDatabaseExporterMysqli;
 
 		try
 		{
@@ -73,7 +71,7 @@ class JDatabaseExporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithNoTables()
 	{
-		$instance	= new JDatabaseExporterMySqli;
+		$instance	= new JDatabaseExporterMysqli;
 		$instance->setDbo($this->dbo);
 
 		try
@@ -99,7 +97,7 @@ class JDatabaseExporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithGoodInput()
 	{
-		$instance	= new JDatabaseExporterMySqli;
+		$instance	= new JDatabaseExporterMysqli;
 		$instance->setDbo($this->dbo);
 		$instance->from('foobar');
 
@@ -129,7 +127,7 @@ class JDatabaseExporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetDboWithBadInput()
 	{
-		$instance	= new JDatabaseExporterMySqli;
+		$instance	= new JDatabaseExporterMysqli;
 
 		try
 		{
@@ -154,7 +152,7 @@ class JDatabaseExporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetDboWithGoodInput()
 	{
-		$instance = new JDatabaseExporterMySqli;
+		$instance = new JDatabaseExporterMysqli;
 
 		try
 		{

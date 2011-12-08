@@ -4,8 +4,6 @@
  * @license    GNU General Public License
  */
 
-require_once JPATH_PLATFORM.'/joomla/database/database/mysqliimporter.php';
-
 /**
  * Tests the JDatabaseMySqlImporter class.
  *
@@ -13,7 +11,7 @@ require_once JPATH_PLATFORM.'/joomla/database/database/mysqliimporter.php';
  * @subpackage Database
  * @since      11.1
  */
-class JDatabaseImporterMySQLiTest extends PHPUnit_Framework_TestCase
+class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var    object  The mocked database object for use by test methods.
@@ -32,7 +30,7 @@ class JDatabaseImporterMySQLiTest extends PHPUnit_Framework_TestCase
 		// Set up the database object mock.
 
 		$this->dbo = $this->getMock(
-			'JDatabaseMySqli',
+			'JDatabaseMysqli',
 			array(),
 			array(),
 			'',
@@ -48,7 +46,7 @@ class JDatabaseImporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithNoDbo()
 	{
-		$instance = new JDatabaseImporterMySqli;
+		$instance = new JDatabaseImporterMysqli;
 
 		try
 		{
@@ -73,7 +71,7 @@ class JDatabaseImporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithNoTables()
 	{
-		$instance	= new JDatabaseImporterMySqli;
+		$instance	= new JDatabaseImporterMysqli;
 		$instance->setDbo($this->dbo);
 
 		try
@@ -99,7 +97,7 @@ class JDatabaseImporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithGoodInput()
 	{
-		$instance	= new JDatabaseImporterMySqli;
+		$instance	= new JDatabaseImporterMysqli;
 		$instance->setDbo($this->dbo);
 		$instance->from('foobar');
 
@@ -129,7 +127,7 @@ class JDatabaseImporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetDboWithBadInput()
 	{
-		$instance	= new JDatabaseImporterMySqli;
+		$instance	= new JDatabaseImporterMysqli;
 
 		try
 		{
@@ -154,7 +152,7 @@ class JDatabaseImporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetDboWithGoodInput()
 	{
-		$instance = new JDatabaseImporterMySqli;
+		$instance = new JDatabaseImporterMysqli;
 
 		try
 		{
