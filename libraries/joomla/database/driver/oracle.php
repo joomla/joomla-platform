@@ -84,7 +84,7 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	 * @param   string   $tableName  The name of the database table to drop.
 	 * @param   boolean  $ifExists   Optionally specify that the table must exist before it is dropped.
 	 *
-	 * @return  JDatabaseSQLSrv  Returns this object to support chaining.
+	 * @return  JDatabaseDriverOracle  Returns this object to support chaining.
 	 *
 	 * @since   11.4
 	 */

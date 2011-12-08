@@ -182,7 +182,7 @@ class JDatabaseDriverMysql extends JDatabase
 	 * @param   string   $tableName  The name of the database table to drop.
 	 * @param   boolean  $ifExists   Optionally specify that the table must exist before it is dropped.
 	 *
-	 * @return  JDatabaseSQLSrv  Returns this object to support chaining.
+	 * @return  JDatabaseDriverMysql  Returns this object to support chaining.
 	 *
 	 * @since   11.1
 	 */
@@ -281,7 +281,6 @@ class JDatabaseDriverMysql extends JDatabase
 	public function getTableColumns($table, $typeOnly = true)
 	{
 		$result = array();
-		$query = $this->getQuery(true);
 
 		// Set the query to get the table fields statement.
 		$this->setQuery('SHOW FULL COLUMNS FROM ' . $this->quoteName($this->escape($table)));
@@ -320,7 +319,7 @@ class JDatabaseDriverMysql extends JDatabase
 	public function getTableKeys($table)
 	{
 		// Get the details columns information.
-		$this->setQuery('SHOW KEYS FROM ' . $this->db->quoteName($table));
+		$this->setQuery('SHOW KEYS FROM ' . $this->quoteName($table));
 		$keys = $this->loadObjectList();
 
 		return $keys;
