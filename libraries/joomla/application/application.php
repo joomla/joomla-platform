@@ -1033,7 +1033,7 @@ class JApplication extends JObject
 			// but fires the query less than half the time.
 			$query = $db->getQuery(true);
 			$db->setQuery('DELETE FROM ' . $query->qn('#__session') . ' WHERE ' . $query->qn('time') . ' < ' . (int) ($time - $session->getExpire()));
-			$db->query();
+			$db->execute();
 		}
 
 		// Check to see the the session already exists.
@@ -1092,7 +1092,7 @@ class JApplication extends JObject
 			}
 
 			// If the insert failed, exit the application.
-			if (!$db->query())
+			if (!$db->execute())
 			{
 				jexit($db->getErrorMSG());
 			}

@@ -377,7 +377,7 @@ class JInstaller extends JAdapter
 					$query->delete($db->quoteName('#__extensions'));
 					$query->where($db->quoteName('extension_id') . ' = ' . (int) $step['id']);
 					$db->setQuery($query);
-					$stepval = $db->query();
+					$stepval = $db->execute();
 
 					break;
 
@@ -859,7 +859,7 @@ class JInstaller extends JAdapter
 		{
 			$db->setQuery($query->data());
 
-			if (!$db->query())
+			if (!$db->execute())
 			{
 				JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)));
 
@@ -953,7 +953,7 @@ class JInstaller extends JAdapter
 					{
 						$db->setQuery($query);
 
-						if (!$db->query())
+						if (!$db->execute())
 						{
 							JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)));
 
@@ -1020,14 +1020,14 @@ class JInstaller extends JAdapter
 						->where('extension_id = ' . $eid);
 					$db->setQuery($query);
 
-					if ($db->query())
+					if ($db->execute())
 					{
 						$query->clear();
 						$query->insert('#__schemas')
 							->set('extension_id = ' . $eid)
 							->set('version_id = ' . $db->quote(end($files)));
 						$db->setQuery($query);
-						$db->query();
+						$db->execute();
 					}
 				}
 			}
@@ -1127,7 +1127,7 @@ class JInstaller extends JAdapter
 									{
 										$db->setQuery($query);
 
-										if (!$db->query())
+										if (!$db->execute())
 										{
 											JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)));
 

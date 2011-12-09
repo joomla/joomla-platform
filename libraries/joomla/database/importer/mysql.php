@@ -591,7 +591,7 @@ class JDatabaseImporterMysql
 					foreach ($queries as $query)
 					{
 						$this->db->setQuery((string) $query);
-						if (!$this->db->query())
+						if (!$this->db->execute())
 						{
 							$this->addLog('Fail: ' . $this->db->getQuery());
 							throw new Exception($this->db->getErrorMsg());
@@ -610,7 +610,7 @@ class JDatabaseImporterMysql
 				$sql = $this->xmlToCreate($table);
 
 				$this->db->setQuery((string) $sql);
-				if (!$this->db->query())
+				if (!$this->db->execute())
 				{
 					$this->addLog('Fail: ' . $this->db->getQuery());
 					throw new Exception($this->db->getErrorMsg());

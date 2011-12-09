@@ -219,7 +219,7 @@ class JDatabaseDriverMysqli extends JDatabase
 
 		$this->setQuery('DROP TABLE ' . ($ifExists ? 'IF EXISTS ' : '') . $query->quoteName($tableName));
 
-		$this->query();
+		$this->execute();
 
 		return $this;
 	}
@@ -551,7 +551,7 @@ class JDatabaseDriverMysqli extends JDatabase
 	public function transactionCommit()
 	{
 		$this->setQuery('COMMIT');
-		$this->query();
+		$this->execute();
 	}
 
 	/**
@@ -565,7 +565,7 @@ class JDatabaseDriverMysqli extends JDatabase
 	public function transactionRollback()
 	{
 		$this->setQuery('ROLLBACK');
-		$this->query();
+		$this->execute();
 	}
 
 	/**
@@ -579,7 +579,7 @@ class JDatabaseDriverMysqli extends JDatabase
 	public function transactionStart()
 	{
 		$this->setQuery('START TRANSACTION');
-		$this->query();
+		$this->execute();
 	}
 
 	/**
@@ -659,7 +659,7 @@ class JDatabaseDriverMysqli extends JDatabase
 		$this->sql = 'EXPLAIN ' . $this->sql;
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
+		if (!($cursor = $this->execute()))
 		{
 			return null;
 		}

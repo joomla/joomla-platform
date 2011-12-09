@@ -545,7 +545,7 @@ class JInstallerLanguage extends JAdapterInstance
 				$query->set('params=' . $db->quote($registry));
 				$query->where('id=' . (int) $user->id);
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 				$count = $count + 1;
 			}
 		}

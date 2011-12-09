@@ -271,7 +271,7 @@ class JInstallerTemplate extends JAdapterInstance
 			$query->set('params=' . $db->Quote($row->params));
 			$db->setQuery($query);
 			// There is a chance this could fail but we don't care...
-			$db->query();
+			$db->execute();
 		}
 
 		return $row->get('extension_id');
@@ -512,7 +512,7 @@ class JInstallerTemplate extends JAdapterInstance
 			$query->set('title=' . $db->Quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', $this->parent->extension->name)));
 			$query->set('params=' . $db->Quote($this->parent->extension->params));
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 
 			return $this->parent->extension->get('extension_id');
 		}

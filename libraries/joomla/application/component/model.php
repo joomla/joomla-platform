@@ -315,7 +315,7 @@ abstract class JModel extends JObject
 	protected function _getListCount($query)
 	{
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 
 		return $this->_db->getNumRows();
 	}
