@@ -73,24 +73,6 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	}
 
 	/**
-	 * Method to escape a string for usage in an SQL statement.
-	 * Doesn't do anything in the Oracle driver at this time.
-	 *
-	 * Note: Use query objects with bound variables instead!
-	 *
-	 * @param   string   $text   The string to be escaped.
-	 * @param   boolean  $extra  Optional parameter to provide extra escaping.
-	 *
-	 * @return  string  The escaped string.
-	 *
-	 * @since   11.4
-	 */
-	public function escape($text, $extra = false)
-	{
-		return $text;
-	}
-
-	/**
 	 * Method to get the database collation in use by sampling a text field of a table in the database.
 	 *
 	 * @return  mixed  The collation in use by the database or boolean false if not supported.

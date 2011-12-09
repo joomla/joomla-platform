@@ -308,7 +308,17 @@ abstract class JDatabaseDriverPdo extends JDatabase
 
 	/**
 	 * Method to escape a string for usage in an SQL statement.
-	 * Doesn't do anything in the PDO driver at this time.
+	 *
+	 * Oracle escaping reference:
+	 * http://www.orafaq.com/wiki/SQL_FAQ#How_does_one_escape_special_characters_when_writing_SQL_queries.3F
+	 *
+	 * SQLite escaping notes:
+	 * http://www.sqlite.org/faq.html#q14
+	 *
+	 * Method body is as implemented by the Zend Framework
+	 *
+	 * Note: Using query objects with bound variables is
+	 * preferable to the below.
 	 *
 	 * @param   string   $text   The string to be escaped.
 	 * @param   boolean  $extra  Optional parameter to provide extra escaping.
@@ -319,7 +329,21 @@ abstract class JDatabaseDriverPdo extends JDatabase
 	 */
 	public function escape($text, $extra = false)
 	{
-		return $text;
+		if (is_int($text) || is_float($text))
+		{
+			return $text;
+		}
+
+		$text = str_replace("'", "''", $text);
+
+		if ($extra)
+		{
+			return "'" . addcslashes($text, "\000\n\r\\\032") . "'";
+		}
+		else
+		{
+			return $text;
+		}
 	}
 
 	/**
