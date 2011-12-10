@@ -321,7 +321,7 @@ abstract class JDatabaseDriverPdo extends JDatabase
 	 * preferable to the below.
 	 *
 	 * @param   string   $text   The string to be escaped.
-	 * @param   boolean  $extra  Optional parameter to provide extra escaping.
+	 * @param   boolean  $extra  Unused optional parameter to provide extra escaping.
 	 *
 	 * @return  string  The escaped string.
 	 *
@@ -336,14 +336,7 @@ abstract class JDatabaseDriverPdo extends JDatabase
 
 		$text = str_replace("'", "''", $text);
 
-		if ($extra)
-		{
-			return "'" . addcslashes($text, "\000\n\r\\\032") . "'";
-		}
-		else
-		{
-			return $text;
-		}
+		return "'" . addcslashes($text, "\000\n\r\\\032") . "'";
 	}
 
 	/**
