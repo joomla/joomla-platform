@@ -200,7 +200,12 @@ class JDatabaseDriverMysqli extends JDatabase
 	 */
 	public function connected()
 	{
-		return $this->connection->ping();
+		if (is_object($this->connection))
+		{
+			return $this->connection->ping();
+		}
+
+		return false;
 	}
 
 	/**
