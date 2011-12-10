@@ -203,24 +203,25 @@ class JTableUsergroup extends JTable
 			$replace[] = ',' . $db->quote(",$id]") . ',' . $db->quote("]") . ')';
 			$replace[] = ',' . $db->quote("[$id]") . ',' . $db->quote("[]") . ')';
 		}
-			//sqlsrv change. Alternative for regexp
-			$query = $db->getQuery(true);
-			$query->select('id, rules');
-			$query->from('#__viewlevels');
-			$db->setQuery($query);
-			$rules = $db->loadObjectList();
-			
-			$match_ids = array();
-			foreach($rules as $rule)
-			{
-				foreach($ids as $id)
-				{
-					if(strstr($rule->rules, '['.$id) || strstr($rule->rules, ','.$id) || strstr($rule->rules, $id.']'))
-						$match_ids[] = $rule->id;
-				}
-			}
 
-		if(!empty($match_ids))
+		$query->clear();
+		//sqlsrv change. Alternative for regexp
+		$query->select('id, rules');
+		$query->from('#__viewlevels');
+		$db->setQuery($query);
+		$rules = $db->loadObjectList();
+
+		$match_ids = array();
+		foreach ($rules as $rule)
+		{
+			foreach($ids as $id)
+			{
+				if(strstr($rule->rules, '['.$id) || strstr($rule->rules, ','.$id) || strstr($rule->rules, $id.']'))
+					$match_ids[] = $rule->id;
+			}
+		}
+
+		if (!empty($match_ids))
 		{
 			$query = $db->getQuery(true);
 			$query->set('rules=' . str_repeat('replace(', 4 * count($ids)) . 'rules' . implode('', $replace));

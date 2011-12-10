@@ -129,15 +129,15 @@ abstract class JTable extends JObject
 		{
 			// Lookup the fields for this table only once.
 			$name = $this->_tbl;
-			$fields	= $this->_db->getTableFields($name, false);
+			$fields = $this->_db->getTableColumns($name, false);
 
-			if (!isset($fields[$name])) 
+			if (empty($fields))
 			{
 				$e = new JException(JText::_('JLIB_DATABASE_ERROR_COLUMNS_NOT_FOUND'));
 				$this->setError($e);
 				return false;
 			}
-			$cache = $fields[$name];
+			$cache = $fields;
 		}
 
 		return $cache;
@@ -1486,12 +1486,13 @@ abstract class JTable extends JObject
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
+	 * @throws  JDatabaseException
 	 */
 	protected function _lock()
 	{
-
-		$this->_db->lock($this->_tbl);
+		$this->_db->lockTable($this->_tbl);
 		$this->_locked = true;
+
 		return true;
 	}
 
@@ -1504,8 +1505,9 @@ abstract class JTable extends JObject
 	 */
 	protected function _unlock()
 	{
-		$this->_db->unlock();
+		$this->_db->unlockTables();
 		$this->_locked = false;
+
 		return true;
 	}
 }

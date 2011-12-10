@@ -38,8 +38,16 @@ interface JDatabaseInterface
  * @subpackage  Database
  * @since       11.1
  */
-abstract class JDatabase
+abstract class JDatabase implements JDatabaseInterface
 {
+	/**
+	 * The name of the database.
+	 *
+	 * @var    string
+	 * @since  11.4
+	 */
+	private $_database;
+
 	/**
 	 * The name of the database driver.
 	 *
@@ -111,12 +119,6 @@ abstract class JDatabase
 	 * @since  11.1
 	 */
 	protected $sql;
-	/**
-	 * The number of queries performed by the object instance
-	 *
-	 * @var int
-	 */
-	protected $ticker = 0;
 
 	/**
 	 * @var    string  The common database table prefix.
@@ -164,7 +166,6 @@ abstract class JDatabase
 	 */
 	protected static $instances = array();
 
-	
 	/**
 	 * Get a list of available database connectors.  The list will only be populated with connectors that both
 	 * the class exists and the static test method returns true.  This gives us the ability to have a multitude
@@ -228,7 +229,6 @@ abstract class JDatabase
 
 		return $connectors;
 	}
-
 
 	/**
 	 * Method to return a JDatabase instance based on the given options.  There are three global options and then
@@ -349,7 +349,6 @@ abstract class JDatabase
 		return self::$instances[$signature];
 	}
 
-
 	/**
 	 * Splits a string of multiple queries into an array of individual queries.
 	 *
@@ -407,17 +406,6 @@ abstract class JDatabase
 		return $queries;
 	}
 
-	
-	/**
-	 * Test to see if the connector is available.
-	 *
-	 * @return  bool  True on success, false otherwise.
-	 *
-	 * @since   12.1
-	 */
-	abstract public static function test();
-
-	
 	/**
 	 * Magic method to provide method alias support for quote() and quoteName().
 	 *
@@ -447,7 +435,6 @@ abstract class JDatabase
 		}
 	}
 
-	
 	/**
 	 * Constructor.
 	 *
@@ -458,6 +445,8 @@ abstract class JDatabase
 	protected function __construct($options)
 	{
 		// Initialise object variables.
+		$this->_database = (isset($options['database'])) ? $options['database'] : '';
+
 		$this->tablePrefix = (isset($options['prefix'])) ? $options['prefix'] : 'jos_';
 		$this->count = 0;
 		$this->errorNum = 0;
@@ -469,7 +458,6 @@ abstract class JDatabase
 		$this->setUTF();
 	}
 
-	
 	/**
 	 * Adds a field or array of field names to the list that are to be quoted.
 	 *
@@ -497,7 +485,6 @@ abstract class JDatabase
 		$this->hasQuoted = true;
 	}
 
-	
 	/**
 	 * Determines if the connection to the server is active.
 	 *
@@ -506,20 +493,20 @@ abstract class JDatabase
 	 * @since   11.1
 	 */
 	abstract public function connected();
-	
-	
-	/**
-	 * Database object destructor
-	 *
-	 * @return	boolean
-	 * @since	12.1
-	 */
-	public function __destruct()
-	{
-		return true;
-	}
 
-	
+	/**
+	 * Drops a table from the database.
+	 *
+	 * @param   string   $table     The name of the database table to drop.
+	 * @param   boolean  $ifExists  Optionally specify that the table must exist before it is dropped.
+	 *
+	 * @return  JDatabase  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 * @throws  JDatabaseException
+	 */
+	public abstract function dropTable($table, $ifExists = true);
+
 	/**
 	 * Method to escape a string for usage in an SQL statement.
 	 *
@@ -618,6 +605,18 @@ abstract class JDatabase
 	public function getCount()
 	{
 		return $this->count;
+	}
+
+	/**
+	 * Gets the name of the database used by this conneciton.
+	 *
+	 * @return  string
+	 *
+	 * @since   11.4
+	 */
+	protected function getDatabase()
+	{
+		return $this->_database;
 	}
 
 	/**
@@ -730,8 +729,6 @@ abstract class JDatabase
 
 	/**
 	 * Method to get an array of all tables in the database.
-	 *
-	 * @param   string  $dbName  The name of the database - implemented for other databases
 	 *
 	 * @return  array  An array of all the tables in the database.
 	 *
@@ -1203,6 +1200,18 @@ abstract class JDatabase
 	}
 
 	/**
+	 * Locks a table in the database.
+	 *
+	 * @param   string  $tableName  The name of the table to unlock.
+	 *
+	 * @return  JDatabase  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 * @throws  JDatabaseException
+	 */
+	public abstract function lockTable($tableName);
+
+	/**
 	 * Execute the SQL statement.
 	 *
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
@@ -1353,6 +1362,21 @@ abstract class JDatabase
 
 		return $literal;
 	}
+
+	/**
+	 * Renames a table in the database.
+	 *
+	 * @param   string  $oldTable  The name of the table to be renamed
+	 * @param   string  $newTable  The new name for the table.
+	 * @param   string  $backup    Table prefix
+	 * @param   string  $prefix    For the table - used to rename constraints in non-mysql databases
+	 *
+	 * @return  JDatabase  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 * @throws  JDatabaseException
+	 */
+	public abstract function renameTable($oldTable, $newTable, $backup = null, $prefix = null);
 
 	/**
 	 * Select a database for use.
@@ -1530,6 +1554,16 @@ abstract class JDatabase
 		$this->setQuery(sprintf($statement, implode(",", $fields), $where));
 		return $this->query();
 	}
+
+	/**
+	 * Unlocks tables in the database.
+	 *
+	 * @return  JDatabase  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 * @throws  JDatabaseException
+	 */
+	public abstract function unlockTables();
 
 	//
 	// Deprecated methods.
@@ -1770,36 +1804,4 @@ abstract class JDatabase
 			return JText::_('JLIB_DATABASE_FUNCTION_NOERROR');
 		}
 	}
-	
-	/**
-	 * Drops a table from the database.
-	 *
-	 * @param   string   $table The name of the database table to drop.
-	 * @param   boolean  $ifExists   Optionally specify that the table must exist before it is dropped.
-	 *
-	 * @return  JDatabaseSQLSrv  Returns this object to support chaining.
-	 * @since   11.1
-	 */
-	public abstract function dropTable($table, $ifExists = true);
-	
-	/**
-	 * Rename the table
-	 * @param string $oldTable the name of the table to be renamed
-	 * @param string $prefix for the table - used to rename constraints in non-mysql databases
-	 * @param string $backup table prefix
-	 * @param string $newTable newTable name
-	 */
-	public abstract function renameTable($oldTable, $prefix = null, $backup = null, $newTable) ;
-	
-	/**
-	 * Locks the table - with over ride in mysql and mysqli only
-	 * @param object $table
-	 * @return 
-	 */
-	public abstract function lock($table);
-	/**
-	 * Unlocks the table with override in mysql and mysqli only
-	 * @return 
-	 */
-	public abstract function unlock();
 }
