@@ -39,9 +39,9 @@ abstract class JTable extends JObject
 	protected $_tbl_key = '';
 
 	/**
-	 * JDatabase connector object.
+	 * JDatabaseDriver connector object.
 	 *
-	 * @var    JDatabase
+	 * @var    JDatabaseDriver
 	 * @since  11.1
 	 */
 	protected $_db;
@@ -75,9 +75,9 @@ abstract class JTable extends JObject
 	 * be overridden by child classes to explicitly set the table and key fields
 	 * for a particular database table.
 	 *
-	 * @param   string     $table  Name of the table to model.
-	 * @param   string     $key    Name of the primary key field in the table.
-	 * @param   JDatabase  &$db    JDatabase connector object.
+	 * @param   string           $table  Name of the table to model.
+	 * @param   string           $key    Name of the primary key field in the table.
+	 * @param   JDatabaseDriver  &$db    JDatabaseDriver connector object.
 	 *
 	 * @since   11.1
 	 */
@@ -322,9 +322,9 @@ abstract class JTable extends JObject
 	}
 
 	/**
-	 * Method to get the JDatabase connector object.
+	 * Method to get the JDatabaseDriver connector object.
 	 *
-	 * @return  JDatabase  The internal database connector object.
+	 * @return  JDatabaseDriver  The internal database connector object.
 	 *
 	 * @link    http://docs.joomla.org/JTable/getDBO
 	 * @since   11.1
@@ -335,9 +335,9 @@ abstract class JTable extends JObject
 	}
 
 	/**
-	 * Method to set the JDatabase connector object.
+	 * Method to set the JDatabaseDriver connector object.
 	 *
-	 * @param   object  &$db  A JDatabase connector object to be used by the table object.
+	 * @param   object  &$db  A JDatabaseDriver connector object to be used by the table object.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -346,8 +346,8 @@ abstract class JTable extends JObject
 	 */
 	public function setDBO(&$db)
 	{
-		// Make sure the new database object is a JDatabase.
-		if (!($db instanceof JDatabase))
+		// Make sure the new database object is a JDatabaseDriver.
+		if (!($db instanceof JDatabaseDriver))
 		{
 			return false;
 		}

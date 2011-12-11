@@ -285,11 +285,11 @@ abstract class JDatabaseQuery
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JDatabase  $db  The database connector resource.
+	 * @param   JDatabaseDriver  $db  The database connector resource.
 	 *
 	 * @since   11.1
 	 */
-	public function __construct(JDatabase $db = null)
+	public function __construct(JDatabaseDriver $db = null)
 	{
 		$this->db = $db;
 	}
@@ -700,7 +700,7 @@ abstract class JDatabaseQuery
 	 */
 	public function dateFormat()
 	{
-		if (!($this->db instanceof JDatabase))
+		if (!($this->db instanceof JDatabaseDriver))
 		{
 			throw new RuntimeException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
 		}
@@ -756,7 +756,7 @@ abstract class JDatabaseQuery
 	 * This method is provided for use where the query object is passed to a function for modification.
 	 * If you have direct access to the database object, it is recommended you use the escape method directly.
 	 *
-	 * Note that 'e' is an alias for this method as it is in JDatabase.
+	 * Note that 'e' is an alias for this method as it is in JDatabaseDriver.
 	 *
 	 * @param   string   $text   The string to be escaped.
 	 * @param   boolean  $extra  Optional parameter to provide extra escaping.
@@ -768,7 +768,7 @@ abstract class JDatabaseQuery
 	 */
 	public function escape($text, $extra = false)
 	{
-		if (!($this->db instanceof JDatabase))
+		if (!($this->db instanceof JDatabaseDriver))
 		{
 			throw new RuntimeException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
 		}
@@ -1012,7 +1012,7 @@ abstract class JDatabaseQuery
 	 */
 	public function nullDate($quoted = true)
 	{
-		if (!($this->db instanceof JDatabase))
+		if (!($this->db instanceof JDatabaseDriver))
 		{
 			throw new RuntimeException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
 		}
@@ -1079,7 +1079,7 @@ abstract class JDatabaseQuery
 	 * This method is provided for use where the query object is passed to a function for modification.
 	 * If you have direct access to the database object, it is recommended you use the quote method directly.
 	 *
-	 * Note that 'q' is an alias for this method as it is in JDatabase.
+	 * Note that 'q' is an alias for this method as it is in JDatabaseDriver.
 	 *
 	 * Usage:
 	 * $query->quote('fulltext');
@@ -1095,7 +1095,7 @@ abstract class JDatabaseQuery
 	 */
 	public function quote($text, $escape = true)
 	{
-		if (!($this->db instanceof JDatabase))
+		if (!($this->db instanceof JDatabaseDriver))
 		{
 			throw new RuntimeException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
 		}
@@ -1110,7 +1110,7 @@ abstract class JDatabaseQuery
 	 * This method is provided for use where the query object is passed to a function for modification.
 	 * If you have direct access to the database object, it is recommended you use the quoteName method directly.
 	 *
-	 * Note that 'qn' is an alias for this method as it is in JDatabase.
+	 * Note that 'qn' is an alias for this method as it is in JDatabaseDriver.
 	 *
 	 * Usage:
 	 * $query->quoteName('#__a');
@@ -1125,7 +1125,7 @@ abstract class JDatabaseQuery
 	 */
 	public function quoteName($name)
 	{
-		if (!($this->db instanceof JDatabase))
+		if (!($this->db instanceof JDatabaseDriver))
 		{
 			throw new RuntimeException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
 		}

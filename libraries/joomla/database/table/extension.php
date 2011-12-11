@@ -24,7 +24,7 @@ class JTableExtension extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabase  &$db  A database connector object
+	 * @param   JDatabaseDriver  &$db  A database connector object
 	 *
 	 * @since   11.1
 	 */
@@ -88,7 +88,7 @@ class JTableExtension extends JTable
 	 *
 	 * @param   array  $options  Array of options
 	 *
-	 * @return  JDatabase  The database query result
+	 * @return  JDatabaseDriver  The database query result
 	 *
 	 * @since   11.1
 	 */
