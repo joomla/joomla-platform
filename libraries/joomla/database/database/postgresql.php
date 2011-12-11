@@ -333,7 +333,7 @@ class JDatabasePostgreSQL extends JDatabase
 		if ( in_array($table, $tableList) )
 		{
 			// Get the details columns information.
-			$query = $this->getQuery();
+			$query = $this->getQuery(true);
 			$query->select('pgClass2nd.relname, pgIndex.*')
 					->from('pg_class AS pgClassFirst , pg_index AS pgIndex, pg_class AS pgClass2nd')
 					->where('pgClassFirst.oid=pgIndex.indrelid')
