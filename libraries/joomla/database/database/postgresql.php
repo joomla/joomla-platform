@@ -745,7 +745,7 @@ class JDatabasePostgreSQL extends JDatabase
 	public function getRandom()
 	{
 		$this->setQuery('SELECT RANDOM()');
-		$random = $this->loadRow();
+		$random = $this->loadAssoc();
 
 		return $random['random'];
 	}
