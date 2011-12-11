@@ -420,7 +420,7 @@ abstract class JFormField
 		}
 
 		// Clean up any invalid characters.
-		$id = preg_replace('#\W#', '_', $id);
+		$id = preg_replace('#[^\w:\.\-_]#', '_', $id);
 
 		return $id;
 	}
