@@ -21,7 +21,7 @@ class JDatabaseExporterMysqli extends JDatabaseExporterMysql
 	/**
 	 * Checks if all data and options are in order prior to exporting.
 	 *
-	 * @return  JDatabaseExporterMySQLi  Method supports chaining.
+	 * @return  JDatabaseExporterMysqli  Method supports chaining.
 	 *
 	 * @since   11.1
 	 * @throws  Exception if an error is encountered.
@@ -29,7 +29,7 @@ class JDatabaseExporterMysqli extends JDatabaseExporterMysql
 	public function check()
 	{
 		// Check if the db connector has been set.
-		if (!($this->db instanceof JDatabaseMySqli))
+		if (!($this->db instanceof JDatabaseDriverMysqli))
 		{
 			throw new Exception('JPLATFORM_ERROR_DATABASE_CONNECTOR_WRONG_TYPE');
 		}
@@ -46,13 +46,13 @@ class JDatabaseExporterMysqli extends JDatabaseExporterMysql
 	/**
 	 * Sets the database connector to use for exporting structure and/or data from MySQL.
 	 *
-	 * @param   JDatabaseMySQLi  $db  The database connector.
+	 * @param   JDatabaseDriverMysqli  $db  The database connector.
 	 *
-	 * @return  JDatabaseExporterMySQLi  Method supports chaining.
+	 * @return  JDatabaseExporterMysqli  Method supports chaining.
 	 *
 	 * @since   11.1
 	 */
-	public function setDbo(JDatabaseMySQLi $db)
+	public function setDbo(JDatabaseDriverMysqli $db)
 	{
 		$this->db = $db;
 
