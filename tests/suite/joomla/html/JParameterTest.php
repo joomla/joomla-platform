@@ -36,7 +36,7 @@ class JParameterTest extends PHPUnit_Framework_TestCase
 		$p->addElementPath(str_replace('\\', '/', __DIR__));
 
 		$this->assertThat(
-			str_replace('\\', '/', $p->getElementPath()),
+			$p->getElementPath(),
 			$this->equalTo(
 				array(
 					// addElementPath appends the slash for some reason.
