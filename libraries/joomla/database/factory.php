@@ -36,9 +36,10 @@ class JDatabaseFactory
 	 * Instances are unique to the given options and new objects are only created when a unique options array is
 	 * passed into the method.  This ensures that we don't end up with unnecessary database connection resources.
 	 *
-	 * @param   array  $options  Parameters to be passed to the database driver.
+	 * @param   string  $name     Name of the database driver you'd like to instantiate
+	 * @param   array   $options  Parameters to be passed to the database driver.
 	 *
-	 * @return  JDatabaseDriver  A database object.
+	 * @return  JDatabaseDriver  A database driver object.
 	 *
 	 * @since   11.1
 	 */
