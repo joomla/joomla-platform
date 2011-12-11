@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.application.cli');
 jimport('joomla.application.applicationexception');
 jimport('joomla.filesystem.folder');
 
@@ -22,7 +21,7 @@ jimport('joomla.filesystem.folder');
  * @see         http://php.net/manual/en/features.commandline.php
  * @since       11.1
  */
-class JDaemon extends JCli
+class JDaemon extends JApplicationCli
 {
 	/**
 	 * @var    array  The available POSIX signals to be caught by default.
@@ -191,7 +190,7 @@ class JDaemon extends JCli
 				}
 				break;
 			case SIGCLD:
-				while (($pid = static::$instance->pcntlWait($signal, WNOHANG)) > 0)
+				while (static::$instance->pcntlWait($signal, WNOHANG) > 0)
 				{
 					$signal = static::$instance->pcntlChildExitStatus($signal);
 				}

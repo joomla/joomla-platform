@@ -32,7 +32,6 @@ class JFormTest extends JoomlaTestCase
 	public function setUp()
 	{
 		$this->saveFactoryState();
-		jimport('joomla.form.form');
 		jimport('joomla.utilities.xmlelement');
 		include_once 'inspectors.php';
 		include_once 'JFormDataHelper.php';
@@ -1395,6 +1394,24 @@ class JFormTest extends JoomlaTestCase
 
 		$this->assertThat(
 			(JFormInspector::loadFieldType('test') instanceof JFormFieldTest),
+			$this->isTrue(),
+			'Line:'.__LINE__.' loadFieldType should return the correct custom class.'
+		);
+
+		$this->assertThat(
+			(JFormInspector::loadFieldType('foo.bar') instanceof FooFormFieldBar),
+			$this->isTrue(),
+			'Line:'.__LINE__.' loadFieldType should return the correct custom class.'
+		);
+
+		$this->assertThat(
+			(JFormInspector::loadFieldType('modal_foo') instanceof JFormFieldModal_Foo),
+			$this->isTrue(),
+			'Line:'.__LINE__.' loadFieldType should return the correct custom class.'
+		);
+
+		$this->assertThat(
+			(JFormInspector::loadFieldType('foo.modal_bar') instanceof FooFormFieldModal_Bar),
 			$this->isTrue(),
 			'Line:'.__LINE__.' loadFieldType should return the correct custom class.'
 		);
