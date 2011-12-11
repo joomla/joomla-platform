@@ -34,7 +34,7 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	 *
 	 * @since   11.4
 	 */
-	protected function __construct($options)
+	public function __construct($options)
 	{
 		// Finalize initialisation
 		parent::__construct($options);
@@ -63,6 +63,8 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	 */
 	public function dropTable($tableName, $ifExists = true)
 	{
+		$this->connect();
+
 		$query = $this->getQuery(true);
 
 		$this->setQuery('DROP TABLE ' . ($ifExists ? 'IF EXISTS ' : '') . $query->quoteName($tableName));
@@ -98,6 +100,8 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	 */
 	public function getTableCreate($tables)
 	{
+		$this->connect();
+
 		// Sanitize input to an array and iterate over the list.
 		settype($tables, 'array');
 
@@ -117,6 +121,8 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	 */
 	public function getTableColumns($table, $typeOnly = true)
 	{
+		$this->connect();
+
 		$columns = array();
 		$query = $this->getQuery(true);
 
@@ -163,6 +169,8 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	 */
 	public function getTableKeys($table)
 	{
+		$this->connect();
+
 		$keys = array();
 		$query = $this->getQuery(true);
 
@@ -201,6 +209,8 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	 */
 	public function getTableList()
 	{
+		$this->connect();
+
 		$query = $this->getQuery(true);
 
 		$tables = array();
@@ -227,6 +237,8 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	 */
 	public function getVersion()
 	{
+		$this->connect();
+
 		$this->setQuery("SELECT sqlite_version()");
 		return $this->loadResult();
 	}
@@ -243,6 +255,8 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	 */
 	public function select($database)
 	{
+		$this->connect();
+
 		return true;
 	}
 
@@ -259,6 +273,8 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	 */
 	public function setUTF()
 	{
+		$this->connect();
+
 		return false;
 	}
 

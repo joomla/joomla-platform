@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @see         http://dev.mysql.com/doc/
  * @since       11.1
  */
-class JDatabaseDriverMysql extends JDatabase
+class JDatabaseDriverMysql extends JDatabaseDriver
 {
 	/**
 	 * The name of the database driver.
@@ -54,7 +54,7 @@ class JDatabaseDriverMysql extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	protected function __construct($options)
+	public function __construct($options)
 	{
 		// Get some basic values from the options.
 		$options['host'] = (isset($options['host'])) ? $options['host'] : 'localhost';
@@ -62,6 +62,25 @@ class JDatabaseDriverMysql extends JDatabase
 		$options['password'] = (isset($options['password'])) ? $options['password'] : '';
 		$options['database'] = (isset($options['database'])) ? $options['database'] : '';
 		$options['select'] = (isset($options['select'])) ? (bool) $options['select'] : true;
+
+		// Finalize initialisation
+		parent::__construct($options);
+	}
+
+	/**
+	 * Connects to the database if needed.
+	 *
+	 * @return  void  Returns void if the database connected successfully.
+	 *
+	 * @since   11.4
+	 * @throws  RuntimeException
+	 */
+	public function connect()
+	{
+		if ($this->connection)
+		{
+			return;
+		}
 
 		// Make sure the MySQL extension for PHP is installed and enabled.
 		if (!function_exists('mysql_connect'))
@@ -82,7 +101,7 @@ class JDatabaseDriverMysql extends JDatabase
 		}
 
 		// Attempt to connect to the server.
-		if (!($this->connection = @ mysql_connect($options['host'], $options['user'], $options['password'], true)))
+		if (!($this->connection = @ mysql_connect($this->options['host'], $this->options['user'], $this->options['password'], true)))
 		{
 
 			// Legacy error handling switch based on the JError::$legacy switch.
@@ -99,17 +118,17 @@ class JDatabaseDriverMysql extends JDatabase
 			}
 		}
 
-		// Finalize initialisation
-		parent::__construct($options);
-
 		// Set sql_mode to non_strict mode
 		mysql_query("SET @@SESSION.sql_mode = '';", $this->connection);
 
 		// If auto-select is enabled select the given database.
-		if ($options['select'] && !empty($options['database']))
+		if ($this->options['select'] && !empty($this->options['database']))
 		{
-			$this->select($options['database']);
+			$this->select($this->options['database']);
 		}
+
+		// Set charactersets (needed for MySQL 4.1.2+).
+		$this->setUTF();
 	}
 
 	/**
@@ -137,6 +156,8 @@ class JDatabaseDriverMysql extends JDatabase
 	 */
 	public function escape($text, $extra = false)
 	{
+		$this->connect();
+
 		$result = mysql_real_escape_string($text, $this->getConnection());
 
 		if ($extra)
@@ -188,6 +209,8 @@ class JDatabaseDriverMysql extends JDatabase
 	 */
 	public function dropTable($tableName, $ifExists = true)
 	{
+		$this->connect();
+
 		$query = $this->getQuery(true);
 
 		$this->setQuery('DROP TABLE ' . ($ifExists ? 'IF EXISTS ' : '') . $query->quoteName($tableName));
@@ -206,6 +229,8 @@ class JDatabaseDriverMysql extends JDatabase
 	 */
 	public function getAffectedRows()
 	{
+		$this->connect();
+
 		return mysql_affected_rows($this->connection);
 	}
 
@@ -218,6 +243,8 @@ class JDatabaseDriverMysql extends JDatabase
 	 */
 	public function getCollation()
 	{
+		$this->connect();
+
 		$this->setQuery('SHOW FULL COLUMNS FROM #__users');
 		$array = $this->loadAssocList();
 		return $array['2']['Collation'];
@@ -234,7 +261,14 @@ class JDatabaseDriverMysql extends JDatabase
 	 */
 	public function getNumRows($cursor = null)
 	{
-		return mysql_num_rows($cursor ? $cursor : $this->cursor);
+		$this->connect();
+
+		if (!is_null($cursor) || !is_null($this->cursor))
+		{
+			return mysql_num_rows($cursor ? $cursor : $this->cursor);
+		}
+
+		return 0;
 	}
 
 	/**
@@ -249,6 +283,8 @@ class JDatabaseDriverMysql extends JDatabase
 	 */
 	public function getTableCreate($tables)
 	{
+		$this->connect();
+
 		// Initialise variables.
 		$result = array();
 
@@ -280,6 +316,8 @@ class JDatabaseDriverMysql extends JDatabase
 	 */
 	public function getTableColumns($table, $typeOnly = true)
 	{
+		$this->connect();
+
 		$result = array();
 
 		// Set the query to get the table fields statement.
@@ -318,6 +356,8 @@ class JDatabaseDriverMysql extends JDatabase
 	 */
 	public function getTableKeys($table)
 	{
+		$this->connect();
+
 		// Get the details columns information.
 		$this->setQuery('SHOW KEYS FROM ' . $this->quoteName($table));
 		$keys = $this->loadObjectList();
@@ -335,6 +375,8 @@ class JDatabaseDriverMysql extends JDatabase
 	 */
 	public function getTableList()
 	{
+		$this->connect();
+
 		// Set the query to get the tables statement.
 		$this->setQuery('SHOW TABLES');
 		$tables = $this->loadColumn();
@@ -351,6 +393,8 @@ class JDatabaseDriverMysql extends JDatabase
 	 */
 	public function getVersion()
 	{
+		$this->connect();
+
 		return mysql_get_server_info($this->connection);
 	}
 
@@ -364,7 +408,7 @@ class JDatabaseDriverMysql extends JDatabase
 	 */
 	public function hasUTF()
 	{
-		JLog::add('JDatabaseMySQL::hasUTF() is deprecated.', JLog::WARNING, 'deprecated');
+		JLog::add('JDatabaseDriverMysql::hasUTF() is deprecated.', JLog::WARNING, 'deprecated');
 		return true;
 	}
 
@@ -377,6 +421,8 @@ class JDatabaseDriverMysql extends JDatabase
 	 */
 	public function insertid()
 	{
+		$this->connect();
+
 		return mysql_insert_id($this->connection);
 	}
 
@@ -390,6 +436,8 @@ class JDatabaseDriverMysql extends JDatabase
 	 */
 	public function execute()
 	{
+		$this->connect();
+
 		if (!is_resource($this->connection))
 		{
 
@@ -449,7 +497,7 @@ class JDatabaseDriverMysql extends JDatabase
 
 				if ($this->debug)
 				{
-					JError::raiseError(500, 'JDatabaseMySQL::query: ' . $this->errorNum . ' - ' . $this->errorMsg);
+					JError::raiseError(500, 'JDatabaseDriverMysql::query: ' . $this->errorNum . ' - ' . $this->errorMsg);
 				}
 				return false;
 			}
@@ -475,6 +523,8 @@ class JDatabaseDriverMysql extends JDatabase
 	 */
 	public function select($database)
 	{
+		$this->connect();
+
 		if (!$database)
 		{
 			return false;
@@ -509,6 +559,8 @@ class JDatabaseDriverMysql extends JDatabase
 	 */
 	public function setUTF()
 	{
+		$this->connect();
+
 		return mysql_query("SET NAMES 'utf8'", $this->connection);
 	}
 
@@ -522,6 +574,8 @@ class JDatabaseDriverMysql extends JDatabase
 	 */
 	public function transactionCommit()
 	{
+		$this->connect();
+
 		$this->setQuery('COMMIT');
 		$this->execute();
 	}
@@ -536,6 +590,8 @@ class JDatabaseDriverMysql extends JDatabase
 	 */
 	public function transactionRollback()
 	{
+		$this->connect();
+
 		$this->setQuery('ROLLBACK');
 		$this->execute();
 	}
@@ -550,6 +606,8 @@ class JDatabaseDriverMysql extends JDatabase
 	 */
 	public function transactionStart()
 	{
+		$this->connect();
+
 		$this->setQuery('START TRANSACTION');
 		$this->execute();
 	}
@@ -565,7 +623,10 @@ class JDatabaseDriverMysql extends JDatabase
 	 */
 	protected function fetchArray($cursor = null)
 	{
-		return mysql_fetch_row($cursor ? $cursor : $this->cursor);
+		if (!is_null($cursor) || !is_null($this->cursor))
+		{
+			return mysql_fetch_row($cursor ? $cursor : $this->cursor);
+		}
 	}
 
 	/**
@@ -579,7 +640,10 @@ class JDatabaseDriverMysql extends JDatabase
 	 */
 	protected function fetchAssoc($cursor = null)
 	{
-		return mysql_fetch_assoc($cursor ? $cursor : $this->cursor);
+		if (!is_null($cursor) || !is_null($this->cursor))
+		{
+			return mysql_fetch_assoc($cursor ? $cursor : $this->cursor);
+		}
 	}
 
 	/**
@@ -594,7 +658,10 @@ class JDatabaseDriverMysql extends JDatabase
 	 */
 	protected function fetchObject($cursor = null, $class = 'stdClass')
 	{
-		return mysql_fetch_object($cursor ? $cursor : $this->cursor, $class);
+		if (!is_null($cursor) || !is_null($this->cursor))
+		{
+			return mysql_fetch_object($cursor ? $cursor : $this->cursor, $class);
+		}
 	}
 
 	/**
@@ -608,7 +675,10 @@ class JDatabaseDriverMysql extends JDatabase
 	 */
 	protected function freeResult($cursor = null)
 	{
-		mysql_free_result($cursor ? $cursor : $this->cursor);
+		if (!is_null($cursor) || !is_null($this->cursor))
+		{
+			mysql_free_result($cursor ? $cursor : $this->cursor);
+		}
 	}
 
 	/**
@@ -621,8 +691,10 @@ class JDatabaseDriverMysql extends JDatabase
 	 */
 	public function explain()
 	{
+		$this->connect();
+
 		// Deprecation warning.
-		JLog::add('JDatabase::explain() is deprecated.', JLog::WARNING, 'deprecated');
+		JLog::add('JDatabaseDriver::explain() is deprecated.', JLog::WARNING, 'deprecated');
 
 		// Backup the current query so we can reset it later.
 		$backup = $this->sql;
@@ -683,8 +755,10 @@ class JDatabaseDriverMysql extends JDatabase
 	 */
 	public function queryBatch($abortOnError = true, $transactionSafe = false)
 	{
+		$this->connect();
+
 		// Deprecation warning.
-		JLog::add('JDatabase::queryBatch() is deprecated.', JLog::WARNING, 'deprecated');
+		JLog::add('JDatabaseDriver::queryBatch() is deprecated.', JLog::WARNING, 'deprecated');
 
 		$sql = $this->replacePrefix((string) $this->sql);
 		$this->errorNum = 0;

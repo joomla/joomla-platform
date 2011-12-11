@@ -50,7 +50,7 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	 *
 	 * @since   11.4
 	 */
-	protected function __construct($options)
+	public function __construct($options)
 	{
 		$options['driver'] = 'oci';
 		$options['charset']    = (isset($options['charset'])) ? $options['charset']   : 'AL32UTF8';
@@ -61,6 +61,24 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 
 		// Finalize initialisation
 		parent::__construct($options);
+	}
+
+	/**
+	 * Connects to the database if needed.
+	 *
+	 * @return  void  Returns void if the database connected successfully.
+	 *
+	 * @since   11.4
+	 * @throws  RuntimeException
+	 */
+	public function connect()
+	{
+		if ($this->connection)
+		{
+			return;
+		}
+
+		parent::connect();
 
 		$this->setDateFormat($this->dateformat);
 	}
@@ -90,6 +108,8 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	 */
 	public function dropTable($tableName, $ifExists = true)
 	{
+		$this->connect();
+
 		$query = $this->getQuery(true);
 
 		$query->setQuery('DROP TABLE :tableName');
@@ -145,6 +165,8 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	 */
 	public function getTableCreate($tables)
 	{
+		$this->connect();
+
 		// Initialise variables.
 		$result = array();
 		$query = $this->getQuery(true);
@@ -180,6 +202,8 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	 */
 	public function getTableColumns($table, $typeOnly = true)
 	{
+		$this->connect();
+
 		$columns = array();
 		$query = $this->getQuery(true);
 
@@ -229,6 +253,8 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	 */
 	public function getTableKeys($table)
 	{
+		$this->connect();
+
 		$keys = array();
 		$query = $this->getQuery(true);
 
@@ -264,6 +290,8 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	 */
 	public function getTableList($databaseName = null, $includeDatabaseName = false)
 	{
+		$this->connect();
+
 		$query = $this->getQuery(true);
 
 		$tables = array();
@@ -309,6 +337,8 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	 */
 	public function getVersion()
 	{
+		$this->connect();
+
 		$this->setQuery("select value from nls_database_parameters where parameter = 'NLS_RDBMS_VERSION'");
 		return $this->loadResult();
 	}
@@ -325,6 +355,8 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	 */
 	public function select($database)
 	{
+		$this->connect();
+
 		return true;
 	}
 
@@ -344,6 +376,8 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
      */
 	public function setDateFormat($dateformat = 'DD-MON-RR')
 	{
+		$this->connect();
+
 		$this->setQuery("alter session set nls_date_format = '$dateformat'");
 
 		if (!$this->execute())

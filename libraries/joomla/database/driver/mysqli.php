@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @see         http://php.net/manual/en/book.mysqli.php
  * @since       11.1
  */
-class JDatabaseDriverMysqli extends JDatabase
+class JDatabaseDriverMysqli extends JDatabaseDriver
 {
 	/**
 	 * The name of the database driver.
@@ -54,7 +54,7 @@ class JDatabaseDriverMysqli extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	protected function __construct($options)
+	public function __construct($options)
 	{
 		// Get some basic values from the options.
 		$options['host'] = (isset($options['host'])) ? $options['host'] : 'localhost';
@@ -65,30 +65,49 @@ class JDatabaseDriverMysqli extends JDatabase
 		$options['port'] = null;
 		$options['socket'] = null;
 
+		// Finalize initialisation
+		parent::__construct($options);
+	}
+
+	/**
+	 * Connects to the database if needed.
+	 *
+	 * @return  void  Returns void if the database connected successfully.
+	 *
+	 * @since   11.4
+	 * @throws  RuntimeException
+	 */
+	public function connect()
+	{
+		if ($this->connection)
+		{
+			return;
+		}
+
 		/*
 		 * Unlike mysql_connect(), mysqli_connect() takes the port and socket as separate arguments. Therefore, we
 		 * have to extract them from the host string.
 		 */
-		$tmp = substr(strstr($options['host'], ':'), 1);
+		$tmp = substr(strstr($this->options['host'], ':'), 1);
 		if (!empty($tmp))
 		{
 			// Get the port number or socket name
 			if (is_numeric($tmp))
 			{
-				$options['port'] = $tmp;
+				$this->options['port'] = $tmp;
 			}
 			else
 			{
-				$options['socket'] = $tmp;
+				$this->options['socket'] = $tmp;
 			}
 
 			// Extract the host name only
-			$options['host'] = substr($options['host'], 0, strlen($options['host']) - (strlen($tmp) + 1));
+			$this->options['host'] = substr($this->options['host'], 0, strlen($this->options['host']) - (strlen($tmp) + 1));
 
 			// This will take care of the following notation: ":3306"
-			if ($options['host'] == '')
+			if ($this->options['host'] == '')
 			{
-				$options['host'] = 'localhost';
+				$this->options['host'] = 'localhost';
 			}
 		}
 
@@ -111,7 +130,7 @@ class JDatabaseDriverMysqli extends JDatabase
 		}
 
 		$this->connection = @mysqli_connect(
-			$options['host'], $options['user'], $options['password'], null, $options['port'], $options['socket']
+			$this->options['host'], $this->options['user'], $this->options['password'], null, $this->options['port'], $this->options['socket']
 		);
 
 		// Attempt to connect to the server.
@@ -131,17 +150,17 @@ class JDatabaseDriverMysqli extends JDatabase
 			}
 		}
 
-		// Finalize initialisation
-		parent::__construct($options);
-
 		// Set sql_mode to non_strict mode
 		mysqli_query($this->connection, "SET @@SESSION.sql_mode = '';");
 
 		// If auto-select is enabled select the given database.
-		if ($options['select'] && !empty($options['database']))
+		if ($this->options['select'] && !empty($this->options['database']))
 		{
-			$this->select($options['database']);
+			$this->select($this->options['database']);
 		}
+
+		// Set charactersets (needed for MySQL 4.1.2+).
+		$this->setUTF();
 	}
 
 	/**
@@ -169,6 +188,8 @@ class JDatabaseDriverMysqli extends JDatabase
 	 */
 	public function escape($text, $extra = false)
 	{
+		$this->connect();
+
 		$result = mysqli_real_escape_string($this->getConnection(), $text);
 
 		if ($extra)
@@ -220,6 +241,8 @@ class JDatabaseDriverMysqli extends JDatabase
 	 */
 	public function dropTable($tableName, $ifExists = true)
 	{
+		$this->connect();
+
 		$query = $this->getQuery(true);
 
 		$this->setQuery('DROP TABLE ' . ($ifExists ? 'IF EXISTS ' : '') . $query->quoteName($tableName));
@@ -238,6 +261,8 @@ class JDatabaseDriverMysqli extends JDatabase
 	 */
 	public function getAffectedRows()
 	{
+		$this->connect();
+
 		return mysqli_affected_rows($this->connection);
 	}
 
@@ -250,6 +275,8 @@ class JDatabaseDriverMysqli extends JDatabase
 	 */
 	public function getCollation()
 	{
+		$this->connect();
+
 		$this->setQuery('SHOW FULL COLUMNS FROM #__users');
 		$array = $this->loadAssocList();
 		return $array['2']['Collation'];
@@ -266,7 +293,14 @@ class JDatabaseDriverMysqli extends JDatabase
 	 */
 	public function getNumRows($cursor = null)
 	{
-		return mysqli_num_rows($cursor ? $cursor : $this->cursor);
+		$this->connect();
+
+		if (!is_null($cursor) || !is_null($this->cursor))
+		{
+			return mysqli_num_rows($cursor ? $cursor : $this->cursor);
+		}
+
+		return 0;
 	}
 
 	/**
@@ -281,6 +315,8 @@ class JDatabaseDriverMysqli extends JDatabase
 	 */
 	public function getTableCreate($tables)
 	{
+		$this->connect();
+
 		// Initialise variables.
 		$result = array();
 
@@ -312,6 +348,8 @@ class JDatabaseDriverMysqli extends JDatabase
 	 */
 	public function getTableColumns($table, $typeOnly = true)
 	{
+		$this->connect();
+
 		$result = array();
 		$query = $this->getQuery(true);
 
@@ -351,6 +389,8 @@ class JDatabaseDriverMysqli extends JDatabase
 	 */
 	public function getTableKeys($table)
 	{
+		$this->connect();
+
 		// Get the details columns information.
 		$this->setQuery('SHOW KEYS FROM ' . $this->db->quoteName($table));
 		$keys = $this->loadObjectList();
@@ -368,6 +408,8 @@ class JDatabaseDriverMysqli extends JDatabase
 	 */
 	public function getTableList()
 	{
+		$this->connect();
+
 		// Set the query to get the tables statement.
 		$this->setQuery('SHOW TABLES');
 		$tables = $this->loadColumn();
@@ -384,6 +426,8 @@ class JDatabaseDriverMysqli extends JDatabase
 	 */
 	public function getVersion()
 	{
+		$this->connect();
+
 		return mysqli_get_server_info($this->connection);
 	}
 
@@ -397,7 +441,7 @@ class JDatabaseDriverMysqli extends JDatabase
 	 */
 	public function hasUTF()
 	{
-		JLog::add('JDatabaseMySQLi::hasUTF() is deprecated.', JLog::WARNING, 'deprecated');
+		JLog::add('JDatabaseDriverMysqli::hasUTF() is deprecated.', JLog::WARNING, 'deprecated');
 		return true;
 	}
 
@@ -410,6 +454,8 @@ class JDatabaseDriverMysqli extends JDatabase
 	 */
 	public function insertid()
 	{
+		$this->connect();
+
 		return mysqli_insert_id($this->connection);
 	}
 
@@ -423,6 +469,8 @@ class JDatabaseDriverMysqli extends JDatabase
 	 */
 	public function execute()
 	{
+		$this->connect();
+
 		if (!is_object($this->connection))
 		{
 
@@ -482,7 +530,7 @@ class JDatabaseDriverMysqli extends JDatabase
 
 				if ($this->debug)
 				{
-					JError::raiseError(500, 'JDatabaseMySQL::query: ' . $this->errorNum . ' - ' . $this->errorMsg);
+					JError::raiseError(500, 'JDatabaseDriverMysql::query: ' . $this->errorNum . ' - ' . $this->errorMsg);
 				}
 				return false;
 			}
@@ -508,6 +556,8 @@ class JDatabaseDriverMysqli extends JDatabase
 	 */
 	public function select($database)
 	{
+		$this->connect();
+
 		if (!$database)
 		{
 			return false;
@@ -542,6 +592,8 @@ class JDatabaseDriverMysqli extends JDatabase
 	 */
 	public function setUTF()
 	{
+		$this->connect();
+
 		mysqli_query($this->connection, "SET NAMES 'utf8'");
 	}
 
@@ -555,6 +607,8 @@ class JDatabaseDriverMysqli extends JDatabase
 	 */
 	public function transactionCommit()
 	{
+		$this->connect();
+
 		$this->setQuery('COMMIT');
 		$this->execute();
 	}
@@ -569,6 +623,8 @@ class JDatabaseDriverMysqli extends JDatabase
 	 */
 	public function transactionRollback()
 	{
+		$this->connect();
+
 		$this->setQuery('ROLLBACK');
 		$this->execute();
 	}
@@ -583,6 +639,8 @@ class JDatabaseDriverMysqli extends JDatabase
 	 */
 	public function transactionStart()
 	{
+		$this->connect();
+
 		$this->setQuery('START TRANSACTION');
 		$this->execute();
 	}
@@ -641,7 +699,10 @@ class JDatabaseDriverMysqli extends JDatabase
 	 */
 	protected function freeResult($cursor = null)
 	{
-		mysqli_free_result($cursor ? $cursor : $this->cursor);
+		if (!is_null($cursor) || !is_null($this->cursor))
+		{
+			mysqli_free_result($cursor ? $cursor : $this->cursor);
+		}
 	}
 
 	/**
@@ -654,8 +715,10 @@ class JDatabaseDriverMysqli extends JDatabase
 	 */
 	public function explain()
 	{
+		$this->connect();
+
 		// Deprecation warning.
-		JLog::add('JDatabase::explain() is deprecated.', JLog::WARNING, 'deprecated');
+		JLog::add('JDatabaseDriver::explain() is deprecated.', JLog::WARNING, 'deprecated');
 
 		// Backup the current query so we can reset it later.
 		$backup = $this->sql;
@@ -716,8 +779,10 @@ class JDatabaseDriverMysqli extends JDatabase
 	 */
 	public function queryBatch($abortOnError = true, $transactionSafe = false)
 	{
+		$this->connect();
+
 		// Deprecation warning.
-		JLog::add('JDatabase::queryBatch() is deprecated.', JLog::WARNING, 'deprecated');
+		JLog::add('JDatabaseDriver::queryBatch() is deprecated.', JLog::WARNING, 'deprecated');
 
 		$sql = $this->replacePrefix((string) $this->sql);
 		$this->errorNum = 0;

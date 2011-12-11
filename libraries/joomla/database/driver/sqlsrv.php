@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @see         http://msdn.microsoft.com/en-us/library/cc296152(SQL.90).aspx
  * @since       11.1
  */
-class JDatabaseDriverSqlsrv extends JDatabase
+class JDatabaseDriverSqlsrv extends JDatabaseDriver
 {
 	/**
 	 * The name of the database driver.
@@ -66,7 +66,7 @@ class JDatabaseDriverSqlsrv extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	protected function __construct($options)
+	public function __construct($options)
 	{
 		// Get some basic values from the options.
 		$options['host'] = (isset($options['host'])) ? $options['host'] : 'localhost';
@@ -75,11 +75,30 @@ class JDatabaseDriverSqlsrv extends JDatabase
 		$options['database'] = (isset($options['database'])) ? $options['database'] : '';
 		$options['select'] = (isset($options['select'])) ? (bool) $options['select'] : true;
 
+		// Finalize initialisation
+		parent::__construct($options);
+	}
+
+	/**
+	 * Connects to the database if needed.
+	 *
+	 * @return  void  Returns void if the database connected successfully.
+	 *
+	 * @since   11.4
+	 * @throws  RuntimeException
+	 */
+	public function connect()
+	{
+		if ($this->connection)
+		{
+			return;
+		}
+
 		// Build the connection configuration array.
 		$config = array(
-			'Database' => $options['database'],
-			'uid' => $options['user'],
-			'pwd' => $options['password'],
+			'Database' => $this->options['database'],
+			'uid' => $this->options['user'],
+			'pwd' => $this->options['password'],
 			'CharacterSet' => 'UTF-8',
 			'ReturnDatesAsStrings' => true);
 
@@ -102,7 +121,7 @@ class JDatabaseDriverSqlsrv extends JDatabase
 		}
 
 		// Attempt to connect to the server.
-		if (!($this->connection = @ sqlsrv_connect($options['host'], $config)))
+		if (!($this->connection = @ sqlsrv_connect($this->options['host'], $config)))
 		{
 
 			// Legacy error handling switch based on the JError::$legacy switch.
@@ -122,13 +141,10 @@ class JDatabaseDriverSqlsrv extends JDatabase
 		// Make sure that DB warnings are not returned as errors.
 		sqlsrv_configure('WarningsReturnAsErrors', 0);
 
-		// Finalize initialisation
-		parent::__construct($options);
-
 		// If auto-select is enabled select the given database.
-		if ($options['select'] && !empty($options['database']))
+		if ($this->options['select'] && !empty($this->options['database']))
 		{
-			$this->select($options['database']);
+			$this->select($this->options['database']);
 		}
 	}
 
@@ -156,6 +172,8 @@ class JDatabaseDriverSqlsrv extends JDatabase
 	 */
 	protected function getTableConstraints($tableName)
 	{
+		$this->connect();
+
 		$query = $this->getQuery(true);
 
 		$this->setQuery(
@@ -178,6 +196,8 @@ class JDatabaseDriverSqlsrv extends JDatabase
 	 */
 	protected function renameConstraints($constraints = array(), $prefix = null, $backup = null)
 	{
+		$this->connect();
+
 		foreach ($constraints as $constraint)
 		{
 			$this->setQuery('sp_rename ' . $constraint . ',' . str_replace($prefix, $backup, $constraint));
@@ -240,6 +260,8 @@ class JDatabaseDriverSqlsrv extends JDatabase
 	 */
 	public function dropTable($tableName, $ifExists = true)
 	{
+		$this->connect();
+
 		$query = $this->getQuery(true);
 
 		$this->setQuery(
@@ -260,7 +282,14 @@ class JDatabaseDriverSqlsrv extends JDatabase
 	 */
 	public function getAffectedRows()
 	{
-		return sqlsrv_rows_affected($this->cursor);
+		$this->connect();
+
+		if (!is_null($this->cursor))
+		{
+			return sqlsrv_rows_affected($this->cursor);
+		}
+
+		return 0;
 	}
 
 	/**
@@ -287,7 +316,14 @@ class JDatabaseDriverSqlsrv extends JDatabase
 	 */
 	public function getNumRows($cursor = null)
 	{
-		return sqlsrv_num_rows($cursor ? $cursor : $this->cursor);
+		$this->connect();
+
+		if (!is_null($cursor) || !is_null($this->cursor))
+		{
+			return sqlsrv_num_rows($cursor ? $cursor : $this->cursor);
+		}
+
+		return 0;
 	}
 
 	/**
@@ -303,6 +339,8 @@ class JDatabaseDriverSqlsrv extends JDatabase
 	 */
 	public function getTableColumns($tables, $typeOnly = true)
 	{
+		$this->connect();
+
 		// Initialise variables.
 		$result = array();
 
@@ -352,6 +390,8 @@ class JDatabaseDriverSqlsrv extends JDatabase
 	 */
 	public function getTableCreate($tables)
 	{
+		$this->connect();
+
 		return '';
 	}
 
@@ -367,6 +407,8 @@ class JDatabaseDriverSqlsrv extends JDatabase
 	 */
 	public function getTableKeys($table)
 	{
+		$this->connect();
+
 		// TODO To implement.
 		return array();
 	}
@@ -381,6 +423,8 @@ class JDatabaseDriverSqlsrv extends JDatabase
 	 */
 	public function getTableList()
 	{
+		$this->connect();
+
 		// Set the query to get the tables statement.
 		$this->setQuery('SELECT name FROM sysobjects WHERE xtype = \'U\';');
 		$tables = $this->loadColumn();
@@ -397,6 +441,8 @@ class JDatabaseDriverSqlsrv extends JDatabase
 	 */
 	public function getVersion()
 	{
+		$this->connect();
+
 		//TODO: Don't hardcode this.
 		return '5.1.0';
 	}
@@ -410,6 +456,8 @@ class JDatabaseDriverSqlsrv extends JDatabase
 	 */
 	public function hasUTF()
 	{
+		$this->connect();
+
 		return true;
 	}
 
@@ -422,6 +470,8 @@ class JDatabaseDriverSqlsrv extends JDatabase
 	 */
 	public function insertid()
 	{
+		$this->connect();
+
 		// TODO: SELECT IDENTITY
 		$this->setQuery('SELECT @@IDENTITY');
 		return (int) $this->loadResult();
@@ -437,6 +487,8 @@ class JDatabaseDriverSqlsrv extends JDatabase
 	 */
 	public function execute()
 	{
+		$this->connect();
+
 		if (!is_resource($this->connection))
 		{
 
@@ -535,6 +587,8 @@ class JDatabaseDriverSqlsrv extends JDatabase
 	 */
 	public function select($database)
 	{
+		$this->connect();
+
 		if (!$database)
 		{
 			return false;
@@ -582,6 +636,8 @@ class JDatabaseDriverSqlsrv extends JDatabase
 	 */
 	public function transactionCommit()
 	{
+		$this->connect();
+
 		$this->setQuery('COMMIT TRANSACTION');
 		$this->execute();
 	}
@@ -596,6 +652,8 @@ class JDatabaseDriverSqlsrv extends JDatabase
 	 */
 	public function transactionRollback()
 	{
+		$this->connect();
+
 		$this->setQuery('ROLLBACK TRANSACTION');
 		$this->execute();
 	}
@@ -610,6 +668,8 @@ class JDatabaseDriverSqlsrv extends JDatabase
 	 */
 	public function transactionStart()
 	{
+		$this->connect();
+
 		$this->setQuery('START TRANSACTION');
 		$this->execute();
 	}
@@ -668,7 +728,10 @@ class JDatabaseDriverSqlsrv extends JDatabase
 	 */
 	protected function freeResult($cursor = null)
 	{
-		sqlsrv_free_stmt($cursor ? $cursor : $this->cursor);
+		if (!is_null($cursor) || !is_null($this->cursor))
+		{
+			sqlsrv_free_stmt($cursor ? $cursor : $this->cursor);
+		}
 	}
 
 	/**
@@ -682,8 +745,10 @@ class JDatabaseDriverSqlsrv extends JDatabase
 	 */
 	public function explain()
 	{
+		$this->connect();
+
 		// Deprecation warning.
-		JLog::add('JDatabase::explain() is deprecated.', JLog::WARNING, 'deprecated');
+		JLog::add('JDatabaseDriver::explain() is deprecated.', JLog::WARNING, 'deprecated');
 
 		// Backup the current query so we can reset it later.
 		$backup = $this->sql;
@@ -750,8 +815,10 @@ class JDatabaseDriverSqlsrv extends JDatabase
 	 */
 	public function queryBatch($abortOnError = true, $transactionSafe = false)
 	{
+		$this->connect();
+
 		// Deprecation warning.
-		JLog::add('JDatabase::queryBatch() is deprecated.', JLog::WARNING, 'deprecated');
+		JLog::add('JDatabaseDriver::queryBatch() is deprecated.', JLog::WARNING, 'deprecated');
 
 		$sql = $this->replacePrefix((string) $this->sql);
 		$this->errorNum = 0;
@@ -806,6 +873,8 @@ class JDatabaseDriverSqlsrv extends JDatabase
 	 */
 	protected function checkFieldExists($table, $field)
 	{
+		$this->connect();
+
 		$table = $this->replacePrefix((string) $table);
 		$sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS" . " WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$field'" .
 			" ORDER BY ORDINAL_POSITION";
