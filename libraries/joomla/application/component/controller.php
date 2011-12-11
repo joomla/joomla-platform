@@ -158,9 +158,14 @@ class JController extends JObject
 	 * @param   string  $prefix  A prefix for models
 	 *
 	 * @return  void
+	 *
+	 * @deprecated    12.3	Use JLoader::discover instead
 	 */
 	public static function addModelPath($path, $prefix = '')
 	{
+		// Deprecation warning.
+		JLog::add('JController::addModelPath() is deprecated.', JLog::WARNING, 'deprecated');
+
 		jimport('joomla.application.component.model');
 		JModel::addIncludePath($path, $prefix);
 	}
@@ -183,16 +188,9 @@ class JController extends JObject
 		switch ($type)
 		{
 			case 'controller':
-				if (!empty($parts['format']))
+				if (!empty($parts['format']) && $parts['format'] != 'html')
 				{
-					if ($parts['format'] == 'html')
-					{
-						$parts['format'] = '';
-					}
-					else
-					{
-						$parts['format'] = '.' . $parts['format'];
-					}
+					$parts['format'] = '.' . $parts['format'];
 				}
 				else
 				{
@@ -206,6 +204,10 @@ class JController extends JObject
 				if (!empty($parts['type']))
 				{
 					$parts['type'] = '.' . $parts['type'];
+				}
+				else
+				{
+					$parts['type'] = '';
 				}
 
 				$filename = strtolower($parts['name']) . '/view' . $parts['type'] . '.php';
@@ -340,8 +342,8 @@ class JController extends JObject
 		{
 			$mName = $rMethod->getName();
 
-			// Add default display method if not explicitly declared.
-			if (!in_array($mName, $xMethods) || $mName == 'display')
+			// Add default display method if not explicitly declared and not a magic method.
+			if ((!in_array($mName, $xMethods) || $mName == 'display') && substr($mName, 0, 2) != '__')
 			{
 				$this->methods[] = strtolower($mName);
 				// Auto register the methods as tasks.
@@ -400,11 +402,19 @@ class JController extends JObject
 		if (array_key_exists('model_path', $config))
 		{
 			// user-defined dirs
+			// Deprecated in 12.3
 			$this->addModelPath($config['model_path'], $this->model_prefix);
+
+			// Discover models in the model folder using the model prefix
+			JLoader::discover($this->model_prefix, $config['model_path']);
 		}
 		else
 		{
+			// Deprecated in 12.3
 			$this->addModelPath($this->basePath . '/models', $this->model_prefix);
+
+			// Discover models in the component folder using the model prefix
+			JLoader::discover($this->model_prefix, $this->basePath . '/models');
 		}
 
 		// Set the default view search path
@@ -505,9 +515,14 @@ class JController extends JObject
 	 * @return  boolean  True if authorised
 	 *
 	 * @since   11.1
+	 *
+	 * @deprecated  12.1   Use JAuthorise
 	 */
 	public function authorise($task)
 	{
+		// Deprecation warning.
+		JLog::add('JController::authorise() is deprecated.', JLog::WARNING, 'deprecated');
+
 		// Only do access check if the aco section is set
 		if ($this->_acoSection)
 		{

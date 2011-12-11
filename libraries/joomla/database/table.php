@@ -9,6 +9,9 @@
 
 defined('JPATH_PLATFORM') or die;
 
+// Discover all core tables
+JLoader::discover('JTable', __DIR__ . '/table');
+
 /**
  * Abstract Table class
  *
@@ -144,9 +147,7 @@ abstract class JTable extends JObject
 	}
 
 	/**
-	 * Static method to get an instance of a JTable class if it can be found in
-	 * the table include paths.  To add include paths for searching for JTable
-	 * classes @see JTable::addIncludePath().
+	 * Static method to get an instance of a JTable class.
 	 *
 	 * @param   string  $type    The type (name) of the JTable class to get an instance of.
 	 * @param   string  $prefix  An optional prefix for the table class name.
@@ -163,30 +164,10 @@ abstract class JTable extends JObject
 		$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
 		$tableClass = $prefix . ucfirst($type);
 
-		// Only try to load the class if it doesn't already exist.
+		// Return false if the class does not exist
 		if (!class_exists($tableClass))
 		{
-			// Search for the class file in the JTable include paths.
-			jimport('joomla.filesystem.path');
-
-			if ($path = JPath::find(JTable::addIncludePath(), strtolower($type) . '.php'))
-			{
-				// Import the class file.
-				include_once $path;
-
-				// If we were unable to load the proper class, raise a warning and return false.
-				if (!class_exists($tableClass))
-				{
-					JError::raiseWarning(0, JText::sprintf('JLIB_DATABASE_ERROR_CLASS_NOT_FOUND_IN_FILE', $tableClass));
-					return false;
-				}
-			}
-			else
-			{
-				// If we were unable to find the class file in the JTable include paths, raise a warning and return false.
-				JError::raiseWarning(0, JText::sprintf('JLIB_DATABASE_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND', $type));
-				return false;
-			}
+			return false;
 		}
 
 		// If a database object was passed in the configuration array use it, otherwise get the global one from JFactory.
@@ -206,9 +187,13 @@ abstract class JTable extends JObject
 	 *
 	 * @link    http://docs.joomla.org/JTable/addIncludePath
 	 * @since   11.1
+	 * @deprecated    12.3	Use JLoader::discover instead
 	 */
 	public static function addIncludePath($path = null)
 	{
+		// Deprecation warning.
+		JLog::add('JTable::addIncludePath() is deprecated.', JLog::WARNING, 'deprecated');
+
 		// Declare the internal paths as a static variable.
 		static $_paths;
 
@@ -232,6 +217,9 @@ abstract class JTable extends JObject
 
 				// Add to the front of the list so that custom paths are searched first.
 				array_unshift($_paths, $dir);
+
+				// Discover classes
+				JLoader::discover('JTable', $dir);
 			}
 		}
 

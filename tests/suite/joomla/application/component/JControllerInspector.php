@@ -14,11 +14,6 @@
  */
 class JControllerInspector extends JController
 {
-	public function getPaths()
-	{
-		return $this->paths;
-	}
-
 	/**
 	* Method for inspecting protected variables.
 	*
@@ -62,9 +57,22 @@ class JControllerInspector extends JController
 	{
 		return call_user_func_array(array($this,$name), $parameters);
 	}
+
+	/**
+	 * Calls any inaccessible static method from the class.
+	 * 
+	 * @param   string  $name        Name of the method to invoke 
+	 * @param   array   $parameters  Parameters to be handed over to the original method
+	 * 
+	 * @return mixed The return value of the method 
+	 */
+	public static function __callStatic($name, $parameters)
+	{
+		return forward_static_call_array (array(get_parent_class(), $name), $parameters);
+	}
 }
 
-class TestController extends JController
+class TestController extends JControllerInspector
 {
 	public function task1() {}
 

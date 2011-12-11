@@ -19,6 +19,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Application
  * @since       11.1
  */
+
 abstract class JModel extends JObject
 {
 	/**
@@ -55,6 +56,14 @@ abstract class JModel extends JObject
 	protected $option = null;
 
 	/**
+	 * The table prefix for the component.
+	 *
+	 * @var    string
+	 * @since  11.3
+	 */
+	protected $table_prefix = null;
+
+	/**
 	 * A state object
 	 *
 	 * @var    string
@@ -81,9 +90,13 @@ abstract class JModel extends JObject
 	 * @return  array  An array with directory elements. If prefix is equal to '', all directories are returned.
 	 *
 	 * @since   11.1
+	 * @deprecated    12.3	Use JLoader::discover instead
 	 */
 	public static function addIncludePath($path = '', $prefix = '')
 	{
+		// Deprecation warning.
+		JLog::add('JModel::addIncludePath() is deprecated.', JLog::WARNING, 'deprecated');
+
 		static $paths;
 
 		if (!isset($paths))
@@ -108,6 +121,9 @@ abstract class JModel extends JObject
 			if (!in_array($path, $paths[$prefix]))
 			{
 				array_unshift($paths[$prefix], JPath::clean($path));
+
+				// Discover classes
+				JLoader::discover($prefix, $path);
 			}
 
 			if (!in_array($path, $paths['']))
@@ -127,9 +143,13 @@ abstract class JModel extends JObject
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @deprecated    12.3	Use JLoader::discover instead
 	 */
 	public static function addTablePath($path)
 	{
+		// Deprecation warning.
+		JLog::add('JModel::addTablePath() is deprecated.', JLog::WARNING, 'deprecated');
+
 		jimport('joomla.database.table');
 		JTable::addIncludePath($path);
 	}
@@ -174,28 +194,10 @@ abstract class JModel extends JObject
 		$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
 		$modelClass = $prefix . ucfirst($type);
 
+		// Return false if the class does not exist
 		if (!class_exists($modelClass))
 		{
-			jimport('joomla.filesystem.path');
-			$path = JPath::find(JModel::addIncludePath(null, $prefix), JModel::_createFileName('model', array('name' => $type)));
-			if (!$path)
-			{
-				$path = JPath::find(JModel::addIncludePath(null, ''), JModel::_createFileName('model', array('name' => $type)));
-			}
-			if ($path)
-			{
-				require_once $path;
-
-				if (!class_exists($modelClass))
-				{
-					JError::raiseWarning(0, JText::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $modelClass));
-					return false;
-				}
-			}
-			else
-			{
-				return false;
-			}
+			return false;
 		}
 
 		return new $modelClass($config);
@@ -256,14 +258,38 @@ abstract class JModel extends JObject
 			$this->_db = JFactory::getDbo();
 		}
 
+		// Set the table prefix
+		if (array_key_exists('table_prefix', $config))
+		{
+			$this->table_prefix = $config['table_prefix'];
+		}
+		else
+		{
+			$this->table_prefix = ucfirst(substr($this->option, 4)) . 'Table';
+		}
+
 		// Set the default view search path
 		if (array_key_exists('table_path', $config))
 		{
+			// Deprecated in 12.3
 			$this->addTablePath($config['table_path']);
+
+			// Discover tables in the table folder using the component prefix
+			JLoader::discover($this->table_prefix, $config['table_path']);
+
+			// Discover tables in the table folder using the Joomla prefix
+			JLoader::discover('JTable', $config['table_path']);
 		}
 		elseif (defined('JPATH_COMPONENT_ADMINISTRATOR'))
 		{
+			// Deprecated in 12.3
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
+
+			// Discover tables in the component folder using the component prefix
+			JLoader::discover($this->table_prefix, JPATH_COMPONENT_ADMINISTRATOR . '/tables');
+
+			// Discover tables in the component folder using the Joomla prefix
+			JLoader::discover('JTable', JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 		}
 
 		// Set the internal state marker - used to ignore setting state from the request
