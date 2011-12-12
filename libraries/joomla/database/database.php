@@ -28,7 +28,7 @@ interface JDatabaseInterface
 	 *
 	 * @since   11.2
 	 */
-	public static function test();
+	static function test();
 }
 
 /**

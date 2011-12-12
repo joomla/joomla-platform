@@ -30,7 +30,7 @@ abstract class JHtmlGrid
 	 *
 	 * @since    11.1
 	 */
-	public static function boolean($i, $value, $taskOn = null, $taskOff = null)
+	static function boolean($i, $value, $taskOn = null, $taskOff = null)
 	{
 		// Load the behavior.
 		self::behavior();
@@ -344,7 +344,7 @@ abstract class JHtmlGrid
 	 *
 	 * @since   11.1
 	 */
-	public static function behavior()
+	static function behavior()
 	{
 		static $loaded;
 

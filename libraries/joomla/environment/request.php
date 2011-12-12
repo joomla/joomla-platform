@@ -604,7 +604,7 @@ class JRequest
 	 * @deprecated  12.1
 	 * @since       11.1
 	 */
-	protected static function _cleanVar($var, $mask = 0, $type = null)
+	static function _cleanVar($var, $mask = 0, $type = null)
 	{
 		// If the no trim flag is not set, trim the variable
 		if (!($mask & 1) && is_string($var))
