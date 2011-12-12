@@ -153,14 +153,7 @@ class JUser extends JObject
 	 * User parameters
 	 * @var    object
 	 * @since  11.1
-	 */
-	protected $params = null;
-
-	/**
-	 * User parameters
-	 * @var    object
-	 * @since  11.1
-	 * @deprecated use $params or declare as private
+	 * @deprecated choose another name as $params is already in use
 	 */
 	protected $_params = null;
 

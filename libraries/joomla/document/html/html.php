@@ -101,15 +101,7 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @var    string
 	 * @since  11.1
-	 */
-	protected $template = '';
-
-	/**
-	 * String holding parsed template
-	 *
-	 * @var    string
-	 * @since  11.1
-	 * @deprecated use $template or declare as private
+	 * @deprecated use another var name as $template is already in use
 	 */
 	protected $_template = '';
 
