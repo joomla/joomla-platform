@@ -196,13 +196,13 @@ class JTableCategory extends JTableNested
 	 * @param   boolean  $children  True to delete child rows, false to move them up a level.
 	 * 
 	 * @return  boolean
-	 *
+	 * 
 	 * @see     JTableNested::delete
 	 * @since   11.4
 	 */
 	public function delete($pk, $children = null)
 	{
-		if (empty($children)) 
+		if (empty($children))
 		{
 			$children = false;
 		}
