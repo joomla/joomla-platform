@@ -23,6 +23,13 @@ class JSessionStorageDatabase extends JSessionStorage
 	 * @var    unknown  No idea what this does.
 	 * @since  11.1
 	 */
+	protected $data = null;
+
+	/**
+	 * @var    unknown  No idea what this does.
+	 * @since  11.1
+	 * @deprecated use $data or declare as private
+	 */
 	protected $_data = null;
 
 	/**
