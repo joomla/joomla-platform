@@ -192,17 +192,21 @@ class JTableCategory extends JTableNested
 	/**
 	 * Override method to delete a row and, optionally, child rows from the table
 	 * 
-	 * @param	integer	$pk		The primary key of the row to delete
-	 * @param	boolean	$children	True to delete child rows, false to move them up a level.
+	 * @param    integer   $pk        The primary key of the row to delete
+	 * @param    boolean   $children  True to delete child rows, false to move them up a level.
 	 * 
-	 * @return	boolean
-	 * @see JTableNested::delete
+	 * @return   boolean
+	 *
+	 * @see      JTableNested::delete
+	 * @since    11.4
 	 */
 	public function delete($pk, $children = null)
 	{
-		if (empty($children)) {
+		if (empty($children)) 
+		{
 			$children = false;
 		}
+		
 		return parent::delete($pk, $children);
 	}
 
