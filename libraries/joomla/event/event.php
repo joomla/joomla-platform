@@ -24,6 +24,15 @@ abstract class JEvent extends JObject
 	 * @var    object
 	 * @since  11.3
 	 */
+	protected $subject = null;
+
+	/**
+	 * Event object to observe.
+	 *
+	 * @var    object
+	 * @since  11.3
+	 * @deprecated use $subject or declare as private
+	 */
 	protected $_subject = null;
 
 	/**
