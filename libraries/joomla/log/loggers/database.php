@@ -7,11 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.log.log');
 jimport('joomla.log.logger');
-jimport('joomla.database.database');
 
 /**
  * Joomla! MySQL Database Log class
@@ -125,7 +123,7 @@ class JLoggerDatabase extends JLogger
 		}
 
 		// Convert the date.
-		$entry->date = $entry->date->toMySQL();
+		$entry->date = $entry->date->toSql();
 
 		$this->dbo->insertObject($this->table, $entry);
 	}
@@ -153,7 +151,7 @@ class JLoggerDatabase extends JLogger
 		{
 			$db = JDatabase::getInstance($options);
 
-			if (JError::isError($db))
+			if ($db instanceof Exception)
 			{
 				throw new LogException('Database Error: ' . (string) $db);
 			}

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * eAccelerator cache storage handler
@@ -125,7 +125,7 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	 *
 	 * @since   11.1
 	 */
-	function remove($id, $group)
+	public function remove($id, $group)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 		return eaccelerator_rm($cache_id);

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /** Error Codes:
  * - 30 : Unable to connect to host
@@ -68,49 +68,49 @@ class JFTP
 	 * @var    resource  Socket resource
 	 * @since  11.1
 	 */
-	var $_conn = null;
+	private $_conn = null;
 
 	/**
 	 * @var    resource  Data port connection resource
 	 * @since  11.1
 	 */
-	var $_dataconn = null;
+	private $_dataconn = null;
 
 	/**
 	 * @var    array  Passive connection information
 	 * @since  11.1
 	 */
-	var $_pasv = null;
+	private $_pasv = null;
 
 	/**
 	 * @var    string  Response Message
 	 * @since  11.1
 	 */
-	var $_response = null;
+	private $_response = null;
 
 	/**
 	 * @var    integer  Timeout limit
 	 * @since  11.1
 	 */
-	var $_timeout = 15;
+	private $_timeout = 15;
 
 	/**
 	 * @var    integer  Transfer Type
 	 * @since  11.1
 	 */
-	var $_type = null;
+	private $_type = null;
 
 	/**
 	 * @var    string  Native OS Type
 	 * @since  11.1
 	 */
-	var $_OS = null;
+	private $_OS = null;
 
 	/**
 	 * @var    array  Array to hold ascii format file extensions
 	 * @since   11.1
 	 */
-	var $_autoAscii = array(
+	private $_autoAscii = array(
 		"asp",
 		"bat",
 		"c",
@@ -139,7 +139,13 @@ class JFTP
 	 * @var    array
 	 * @since  11.1
 	 */
-	var $_lineEndings = array('UNIX' => "\n", 'MAC' => "\r", 'WIN' => "\r\n");
+	private $_lineEndings = array('UNIX' => "\n", 'MAC' => "\r", 'WIN' => "\r\n");
+
+	/**
+	 * @var    array  JFTP instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
 
 	/**
 	 * JFTP object constructor
@@ -148,10 +154,8 @@ class JFTP
 	 *
 	 * @since   11.1
 	 */
-
 	public function __construct($options = array())
 	{
-
 		// If default transfer type is not set, set it to autoascii detect
 		if (!isset($options['type']))
 		{
@@ -217,31 +221,29 @@ class JFTP
 	 */
 	public function getInstance($host = '127.0.0.1', $port = '21', $options = null, $user = null, $pass = null)
 	{
-		static $instances = array();
-
 		$signature = $user . ':' . $pass . '@' . $host . ":" . $port;
 
 		// Create a new instance, or set the options of an existing one
-		if (!isset($instances[$signature]) || !is_object($instances[$signature]))
+		if (!isset(self::$instances[$signature]) || !is_object(self::$instances[$signature]))
 		{
-			$instances[$signature] = new JFTP($options);
+			self::$instances[$signature] = new JFTP($options);
 		}
 		else
 		{
-			$instances[$signature]->setOptions($options);
+			self::$instances[$signature]->setOptions($options);
 		}
 
 		// Connect to the server, and login, if requested
-		if (!$instances[$signature]->isConnected())
+		if (!self::$instances[$signature]->isConnected())
 		{
-			$return = $instances[$signature]->connect($host, $port);
+			$return = self::$instances[$signature]->connect($host, $port);
 			if ($return && $user !== null && $pass !== null)
 			{
-				$instances[$signature]->login($user, $pass);
+				self::$instances[$signature]->login($user, $pass);
 			}
 		}
 
-		return $instances[$signature];
+		return self::$instances[$signature];
 	}
 
 	/**
@@ -255,7 +257,6 @@ class JFTP
 	 */
 	public function setOptions($options)
 	{
-
 		if (isset($options['type']))
 		{
 			$this->_type = $options['type'];
@@ -279,7 +280,6 @@ class JFTP
 	 */
 	public function connect($host = '127.0.0.1', $port = 21)
 	{
-
 		// Initialise variables.
 		$errno = null;
 		$err = null;
@@ -349,7 +349,6 @@ class JFTP
 	 */
 	public function login($user = 'anonymous', $pass = 'jftp@joomla.org')
 	{
-
 		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE)
 		{
@@ -393,7 +392,6 @@ class JFTP
 	 */
 	public function quit()
 	{
-
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE)
 		{
@@ -417,7 +415,6 @@ class JFTP
 	 */
 	public function pwd()
 	{
-
 		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE)
 		{
@@ -455,7 +452,6 @@ class JFTP
 	 */
 	public function syst()
 	{
-
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE)
 		{
@@ -505,7 +501,6 @@ class JFTP
 	 */
 	public function chdir($path)
 	{
-
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE)
 		{
@@ -538,7 +533,6 @@ class JFTP
 	 */
 	public function reinit()
 	{
-
 		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE)
 		{
@@ -572,7 +566,6 @@ class JFTP
 	 */
 	public function rename($from, $to)
 	{
-
 		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE)
 		{
@@ -613,7 +606,6 @@ class JFTP
 	 */
 	public function chmod($path, $mode)
 	{
-
 		// If no filename is given, we assume the current directory is the target
 		if ($path == '')
 		{
@@ -663,7 +655,6 @@ class JFTP
 	 */
 	public function delete($path)
 	{
-
 		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE)
 		{
@@ -701,7 +692,6 @@ class JFTP
 	 */
 	public function mkdir($path)
 	{
-
 		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE)
 		{
@@ -733,7 +723,6 @@ class JFTP
 	 */
 	public function restart($point)
 	{
-
 		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE)
 		{
@@ -766,7 +755,6 @@ class JFTP
 	 */
 	public function create($path)
 	{
-
 		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE)
 		{
@@ -826,7 +814,6 @@ class JFTP
 	 */
 	public function read($remote, &$buffer)
 	{
-
 		// Determine file type
 		$mode = $this->_findMode($remote);
 
@@ -911,7 +898,6 @@ class JFTP
 	 */
 	public function get($local, $remote)
 	{
-
 		// Determine file type
 		$mode = $this->_findMode($remote);
 
@@ -961,7 +947,7 @@ class JFTP
 		while (!feof($this->_dataconn))
 		{
 			$buffer = fread($this->_dataconn, 4096);
-			$ret = fwrite($fp, $buffer, 4096);
+			fwrite($fp, $buffer, 4096);
 		}
 
 		// Close the data port connection and file pointer
@@ -989,7 +975,6 @@ class JFTP
 	 */
 	public function store($local, $remote = null)
 	{
-
 		// If remote file is not given, use the filename of the local file in the current
 		// working directory.
 		if ($remote == null)
@@ -1093,7 +1078,6 @@ class JFTP
 	 */
 	public function write($remote, $buffer)
 	{
-
 		// Determine file type
 		$mode = $this->_findMode($remote);
 
@@ -1177,7 +1161,6 @@ class JFTP
 	 */
 	public function listNames($path = null)
 	{
-
 		// Initialise variables.
 		$data = null;
 
@@ -1275,7 +1258,6 @@ class JFTP
 	 */
 	public function listDetails($path = null, $type = 'all')
 	{
-
 		// Initialise variables.
 		$dir_list = array();
 		$data = null;
@@ -1515,7 +1497,6 @@ class JFTP
 	 */
 	protected function _putCmd($cmd, $expectedResponse)
 	{
-
 		// Make sure we have a connection to the server
 		if (!is_resource($this->_conn))
 		{
@@ -1543,7 +1524,6 @@ class JFTP
 	 */
 	protected function _verifyResponse($expected)
 	{
-
 		// Initialise variables.
 		$parts = null;
 
@@ -1602,7 +1582,6 @@ class JFTP
 	 */
 	protected function _passive()
 	{
-
 		// Initialize variables.
 		$match = array();
 		$parts = array();

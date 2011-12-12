@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Application helper functions
@@ -23,6 +23,15 @@ class JApplicationHelper
 	 *
 	 * @var    array
 	 * @since  11.1
+	 */
+	protected static $clients = null;
+
+	/**
+	 * Client information array
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $clientsor declare as private
 	 */
 	protected static $_clients = null;
 

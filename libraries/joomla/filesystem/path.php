@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 // Define a boolean constant as true if a Windows based host
 define('JPATH_ISWIN', (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN'));
@@ -177,7 +177,7 @@ class JPath
 		}
 
 		$path = JPath::clean($path);
-		if (strpos($path, JPath::clean(JPATH_ROOT)) !== 0)
+		if ((JPATH_ROOT != '') && strpos($path, JPath::clean(JPATH_ROOT)) !== 0)
 		{
 			// Don't translate
 			JError::raiseError(20, 'JPath::check Snooping out of bounds @ ' . $path);
@@ -226,7 +226,6 @@ class JPath
 	public static function isOwner($path)
 	{
 		jimport('joomla.filesystem.file');
-		jimport('joomla.user.helper');
 
 		$tmp = md5(JUserHelper::genRandomPassword(16));
 		$ssp = ini_get('session.save_path');

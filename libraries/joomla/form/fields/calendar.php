@@ -7,10 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
-
-jimport('joomla.html.html');
-jimport('joomla.form.formfield');
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Form Field class for the Joomla Platform.
@@ -94,7 +91,7 @@ class JFormFieldCalendar extends JFormField
 					$date->setTimezone(new DateTimeZone($config->get('offset')));
 
 					// Transform the date string.
-					$this->value = $date->toMySQL(true);
+					$this->value = $date->format('Y-m-d H:i:s', true, false);
 				}
 				break;
 
@@ -107,7 +104,7 @@ class JFormFieldCalendar extends JFormField
 					$date->setTimezone(new DateTimeZone($user->getParam('timezone', $config->get('offset'))));
 
 					// Transform the date string.
-					$this->value = $date->toMySQL(true);
+					$this->value = $date->format('Y-m-d H:i:s', true, false);
 				}
 				break;
 		}

@@ -7,10 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.html.editor');
-jimport('joomla.form.formfield');
 
 /**
  * Form Field class for the Joomla Platform.
@@ -90,7 +89,7 @@ class JFormFieldEditor extends JFormField
 	/**
 	 * Method to get a JEditor object based on the form field.
 	 *
-	 * @return  object  The JEditor object.
+	 * @return  JEditor  The JEditor object.
 	 *
 	 * @since   11.1
 	 */

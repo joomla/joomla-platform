@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
@@ -55,7 +55,7 @@ class JAdapter extends JObject
 	/**
 	 * Database Connector Object
 	 *
-	 * @var    object
+	 * @var    JDatabase
 	 * @since  11.1
 	 */
 	protected $_db;
@@ -81,7 +81,7 @@ class JAdapter extends JObject
 	/**
 	 * Get the database connector object
 	 *
-	 * @return  object  Database connector object
+	 * @return  JDatabase  Database connector object
 	 *
 	 * @since   11.1
 	 */

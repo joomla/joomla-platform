@@ -9,9 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.access.access');
-jimport('joomla.registry.registry');
-
 /**
  * User class.  Handles all application interaction with a user
  *
@@ -192,6 +189,12 @@ class JUser extends JObject
 	protected $_errorMsg = null;
 
 	/**
+	 * @var    array  JUser instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
+
+	/**
 	 * Constructor activating the default information of the language
 	 *
 	 * @param   integer  $identifier  The primary key of the user to load (optional).
@@ -230,17 +233,9 @@ class JUser extends JObject
 	 */
 	public static function getInstance($identifier = 0)
 	{
-		static $instances;
-
-		if (!isset($instances))
-		{
-			$instances = array();
-		}
-
 		// Find the user id
 		if (!is_numeric($identifier))
 		{
-			jimport('joomla.user.helper');
 			if (!$id = JUserHelper::getUserId($identifier))
 			{
 				JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('JLIB_USER_ERROR_ID_NOT_EXISTS', $identifier));
@@ -253,13 +248,13 @@ class JUser extends JObject
 			$id = $identifier;
 		}
 
-		if (empty($instances[$id]))
+		if (empty(self::$instances[$id]))
 		{
 			$user = new JUser($id);
-			$instances[$id] = $user;
+			self::$instances[$id] = $user;
 		}
 
-		return $instances[$id];
+		return self::$instances[$id];
 	}
 
 	/**
@@ -589,8 +584,6 @@ class JUser extends JObject
 	 */
 	public function bind(&$array)
 	{
-		jimport('joomla.user.helper');
-
 		// Let's check to see if the user is new or not
 		if (empty($this->id))
 		{
@@ -617,7 +610,7 @@ class JUser extends JObject
 
 			// Set the registration timestamp
 
-			$this->set('registerDate', JFactory::getDate()->toMySQL());
+			$this->set('registerDate', JFactory::getDate()->toSql());
 
 			// Check that username is not greater than 150 characters
 			$username = $this->get('username');
@@ -754,7 +747,7 @@ class JUser extends JObject
 				if ($isNew)
 				{
 					// Check if the new user is being put into a Super Admin group.
-					foreach ($this->groups as $key => $groupId)
+					foreach ($this->groups as $groupId)
 					{
 						if (JAccess::checkGroup($groupId, 'core.admin'))
 						{

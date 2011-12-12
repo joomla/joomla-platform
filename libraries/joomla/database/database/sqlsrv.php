@@ -7,10 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
-
-jimport('joomla.database.database');
-jimport('joomla.string.string');
+defined('JPATH_PLATFORM') or die;
 
 JLoader::register('JDatabaseQuerySQLSrv', dirname(__FILE__) . '/sqlsrvquery.php');
 
@@ -243,7 +240,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	function dropTable($tableName, $ifExists = true)
+	public function dropTable($tableName, $ifExists = true)
 	{
 		$query = $this->getQuery(true);
 

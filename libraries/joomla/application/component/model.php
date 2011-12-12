@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Base class for a Joomla Model
@@ -27,6 +27,15 @@ abstract class JModel extends JObject
 	 * @var    boolean
 	 * @since  11.1
 	 */
+	protected $stateSet = null;
+
+	/**
+	 * Indicates if the internal state has been set
+	 *
+	 * @var    boolean
+	 * @since  11.1
+	 * @deprecated use $stateSet declare as private
+	 */
 	protected $__state_set = null;
 
 	/**
@@ -34,6 +43,15 @@ abstract class JModel extends JObject
 	 *
 	 * @var    object
 	 * @since  11.1
+	 */
+	protected $db;
+
+	/**
+	 * Database Connector
+	 *
+	 * @var    object
+	 * @since  11.1
+	 * @deprecated use $db declare as private
 	 */
 	protected $_db;
 
@@ -509,7 +527,6 @@ abstract class JModel extends JObject
 			'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : JRequest::getCmd('option')),
 			'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'));
 
-		jimport('joomla.cache.cache');
 		$cache = JCache::getInstance('callback', $options);
 		$cache->clean();
 

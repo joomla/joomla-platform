@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
@@ -113,6 +113,12 @@ class JInstaller extends JAdapter
 	protected $redirect_url = null;
 
 	/**
+	 * @var    JInstaller  JInstaller instance container.
+	 * @since  11.3
+	 */
+	protected static $instance;
+
+	/**
 	 * Constructor
 	 *
 	 * @since   11.1
@@ -132,13 +138,11 @@ class JInstaller extends JAdapter
 	 */
 	public static function getInstance()
 	{
-		static $instance;
-
-		if (!isset($instance))
+		if (!isset(self::$instance))
 		{
-			$instance = new JInstaller;
+			self::$instance = new JInstaller;
 		}
-		return $instance;
+		return self::$instance;
 	}
 
 	/**
@@ -147,8 +151,22 @@ class JInstaller extends JAdapter
 	 * @return  boolean  Allow overwrite switch
 	 *
 	 * @since   11.1
+	 * @deprectaed 12.1 Use JInstaller::isOverwrite()
 	 */
 	public function getOverwrite()
+	{
+		JLog::add('JInstaller::getOverwrite() is deprectaed. Please use JInstaller::isOverwrite() instead', JLog::WARNING, 'deprecated');
+		return $this->isOverwrite();
+	}
+
+	/**
+	 * Get the allow overwrite switch
+	 *
+	 * @return  boolean  Allow overwrite switch
+	 *
+	 * @since   11.4
+	 */
+	public function isOverwrite()
 	{
 		return $this->_overwrite;
 	}
@@ -210,8 +228,22 @@ class JInstaller extends JAdapter
 	 * @return  boolean
 	 *
 	 * @since   11.1
+	 * @deprectaed 12.1 Use JInstaller::isUpgrade()
 	 */
 	public function getUpgrade()
+	{
+		JLog::add('JInstaller::getUpgrade() is deprectaed. Please use JInstaller::isUpgrade() instead', JLog::WARNING, 'deprecated');
+		return $this->isUpgrade();
+	}
+
+	/**
+	 * Get the upgrade switch
+	 *
+	 * @return  boolean
+	 *
+	 * @since   11.4
+	 */
+	public function isUpgrade()
 	{
 		return $this->_upgrade;
 	}
@@ -716,7 +748,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @since   11.1
 	 */
-	function refreshManifestCache($eid)
+	public function refreshManifestCache($eid)
 	{
 		if ($eid)
 		{
@@ -920,7 +952,6 @@ class JInstaller extends JAdapter
 				}
 
 				// Create an array of queries from the sql file
-				jimport('joomla.installer.helper');
 				$queries = JInstallerHelper::splitSql($buffer);
 
 				if (count($queries) == 0)
@@ -1095,7 +1126,6 @@ class JInstaller extends JAdapter
 								}
 
 								// Create an array of queries from the sql file
-								jimport('joomla.installer.helper');
 								$queries = JInstallerHelper::splitSql($buffer);
 
 								if (count($queries) == 0)
@@ -1175,7 +1205,6 @@ class JInstaller extends JAdapter
 		$copyfiles = array();
 
 		// Get the client info
-		jimport('joomla.application.helper');
 		$client = JApplicationHelper::getClientInfo($cid);
 
 		/*
@@ -1296,7 +1325,6 @@ class JInstaller extends JAdapter
 		$copyfiles = array();
 
 		// Get the client info
-		jimport('joomla.application.helper');
 		$client = JApplicationHelper::getClientInfo($cid);
 
 		// Here we set the folder we are going to copy the files to.
@@ -1408,7 +1436,6 @@ class JInstaller extends JAdapter
 		$copyfiles = array();
 
 		// Get the client info
-		jimport('joomla.application.helper');
 		$client = JApplicationHelper::getClientInfo($cid);
 
 		// Here we set the folder we are going to copy the files to.
@@ -1671,8 +1698,6 @@ class JInstaller extends JAdapter
 		}
 
 		// Get the client info if we're using a specific client
-		jimport('joomla.application.helper');
-
 		if ($cid > -1)
 		{
 			$client = JApplicationHelper::getClientInfo($cid);
@@ -1819,7 +1844,6 @@ class JInstaller extends JAdapter
 	public function copyManifest($cid = 1)
 	{
 		// Get the client info
-		jimport('joomla.application.helper');
 		$client = JApplicationHelper::getClientInfo($cid);
 
 		$path['src'] = $this->getPath('manifest');
@@ -2092,7 +2116,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @since   11.1
 	 */
-	function loadMD5Sum($filename)
+	public function loadMD5Sum($filename)
 	{
 		if (!file_exists($filename))
 		{

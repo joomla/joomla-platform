@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
@@ -43,7 +43,6 @@ abstract class JInstallerHelper
 		ini_set('track_errors', true);
 
 		// Set user agent
-		jimport('joomla.version');
 		$version = new JVersion;
 		ini_set('user_agent', $version->getUserAgent('Installer'));
 

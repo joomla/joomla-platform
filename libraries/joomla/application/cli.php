@@ -7,22 +7,20 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.application.applicationexception');
 jimport('joomla.application.input');
 jimport('joomla.event.dispatcher');
-jimport('joomla.log.log');
-jimport('joomla.registry.registry');
 
 /**
  * Base class for a Joomla! command line application.
  *
  * @package     Joomla.Platform
  * @subpackage  Application
- * @since       11.1
+ * @since       11.4
  */
-class JCli
+class JApplicationCli
 {
 	/**
 	 * @var    JInputCli  The application input object.
@@ -43,7 +41,7 @@ class JCli
 	protected $dispatcher;
 
 	/**
-	 * @var    JCli  The application instance.
+	 * @var    JApplicationCli  The application instance.
 	 * @since  11.1
 	 */
 	protected static $instance;
@@ -138,13 +136,13 @@ class JCli
 	}
 
 	/**
-	 * Returns a reference to the global JCli object, only creating it if it doesn't already exist.
+	 * Returns a reference to the global JApplicationCli object, only creating it if it doesn't already exist.
 	 *
-	 * This method must be invoked as: $cli = JCli::getInstance();
+	 * This method must be invoked as: $cli = JApplicationCli::getInstance();
 	 *
-	 * @param   string  $name  The name (optional) of the JCli class to instantiate.
+	 * @param   string  $name  The name (optional) of the JApplicationCli class to instantiate.
 	 *
-	 * @return  JCli
+	 * @return  JApplicationCli
 	 *
 	 * @since   11.1
 	 */
@@ -153,13 +151,13 @@ class JCli
 		// Only create the object if it doesn't exist.
 		if (empty(self::$instance))
 		{
-			if (class_exists($name) && (is_subclass_of($name, 'JCli')))
+			if (class_exists($name) && (is_subclass_of($name, 'JApplicationCli')))
 			{
 				self::$instance = new $name;
 			}
 			else
 			{
-				self::$instance = new JCli;
+				self::$instance = new JApplicationCli;
 			}
 		}
 
@@ -219,7 +217,7 @@ class JCli
 	 *
 	 * @param   mixed  $data  Either an array or object to be loaded into the configuration object.
 	 *
-	 * @return  JCli  Instance of $this to allow chaining.
+	 * @return  JApplicationCli  Instance of $this to allow chaining.
 	 *
 	 * @since   11.1
 	 */
@@ -244,7 +242,7 @@ class JCli
 	 * @param   string   $text  The text to display.
 	 * @param   boolean  $nl    True (default) to append a new line at the end of the output string.
 	 *
-	 * @return  JCli  Instance of $this to allow chaining.
+	 * @return  JApplicationCli  Instance of $this to allow chaining.
 	 *
 	 * @codeCoverageIgnore
 	 * @since   11.1
@@ -275,7 +273,7 @@ class JCli
 	 * @param   string    $event    The event name.
 	 * @param   callback  $handler  The handler, a function or an instance of a event object.
 	 *
-	 * @return  JCli  Instance of $this to allow chaining.
+	 * @return  JApplicationCli  Instance of $this to allow chaining.
 	 *
 	 * @since   11.1
 	 */
@@ -299,7 +297,7 @@ class JCli
 	 *
 	 * @since   11.1
 	 */
-	public function triggerEvent($event, $args = null)
+	public function triggerEvent($event, array $args = null)
 	{
 		if ($this->dispatcher instanceof JDispatcher)
 		{
@@ -367,7 +365,7 @@ class JCli
 			}
 			else
 			{
-				throw new Exception('Configuration class does not exist.');
+				throw new RuntimeException('Configuration class does not exist.');
 			}
 		}
 
@@ -387,4 +385,16 @@ class JCli
 	{
 		$this->dispatcher = JDispatcher::getInstance();
 	}
+}
+
+/**
+ * Deprecated class placeholder.  You should use JApplicationCli instead.
+ *
+ * @package     Joomla.Platform
+ * @subpackage  Application
+ * @since       11.1
+ * @deprecated  12.3
+ */
+class JCli extends JApplicationCli
+{
 }

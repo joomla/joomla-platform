@@ -7,13 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.html.html');
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
-jimport('joomla.form.formfield');
-jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('list');
 
 /**

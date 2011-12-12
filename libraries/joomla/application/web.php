@@ -7,26 +7,22 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.application.applicationexception');
 jimport('joomla.application.input');
 jimport('joomla.application.web.webclient');
 jimport('joomla.environment.uri');
 jimport('joomla.event.dispatcher');
-jimport('joomla.log.log');
-jimport('joomla.registry.registry');
-jimport('joomla.session.session');
-jimport('joomla.user.user');
 
 /**
  * Base class for a Joomla! Web application.
  *
  * @package     Joomla.Platform
  * @subpackage  Application
- * @since       11.3
+ * @since       11.4
  */
-class JWeb
+class JApplicationWeb
 {
 	/**
 	 * @var    JInput  The application input object.
@@ -95,7 +91,7 @@ class JWeb
 	protected $response;
 
 	/**
-	 * @var    JWeb  The application instance.
+	 * @var    JApplicationWeb  The application instance.
 	 * @since  11.3
 	 */
 	protected static $instance;
@@ -168,13 +164,13 @@ class JWeb
 	}
 
 	/**
-	 * Returns a reference to the global JWeb object, only creating it if it doesn't already exist.
+	 * Returns a reference to the global JApplicationWeb object, only creating it if it doesn't already exist.
 	 *
-	 * This method must be invoked as: $web = JWeb::getInstance();
+	 * This method must be invoked as: $web = JApplicationWeb::getInstance();
 	 *
-	 * @param   string  $name  The name (optional) of the JWeb class to instantiate.
+	 * @param   string  $name  The name (optional) of the JApplicationWeb class to instantiate.
 	 *
-	 * @return  JWeb
+	 * @return  JApplicationWeb
 	 *
 	 * @since   11.3
 	 */
@@ -183,13 +179,13 @@ class JWeb
 		// Only create the object if it doesn't exist.
 		if (empty(self::$instance))
 		{
-			if (class_exists($name) && (is_subclass_of($name, 'JWeb')))
+			if (class_exists($name) && (is_subclass_of($name, 'JApplicationWeb')))
 			{
 				self::$instance = new $name;
 			}
 			else
 			{
-				self::$instance = new JWeb;
+				self::$instance = new JApplicationWeb;
 			}
 		}
 
@@ -219,7 +215,7 @@ class JWeb
 	 *                              the application's event dispatcher, if it is null then the default event dispatcher
 	 *                              will be created based on the application's loadDispatcher() method.
 	 *
-	 * @return  JWeb  Instance of $this to allow chaining.
+	 * @return  JApplicationWeb  Instance of $this to allow chaining.
 	 *
 	 * @see     loadSession()
 	 * @see     loadDocument()
@@ -328,13 +324,13 @@ class JWeb
 			$this->compress();
 		}
 
-		// Trigger the onBeforeRender event.
+		// Trigger the onBeforeRespond event.
 		$this->triggerEvent('onBeforeRespond');
 
 		// Send the application response.
 		$this->respond();
 
-		// Trigger the onBeforeRender event.
+		// Trigger the onAfterRespond event.
 		$this->triggerEvent('onAfterRespond');
 	}
 
@@ -371,14 +367,14 @@ class JWeb
 			'params' => ''
 		);
 
-		// Handle the convention-based default case for themes path.
-		if (defined('JPATH_BASE'))
+		if ($this->get('themes.base'))
 		{
-			$options['directory'] = JPATH_BASE . '/themes';
+			$options['directory'] = $this->get('themes.base');
 		}
+		// Fall back to constants.
 		else
 		{
-			$options['directory'] = dirname(__FILE__) . '/themes';
+			$options['directory'] = (defined('JPATH_BASE') ? JPATH_BASE : dirname(__FILE__)) . '/themes';
 		}
 
 		// Parse the document.
@@ -621,7 +617,7 @@ class JWeb
 	 *
 	 * @param   mixed  $data  Either an array or object to be loaded into the configuration object.
 	 *
-	 * @return  JWeb  Instance of $this to allow chaining.
+	 * @return  JApplicationWeb  Instance of $this to allow chaining.
 	 *
 	 * @since   11.3
 	 */
@@ -646,7 +642,7 @@ class JWeb
 	 * @param   string    $event    The event name.
 	 * @param   callback  $handler  The handler, a function or an instance of a event object.
 	 *
-	 * @return  JWeb  Instance of $this to allow chaining.
+	 * @return  JApplicationWeb  Instance of $this to allow chaining.
 	 *
 	 * @since   11.3
 	 */
@@ -670,7 +666,7 @@ class JWeb
 	 *
 	 * @since   11.3
 	 */
-	public function triggerEvent($event, $args = null)
+	public function triggerEvent($event, array $args = null)
 	{
 		if ($this->dispatcher instanceof JDispatcher)
 		{
@@ -742,7 +738,7 @@ class JWeb
 	 * @param   string   $value    The value of the header to set.
 	 * @param   boolean  $replace  True to replace any headers with the same name.
 	 *
-	 * @return  JWeb  Instance of $this to allow chaining.
+	 * @return  JApplicationWeb  Instance of $this to allow chaining.
 	 *
 	 * @since   11.3
 	 */
@@ -789,7 +785,7 @@ class JWeb
 	/**
 	 * Method to clear any set response headers.
 	 *
-	 * @return  JWeb  Instance of $this to allow chaining.
+	 * @return  JApplicationWeb  Instance of $this to allow chaining.
 	 *
 	 * @since   11.3
 	 */
@@ -803,7 +799,7 @@ class JWeb
 	/**
 	 * Send the response headers.
 	 *
-	 * @return  JWeb  Instance of $this to allow chaining.
+	 * @return  JApplicationWeb  Instance of $this to allow chaining.
 	 *
 	 * @since   11.3
 	 */
@@ -833,7 +829,7 @@ class JWeb
 	 *
 	 * @param   string  $content  The content to set as the response body.
 	 *
-	 * @return  JWeb  Instance of $this to allow chaining.
+	 * @return  JApplicationWeb  Instance of $this to allow chaining.
 	 *
 	 * @since   11.3
 	 */
@@ -849,7 +845,7 @@ class JWeb
 	 *
 	 * @param   string  $content  The content to prepend to the response body.
 	 *
-	 * @return  JWeb  Instance of $this to allow chaining.
+	 * @return  JApplicationWeb  Instance of $this to allow chaining.
 	 *
 	 * @since   11.3
 	 */
@@ -865,7 +861,7 @@ class JWeb
 	 *
 	 * @param   string  $content  The content to append to the response body.
 	 *
-	 * @return  JWeb  Instance of $this to allow chaining.
+	 * @return  JApplicationWeb  Instance of $this to allow chaining.
 	 *
 	 * @since   11.3
 	 */
@@ -1046,7 +1042,7 @@ class JWeb
 			}
 			else
 			{
-				throw new Exception('Configuration class does not exist.');
+				throw new RuntimeException('Configuration class does not exist.');
 			}
 		}
 
@@ -1228,4 +1224,16 @@ class JWeb
 			$this->set('uri.media.path', $this->get('uri.base.path') . 'media/');
 		}
 	}
+}
+
+/**
+ * Deprecated class placeholder.  You should use JApplicationWeb instead.
+ *
+ * @package     Joomla.Platform
+ * @subpackage  Application
+ * @since       11.3
+ * @deprecated  12.3
+ */
+class JWeb extends JApplicationWeb
+{
 }

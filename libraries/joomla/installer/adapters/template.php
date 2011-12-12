@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.installer.extension');
 jimport('joomla.base.adapterinstance');
@@ -408,7 +408,7 @@ class JInstallerTemplate extends JAdapterInstance
 	 *
 	 * @return  array  JExtensionTable list
 	 */
-	function discover()
+	public function discover()
 	{
 		$results = array();
 		$site_list = JFolder::folders(JPATH_SITE . '/templates');
@@ -466,7 +466,7 @@ class JInstallerTemplate extends JAdapterInstance
 	 *
 	 * @since 11.1
 	 */
-	function discover_install()
+	public function discover_install()
 	{
 		// Templates are one of the easiest
 		// If its not in the extensions table we just add it
@@ -506,7 +506,7 @@ class JInstallerTemplate extends JAdapterInstance
 			$db = $this->parent->getDbo();
 			$query = $db->getQuery(true);
 			$query->insert('#__template_styles');
-			$query->set('template=' . $db->Quote($this->parent->extension->name));
+			$query->set('template=' . $db->Quote($this->parent->extension->element));
 			$query->set('client_id=' . $db->Quote($this->parent->extension->client_id));
 			$query->set('home=0');
 			$query->set('title=' . $db->Quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', $this->parent->extension->name)));

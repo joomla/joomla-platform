@@ -7,10 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
-
-// Pull in JLog for deprecation logging.
-jimport('joomla.log.log');
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Joomla! Exception object.
@@ -281,7 +278,7 @@ class JException extends Exception
 		}
 
 		// Check if only the string is requested
-		if (JError::isError($error) && $toString)
+		if ($error instanceof Exception && $toString)
 		{
 			return (string) $error;
 		}

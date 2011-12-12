@@ -213,26 +213,23 @@ abstract class JUserHelper
 	 *
 	 * @since   11.1
 	 */
-	function getProfile($userId = 0)
+	public function getProfile($userId = 0)
 	{
 		if ($userId == 0)
 		{
-			$user = JFactory::getUser();
-			$userId = $user->id;
-		}
-		else
-		{
-			$user = JFactory::getUser((int) $userId);
+			$user	= JFactory::getUser();
+			$userId	= $user->id;
 		}
 
 		// Get the dispatcher and load the user's plugins.
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher	= JDispatcher::getInstance();
 		JPluginHelper::importPlugin('user');
 
 		$data = new JObject;
+		$data->id = $userId;
 
 		// Trigger the data preparation event.
-		$results = $dispatcher->trigger('onPrepareUserProfileData', array($userId, &$data));
+		$dispatcher->trigger('onContentPrepareData', array('com_users.profile', &$data));
 
 		return $data;
 	}
@@ -530,14 +527,6 @@ abstract class JUserHelper
 		$salt = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 		$len = strlen($salt);
 		$makepass = '';
-
-		$stat = @stat(__FILE__);
-		if (empty($stat) || !is_array($stat))
-		{
-			$stat = array(php_uname());
-		}
-
-		mt_srand(crc32(microtime() . implode('|', $stat)));
 
 		for ($i = 0; $i < $length; $i++)
 		{

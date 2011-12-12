@@ -7,12 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.application.input');
 jimport('joomla.event.dispatcher');
 jimport('joomla.environment.response');
-jimport('joomla.log.log');
 
 /**
  * Base class for a Joomla! application.
@@ -34,6 +33,15 @@ class JApplication extends JObject
 	 * @var    integer
 	 * @since  11.1
 	 */
+	protected $clientId = null;
+
+	/**
+	 * The client identifier.
+	 *
+	 * @var    integer
+	 * @since  11.1
+	 * @deprecated use $clientId or declare as private
+	 */
 	protected $_clientId = null;
 
 	/**
@@ -42,6 +50,15 @@ class JApplication extends JObject
 	 * @var    array
 	 * @since  11.1
 	 */
+	protected $messageQueue = array();
+
+	/**
+	 * The application message queue.
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $messageQueue or declare as private
+	 */
 	protected $_messageQueue = array();
 
 	/**
@@ -49,6 +66,15 @@ class JApplication extends JObject
 	 *
 	 * @var    array
 	 * @since  11.1
+	 */
+	protected $name = null;
+
+	/**
+	 * The name of the application.
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $name or declare as private
 	 */
 	protected $_name = null;
 
@@ -85,6 +111,12 @@ class JApplication extends JObject
 	public $input = null;
 
 	/**
+	 * @var    array  JApplication instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   array  $config  A configuration array including optional elements such as session
@@ -94,7 +126,6 @@ class JApplication extends JObject
 	 */
 	public function __construct($config = array())
 	{
-		jimport('joomla.utilities.utility');
 		jimport('joomla.error.profiler');
 
 		// Set the view name.
@@ -139,7 +170,7 @@ class JApplication extends JObject
 		// Create the session if a session name is passed.
 		if ($config['session'] !== false)
 		{
-			$this->_createSession(JUtility::getHash($config['session_name']));
+			$this->_createSession(self::getHash($config['session_name']));
 		}
 
 		$this->set('requestTime', gmdate('Y-m-d H:i'));
@@ -162,17 +193,9 @@ class JApplication extends JObject
 	 */
 	public static function getInstance($client, $config = array(), $prefix = 'J')
 	{
-		static $instances;
-
-		if (!isset($instances))
-		{
-			$instances = array();
-		}
-
-		if (empty($instances[$client]))
+		if (empty(self::$instances[$client]))
 		{
 			// Load the router object.
-			jimport('joomla.application.helper');
 			$info = JApplicationHelper::getClientInfo($client, true);
 
 			$path = $info->path . '/includes/application.php';
@@ -190,10 +213,10 @@ class JApplication extends JObject
 				return $error;
 			}
 
-			$instances[$client] = &$instance;
+			self::$instances[$client] = &$instance;
 		}
 
-		return $instances[$client];
+		return self::$instances[$client];
 	}
 
 	/**
@@ -207,8 +230,6 @@ class JApplication extends JObject
 	 */
 	public function initialise($options = array())
 	{
-		jimport('joomla.plugin.helper');
-
 		// Set the language in the class.
 		$config = JFactory::getConfig();
 
@@ -421,14 +442,14 @@ class JApplication extends JObject
 			{
 				// MSIE type browser and/or server cause issues when url contains utf8 character,so use a javascript redirect method
 				echo '<html><head><meta http-equiv="content-type" content="text/html; charset=' . $document->getCharset() . '" />'
-					.'<script>document.location.href=\'' . htmlspecialchars($url) . '\';</script></head></html>';
+					. '<script>document.location.href=\'' . htmlspecialchars($url) . '\';</script></head></html>';
 			}
 			elseif (!$moved and $navigator->isBrowser('konqueror'))
 			{
 				// WebKit browser (identified as konqueror by Joomla!) - Do not use 303, as it causes subresources
 				// reload (https://bugs.webkit.org/show_bug.cgi?id=38690)
 				echo '<html><head><meta http-equiv="content-type" content="text/html; charset=' . $document->getCharset() . '" />'
-					.'<meta http-equiv="refresh" content="0; url=' . htmlspecialchars($url) . '" /></head></html>';
+					. '<meta http-equiv="refresh" content="0; url=' . htmlspecialchars($url) . '" /></head></html>';
 			}
 			else
 			{
@@ -642,7 +663,7 @@ class JApplication extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function triggerEvent($event, $args = null)
+	public function triggerEvent($event, $args = null)
 	{
 		$dispatcher = JDispatcher::getInstance();
 
@@ -731,10 +752,9 @@ class JApplication extends JObject
 				if (isset($options['remember']) && $options['remember'])
 				{
 					jimport('joomla.utilities.simplecrypt');
-					jimport('joomla.utilities.utility');
 
 					// Create the encryption key, apply extra hardening using the user agent string.
-					$key = JUtility::getHash(@$_SERVER['HTTP_USER_AGENT']);
+					$key = self::getHash(@$_SERVER['HTTP_USER_AGENT']);
 
 					$crypt = new JSimpleCrypt($key);
 					$rcookie = $crypt->encrypt(serialize($credentials));
@@ -743,7 +763,7 @@ class JApplication extends JObject
 					// Use domain and path set in config for cookie if it exists.
 					$cookie_domain = $this->getCfg('cookie_domain', '');
 					$cookie_path = $this->getCfg('cookie_path', '/');
-					setcookie(JUtility::getHash('JLOGIN_REMEMBER'), $rcookie, $lifetime, $cookie_path, $cookie_domain);
+					setcookie(self::getHash('JLOGIN_REMEMBER'), $rcookie, $lifetime, $cookie_path, $cookie_domain);
 				}
 
 				return true;
@@ -787,9 +807,6 @@ class JApplication extends JObject
 	 */
 	public function logout($userid = null, $options = array())
 	{
-		// Initialise variables.
-		$retval = false;
-
 		// Get a user object from the JApplication.
 		$user = JFactory::getUser($userid);
 
@@ -816,7 +833,7 @@ class JApplication extends JObject
 			// Use domain and path set in config for cookie if it exists.
 			$cookie_domain = $this->getCfg('cookie_domain', '');
 			$cookie_path = $this->getCfg('cookie_path', '/');
-			setcookie(JUtility::getHash('JLOGIN_REMEMBER'), false, time() - 86400, $cookie_path, $cookie_domain);
+			setcookie(self::getHash('JLOGIN_REMEMBER'), false, time() - 86400, $cookie_path, $cookie_domain);
 
 			return true;
 		}
@@ -862,7 +879,7 @@ class JApplication extends JObject
 		jimport('joomla.application.router');
 		$router = JRouter::getInstance($name, $options);
 
-		if (JError::isError($router))
+		if ($router instanceof Exception)
 		{
 			return null;
 		}
@@ -915,7 +932,7 @@ class JApplication extends JObject
 		jimport('joomla.application.pathway');
 		$pathway = JPathway::getInstance($name, $options);
 
-		if (JError::isError($pathway))
+		if ($pathway instanceof Exception)
 		{
 			return null;
 		}
@@ -943,7 +960,7 @@ class JApplication extends JObject
 		jimport('joomla.application.menu');
 		$menu = JMenu::getInstance($name, $options);
 
-		if (JError::isError($menu))
+		if ($menu instanceof Exception)
 		{
 			return null;
 		}
@@ -962,9 +979,7 @@ class JApplication extends JObject
 	 */
 	public static function getHash($seed)
 	{
-		$conf = JFactory::getConfig();
-
-		return md5($conf->get('secret') . $seed);
+		return md5(JFactory::getConfig()->get('secret') . $seed);
 	}
 
 	/**
@@ -978,8 +993,6 @@ class JApplication extends JObject
 	 */
 	protected function _createConfiguration($file)
 	{
-		jimport('joomla.registry.registry');
-
 		JLoader::register('JConfig', $file);
 
 		// Create the JConfig object.

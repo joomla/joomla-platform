@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * JMenu class
@@ -24,6 +24,15 @@ class JMenu extends JObject
 	 * @var    array
 	 * @since   11.1
 	 */
+	protected $items = array();
+
+	/**
+	 * Array to hold the menu items
+	 *
+	 * @var    array
+	 * @since   11.1
+	 * @deprecated use $items declare as private
+	 */
 	protected $_items = array();
 
 	/**
@@ -31,6 +40,15 @@ class JMenu extends JObject
 	 *
 	 * @var    integer
 	 * @since   11.1
+	 */
+	protected $default = array();
+
+	/**
+	 * Identifier of the default menu item
+	 *
+	 * @var    integer
+	 * @since   11.1
+	 * @deprecated use $default declare as private
 	 */
 	protected $_default = array();
 
@@ -40,7 +58,22 @@ class JMenu extends JObject
 	 * @var    integer
 	 * @since  11.1
 	 */
+	protected $active = 0;
+
+	/**
+	 * Identifier of the active menu item
+	 *
+	 * @var    integer
+	 * @since  11.1
+	 * @deprecated use $active declare as private
+	 */
 	protected $_active = 0;
+
+	/**
+	 * @var    array  JMenu instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
 
 	/**
 	 * Class constructor
@@ -54,7 +87,7 @@ class JMenu extends JObject
 		// Load the menu items
 		$this->load();
 
-		foreach ($this->_items as $k => $item)
+		foreach ($this->_items as $item)
 		{
 			if ($item->home)
 			{
@@ -80,14 +113,7 @@ class JMenu extends JObject
 	 */
 	public static function getInstance($client, $options = array())
 	{
-		static $instances;
-
-		if (!isset($instances))
-		{
-			$instances = array();
-		}
-
-		if (empty($instances[$client]))
+		if (empty(self::$instances[$client]))
 		{
 			//Load the router object
 			$info = JApplicationHelper::getClientInfo($client, true);
@@ -109,10 +135,10 @@ class JMenu extends JObject
 				return $error;
 			}
 
-			$instances[$client] = & $instance;
+			self::$instances[$client] = & $instance;
 		}
 
-		return $instances[$client];
+		return self::$instances[$client];
 	}
 
 	/**
@@ -165,7 +191,7 @@ class JMenu extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function getDefault($language = '*')
+	public function getDefault($language = '*')
 	{
 		if (array_key_exists($language, $this->_default))
 		{

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.path');
 
@@ -348,7 +348,6 @@ class JFile
 		else
 		{
 			$data = '';
-			$x = 0;
 			// While it's:
 			// 1: Not the end of the file AND
 			// 2a: No Max Amount set OR
@@ -402,7 +401,6 @@ class JFile
 		else
 		{
 			// Initialise variables.
-			jimport('joomla.client.helper');
 			$FTPOptions = JClientHelper::getCredentials('ftp');
 
 			if ($FTPOptions['enabled'] == 1)
@@ -465,7 +463,6 @@ class JFile
 		else
 		{
 			// Initialise variables.
-			jimport('joomla.client.helper');
 			$FTPOptions = JClientHelper::getCredentials('ftp');
 			$ret = false;
 

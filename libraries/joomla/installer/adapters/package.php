@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.base.adapterinstance');
 jimport('joomla.database.query');
@@ -228,7 +228,7 @@ class JInstallerPackage extends JAdapterInstance
 	 *
 	 * @since   11.1
 	 */
-	function uninstall($id)
+	public function uninstall($id)
 	{
 		// Initialise variables.
 		$row = null;

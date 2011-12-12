@@ -7,10 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
-
-jimport('joomla.html.html');
-jimport('joomla.form.formfield');
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Form Field class for the Joomla Platform.

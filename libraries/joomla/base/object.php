@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Base object class.
@@ -151,7 +151,7 @@ class JObject
 		}
 
 		// Check if only the string is requested
-		if (JError::isError($error) && $toString)
+		if ($error instanceof Exception && $toString)
 		{
 			return (string) $error;
 		}
@@ -237,11 +237,13 @@ class JObject
 	 * @deprecated  12.1    Use magic method __toString()
 	 * @see         __toString()
 	 */
-	function toString()
+	public function toString()
 	{
+		// @codeCoverageIgnoreStart
 		// Deprecation warning.
 		JLog::add('JObject::toString() is deprecated.', JLog::WARNING, 'deprecated');
 
 		return $this->__toString();
+		// @codeCoverageIgnoreEnd
 	}
 }
