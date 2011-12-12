@@ -41,8 +41,8 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 			array("'%_abc123", false, '\'\'%_abc123'),
 			array("'%_abc123", true, '\'\'\%\_abc123'),
 			/* ' and \ will be escaped: the first become '', the latter \\ */
-			array("\'%_abc123", false, '\\\'\'%_abc123'),
-			array("\'%_abc123", true, '\\\'\'\%\_abc123'),
+			array("\'%_abc123", false, '\\\\\'\'%_abc123'),
+			array("\'%_abc123", true, '\\\\\'\'\%\_abc123'),
 		);
 	}
 
@@ -396,9 +396,34 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 					"18" => "jos_user_profiles",	"19" => "jos_user_usergroup_map",			"20" => "jos_usergroups",
 					"21" => "jos_users",			"22" => "jos_viewlevels");
 
+		$result = $this->object->getTableList();
+
+		// assert array size
 		$this->assertThat(
-			$this->object->getTableList(),
-			$this->equalTo($expected),
+			count($result),
+			$this->equalTo(count($expected)),
+			__LINE__
+		);
+
+		// clear found element to check if all elements are present in any order
+		foreach ($result as $k => $v)
+		{
+			if (in_array($v, $expected))
+			{
+				// ok case, value found so set value to zero
+				$result[$k] = '0';
+			}
+			else
+			{
+				// error case, value NOT found so set value to one
+				$result[$k] = '1';
+			}
+		}
+
+		// if there's a one it will return true and test fails
+		$this->assertThat(
+			in_array('1', $result),
+			$this->equalTo(false),
 			__LINE__
 		);
 	}
