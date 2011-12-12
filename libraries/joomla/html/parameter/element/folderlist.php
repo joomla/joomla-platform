@@ -24,6 +24,14 @@ class JElementFolderlist extends JElement
 	 *
 	 * @var    string
 	 */
+	protected $name = 'Folderlist';
+
+	/**
+	 * Element name
+	 *
+	 * @var    string
+	 * @deprecated use $name or declare as private
+	 */
 	protected $_name = 'Folderlist';
 
 	/**

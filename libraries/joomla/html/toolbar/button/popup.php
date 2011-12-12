@@ -23,6 +23,14 @@ class JButtonPopup extends JButton
 	 *
 	 * @var    string
 	 */
+	protected $name = 'Popup';
+
+	/**
+	 * Button type
+	 *
+	 * @var    string
+	 * @deprecated use $name or declare as private
+	 */
 	protected $_name = 'Popup';
 
 	/**

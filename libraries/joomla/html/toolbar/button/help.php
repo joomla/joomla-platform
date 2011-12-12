@@ -21,6 +21,12 @@ class JButtonHelp extends JButton
 	/**
 	 * @var    string	Button type
 	 */
+	protected $name = 'Help';
+
+	/**
+	 * @var    string	Button type
+	 * @deprecated use $name or declare as private
+	 */
 	protected $_name = 'Help';
 
 	/**

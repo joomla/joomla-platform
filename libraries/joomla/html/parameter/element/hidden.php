@@ -25,6 +25,15 @@ class JElementHidden extends JElement
 	 * @var    string
 	 * @since  11.1
 	 */
+	protected $name = 'Hidden';
+
+	/**
+	 * Element name
+	 *
+	 * @var    string
+	 * @since  11.1
+	 * @deprecated use $name or declare as private
+	 */
 	protected $_name = 'Hidden';
 
 	/**

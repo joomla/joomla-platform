@@ -24,6 +24,14 @@ class JElementRadio extends JElement
 	 *
 	 * @var    string
 	 */
+	protected $name = 'Radio';
+
+	/**
+	 * Element name
+	 *
+	 * @var    string
+	 * @deprecated use $name or declare as private
+	 */
 	protected $_name = 'Radio';
 
 	/**

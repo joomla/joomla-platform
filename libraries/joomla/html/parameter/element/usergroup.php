@@ -24,6 +24,14 @@ class JElementUserGroup extends JElement
 	 *
 	 * @var    string
 	 */
+	protected $name = 'UserGroup';
+
+	/**
+	 * Element name
+	 *
+	 * @var    string
+	 * @deprecated use $name or declare as private
+	 */
 	protected $_name = 'UserGroup';
 
 	/**

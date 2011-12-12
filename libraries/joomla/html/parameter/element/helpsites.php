@@ -25,6 +25,14 @@ class JElementHelpsites extends JElement
 	 *
 	 * @var    string
 	 */
+	protected $name = 'Helpsites';
+
+	/**
+	 * Element name
+	 *
+	 * @var    string
+	 * @deprecated use $name or declare as private
+	 */
 	protected $_name = 'Helpsites';
 
 	/**

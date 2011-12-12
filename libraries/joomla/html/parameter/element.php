@@ -30,6 +30,18 @@ class JElement extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
+	protected $name = null;
+
+	/**
+	 * Element name
+	 *
+	 * This has to be set in the final
+	 * renderer classes.
+	 *
+	 * @var    string
+	 * @since  11.1
+	 * @deprecated use $name or declare as private
+	 */
 	protected $_name = null;
 
 	/**
@@ -37,6 +49,15 @@ class JElement extends JObject
 	 *
 	 * @var    object
 	 * @since  11.1
+	 */
+	protected $parent = null;
+
+	/**
+	 * Reference to the object that instantiated the element
+	 *
+	 * @var    object
+	 * @since  11.1
+	 * @deprecated use $parent or declare as private
 	 */
 	protected $_parent = null;
 

@@ -27,12 +27,30 @@ abstract class JButton extends JObject
 	 *
 	 * @var    string
 	 */
+	protected $name = null;
+
+	/**
+	 * element name
+	 *
+	 * This has to be set in the final renderer classes.
+	 *
+	 * @var    string
+	 * @deprecated use $name or declare as private
+	 */
 	protected $_name = null;
 
 	/**
 	 * reference to the object that instantiated the element
 	 *
 	 * @var    JButton
+	 */
+	protected $parent = null;
+
+	/**
+	 * reference to the object that instantiated the element
+	 *
+	 * @var    JButton
+	 * @deprecated use $parent or declare as private
 	 */
 	protected $_parent = null;
 

@@ -24,6 +24,14 @@ class JElementList extends JElement
 	 *
 	 * @var    string
 	 */
+	protected $name = 'List';
+
+	/**
+	 * Element type
+	 *
+	 * @var    string
+	 * @deprecated use $name or declare as private
+	 */
 	protected $_name = 'List';
 
 	/**

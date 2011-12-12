@@ -24,6 +24,14 @@ class JElementSpacer extends JElement
 	 *
 	 * @var    string
 	 */
+	protected $name = 'Spacer';
+
+	/**
+	 * Element name
+	 *
+	 * @var    string
+	 * @deprecated use $name or declare as private
+	 */
 	protected $_name = 'Spacer';
 
 	/**

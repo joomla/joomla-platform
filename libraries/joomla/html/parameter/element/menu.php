@@ -24,6 +24,14 @@ class JElementMenu extends JElement
 	 *
 	 * @var    string
 	 */
+	protected $name = 'Menu';
+
+	/**
+	 * Element name
+	 *
+	 * @var    string
+	 * @deprecated use $name or declare as private
+	 */
 	protected $_name = 'Menu';
 
 	/**

@@ -23,6 +23,14 @@ class JButtonConfirm extends JButton
 	 *
 	 * @var    string
 	 */
+	protected $name = 'Confirm';
+
+	/**
+	 * Button type
+	 *
+	 * @var    string
+	 * @deprecated use $name or declare as private
+	 */
 	protected $_name = 'Confirm';
 
 	/**

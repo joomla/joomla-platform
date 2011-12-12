@@ -23,6 +23,14 @@ class JButtonCustom extends JButton
 	 *
 	 * @var    string
 	 */
+	protected $name = 'Custom';
+
+	/**
+	 * Button type
+	 *
+	 * @var    string
+	 * @deprecated use $name or declare as private
+	 */
 	protected $_name = 'Custom';
 
 	/**

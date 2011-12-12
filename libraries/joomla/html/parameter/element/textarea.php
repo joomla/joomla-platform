@@ -24,6 +24,14 @@ class JElementTextarea extends JElement
 	 *
 	 * @var    string
 	 */
+	protected $name = 'Textarea';
+
+	/**
+	 * Element name
+	 *
+	 * @var    string
+	 * @deprecated use $name or declare as private
+	 */
 	protected $_name = 'Textarea';
 
 	/**

@@ -25,6 +25,12 @@ class JElementModuleLayouts extends JElementList
 	/**
 	 * @var		string
 	 */
+	protected $name = 'ModuleLayouts';
+
+	/**
+	 * @var		string
+	 * @deprecated use $name or declare as private
+	 */
 	protected $_name = 'ModuleLayouts';
 
 	/**

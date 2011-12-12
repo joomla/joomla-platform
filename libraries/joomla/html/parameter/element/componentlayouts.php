@@ -26,6 +26,12 @@ class JElementComponentLayouts extends JElementList
 	/**
 	 * @var    string
 	 */
+	protected $name = 'ComponentLayouts';
+
+	/**
+	 * @var    string
+	 * @deprecated use $name or declare as private
+	 */
 	protected $_name = 'ComponentLayouts';
 
 	/**

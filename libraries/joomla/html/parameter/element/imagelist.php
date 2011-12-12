@@ -24,6 +24,14 @@ class JElementImageList extends JElement
 	 *
 	 * @var    string
 	 */
+	protected $name = 'ImageList';
+
+	/**
+	 * Element name
+	 *
+	 * @var    string
+	 * @deprecated use $name or declare as private
+	 */
 	protected $_name = 'ImageList';
 
 	/**

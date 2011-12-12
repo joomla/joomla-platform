@@ -25,6 +25,14 @@ class JElementTimezones extends JElement
 	 *
 	 * @var   string
 	 */
+	protected $name = 'Timezones';
+
+	/**
+	 * Element name
+	 *
+	 * @var   string
+	 * @deprecated use $name or declare as private
+	 */
 	protected $_name = 'Timezones';
 
 	/**

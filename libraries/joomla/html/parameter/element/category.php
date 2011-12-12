@@ -24,6 +24,14 @@ class JElementCategory extends JElement
 	 *
 	 * @var    string
 	 */
+	protected $name = 'Category';
+
+	/**
+	 * Element name
+	 *
+	 * @var    string
+	 * @deprecated use $name or declare as private
+	 */
 	protected $_name = 'Category';
 
 	/**

@@ -24,6 +24,14 @@ class JElementEditors extends JElement
 	 *
 	 * @var    string
 	 */
+	protected $name = 'Editors';
+
+	/**
+	 * Element name
+	 *
+	 * @var    string
+	 * @deprecated use $name or declare as private
+	 */
 	protected $_name = 'Editors';
 
 	/**

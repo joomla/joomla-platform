@@ -24,6 +24,14 @@ class JElementTemplateStyle extends JElement
 	 *
 	 * @var    string
 	 */
+	protected $name = 'TemplateStyle';
+
+	/**
+	 * Element name
+	 *
+	 * @var    string
+	 * @deprecated use $name or declare as private
+	 */
 	protected $_name = 'TemplateStyle';
 
 	/**

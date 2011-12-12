@@ -24,6 +24,14 @@ class JElementText extends JElement
 	 *
 	 * @var    string
 	 */
+	protected $name = 'Text';
+
+	/**
+	 * Element name
+	 *
+	 * @var    string
+	 * @deprecated use $name or declare as private
+	 */
 	protected $_name = 'Text';
 
 	/**

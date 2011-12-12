@@ -24,6 +24,18 @@ abstract class JHtmlSelect
 	 * @var     array
 	 * @since   11.1
 	 */
+	static protected $optionDefaults = array(
+		'option' => array('option.attr' => null, 'option.disable' => 'disable', 'option.id' => null, 'option.key' => 'value',
+			'option.key.toHtml' => true, 'option.label' => null, 'option.label.toHtml' => true, 'option.text' => 'text',
+			'option.text.toHtml' => true));
+
+	/**
+	 * Default values for options. Organized by option group.
+	 *
+	 * @var     array
+	 * @since   11.1
+	 * @deprecated use $optionDefaults or declare as private
+	 */
 	static protected $_optionDefaults = array(
 		'option' => array('option.attr' => null, 'option.disable' => 'disable', 'option.id' => null, 'option.key' => 'value',
 			'option.key.toHtml' => true, 'option.label' => null, 'option.label.toHtml' => true, 'option.text' => 'text',
