@@ -1886,13 +1886,13 @@ class JInstaller extends JAdapter
 					if (!is_null($manifest))
 					{
 						// If the root method attribute is set to upgrade, allow file overwrite
-						if ((string)$manifest->attributes()->method == 'upgrade')
+						if ((string) $manifest->attributes()->method == 'upgrade')
 						{
 							$this->_upgrade = true;
 							$this->_overwrite = true;
 						}
 						// If the overwrite option is set, allow file overwriting
-						if ((string)$manifest->attributes()->overwrite == 'true')
+						if ((string) $manifest->attributes()->overwrite == 'true')
 						{
 							$this->_overwrite = true;
 						}
@@ -1963,7 +1963,7 @@ class JInstaller extends JAdapter
 		}
 		else
 		{
-			if ($xml->getName() != 'config') 
+			if ($xml->getName() != 'config')
 			{
 				return null;
 			}
