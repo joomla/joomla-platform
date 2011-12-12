@@ -78,7 +78,7 @@ class JStream extends JObject
 
 	/**
 	 *
-	 *Read Processing method
+	 * Read Processing method
 	 * @var   string  gz, bz, f
 	 * If a scheme is detected, fopen will be defaulted
 	 * To use compression with a network stream use a filter
@@ -124,14 +124,14 @@ class JStream extends JObject
 	protected $_filesize;
 
 	/**
-	 *Context to use when opening the connection
+	 * Context to use when opening the connection
 	 * @var
 	 * @since  11.1
 	 */
 	protected $context = null;
 
 	/**
-	 *Context to use when opening the connection
+	 * Context to use when opening the connection
 	 * @var
 	 * @since  11.1
 	 * @deprecated use $context or declare as private
