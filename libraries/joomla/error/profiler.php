@@ -23,11 +23,25 @@ class JProfiler extends JObject
 	 * @var    integer  The start time.
 	 * @since  11.1
 	 */
+	protected $start = 0;
+
+	/**
+	 * @var    integer  The start time.
+	 * @since  11.1
+	 * @deprecated use $start or declare as private
+	 */
 	protected $_start = 0;
 
 	/**
 	 * @var    string  The prefix to use in the output
 	 * @since  11.1
+	 */
+	protected $prefix = '';
+
+	/**
+	 * @var    string  The prefix to use in the output
+	 * @since  11.1
+	 * @deprecated use $prefix or declare as private
 	 */
 	protected $_prefix = '';
 
@@ -35,11 +49,25 @@ class JProfiler extends JObject
 	 * @var    array  The buffer of profiling messages.
 	 * @since  11.1
 	 */
+	protected $buffer = null;
+
+	/**
+	 * @var    array  The buffer of profiling messages.
+	 * @since  11.1
+	 * @deprecated use $buffer or declare as private
+	 */
 	protected $_buffer = null;
 
 	/**
 	 * @var    float
 	 * @since  11.1
+	 */
+	protected $previous_time = 0.0;
+
+	/**
+	 * @var    float
+	 * @since  11.1
+	 * @deprecated use $previous_time or declare as private
 	 */
 	protected $_previous_time = 0.0;
 
@@ -47,11 +75,25 @@ class JProfiler extends JObject
 	 * @var    float
 	 * @since  11.1
 	 */
+	protected $previous_mem = 0.0;
+
+	/**
+	 * @var    float
+	 * @since  11.1
+	 * @deprecated use $previous_mem or declare as private
+	 */
 	protected $_previous_mem = 0.0;
 
 	/**
 	 * @var    boolean  Boolean if the OS is Windows.
 	 * @since  11.1
+	 */
+	protected $iswin = false;
+
+	/**
+	 * @var    boolean  Boolean if the OS is Windows.
+	 * @since  11.1
+	 * @deprecated use $iswin or declare as private
 	 */
 	protected $_iswin = false;
 
