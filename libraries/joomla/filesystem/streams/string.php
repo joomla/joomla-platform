@@ -29,6 +29,15 @@ class JStreamString
 	 * @var   string
 	 * @since  11.1
 	 */
+	protected $currentstring;
+
+	/**
+	 * The current string
+	 *
+	 * @var   string
+	 * @since  11.1
+	 * @deprecated use $currentstring or declare as private
+	 */
 	protected $_currentstring;
 
 	/**
@@ -37,6 +46,16 @@ class JStreamString
 	 *
 	 * @var   string
 	 * @since  11.1
+	 */
+	protected $path;
+
+	/**
+	 *
+	 * The path
+	 *
+	 * @var   string
+	 * @since  11.1
+	 * @deprecated use $path or declare as private
 	 */
 	protected $_path;
 
@@ -47,6 +66,16 @@ class JStreamString
 	 * @var   string
 	 * @since  11.1
 	 */
+	protected $mode;
+
+	/**
+	 *
+	 * The mode
+	 *
+	 * @var   string
+	 * @since  11.1
+	 * @deprecated use $mode or declare as private
+	 */
 	protected $_mode;
 
 	/**
@@ -55,6 +84,16 @@ class JStreamString
 	 * @var   string
 	 *
 	 * @since  11.1
+	 */
+	protected $options;
+
+	/**
+	 *
+	 * Enter description here ...
+	 * @var   string
+	 *
+	 * @since  11.1
+	 * @deprecated use $options or declare as private
 	 */
 	protected $_options;
 
@@ -65,6 +104,16 @@ class JStreamString
 	 *
 	 * @since  11.1
 	 */
+	protected $opened_path;
+
+	/**
+	 *
+	 * Enter description here ...
+	 * @var   string
+	 *
+	 * @since  11.1
+	 * @deprecated use $opened_path or declare as private
+	 */
 	protected $_opened_path;
 
 	/**
@@ -72,6 +121,15 @@ class JStreamString
 	 *
 	 * @var   integer
 	 * @since  11.1
+	 */
+	protected $pos;
+
+	/**
+	 * Current position
+	 *
+	 * @var   integer
+	 * @since  11.1
+	 * @deprecated use $pos or declare as private
 	 */
 	protected $_pos;
 
@@ -82,6 +140,16 @@ class JStreamString
 	 *
 	 * @since  11.1
 	 */
+	protected $len;
+
+	/**
+	 * Length of the string
+	 *
+	 * @var   string
+	 *
+	 * @since  11.1
+	 * @deprecated use $len or declare as private
+	 */
 	protected $_len;
 
 	/**
@@ -91,6 +159,17 @@ class JStreamString
 	 * @since  11.1
 	 *
 	 * @see    http://us.php.net/manual/en/function.stat.php
+	 */
+	protected $stat;
+
+	/**
+	 * Statistics for a file
+	 *
+	 * @var    array
+	 * @since  11.1
+	 *
+	 * @see    http://us.php.net/manual/en/function.stat.php
+	 * @deprecated use $stat or declare as private
 	 */
 	protected $_stat;
 
