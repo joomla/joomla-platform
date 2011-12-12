@@ -27,6 +27,15 @@ class JObject
 	 * @var    array
 	 * @since  11.1
 	 */
+	protected $errors = array();
+
+	/**
+	 * An array of error messages or JExceptions objects.
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $errors or declare as private
+	 */
 	protected $_errors = array();
 
 	/**
