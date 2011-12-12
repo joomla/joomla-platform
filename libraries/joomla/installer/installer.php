@@ -92,7 +92,7 @@ class JInstaller extends JAdapter
 	* The configuration manifest XML object
 	*
 	* @var    object
-	* @since
+	* @since  11.4
 	*/
 	public $configManifest = null;
 
