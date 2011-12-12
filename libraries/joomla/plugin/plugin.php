@@ -31,12 +31,28 @@ abstract class JPlugin extends JEvent
 	 *
 	 * @var    string
 	 */
+	protected $name = null;
+
+	/**
+	 * The name of the plugin
+	 *
+	 * @var    string
+	 * @deprecated use $name or declare as private
+	 */
 	protected $_name = null;
 
 	/**
 	 * The plugin type
 	 *
 	 * @var    string
+	 */
+	protected $type = null;
+
+	/**
+	 * The plugin type
+	 *
+	 * @var    string
+	 * @deprecated use $type or declare as private
 	 */
 	protected $_type = null;
 
