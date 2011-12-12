@@ -28,11 +28,25 @@ class JCacheStorage
 	 * @var    datetime  Now
 	 * @since  11.1
 	 */
+	public $now;
+
+	/**
+	 * @var    datetime  Now
+	 * @since  11.1
+	 * @deprecated use $now or declare as private
+	 */
 	public $_now;
 
 	/**
 	 * @var    integer  Cache lifetime
 	 * @since  11.1
+	 */
+	public $lifetime;
+
+	/**
+	 * @var    integer  Cache lifetime
+	 * @since  11.1
+	 * @deprecated use $lifetime or declare as private
 	 */
 	public $_lifetime;
 
@@ -40,11 +54,25 @@ class JCacheStorage
 	 * @var    boolean  Locking
 	 * @since  11.1
 	 */
+	public $locking;
+
+	/**
+	 * @var    boolean  Locking
+	 * @since  11.1
+	 * @deprecated use $locking or declare as private
+	 */
 	public $_locking;
 
 	/**
 	 * @var    string  Language
 	 * @since  11.1
+	 */
+	public $language;
+
+	/**
+	 * @var    string  Language
+	 * @since  11.1
+	 * @deprecated use $language or declare as private
 	 */
 	public $_language;
 
@@ -52,11 +80,25 @@ class JCacheStorage
 	 * @var    string  Application name.
 	 * @since  11.1
 	 */
+	public $application;
+
+	/**
+	 * @var    string  Application name.
+	 * @since  11.1
+	 * @deprecated use $application or declare as private
+	 */
 	public $_application;
 
 	/**
 	 * @var    string  Hash
 	 * @since  11.1
+	 */
+	public $hash;
+
+	/**
+	 * @var    string  Hash
+	 * @since  11.1
+	 * @deprecated use $hash or declare as private
 	 */
 	public $_hash;
 

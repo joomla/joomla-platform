@@ -24,6 +24,13 @@ class JCacheStorageFile extends JCacheStorage
 	 * @var    string
 	 * @since  11.1
 	 */
+	protected $root;
+
+	/**
+	 * @var    string
+	 * @since  11.1
+	 * @deprecated use $root or declare as private
+	 */
 	protected $_root;
 
 	/**

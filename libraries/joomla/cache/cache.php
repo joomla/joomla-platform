@@ -30,11 +30,25 @@ class JCache extends JObject
 	 * @var    object  Storage handler
 	 * @since  11.1
 	 */
+	public static $handler = array();
+
+	/**
+	 * @var    object  Storage handler
+	 * @since  11.1
+	 * @deprecated use $handler or declare as private
+	 */
 	public static $_handler = array();
 
 	/**
 	 * @var    array  Options
 	 * @since  11.1
+	 */
+	public $options;
+
+	/**
+	 * @var    array  Options
+	 * @since  11.1
+	 * @deprecated use $options or declare as private
 	 */
 	public $_options;
 
