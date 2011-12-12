@@ -1868,7 +1868,8 @@ class JForm
 				}
 				return new JException($message, 2, E_WARNING);
 			}
-			else {
+			else
+			{
 				// Field is empty and is not required, no need to validate
 				return true;
 			}

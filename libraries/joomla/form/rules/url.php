@@ -80,8 +80,7 @@ class JFormRuleUrl extends JFormRule
 		// and the port is an integer.
 		if ((array_key_exists('host', $urlParts) && !JString::valid((string) $urlParts['host']))
 			|| (array_key_exists('port', $urlParts) && !is_int((int) $urlParts['port']))
-			|| (array_key_exists('path', $urlParts) && !JString::valid((string) $urlParts['path']))
-		)
+			|| (array_key_exists('path', $urlParts) && !JString::valid((string) $urlParts['path'])))
 		{
 			throw new JException($this->getErrorMsg($element), -4, E_WARNING);
 		}

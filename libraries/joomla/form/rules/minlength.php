@@ -41,7 +41,9 @@ class JFormRuleMinLength extends JFormRule
 		if (JString::strlen($value) >= (int) $element['minLength'])
 		{
 			return true;
-		} else {
+		}
+		else
+		{
 			throw new JException($this->getErrorMsg($element));
 		}
 	}
@@ -58,6 +60,6 @@ class JFormRuleMinLength extends JFormRule
 	 */
 	protected function getErrorMsg($element)
 	{
-		return JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID_MINLENGTH', (string)$element['label'], (string)$element['minLength']);
+		return JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID_MINLENGTH', (string) $element['label'], (string) $element['minLength']);
 	}
 }

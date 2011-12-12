@@ -41,7 +41,9 @@ class JFormRuleMaxLength extends JFormRule
 		if (JString::strlen($value) <= (int) $element['maxLength'])
 		{
 			return true;
-		} else {
+		}
+		else
+		{
 			throw new JException($this->getErrorMsg($element));
 		}
 	}
@@ -58,6 +60,6 @@ class JFormRuleMaxLength extends JFormRule
 	 */
 	protected function getErrorMsg($element)
 	{
-		return JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID_MAXLENGTH', (string)$element['label'], (string)$element['maxLength']);
+		return JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID_MAXLENGTH', (string) $element['label'], (string) $element['maxLength']);
 	}
 }

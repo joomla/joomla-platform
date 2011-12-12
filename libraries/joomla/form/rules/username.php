@@ -61,7 +61,7 @@ class JFormRuleUsername extends JFormRule
 
 		if ($duplicate)
 		{
-			throw new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID_USERNAME_DUPLICATE', (string)$element['label']), 0, E_WARNING);
+			throw new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID_USERNAME_DUPLICATE', (string) $element['label']), 0, E_WARNING);
 		}
 
 		return true;
