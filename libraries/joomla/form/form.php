@@ -1116,23 +1116,14 @@ class JForm
 			}
 
 			// Validate the field.
-			$valid = $this->validateField($field, $group, $value, $input);
-
-			// Check for an error.
-			if ($valid instanceof Exception)
+			try
 			{
-				switch ($valid->get('level'))
-				{
-					case E_ERROR:
-						JError::raiseWarning(0, $valid->getMessage());
-						return false;
-						break;
-
-					default:
-						array_push($this->errors, $valid);
-						$return = false;
-						break;
-				}
+				$this->validateField($field, $group, $value, $input);
+			}
+			catch (Exception $e)
+			{
+				array_push($this->errors, $e);
+				$return = false;
 			}
 		}
 
@@ -1829,16 +1820,17 @@ class JForm
 	 * @param   object  $input    An optional JRegistry object with the entire data set to validate
 	 * against the entire form.
 	 *
-	 * @return  mixed  Boolean true if field value is valid, JException on failure.
+	 * @return  mixed  Boolean true if field value is valid.
 	 *
 	 * @since   11.1
+	 * @throws  Exception on invalid value or on error.
 	 */
 	protected function validateField($element, $group = null, $value = null, $input = null)
 	{
 		// Make sure there is a valid JXMLElement.
 		if (!$element instanceof JXMLElement)
 		{
-			return new JException(JText::_('JLIB_FORM_ERROR_VALIDATE_FIELD'), -1, E_ERROR);
+			throw new Exception(JText::_('JLIB_FORM_ERROR_VALIDATE_FIELD'), -1);
 		}
 
 		// Check if the field is required.
@@ -1866,7 +1858,7 @@ class JForm
 					}
 					$message = JText::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', $message);
 				}
-				return new JException($message, 2, E_WARNING);
+				throw new Exception($message, 2);
 			}
 			else
 			{
@@ -1901,22 +1893,15 @@ class JForm
 			// If the object could not be loaded return an error message.
 			if ($rule === false)
 			{
-				return new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_RULE_MISSING', $type), -2, E_ERROR);
+				throw new Exception(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_RULE_MISSING', $type), -2);
 			}
 
-			try
-			{
-				// Run the field validation rule test.
-				$valid = $rule->test($element, $value, $group, $input, $this);
-			}
-			catch (JException $e)
-			{
-				return $e;
-			}
+			// Run the field validation rule test.
+			$valid = $rule->test($element, $value, $group, $input, $this);
 			// backward compatibility
 			if ($valid === false)
 			{
-				return new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', JText::_((string) $element['label'])), 1, E_WARNING);
+				throw new Exception(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', JText::_((string) $element['label'])), 1);
 			}
 		}
 

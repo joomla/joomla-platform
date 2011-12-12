@@ -32,7 +32,7 @@ class JFormRuleUsername extends JFormRule
 	 * @return  boolean  True if the value is valid.
 	 *
 	 * @since   11.1
-	 * @throws  JException on invalid value or on error.
+	 * @throws  Exception on invalid value or on error.
 	 */
 	public function test(&$element, $value, $group = null, &$input = null, &$form = null)
 	{
@@ -61,7 +61,7 @@ class JFormRuleUsername extends JFormRule
 
 		if ($duplicate)
 		{
-			throw new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID_USERNAME_DUPLICATE', (string) $element['label']), 0, E_WARNING);
+			throw new Exception(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID_USERNAME_DUPLICATE', (string) $element['label']), 0);
 		}
 
 		return true;

@@ -40,19 +40,12 @@ class JFormRuleEmail extends JFormRule
 	 * @return  boolean  True if the value is valid.
 	 *
 	 * @since   11.1
-	 * @throws  JException on invalid value or on error.
+	 * @throws  Exception on invalid value or on error.
 	 */
 	public function test(&$element, $value, $group = null, &$input = null, &$form = null)
 	{
 		// Test the value against the regular expression.
-		try
-		{
-			parent::test($element, $value, $group, $input, $form);
-		}
-		catch (JException $e)
-		{
-			throw $e;
-		}
+		parent::test($element, $value, $group, $input, $form);
 
 		// Check if we should test for uniqueness.
 		$unique = ((string) $element['unique'] == 'true' || (string) $element['unique'] == 'unique');
@@ -84,7 +77,7 @@ class JFormRuleEmail extends JFormRule
 
 			if ($duplicate)
 			{
-				throw new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID_EMAIL_DUPLICATE', (string) $element['label']), 0, E_WARNING);
+				throw new Exception(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID_EMAIL_DUPLICATE', (string) $element['label']), 0);
 			}
 		}
 

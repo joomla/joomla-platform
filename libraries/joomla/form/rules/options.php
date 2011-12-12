@@ -32,7 +32,7 @@ class JFormRuleOptions extends JFormRule
 	 * @return  boolean  True if the value is valid.
 	 *
 	 * @since   11.1
-	 * @throws  JException on invalid value or on error.
+	 * @throws  Exception on invalid value or on error.
 	 */
 	public function test(&$element, $value, $group = null, &$input = null, &$form = null)
 	{
@@ -44,6 +44,6 @@ class JFormRuleOptions extends JFormRule
 				return true;
 			}
 		}
-		throw new JException($this->getErrorMsg($element), -4, E_WARNING);
+		throw new Exception($this->getErrorMsg($element), -4);
 	}
 }

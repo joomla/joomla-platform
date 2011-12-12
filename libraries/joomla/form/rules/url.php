@@ -32,7 +32,7 @@ class JFormRuleUrl extends JFormRule
 	 * @return  boolean  True if the value is valid.
 	 *
 	 * @since   11.1
-	 * @throws  JException on invalid value or on error.
+	 * @throws  Exception on invalid value or on error.
 	 * @link    http://www.w3.org/Addressing/URL/url-spec.txt
 	 * @see	    Jstring
 	 */
@@ -41,7 +41,7 @@ class JFormRuleUrl extends JFormRule
 		$urlParts = JString::parse_url($value);
 		if ($urlParts === false)
 		{
-			throw new JException($this->getErrorMsg($element), -4, E_WARNING);
+			throw new Exception($this->getErrorMsg($element), -4);
 		}
 
 		// See http://www.w3.org/Addressing/URL/url-spec.txt
@@ -61,20 +61,20 @@ class JFormRuleUrl extends JFormRule
 		// @see http://php.net/manual/en/function.parse-url.php
 		if (!array_key_exists('scheme', $urlParts))
 		{
-			throw new JException($this->getErrorMsg($element), -4, E_WARNING);
+			throw new Exception($this->getErrorMsg($element), -4);
 		}
 		$urlScheme = (string) $urlParts['scheme'];
 		$urlScheme = strtolower($urlScheme);
 		if (in_array($urlScheme, $scheme) == false)
 		{
-			throw new JException($this->getErrorMsg($element), -4, E_WARNING);
+			throw new Exception($this->getErrorMsg($element), -4);
 		}
 		// For some schemes here must be two slashes.
 		if (($urlScheme == 'http' || $urlScheme == 'https' || $urlScheme == 'ftp' || $urlScheme == 'sftp' || $urlScheme == 'gopher'
 			|| $urlScheme == 'wais' || $urlScheme == 'gopher' || $urlScheme == 'prospero' || $urlScheme == 'telnet' || $urlScheme == 'git')
 			&& ((substr($value, strlen($urlScheme), 3)) !== '://'))
 		{
-			throw new JException($this->getErrorMsg($element), -4, E_WARNING);
+			throw new Exception($this->getErrorMsg($element), -4);
 		}
 		// The best we can do for the rest is make sure that the strings are valid UTF-8
 		// and the port is an integer.
@@ -82,7 +82,7 @@ class JFormRuleUrl extends JFormRule
 			|| (array_key_exists('port', $urlParts) && !is_int((int) $urlParts['port']))
 			|| (array_key_exists('path', $urlParts) && !JString::valid((string) $urlParts['path'])))
 		{
-			throw new JException($this->getErrorMsg($element), -4, E_WARNING);
+			throw new Exception($this->getErrorMsg($element), -4);
 		}
 
 		return true;

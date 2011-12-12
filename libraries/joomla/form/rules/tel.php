@@ -32,7 +32,7 @@ class JFormRuleTel extends JFormRule
 	 * @return  boolean  True if the value is valid.
 	 *
 	 * @since   11.1
-	 * @throws  JException on invalid value or on error.
+	 * @throws  Exception on invalid value or on error.
 	 */
 	public function test(&$element, $value, $group = null, &$input = null, &$form = null)
 	{
@@ -66,7 +66,7 @@ class JFormRuleTel extends JFormRule
 			// Test the value against the regular expression.
 			if (preg_match($regex, $value) == false)
 			{
-				throw new JException($this->getErrorMsg($element), -4, E_WARNING);
+				throw new Exception($this->getErrorMsg($element), -4);
 			}
 		}
 		else
@@ -82,7 +82,7 @@ class JFormRuleTel extends JFormRule
 			}
 			else
 			{
-				throw new JException($this->getErrorMsg($element), -4, E_WARNING);
+				throw new Exception($this->getErrorMsg($element), -4);
 			}
 		}
 

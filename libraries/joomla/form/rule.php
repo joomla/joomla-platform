@@ -62,14 +62,14 @@ class JFormRule
 	 * @return  boolean  True if the value is valid.
 	 *
 	 * @since   11.1
-	 * @throws  JException on invalid value or on error.
+	 * @throws  Exception on invalid value or on error.
 	 */
 	public function test(&$element, $value, $group = null, &$input = null, &$form = null)
 	{
 		// Check for a valid regex.
 		if (empty($this->regex))
 		{
-			throw new JException(JText::sprintf('JLIB_FORM_INVALID_FORM_RULE', get_class($this)), -3, E_ERROR);
+			throw new Exception(JText::sprintf('JLIB_FORM_INVALID_FORM_RULE', get_class($this)), -3);
 		}
 
 		// Add unicode property support if available.
@@ -84,7 +84,7 @@ class JFormRule
 			return true;
 		}
 
-		throw new JException($this->getErrorMsg($element), -4, E_WARNING);
+		throw new Exception($this->getErrorMsg($element), -4);
 	}
 
 	/**
