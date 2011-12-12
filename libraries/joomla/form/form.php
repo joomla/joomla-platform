@@ -1877,12 +1877,21 @@ class JForm
 
 		// Get the field validation rule.
 		$types = trim((string) $element['validate']);
-		if (empty($types)) return true;
+		if (empty($types))
+		{
+			return true;
+		}
 		$types = strpos($types, ' ') ? array_filter(explode(' ', $types)) : array($types);
 
 		// Especial treatement for minLength and maxLength
-		if ($element['minLength']) $types[] = 'minLength';
-		if ($element['maxLength']) $types[] = 'maxLength';
+		if ($element['minLength'])
+		{
+			$types[] = 'minLength';
+		}
+		if ($element['maxLength'])
+		{
+			$types[] = 'maxLength';
+		}
 
 		foreach ($types as $type)
 		{
