@@ -96,6 +96,7 @@ class JDatabasePostgreSQL extends JDatabase
 				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_CONNECT_POSTGRESQL'));
 			}
 		}
+		pg_set_error_verbosity($this->connection, PGSQL_ERRORS_DEFAULT);
 
 		// finalize initialization
 		parent::__construct($options);
@@ -126,7 +127,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	public function escape($text, $extra = false)
 	{
-		$result = pg_escape_string($this->getConnection(), $text);
+		$result = pg_escape_string($this->connection, $text);
 
 		if ($extra)
 		{
@@ -212,50 +213,6 @@ class JDatabasePostgreSQL extends JDatabase
 		$array = $this->loadAssocList();
 		return $array[0]['lc_collate'];
 	}
-
-	/**
-	 * Gets an exporter class object.
-	 *
-	 * @return  JDatabaseExporterMySQL  An exporter object.
-	 * 
-	 * @todo	Not yet implemented
-	 *
-	 * @since   11.3
-	 */
-	/*public function getExporter()
-	{
-		// Make sure we have an exporter class for this driver.
-		if (!class_exists('JDatabaseExporterMySQL')) {
-			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_EXPORTER'));
-		}
-
-		$o = new JDatabaseExporterMySQL;
-		$o->setDbo($this);
-
-		return $o;
-	}*/
-
-	/**
-	 * Gets an importer class object.
-	 *
-	 * @return  JDatabaseImporterMySQL  An importer object.
-	 * 
-	 * @todo	Not yet implemented
-	 *
-	 * @since   11.3
-	 */
-	/*public function getImporter()
-	{
-		// Make sure we have an importer class for this driver.
-		if (!class_exists('JDatabaseImporterMySQL')) {
-			throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_IMPORTER'));
-		}
-
-		$o = new JDatabaseImporterMySQL;
-		$o->setDbo($this);
-
-		return $o;
-	}*/
 
 	/**
 	 * Get the number of returned rows for the previous executed SQL statement.
@@ -401,14 +358,14 @@ class JDatabasePostgreSQL extends JDatabase
 
 	/**
 	 * Method to get the auto-incremented value from the last INSERT statement.
-	 * To be called after the INSERT statement, it's MANDATORY to have a sequence on 
+	 * To be called after the INSERT statement, it's MANDATORY to have a sequence on
 	 * every primary key table.
 	 *
 	 * To get the auto incremented value it's possible to call this function after
 	 * INSERT INTO query, or use INSERT INTO with RETURNING clause.
 	 *
 	 * @example with insertid() call:
-	 *		$query = $this->getQuery(true);		
+	 *		$query = $this->getQuery(true);
 	 *		$query->insert('jos_dbtest')
 	 *				->columns('title,start_date,description')
 	 *				->values("'testTitle2nd','1971-01-01','testDescription2nd'");
@@ -417,7 +374,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 *		$id = $this->insertid();
 	 *
 	 * @example with RETURNING clause:
-	 *		$query = $this->getQuery(true);		
+	 *		$query = $this->getQuery(true);
 	 *		$query->insert('jos_dbtest')
 	 *				->columns('title,start_date,description')
 	 *				->values("'testTitle2nd','1971-01-01','testDescription2nd'")
@@ -495,17 +452,25 @@ class JDatabasePostgreSQL extends JDatabase
 
 			JLog::add($sql, JLog::DEBUG, 'databasequery');
 		}
+
 		// Reset the error values.
 		$this->errorNum = 0;
 		$this->errorMsg = '';
 
-		// Execute the query.
-		$this->cursor = pg_query($this->connection, $sql);
+		try
+		{
+			// Execute the query.
+			$this->cursor = pg_query($this->connection, $sql);
+		}
+		catch (Exception $e)
+		{
+			throw new JDatabaseException(JText::_('JLIB_DATABASE_QUERY_FAILED') . "\n" . pg_last_error($this->connection) . "\nSQL=" . $sql);
+		}
 
 		if (!$this->cursor)
 		{
 			$this->errorNum = (int) pg_result_error_field($this->cursor, PGSQL_DIAG_SQLSTATE) . ' ';
-			$this->errorMsg = (string) pg_result_error_field($this->cursor, PGSQL_DIAG_MESSAGE_PRIMARY) . " SQL=$sql <br />";
+			$this->errorMsg = JText::_('JLIB_DATABASE_QUERY_FAILED') . "\n" . pg_last_error($this->connection) . "\nSQL=$sql";
 
 			// Legacy error handling switch based on the JError::$legacy switch.
 			// @deprecated  11.3
@@ -520,9 +485,10 @@ class JDatabasePostgreSQL extends JDatabase
 			else
 			{
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-				throw new JDatabaseException($this->errorMsg, $this->errorNum);
+				throw new JDatabaseException($this->errorMsg);
 			}
 		}
+
 		return $this->cursor;
 	}
 
