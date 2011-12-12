@@ -28,6 +28,15 @@ abstract class JTable extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
+	protected $tbl = '';
+
+	/**
+	 * Name of the database table to model.
+	 *
+	 * @var    string
+	 * @since  11.1
+	 * @deprecated use $tbl or declare as private
+	 */
 	protected $_tbl = '';
 
 	/**
@@ -35,6 +44,15 @@ abstract class JTable extends JObject
 	 *
 	 * @var    string
 	 * @since  11.1
+	 */
+	protected $tbl_key = '';
+
+	/**
+	 * Name of the primary key field in the table.
+	 *
+	 * @var    string
+	 * @since  11.1
+	 * @deprecated use $tbl_key or declare as private
 	 */
 	protected $_tbl_key = '';
 
@@ -44,6 +62,15 @@ abstract class JTable extends JObject
 	 * @var    JDatabase
 	 * @since  11.1
 	 */
+	protected $db;
+
+	/**
+	 * JDatabase connector object.
+	 *
+	 * @var    JDatabase
+	 * @since  11.1
+	 * @deprecated use $db or declare as private
+	 */
 	protected $_db;
 
 	/**
@@ -51,6 +78,15 @@ abstract class JTable extends JObject
 	 *
 	 * @var    boolean
 	 * @since  11.1
+	 */
+	protected $trackAssets = false;
+
+	/**
+	 * Should rows be tracked as ACL assets?
+	 *
+	 * @var    boolean
+	 * @since  11.1
+	 * @deprecated use $trackAssets or declare as private
 	 */
 	protected $_trackAssets = false;
 
@@ -60,6 +96,15 @@ abstract class JTable extends JObject
 	 * @var    JRules  A JRules object.
 	 * @since  11.1
 	 */
+	protected $rules;
+
+	/**
+	 * The rules associated with this record.
+	 *
+	 * @var    JRules  A JRules object.
+	 * @since  11.1
+	 * @deprecated use $rules or declare as private
+	 */
 	protected $_rules;
 
 	/**
@@ -67,6 +112,15 @@ abstract class JTable extends JObject
 	 *
 	 * @var    boolean
 	 * @since  11.1
+	 */
+	protected $locked = false;
+
+	/**
+	 * Indicator that the tables have been locked.
+	 *
+	 * @var    boolean
+	 * @since  11.1
+	 * @deprecated use $locked or declare as private
 	 */
 	protected $_locked = false;
 
