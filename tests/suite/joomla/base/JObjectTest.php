@@ -106,10 +106,11 @@ class JObjectTest extends PHPUnit_Framework_TestCase {
 		);
 		$this->assertEquals(
 			array(
-				'_errors' => array(),
+				'_errors' => array(),//@deprecated
+				'errors' => array(),
 				'_privateproperty1' => 'valuep1',
 				'property1' => 'value1',
-				'property2' => 5
+				'property2' => 5,
 			),
 			$this->object->getProperties( false ),
 			'Should get all properties, including private ones'
@@ -117,7 +118,8 @@ class JObjectTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(
 			array(
 				'property1' => 'value1',
-				'property2' => 5
+				'property2' => 5,
+				'errors' => array(),
 			),
 			$this->object->getProperties(),
 			'Should get all public properties'
@@ -154,7 +156,7 @@ class JObjectTest extends PHPUnit_Framework_TestCase {
 			$this->o->getError(20),
 			'Should return false, since the error does not exist'
 		);
-		
+
 		$exception = new Exception('error');
 		$this->o->setError($exception);
 		$this->assertThat(
