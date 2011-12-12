@@ -26,11 +26,25 @@ class JURI extends JObject
 	 * @var    string Original URI
 	 * @since  11.1
 	 */
+	protected $uri = null;
+
+	/**
+	 * @var    string Original URI
+	 * @since  11.1
+	 * @deprecated use $uri or declare as private
+	 */
 	protected $_uri = null;
 
 	/**
 	 * @var    string  Protocol
 	 * @since  11.1
+	 */
+	protected $scheme = null;
+
+	/**
+	 * @var    string  Protocol
+	 * @since  11.1
+	 * @deprecated use $scheme or declare as private
 	 */
 	protected $_scheme = null;
 
@@ -38,11 +52,25 @@ class JURI extends JObject
 	 * @var    string  Host
 	 * @since  11.1
 	 */
+	protected $host = null;
+
+	/**
+	 * @var    string  Host
+	 * @since  11.1
+	 * @deprecated use $host or declare as private
+	 */
 	protected $_host = null;
 
 	/**
 	 * @var    integer  Port
 	 * @since  11.1
+	 */
+	protected $port = null;
+
+	/**
+	 * @var    integer  Port
+	 * @since  11.1
+	 * @deprecated use $port or declare as private
 	 */
 	protected $_port = null;
 
@@ -50,11 +78,25 @@ class JURI extends JObject
 	 * @var    string  Username
 	 * @since  11.1
 	 */
+	protected $user = null;
+
+	/**
+	 * @var    string  Username
+	 * @since  11.1
+	 * @deprecated use $user or declare as private
+	 */
 	protected $_user = null;
 
 	/**
 	 * @var    string  Password
 	 * @since  11.1
+	 */
+	protected $pass = null;
+
+	/**
+	 * @var    string  Password
+	 * @since  11.1
+	 * @deprecated use $pass or declare as private
 	 */
 	protected $_pass = null;
 
@@ -62,11 +104,25 @@ class JURI extends JObject
 	 * @var    string  Path
 	 * @since  11.1
 	 */
+	protected $path = null;
+
+	/**
+	 * @var    string  Path
+	 * @since  11.1
+	 * @deprecated use $path or declare as private
+	 */
 	protected $_path = null;
 
 	/**
 	 * @var    string  Query
 	 * @since  11.1
+	 */
+	protected $query = null;
+
+	/**
+	 * @var    string  Query
+	 * @since  11.1
+	 * @deprecated use $query or declare as private
 	 */
 	protected $_query = null;
 
@@ -74,11 +130,25 @@ class JURI extends JObject
 	 * @var    string  Anchor
 	 * @since  11.1
 	 */
+	protected $fragment = null;
+
+	/**
+	 * @var    string  Anchor
+	 * @since  11.1
+	 * @deprecated use $fragment or declare as private
+	 */
 	protected $_fragment = null;
 
 	/**
 	 * @var    array  Query variable hash
 	 * @since  11.1
+	 */
+	protected $vars = array();
+
+	/**
+	 * @var    array  Query variable hash
+	 * @since  11.1
+	 * @deprecated use $vars or declare as private
 	 */
 	protected $_vars = array();
 
