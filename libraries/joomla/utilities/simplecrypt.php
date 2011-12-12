@@ -23,6 +23,14 @@ class JSimpleCrypt extends JObject
 	 *
 	 * @var    string
 	 */
+	protected $key;
+
+	/**
+	 * Encryption/Decryption Key
+	 *
+	 * @var    string
+	 * @deprecated use $key or declare as private
+	 */
 	protected $_key;
 
 	/**

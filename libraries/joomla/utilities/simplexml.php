@@ -458,6 +458,7 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @var array
 	 * @since   11.1
+	 * @deprecated since the class is deprecated
 	 */
 	public $_attributes = array();
 
@@ -466,6 +467,7 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @var     string
 	 * @since   11.1
+	 * @deprecated since the class is deprecated
 	 */
 	public $_name = '';
 
@@ -474,6 +476,7 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @var     string
 	 * @since   11.1
+	 * @deprecated since the class is deprecated
 	 */
 	public $_data = '';
 
@@ -482,6 +485,7 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @var     array
 	 * @since   11.1
+	 * @deprecated since the class is deprecated
 	 */
 	public $_children = array();
 
@@ -490,6 +494,7 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @var     int
 	 * @since   11.1
+	 * @deprecated since the class is deprecated
 	 */
 	public $_level = 0;
 

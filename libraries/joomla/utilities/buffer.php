@@ -43,6 +43,15 @@ class JBuffer
 	 * @var    array
 	 * @since  11.1
 	 */
+	public $buffers = array();
+
+	/**
+	 * Buffer hash
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $buffers or declare as private
+	 */
 	public $_buffers = array();
 
 	/**
