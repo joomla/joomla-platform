@@ -27,6 +27,15 @@ class JDocumentHTML extends JDocument
 	 * @var    array
 	 * @since  11.1
 	 */
+	public $links = array();
+
+	/**
+	 * Array of Header <link> tags
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $links or declare as private
+	 */
 	public $_links = array();
 
 	/**
@@ -34,6 +43,15 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @var    array
 	 * @since  11.1
+	 */
+	public $custom = array();
+
+	/**
+	 * Array of custom tags
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $custom or declare as private
 	 */
 	public $_custom = array();
 
@@ -67,6 +85,15 @@ class JDocumentHTML extends JDocument
 	 * @var    array
 	 * @since  11.1
 	 */
+	public $file = null;
+
+	/**
+	 * File name
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $file or declare as private
+	 */
 	public $_file = null;
 
 	/**
@@ -74,6 +101,15 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @var    string
 	 * @since  11.1
+	 */
+	protected $template = '';
+
+	/**
+	 * String holding parsed template
+	 *
+	 * @var    string
+	 * @since  11.1
+	 * @deprecated use $template or declare as private
 	 */
 	protected $_template = '';
 
@@ -83,6 +119,15 @@ class JDocumentHTML extends JDocument
 	 * @var    array
 	 * @since  11.1
 	 */
+	protected $template_tags = array();
+
+	/**
+	 * Array of parsed template JDoc tags
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $template_tags or declare as private
+	 */
 	protected $_template_tags = array();
 
 	/**
@@ -90,6 +135,15 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @var    integer
 	 * @since  11.1
+	 */
+	protected $caching = null;
+
+	/**
+	 * Integer with caching setting
+	 *
+	 * @var    integer
+	 * @since  11.1
+	 * @deprecated use $caching or declare as private
 	 */
 	protected $_caching = null;
 

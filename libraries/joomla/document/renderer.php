@@ -24,13 +24,31 @@ class JDocumentRenderer extends JObject
 	 * @var    JDocument
 	 * @since  11.1
 	 */
-	protected	$_doc = null;
+	protected $doc = null;
+
+	/**
+	 * Reference to the JDocument object that instantiated the renderer
+	 *
+	 * @var    JDocument
+	 * @since  11.1
+	 * @deprecated use $doc or declare as private
+	 */
+	protected $_doc = null;
 
 	/**
 	 * Renderer mime type
 	 *
 	 * @var    string
 	 * @since  11.1
+	 */
+	protected $mime = "text/html";
+
+	/**
+	 * Renderer mime type
+	 *
+	 * @var    string
+	 * @since  11.1
+	 * @deprecated use $mime or declare as private
 	 */
 	protected $_mime = "text/html";
 

@@ -75,6 +75,14 @@ class JDocument extends JObject
 	 *
 	 * @var    string
 	 */
+	public $generator = 'Joomla! 1.7 - Open Source Content Management';
+
+	/**
+	 * Document generator
+	 *
+	 * @var    string
+	 * @deprecated use $generator or declare as private
+	 */
 	public $_generator = 'Joomla! 1.7 - Open Source Content Management';
 
 	/**
@@ -82,6 +90,15 @@ class JDocument extends JObject
 	 *
 	 * @var    string
 	 * @since  11.1
+	 */
+	public $mdate = '';
+
+	/**
+	 * Document modified date
+	 *
+	 * @var    string
+	 * @since  11.1
+	 * @deprecated use $mdate or declare as private
 	 */
 	public $_mdate = '';
 
@@ -91,6 +108,15 @@ class JDocument extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
+	public $tab = "\11";
+
+	/**
+	 * Tab string
+	 *
+	 * @var    string
+	 * @since  11.1
+	 * @deprecated use $tab or declare as private
+	 */
 	public $_tab = "\11";
 
 	/**
@@ -98,6 +124,15 @@ class JDocument extends JObject
 	 *
 	 * @var    string
 	 * @since  11.1
+	 */
+	public $lineEnd = "\12";
+
+	/**
+	 * Contains the line end string
+	 *
+	 * @var    string
+	 * @since  11.1
+	 * @deprecated use $lineEnd or declare as private
 	 */
 	public $_lineEnd = "\12";
 
@@ -107,6 +142,15 @@ class JDocument extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
+	public $charset = 'utf-8';
+
+	/**
+	 * Contains the character encoding string
+	 *
+	 * @var    string
+	 * @since  11.1
+	 * @deprecated use $charset or declare as private
+	 */
 	public $_charset = 'utf-8';
 
 	/**
@@ -114,6 +158,15 @@ class JDocument extends JObject
 	 *
 	 * @var    string
 	 * @since  11.1
+	 */
+	public $mime = '';
+
+	/**
+	 * Document mime type
+	 *
+	 * @var    string
+	 * @since  11.1
+	 * @deprecated use $mime or declare as private
 	 */
 	public $_mime = '';
 
@@ -123,6 +176,15 @@ class JDocument extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
+	public $namespace = '';
+
+	/**
+	 * Document namespace
+	 *
+	 * @var    string
+	 * @since  11.1
+	 * @deprecated use $namespace or declare as private
+	 */
 	public $_namespace = '';
 
 	/**
@@ -130,6 +192,15 @@ class JDocument extends JObject
 	 *
 	 * @var    string
 	 * @since  11.1
+	 */
+	public $profile = '';
+
+	/**
+	 * Document profile
+	 *
+	 * @var    string
+	 * @since  11.1
+	 * @deprecated use $profile or declare as private
 	 */
 	public $_profile = '';
 
@@ -139,6 +210,15 @@ class JDocument extends JObject
 	 * @var    array
 	 * @since  11.1
 	 */
+	public $scripts = array();
+
+	/**
+	 * Array of linked scripts
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $scripts or declare as private
+	 */
 	public $_scripts = array();
 
 	/**
@@ -146,6 +226,15 @@ class JDocument extends JObject
 	 *
 	 * @var    array
 	 * @since  11.1
+	 */
+	public $script = array();
+
+	/**
+	 * Array of scripts placed in the header
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $script or declare as private
 	 */
 	public $_script = array();
 
@@ -155,6 +244,15 @@ class JDocument extends JObject
 	 * @var    array
 	 * @since  11.1
 	 */
+	public $styleSheets = array();
+
+	/**
+	 * Array of linked style sheets
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $styleSheets or declare as private
+	 */
 	public $_styleSheets = array();
 
 	/**
@@ -162,6 +260,15 @@ class JDocument extends JObject
 	 *
 	 * @var    array
 	 * @since  11.1
+	 */
+	public $style = array();
+
+	/**
+	 * Array of included style declarations
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $style or declare as private
 	 */
 	public $_style = array();
 
@@ -171,6 +278,15 @@ class JDocument extends JObject
 	 * @var    array
 	 * @since  11.1
 	 */
+	public $metaTags = array();
+
+	/**
+	 * Array of meta tags
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $metaTags or declare as private
+	 */
 	public $_metaTags = array();
 
 	/**
@@ -178,6 +294,15 @@ class JDocument extends JObject
 	 *
 	 * @var    object
 	 * @since  11.1
+	 */
+	public $engine = null;
+
+	/**
+	 * The rendering engine
+	 *
+	 * @var    object
+	 * @since  11.1
+	 * @deprecated use $engine or declare as private
 	 */
 	public $_engine = null;
 
@@ -187,6 +312,15 @@ class JDocument extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
+	public $type = null;
+
+	/**
+	 * The document type
+	 *
+	 * @var    string
+	 * @since  11.1
+	 * @deprecated use $type or declare as private
+	 */
 	public $_type = null;
 
 	/**
@@ -194,6 +328,15 @@ class JDocument extends JObject
 	 *
 	 * @var    mixed (depends on the renderer)
 	 * @since  11.1
+	 */
+	public static $buffer = null;
+
+	/**
+	 * Array of buffered output
+	 *
+	 * @var    mixed (depends on the renderer)
+	 * @since  11.1
+	 * @deprecated use $buffer or declare as private
 	 */
 	public static $_buffer = null;
 
