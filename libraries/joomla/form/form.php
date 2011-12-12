@@ -1115,24 +1115,23 @@ class JForm
 				$value = $input->get($name);
 			}
 
-			// Validate the field.
-			$valid = $this->validateField($field, $group, $value, $input);
-
-			// Check for an error.
-			if ($valid instanceof Exception)
+			// Attempt to validate the field.
+			try
 			{
-				switch ($valid->get('level'))
-				{
-					case E_ERROR:
-						JError::raiseWarning(0, $valid->getMessage());
-						return false;
-						break;
-
-					default:
-						array_push($this->errors, $valid);
-						$return = false;
-						break;
-				}
+				$valid = $this->validateField($field, $group, $value, $input);
+			}
+			// There was an invalid field due to unexpected value, etc.
+			catch (RuntimeException $e)
+			{
+				array_push($this->errors, new JException($e->getMessage()));
+				$return = false;
+			}
+			// There was a problem actually validating the field.
+			catch (InvalidArgumentException $e)
+			{
+				JError::raiseWarning(0, $e->getMessage());
+				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
+				return false;
 			}
 		}
 
@@ -1837,13 +1836,15 @@ class JForm
 	 * @return  mixed  Boolean true if field value is valid, JException on failure.
 	 *
 	 * @since   11.1
+	 * @throws  InvalidArgumentException
+	 * @throws  RuntimeException
 	 */
 	protected function validateField($element, $group = null, $value = null, $input = null)
 	{
 		// Make sure there is a valid JXMLElement.
 		if (!$element instanceof JXMLElement)
 		{
-			return new JException(JText::_('JLIB_FORM_ERROR_VALIDATE_FIELD'), -1, E_ERROR);
+			throw new InvalidArgumentException(JText::sprintf('JLIB_FORM_ERROR_VALIDATE_FIELD', -1));
 		}
 
 		// Initialise variables.
@@ -1875,7 +1876,7 @@ class JForm
 					}
 					$message = JText::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', $message);
 				}
-				return new JException($message, 2, E_WARNING);
+				throw new RuntimeException($message);
 			}
 		}
 
@@ -1888,16 +1889,33 @@ class JForm
 			// If the object could not be loaded return an error message.
 			if ($rule === false)
 			{
-				return new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_RULE_MISSING', $type), -2, E_ERROR);
+				throw new InvalidArgumentException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_RULE_MISSING', $type));
 			}
 
 			// Run the field validation rule test.
-			$valid = $rule->test($element, $value, $group, $input, $this);
+			try
+			{
+				$valid = $rule->test($element, $value, $group, $input, $this);
+			}
+			catch (Exception $e)
+			{
+				throw $e;
+			}
 
 			// Check for an error in the validation test.
+			// @deprecated 12.2
 			if ($valid instanceof Exception)
 			{
-				return $valid;
+				throw new RuntimeException($valid->getMessage());
+				JLog::add('JFormRule subclasses should not return JExceptions. Instead either a RuntimeException or LogicException should be thrown. ', JLog::WARNING, 'deprecated');
+				switch ($valid->get('level'))
+				{
+					case E_ERROR:
+						throw new InvalidArgumentException($valid->getMessage());
+
+					default:
+						throw new RuntimeException($valid->getMessage());
+				}
 			}
 		}
 
@@ -1910,11 +1928,11 @@ class JForm
 
 			if ($message)
 			{
-				return new JException(JText::_($message), 1, E_WARNING);
+				throw new RuntimeException(JText::_($message));
 			}
 			else
 			{
-				return new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', JText::_((string) $element['label'])), 1, E_WARNING);
+				throw new RuntimeException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', JText::_((string) $element['label'])));
 			}
 		}
 
