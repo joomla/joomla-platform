@@ -112,17 +112,38 @@ class JUpdate extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
+	protected $xml_parser;
+
+	/**
+	 * @var    string
+	 * @since  11.1
+	 * @deprecated use $xml_parser or declare as private
+	 */
 	protected $_xml_parser;
 
 	/**
 	 * @var    array
 	 * @since  11.1
 	 */
+	protected $stack = array('base');
+
+	/**
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $stack or declare as private
+	 */
 	protected $_stack = array('base');
 
 	/**
 	 * @var    array
 	 * @since  11.1
+	 */
+	protected $state_store = array();
+
+	/**
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $state_store or declare as private
 	 */
 	protected $_state_store = array();
 
