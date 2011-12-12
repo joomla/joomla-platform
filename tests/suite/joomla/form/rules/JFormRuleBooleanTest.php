@@ -45,7 +45,7 @@ class JFormRuleBooleanTest extends JoomlaTestCase
 		try {
 			$this->rule->test($this->xml->field, $value);
 		}
-		catch(JException $e) {
+		catch(Exception $e) {
 			return $e;
 		}
 		return true;
@@ -53,7 +53,7 @@ class JFormRuleBooleanTest extends JoomlaTestCase
 
 	/**
 	 * Test the JFormRuleBoolean::test method.
-	 * 
+	 *
 	 * @dataProvider provider
 	 */
 	public function testBoolean($value, $expected)

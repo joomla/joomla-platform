@@ -46,7 +46,7 @@ class JFormRuleTelTest extends JoomlaTestCase
 		try {
 			$this->rule->test($this->xml->field[$field], $value);
 		}
-		catch(JException $e) {
+		catch(Exception $e) {
 			return $e;
 		}
 		return true;

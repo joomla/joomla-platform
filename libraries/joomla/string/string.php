@@ -933,7 +933,7 @@ abstract class JString
 		$encodedURL = str_replace($entities, $replacements, urlencode($url));
 		// Parse the encoded URL
 		$encodedParts = parse_url($encodedURL);
-		if ($encodedParts === false) 
+		if ($encodedParts === false)
 		{
 			return false;
 		}

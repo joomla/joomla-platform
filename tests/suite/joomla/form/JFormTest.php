@@ -760,7 +760,7 @@ class JFormTest extends JoomlaTestCase
 		);
 
 		$this->assertThat(
-			$errors[0] instanceof JException,
+			$errors[0] instanceof Exception,
 			$this->isTrue(),
 			'Line:'.__LINE__.' The errors should be exception objects.'
 		);

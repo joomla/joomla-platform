@@ -37,7 +37,7 @@ class JFormRuleIntegerTest extends JoomlaTestCase
 		try {
 			$this->rule->test($this->xml->field[0], $value);
 		}
-		catch(JException $e) {
+		catch(Exception $e) {
 			return $e;
 		}
 		return true;

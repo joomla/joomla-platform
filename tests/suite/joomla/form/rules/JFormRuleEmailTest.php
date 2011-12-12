@@ -45,7 +45,7 @@ class JFormRuleEmailTest extends JoomlaTestCase
 		try {
 			$this->rule->test($this->xml->field, $value);
 		}
-		catch(JException $e) {
+		catch(Exception $e) {
 			return $e;
 		}
 		return true;

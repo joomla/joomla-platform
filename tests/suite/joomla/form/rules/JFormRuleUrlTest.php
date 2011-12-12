@@ -48,7 +48,7 @@ class JFormRuleUrlTest extends JoomlaTestCase
 		try {
 			$this->rule->test($this->xml->field[(int)$field], $value);
 		}
-		catch(JException $e) {
+		catch(Exception $e) {
 			return $e;
 		}
 		return true;
