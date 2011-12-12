@@ -26,6 +26,15 @@ class JInstallerLanguage extends JAdapterInstance
 	 * @var    boolean
 	 * @since  11.1
 	 */
+	protected $core = false;
+
+	/**
+	 * Core language pack flag
+	 *
+	 * @var    boolean
+	 * @since  11.1
+	 * @deprecated use $core or declare as private
+	 */
 	protected $_core = false;
 
 	/**

@@ -30,6 +30,15 @@ class JInstaller extends JAdapter
 	 * @var    array
 	 * @since  11.1
 	 */
+	protected $paths = array();
+
+	/**
+	 * Array of paths needed by the installer
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $paths or declare as private
+	 */
 	protected $_paths = array();
 
 	/**
@@ -37,6 +46,15 @@ class JInstaller extends JAdapter
 	 *
 	 * @var    boolean
 	 * @since  11.1
+	 */
+	protected $upgrade = null;
+
+	/**
+	 * True if package is an upgrade
+	 *
+	 * @var    boolean
+	 * @since  11.1
+	 * @deprecated use $upgrade or declare as private
 	 */
 	protected $_upgrade = null;
 
@@ -53,6 +71,14 @@ class JInstaller extends JAdapter
 	 * @var    boolean
 	 * @since  11.1
 	 */
+	protected $overwrite = false;
+
+	/**
+	 * True if existing files can be overwritten
+	 * @var    boolean
+	 * @since  11.1
+	 * @deprecated use $overwrite or declare as private
+	 */
 	protected $_overwrite = false;
 
 	/**
@@ -61,6 +87,16 @@ class JInstaller extends JAdapter
 	 *
 	 * @var    array
 	 * @since  11.1
+	 */
+	protected $stepStack = array();
+
+	/**
+	 * Stack of installation steps
+	 * - Used for installation rollback
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $stepStack or declare as private
 	 */
 	protected $_stepStack = array();
 
