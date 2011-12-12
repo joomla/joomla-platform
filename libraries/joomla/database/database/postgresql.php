@@ -521,9 +521,13 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	public function showTables()
 	{
-		$query = "SELECT table_name FROM information_schema.tables " .
-					"WHERE table_type = 'BASE TABLE' AND " .
-					"table_schema NOT IN ('pg_catalog', 'information_schema')";
+		$query = $this->getQuery(true);
+		$query->select('table_name')
+				->from('information_schema.tables')
+				->where('table_type=' . $this->quote('BASE TABLE'))
+				->where(
+					'table_schema NOT IN (' . $this->quote('pg_catalog') . ', ' . $this->quote('information_schema') . ' )'
+				);
 
 		$this->setQuery($query);
 		$tableList = $this->loadColumn();
