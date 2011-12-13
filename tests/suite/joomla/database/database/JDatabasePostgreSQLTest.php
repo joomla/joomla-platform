@@ -258,20 +258,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 	 */
 	public function testExplain()
 	{
-		$expected = '<table id="explain-sql">' .
-						'<thead><tr><td colspan="99">' .
-							'EXPLAIN SELECT * FROM jos_dbtest</td></tr>' .
-						'<tr><th>QUERY PLAN</th></tr></thead>' .
-						'<tbody><tr><td>Seq Scan on jos_dbtest  ' .
-						'(cost=0.00..25.10 rows=1510 width=24)</td></tr></tbody></table>';
-
-		$this->object->setQuery('SELECT * FROM jos_dbtest');
-
-		$this->assertThat(
-			$expected,
-			$this->equalTo($this->object->explain()),
-			__LINE__
-		);
+		$this->markTestSkipped('This function is deprecated.');
 	}
 
 	/**
