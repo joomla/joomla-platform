@@ -57,7 +57,8 @@ abstract class JTable extends JObject
 	/**
 	 * The rules associated with this record.
 	 *
-	 * @var	JRules	A JRules object.
+	 * @var    JRules  A JRules object.
+	 * @since  11.1
 	 */
 	protected $_rules;
 
@@ -74,9 +75,9 @@ abstract class JTable extends JObject
 	 * be overridden by child classes to explicitly set the table and key fields
 	 * for a particular database table.
 	 *
-	 * @param   string  $table  Name of the table to model.
-	 * @param   string  $key    Name of the primary key field in the table.
-	 * @param   object  &$db    JDatabase connector object.
+	 * @param   string     $table  Name of the table to model.
+	 * @param   string     $key    Name of the primary key field in the table.
+	 * @param   JDatabase  &$db    JDatabase connector object.
 	 *
 	 * @since   11.1
 	 */
@@ -103,7 +104,6 @@ abstract class JTable extends JObject
 		// If we are tracking assets, make sure an access field exists and initially set the default.
 		if (property_exists($this, 'asset_id'))
 		{
-			jimport('joomla.access.rules');
 			$this->_trackAssets = true;
 		}
 
@@ -118,6 +118,8 @@ abstract class JTable extends JObject
 	 * Get the columns from database table.
 	 *
 	 * @return  mixed  An array of the field names, or false if an error occurs.
+	 *
+	 * @since   11.1
 	 */
 	public function getFields()
 	{
@@ -839,7 +841,7 @@ abstract class JTable extends JObject
 		}
 
 		// Get the current time in MySQL format.
-		$time = JFactory::getDate()->toMysql();
+		$time = JFactory::getDate()->toSql();
 
 		// Check the row out by primary key.
 		$query = $this->_db->getQuery(true);

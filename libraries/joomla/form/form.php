@@ -10,8 +10,6 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.path');
-jimport('joomla.form.formfield');
-jimport('joomla.form.helper');
 jimport('joomla.utilities.arrayhelper');
 
 /**
@@ -1116,7 +1114,7 @@ class JForm
 			$valid = $this->validateField($field, $group, $value, $input);
 
 			// Check for an error.
-			if (JError::isError($valid))
+			if ($valid instanceof Exception)
 			{
 				switch ($valid->get('level'))
 				{
@@ -1213,8 +1211,8 @@ class JForm
 					// Get the server timezone setting.
 					$offset = JFactory::getConfig()->get('offset');
 
-					// Return a MySQL formatted datetime string in UTC.
-					$return = JFactory::getDate($value, $offset)->toMySQL();
+					// Return an SQL formatted datetime string in UTC.
+					$return = JFactory::getDate($value, $offset)->toSql();
 				}
 				else
 				{
@@ -1230,7 +1228,7 @@ class JForm
 					$offset = JFactory::getUser()->getParam('timezone', JFactory::getConfig()->get('offset'));
 
 					// Return a MySQL formatted datetime string in UTC.
-					$return = JFactory::getDate($value, $offset)->toMySQL();
+					$return = JFactory::getDate($value, $offset)->toSql();
 				}
 				else
 				{
@@ -1836,7 +1834,7 @@ class JForm
 			$valid = $rule->test($element, $value, $group, $input, $this);
 
 			// Check for an error in the validation test.
-			if (JError::isError($valid))
+			if ($valid instanceof Exception)
 			{
 				return $valid;
 			}
