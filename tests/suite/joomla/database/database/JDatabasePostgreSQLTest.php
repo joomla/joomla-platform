@@ -94,7 +94,8 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 		$obj->db_name = 'testDb';
 
 		return array(
-				array( $obj, null )
+				array( $obj, false ),
+				array( $obj, true )
 			);
 	}
 
@@ -251,14 +252,26 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 	/**
 	 * Test explain function
 	 * 
-	 * @todo Implement testExplain().
-	 * 
 	 * @return   void
+	 * 
+	 * @since   11.3
 	 */
 	public function testExplain()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$expected = '<table id="explain-sql">' .
+						'<thead><tr><td colspan="99">' .
+							'EXPLAIN SELECT * FROM jos_dbtest</td></tr>' .
+						'<tr><th>QUERY PLAN</th></tr></thead>' .
+						'<tbody><tr><td>Seq Scan on jos_dbtest  ' .
+						'(cost=0.00..25.10 rows=1510 width=24)</td></tr></tbody></table>';
+
+		$this->object->setQuery('SELECT * FROM jos_dbtest');
+
+		$this->assertThat(
+			$expected,
+			$this->equalTo($this->object->explain()),
+			__LINE__
+		);
 	}
 
 	/**
@@ -1185,8 +1198,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 	 * 
 	 * @param   JObject  $options  JObject coming from "initialise" function to pass user 
 	 * 									and database name to database driver.
-	 * @param   boolean  $utf      True if the database supports the UTF-8 character set,
-	 * 									not used in PostgreSQL "CREATE DATABASE" query.
+	 * @param   boolean  $utf      True if the database supports the UTF-8 character set.
 	 * 
 	 * @return  void
 	 *
@@ -1194,7 +1206,12 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 	 */
 	public function testGetCreateDbQuery( $options, $utf )
 	{
-		$expected = 'CREATE DATABASE ' . $options->db_name . ' OWNER ' . $options->db_user;
+		$expected = 'CREATE DATABASE ' . $this->object->quoteName($options->db_name) . ' OWNER ' . $this->object->quoteName($options->db_user);
+
+		if ( $utf )
+		{
+			$expected .= ' ENCODING ' . $this->object->quote('UTF-8');
+		}
 
 		$result = $this->object->getCreateDbQuery($options, $utf);
 
@@ -1205,4 +1222,21 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 		);
 	}
 
+	/**
+	 * Tests the JDatabasePostgreSQL getAlterDbCharacterSet method. 
+	 * 
+	 * @return  void
+	 */
+	public function testGetAlterDbCharacterSet()
+	{
+		$expected = 'ALTER DATABASE ' . $this->object->quoteName('test') . ' SET CLIENT_ENCODING TO ' . $this->object->quote('UTF8');
+
+		$result = $this->object->getAlterDbCharacterSet('test');
+
+		$this->assertThat(
+			$result,
+			$this->equalTo($expected),
+			__LINE__
+		);
+	}
 }
