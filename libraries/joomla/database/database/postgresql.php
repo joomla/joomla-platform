@@ -97,6 +97,7 @@ class JDatabasePostgreSQL extends JDatabase
 			}
 		}
 		pg_set_error_verbosity($this->connection, PGSQL_ERRORS_DEFAULT);
+		pg_query('SET standard_conforming_strings=off');
 
 		// finalize initialization
 		parent::__construct($options);
