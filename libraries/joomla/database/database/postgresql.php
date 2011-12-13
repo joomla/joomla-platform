@@ -615,7 +615,7 @@ class JDatabasePostgreSQL extends JDatabase
 
 		$buffer = '<table id="explain-sql">';
 		$buffer .= '<thead><tr><td colspan="99">' . $this->getQuery() . '</td></tr>';
-		while ($row = $this->fetchAssoc($cursor))
+		while ($row = $this->fetchAssoc($cur))
 		{
 			if ($first)
 			{
@@ -640,7 +640,7 @@ class JDatabasePostgreSQL extends JDatabase
 		$this->sql = $temp;
 
 		// Free up system resources and return.
-		$this->freeResult($cursor);
+		$this->freeResult($cur);
 
 		return $buffer;
 	}
@@ -731,7 +731,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	public function getAlterDbCharacterSet( $dbName )
 	{
-		$query = 'ALTER DATABASE ' . $dbName . ' SET CLIENT_ENCODING TO \'UTF8\'';
+		$query = 'ALTER DATABASE ' . $this->quoteName($dbName) . ' SET CLIENT_ENCODING TO ' . $this->quote('UTF8');
 
 		return $query;
 	}
@@ -750,7 +750,12 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	public function getCreateDbQuery($options, $utf)
 	{
-		$query = 'CREATE DATABASE ' . $options->db_name . ' OWNER ' . $options->db_user;
+		$query = 'CREATE DATABASE ' . $this->quoteName($options->db_name) . ' OWNER ' . $this->quoteName($options->db_user);
+
+		if ($utf)
+		{
+			$query .= ' ENCODING ' . $this->quote('UTF-8');
+		}
 
 		return $query;
 	}
