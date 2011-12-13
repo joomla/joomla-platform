@@ -245,15 +245,15 @@ class JDatabaseSQLSrv extends JDatabase
 	{
 		$query = $this->getQuery(true);
 
-		if($ifExists)
+		if ($ifExists)
 		{
 			$this->setQuery(
-			'IF EXISTS(SELECT TABLE_NAME FROM' . ' INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ' . $query->quote($tableName) . ') DROP TABLE '.$tableName
+				'IF EXISTS(SELECT TABLE_NAME FROM' . ' INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ' . $query->quote($tableName) . ') DROP TABLE '.$tableName
 			);
 		}
 		else
 		{
-			$this->setQuery('DROP TABLE '.$tableName);
+			$this->setQuery('DROP TABLE ' . $tableName);
 		}
 
 		$this->query();
@@ -464,7 +464,7 @@ class JDatabaseSQLSrv extends JDatabase
 	public function getTableList()
 	{
 		// Set the query to get the tables statement.
-		$this->setQuery('SELECT name FROM '.$this->getDatabase().'.sys.Tables WHERE type = \'U\';');
+		$this->setQuery('SELECT name FROM ' . $this->getDatabase() . '.sys.Tables WHERE type = \'U\';');
 		$tables = $this->loadColumn();
 		return $tables;
 	}
