@@ -106,7 +106,7 @@ class JSessionStorageDatabase extends JSessionStorage
 			' SET ' . $db->quoteName('data') . ' = ' . $db->quote($data) . ',' . '	  ' . $db->quoteName('time') . ' = ' . (int) time() .
 			' WHERE ' . $db->quoteName('session_id') . ' = ' . $db->quote($id)
 		);
-		if (!$db->query())
+		if (!$db->execute())
 		{
 			return false;
 		}
@@ -123,7 +123,7 @@ class JSessionStorageDatabase extends JSessionStorage
 				' (' . $db->quoteName('session_id') . ', ' . $db->quoteName('data') . ', ' . $db->quoteName('time') . ')' .
 				' VALUES (' . $db->quote($id) . ', ' . $db->quote($data) . ', ' . (int) time() . ')'
 			);
-			return (boolean) $db->query();
+			return (boolean) $db->execute();
 		}
 	}
 
@@ -151,7 +151,7 @@ class JSessionStorageDatabase extends JSessionStorage
 			' WHERE ' . $db->quoteName('session_id') . ' = ' . $db->quote($id)
 		);
 
-		return (boolean) $db->query();
+		return (boolean) $db->execute();
 	}
 
 	/**
@@ -181,6 +181,6 @@ class JSessionStorageDatabase extends JSessionStorage
 			' WHERE ' . $db->quoteName('time') . ' < ' . (int) $past
 		);
 
-		return (boolean) $db->query();
+		return (boolean) $db->execute();
 	}
 }

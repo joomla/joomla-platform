@@ -9,9 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
-require dirname(__FILE__) . '/sqlsrv.php';
-
-JLoader::register('JDatabaseQuerySQLAzure', dirname(__FILE__) . '/sqlazurequery.php');
+// Deprecation warning.
+JLog::add('JDatabaseSqlazure is deprecated, use JDatabaseDriverSqlazure instead.', JLog::NOTICE, 'deprecated');
 
 /**
  * SQL Server database driver
@@ -20,14 +19,8 @@ JLoader::register('JDatabaseQuerySQLAzure', dirname(__FILE__) . '/sqlazurequery.
  * @subpackage  Database
  * @see         http://msdn.microsoft.com/en-us/library/ee336279.aspx
  * @since       11.1
+ * @deprecated  11.4
  */
-class JDatabaseSQLAzure extends JDatabaseSQLSrv
+class JDatabaseSqlazure extends JDatabaseDriverSqlazure
 {
-	/**
-	 * The name of the database driver.
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	public $name = 'sqlzure';
 }

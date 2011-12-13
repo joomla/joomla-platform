@@ -39,9 +39,9 @@ abstract class JTable extends JObject
 	protected $_tbl_key = '';
 
 	/**
-	 * JDatabase connector object.
+	 * JDatabaseDriver connector object.
 	 *
-	 * @var    JDatabase
+	 * @var    JDatabaseDriver
 	 * @since  11.1
 	 */
 	protected $_db;
@@ -75,9 +75,9 @@ abstract class JTable extends JObject
 	 * be overridden by child classes to explicitly set the table and key fields
 	 * for a particular database table.
 	 *
-	 * @param   string     $table  Name of the table to model.
-	 * @param   string     $key    Name of the primary key field in the table.
-	 * @param   JDatabase  &$db    JDatabase connector object.
+	 * @param   string           $table  Name of the table to model.
+	 * @param   string           $key    Name of the primary key field in the table.
+	 * @param   JDatabaseDriver  &$db    JDatabaseDriver connector object.
 	 *
 	 * @since   11.1
 	 */
@@ -322,9 +322,9 @@ abstract class JTable extends JObject
 	}
 
 	/**
-	 * Method to get the JDatabase connector object.
+	 * Method to get the JDatabaseDriver connector object.
 	 *
-	 * @return  JDatabase  The internal database connector object.
+	 * @return  JDatabaseDriver  The internal database connector object.
 	 *
 	 * @link    http://docs.joomla.org/JTable/getDBO
 	 * @since   11.1
@@ -335,9 +335,9 @@ abstract class JTable extends JObject
 	}
 
 	/**
-	 * Method to set the JDatabase connector object.
+	 * Method to set the JDatabaseDriver connector object.
 	 *
-	 * @param   object  &$db  A JDatabase connector object to be used by the table object.
+	 * @param   object  &$db  A JDatabaseDriver connector object to be used by the table object.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -346,8 +346,8 @@ abstract class JTable extends JObject
 	 */
 	public function setDBO(&$db)
 	{
-		// Make sure the new database object is a JDatabase.
-		if (!($db instanceof JDatabase))
+		// Make sure the new database object is a JDatabaseDriver.
+		if (!($db instanceof JDatabaseDriver))
 		{
 			return false;
 		}
@@ -670,7 +670,7 @@ abstract class JTable extends JObject
 			$query->where($this->_db->quoteName($k) . ' = ' . (int) $this->$k);
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED_UPDATE_ASSET_ID', $this->_db->getErrorMsg()));
 				$this->setError($e);
@@ -793,7 +793,7 @@ abstract class JTable extends JObject
 		$this->_db->setQuery($query);
 
 		// Check for a database error.
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
@@ -851,7 +851,7 @@ abstract class JTable extends JObject
 		$query->where($this->_tbl_key . ' = ' . $this->_db->quote($pk));
 		$this->_db->setQuery($query);
 
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_CHECKOUT_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
@@ -905,7 +905,7 @@ abstract class JTable extends JObject
 		$this->_db->setQuery($query);
 
 		// Check for a database error.
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_CHECKIN_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
@@ -955,7 +955,7 @@ abstract class JTable extends JObject
 		$this->_db->setQuery($query);
 
 		// Check for a database error.
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_HIT_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
@@ -1119,7 +1119,7 @@ abstract class JTable extends JObject
 					$this->_db->setQuery($query);
 
 					// Check for a database error.
-					if (!$this->_db->query())
+					if (!$this->_db->execute())
 					{
 						$e = new JException(
 							JText::sprintf('JLIB_DATABASE_ERROR_REORDER_UPDATE_ROW_FAILED', get_class($this), $i, $this->_db->getErrorMsg())
@@ -1207,7 +1207,7 @@ abstract class JTable extends JObject
 			$this->_db->setQuery($query);
 
 			// Check for a database error.
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_MOVE_FAILED', get_class($this), $this->_db->getErrorMsg()));
 				$this->setError($e);
@@ -1223,7 +1223,7 @@ abstract class JTable extends JObject
 			$this->_db->setQuery($query);
 
 			// Check for a database error.
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_MOVE_FAILED', get_class($this), $this->_db->getErrorMsg()));
 				$this->setError($e);
@@ -1244,7 +1244,7 @@ abstract class JTable extends JObject
 			$this->_db->setQuery($query);
 
 			// Check for a database error.
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_MOVE_FAILED', get_class($this), $this->_db->getErrorMsg()));
 				$this->setError($e);
@@ -1319,7 +1319,7 @@ abstract class JTable extends JObject
 		$this->_db->setQuery($query);
 
 		// Check for a database error.
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_PUBLISH_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
@@ -1491,7 +1491,7 @@ abstract class JTable extends JObject
 	{
 		// Lock the table for writing.
 		$this->_db->setQuery('LOCK TABLES ' . $this->_db->quoteName($this->_tbl) . ' WRITE');
-		$this->_db->query();
+		$this->_db->execute();
 
 		// Check for a database error.
 		if ($this->_db->getErrorNum())
@@ -1517,7 +1517,7 @@ abstract class JTable extends JObject
 	{
 		// Unlock the table.
 		$this->_db->setQuery('UNLOCK TABLES');
-		$this->_db->query();
+		$this->_db->execute();
 
 		// Check for a database error.
 		if ($this->_db->getErrorNum())

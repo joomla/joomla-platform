@@ -333,7 +333,7 @@ abstract class JModel extends JObject
 	protected function _getListCount($query)
 	{
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 
 		return $this->_db->getNumRows();
 	}
@@ -366,9 +366,9 @@ abstract class JModel extends JObject
 	}
 
 	/**
-	 * Method to get the database connector object
+	 * Method to get the database driver connector object
 	 *
-	 * @return  JDatabase  JDatabase connector object
+	 * @return  JDatabaseDriver  JDatabaseDriver connector object
 	 */
 	public function getDbo()
 	{
@@ -481,7 +481,7 @@ abstract class JModel extends JObject
 	/**
 	 * Method to set the database connector object
 	 *
-	 * @param   object  &$db  A JDatabase based object
+	 * @param   object  &$db  A JDatabaseDriver based object
 	 *
 	 * @return  void
 	 *

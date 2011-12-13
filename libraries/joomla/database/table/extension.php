@@ -24,7 +24,7 @@ class JTableExtension extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabase  &$db  A database connector object
+	 * @param   JDatabaseDriver  &$db  A database connector object
 	 *
 	 * @since   11.1
 	 */
@@ -88,7 +88,7 @@ class JTableExtension extends JTable
 	 *
 	 * @param   array  $options  Array of options
 	 *
-	 * @return  JDatabase  The database query result
+	 * @return  JDatabaseDriver  The database query result
 	 *
 	 * @since   11.1
 	 */
@@ -168,7 +168,7 @@ class JTableExtension extends JTable
 		$query->set($this->_db->quoteName('enabled') . ' = ' . (int) $state);
 		$query->where('(' . $where . ')' . $checkin);
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 
 		// Check for a database error.
 		if ($this->_db->getErrorNum())

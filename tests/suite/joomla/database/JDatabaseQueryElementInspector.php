@@ -4,8 +4,6 @@
  * @license    GNU General Public License
  */
 
-require_once JPATH_PLATFORM.'/joomla/database/databasequery.php';
-
 /**
  * Class to expose protected properties and methods in JDatabaseQueryExporter for testing purposes.
  *

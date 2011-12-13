@@ -193,7 +193,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 			{
 				self::$dbo = JDatabase::getInstance($options);
 			}
-			catch (JDatabaseException $e)
+			catch (RuntimeException $e)
 			{
 			}
 
@@ -510,7 +510,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 
 		return JSessionGlobalMock::create($this, $options);
 	}
-	
+
 	/**
 	 * Gets a mock web object.
 	 *
@@ -522,10 +522,10 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	{
 		// Load the real class first otherwise the mock will be used if jimport is called again.
 		require_once JPATH_PLATFORM . '/joomla/application/web.php';
-	
+
 		// Load the mock class builder.
 		require_once JPATH_TESTS . '/includes/mocks/JWebMock.php';
-	
+
 		return JWebGlobalMock::create($this);
 	}
 }
