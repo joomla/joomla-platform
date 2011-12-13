@@ -134,9 +134,9 @@ class JModelList extends JModel
 			return false;
 		}
 		//sqlsrv change
-		foreach($items as $item)
+		foreach ($items as $item)
 		{
-			if(isset($item->language))
+			if (isset($item->language))
 			{
 				$item->language = trim($item->language);
 			}
