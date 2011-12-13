@@ -293,9 +293,9 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 	 */
 	public function testGetCollation()
 	{
-		$this->assertThat(
+		$this->assertContains(
+			'UTF-8',
 			$this->object->getCollation(),
-			$this->equalTo("it_IT.UTF-8"),
 			__LINE__
 		);
 	}
