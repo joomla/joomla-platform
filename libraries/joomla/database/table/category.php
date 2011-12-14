@@ -206,7 +206,7 @@ class JTableCategory extends JTableNested
 		{
 			$children = false;
 		}
-		
+
 		return parent::delete($pk, $children);
 	}
 
