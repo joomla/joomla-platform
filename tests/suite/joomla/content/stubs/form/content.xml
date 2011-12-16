@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id$ -->
+<form>
+	<fields>
+		<field
+			name="content_id"
+			type="hidden"
+			default="0"
+			filter="integer"
+			readonly="true" />
+			
+		<field
+			name="type_id"
+			type="hidden"
+			default="0"
+			filter="unset"
+			readonly="true" />
+
+		<field
+			name="title"
+			type="text"
+			class="inputbox"
+			label="JLIB_CONTENT_TITLE_LABEL"
+			size="30"
+			default=""
+			required="true"
+			filter="string"
+			description="JLIB_CONTENT_TITLE_DESC" />
+
+		<field
+			name="alias"
+			type="text"
+			class="inputbox"
+			label="JLIB_CONTENT_ALIAS_LABEL"
+			size="30"
+			default=""
+			filter="JFilterOutput::stringUrlSafe"
+			description="JLIB_CONTENT_ALIAS_DESC" />
+		
+		<field
+			name="body"
+			type="textarea"
+			class="inputbox"
+			height="250"
+			label="JLIB_CONTENT_BODY_LABEL"
+			rows="20"
+			cols="90"
+			default=""
+			filter="SAFEHTML"
+			buttons="pagebreak,readmore,image"
+			description="JLIB_CONTENT_BODY_DESC" />
+	</fields>
+	
+	<fields group="visibility">
+		<field
+			name="access"
+			type="access"
+			class="inputbox"
+			label="JLIB_CONTENT_ACCESS_LABEL"
+			default="0"
+			filter="integer"
+			description="JLIB_CONTENT_ACCESS_DESC" />
+		
+		<field
+			name="state"
+			type="list"
+			class="inputbox"
+			label="JLIB_CONTENT_STATE_LABEL"
+			default="1"
+			filter="integer"
+			description="JLIB_CONTENT_STATE_DESC">
+			<option value="1">JLIB_CONTENT_STATE_ACTIVE</option>
+			<option value="0">JLIB_CONTENT_STATE_DRAFT</option>
+			<option value="2">JLIB_CONTENT_STATE_ARCHIVE</option>
+			<option value="-1">JLIB_CONTENT_STATE_TRASH</option>
+		</field>
+		
+		<field
+			name="featured"
+			type="list"
+			class="inputbox"
+			filter="integer"
+			label="ANNOUNCEMENT_FEATURED_LABEL"
+			default="0"
+			description="ANNOUNCEMENT_FEATURED_DESC">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</field>
+		
+		<field
+			name="publish_start_date"
+			type="text"
+			class="inputbox"
+			label="JLIB_CONTENT_PUBLISH_START_DATE_LABEL"
+			default="0"
+			filter="SERVER_UTC"
+			format="%Y-%m-%d"
+			description="JLIB_CONTENT_PUBLISH_START_DATE_DESC" />
+			
+		<field
+			name="publish_end_date"
+			type="text"
+			class="inputbox"
+			label="JLIB_CONTENT_PUBLISH_END_DATE_LABEL"
+			default="0"
+			filter="SERVER_UTC"
+			format="%Y-%m-%d"
+			description="JLIB_CONTENT_PUBLISH_END_DATE_DESC" 
+			field="publish_start_date" />
+		
+		<field
+			name="temporary"
+			type="hidden"
+			class="inputbox"
+			label="JLIB_CONTENT_TEMPORARY_LABEL"
+			default="0"
+			filter="integer"
+			description="JLIB_CONTENT_TEMPORARY_DESC" />
+	</fields>
+</form>

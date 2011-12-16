@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataset>
+	<table name="jos_content_types">
+		<column>type_id</column>
+		<column>title</column>
+		<column>alias</column>
+		<column>table</column>
+		<column>rules</column>
+		<row>
+			<value>1</value>
+			<value>Inspector</value>
+			<value>inspector</value>
+			<value></value>
+			<value>{}</value>
+		</row>
+	</table>
+	<table name="jos_users">
+		<column>id</column>
+		<column>name</column>
+		<column>username</column>
+		<row>
+			<value>1</value>
+			<value>Test User</value>
+			<value>testuser</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>George</value>
+			<value>george</value>
+		</row>
+	</table>
+	<table name="jos_content">
+		<column>content_id</column>
+		<column>type_id</column>
+		<column>title</column>
+		<column>alias</column>
+		<column>body</column>
+		<column>access</column>
+		<column>state</column>
+		<column>temporary</column>
+		<column>featured</column>
+		<column>created_date</column>
+		<column>created_user_id</column>
+		<column>modified_date</column>
+		<column>modified_user_id</column>
+		<column>checked_out_session</column>
+		<column>publish_start_date</column>
+		<column>publish_end_date</column>
+		<column>likes</column>
+		<column>revision</column>
+		<column>config</column>
+		<column>media</column>
+		<row>
+			<value>1</value>
+			<value>1</value>
+			<value>Content Object 1</value>
+			<value>content-object-1</value>
+			<value><![CDATA[<p>A simple body</p>]]></value>
+			<null />
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value>2011-10-11 00:01:00</value>
+			<value>1</value>
+			<value>2011-10-11 00:01:00</value>
+			<value>1</value>
+			<value></value>
+			<value>0000-00-00 00:00:00</value>
+			<value>0000-00-00 00:00:00</value>
+			<value>0</value>
+			<value>1</value>
+			<value>{}</value>
+			<value>{}</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>1</value>
+			<value>Content Object 2</value>
+			<value>content-object-2</value>
+			<value><![CDATA[<p>A simple body</p>]]></value>
+			<null />
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value>2011-10-11 00:01:00</value>
+			<value>1</value>
+			<value>2011-10-11 00:01:00</value>
+			<value>1</value>
+			<value></value>
+			<value>0000-00-00 00:00:00</value>
+			<value>0000-00-00 00:00:00</value>
+			<value>4</value>
+			<value>1</value>
+			<value>{}</value>
+			<value>{}</value>
+		</row>
+	</table>
+	<table name="jos_content_hits">
+		<column>content_id</column>
+		<column>hits</column>
+		<column>hit_modified_date</column>
+		<row>
+			<value>1</value>
+			<value>1</value>
+			<value>2011-10-11 00:01:00</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>1</value>
+			<value>2011-10-11 00:01:00</value>
+		</row>
+	</table>
+	<table name="jos_content_likes">
+		<column>content_id</column>
+		<column>user_id</column>
+		<column>like_state</column>
+		<column>like_modified_date</column>
+		<row>
+			<value>2</value>
+			<value>2</value>
+			<value></value>
+			<value>2011-10-11 00:01:00</value>
+		</row>
+	</table>
+	<table name="jos_session">
+		<column>username</column>
+		<column>time</column>
+		<column>session_id</column>
+		<column>guest</column>
+		<column>userid</column>
+		<column>usertype</column>
+		<column>client_id</column>
+		<row>
+			<value><![CDATA[testuser]]></value>
+			<value><![CDATA[1322735498]]></value>
+			<value><![CDATA[DEEDED01]]></value>
+			<value>0</value>
+			<value>1</value>
+			<value><![CDATA[Registered]]></value>
+			<value>0</value>
+		</row>
+		<row>
+			<value><![CDATA[testuser]]></value>
+			<value><![CDATA[1322735498]]></value>
+			<value><![CDATA[CAFEBABE]]></value>
+			<value>0</value>
+			<value>1</value>
+			<value><![CDATA[Registered]]></value>
+			<value>0</value>
+		</row>
+		<row>
+			<value><![CDATA[george]]></value>
+			<value><![CDATA[1322735498]]></value>
+			<value><![CDATA[DEADBEEF]]></value>
+			<value>0</value>
+			<value>2</value>
+			<value><![CDATA[Registered]]></value>
+			<value>0</value>
+		</row>		
+	</table>
+	<table name="jos_viewlevels">
+		<column>id</column>
+		<column>title</column>
+		<column>ordering</column>
+		<row>
+			<value>1</value>
+			<value>Public</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>Registered</value>
+			<value>2</value>
+		</row>
+	</table>
+</dataset>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataset>
+	<table name="jos_content_types">
+		<column>type_id</column>
+		<column>title</column>
+		<column>alias</column>
+		<column>table</column>
+		<column>rules</column>
+		<row>
+			<value>1</value>
+			<value>Inspector</value>
+			<value>inspector</value>
+			<value></value>
+			<value>{"create":{"-42":1,"42":0}}</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>Inspector 2</value>
+			<value>inspector-2</value>
+			<value>#__badtable</value>
+			<value></value>
+		</row>
+		<row>
+			<value>3</value>
+			<value>Inspector 3</value>
+			<value>inspector-3</value>
+			<value>#__content_inspector</value>
+			<value></value>
+		</row>
+	</table>
+	<table name="jos_ucmcontent_types">
+		<column>type_id</column>
+		<column>title</column>
+		<column>alias</column>
+		<column>table</column>
+		<column>rules</column>
+		<row>
+			<value>1</value>
+			<value>Ucm</value>
+			<value>ucm</value>
+			<value></value>
+			<value></value>
+		</row>
+	</table>
+</dataset>
