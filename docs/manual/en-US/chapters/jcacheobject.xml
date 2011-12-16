@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../Developer_Manual.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="chap-Joomla_Platform_Manual-jcacheobject">
+  <title>The JCacheObject class</title>
+
+  <section>
+    <title>Introduction</title>
+
+    <para>The JCacheObject class is an abstract class that is used to support concrete classes that need to store and retrieve
+    data using persistent or non-persistent cache.</para>
+  </section>
+
+  <section>
+    <title>Using JCacheObject</title>
+
+    <para>Beause JCacheObject is an abstract class, in order to use it, it has to be extended. All methods are protected so the
+    JCacheObject's store and retrieve methods will be employed in the public API, usually the data loaders and savers.</para>
+
+    <example>
+      <title>Using JCacheObject with non-persistent cache</title>
+
+      <para><programlisting>/**
+ * My class extending JCacheObject
+ *
+ * @package     Examples
+ * @subpackage  MyStuff
+ * @since       1.0
+ */
+class MyClass extends JCacheObject
+{
+	/**
+	 * Loads an object given an id.
+	 *
+	 * @param   integer  $id  The id of the record.
+	 *
+	 * @return  MyClass
+	 *
+	 * @since   1.0
+	 */
+	public function load($id)
+	{
+		// Retrieve data from non-persistent cache.
+		$data = $this-&gt;retrieve($id, false);
+
+		if (empty($data))
+		{
+			// Data not found in cache.
+
+			// Load the data manually from a data source.
+
+			// Now store the data in the cache
+			$this-&gt;store($id, $data, false);
+		}
+
+		// Do more stuff ...
+	}
+}</programlisting></para>
+    </example>
+
+    <para>If using the persistent cache (which is actually the default case), then it is advisable to set a cacheGroup property in
+    the custom class, otherwise you risk collision with other developers.</para>
+
+    <example>
+      <title>Using JCacheObject with persistent cache</title>
+
+      <para><programlisting>/**
+ * My class extending JCacheObject
+ *
+ * @package     Examples
+ * @subpackage  MyStuff
+ * @since       1.0
+ */
+class MyClass extends JCacheObject
+{
+	/**
+	 * The persistent cache group.
+	 *
+	 * @var    string
+	 * @since  12.1
+	 */
+	protected $cacheGroup = 'MyApp';
+
+	/**
+	 * Loads an object given an id.
+	 *
+	 * @param   integer  $id  The id of the record.
+	 *
+	 * @return  MyClass
+	 *
+	 * @since   1.0
+	 */
+	public function load($id)
+	{
+		// Retrieve data from persistent cache.
+		$data = $this-&gt;retrieve($id);
+
+		if (empty($data))
+		{
+			// Data not found in cache.
+
+			// Load the data manually from a data source.
+
+			// Now store the data in the cache
+			$this-&gt;store($id, $data);
+		}
+
+		// Do more stuff ...
+	}
+}</programlisting></para>
+    </example>
+
+    <para>Where a object needs additional uniqueness, then the getStoreId method can be overriden.</para>
+
+    <example>
+      <title>Customizing the getStoreId method in JCacheObject</title>
+
+      <para><programlisting>/**
+ * My class extending JCacheObject
+ *
+ * @package     Examples
+ * @subpackage  MyStuff
+ * @since       1.0
+ */
+class MyClass extends JCacheObject
+{
+	/**
+	 * The persistent cache group.
+	 *
+	 * @var    string
+	 * @since  12.1
+	 */
+	protected $cacheGroup = 'MyApp';
+
+	/**
+	 * The type of object.
+	 *
+	 * @var    string
+	 * @since  12.1
+	 */
+	protected $type = null;
+
+	/**
+	 * Constructor
+	 *
+	 * @param   string  $type  The type of object.
+	 *
+	 * @since   1.0
+	 */
+	public function __construct($type)
+	{
+		$this-&gt;type = $type;
+	}
+
+	/**
+	 * Loads an object given an id.
+	 *
+	 * @param   integer  $id  The id of the record.
+	 *
+	 * @return  MyClass
+	 *
+	 * @since   1.0
+	 */
+	public function load($id)
+	{
+		// Retrieve data from persistent cache.
+		$data = $this-&gt;retrieve($id);
+
+		if (empty($data))
+		{
+			// Data not found in cache.
+
+			// Load the data manually from a data source based on $this-&gt;type.
+
+			// Now store the data in the cache
+			$this-&gt;store($id, $data);
+		}
+
+		// Do more stuff ...
+	}
+
+	/**
+	 * Method to get a store id based on the state.
+	 *
+	 * @param   string  $id  An identifier string to generate the store id.
+	 *
+	 * @return  string  A store id.
+	 *
+	 * @since   1.0
+	 */
+	protected function getStoreId($id = '')
+	{
+		// Ensure the type is added to the store id so that collisions are avoided.
+		return parent::getStoreId($this-&gt;type.':'.$id);
+	}
+}</programlisting></para>
+    </example>
+
+    <para></para>
+  </section>
+</chapter>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../Developer_Manual.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="chap-Joomla_Platform_Manual-jdatabaseobject">
+  <title>The JDatabaseObject class</title>
+
+  <section>
+    <title>Introduction</title>
+
+    <para>The JDatabaseObject class is an abstract class that is used to support concrete classes that represent objects that are
+    stored in the database.</para>
+  </section>
+
+  <section>
+    <title>Magic properties</title>
+
+    <para>Traditionally, database interface objects would use class properties to map to database field names. However, the
+    JDatabaseObject class stores the fields dynamically in a protected properties array and uses magic getters and setters
+    to act as proxies to access them. This avoids problems associated with having to programmatically separate class
+    properties that reprent database fields from those required for the class API to function.</para>
+
+    <para>The magic <methodname>__get</methodname> method is a proxy for the protected <methodname>getProperty</methodname>
+    method. This is a smart method that also supports custom getters for individual properties. A custom getter can be defined by
+    providing a method named with the field/property name, prefixed with "get". For example, a custom getter for the "image"
+    property would be named <methodname>getImage</methodname>.</para>
+
+    <para>The magic <methodname>__set</methodname> method is a proxy for the protected <methodname>setProperty</methodname>
+    method. It, like, <methodname>getProperty</methodname>, also supports smart setters. A custom setter can be defined by
+    providing a method named with the field/property name, prefixed with "set". For example, a custom setter for the "image"
+    property would be named <methodname>setImage</methodname>.</para>
+
+    <para>Both the <methodname>getProperty</methodname> and <methodname>setProperty</methodname> method provide options for
+    turning off the smart getters and setters (to allow for access to the raw data) and also allow for caching (on by
+    default).</para>
+
+    <para>As a result of magic properties, developers are encouraged to use the @propery docblock tag in the custom classes (see
+    JContent for an example).</para>
+  </section>
+
+  <section>
+    <title>Basic CRUD</title>
+
+    <para>Basic CRUD (Create, Retrieve, Update and Delete) functionality is provided by the following public API methods:</para>
+
+    <simplelist>
+      <member>create</member>
+
+      <member>load($primaryId)</member>
+
+      <member>update</member>
+
+      <member>delete</member>
+    </simplelist>
+
+    <para>Only the load method takes an argument, being the primary id key of the database record. Each of the methods has a
+    corresponding protected do-method that can be further customised by the developer:</para>
+
+    <simplelist>
+      <member>doCreate</member>
+
+      <member>doLoad</member>
+
+      <member>doUpdate</member>
+
+      <member>doDelete</member>
+    </simplelist>
+
+    <para>None of the do methods take any arguments. Each relies on the primary key property of the class being set by calling
+    methods. Ensure that the parent class method of the same name is called if customising these methods.</para>
+
+    <para></para>
+  </section>
+
+  <section>
+    <title>Class validation</title>
+
+    <para>The JDatabaseObject class has a public <methodname>validate</methodname> method that allows the developer to check the
+    current state of the object, usually just before saving. This method looks for and executes any other method prefixed with
+    "validate".</para>
+  </section>
+
+  <section>
+    <title>Data input and output</title>
+
+    <para>The <methodname>bind</methodname> method is provided to bind an associative array or an object to the magic class
+    properties.</para>
+
+    <para>The <methodname>dump</methodname> method is provided to allow the an object to be exported as an object of the dynamic
+    properties only. Upacking the object using smart getters can be optionally turned off.</para>
+
+    <para>The magic <methodname>__toString</methodname> method returns a JSON encoded string of the data returned by the
+    <methodname>dump</methodname> method.</para>
+  </section>
+</chapter>

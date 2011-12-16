@@ -1,0 +1,702 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../Developer_Manual.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="chap-Joomla_Platform_Manual-jcontent">
+  <title>The Content Package</title>
+
+  <section>
+    <title>Introduction</title>
+
+    <para>This is the documentation for the Content package in the Joomla Platform that was added in version 12.1.</para>
+
+    <para>The Content package provides API to build different types of custom content in a clean and efficient way.</para>
+  </section>
+
+  <section>
+    <title>Database schema</title>
+
+    <para>The content package schema requires data storage types that support foreign key relations, such as InnoDB.</para>
+
+    <para>The following tables are required for the content package. They are reserved for system use ('#' represents the database
+    prefix).</para>
+
+    <simplelist>
+      <member>#content_types - Stores the types of content types and the meta information associatied with each type (such as
+      secondary tables).</member>
+
+      <member>#content - The main table for the base content data.</member>
+
+      <member>#content_hits - One-to-one maps of the number of hits (views) to a content record.</member>
+
+      <member>#content_likes - One-to-many map between users and the content they like</member>
+    </simplelist>
+
+    <section>
+      <title>#content_types</title>
+
+      <para>Fields for the #content_types table.</para>
+
+      <simplelist>
+        <member>type_id (unsigned integer) - The primary key.</member>
+
+        <member>title (varchar 255) - A human readable title for the content type.</member>
+
+        <member>alias (varchar 255) - The programmatic, string alias for the content type (used in the API).</member>
+
+        <member>table (varchar 255) - The name of the table holding secondary data for the content type.</member>
+
+        <member>rules (text) - A JSON encoded string representing the access control rules for the content (type).</member>
+      </simplelist>
+    </section>
+
+    <section>
+      <title>#content</title>
+
+      <para>Fields for the #content table.</para>
+
+      <simplelist>
+        <member>content_id (unsigned integer) - Primary key.</member>
+
+        <member>type_id (unsigned integer) - A constrained foreign key to #content_type.type_id representing the type of
+        content.</member>
+
+        <member>title (varchar 255) - The title.</member>
+
+        <member>alias (varchar 255) - The routing alias.</member>
+
+        <member>body (text) - The body text.</member>
+
+        <member>access (unsigned integer) - The access level for viewing the content.</member>
+
+        <member>state (tiny integer) - The published state. Positive is visible, negative is not. Reserved values are +2: archived, +1:
+        published, 0: draft, -1: trashed.</member>
+
+        <member>temporary (unsigned tiny integer) - Indicates if the content is temporary (new content is always temporary until
+        saved).</member>
+
+        <member>featured (unsigned tiny integer) - A flag for featured content.</member>
+
+        <member>created_date (datetime) - The UTC date the content was created (system generated and read-only in the
+        API).</member>
+
+        <member>created_user_id (unsigned integer) - A constrained foreign key to #users.id representing the user that created the
+        content.</member>
+
+        <member>modified_date (datetime) - The UTC date the content was last modified (system generated and read-only in the
+        API).</member>
+
+        <member>modified_user_id (unsigned integer) - A constrained foreign key to #users.id representing the user that last
+        modified the content.</member>
+
+        <member>checkout_out_session (varchar 255) - The id of the session of the user that has the content checked out (allows
+        the API to easily check for expired sessions).</member>
+
+        <member>checked_out_user_id (unsigned integer) - A constrained foreign key to #users.id representing the user that has the
+        content checked out.</member>
+
+        <member>publish_start_date (datetime) - The UTC date and time that the content should display after.</member>
+
+        <member>publish_end_date (datetime) - The UTC date and time that the content should not display after.</member>
+
+        <member>likes (unsigned integer) - An aggregate value of the number of users that like the content.</member>
+
+        <member>revision (unsigned integer) - The revision number of the content (incremented in the API each time content is
+        saved).</member>
+
+        <member>config (medium text) - A JSON encoded string of configuration options or data relating to the content.</member>
+
+        <member>media (text) - A JSON encoded string reserved for media associated with the content.</member>
+
+        <member>rules (text) - A JSON encoded string representing the access control rules for the content.</member>
+      </simplelist>
+
+      <para></para>
+    </section>
+
+    <section>
+      <title>#content_hits</title>
+
+      <para>Fields for the #content_hits table.</para>
+
+      <simplelist>
+        <member>content_id (unsigned integer) - A constrained foreign key to #content.content_id.</member>
+
+        <member>hits (unsigned integer) - The number of hits recorded against the content.</member>
+
+        <member>hit_modified_date (datetime) - Not currently used. Reserved for future use.</member>
+      </simplelist>
+
+      <para></para>
+    </section>
+
+    <section>
+      <title>#content_likes</title>
+
+      <para>Fields for the #content_likes table.</para>
+
+      <simplelist>
+        <member>content_id (unsigned integer) - A constrained foreign key to #content.content_id.</member>
+
+        <member>user_id (unsigned integer) - An unconstrained foreign key to #users.id representing the user that likes the
+        content.</member>
+
+        <member>like_state (signed tiny integer) - Not currently used. Reserved for future use.</member>
+
+        <member>like_modified_date (datetime) - Not currently used. Reserved for future use.</member>
+      </simplelist>
+
+      <para></para>
+    </section>
+  </section>
+
+  <section>
+    <title>Classes</title>
+
+    <para>The classes in the Content package.</para>
+
+    <section>
+      <title>JContent</title>
+
+      <para>This class extends JDatabaseObject and JCacheObject and implements the JAuthorisationAuthorisable interface.</para>
+
+      <para>This class is intended for both object maintenance and display.</para>
+    </section>
+
+    <section>
+      <title>JContentFactory</title>
+
+      <para>The JContentFactory class is used to instantiate content, helper and content type objects.</para>
+
+      <para>All content objects should be created by a factory object, not instantiated directly.</para>
+    </section>
+
+    <section>
+      <title>JContentHelper</title>
+
+      <para>The JContentHelper class is currently used to get a list of the content types. It may include other helper methods in
+      the future.</para>
+    </section>
+
+    <section>
+      <title>JContentType</title>
+
+      <para>This class extends JDatabaseObject and JCacheObject and implements the JAuthorisationAuthorisable interface. It is
+      used to maintain the content types.</para>
+    </section>
+  </section>
+
+  <section>
+    <title>Basic usage</title>
+
+    <para></para>
+
+    <section>
+      <title>Setting up a content type</title>
+
+      <para>In order to use the content package, at least one content type must be defined. This can be done statically by
+      database calls or dynamically using the content type API.</para>
+
+      <example>
+        <title>Example SQL to add content types</title>
+
+        <programlisting>INSERT INTO '#__content_types'
+  (`title`, `alias`, `table`)
+ VALUES
+  ('Article', 'article', ''),
+  ('Contact', 'contact', '#__content_contacts'),
+  ('Newsfeed', 'newsfeed', '#__content_newsfeeds'),
+  ('Weblink', 'weblink', '#__content_weblinks');</programlisting>
+      </example>
+
+      <para>In the example above, the "article" type will just use the base content table to store data. The other types will the
+      base table as well as a secondardy table to hold extended data. For example, the "#__content_contacts" table would likely
+      hold extended name and address information. The "#__content_newsfeeds" and "#__content_weblinks" would probably hold extra
+      URL field.</para>
+
+      <para>Programmatically, the content type can be added by getting a content type object from the factory, and then saving
+      it.</para>
+
+      <example>
+        <title>Example code to add content types</title>
+
+        <programlisting>try
+{
+	// Get a basic JContentType object.
+	$type = JContentFactory::getInstance()
+		-&gt;getType();
+
+	// Set the properties of the type.
+	$type-&gt;title = 'Article';
+	$type-&gt;alias = 'article';
+	$type-&gt;table = '';
+
+// Create the new type.
+	$type-&gt;create();
+}
+catch (Exception $e)
+{
+	// Handle exception.
+}</programlisting>
+      </example>
+
+      <para>Avoid using the following names for content types:</para>
+
+      <simplelist>
+        <member>Type</member>
+      </simplelist>
+
+      <para></para>
+    </section>
+
+    <section>
+      <title>Always work through the factory</title>
+
+      <para>The content factory must be used to access classes in the content package to maintain the consistency of
+      dependencies.</para>
+
+      <example>
+        <title>Example factory usage</title>
+
+        <programlisting>// Get an instance of the factory with default dependencies.
+$factory = JContentFactory::getInstance();
+
+// Get a content object.
+$article = $factory-&gt;getContent('Article');
+
+// Get a helper.
+$helper = $factory-&gt;getHelper();
+
+// Get a content type object.
+$type = $factory-&gt;getType('Article');</programlisting>
+      </example>
+
+      <para>Both the <methodname>getContent</methodname> and the <methodname>getType</methodname> methods will try to find a class
+      matching a name based on a number of permutations. For <methodname>getContent</methodname>, these are:</para>
+
+      <orderedlist>
+        <listitem>
+          <para>{factory prefix}Content{type}</para>
+        </listitem>
+
+        <listitem>
+          <para>JContent{type}</para>
+        </listitem>
+
+        <listitem>
+          <para>{factory prefix}Content</para>
+        </listitem>
+
+        <listitem>
+          <para>JContent (fallback)</para>
+        </listitem>
+      </orderedlist>
+
+      <para>For <methodname>getType</methodname>, these are:</para>
+
+      <orderedlist>
+        <listitem>
+          <para>{factory prefix}Type{type}</para>
+        </listitem>
+
+        <listitem>
+          <para>JContentType{type}</para>
+        </listitem>
+
+        <listitem>
+          <para>{factory prefix}Type</para>
+        </listitem>
+
+        <listitem>
+          <para>JContentType (fallback)</para>
+        </listitem>
+      </orderedlist>
+
+      <para>The getHelper method tries to find a class name matching the following possibilities:</para>
+
+      <orderedlist>
+        <listitem>
+          <para>{factory prefix}Helper</para>
+        </listitem>
+
+        <listitem>
+          <para>JContentHelper (fallback)</para>
+        </listitem>
+      </orderedlist>
+
+      <para></para>
+
+      <section>
+        <title>Using a factory prefix</title>
+
+        <para>A custom application will potentially want to extend and change the behaviour of the default content package
+        classes. To allow this, a prefix can be specified in the factory constructor. However, because the factory has fallback
+        options for class names, custom classes can be used selectively. Some content types may have custom classes, others may
+        not and just fallback to the default behavior.</para>
+
+        <example>
+          <title>Examples of extended content objects</title>
+
+          <programlisting>/**
+ * A class that would extend only the Article content type.
+ *
+ * Note that this will override an existing JContentArticle class if available.
+ *
+ * @package     Examples
+ * @subpackage  MyContent
+ * @since       1.0
+ */
+class MyContentArticle extends JContent
+{
+	// Extended behavior applied to just the Article content type.
+}
+
+/**
+ * A class that would provide a custom fallback for all other content types.
+ *
+ * @package     Examples
+ * @subpackage  MyContent
+ * @since       1.0
+ */
+class MyContent extends JContent
+{
+	// Extended behavior applied to all content.
+}
+
+/**
+ * Another class that would extend only the Weblink content type
+ * (without a prefix).
+ *
+ * @package     Examples
+ * @subpackage  MyContent
+ * @since       1.0
+ */
+class JContentWeblink extends JContent
+{
+	// Extended behavior applied to all content.
+}
+
+// Get an instance of the factory, setting the prefix.
+$factory = JContentFactory::getInstance('My');
+
+// This will return a MyContentArticle object.
+$object = $factory-&gt;getContent('Article');
+
+// This will return a MyContent object as a custom fallback.
+$object = $factory-&gt;getContent('Foo');
+
+// This will return a JContentWeblink object.
+$object = $factory-&gt;getContent('Weblink');</programlisting>
+        </example>
+
+        <para></para>
+      </section>
+    </section>
+
+    <section>
+      <title>Creating new content</title>
+
+      <para>One of the differences between JContent and regular content objects (such as JDatabaseObject or JTable), is that a row
+      must exist in the database in order to operate on the content. This is easy to achieve for existing content because the data
+      can be loaded from the database, but for new content the JContent introduces the concept of "temporary" content. Without
+      this, and internal assertion that is checked in many places (see <methodname>assertIsLoaded</methodname>) will fail and
+      throw an exception. The <methodname>create</methodname> method is used to create new content.</para>
+
+      <example>
+        <title>Creating new content</title>
+
+        <programlisting>// Create an instance of the content factory.
+$factory = JContentFactory::getInstance();
+
+// Get the content object and create the temporary content.
+$article = $factory-&gt;getContent('Article')-&gt;create();</programlisting>
+      </example>
+
+      <para>At this stage, the following fields will be automatically set:</para>
+
+      <simplelist>
+        <member><varname>type_id</varname> - The id of the type from the content types table.</member>
+
+        <member><varname>created_date</varname> - This is a <classname>JDate</classname> object marking the creation
+        time.</member>
+
+        <member><varname>created_user_id</varname> - The current user if logged in, otherwise this is set to null.</member>
+
+        <member><varname>state</varname> - Set to 1 (published).</member>
+
+        <member><varname>temporary</varname> - Set to 1 (true).</member>
+      </simplelist>
+
+      <para>The content is validated after which the "onContentBeforeCreate" event is triggered, a new row is added to the content
+      type (as well as rows in any secondary table defined by the type) and finally the "onContentAfterCreate" is
+      triggered.</para>
+
+      <para>The content can now be altered and saved using the <methodname>update</methodname> method.</para>
+
+      <example>
+        <title>Saving the new content</title>
+
+        <programlisting>// Checkout the content so nobody else can edit it.
+$article-&gt;checkout();
+
+// Populate some date.
+$article-&gt;title = 'New Horizons probe closer to Pluto than any other';
+$article-&gt;body = '&lt;p&gt;New Horizons is now closer to Pluto than any other space probe.&lt;/p&gt;';
+
+// Save the temporary content to the database.
+$article-&gt;update();</programlisting>
+      </example>
+
+      <para>In the example, the content is first checked out to ensure no other user (possibly only an administrator) can edit it.
+      Some properties are set (remember, these are magic properties) and then the update method is called. The update method will
+      also perform a checkout prior to saving the content as a last-chance check. The following fields will be automatically set
+      or adjusted:</para>
+
+      <simplelist>
+        <member><varname>alias</varname> - Set to the title is not provided, then is sanitised.</member>
+
+        <member><varname>modified_date</varname> - This is a <classname>JDate</classname> object marking the modification
+        time.</member>
+
+        <member><varname>modified_user_id</varname> - The current user if logged in, otherwise this is set to null.</member>
+
+        <member><varname>revision</varname> - Normally incremented by 1, except for temporary content.</member>
+      </simplelist>
+
+      <para>The content object is then validated after which the "onContentBeforeUpdate" event is triggered, the database is
+      updated and finally the "onContentAfterUpdate" event is triggered.</para>
+
+      <para>Temporary content can now go one of two ways. Either it can be abandoned or the temporary field can be set to false
+      and the content saved. Calling the <methodname>checkin</methodname> method is an easy way to purge temporary content that is
+      no longer needed. The isTemporary method is also available to check if the content is temporary or not.</para>
+
+      <note>
+        <para>The <methodname>isTemporary</methodname> method also asserts that the content is valid so it is always better to use
+        this method to check the temporary state of content rather than checking the <varname>temporary</varname> property
+        directly.</para>
+      </note>
+
+      <example>
+        <title>Removing or promoting temporary content</title>
+
+        <programlisting>// Case 1 - remove the temporary content.
+$article-&gt;checkin();
+
+// Case 2 - promote the content.
+if ($article-&gt;isTemporary())
+{
+	$article-&gt;temporary = 0;
+}
+$article-&gt;update()-&gt;checkin();</programlisting>
+      </example>
+
+      <para>When content is saved, only the properties that correspond to database fields are stored. Other properties are quietly
+      ignored unless ythe content class is extended to specifically handle them.</para>
+
+      <section>
+        <title>Binding data</title>
+
+        <para>Bulk data can be injected into content using the <methodname>bind</methodname> method.</para>
+
+        <example>
+          <title>Using the bind method</title>
+
+          <programlisting>// Create an instance of the content factory.
+$factory = JContentFactory::getInstance();
+
+// Get the content object and create the temporary content.
+$article = $factory-&gt;getContent('Article')-&gt;create();
+
+$data = array(
+	'title' =&gt; 'Voyager reaches new milestone',
+	'body' =&gt; '&lt;p&gt;Voyager 1 has reached a stagnant region between the solar system and interstellar space.&lt;/p&gt;',
+);
+
+$article-&gt;bind($data)-&gt;update()-&gt;checkin();</programlisting>
+        </example>
+
+        <para>The data to be bound can be in the form of an array or an object (where the latter is converted to an array for
+        before processing).</para>
+      </section>
+    </section>
+
+    <section>
+      <title>Loading existing content</title>
+
+      <para>Content is loaded using the <methodname>load</methodname> method.</para>
+
+      <example>
+        <title>Loading content</title>
+
+        <programlisting>// Create an instance of the content factory.
+$factory = JContentFactory::getInstance();
+
+// Get the content object and load a record.
+$article = $factory-&gt;getContent('Article')-&gt;load(1);</programlisting>
+      </example>
+
+      <para></para>
+    </section>
+
+    <section>
+      <title>Deleting content</title>
+
+      <para>Content can be deleted using the <methodname>delete</methodname> method.</para>
+
+      <example>
+        <title>Deleting content</title>
+
+        <programlisting>// Create an instance of the content factory.
+$factory = JContentFactory::getInstance();
+
+// Get the content object delete it from the database.
+$article = $factory-&gt;getContent('Article')-&gt;load(1)-&gt;delete();</programlisting>
+      </example>
+
+      <para>Prior to deletion, the "onContentBeforeDelete" event will be triggered and immediately after data is removed from the
+      database the "onContentAfterDelete" event is triggered.</para>
+
+      <note>
+        <para>The content object is still available and fully populated with data even after it is deleted.</para>
+      </note>
+
+      <para></para>
+    </section>
+
+    <section>
+      <title>Copying/duplicating content</title>
+
+      <para>Content can be copied using the <methodname>copy</methodname> method.</para>
+
+      <example>
+        <title>Copying content</title>
+
+        <programlisting>// Create an instance of the content factory.
+$factory = JContentFactory::getInstance();
+
+// Get the content object and create the temporary content.
+$article = $factory-&gt;getContent('Article')-&gt;load(1)-&gt;copy()-&gt;update()-&gt;checkin();</programlisting>
+      </example>
+
+      <para></para>
+    </section>
+
+    <section>
+      <title>Configuration options</title>
+
+      <para>How to work with the config propery.</para>
+    </section>
+
+    <section>
+      <title>Authorization control</title>
+
+      <para>The following shortcut methods are available to check the authorization of various actions:</para>
+
+      <simplelist>
+        <member><methodname>canCheckout</methodname> - Checks if the content is already checked out to another
+        session/user.</member>
+
+        <member><methodname>canDelete</methodname> - Checks if the current user is authorized to delete the content (checks
+        against the "delete" action).</member>
+
+        <member><methodname>canFeature</methodname> - Checks if the current user is authorized to feature the content (checks
+        against the "feature" action).</member>
+
+        <member><methodname>canLike</methodname> - Checks if the current user is authorized to like the content (checks against
+        the "like" action).</member>
+
+        <member><methodname>canUpdate</methodname> - Checks if the current user is authorized to update the content (checks
+        against the "update" action).</member>
+
+        <member><methodname>canView</methodname> - Checks if the current user is authorized to view the content (checks against
+        authorized access levels).</member>
+      </simplelist>
+
+      <para>Additional authorization can be performed by using the <methodname>authorise</methodname> method directly.</para>
+
+      <para></para>
+    </section>
+
+    <section>
+      <title>Checking state</title>
+
+      <para>A number of methods are available to check the state of the content:</para>
+
+      <simplelist>
+        <member><methodname>isActive</methodname> - Checks if the content is published where state = 1.</member>
+
+        <member><methodname>isArchived</methodname> - Checks if the content is published where state = 2.</member>
+
+        <member><methodname>isDraft</methodname> - Checks if the content is considered draft/unpublished where state = 0.</member>
+
+        <member><methodname>isFeatures</methodname> - Checks if the content is featured.</member>
+
+        <member><methodname>isLiked</methodname> - Checks if the content is liked.</member>
+
+        <member><methodname>isTemporary</methodname> - Checks if the content is temporary.</member>
+
+        <member><methodname>isTrashed</methodname> - Checks if the content is trashed where state = -1.</member>
+
+        <member><methodname>isVisible</methodname> - Checks if content is visible according to the publishing date range and if
+        the content is active.</member>
+      </simplelist>
+
+      <para></para>
+    </section>
+
+    <section>
+      <title>Routing</title>
+
+      <para>The route method populates the basic variables to correctly identify the content for display, or, in the future
+      identify tasks.</para>
+    </section>
+  </section>
+
+  <section>
+    <title>Extending and customizing content</title>
+
+    <para></para>
+
+    <section>
+      <title>Secondary tables</title>
+
+      <para>When the limits of the base content table are reached, content types can draw on secondary tables to extend the
+      properties that are stored for a content type.</para>
+
+      <para>Consider a case where a developer needs build a simple social networking site and wants to use the content package to
+      support a "member" content type. Additional fields are required to collect the member's first and last name, their birthday
+      and their avatar. A secondary table with the following structure could do the job, as well as a row for the content type
+      table:</para>
+
+      <example>
+        <title>Schema for a secondary table to support a member content type.</title>
+
+        <programlisting>-- Extended data for the member content type.
+
+CREATE TABLE `jos_mycontent_member` (
+  `content_id` int(11) unsigned NOT NULL COMMENT 'FK to jos_content.content_id',
+  `first_name` varchar(255) NOT NULL DEFAULT '',
+  `last_name` varchar(255) NOT NULL DEFAULT '',
+  `birthday` date NOT NULL,
+  `avatar` varchar(255) NOT NULL DEFAULT '' COMMENT 'Path to avatar file.',
+  PRIMARY KEY (`content_id`),
+  CONSTRAINT `jos_mycontent_member_ibfk_1`
+    FOREIGN KEY (`content_id`) REFERENCES `jos_content` (`content_id`)
+    ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- INSERT for the content type table.
+
+INSERT INTO `jos_content_types` (`type_id`, `title`, `alias`, `table`, `rules`) VALUES
+  (null, 'Member', 'member', '#__mycontent_member', '{}');</programlisting>
+      </example>
+
+      <para>When updating, JContent will automatically split data into the master content table, and the custom secondary table
+      for each content type.</para>
+
+      <para></para>
+    </section>
+  </section>
+</chapter>
