@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  User
  * @since       11.1
  */
-class JUser extends JObject
+class JUser extends JObject implements JAuthorisationRequestor
 {
 	/**
 	 * A cached switch for if this user has root access rights.
@@ -389,6 +389,7 @@ class JUser extends JObject
 
 		return $this->_authLevels;
 	}
+
 	/**
 	 * Gets an array of the authorised user groups
 	 *
@@ -410,6 +411,22 @@ class JUser extends JObject
 
 		return $this->_authGroups;
 	}
+
+	/**
+	 * Gets the authorisation identities for this user.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.3
+	 */
+	public function getIdentities()
+	{
+		return array_merge(
+			array(-$this->id),
+			$this->groups
+		);
+	}
+
 	/**
 	 * Pass through method to the table for setting the last visit date
 	 *
