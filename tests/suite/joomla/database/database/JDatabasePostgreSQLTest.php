@@ -1142,7 +1142,79 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 		$this->object->transactionStart();
 
 		/* release a nonexistent savepoint will throw an exception */
-		$this->object->releaseTransactionSavepoint('pippo');
+		try
+		{
+			$this->object->releaseTransactionSavepoint('pippo');
+		}
+		catch (JDatabaseException $e)
+		{
+			$this->object->transactionRollback();
+			throw $e;
+		}
+	}
+
+	/**
+	 * Tests the JDatabasePostgreSQL renameTable method.
+	 * 
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testRenameTable()
+	{
+		$newTableName = 'bak_jos_dbtest';
+
+		$this->object->renameTable('jos_dbtest', $newTableName);
+
+		/* check name change */
+		$tableList = $this->object->getTableList();
+		$this->assertThat(
+			in_array($newTableName, $tableList),
+			$this->isTrue(),
+			__LINE__
+		);
+
+		/* check index change */
+		$this->object->setQuery(
+						'SELECT relname 
+							FROM pg_class 
+							WHERE oid IN ( 
+								SELECT indexrelid 
+								FROM pg_index, pg_class 
+								WHERE pg_class.relname=\'' . $newTableName .
+								'\' AND pg_class.oid=pg_index.indrelid );'
+		);
+
+		$oldIndexes = $this->object->loadColumn();
+		$this->assertThat(
+			$oldIndexes[0],
+			$this->equalTo('bak_jos_dbtest_pkey'),
+			__LINE__
+		);
+
+		/* check sequence change */
+		$this->object->setQuery(
+						'SELECT relname
+							FROM pg_class
+							WHERE relkind = \'S\'
+							AND relnamespace IN (
+								SELECT oid
+								FROM pg_namespace
+								WHERE nspname NOT LIKE \'pg_%\'
+								AND nspname != \'information_schema\'
+							)
+							AND relname LIKE \'%' . $newTableName . '%\' ;'
+		);
+
+		$oldSequences = $this->object->loadColumn();
+		$this->assertThat(
+			$oldSequences[0],
+			$this->equalTo('bak_jos_dbtest_id_seq'),
+			__LINE__
+		);
+
+		/* restore initial state */
+		$this->object->renameTable($newTableName, 'jos_dbtest');
 	}
 
 	/**
