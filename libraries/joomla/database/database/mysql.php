@@ -189,6 +189,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @return  JDatabaseMySQL  Returns this object to support chaining.
 	 *
 	 * @since   11.1
+	 * @throws  JDatabaseException
 	 */
 	public function dropTable($tableName, $ifExists = true)
 	{
@@ -457,6 +458,23 @@ class JDatabaseMySQL extends JDatabase
 	}
 
 	/**
+	 * Locks a table in the database.
+	 *
+	 * @param   string  $table  The name of the table to unlock.
+	 *
+	 * @return  JDatabaseMySQL  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 * @throws  JDatabaseException
+	 */
+	public function lockTable($table)
+	{
+		$this->setQuery('LOCK TABLES ' . $this->quoteName($table) . ' WRITE')->query();
+
+		return $this;
+	}
+
+	/**
 	 * Execute the SQL statement.
 	 *
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
@@ -533,6 +551,26 @@ class JDatabaseMySQL extends JDatabase
 		}
 
 		return $this->cursor;
+	}
+
+	/**
+	 * Renames a table in the database.
+	 *
+	 * @param   string  $oldTable  The name of the table to be renamed
+	 * @param   string  $newTable  The new name for the table.
+	 * @param   string  $backup    Not used by MySQL.
+	 * @param   string  $prefix    Not used by MySQL.
+	 *
+	 * @return  JDatabase  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 * @throws  JDatabaseException
+	 */
+	public function renameTable($oldTable, $newTable, $backup = null, $prefix = null)
+	{
+		$this->setQuery('RENAME TABLE ' . $oldTable . ' TO ' . $newTable)->query();
+
+		return $this;
 	}
 
 	/**
@@ -795,42 +833,17 @@ class JDatabaseMySQL extends JDatabase
 	}
 
 	/**
-	 * Rename a database table
+	 * Unlocks tables in the database.
 	 *
-	 * @param   string  $oldTable  The old table name
-	 * @param   string  $newTable  The new table name
-	 * 
-	 * @return  boolean  True
-	 * 
+	 * @return  JDatabaseMySQL  Returns this object to support chaining.
+	 *
+	 * @since   11.4
 	 * @throws  JDatabaseException
 	 */
-	public function renameTable($oldTable, $newTable)
+	public function unlockTables()
 	{
-		// To check if table exists and prevent SQL injection
-		$tableList = $this->getTableList();
+		$this->setQuery('UNLOCK TABLES')->query();
 
-		// Origin Table does not exist
-		if ( !in_array($tableList, $oldTable) )
-		{
-			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  11.3
-			if (JError::$legacy)
-			{
-				$this->errorNum = 100;  // TODO set a correct error number
-				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_MYSQL_TABLE_NOT_FOUND');  // -> Origin Table not found
-				return;
-			}
-			else
-			{
-				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MYSQL_TABLE_NOT_FOUND'), 100);  // -> Origin Table not found
-			}
-		}
-		else
-		{
-			$this->setQuery('RENAME TABLE ' . $this->escape($oldTable) . ' TO ' . $this->escape($newTable));
-			$this->query();
-		}
-
-		return true;
+		return $this;
 	}
 }
