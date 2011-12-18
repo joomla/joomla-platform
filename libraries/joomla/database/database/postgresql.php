@@ -320,7 +320,7 @@ class JDatabasePostgreSQL extends JDatabase
 				->from('information_schema.tables')
 				->where('table_type=' . $this->quote('BASE TABLE'))
 				->where(
-					'table_schema NOT IN (' . $this->quote('pg_catalog') . ', ' . $this->quote('information_schema') . ' )'
+					'table_schema NOT IN (' . $this->quote('pg_catalog') . ', ' . $this->quote('information_schema') . ')'
 				)
 				->order('table_name ASC');
 
@@ -409,6 +409,23 @@ class JDatabasePostgreSQL extends JDatabase
 		$insertVal = $this->loadRow();
 
 		return $insertVal;
+	}
+
+	/**
+	 * Locks a table in the database.
+	 *
+	 * @param   string  $tableName  The name of the table to unlock.
+	 *
+	 * @return  JDatabase  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 * @throws  JDatabaseException
+	 */
+	public function lockTable($tableName)
+	{
+		$this->setQuery('LOCK TABLE ' . $this->quoteName($tableName) . ' IN ACCESS EXCLUSIVE MODE')->query();
+
+		return $this;
 	}
 
 	/**
@@ -762,16 +779,19 @@ class JDatabasePostgreSQL extends JDatabase
 	}
 
 	/**
-	 * Rename a database table
+	 * Renames a table in the database.
 	 *
-	 * @param   string  $oldTable  The old table name
-	 * @param   string  $newTable  The new table name
-	 * 
-	 * @return  boolean  True if all was ok
-	 * 
-	 * @throws	JDatabaseException
+	 * @param   string  $oldTable  The name of the table to be renamed
+	 * @param   string  $newTable  The new name for the table.
+	 * @param   string  $backup    Not used by PostgreSQL.
+	 * @param   string  $prefix    Not used by PostgreSQL.
+	 *
+	 * @return  JDatabase  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 * @throws  JDatabaseException
 	 */
-	public function renameTable($oldTable, $newTable)
+	public function renameTable($oldTable, $newTable, $backup = null, $prefix = null)
 	{
 		// To check if table exists and prevent SQL injection
 		$tableList = $this->getTableList();
@@ -970,6 +990,20 @@ class JDatabasePostgreSQL extends JDatabase
 	{
 		$this->setQuery('SAVEPOINT ' . $this->escape($savepointName));
 		$this->query();
+	}
+
+	/**
+	 * Unlocks tables in the database, this command does not exist in PostgreSQL,
+	 * it is automatically done on commit or rollback.
+	 *
+	 * @return  JDatabase  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 * @throws  JDatabaseException
+	 */
+	public function unlockTables()
+	{
+		return $this;
 	}
 
 	/**
