@@ -350,44 +350,6 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 	}
 
 	/**
-	 * Method to lock the database table for writing.
-	 *
-	 * @param   string  $table_name  The table name to lock
-	 * @param   string  $lock_type   Lock table type
-	 * 
-	 * @return   JDatabaseQuery  Lock query syntax
-	 * 
-	 * @since	11.3
-	 */
-	public function lock($table_name, $lock_type='ACCESS EXCLUSIVE')
-	{
-		$this->type = 'lock';
-
-		if (is_null($this->lock))
-		{
-			$this->lock = new JDatabaseQueryElement('LOCK TABLE', " $table_name IN $lock_type MODE");
-		}
-		else
-		{
-			$this->lock->append(" $table_name IN $lock_type MODE");
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Unlock does not exist in PostgreSQL, it is automatically done on commit or rollback
-	 *
-	 * @return  boolean  True.
-	 * 
-	 * @since	11.3
-	 */
-	public function unlock()
-	{
-		return true;
-	}
-
-	/**
 	 * Set the LIMIT clause to the query
 	 * 
 	 * @param   int  $limit  An int of how many row will be returned
