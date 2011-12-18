@@ -77,28 +77,6 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	}
 
 	/**
-	 * Data for the testLock test.
-	 *
-	 * @return  array
-	 *
-	 * @since   11.3
-	 */
-	public function dataTestLock()
-	{
-		return array(
-			// $table_name, $lock_type
-			array('jos_dbtest', 'ACCESS SHARE'),
-			array('jos_dbtest',	'ROW SHARE'),
-			array('jos_dbtest',	'ROW EXCLUSIVE'),
-			array('jos_dbtest',	'SHARE UPDATE EXCLUSIVE'),
-			array('jos_dbtest',	'SHARE'),
-			array('jos_dbtest',	'SHARE ROW EXCLUSIVE'),
-			array('jos_dbtest',	'EXCLUSIVE'),
-			array('jos_dbtest',	'ACCESS EXCLUSIVE'),
-		);
-	}
-
-	/**
 	 * A mock callback for the database escape method.
 	 *
 	 * We use this method to ensure that JDatabaseQuery's escape method uses the
