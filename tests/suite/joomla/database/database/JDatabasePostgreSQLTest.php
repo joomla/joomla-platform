@@ -137,6 +137,25 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 	}
 
 	/**
+	 * Data for testQuoteName test.
+	 * 
+	 * @return  array
+	 *
+	 * @since   11.3
+	 */
+	public function dataTestQuoteName()
+	{
+		return array(
+			/* no dot inside var */
+			array('jos_dbtest', '"jos_dbtest"'),
+			/* a dot inside var */
+			array('public.jos_dbtest', '"public"."jos_dbtest"'),
+			/* two dot inside var */
+			array('joomla_ut.public.jos_dbtest', '"joomla_ut"."public"."jos_dbtest"'),
+		);
+	}
+
+	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
 	 * @return  xml dataset
@@ -930,6 +949,26 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * Test quoteName function, with and without dot notation.
+	 * 
+	 * @param   string  $quoteMe   String to be quoted
+	 * @param   string  $expected  Expected string
+	 * 
+	 * @return void
+	 * 
+	 * @since 11.3
+	 * @dataProvider dataTestQuoteName
+	 */
+	public function testQuoteName( $quoteMe, $expected )
+	{
+		$this->assertThat(
+			$this->object->quoteName($quoteMe),
+			$this->equalTo($expected),
+			__LINE__
+		);
 	}
 
 	/**
