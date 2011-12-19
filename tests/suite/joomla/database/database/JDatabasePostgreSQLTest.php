@@ -125,18 +125,6 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 	}
 
 	/**
-	 * Data for testGetVersion test.
-	 *
-	 * @return  array
-	 *
-	 * @since   11.3
-	 */
-	public function dataTestGetVersion()
-	{
-		return array( array('9.1.1') );
-	}
-
-	/**
 	 * Data for testQuoteName test.
 	 * 
 	 * @return  array
@@ -450,17 +438,17 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 	/**
 	 * Tests the JDatabasePostgreSQL getVersion method.
 	 * 
-	 * @param   string  $dbVersion  Database version.
-	 * 
 	 * @return  void
 	 *
 	 * @since   11.3
-	 * @dataProvider  dataTestGetVersion
 	 */
-	public function testGetVersion( $dbVersion )
+	public function testGetVersion()
 	{
+		$versionRow = $this->object->setQuery('SELECT version();')->loadRow();
+		$versionArray = explode(' ', $versionRow[0]);
+
 		$this->assertGreaterThanOrEqual(
-			$dbVersion,
+			$versionArray[1],
 			$this->object->getVersion(),
 			__LINE__
 		);
