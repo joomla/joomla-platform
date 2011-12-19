@@ -511,40 +511,6 @@ class JDatabasePostgreSQL extends JDatabase
 	}
 
 	/**
-	 * Wrap an SQL statement identifier name such as column, table or database names in quotes to prevent injection
-	 * risks and reserved word conflicts.
-	 *
-	 * @param   string  $name  The identifier name to wrap in quotes.
-	 *
-	 * @return  string  The quote wrapped name.
-	 *
-	 * @since   11.1
-	 */
-	public function quoteName($name)
-	{
-		$q = $this->nameQuote;
-
-		// Don't quote names with dot-notation.
-		if (strpos($name, '.') !== false)
-		{
-			$explodedVar = explode('.', $name);
-
-			return $q . implode($q . '.' . $q, $explodedVar) . $q;
-		}
-		else
-		{
-			if (strlen($q) == 1)
-			{
-				return $q . $name . $q;
-			}
-			else
-			{
-				return $q{0} . $name . $q{1};
-			}
-		}
-	}
-
-	/**
 	 * Selects the database, but redundant for PostgreSQL
 	 *
 	 * @param   string  $database  Database name to select.
