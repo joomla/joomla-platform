@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.path');
 
@@ -188,8 +188,8 @@ class JFile
 		{
 			$file = JPath::clean($file);
 
-			// Try making the file writeable first. If it's read-only, it can't be deleted
-			// on Windows, even if the parent folder is writeable
+			// Try making the file writable first. If it's read-only, it can't be deleted
+			// on Windows, even if the parent folder is writable
 			@chmod($file, 0777);
 
 			// In case of restricted permissions we zap it one way or the other
@@ -348,7 +348,6 @@ class JFile
 		else
 		{
 			$data = '';
-			$x = 0;
 			// While it's:
 			// 1: Not the end of the file AND
 			// 2a: No Max Amount set OR
@@ -402,7 +401,6 @@ class JFile
 		else
 		{
 			// Initialise variables.
-			jimport('joomla.client.helper');
 			$FTPOptions = JClientHelper::getCredentials('ftp');
 
 			if ($FTPOptions['enabled'] == 1)
@@ -465,7 +463,6 @@ class JFile
 		else
 		{
 			// Initialise variables.
-			jimport('joomla.client.helper');
 			$FTPOptions = JClientHelper::getCredentials('ftp');
 			$ret = false;
 
@@ -492,7 +489,8 @@ class JFile
 			else
 			{
 				if (is_writeable($baseDir) && move_uploaded_file($src, $dest))
-				{ // Short circuit to prevent file permission errors
+				{
+					// Short circuit to prevent file permission errors
 					if (JPath::setPermissions($dest))
 					{
 						$ret = true;

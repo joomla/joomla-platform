@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Class to maintain a pathway.
@@ -24,24 +24,42 @@ class JPathway extends JObject
 	 * @var    array  Array to hold the pathway item objects
 	 * @since  11.1
 	 */
+	protected $pathway = null;
+
+	/**
+	 * @var    array  Array to hold the pathway item objects
+	 * @since  11.1
+	 * @deprecated use $pathway declare as private
+	 */
 	protected $_pathway = null;
 
 	/**
 	 * @var    integer  Integer number of items in the pathway
 	 * @since  11.1
 	 */
+	protected $count = 0;
+
+	/**
+	 * @var    integer  Integer number of items in the pathway
+	 * @since  11.1
+	 * @deprecated use $count declare as private
+	 */
 	protected $_count = 0;
+
+	/**
+	 * @var    array  JPathway instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
 
 	/**
 	 * Class constructor
 	 *
 	 * @param   array  $options  The class options.
 	 *
-	 * @return  void
-	 *
 	 * @since   11.1
 	 */
-	function __construct($options = array())
+	public function __construct($options = array())
 	{
 		//Initialise the array
 		$this->_pathway = array();
@@ -59,14 +77,7 @@ class JPathway extends JObject
 	 */
 	public static function getInstance($client, $options = array())
 	{
-		static $instances;
-
-		if (!isset($instances))
-		{
-			$instances = array();
-		}
-
-		if (empty($instances[$client]))
+		if (empty(self::$instances[$client]))
 		{
 			//Load the router object
 			$info = JApplicationHelper::getClientInfo($client, true);
@@ -86,10 +97,10 @@ class JPathway extends JObject
 				return $error;
 			}
 
-			$instances[$client] = & $instance;
+			self::$instances[$client] = & $instance;
 		}
 
-		return $instances[$client];
+		return self::$instances[$client];
 	}
 
 	/**
@@ -161,7 +172,7 @@ class JPathway extends JObject
 	 */
 	public function addItem($name, $link = '')
 	{
-		// Initalize variables
+		// Initialize variables
 		$ret = false;
 
 		if ($this->_pathway[] = $this->_makeItem($name, $link))
@@ -185,7 +196,7 @@ class JPathway extends JObject
 	 */
 	public function setItemName($id, $name)
 	{
-		// Initalize variables
+		// Initialize variables
 		$ret = false;
 
 		if (isset($this->_pathway[$id]))

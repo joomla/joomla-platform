@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Set the available masks for the routing mode
@@ -30,6 +30,15 @@ class JRouter extends JObject
 	 * @var    integer
 	 * @since  11.1
 	 */
+	protected $mode = null;
+
+	/**
+	 * The rewrite mode
+	 *
+	 * @var    integer
+	 * @since  11.1
+	 * @deprecated use $mode declare as private
+	 */
 	protected $_mode = null;
 
 	/**
@@ -37,6 +46,15 @@ class JRouter extends JObject
 	 *
 	 * @var     array
 	 * @since   11.1
+	 */
+	protected $vars = array();
+
+	/**
+	 * An array of variables
+	 *
+	 * @var     array
+	 * @since   11.1
+	 * @deprecated use $vars declare as private
 	 */
 	protected $_vars = array();
 
@@ -46,14 +64,33 @@ class JRouter extends JObject
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $_rules = array('build' => array(), 'parse' => array());
+	protected $rules = array(
+		'build' => array(),
+		'parse' => array()
+	);
+
+	/**
+	 * An array of rules
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $rules declare as private
+	 */
+	protected $_rules = array(
+		'build' => array(),
+		'parse' => array()
+	);
+
+	/**
+	 * @var    array  JRouter instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
 
 	/**
 	 * Class constructor
 	 *
 	 * @param   array  $options  Array of options
-	 *
-	 * @return  void
 	 *
 	 * @since 11.1
 	 */
@@ -82,14 +119,7 @@ class JRouter extends JObject
 	 */
 	public static function getInstance($client, $options = array())
 	{
-		static $instances;
-
-		if (!isset($instances))
-		{
-			$instances = array();
-		}
-
-		if (empty($instances[$client]))
+		if (empty(self::$instances[$client]))
 		{
 			// Load the router object
 			$info = JApplicationHelper::getClientInfo($client, true);
@@ -109,10 +139,10 @@ class JRouter extends JObject
 				return $error;
 			}
 
-			$instances[$client] = & $instance;
+			self::$instances[$client] = & $instance;
 		}
 
-		return $instances[$client];
+		return self::$instances[$client];
 	}
 
 	/**
@@ -462,7 +492,7 @@ class JRouter extends JObject
 	 *
 	 * @return  array  Array of decoded route segments
 	 *
-	 * @since 11,1
+	 * @since 11.1
 	 */
 	protected function _decodeSegments($segments)
 	{

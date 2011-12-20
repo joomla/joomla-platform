@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Help system class
@@ -30,7 +30,7 @@ class JHelp
 	 *
 	 * @since   11.1
 	 */
-	static function createURL($ref, $useComponent = false, $override = null, $component = null)
+	public static function createURL($ref, $useComponent = false, $override = null, $component = null)
 	{
 		$local = false;
 		$app = JFactory::getApplication();
@@ -155,10 +155,9 @@ class JHelp
 	 *
 	 * @since   11.1
 	 */
-	static function createSiteList($pathToXml, $selected = null)
+	public static function createSiteList($pathToXml, $selected = null)
 	{
 		$list = array();
-		$data = null;
 		$xml = false;
 
 		if (!empty($pathToXml))

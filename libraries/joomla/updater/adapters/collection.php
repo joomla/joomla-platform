@@ -35,7 +35,7 @@ class JUpdaterCollection extends JUpdateAdapter
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $parent = Array(0);
+	protected $parent = array(0);
 
 	/**
 	 * Used to control if an item has a child or not
@@ -93,7 +93,7 @@ class JUpdaterCollection extends JUpdateAdapter
 	 *
 	 * @since   11.1
 	 */
-	public function _startElement($parser, $name, $attrs = Array())
+	public function _startElement($parser, $name, $attrs = array())
 	{
 		array_push($this->_stack, $name);
 		$tag = $this->_getStackLocation();
@@ -104,7 +104,7 @@ class JUpdaterCollection extends JUpdateAdapter
 			case 'CATEGORY':
 				if (isset($attrs['REF']))
 				{
-					$this->update_sites[] = Array('type' => 'collection', 'location' => $attrs['REF'], 'update_site_id' => $this->_update_site_id);
+					$this->update_sites[] = array('type' => 'collection', 'location' => $attrs['REF'], 'update_site_id' => $this->_update_site_id);
 				}
 				else
 				{
@@ -115,19 +115,19 @@ class JUpdaterCollection extends JUpdateAdapter
 			case 'EXTENSION':
 				$update = JTable::getInstance('update');
 				$update->set('update_site_id', $this->_update_site_id);
-				foreach ($this->_updatecols AS $col)
+				foreach ($this->_updatecols as $col)
 				{
 					// Reset the values if it doesn't exist
 					if (!array_key_exists($col, $attrs))
 					{
 						$attrs[$col] = '';
-						if ($col == 'CLIENT_ID')
+						if ($col == 'CLIENT')
 						{
 							$attrs[$col] = 'site';
 						}
 					}
 				}
-				$client = JApplicationHelper::getClientInfo($attrs['CLIENT_ID'], 1);
+				$client = JApplicationHelper::getClientInfo($attrs['CLIENT'], 1);
 				$attrs['CLIENT_ID'] = $client->id;
 				// Lower case all of the fields
 				foreach ($attrs as $key => $attr)
@@ -215,8 +215,8 @@ class JUpdaterCollection extends JUpdateAdapter
 		}
 
 		$this->base = new stdClass;
-		$this->update_sites = Array();
-		$this->updates = Array();
+		$this->update_sites = array();
+		$this->updates = array();
 		$dbo = $this->parent->getDBO();
 
 		if (!($fp = @fopen($url, "r")))
@@ -228,7 +228,7 @@ class JUpdaterCollection extends JUpdateAdapter
 			$dbo->setQuery($query);
 			$dbo->Query();
 
-			JLog::add("Error parsing url: ".$url, JLog::WARNING, 'updater');
+			JLog::add("Error parsing url: " . $url, JLog::WARNING, 'updater');
 			$app = JFactory::getApplication();
 			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_OPEN_URL', $url), 'warning');
 			return false;
@@ -242,13 +242,13 @@ class JUpdaterCollection extends JUpdateAdapter
 		{
 			if (!xml_parse($this->xml_parser, $data, feof($fp)))
 			{
-				JLog::add("Error parsing url: ".$url, JLog::WARNING, 'updater');
+				JLog::add("Error parsing url: " . $url, JLog::WARNING, 'updater');
 				$app = JFactory::getApplication();
 				$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_PARSE_URL', $url), 'warning');
 				return false;
 			}
 		}
 		// TODO: Decrement the bad counter if non-zero
-		return Array('update_sites' => $this->update_sites, 'updates' => $this->updates);
+		return array('update_sites' => $this->update_sites, 'updates' => $this->updates);
 	}
 }

@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.form.formrule');
-
 /**
  * Form Rule class for the Joomla Platform.
  *
@@ -21,7 +19,7 @@ jimport('joomla.form.formrule');
 class JFormRuleColor extends JFormRule
 {
 	/**
-	 * Method to test for a valid color in hexadecimaö.
+	 * Method to test for a valid color in hexadecimal.
 	 *
 	 * @param   object  &$element  The JXmlElement object representing the <field /> tag for the form field object.
 	 * @param   mixed   $value     The form field value to validate.

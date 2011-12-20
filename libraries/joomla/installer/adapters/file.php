@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.installer.filemanifest');
 jimport('joomla.base.adapterinstance');
@@ -126,7 +126,7 @@ class JInstallerFile extends JAdapterInstance
 				// and set this so we can copy it later
 				$this->set('manifest_script', $manifestScript);
 
-		// Note: if we don't find the class, don't bother to copy the file
+				// Note: if we don't find the class, don't bother to copy the file
 			}
 		}
 
@@ -245,7 +245,7 @@ class JInstallerFile extends JAdapterInstance
 			$row->set('client_id', 0);
 			$row->set('params', '');
 			$row->set('system_data', '');
-			$row->set('manifest_cache', '');
+			$row->set('manifest_cache', $this->parent->generateManifestCache());
 
 			if (!$row->store())
 			{
@@ -286,7 +286,7 @@ class JInstallerFile extends JAdapterInstance
 				$this->parent->setSchemaVersion($this->manifest->update->schemas, $row->extension_id);
 			}
 		}
-		else if (strtolower($this->route) == 'update')
+		elseif (strtolower($this->route) == 'update')
 		{
 			if ($this->manifest->update)
 			{
@@ -319,7 +319,7 @@ class JInstallerFile extends JAdapterInstance
 		ob_end_clean();
 
 		// Lastly, we will copy the manifest file to its appropriate place.
-		$manifest = Array();
+		$manifest = array();
 		$manifest['src'] = $this->parent->getPath('manifest');
 		$manifest['dest'] = JPATH_MANIFESTS . '/files/' . basename($this->parent->getPath('manifest'));
 		if (!$this->parent->copyFiles(array($manifest), true))
@@ -456,7 +456,7 @@ class JInstallerFile extends JAdapterInstance
 					// And set this so we can copy it later
 					$this->set('manifest_script', $manifestScript);
 
-		// Note: if we don't find the class, don't bother to copy the file
+					// Note: if we don't find the class, don't bother to copy the file
 				}
 			}
 

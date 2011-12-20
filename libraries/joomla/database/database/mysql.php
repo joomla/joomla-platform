@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 JLoader::register('JDatabaseQueryMySQL', dirname(__FILE__) . '/mysqlquery.php');
 JLoader::register('JDatabaseExporterMySQL', dirname(__FILE__) . '/mysqlexporter.php');
@@ -55,8 +55,6 @@ class JDatabaseMySQL extends JDatabase
 	 * Constructor.
 	 *
 	 * @param   array  $options  Array of database options with keys: host, user, password, database, select.
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -120,8 +118,6 @@ class JDatabaseMySQL extends JDatabase
 
 	/**
 	 * Destructor.
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -190,11 +186,12 @@ class JDatabaseMySQL extends JDatabase
 	 * @param   string   $tableName  The name of the database table to drop.
 	 * @param   boolean  $ifExists   Optionally specify that the table must exist before it is dropped.
 	 *
-	 * @return  JDatabaseSQLSrv  Returns this object to support chaining.
+	 * @return  JDatabaseMySQL  Returns this object to support chaining.
 	 *
 	 * @since   11.1
+	 * @throws  JDatabaseException
 	 */
-	function dropTable($tableName, $ifExists = true)
+	public function dropTable($tableName, $ifExists = true)
 	{
 		$query = $this->getQuery(true);
 
@@ -223,6 +220,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @return  mixed  The collation in use by the database (string) or boolean false if not supported.
 	 *
 	 * @since   11.1
+	 * @throws  JDatabaseException
 	 */
 	public function getCollation()
 	{
@@ -237,6 +235,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @return  JDatabaseExporterMySQL  An exporter object.
 	 *
 	 * @since   11.1
+	 * @throws  JDatabaseException
 	 */
 	public function getExporter()
 	{
@@ -258,6 +257,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @return  JDatabaseImporterMySQL  An importer object.
 	 *
 	 * @since   11.1
+	 * @throws  JDatabaseException
 	 */
 	public function getImporter()
 	{
@@ -297,7 +297,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @since   11.1
 	 * @throws  JDatabaseException
 	 */
-	function getQuery($new = false)
+	public function getQuery($new = false)
 	{
 		if ($new)
 		{
@@ -358,7 +358,6 @@ class JDatabaseMySQL extends JDatabase
 	public function getTableColumns($table, $typeOnly = true)
 	{
 		$result = array();
-		$query = $this->getQuery(true);
 
 		// Set the query to get the table fields statement.
 		$this->setQuery('SHOW FULL COLUMNS FROM ' . $this->quoteName($this->escape($table)));
@@ -389,7 +388,7 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @param   string  $table  The name of the table.
 	 *
-	 * @return  array  An arry of the column specification for the table.
+	 * @return  array  An array of the column specification for the table.
 	 *
 	 * @since   11.1
 	 * @throws  JDatabaseException
@@ -397,7 +396,7 @@ class JDatabaseMySQL extends JDatabase
 	public function getTableKeys($table)
 	{
 		// Get the details columns information.
-		$this->setQuery('SHOW KEYS FROM ' . $this->db->quoteName($table));
+		$this->setQuery('SHOW KEYS FROM ' . $this->quoteName($table));
 		$keys = $this->loadObjectList();
 
 		return $keys;
@@ -442,7 +441,6 @@ class JDatabaseMySQL extends JDatabase
 	 */
 	public function hasUTF()
 	{
-		jimport('joomla.log.log');
 		JLog::add('JDatabaseMySQL::hasUTF() is deprecated.', JLog::WARNING, 'deprecated');
 		return true;
 	}
@@ -460,6 +458,23 @@ class JDatabaseMySQL extends JDatabase
 	}
 
 	/**
+	 * Locks a table in the database.
+	 *
+	 * @param   string  $table  The name of the table to unlock.
+	 *
+	 * @return  JDatabaseMySQL  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 * @throws  JDatabaseException
+	 */
+	public function lockTable($table)
+	{
+		$this->setQuery('LOCK TABLES ' . $this->quoteName($table) . ' WRITE')->query();
+
+		return $this;
+	}
+
+	/**
 	 * Execute the SQL statement.
 	 *
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
@@ -471,12 +486,10 @@ class JDatabaseMySQL extends JDatabase
 	{
 		if (!is_resource($this->connection))
 		{
-
 			// Legacy error handling switch based on the JError::$legacy switch.
 			// @deprecated  12.1
 			if (JError::$legacy)
 			{
-
 				if ($this->debug)
 				{
 					JError::raiseError(500, 'JDatabaseMySQL::query: ' . $this->errorNum . ' - ' . $this->errorMsg);
@@ -500,7 +513,6 @@ class JDatabaseMySQL extends JDatabase
 		// If debugging is enabled then let's log the query.
 		if ($this->debug)
 		{
-
 			// Increment the query counter and add the query to the object queue.
 			$this->count++;
 			$this->log[] = $sql;
@@ -525,7 +537,6 @@ class JDatabaseMySQL extends JDatabase
 			// @deprecated  12.1
 			if (JError::$legacy)
 			{
-
 				if ($this->debug)
 				{
 					JError::raiseError(500, 'JDatabaseMySQL::query: ' . $this->errorNum . ' - ' . $this->errorMsg);
@@ -540,6 +551,26 @@ class JDatabaseMySQL extends JDatabase
 		}
 
 		return $this->cursor;
+	}
+
+	/**
+	 * Renames a table in the database.
+	 *
+	 * @param   string  $oldTable  The name of the table to be renamed
+	 * @param   string  $newTable  The new name for the table.
+	 * @param   string  $backup    Not used by MySQL.
+	 * @param   string  $prefix    Not used by MySQL.
+	 *
+	 * @return  JDatabase  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 * @throws  JDatabaseException
+	 */
+	public function renameTable($oldTable, $newTable, $backup = null, $prefix = null)
+	{
+		$this->setQuery('RENAME TABLE ' . $oldTable . ' TO ' . $newTable)->query();
+
+		return $this;
 	}
 
 	/**
@@ -561,7 +592,6 @@ class JDatabaseMySQL extends JDatabase
 
 		if (!mysql_select_db($database, $this->connection))
 		{
-
 			// Legacy error handling switch based on the JError::$legacy switch.
 			// @deprecated  12.1
 			if (JError::$legacy)
@@ -701,7 +731,7 @@ class JDatabaseMySQL extends JDatabase
 	public function explain()
 	{
 		// Deprecation warning.
-		JLog::add('JDatabase::explain() is deprecated.', JLog::WARNING, 'deprecated');
+		JLog::add('JDatabaseMySQL::explain() is deprecated.', JLog::WARNING, 'deprecated');
 
 		// Backup the current query so we can reset it later.
 		$backup = $this->sql;
@@ -763,7 +793,7 @@ class JDatabaseMySQL extends JDatabase
 	public function queryBatch($abortOnError = true, $transactionSafe = false)
 	{
 		// Deprecation warning.
-		JLog::add('JDatabase::queryBatch() is deprecated.', JLog::WARNING, 'deprecated');
+		JLog::add('JDatabaseMySQL::queryBatch() is deprecated.', JLog::WARNING, 'deprecated');
 
 		$sql = $this->replacePrefix((string) $this->sql);
 		$this->errorNum = 0;
@@ -800,5 +830,20 @@ class JDatabaseMySQL extends JDatabase
 			}
 		}
 		return $error ? false : true;
+	}
+
+	/**
+	 * Unlocks tables in the database.
+	 *
+	 * @return  JDatabaseMySQL  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 * @throws  JDatabaseException
+	 */
+	public function unlockTables()
+	{
+		$this->setQuery('UNLOCK TABLES')->query();
+
+		return $this;
 	}
 }

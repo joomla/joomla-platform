@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * MySQL export driver.
@@ -62,8 +62,6 @@ class JDatabaseExporterMySQL
 	 * Constructor.
 	 *
 	 * Sets up the default options for the exporter.
-	 *
-	 * @return  JDatabaseExporterMySQL
 	 *
 	 * @since   11.1
 	 */
@@ -255,7 +253,7 @@ class JDatabaseExporterMySQL
 		{
 			$this->from = array($from);
 		}
-		else if (is_array($from))
+		elseif (is_array($from))
 		{
 			$this->from = $from;
 		}

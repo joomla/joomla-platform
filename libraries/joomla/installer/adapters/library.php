@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.installer.librarymanifest');
 jimport('joomla.base.adapterinstance');
@@ -170,7 +170,7 @@ class JInstallerLibrary extends JAdapterInstance
 		// Finalization and Cleanup Section
 
 		// Lastly, we will copy the manifest file to its appropriate place.
-		$manifest = Array();
+		$manifest = array();
 		$manifest['src'] = $this->parent->getPath('manifest');
 		$manifest['dest'] = JPATH_MANIFESTS . '/libraries/' . basename($this->parent->getPath('manifest'));
 		if (!$this->parent->copyFiles(array($manifest), true))
@@ -266,8 +266,8 @@ class JInstallerLibrary extends JAdapterInstance
 			}
 
 			// Check for a valid XML root tag.
-			// TODO: Remove backwards compatability in a future version
-			// Should be 'extension', but for backward compatability we will accept 'install'.
+			// TODO: Remove backwards compatibility in a future version
+			// Should be 'extension', but for backward compatibility we will accept 'install'.
 
 			if ($xml->getName() != 'install' && $xml->getName() != 'extension')
 			{
@@ -319,7 +319,7 @@ class JInstallerLibrary extends JAdapterInstance
 	 */
 	public function discover()
 	{
-		$results = Array();
+		$results = array();
 		$file_list = JFolder::files(JPATH_MANIFESTS . '/libraries', '\.xml$');
 		foreach ($file_list as $file)
 		{
@@ -340,7 +340,7 @@ class JInstallerLibrary extends JAdapterInstance
 	/**
 	 * Custom discover_install method
 	 *
-	 * @return  void
+	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
 	 */

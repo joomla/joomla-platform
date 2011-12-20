@@ -66,7 +66,7 @@ abstract class JHtmlImage
 		{
 			$src = $altFolder . $altFile;
 		}
-		else if ($altFile == -1)
+		elseif ($altFile == -1)
 		{
 			return '';
 		}
@@ -147,7 +147,7 @@ abstract class JHtmlImage
 		{
 			$image = $altFolder . $altFile;
 		}
-		else if ($altFile == -1)
+		elseif ($altFile == -1)
 		{
 			$image = '';
 		}
@@ -159,7 +159,7 @@ abstract class JHtmlImage
 			}
 			else
 			{
-				// Compability with previous versions.
+				// Compatibility with previous versions.
 				if (substr($folder, 0, 14) == "/administrator")
 				{
 					$image = substr($folder, 15) . $file;

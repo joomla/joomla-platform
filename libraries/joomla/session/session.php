@@ -7,10 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 // Register the session storage class with the loader
 JLoader::register('JSessionStorage', dirname(__FILE__) . '/storage.php');
+
+jimport('joomla.environment.request');
 
 /**
  * Class for managing HTTP sessions
@@ -76,12 +78,16 @@ class JSession extends JObject
 	protected $_force_ssl = false;
 
 	/**
+	 * @var    JSession  JSession instances container.
+	 * @since  11.3
+	 */
+	protected static $instance;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   string  $store    The type of storage for the session.
 	 * @param   array   $options  Optional parameters
-	 *
-	 * @return  JSession
 	 *
 	 * @since   11.1
 	 */
@@ -144,14 +150,12 @@ class JSession extends JObject
 	 */
 	public static function getInstance($handler, $options)
 	{
-		static $instance;
-
-		if (!is_object($instance))
+		if (!is_object(self::$instance))
 		{
-			$instance = new JSession($handler, $options);
+			self::$instance = new JSession($handler, $options);
 		}
 
-		return $instance;
+		return self::$instance;
 	}
 
 	/**
@@ -551,7 +555,7 @@ class JSession extends JObject
 
 		$this->_state = 'restart';
 		//regenerate session id
-		$id = $this->_createId(strlen($this->getId()));
+		$id = $this->_createId();
 		session_id($id);
 		$this->_start();
 		$this->_state = 'active';
@@ -589,7 +593,7 @@ class JSession extends JObject
 		$cookie = session_get_cookie_params();
 
 		// Create new session id
-		$id = $this->_createId(strlen($this->getId()));
+		$id = $this->_createId();
 
 		// Kill session
 		session_destroy();
@@ -835,7 +839,7 @@ class JSession extends JObject
 			$this->set('session.client.forwarded', $_SERVER['HTTP_X_FORWARDED_FOR']);
 		}
 
-		// Check for client adress
+		// Check for client address
 		if (in_array('fix_adress', $this->_security) && isset($_SERVER['REMOTE_ADDR']))
 		{
 			$ip = $this->get('session.client.address');
@@ -844,7 +848,7 @@ class JSession extends JObject
 			{
 				$this->set('session.client.address', $_SERVER['REMOTE_ADDR']);
 			}
-			else if ($_SERVER['REMOTE_ADDR'] !== $ip)
+			elseif ($_SERVER['REMOTE_ADDR'] !== $ip)
 			{
 				$this->_state = 'error';
 				return false;
@@ -860,10 +864,10 @@ class JSession extends JObject
 			{
 				$this->set('session.client.browser', $_SERVER['HTTP_USER_AGENT']);
 			}
-			else if ($_SERVER['HTTP_USER_AGENT'] !== $browser)
+			elseif ($_SERVER['HTTP_USER_AGENT'] !== $browser)
 			{
 				//				$this->_state	=	'error';
-			//				return false;
+				//				return false;
 			}
 		}
 

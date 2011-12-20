@@ -20,11 +20,9 @@ class JFormFieldRulesTest extends JoomlaTestCase
 	 */
 	protected function setUp()
 	{
-		jimport('joomla.form.form');
-		jimport('joomla.form.formfield');
 		jimport('joomla.environment.request');
 		require_once JPATH_PLATFORM.'/joomla/form/fields/rules.php';
-		include_once dirname(dirname(__FILE__)).'/inspectors.php';
+		include_once dirname(__DIR__).'/inspectors.php';
 
 		$this->saveFactoryState();
 

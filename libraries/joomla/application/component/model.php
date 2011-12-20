@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Base class for a Joomla Model
@@ -27,6 +27,15 @@ abstract class JModel extends JObject
 	 * @var    boolean
 	 * @since  11.1
 	 */
+	protected $stateSet = null;
+
+	/**
+	 * Indicates if the internal state has been set
+	 *
+	 * @var    boolean
+	 * @since  11.1
+	 * @deprecated use $stateSet declare as private
+	 */
 	protected $__state_set = null;
 
 	/**
@@ -34,6 +43,15 @@ abstract class JModel extends JObject
 	 *
 	 * @var    object
 	 * @since  11.1
+	 */
+	protected $db;
+
+	/**
+	 * Database Connector
+	 *
+	 * @var    object
+	 * @since  11.1
+	 * @deprecated use $db declare as private
 	 */
 	protected $_db;
 
@@ -206,8 +224,6 @@ abstract class JModel extends JObject
 	 *
 	 * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
 	 *
-	 * @return  JModel  A JModel object
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($config = array())
@@ -263,7 +279,7 @@ abstract class JModel extends JObject
 		{
 			$this->addTablePath($config['table_path']);
 		}
-		else if (defined('JPATH_COMPONENT_ADMINISTRATOR'))
+		elseif (defined('JPATH_COMPONENT_ADMINISTRATOR'))
 		{
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 		}
@@ -279,7 +295,7 @@ abstract class JModel extends JObject
 		{
 			$this->event_clean_cache = $config['event_clean_cache'];
 		}
-		else if (empty($this->event_clean_cache))
+		elseif (empty($this->event_clean_cache))
 		{
 			$this->event_clean_cache = 'onContentCleanCache';
 		}
@@ -327,7 +343,7 @@ abstract class JModel extends JObject
 	 *
 	 * @param   string  $name    The name of the view
 	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration settings to pass to JTable::getInsance
+	 * @param   array   $config  Configuration settings to pass to JTable::getInstance
 	 *
 	 * @return  mixed  Model object or boolean false if failed
 	 *
@@ -371,19 +387,17 @@ abstract class JModel extends JObject
 	 */
 	public function getName()
 	{
-		$name = $this->name;
-
-		if (empty($name))
+		if (empty($this->name))
 		{
 			$r = null;
 			if (!preg_match('/Model(.*)/i', get_class($this), $r))
 			{
-				JError::raiseError(500, 'JLIB_APPLICATION_ERROR_MODEL_GET_NAME');
+				JError::raiseError(500, JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'));
 			}
-			$name = strtolower($r[1]);
+			$this->name = strtolower($r[1]);
 		}
 
-		return $name;
+		return $this->name;
 	}
 
 	/**
@@ -496,12 +510,12 @@ abstract class JModel extends JObject
 	/**
 	 * Clean the cache
 	 *
-	 * @param   string  $group      The cache group
-	 * @param   string  $client_id  The ID of the client
+	 * @param   string   $group      The cache group
+	 * @param   integer  $client_id  The ID of the client
 	 *
 	 * @return  void
 	 *
-	 * @since    11.1
+	 * @since   11.1
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
@@ -513,7 +527,6 @@ abstract class JModel extends JObject
 			'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : JRequest::getCmd('option')),
 			'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'));
 
-		jimport('joomla.cache.cache');
 		$cache = JCache::getInstance('callback', $options);
 		$cache->clean();
 

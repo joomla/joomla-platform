@@ -7,9 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
-
-jimport('joomla.form.formfield');
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Form Field class for the Joomla Platform.
@@ -82,9 +80,9 @@ class JFormFieldSpacer extends JFormField
 			{
 				$label .= ' title="'
 					. htmlspecialchars(
-						trim($text, ':') . '::' . ($this->translateDescription ? JText::_($this->description) : $this->description),
-						ENT_COMPAT, 'UTF-8'
-					) . '"';
+					trim($text, ':') . '::' . ($this->translateDescription ? JText::_($this->description) : $this->description),
+					ENT_COMPAT, 'UTF-8'
+				) . '"';
 			}
 
 			// Add the label text and closing tag.

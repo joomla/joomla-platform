@@ -7,13 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.html.html');
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
-jimport('joomla.form.formfield');
-jimport('joomla.form.helper');
 
 /**
  * Form Field to display a list of the layouts for module display from the module or template overrides.
@@ -41,11 +38,6 @@ class JFormFieldModuleLayout extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Initialize variables.
-
-		// Get the client id.
-		$clientName = $this->element['client_id'];
-
 		// Get the client id.
 		$clientId = $this->element['client_id'];
 
@@ -159,9 +151,9 @@ class JFormFieldModuleLayout extends JFormField
 						|| $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, null, false, false)
 						|| $lang->load('tpl_' . $template->element . '.sys', $client->path, $lang->getDefault(), false, false)
 						|| $lang->load(
-							'tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, $lang->getDefault(),
-							false, false
-						);
+						'tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, $lang->getDefault(),
+						false, false
+					);
 
 					$template_path = JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $module);
 

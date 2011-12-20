@@ -82,7 +82,6 @@ class JDate extends DateTime
 	 * @param   string  $date  String in a format accepted by strtotime(), defaults to "now".
 	 * @param   mixed   $tz    Time zone to be used for the date.
 	 *
-	 * @return  void
 	 * @since   11.1
 	 *
 	 * @throws  JException
@@ -221,7 +220,7 @@ class JDate extends DateTime
 	 * @param   string  $date  String in a format accepted by strtotime(), defaults to "now".
 	 * @param   mixed   $tz    Time zone to be used for the date.
 	 *
-	 * @return  void
+	 * @return  JDate
 	 *
 	 * @since   11.3
 	 * @throws  JException
@@ -235,7 +234,7 @@ class JDate extends DateTime
 	 * Translates day of week number to a string.
 	 *
 	 * @param   integer  $day   The numeric day of the week.
-	 * @param   boolean  $abbr  Return the abreviated day string?
+	 * @param   boolean  $abbr  Return the abbreviated day string?
 	 *
 	 * @return  string  The day of the week.
 	 *
@@ -311,7 +310,7 @@ class JDate extends DateTime
 
 		if ($translate)
 		{
-			// Manually modify the month and day strings in the formated time.
+			// Manually modify the month and day strings in the formatted time.
 			if (strpos($return, self::DAY_ABBR) !== false)
 			{
 				$return = str_replace(self::DAY_ABBR, $this->dayToString(parent::format('w'), true), $return);
@@ -359,7 +358,7 @@ class JDate extends DateTime
 	 * Translates month number to a string.
 	 *
 	 * @param   integer  $month  The numeric month of the year.
-	 * @param   boolean  $abbr   If true, return the abreviated month string
+	 * @param   boolean  $abbr   If true, return the abbreviated month string
 	 *
 	 * @return  string  The month of the year.
 	 *
@@ -511,7 +510,6 @@ class JDate extends DateTime
 	 */
 	public function toISO8601($local = false)
 	{
-
 		return $this->format(DateTime::RFC3339, $local, false);
 	}
 
@@ -524,11 +522,32 @@ class JDate extends DateTime
 	 *
 	 * @link http://dev.mysql.com/doc/refman/5.0/en/datetime.html
 	 * @since   11.1
+	 * @deprecated 12.1 Use JDate::toSql()
 	 */
 	public function toMySQL($local = false)
 	{
-
+		JLog::add('JDate::toMySQL() is deprecated. Use JDate::toSql() instead.', JLog::WARNING, 'deprecated');
 		return $this->format('Y-m-d H:i:s', $local, false);
+	}
+
+	/**
+	 * Gets the date as an SQL datetime string.
+	 *
+	 * @param   boolean    $local  True to return the date string in the local time zone, false to return it in GMT.
+	 * @param   JDatabase  $dbo    The database driver or null to use JFactory::getDbo()
+	 *
+	 * @return  string     The date string in SQL datetime format.
+	 *
+	 * @link http://dev.mysql.com/doc/refman/5.0/en/datetime.html
+	 * @since   11.4
+	 */
+	public function toSql($local = false, JDatabase $dbo = null)
+	{
+		if ($dbo === null)
+		{
+			$dbo = JFactory::getDbo();
+		}
+		return $this->format($dbo->getDateFormat(), $local, false);
 	}
 
 	/**

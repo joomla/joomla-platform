@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.file');
 
@@ -30,8 +30,6 @@ class JCacheStorageFile extends JCacheStorage
 	 * Constructor
 	 *
 	 * @param   array  $options  Optional parameters
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -434,7 +432,7 @@ class JCacheStorageFile extends JCacheStorage
 				return false;
 			}
 		}
-		else if (!empty($files) && is_array($files))
+		elseif (!empty($files) && is_array($files))
 		{
 
 			foreach ($files as $file)
@@ -532,7 +530,8 @@ class JCacheStorageFile extends JCacheStorage
 	 *
 	 * @since   11.1
 	 */
-	protected function _filesInFolder($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS','.DS_Store','__MACOSX'), $excludefilter = array('^\..*','.*~'))
+	protected function _filesInFolder($path, $filter = '.', $recurse = false, $fullpath = false
+		, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'), $excludefilter = array('^\..*', '.*~'))
 	{
 		// Initialise variables.
 		$arr = array();
@@ -618,7 +617,8 @@ class JCacheStorageFile extends JCacheStorage
 	 *
 	 * @since   11.1
 	 */
-	protected function _folders($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS','.DS_Store','__MACOSX'), $excludefilter = array('^\..*'))
+	protected function _folders($path, $filter = '.', $recurse = false, $fullpath = false
+		, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'), $excludefilter = array('^\..*'))
 	{
 		// Initialise variables.
 		$arr = array();
@@ -649,7 +649,9 @@ class JCacheStorageFile extends JCacheStorage
 		}
 		while (($file = readdir($handle)) !== false)
 		{
-			if (($file != '.') && ($file != '..') && (!in_array($file, $exclude)) && (empty($excludefilter_string) || !preg_match($excludefilter_string, $file)))
+			if (($file != '.') && ($file != '..')
+				&& (!in_array($file, $exclude))
+				&& (empty($excludefilter_string) || !preg_match($excludefilter_string, $file)))
 			{
 				$dir = $path . '/' . $file;
 				$isDir = is_dir($dir);

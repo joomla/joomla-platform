@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * INI format handler for JRegistry.
@@ -131,7 +131,7 @@ class JRegistryFormatINI extends JRegistryFormat
 					continue;
 				}
 			}
-			else if ($line{0} == '[')
+			elseif ($line{0} == '[')
 			{
 				continue;
 			}

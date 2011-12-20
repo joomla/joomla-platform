@@ -7,9 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
-
-jimport('joomla.event.event');
+defined('JPATH_PLATFORM') or die;
 
 /**
  * JPlugin Class
@@ -49,8 +47,6 @@ abstract class JPlugin extends JEvent
 	 * @param   array   $config    An optional associative array of configuration settings.
 	 *                             Recognized key values include 'name', 'group', 'params', 'language'
 	 *                             (this list is not meant to be comprehensive).
-	 *
-	 * @return  JPlugin
 	 *
 	 * @since   11.1
 	 */
@@ -106,7 +102,6 @@ abstract class JPlugin extends JEvent
 		return $lang->load(strtolower($extension), $basePath, null, false, false)
 			|| $lang->load(strtolower($extension), JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name, null, false, false)
 			|| $lang->load(strtolower($extension), $basePath, $lang->getDefault(), false, false)
-			|| $lang->load(strtolower($extension), JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name, $lang->getDefault(), false, false
-		);
+			|| $lang->load(strtolower($extension), JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name, $lang->getDefault(), false, false);
 	}
 }

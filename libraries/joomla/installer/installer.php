@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
@@ -33,7 +33,7 @@ class JInstaller extends JAdapter
 	protected $_paths = array();
 
 	/**
-	 * True if packakge is an upgrade
+	 * True if package is an upgrade
 	 *
 	 * @var    boolean
 	 * @since  11.1
@@ -105,9 +105,13 @@ class JInstaller extends JAdapter
 	protected $redirect_url = null;
 
 	/**
+	 * @var    JInstaller  JInstaller instance container.
+	 * @since  11.3
+	 */
+	protected static $instance;
+
+	/**
 	 * Constructor
-	 *
-	 * @return  JInstaller
 	 *
 	 * @since   11.1
 	 */
@@ -126,13 +130,11 @@ class JInstaller extends JAdapter
 	 */
 	public static function getInstance()
 	{
-		static $instance;
-
-		if (!isset($instance))
+		if (!isset(self::$instance))
 		{
-			$instance = new JInstaller;
+			self::$instance = new JInstaller;
 		}
-		return $instance;
+		return self::$instance;
 	}
 
 	/**
@@ -141,8 +143,22 @@ class JInstaller extends JAdapter
 	 * @return  boolean  Allow overwrite switch
 	 *
 	 * @since   11.1
+	 * @deprecated 12.1 Use JInstaller::isOverwrite()
 	 */
 	public function getOverwrite()
+	{
+		JLog::add('JInstaller::getOverwrite() is deprecated. Please use JInstaller::isOverwrite() instead', JLog::WARNING, 'deprecated');
+		return $this->isOverwrite();
+	}
+
+	/**
+	 * Get the allow overwrite switch
+	 *
+	 * @return  boolean  Allow overwrite switch
+	 *
+	 * @since   11.4
+	 */
+	public function isOverwrite()
 	{
 		return $this->_overwrite;
 	}
@@ -204,8 +220,22 @@ class JInstaller extends JAdapter
 	 * @return  boolean
 	 *
 	 * @since   11.1
+	 * @deprecated 12.1 Use JInstaller::isUpgrade()
 	 */
 	public function getUpgrade()
+	{
+		JLog::add('JInstaller::getUpgrade() is deprecated. Please use JInstaller::isUpgrade() instead', JLog::WARNING, 'deprecated');
+		return $this->isUpgrade();
+	}
+
+	/**
+	 * Get the upgrade switch
+	 *
+	 * @return  boolean
+	 *
+	 * @since   11.4
+	 */
+	public function isUpgrade()
 	{
 		return $this->_upgrade;
 	}
@@ -341,11 +371,13 @@ class JInstaller extends JAdapter
 				case 'extension':
 					// Get database connector object
 					$db = $this->getDBO();
+					$query = $db->getQuery(true);
 
 					// Remove the entry from the #__extensions table
-					$query = 'DELETE' . ' FROM `#__extensions`' . ' WHERE extension_id = ' . (int) $step['id'];
+					$query->delete($db->quoteName('#__extensions'));
+					$query->where($db->quoteName('extension_id') . ' = ' . (int) $step['id']);
 					$db->setQuery($query);
-					$stepval = $db->Query();
+					$stepval = $db->query();
 
 					break;
 
@@ -564,7 +596,7 @@ class JInstaller extends JAdapter
 	public function discover()
 	{
 		$this->loadAllAdapters();
-		$results = Array();
+		$results = array();
 
 		foreach ($this->_adapters as $adapter)
 		{
@@ -699,7 +731,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @since   11.1
 	 */
-	function refreshManifestCache($eid)
+	public function refreshManifestCache($eid)
 	{
 		if ($eid)
 		{
@@ -865,8 +897,6 @@ class JInstaller extends JAdapter
 			$dbDriver = 'mysql';
 		}
 
-		$dbCharset = ($db->hasUTF()) ? 'utf8' : '';
-
 		// Get the name of the sql file to process
 		$sqlfile = '';
 
@@ -880,7 +910,7 @@ class JInstaller extends JAdapter
 				$fDriver = 'mysql';
 			}
 
-			if ($fCharset == $dbCharset && $fDriver == $dbDriver)
+			if ($fCharset == 'utf8' && $fDriver == $dbDriver)
 			{
 				$sqlfile = $this->getPath('extension_root') . '/' . $file;
 
@@ -903,7 +933,6 @@ class JInstaller extends JAdapter
 				}
 
 				// Create an array of queries from the sql file
-				jimport('joomla.installer.helper');
 				$queries = JInstallerHelper::splitSql($buffer);
 
 				if (count($queries) == 0)
@@ -1014,7 +1043,7 @@ class JInstaller extends JAdapter
 	 */
 	public function parseSchemaUpdates($schema, $eid)
 	{
-		$files = Array();
+		$files = array();
 		$update_count = 0;
 
 		// Ensure we have an XML element and a valid extension id
@@ -1078,7 +1107,6 @@ class JInstaller extends JAdapter
 								}
 
 								// Create an array of queries from the sql file
-								jimport('joomla.installer.helper');
 								$queries = JInstallerHelper::splitSql($buffer);
 
 								if (count($queries) == 0)
@@ -1158,7 +1186,6 @@ class JInstaller extends JAdapter
 		$copyfiles = array();
 
 		// Get the client info
-		jimport('joomla.application.helper');
 		$client = JApplicationHelper::getClientInfo($cid);
 
 		/*
@@ -1279,7 +1306,6 @@ class JInstaller extends JAdapter
 		$copyfiles = array();
 
 		// Get the client info
-		jimport('joomla.application.helper');
 		$client = JApplicationHelper::getClientInfo($cid);
 
 		// Here we set the folder we are going to copy the files to.
@@ -1391,7 +1417,6 @@ class JInstaller extends JAdapter
 		$copyfiles = array();
 
 		// Get the client info
-		jimport('joomla.application.helper');
 		$client = JApplicationHelper::getClientInfo($cid);
 
 		// Here we set the folder we are going to copy the files to.
@@ -1550,7 +1575,7 @@ class JInstaller extends JAdapter
 
 					return false;
 				}
-				else if (($exists = file_exists($filedest)) && !$overwrite)
+				elseif (($exists = file_exists($filedest)) && !$overwrite)
 				{
 
 					// It's okay if the manifest already exists
@@ -1641,8 +1666,6 @@ class JInstaller extends JAdapter
 		}
 
 		// Get the client info if we're using a specific client
-		jimport('joomla.application.helper');
-
 		if ($cid > -1)
 		{
 			$client = JApplicationHelper::getClientInfo($cid);
@@ -1789,7 +1812,6 @@ class JInstaller extends JAdapter
 	public function copyManifest($cid = 1)
 	{
 		// Get the client info
-		jimport('joomla.application.helper');
 		$client = JApplicationHelper::getClientInfo($cid);
 
 		$path['src'] = $this->getPath('manifest');
@@ -1888,8 +1910,8 @@ class JInstaller extends JAdapter
 		}
 
 		// Check for a valid XML root tag.
-		// @todo: Remove backwards compatability in a future version
-		// Should be 'extension', but for backward compatability we will accept 'extension' or 'install'.
+		// @todo: Remove backwards compatibility in a future version
+		// Should be 'extension', but for backward compatibility we will accept 'extension' or 'install'.
 
 		// 1.5 uses 'install'
 		// 1.6 uses 'extension'
@@ -1929,10 +1951,13 @@ class JInstaller extends JAdapter
 	public function cleanDiscoveredExtension($type, $element, $folder = '', $client = 0)
 	{
 		$dbo = JFactory::getDBO();
-		$dbo->setQuery(
-			'DELETE FROM #__extensions WHERE type = ' . $dbo->Quote($type) . ' AND element = ' . $dbo->Quote($element) . ' AND folder = ' .
-				$dbo->Quote($folder) . ' AND client_id = ' . intval($client) . ' AND state = -1'
-		);
+		$query = $dbo->getQuery(true);
+		$query->delete($dbo->quoteName('#__extensions'));
+		$query->where('type = ' . $dbo->Quote($type));
+		$query->where('element = ' . $dbo->Quote($element));
+		$query->where('folder = ' . $dbo->Quote($folder));
+		$query->where('client_id = ' . intval($client));
+		$query->where('state = -1');
 
 		return $dbo->Query();
 	}
@@ -1943,7 +1968,7 @@ class JInstaller extends JAdapter
 	 * @param   array  $old_files  An array of JXMLElement objects that are the old files
 	 * @param   array  $new_files  An array of JXMLElement objects that are the new files
 	 *
-	 * @return  array  An array with the delete files and folders in findDeletedFiles[files] and findDeletedFiles[folders] resepctively
+	 * @return  array  An array with the delete files and folders in findDeletedFiles[files] and findDeletedFiles[folders] respectively
 	 *
 	 * @since   11.1
 	 */
@@ -1951,15 +1976,15 @@ class JInstaller extends JAdapter
 	{
 		// The magic find deleted files function!
 		// The files that are new
-		$files = Array();
+		$files = array();
 		// The folders that are new
-		$folders = Array();
+		$folders = array();
 		// The folders of the files that are new
-		$containers = Array();
+		$containers = array();
 		// A list of files to delete
-		$files_deleted = Array();
+		$files_deleted = array();
 		// A list of folders to delete
-		$folders_deleted = Array();
+		$folders_deleted = array();
 
 		foreach ($new_files as $file)
 		{
@@ -2030,7 +2055,7 @@ class JInstaller extends JAdapter
 			}
 		}
 
-		return Array('files' => $files_deleted, 'folders' => $folders_deleted);
+		return array('files' => $files_deleted, 'folders' => $folders_deleted);
 	}
 
 	/**
@@ -2042,7 +2067,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @since   11.1
 	 */
-	function loadMD5Sum($filename)
+	public function loadMD5Sum($filename)
 	{
 		if (!file_exists($filename))
 		{
@@ -2051,7 +2076,7 @@ class JInstaller extends JAdapter
 		}
 
 		$data = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-		$retval = Array();
+		$retval = array();
 
 		foreach ($data as $row)
 		{

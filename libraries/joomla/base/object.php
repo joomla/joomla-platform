@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Base object class.
@@ -34,8 +34,6 @@ class JObject
 	 *
 	 * @param   mixed  $properties  Either and associative array or another
 	 *                              object to set the initial properties of the object.
-	 *
-	 * @return  JObject
 	 *
 	 * @since   11.1
 	 */
@@ -142,7 +140,7 @@ class JObject
 			// Default, return the last message
 			$error = end($this->_errors);
 		}
-		else if (!array_key_exists($i, $this->_errors))
+		elseif (!array_key_exists($i, $this->_errors))
 		{
 			// If $i has been specified but does not exist, return false
 			return false;
@@ -153,7 +151,7 @@ class JObject
 		}
 
 		// Check if only the string is requested
-		if (JError::isError($error) && $toString)
+		if ($error instanceof Exception && $toString)
 		{
 			return (string) $error;
 		}
@@ -207,7 +205,7 @@ class JObject
 		{
 			foreach ((array) $properties as $k => $v)
 			{
-				// Use the set function which might be overriden.
+				// Use the set function which might be overridden.
 				$this->set($k, $v);
 			}
 			return true;
@@ -239,11 +237,13 @@ class JObject
 	 * @deprecated  12.1    Use magic method __toString()
 	 * @see         __toString()
 	 */
-	function toString()
+	public function toString()
 	{
+		// @codeCoverageIgnoreStart
 		// Deprecation warning.
 		JLog::add('JObject::toString() is deprecated.', JLog::WARNING, 'deprecated');
 
 		return $this->__toString();
+		// @codeCoverageIgnoreEnd
 	}
 }

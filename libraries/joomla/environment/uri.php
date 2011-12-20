@@ -7,9 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
-
-jimport('joomla.string.string');
+defined('JPATH_PLATFORM') or die;
 
 /**
  * JURI Class
@@ -795,7 +793,7 @@ class JURI extends JObject
 					$i--;
 					$n--;
 				}
-				else if ($path[$i] == '..' and ($i > 1 or ($i == 1 and $path[0] != '')))
+				elseif ($path[$i] == '..' and ($i > 1 or ($i == 1 and $path[0] != '')))
 				{
 					unset($path[$i]);
 					unset($path[$i - 1]);

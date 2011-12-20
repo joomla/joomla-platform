@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Memcache cache storage handler
@@ -41,8 +41,6 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * Constructor
 	 *
 	 * @param   array  $options  Optional parameters.
-	 *
-	 * @return  JCacheStorageMemcache
 	 *
 	 * @since   11.1
 	 */
@@ -89,7 +87,7 @@ class JCacheStorageMemcache extends JCacheStorage
 			return JError::raiseError(404, "Could not connect to memcache server");
 		}
 
-		// Memcahed has no list keys, we do our own accounting, initalise key index
+		// Memcahed has no list keys, we do our own accounting, initialise key index
 		if (self::$_db->get($this->_hash . '-index') === false)
 		{
 			$empty = array();
@@ -397,8 +395,6 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	public function unlock($id, $group = null)
 	{
-		$unlock = false;
-
 		$cache_id = $this->_getCacheId($id, $group) . '_lock';
 
 		if (!$this->lockindex())

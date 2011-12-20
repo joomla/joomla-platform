@@ -7,9 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
-
-jimport('joomla.document.document');
+defined('JPATH_PLATFORM') or die;
 
 /**
  * DocumentFeed class, provides an easy interface to parse and display any feed document
@@ -41,7 +39,7 @@ class JDocumentFeed extends JDocument
 	public $image = null;
 
 	/**
-	 * Copyright feed elememnt
+	 * Copyright feed element
 	 *
 	 * optional
 	 *
@@ -171,8 +169,6 @@ class JDocumentFeed extends JDocument
 	 *
 	 * @param   array  $options  Associative array of options
 	 *
-	 * @return  JDocumentFeed
-	 *
 	 * @since  11.1
 	 */
 	public function __construct($options = array())
@@ -192,6 +188,7 @@ class JDocumentFeed extends JDocument
 	 * @return  The rendered data
 	 *
 	 * @since  11.1
+	 * @todo   Make this cacheable
 	 */
 	public function render($cache = false, $params = array())
 	{
@@ -199,13 +196,6 @@ class JDocumentFeed extends JDocument
 
 		// Get the feed type
 		$type = JRequest::getCmd('type', 'rss');
-
-		/*
-		 * Cache TODO In later release
-		 */
-		$cache = 0;
-		$cache_time = 3600;
-		$cache_path = JPATH_CACHE;
 
 		// set filename for rss feeds
 		$file = strtolower(str_replace('.', '', $type));
@@ -351,7 +341,7 @@ class JFeedItem extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	var $guid;
+	public $guid;
 
 	/**
 	 * Published date

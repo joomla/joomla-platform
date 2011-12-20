@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.form.formrule');
-
 /**
  * Form Rule class for the Joomla Platform
  *
@@ -61,11 +59,11 @@ class JFormRuleTel extends JFormRule
 			{
 				$plan = 'NANP';
 			}
-			else if ($plan == 'International' || $plan == 'int' || $plan == 'missdn' || !$plan)
+			elseif ($plan == 'International' || $plan == 'int' || $plan == 'missdn' || !$plan)
 			{
 				$plan = 'ITU-T';
 			}
-			else if ($plan == 'IETF')
+			elseif ($plan == 'IETF')
 			{
 				$plan = 'EPP';
 			}

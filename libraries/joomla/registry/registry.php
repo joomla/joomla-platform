@@ -7,8 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.utilities.arrayhelper');
 JLoader::register('JRegistryFormat', dirname(__FILE__) . '/format.php');
 
 /**
@@ -29,11 +30,15 @@ class JRegistry
 	protected $data;
 
 	/**
+	 * @var    array  JRegistry instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
+
+	/**
 	 * Constructor
 	 *
 	 * @param   mixed  $data  The data to bind to the new JRegistry object.
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -195,19 +200,12 @@ class JRegistry
 	 */
 	public static function getInstance($id)
 	{
-		static $instances;
-
-		if (!isset($instances))
+		if (empty(self::$instances[$id]))
 		{
-			$instances = array();
+			self::$instances[$id] = new JRegistry;
 		}
 
-		if (empty($instances[$id]))
-		{
-			$instances[$id] = new JRegistry;
-		}
-
-		return $instances[$id];
+		return self::$instances[$id];
 	}
 
 	/**
@@ -287,7 +285,7 @@ class JRegistry
 	/**
 	 * Merge a JRegistry object into this one
 	 *
-	 * @param   object  &$source  Source JRegistry object to merge.
+	 * @param   JRegistry  &$source  Source JRegistry object to merge.
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -472,10 +470,12 @@ class JRegistry
 	 */
 	public function loadXML($data, $namespace = null)
 	{
+		// @codeCoverageIgnoreStart
 		// Deprecation warning.
 		JLog::add('JRegistry::loadXML() is deprecated.', JLog::WARNING, 'deprecated');
 
 		return $this->loadString($data, 'XML');
+		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -493,10 +493,12 @@ class JRegistry
 	 */
 	public function loadINI($data, $namespace = null, $options = array())
 	{
+		// @codeCoverageIgnoreStart
 		// Deprecation warning.
 		JLog::add('JRegistry::loadINI() is deprecated.', JLog::WARNING, 'deprecated');
 
 		return $this->loadString($data, 'INI', $options);
+		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -512,10 +514,12 @@ class JRegistry
 	 */
 	public function loadJSON($data)
 	{
+		// @codeCoverageIgnoreStart
 		// Deprecation warning.
 		JLog::add('JRegistry::loadJSON() is deprecated.', JLog::WARNING, 'deprecated');
 
 		return $this->loadString($data, 'JSON');
+		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -531,11 +535,13 @@ class JRegistry
 	 */
 	public function makeNameSpace($namespace)
 	{
+		// @codeCoverageIgnoreStart
 		// Deprecation warning.
 		JLog::add('JRegistry::makeNameSpace() is deprecated.', JLog::WARNING, 'deprecated');
 
 		//$this->_registry[$namespace] = array('data' => new stdClass());
 		return true;
+		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -549,11 +555,13 @@ class JRegistry
 	 */
 	public function getNameSpaces()
 	{
+		// @codeCoverageIgnoreStart
 		// Deprecation warning.
 		JLog::add('JRegistry::getNameSpaces() is deprecated.', JLog::WARNING, 'deprecated');
 
 		//return array_keys($this->_registry);
 		return array();
+		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -570,6 +578,7 @@ class JRegistry
 	 */
 	public function getValue($path, $default = null)
 	{
+		// @codeCoverageIgnoreStart
 		// Deprecation warning.
 		JLog::add('JRegistry::getValue() is deprecated.', JLog::WARNING, 'deprecated');
 
@@ -580,6 +589,7 @@ class JRegistry
 			$path = implode('.', $parts);
 		}
 		return $this->get($path, $default);
+		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -596,6 +606,7 @@ class JRegistry
 	 */
 	public function setValue($path, $value)
 	{
+		// @codeCoverageIgnoreStart
 		// Deprecation warning.
 		JLog::add('JRegistry::setValue() is deprecated.', JLog::WARNING, 'deprecated');
 
@@ -606,6 +617,7 @@ class JRegistry
 			$path = implode('.', $parts);
 		}
 		return $this->set($path, $value);
+		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -621,9 +633,11 @@ class JRegistry
 	 */
 	public function loadSetupFile()
 	{
+		// @codeCoverageIgnoreStart
 		// Deprecation warning.
 		JLog::add('JRegistry::loadXML() is deprecated.', JLog::WARNING, 'deprecated');
 
 		return true;
+		// @codeCoverageIgnoreEnd
 	}
 }

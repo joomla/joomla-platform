@@ -7,12 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.html.html');
 jimport('joomla.language.help');
-jimport('joomla.form.formfield');
-jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -43,10 +40,6 @@ class JFormFieldHelpsite extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		// Get Joomla version.
-		$version = new JVersion;
-		$jver = explode('.', $version->getShortVersion());
-
 		// Merge any additional options in the XML definition.
 		$options = array_merge(parent::getOptions(), JHelp::createSiteList(JPATH_ADMINISTRATOR . '/help/helpsites.xml', $this->value));
 
