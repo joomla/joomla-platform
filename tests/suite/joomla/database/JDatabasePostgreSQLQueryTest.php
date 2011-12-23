@@ -197,8 +197,8 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 
 		$this->assertThat(
 			$q->castAsChar('123'),
-			$this->equalTo('123'),
-			'The default castAsChar behaviour is to return the input.'
+			$this->equalTo('\'123\''),
+			'The default castAsChar behaviour is quote the input.'
 		);
 
 	}
