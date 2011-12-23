@@ -511,7 +511,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 		/* check if first sequence val +1 is equal to last sequence val */
 		$this->assertThat(
 			$insertIdArray[0],
-			$this->equalTo($idActualVal[0]+1),
+			$this->equalTo($idActualVal[0] + 1),
 			__LINE__
 		);
 	}
