@@ -491,35 +491,43 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		$this->assertFalse($table->delete('14'), 'Line: ' . __LINE__ . ' Table delete should fail because table->load() was not run first');
 
 		// Delete Templates (23) without arguments (using just the $table->load)
+		// New behaviour - only 23 is deleted, children are moved up
 		$table->load('23');
-		$this->assertTrue($table->delete(), 'Line: ' . __LINE__ . ' Should delete id 23 and children');
+		$this->assertTrue($table->delete(), 'Line: ' . __LINE__ . ' Should delete id 23 and no children');
 
 		// Check categories
 		$treeTemp = $table->getTree('1');
-		$this->assertEquals(58, count($treeTemp), 'Line: ' . __LINE__ . ' Root tree should have 58 nodes');
+		$this->assertEquals(61, count($treeTemp), 'Line: ' . __LINE__ . ' Root tree should have 61 nodes');
 		$this->checkLftRgt($treeTemp);
-		$this->assertEquals('24', $treeTemp[10]->id, 'Line: ' . __LINE__ . ' id for element 10 should be 24');
+		$this->assertEquals('69', $treeTemp[10]->id, 'Line: ' . __LINE__ . ' id for element 10 should be 69');
+		$this->assertEquals('4', $treeTemp[10]->level, 'Line: ' . __LINE__ . ' level for element 10 should be 4');
+		$this->assertEquals('70', $treeTemp[11]->id, 'Line: ' . __LINE__ . ' id for element 11 should be 70');
+		$this->assertEquals('4', $treeTemp[11]->level, 'Line: ' . __LINE__ . ' level for element 11 should be 4');
+		$this->assertEquals('68', $treeTemp[12]->id, 'Line: ' . __LINE__ . ' id for element 12 should be 68');
+		$this->assertEquals('4', $treeTemp[12]->level, 'Line: ' . __LINE__ . ' level for element 12 should be 4');
+		$this->assertEquals('24', $treeTemp[13]->id, 'Line: ' . __LINE__ . ' id for element 13 should be 24');
 		$this->assertEquals(0, count($table->getTree('23')), 'Line: ' . __LINE__ . ' id 23 should be deleted');
 
 		// Check assets
 		$treeAssetsTemp = $assetsTable->getTree('1');
-		$this->assertEquals(148, count($treeAssetsTemp), 'Line: ' . __LINE__ . ' After delete, assets root tree should have 148 nodes');
+		$this->assertEquals(153, count($treeAssetsTemp), 'Line: ' . __LINE__ . ' After delete, assets root tree should have 153 nodes');
 		$this->assertEquals(0, count($assetsTable->getTree('48')), 'Line: ' . __LINE__ . ' Id 48 should have been deleted from assets');
-		$this->assertEquals(0, count($assetsTable->getTree('98')), 'Line: ' . __LINE__ . ' Id 98 should have been deleted from assets');
-		$this->assertEquals(0, count($assetsTable->getTree('147')), 'Line: ' . __LINE__ . ' Id 147 should have been deleted from assets (article)');
+		$this->assertEquals(1, count($assetsTable->getTree('98')), 'Line: ' . __LINE__ . ' Id 98 should not have been deleted from assets');
+		$this->assertEquals(1, count($assetsTable->getTree('147')), 'Line: ' . __LINE__ . ' Id 147 should not have been deleted from assets (article)');
 
 		$table->load('21'); // Components no children
 		$this->assertTrue($table->delete('21', false), 'Line: ' . __LINE__ . ' Should delete id 21 but not children');
+
 		// Check categories
 		$treeTemp = $table->getTree('1');
-		$this->assertEquals(57, count($treeTemp), 'Line: ' . __LINE__ . ' Root tree should have 58 nodes');
+		$this->assertEquals(60, count($treeTemp), 'Line: ' . __LINE__ . ' Root tree should have 60 nodes');
 		$this->checkLftRgt($treeTemp);
 		$this->assertEquals('64', $treeTemp[4]->id, 'Line: ' . __LINE__ . ' id for element 4 should be 64');
 		$this->assertEquals(0, count($table->getTree('21')), 'Line: ' . __LINE__ . ' id 21 should be deleted');
 
 		// Check assets
 		$treeAssetsTemp = $assetsTable->getTree('1');
-		$this->assertEquals(147, count($treeAssetsTemp), 'Line: ' . __LINE__ . ' After delete, assets root tree should have 147 nodes');
+		$this->assertEquals(152, count($treeAssetsTemp), 'Line: ' . __LINE__ . ' After delete, assets root tree should have 152 nodes');
 
 		// Test table with no assets
 		$menuTable = new JTableMenu(self::$dbo);
@@ -528,11 +536,11 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		$treeMenuTemp = $menuTable->getTree('1');
 		$this->checkLftRgt($treeMenuTemp);
 		$this->assertEquals(16, count($treeMenuTemp), 'Line: ' . __LINE__ . ' Menu table should have 16 rows');
-		$this->assertEquals(147, count($treeAssetsTemp), 'Line: ' . __LINE__ . ' After delete, assets root tree should still have 147 nodes');
+		$this->assertEquals(152, count($treeAssetsTemp), 'Line: ' . __LINE__ . ' After delete, assets root tree should still have 152 nodes');
 
 		// Check assets
 		$treeAssetsTemp = $assetsTable->getTree('1');
-		$this->assertEquals(147, count($treeAssetsTemp), 'Line: ' . __LINE__ . ' Assets root tree should have 147 nodes');
+		$this->assertEquals(152, count($treeAssetsTemp), 'Line: ' . __LINE__ . ' Assets root tree should have 152 nodes');
 
 		// Check lock
 		$lockedTable = $this->getMock('JTableCategory', array('_lock'), array('jos_categories', 'id', self::$dbo));
