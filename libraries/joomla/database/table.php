@@ -61,7 +61,7 @@ abstract class JTable extends JObject
 	/**
 	 * The rules associated with this record.
 	 *
-	 * @var    JRules  A JRules object.
+	 * @var    JAccessRules  A JAccessRules object.
 	 * @since  11.1
 	 * @deprecated use $rules and find another method to identify "internal fields" in JDatabase::insertObject()
 	 */
