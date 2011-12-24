@@ -36,7 +36,7 @@ abstract class JHtml
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected static $formatOptions = array('format.depth' => 0, 'format.eol' => "\n", 'format.indent' => "\t");
+	public static $formatOptions = array('format.depth' => 0, 'format.eol' => "\n", 'format.indent' => "\t");
 
 	/**
 	 * An array to hold included paths
