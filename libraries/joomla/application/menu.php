@@ -91,7 +91,7 @@ class JMenu extends JObject
 		{
 			if ($item->home)
 			{
-				$this->_default[$item->language] = $item->id;
+				$this->_default[trim($item->language)] = $item->id;
 			}
 
 			// Decode the item params
@@ -259,7 +259,7 @@ class JMenu extends JObject
 	 */
 	public function getItems($attributes, $values, $firstonly = false)
 	{
-		$items = null;
+		$items = array();
 		$attributes = (array) $attributes;
 		$values = (array) $values;
 
