@@ -25,52 +25,28 @@ class JParameter extends JRegistry
 	/**
 	 * @var    string  The raw params string
 	 * @since  11.1
-	 */
-	protected $raw = null;
-
-	/**
-	 * @var    string  The raw params string
-	 * @since  11.1
-	 * @deprecated use $raw or declare as private
+	 * @deprecated JParameter is deprecated - Use JForm instead
 	 */
 	protected $_raw = null;
 
 	/**
 	 * @var    object  The XML params element
 	 * @since  11.1
-	 */
-	protected $xml = null;
-
-	/**
-	 * @var    object  The XML params element
-	 * @since  11.1
-	 * @deprecated use $xml or declare as private
+	 * @deprecated JParameter is deprecated - Use JForm instead
 	 */
 	protected $_xml = null;
 
 	/**
 	 * @var    array  Loaded elements
 	 * @since  11.1
-	 */
-	protected $elements = array();
-
-	/**
-	 * @var    array  Loaded elements
-	 * @since  11.1
-	 * @deprecated use $elements or declare as private
+	 * @deprecated JParameter is deprecated - Use JForm instead
 	 */
 	protected $_elements = array();
 
 	/**
 	 * @var    array  Directories, where element types can be stored
 	 * @since  11.1
-	 */
-	protected $elementPath = array();
-
-	/**
-	 * @var    array  Directories, where element types can be stored
-	 * @since  11.1
-	 * @deprecated use $elementPath or declare as private
+	 * @deprecated JParameter is deprecated - Use JForm instead
 	 */
 	protected $_elementPath = array();
 
