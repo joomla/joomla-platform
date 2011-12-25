@@ -1289,25 +1289,47 @@ abstract class JDatabase implements JDatabaseInterface
 	 *
 	 * @param   mixed  $name  The identifier name to wrap in quotes, or an array of identifier names to wrap in quotes.
 	 * 							Each type supports dot-notation name.
+	 * @param   mixed  $as    The AS query part associated to $name. It can be string or array, in latter case it has to be
+	 * 							same length of $name; if is null there will not be any AS part for string or array element.
 	 *
 	 * @return  mixed  The quote wrapped name, same type of $name.
 	 *
 	 * @since   11.1
 	 */
-	public function quoteName($name)
+	public function quoteName($name, $as = null)
 	{
 		if (is_string($name))
 		{
-			$name = explode('.', $name);
-			return $this->quoteNameStr($name);
+			$quotedName = $this->quoteNameStr(explode('.', $name));
+
+			$quotedAs = '';
+			if (!is_null($as))
+			{
+				settype($as, 'array');
+				$quotedAs .= ' AS ' . $this->quoteNameStr($as);
+			}
+
+			return $quotedName . $quotedAs;
 		}
-		elseif (is_array($name))
+		else
 		{
 			$fin = array();
-			foreach ($name as $str)
+
+			if (is_null($as))
 			{
-				$fin[] = $this->quoteName($str);
+				foreach ($name as $str)
+				{
+					$fin[] = $this->quoteName($str);
+				}
 			}
+			elseif (is_array($name) && (count($name) == count($as)))
+			{
+				for ($i = 0; $i < count($name); $i++)
+				{
+					$fin[] = $this->quoteName($name[$i], $as[$i]);
+				}
+			}
+
 			return $fin;
 		}
 	}
@@ -1328,6 +1350,11 @@ abstract class JDatabase implements JDatabaseInterface
 
 		foreach ($strArr as $part)
 		{
+			if (is_null($part))
+			{
+				continue;
+			}
+
 			if (strlen($q) == 1)
 			{
 				$parts[] = $q . $part . $q;

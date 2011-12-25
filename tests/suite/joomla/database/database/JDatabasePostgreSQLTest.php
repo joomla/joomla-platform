@@ -135,17 +135,43 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 	{
 		return array(
 			/* no dot inside var */
-			array('jos_dbtest', '"jos_dbtest"'),
+			array('jos_dbtest', null, '"jos_dbtest"'),
 			/* a dot inside var */
-			array('public.jos_dbtest', '"public"."jos_dbtest"'),
+			array('public.jos_dbtest', null, '"public"."jos_dbtest"'),
 			/* two dot inside var */
-			array('joomla_ut.public.jos_dbtest', '"joomla_ut"."public"."jos_dbtest"'),
+			array('joomla_ut.public.jos_dbtest', null, '"joomla_ut"."public"."jos_dbtest"'),
 			/* using an array */
-			array(array('joomla_ut','dbtest'), array('"joomla_ut"', '"dbtest"')),
+			array(array('joomla_ut','dbtest'), null, array('"joomla_ut"', '"dbtest"')),
 			/* using an array with dotted name */
-			array(array('joomla_ut.dbtest','public.dbtest'), array('"joomla_ut"."dbtest"','"public"."dbtest"')),
+			array(array('joomla_ut.dbtest','public.dbtest'), null, array('"joomla_ut"."dbtest"','"public"."dbtest"')),
 			/* using an array with two dot in name */
-			array(array('joomla_ut.public.dbtest','public.dbtest.col'), array('"joomla_ut"."public"."dbtest"','"public"."dbtest"."col"')),
+			array(array('joomla_ut.public.dbtest','public.dbtest.col'), null, array('"joomla_ut"."public"."dbtest"','"public"."dbtest"."col"')),
+
+			/*** same tests with AS part ***/
+			array('jos_dbtest', 'test', '"jos_dbtest" AS "test"'),
+			array('public.jos_dbtest', 'tst', '"public"."jos_dbtest" AS "tst"'),
+			array('joomla_ut.public.jos_dbtest', 'tst', '"joomla_ut"."public"."jos_dbtest" AS "tst"'),
+			array(
+				array('joomla_ut','dbtest'),
+				array('j_ut', 'tst'),
+				array('"joomla_ut" AS "j_ut"', '"dbtest" AS "tst"')
+			),
+			array(
+				array('joomla_ut.dbtest','public.dbtest'),
+				array('j_ut_db', 'pub_tst'),
+				array('"joomla_ut"."dbtest" AS "j_ut_db"','"public"."dbtest" AS "pub_tst"')
+			),
+			array(
+				array('joomla_ut.public.dbtest','public.dbtest.col'),
+				array('j_ut_p_db', 'pub_tst_col'),
+				array('"joomla_ut"."public"."dbtest" AS "j_ut_p_db"','"public"."dbtest"."col" AS "pub_tst_col"')
+			),
+			/* last test but with one null inside array */
+			array(
+				array('joomla_ut.public.dbtest','public.dbtest.col'),
+				array('j_ut_p_db', null),
+				array('"joomla_ut"."public"."dbtest" AS "j_ut_p_db"','"public"."dbtest"."col"')
+			),
 		);
 	}
 
@@ -949,6 +975,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 	 * Test quoteName function, with and without dot notation.
 	 * 
 	 * @param   string  $quoteMe   String to be quoted
+	 * @param   string  $asPart    String used for AS query part
 	 * @param   string  $expected  Expected string
 	 * 
 	 * @return void
@@ -956,10 +983,10 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 	 * @since 11.3
 	 * @dataProvider dataTestQuoteName
 	 */
-	public function testQuoteName( $quoteMe, $expected )
+	public function testQuoteName( $quoteMe, $asPart, $expected )
 	{
 		$this->assertThat(
-			$this->object->quoteName($quoteMe),
+			$this->object->quoteName($quoteMe, $asPart),
 			$this->equalTo($expected),
 			__LINE__
 		);
