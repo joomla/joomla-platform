@@ -1287,9 +1287,10 @@ abstract class JDatabase implements JDatabaseInterface
 	 * Wrap an SQL statement identifier name such as column, table or database names in quotes to prevent injection
 	 * risks and reserved word conflicts.
 	 *
-	 * @param   mixed  $name  The identifier name to wrap in quotes, or an array of parts to quote with dot-notation.
+	 * @param   mixed  $name  The identifier name to wrap in quotes, or an array of identifier names to wrap in quotes.
+	 * 							Each type supports dot-notation name.
 	 *
-	 * @return  string  The quote wrapped name.
+	 * @return  mixed  The quote wrapped name, same type of $name.
 	 *
 	 * @since   11.1
 	 */
@@ -1298,16 +1299,34 @@ abstract class JDatabase implements JDatabaseInterface
 		if (is_string($name))
 		{
 			$name = explode('.', $name);
+			return $this->quoteNameStr($name);
 		}
-		elseif (!is_array($name))
+		elseif (is_array($name))
 		{
-			settype($name, 'array');
+			$fin = array();
+			foreach ($name as $str)
+			{
+				$fin[] = $this->quoteName($str);
+			}
+			return $fin;
 		}
+	}
 
+	/**
+	 * Quote strings coming from quoteName call.
+	 * 
+	 * @param   array  $strArr  Array of strings coming from quoteName dot-explosion.
+	 *
+	 * @return  string  Dot-imploded string of quoted parts.
+	 * 
+	 * @since 11.3
+	 */
+	protected function quoteNameStr($strArr)
+	{
 		$parts = array();
 		$q = $this->nameQuote;
 
-		foreach ($name as $part)
+		foreach ($strArr as $part)
 		{
 			if (strlen($q) == 1)
 			{

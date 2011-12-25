@@ -140,6 +140,12 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 			array('public.jos_dbtest', '"public"."jos_dbtest"'),
 			/* two dot inside var */
 			array('joomla_ut.public.jos_dbtest', '"joomla_ut"."public"."jos_dbtest"'),
+			/* using an array */
+			array(array('joomla_ut','dbtest'), array('"joomla_ut"', '"dbtest"')),
+			/* using an array with dotted name */
+			array(array('joomla_ut.dbtest','public.dbtest'), array('"joomla_ut"."dbtest"','"public"."dbtest"')),
+			/* using an array with two dot in name */
+			array(array('joomla_ut.public.dbtest','public.dbtest.col'), array('"joomla_ut"."public"."dbtest"','"public"."dbtest"."col"')),
 		);
 	}
 
