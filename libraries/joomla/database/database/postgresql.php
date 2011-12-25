@@ -638,7 +638,7 @@ class JDatabasePostgreSQL extends JDatabase
 			if ($first)
 			{
 				$buffer .= '<tr>';
-				foreach ($row as $k=>$v)
+				foreach ($row as $k => $v)
 				{
 					$buffer .= '<th>' . $k . '</th>';
 				}
@@ -646,7 +646,7 @@ class JDatabasePostgreSQL extends JDatabase
 				$first = false;
 			}
 			$buffer .= '</thead><tbody><tr>';
-			foreach ($row as $k=>$v)
+			foreach ($row as $k => $v)
 			{
 				$buffer .= '<td>' . $v . '</td>';
 			}
