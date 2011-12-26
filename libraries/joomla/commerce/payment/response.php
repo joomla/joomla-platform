@@ -151,8 +151,6 @@ class JCommercePaymentResponse
 	 *
 	 * @param   array  $raw  The raw gateway response as key => value pairs.
 	 *
-	 * @return  void
-	 *
 	 * @since   12.1
 	 */
 	public function __construct(array $raw = array())

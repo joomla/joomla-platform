@@ -93,8 +93,8 @@ class JCommerceOrder
 	/**
 	 * Constructor
 	 *
-	 * @param  JCommerceCart        $cart
-	 * @param  JCommerceOrderState  $state
+	 * @param   JCommerceCart        $cart   The shopping cart for the order.
+	 * @param   JCommerceOrderState  $state  The current order state object.
 	 *
 	 * @since   12.1
 	 */
@@ -110,7 +110,9 @@ class JCommerceOrder
 	}
 
 	/**
-	 * @param   JPayment  $payment
+	 * Method to add a payment object for processing the payment.
+	 *
+	 * @param   JPayment  $payment  The payment object.
 	 *
 	 * @return  JCommerceOrder
 	 *
@@ -160,7 +162,9 @@ class JCommerceOrder
 	}
 
 	/**
-	 * @param   JPayment  $payment
+	 * The object to use for payment.
+	 *
+	 * @param   JPayment  $payment  The payment object.
 	 *
 	 * @return  JCommerceOrder
 	 *
@@ -174,7 +178,9 @@ class JCommerceOrder
 	}
 
 	/**
-	 * @param   JCommerceAddress  $address
+	 * Set the address to use for billing.
+	 *
+	 * @param   JCommerceAddress  $address  The address object.
 	 *
 	 * @return  JCommerceOrder
 	 *
@@ -188,7 +194,9 @@ class JCommerceOrder
 	}
 
 	/**
-	 * @param   JCommerceAddress  $address
+	 * Set the address to use for shipping.
+	 *
+	 * @param   JCommerceAddress  $address  The address object.
 	 *
 	 * @return  JCommerceOrder
 	 *

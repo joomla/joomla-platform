@@ -107,7 +107,8 @@ class JCommercePaymentProcessorAuthorizenet implements JCommercePaymentProcessor
 		try
 		{
 			$this->order->validateCard();
-		} catch (Exception $e)
+		}
+		catch (Exception $e)
 		{
 			throw new Exception($e->getMessage(), $e->getCode(), $e);
 		}

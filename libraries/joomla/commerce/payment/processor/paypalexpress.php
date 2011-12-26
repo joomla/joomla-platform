@@ -256,7 +256,8 @@ class JCommercePaymentProcessorPaypalexpress implements JCommercePaymentProcesso
 		try
 		{
 			$this->order->validateCard();
-		} catch (Exception $e)
+		}
+		catch (Exception $e)
 		{
 			throw new Exception($e->getMessage(), $e->getCode(), $e);
 		}
@@ -358,6 +359,9 @@ class JCommercePaymentProcessorPaypalexpress implements JCommercePaymentProcesso
 
 	/**
 	 * Method to build setup request payload for PayPal Express as key => value pairs.
+	 *
+	 * @param   string  $returnUrl  The successful return URL.
+	 * @param   string  $cancelUrl  The URL to use if the purchase was cancelled.
 	 *
 	 * @return  array
 	 *

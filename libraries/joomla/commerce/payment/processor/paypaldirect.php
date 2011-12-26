@@ -107,7 +107,8 @@ class JCommercePaymentProcessorPaypaldirect implements JCommercePaymentProcessor
 		try
 		{
 			$this->order->validateCard();
-		} catch (Exception $e)
+		}
+		catch (Exception $e)
 		{
 			throw new Exception($e->getMessage(), $e->getCode(), $e);
 		}
@@ -155,7 +156,7 @@ class JCommercePaymentProcessorPaypaldirect implements JCommercePaymentProcessor
 			'CREDITCARDTYPE' => $this->order->get('payment.card_type'),
 			'ACCT' => $this->order->get('payment.card_number'),
 			'EXPDATE' => $this->order->get('payment.card_exp_month') .
-			 $this->order->get('payment.card_exp_year'),
+			$this->order->get('payment.card_exp_year'),
 			'CVV2' => $this->order->get('payment.csc'),
 			'FIRSTNAME' => $this->order->get('billing.first_name'),
 			'LASTNAME' => $this->order->get('billing.last_name'),

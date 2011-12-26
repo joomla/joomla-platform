@@ -18,29 +18,75 @@ defined('JPATH_PLATFORM') or die;
  */
 class JCommerceCart
 {
+	/**
+	 * @var    array
+	 * @since  12.1
+	 */
 	public $items = array();
-	// Order currency code.
+
+	/**
+	 * @var    string  Order currency code.
+	 * @since  12.1
+	 */
 	public $currency = 'USD';
-	// Order subtotal.
+
+	/**
+	 * @var    float  Order subtotal.
+	 * @since  12.1
+	 */
 	public $subtotal = 0.0;
-	// Order shipping total.
+
+	/**
+	 * @var    float  Order shipping total.
+	 * @since  12.1
+	 */
 	public $shippingTotal = 0.0;
-	// Order handling total.
+
+	/**
+	 * @var    float  Order handling total.
+	 * @since  12.1
+	 */
 	public $handlingTotal = 0.0;
-	// Order duty total.
+
+	/**
+	 * @var    float  Order duty total.
+	 * @since  12.1
+	 */
 	public $dutyTotal = 0.0;
-	// Order tax total.
+
+	/**
+	 * @var    float  Order tax total.
+	 * @since  12.1
+	 */
 	public $taxTotal = 0.0;
-	// Order total.
+
+	/**
+	 * @var    float  Order total.
+	 * @since  12.1
+	 */
 	public $total = 0.0;
-	// Number of store credits applied to the order.
+
+	/**
+	 * @var    integer  Number of store credits applied to the order.
+	 * @since  12.1
+	 */
 	public $storeCredits = 0;
-	// Store credit total applied to the order.
+
+	/**
+	 * @var    float  Store credit total applied to the order.
+	 * @since  12.1
+	 */
 	public $storeCredit = 0.0;
-	// List of applied promotional codes.
+
+	/**
+	 * @var    array  List of applied promotional codes.
+	 * @since  12.1
+	 */
 	public $promotionalCodes = array();
-	// Single promotional code applied to the order.
-	public $promotionalCode;
-	// Total amount of discount from promotional code(s).
+
+	/**
+	 * @var    string  Total amount of discount from promotional code(s).
+	 * @since  12.1
+	 */
 	public $promotionalDiscount = 0.0;
 }
