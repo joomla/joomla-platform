@@ -352,13 +352,13 @@ class JDatabaseTest extends PHPUnit_Framework_TestCase
 
 		$this->assertThat(
 			$this->db->quoteName(array('a', 'test')),
-			$this->equalTo('[a].[test]'),
+			$this->equalTo(array('[a]', '[test]')),
 			'Tests the left-right quotes on an array.'
 		);
 
 		$this->assertThat(
 			$this->db->quoteName((object) array('a', 'test')),
-			$this->equalTo('[a].[test]'),
+			$this->equalTo(array('[a]', '[test]')),
 			'Tests the left-right quotes on an object.'
 		);
 
