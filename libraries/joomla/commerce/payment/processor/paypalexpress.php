@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.client.http');
-
 /**
  * PayPal Payments Express gateway for the Joomla Platform.
  *
@@ -18,7 +16,7 @@ jimport('joomla.client.http');
  * @subpackage  Commerce
  * @since       12.1
  */
-class JCommercePaymentProcessorPayPalExpress implements JCommercePaymentProcessorIndirect
+class JCommercePaymentProcessorPaypalexpress implements JCommercePaymentProcessorIndirect
 {
 	/**
 	 * @const  string  URL of gateway to connect to for live transactions.

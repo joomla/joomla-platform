@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Commerce
  * @since       12.1
  */
-class JCommerceOrderStateSubmitted implements JCommerceOrderState
+class JCommerceOrderSubmitted implements JCommerceOrderState
 {
 	/**
 	 * Method to cancel an order.
@@ -28,7 +28,7 @@ class JCommerceOrderStateSubmitted implements JCommerceOrderState
 	public function cancelOrder()
 	{
 		// TODO Logic to cancel an order.
-		return new JCommerceOrderStateCanceled;
+		return new JCommerceOrderCanceled;
 	}
 
 	/**
@@ -68,7 +68,7 @@ class JCommerceOrderStateSubmitted implements JCommerceOrderState
 	public function payOrder()
 	{
 		// TODO Logic to pay for an order.
-		return new JCommerceOrderStatePaid;
+		return new JCommerceOrderPaid;
 	}
 
 	/**

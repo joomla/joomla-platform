@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Commerce
  * @since       12.1
  */
-class JCommercePaymentProcessorPayPalDirect implements JCommercePaymentProcessor
+class JCommercePaymentProcessorPaypaldirect implements JCommercePaymentProcessor
 {
 	/**
 	 * @const  string  URL of gateway to connect to for live transactions.

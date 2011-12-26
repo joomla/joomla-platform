@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Commerce
  * @since       12.1
  */
-class JCommerceOrderStateCanceled implements JCommerceOrderState
+class JCommerceOrderCanceled implements JCommerceOrderState
 {
 	/**
 	 * Method to cancel an order.

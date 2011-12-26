@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.client.http');
-
 /**
  * Authorize.NET gateway for the Joomla Platform.
  *
@@ -18,7 +16,7 @@ jimport('joomla.client.http');
  * @subpackage  Commerce
  * @since       12.1
  */
-class JCommercePaymentProcessorAuthorizeNet implements JCommercePaymentProcessor
+class JCommercePaymentProcessorAuthorizenet implements JCommercePaymentProcessor
 {
 	/**
 	 * @const  string  URL of gateway to connect to for live transactions.
