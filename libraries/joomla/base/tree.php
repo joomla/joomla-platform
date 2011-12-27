@@ -17,6 +17,8 @@ jimport('joomla.base.node');
  * @package     Joomla.Platform
  * @subpackage  Base
  * @since       11.1
+ * @deprecated  12.1
+ * @codeCoverageIgnore
  */
 class JTree extends JObject
 {

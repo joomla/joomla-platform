@@ -15,6 +15,8 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Base
  * @since       11.1
+ * @deprecated  12.1
+ * @codeCoverageIgnore
  */
 class JNode extends JObject
 {
