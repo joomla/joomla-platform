@@ -374,7 +374,7 @@ class JDocument extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function getMetaData($name, $httpEquiv = false)
+	public function getMetaData($name, $context = false)
 	{
 		$result = '';
 		$name = strtolower($name);
@@ -388,9 +388,13 @@ class JDocument extends JObject
 		}
 		else
 		{
-			if ($httpEquiv == true)
+			if (is_bool($context) && ($context == true))
 			{
 				$result = @$this->_metaTags['http-equiv'][$name];
+			}
+			elseif (is_string($context))
+			{
+				$result = @$this->_metaTags[$context][$name];
 			}
 			else
 			{
@@ -413,7 +417,7 @@ class JDocument extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function setMetaData($name, $content, $http_equiv = false, $sync = true)
+	public function setMetaData($name, $content, $context = false, $sync = true)
 	{
 		$name = strtolower($name);
 
@@ -427,7 +431,7 @@ class JDocument extends JObject
 		}
 		else
 		{
-			if ($http_equiv == true)
+			if (is_bool($context) && ($context == true))
 			{
 				$this->_metaTags['http-equiv'][$name] = $content;
 
@@ -436,6 +440,10 @@ class JDocument extends JObject
 				{
 					$this->setMimeEncoding($content, false);
 				}
+			}
+			elseif (is_string($context))
+			{
+				$this->_metaTags[$context][$name] = $content;
 			}
 			else
 			{
