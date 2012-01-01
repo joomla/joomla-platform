@@ -255,10 +255,10 @@ class JInstallerComponent extends JAdapterInstance
 			}
 
 			// Set the class name
-			$classname = $this->get('element') . 'InstallerScript';
+			$classname = 'InstallerScript';
       if(!class_exists($classname))
       {
-        $classname = 'InstallerScript';
+        $classname = $this->get('element') . 'InstallerScript';
       }
 
 			if (class_exists($classname))
@@ -736,10 +736,10 @@ class JInstallerComponent extends JAdapterInstance
 			}
 
 			// Set the class name
-			$classname = $element . 'InstallerScript';
+			$classname = 'InstallerScript';
       if(!class_exists($classname))
       {
-        $classname = 'InstallerScript';
+        $classname = $element . 'InstallerScript';
       }
 
 			if (class_exists($classname))
@@ -1199,10 +1199,10 @@ class JInstallerComponent extends JAdapterInstance
 			}
 
 			// Set the class name
-			$classname = $row->element . 'InstallerScript';
+			$classname = 'InstallerScript';
       if(!class_exists($classname))
       {
-        $classname = 'InstallerScript';
+        $classname = $row->element . 'InstallerScript';
       }
 
 			if (class_exists($classname))
@@ -1821,10 +1821,10 @@ class JInstallerComponent extends JAdapterInstance
 			}
 
 			// Set the class name
-			$classname = $element . 'InstallerScript';
+			$classname = 'InstallerScript';
       if(!class_exists($classname))
       {
-        $classname = 'InstallerScript';
+        $classname = $element . 'InstallerScript';
       }
 
 			if (class_exists($classname))

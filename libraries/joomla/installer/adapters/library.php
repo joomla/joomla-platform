@@ -304,28 +304,12 @@ class JInstallerLibrary extends JAdapterInstance
 	 */
 	public function update()
 	{
-		// Since this is just files, an update removes old files
-		// Get the extension manifest object
-		$this->manifest = $this->parent->getManifest();
+		// Set the overwrite setting
+		$this->parent->setOverwrite(true);
+		$this->parent->setUpgrade(true);
+		$this->route = 'update';
 
-		// Manifest Document Setup Section
-
-		// Set the extensions name
-		$name = (string) $this->manifest->name;
-		$name = JFilterInput::getInstance()->clean($name, 'string');
-		$element = str_replace('.xml', '', basename($this->parent->getPath('manifest')));
-		$this->set('name', $name);
-		$this->set('element', $element);
-		$installer = new JInstaller; // we don't want to compromise this instance!
-		$db = $this->parent->getDbo();
-		$db->setQuery('SELECT extension_id FROM #__extensions WHERE type="library" AND element = "' . $element . '"');
-		$result = $db->loadResult();
-		if ($result)
-		{
-			// Already installed, which would make sense
-			$installer->uninstall('library', $result);
-		}
-		// Now create the new files
+		// ...and adds new files
 		return $this->install();
 	}
 

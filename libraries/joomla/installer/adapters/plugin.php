@@ -252,10 +252,10 @@ class JInstallerPlugin extends JAdapterInstance
 			// If a dash is present in the group name, remove it
 			$groupClass = str_replace('-', '', $group);
 			// Set the class name
-			$classname = 'plg' . $groupClass . $element . 'InstallerScript';
+			$classname = 'InstallerScript';
       if(!class_exists($classname))
       {
-        $classname = 'InstallerScript';
+        $classname = 'plg' . $groupClass . $element . 'InstallerScript';
       }
 			if (class_exists($classname))
 			{
@@ -625,10 +625,10 @@ class JInstallerPlugin extends JAdapterInstance
 			// If a dash is present in the folder, remove it
 			$folderClass = str_replace('-', '', $row->folder);
 			// Set the class name
-			$classname = 'plg' . $folderClass . $row->element . 'InstallerScript';
+			$classname = 'InstallerScript';
       if(!class_exists($classname))
       {
-        $classname = 'InstallerScript';
+        $classname = 'plg' . $folderClass . $row->element . 'InstallerScript';
       }
 			if (class_exists($classname))
 			{

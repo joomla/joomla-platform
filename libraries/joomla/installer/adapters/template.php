@@ -205,7 +205,7 @@ class JInstallerTemplate extends JAdapterInstance
 
     if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'preflight'))
     {
-      if ($this->parent->manifestClass->preflight('install', $this) === false)
+      if ($this->parent->manifestClass->preflight($this->route, $this) === false)
       {
         // Install failed, rollback changes
         $this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
@@ -295,7 +295,7 @@ class JInstallerTemplate extends JAdapterInstance
 
     if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'install'))
     {
-      if ($this->parent->manifestClass->install($this) === false)
+      if ($this->parent->manifestClass->{$this->route}($this) === false)
       {
         // Install failed, rollback changes
         $this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
@@ -373,7 +373,7 @@ class JInstallerTemplate extends JAdapterInstance
 
     if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'postflight'))
     {
-      $this->parent->manifestClass->postflight('install', $this);
+      $this->parent->manifestClass->postflight($this->route, $this);
     }
 
     // Append messages
