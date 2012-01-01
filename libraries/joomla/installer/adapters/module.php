@@ -289,6 +289,10 @@ class JInstallerModule extends JAdapterInstance
 
 			// Set the class name
 			$classname = $element . 'InstallerScript';
+      if(!class_exists($classname))
+      {
+        $classname = 'InstallerScript';
+      }
 
 			if (class_exists($classname))
 			{
@@ -749,6 +753,10 @@ class JInstallerModule extends JAdapterInstance
 
 			// Set the class name
 			$classname = $element . 'InstallerScript';
+      if(!class_exists($classname))
+      {
+        $classname = 'InstallerScript';
+      }
 
 			if (class_exists($classname))
 			{
