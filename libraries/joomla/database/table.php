@@ -62,7 +62,6 @@ abstract class JTable extends JObject
 	 */
 	protected $_rules;
 
-
 	/**
 	 * Object constructor to set table and key fields.  In most cases this will
 	 * be overridden by child classes to explicitly set the table and key fields

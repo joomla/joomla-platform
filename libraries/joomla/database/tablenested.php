@@ -363,11 +363,11 @@ class JTableNested extends JTable
 			return false;
 		}
 
-    // Lock the table for writing.
-    if(!$this->_db->lockTables(array($this->_tbl)))
-    {
-      return false;
-    }
+		// Lock the table for writing.
+		if (!$this->_db->lockTables(array($this->_tbl)))
+		{
+			return false;
+		}
 
 		/*
 		 * Move the sub-tree out of the nested sets by negating its left and right values.
@@ -545,12 +545,11 @@ class JTableNested extends JTable
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
-
-    // Lock the tables for writing.
-    if(!$this->_db->lockTables(array($this->_tbl, '#__assets')))
-    {
-      return false;
-    }
+		// Lock the tables for writing.
+		if (!$this->_db->lockTables(array($this->_tbl, '#__assets')))
+		{
+			return false;
+		}
 
 		// If tracking assets, remove the asset first.
 		if ($this->_trackAssets)

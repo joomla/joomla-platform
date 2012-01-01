@@ -253,10 +253,10 @@ class JInstallerPlugin extends JAdapterInstance
 			$groupClass = str_replace('-', '', $group);
 			// Set the class name
 			$classname = 'InstallerScript';
-      if(!class_exists($classname))
-      {
-        $classname = 'plg' . $groupClass . $element . 'InstallerScript';
-      }
+			if(!class_exists($classname))
+			{
+			  $classname = 'plg' . $groupClass . $element . 'InstallerScript';
+			}
 			if (class_exists($classname))
 			{
 				// Create a new instance
@@ -626,10 +626,10 @@ class JInstallerPlugin extends JAdapterInstance
 			$folderClass = str_replace('-', '', $row->folder);
 			// Set the class name
 			$classname = 'InstallerScript';
-      if(!class_exists($classname))
-      {
-        $classname = 'plg' . $folderClass . $row->element . 'InstallerScript';
-      }
+			if(!class_exists($classname))
+			{
+			  $classname = 'plg' . $folderClass . $row->element . 'InstallerScript';
+			}
 			if (class_exists($classname))
 			{
 				// Create a new instance

@@ -308,16 +308,16 @@ class JDatabaseNosql extends JDatabase
 	}
 
 	/**
-	 * Locks a table in the database.
+	 * Locks tables in the database.
 	 *
-	 * @param   string  $tableName  The name of the table to unlock.
+	 * @param   string  $tables  A list of tables to lock.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  boolean  true on success, false on failure
 	 *
 	 * @since   11.4
 	 * @throws  JDatabaseException
 	 */
-	public function lockTable($tableName)
+	public function lockTables($tables)
 	{
 		return $this;
 	}

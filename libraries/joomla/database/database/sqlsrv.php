@@ -1040,42 +1040,42 @@ class JDatabaseSQLSrv extends JDatabase
 		return $this->query();
 	}
 
-  /**
-   * Locks tables in the database.
-   *
-   * @param   string  $tables  A list of tables to lock.
-   *
-   * @return  boolean  true on success, false on failure
-   *
-   * @since   XXX
-   * @throws  JDatabaseException
-   */
-  public function lockTables($tables)
-  {
-    foreach($tables as $i => $table)
-    {
-      $tables[$i] = $this->quoteName($table);
-    }
+	/**
+	 * Locks tables in the database.
+	 *
+	 * @param   string  $tables  A list of tables to lock.
+	 *
+	 * @return  boolean  true on success, false on failure
+	 *
+	 * @since   XXX
+	 * @throws  JDatabaseException
+	 */
+	public function lockTables($tables)
+	{
+		foreach ($tables as $i => $table)
+		{
+			$tables[$i] = $this->quoteName($table);
+		}
 
-    $this->setQuery('LOCK TABLES ' . implode(' WRITE, ', $tables) . ' WRITE');
-    $this->query();
+		$this->setQuery('LOCK TABLES ' . implode(' WRITE, ', $tables) . ' WRITE');
+		$this->query();
 
-    return true;
-  }
+		return true;
+	}
 
-  /**
-   * Unlocks tables in the database.
-   *
-   * @return  boolean  true on success, false on failure
-   *
-   * @since   11.4
-   * @throws  JDatabaseException
-   */
-  public function unlockTables()
-  {
-    $this->setQuery('UNLOCK TABLES');
-    $this->query();
+	/**
+	 * Unlocks tables in the database.
+	 *
+	 * @return  boolean  true on success, false on failure
+	 *
+	 * @since   11.4
+	 * @throws  JDatabaseException
+	 */
+	public function unlockTables()
+	{
+		$this->setQuery('UNLOCK TABLES');
+		$this->query();
 
-    return true;
-  }
+		return true;
+	}
 }
