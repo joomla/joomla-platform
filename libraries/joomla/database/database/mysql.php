@@ -457,22 +457,28 @@ class JDatabaseMySQL extends JDatabase
 		return mysql_insert_id($this->connection);
 	}
 
-	/**
-	 * Locks a table in the database.
-	 *
-	 * @param   string  $table  The name of the table to unlock.
-	 *
-	 * @return  JDatabaseMySQL  Returns this object to support chaining.
-	 *
-	 * @since   11.4
-	 * @throws  JDatabaseException
-	 */
-	public function lockTable($table)
-	{
-		$this->setQuery('LOCK TABLES ' . $this->quoteName($table) . ' WRITE')->query();
+  /**
+   * Locks tables in the database.
+   *
+   * @param   string  $tables  A list of tables to lock.
+   *
+   * @return  boolean  true on success, false on failure
+   *
+   * @since   XXX
+   * @throws  JDatabaseException
+   */
+  public function lockTables($tables)
+  {
+    foreach($tables as $i => $table)
+    {
+      $tables[$i] = $this->quoteName($table);
+    }
 
-		return $this;
-	}
+    $this->setQuery('LOCK TABLES ' . implode(' WRITE, ', $tables) . ' WRITE');
+    $this->query();
+
+    return true;
+  }
 
 	/**
 	 * Execute the SQL statement.
@@ -832,18 +838,19 @@ class JDatabaseMySQL extends JDatabase
 		return $error ? false : true;
 	}
 
-	/**
-	 * Unlocks tables in the database.
-	 *
-	 * @return  JDatabaseMySQL  Returns this object to support chaining.
-	 *
-	 * @since   11.4
-	 * @throws  JDatabaseException
-	 */
-	public function unlockTables()
-	{
-		$this->setQuery('UNLOCK TABLES')->query();
+  /**
+   * Unlocks tables in the database.
+   *
+   * @return  boolean  true on success, false on failure
+   *
+   * @since   11.4
+   * @throws  JDatabaseException
+   */
+  public function unlockTables()
+  {
+    $this->setQuery('UNLOCK TABLES');
+    $this->query();
 
-		return $this;
-	}
+    return true;
+  }
 }

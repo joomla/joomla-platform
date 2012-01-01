@@ -1200,16 +1200,16 @@ abstract class JDatabase implements JDatabaseInterface
 	}
 
 	/**
-	 * Locks a table in the database.
+	 * Locks tables in the database.
 	 *
-	 * @param   string  $tableName  The name of the table to unlock.
+	 * @param   string  $tables  A list of tables to lock.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  boolean  true on success, false on failure
 	 *
-	 * @since   11.4
+	 * @since   XXX
 	 * @throws  JDatabaseException
 	 */
-	public abstract function lockTable($tableName);
+	public abstract function lockTables($tables);
 
 	/**
 	 * Execute the SQL statement.
@@ -1565,7 +1565,7 @@ abstract class JDatabase implements JDatabaseInterface
 	/**
 	 * Unlocks tables in the database.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  boolean  true on success, false on failure
 	 *
 	 * @since   11.4
 	 * @throws  JDatabaseException
