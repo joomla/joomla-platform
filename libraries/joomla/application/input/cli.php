@@ -91,12 +91,12 @@ class JInputCLI extends JInput
 				// Attempt to split the thing over equals so we can get the key/value pair if an = was used.
 				$arg = substr($arg, 2);
 				$parts = explode('=', $arg);
-				$this->data[$parts[0]] = true;
+				$this->args[$parts[0]] = true;
 
 				// Does not have an =, so let's look ahead to the next argument for the value.
 				if (count($parts) == 1 && isset($args[$i + 1]) && preg_match('/^--?.+/', $args[$i + 1]) == 0)
 				{
-					$this->data[$parts[0]] = $args[$i + 1];
+					$this->args[$parts[0]] = $args[$i + 1];
 
 					// Since we used the next argument, increment the counter so we don't use it again.
 					$i++;
@@ -104,7 +104,7 @@ class JInputCLI extends JInput
 				// We have an equals sign so take the second "part" of the argument as the value.
 				elseif (count($parts) == 2)
 				{
-					$this->data[$parts[0]] = $parts[1];
+					$this->args[$parts[0]] = $parts[1];
 				}
 			}
 
@@ -115,7 +115,7 @@ class JInputCLI extends JInput
 				// For each of these arguments set the value to TRUE since the flag has been set.
 				for ($j = 1; $j < strlen($arg); $j++)
 				{
-					$this->data[$arg[$j]] = true;
+					$this->args[$arg[$j]] = true;
 				}
 			}
 
@@ -125,12 +125,12 @@ class JInputCLI extends JInput
 			{
 
 				// Go ahead and set the value to TRUE and if we find a value later we'll overwrite it.
-				$this->data[$arg[1]] = true;
+				$this->args[$arg[1]] = true;
 
 				// Let's look ahead to see if the next argument is a "value".  If it is, use it for this value.
 				if (isset($args[$i + 1]) && preg_match('/^--?.+/', $args[$i + 1]) == 0)
 				{
-					$this->data[$arg[1]] = $args[$i + 1];
+					$this->args[$arg[1]] = $args[$i + 1];
 
 					// Since we used the next argument, increment the counter so we don't use it again.
 					$i++;
