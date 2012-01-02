@@ -164,6 +164,12 @@ abstract class JFolder
 	 */
 	public static function create($path = '', $mode = 0755)
 	{
+		// If path begins with a protocol, calls mkdir
+		if (preg_match('#^[-a-zA-Z0-9.]+://#', $path, $match))
+		{
+			return mkdir($path, $mode, true);
+		}
+
 		// Initialise variables.
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 		static $nested = 0;
