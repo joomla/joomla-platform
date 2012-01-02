@@ -117,11 +117,7 @@ class JInstallerFile extends JAdapterInstance
 			}
 
 			// Set the class name
-			$classname = 'InstallerScript';
-			if (!class_exists($classname))
-			{
-			  $classname = $element . 'InstallerScript';
-			}
+			$classname = $element . 'InstallerScript';
 
 			if (class_exists($classname))
 			{
@@ -451,11 +447,7 @@ class JInstallerFile extends JAdapterInstance
 				}
 
 				// Set the class name
-				$classname = 'InstallerScript';
-			  if(!class_exists($classname))
-			  {
-			    $classname = $row->element . 'InstallerScript';
-			  }
+				$classname = $row->element . 'InstallerScript';
 
 				if (class_exists($classname))
 				{
