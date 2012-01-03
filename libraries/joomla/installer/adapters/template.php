@@ -217,8 +217,6 @@ class JInstallerTemplate extends JAdapterInstance
 		$msg = ob_get_contents();
 		ob_end_clean();
 
-
-
 		// If the template directory does not exist, let's create it
 		$created = false;
 		if (!file_exists($this->parent->getPath('extension_root')))
@@ -268,27 +266,8 @@ class JInstallerTemplate extends JAdapterInstance
 		$this->parent->parseMedia($xml->media);
 		$this->parent->parseLanguages($xml->languages, $clientId);
 
-
 		// Get the template description
 		$this->parent->set('message', JText::_((string) $xml->description));
-
-		// If there is a manifest script, let's copy it.
-		if ($this->get('manifest_script'))
-		{
-			$path['src'] = $this->parent->getPath('source') . '/' . $this->get('manifest_script');
-			$path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->get('manifest_script');
-
-			if (!file_exists($path['dest']) || $this->parent->getOverwrite())
-			{
-			  if (!$this->parent->copyFiles(array($path)))
-			  {
-			    // Install failed, rollback changes
-			    $this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_MANIFEST'));
-
-			    return false;
-			  }
-			}
-		}
 
 		ob_start();
 		ob_implicit_flush(false);
@@ -316,6 +295,24 @@ class JInstallerTemplate extends JAdapterInstance
 			$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_TPL_INSTALL_COPY_SETUP'));
 
 			return false;
+		}
+
+		// If there is a manifest script, let's copy it.
+		if ($this->get('manifest_script'))
+		{
+			$path['src'] = $this->parent->getPath('source') . '/' . $this->get('manifest_script');
+			$path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->get('manifest_script');
+
+			if (!file_exists($path['dest']) || $this->parent->getOverwrite())
+			{
+			  if (!$this->parent->copyFiles(array($path)))
+			  {
+			    // Install failed, rollback changes
+			    $this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_MANIFEST'));
+
+			    return false;
+			  }
+			}
 		}
 
 		// Extension Registration
@@ -384,8 +381,6 @@ class JInstallerTemplate extends JAdapterInstance
 		{
 			$this->parent->set('extension_message', $msg);
 		}
-
-
 
 		return $row->get('extension_id');
 	}
@@ -522,7 +517,6 @@ class JInstallerTemplate extends JAdapterInstance
 
 		$msg = ob_get_contents();
 		ob_end_clean();
-
 
 		// Remove files
 		$this->parent->removeFiles($manifest->media);

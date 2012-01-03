@@ -161,10 +161,6 @@ class JInstallerLibrary extends JAdapterInstance
 		$msg = ob_get_contents();
 		ob_end_clean();
 
-
-
-
-
 		// Filesystem Processing Section
 
 		// If the plugin directory does not exist, let's create it
@@ -197,24 +193,6 @@ class JInstallerLibrary extends JAdapterInstance
 			return false;
 		}
 
-		// If there is a manifest script, let's copy it.
-		if($this->get('manifest_script'))
-		{
-			$path['src'] = $this->parent->getPath('source') . '/' . $this->get('manifest_script');
-			$path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->get('manifest_script');
-
-			if (!file_exists($path['dest']) || $this->parent->getOverwrite())
-			{
-			  if (!$this->parent->copyFiles(array($path)))
-			  {
-			    // Install failed, rollback changes
-			    $this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_MANIFEST'));
-
-			    return false;
-			  }
-			}
-		}
-
 		// Database Processing Section
 
 		// Custom Installation Script Section
@@ -235,7 +213,6 @@ class JInstallerLibrary extends JAdapterInstance
 		// Append messages
 		$msg .= ob_get_contents();
 		ob_end_clean();
-
 
 		// Parse optional tags
 		$this->parent->parseLanguages($this->manifest->languages);
@@ -266,7 +243,7 @@ class JInstallerLibrary extends JAdapterInstance
 		// Lastly, we will copy the manifest file to its appropriate place.
 		$manifest = array();
 		$manifest['src'] = $this->parent->getPath('manifest');
-		$manifest['dest'] = JPATH_MANIFESTS . '/libraries/' . basename($this->parent->getPath('manifest'));
+		$manifest['dest'] = JPATH_MANIFESTS . DS . 'libraries' . DS . basename($this->parent->getPath('manifest'));
 		if (!$this->parent->copyFiles(array($manifest), true))
 		{
 			// Install failed, rollback changes
@@ -274,6 +251,23 @@ class JInstallerLibrary extends JAdapterInstance
 			return false;
 		}
 
+		// If there is a manifest script, let's copy it.
+		if($this->get('manifest_script'))
+		{
+			$path['src'] = $this->parent->getPath('source') . DS . $this->get('manifest_script');
+			$path['dest'] = JPATH_MANIFESTS . DS . 'libraries' . DS . $this->get('manifest_script');
+
+			if (!file_exists($path['dest']) || $this->parent->getOverwrite())
+			{
+			  if (!$this->parent->copyFiles(array($path)))
+			  {
+			    // Install failed, rollback changes
+			    $this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_MANIFEST'));
+
+			    return false;
+			  }
+			}
+		}
 
 		// And now we run the postflight
 		ob_start();
@@ -389,7 +383,7 @@ class JInstallerLibrary extends JAdapterInstance
 
 		if ($scriptFile)
 		{
-			$manifestScriptFile = $this->parent->getPath('extension_root') . '/' . $scriptFile;
+			$manifestScriptFile =  JPATH_MANIFESTS . DS . 'libraries' . DS . $scriptFile;
 
 			if (is_file($manifestScriptFile))
 			{
@@ -426,6 +420,11 @@ class JInstallerLibrary extends JAdapterInstance
 
 		$this->parent->removeFiles($xml->files, -1);
 		JFile::delete($manifestFile);
+
+		if ($scriptFile)
+		{
+			JFile::delete($manifestScriptFile);
+		}
 
 		// TODO: Change this so it walked up the path backwards so we clobber multiple empties
 		// If the folder is empty, let's delete it
