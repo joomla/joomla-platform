@@ -312,7 +312,7 @@ class JDatabaseNosql extends JDatabase
 	 *
 	 * @param   string  $tables  A list of tables to lock.
 	 *
-	 * @return  boolean  true on success, false on failure
+	 * @return  JDatabase  Returns this object to support chaining.
 	 *
 	 * @since   11.4
 	 * @throws  JDatabaseException
@@ -445,7 +445,7 @@ class JDatabaseNosql extends JDatabase
 	}
 
 	/**
-	 * Unlocks tables in the database.
+	 * Unlocks all tables in the database.
 	 *
 	 * @return  JDatabase  Returns this object to support chaining.
 	 *

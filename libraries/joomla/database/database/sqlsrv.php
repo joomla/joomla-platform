@@ -1045,9 +1045,9 @@ class JDatabaseSQLSrv extends JDatabase
 	 *
 	 * @param   string  $tables  A list of tables to lock.
 	 *
-	 * @return  boolean  true on success, false on failure
+	 * @return  JDatabase  Returns this object to support chaining.
 	 *
-	 * @since   XXX
+	 * @since   11.4
 	 * @throws  JDatabaseException
 	 */
 	public function lockTables($tables)
@@ -1060,13 +1060,13 @@ class JDatabaseSQLSrv extends JDatabase
 		$this->setQuery('LOCK TABLES ' . implode(' WRITE, ', $tables) . ' WRITE');
 		$this->query();
 
-		return true;
+		return $this;
 	}
 
 	/**
-	 * Unlocks tables in the database.
+	 * Unlocks all tables in the database.
 	 *
-	 * @return  boolean  true on success, false on failure
+	 * @return  JDatabase  Returns this object to support chaining.
 	 *
 	 * @since   11.4
 	 * @throws  JDatabaseException
@@ -1076,6 +1076,6 @@ class JDatabaseSQLSrv extends JDatabase
 		$this->setQuery('UNLOCK TABLES');
 		$this->query();
 
-		return true;
+		return $this;
 	}
 }
