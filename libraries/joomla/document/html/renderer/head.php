@@ -60,12 +60,19 @@ class JDocumentRendererHead extends JDocumentRenderer
 		$tab = $document->_getTab();
 		$tagEnd = ' />';
 		$buffer = '';
-
+		$five = $document->isHtml5();
+		
+		// Generate charset when using HTML5 (should happen first)
+		if ($document->isHtml5())
+		{
+			$buffer .= $tab . '<meta charset="' . $document->getCharset() . '"' . $tagEnd . $lnEnd;
+		}
+				
 		// Generate base tag (need to happen first)
 		$base = $document->getBase();
 		if (!empty($base))
 		{
-			$buffer .= $tab . '<base href="' . $document->getBase() . '" />' . $lnEnd;
+			$buffer .= $tab . '<base href="' . $document->getBase() . '"' . $tagEnd . $lnEnd;
 		}
 
 		// Generate META tags (needs to happen as early as possible in the head)
@@ -73,7 +80,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 		{
 			foreach ($tag as $name => $content)
 			{
-				if ($type == 'http-equiv')
+				if ($type == 'http-equiv' && !($five && $name == 'content-type'))
 				{
 					$content .= '; charset=' . $document->getCharset();
 					$buffer .= $tab . '<meta http-equiv="' . $name . '" content="' . htmlspecialchars($content) . '"' . $tagEnd . $lnEnd;
@@ -90,27 +97,28 @@ class JDocumentRendererHead extends JDocumentRenderer
 		$documentDescription = $document->getDescription();
 		if ($documentDescription)
 		{
-			$buffer .= $tab . '<meta name="description" content="' . htmlspecialchars($documentDescription) . '" />' . $lnEnd;
+			$buffer .= $tab . '<meta name="description" content="' . htmlspecialchars($documentDescription) . '"' . $tagEnd . $lnEnd;
 		}
 
-		$buffer .= $tab . '<meta name="generator" content="' . htmlspecialchars($document->getGenerator()) . '" />' . $lnEnd;
+		$buffer .= $tab . '<meta name="generator" content="' . htmlspecialchars($document->getGenerator()) . '"' . $tagEnd . $lnEnd;
 		$buffer .= $tab . '<title>' . htmlspecialchars($document->getTitle(), ENT_COMPAT, 'UTF-8') . '</title>' . $lnEnd;
 
 		// Generate link declarations
 		foreach ($document->_links as $link => $linkAtrr)
 		{
-			$buffer .= $tab . '<link href="' . $link . '" ' . $linkAtrr['relType'] . '="' . $linkAtrr['relation'] . '"';
+			$buffer .= $tab . '<link ' . $linkAtrr['relType'] . '="' . $linkAtrr['relation'] . '" href="' . $link . '"';
 			if ($temp = JArrayHelper::toString($linkAtrr['attribs']))
 			{
 				$buffer .= ' ' . $temp;
 			}
-			$buffer .= ' />' . $lnEnd;
+			$buffer .= $tagEnd . $lnEnd;
 		}
 
 		// Generate stylesheet links
 		foreach ($document->_styleSheets as $strSrc => $strAttr)
 		{
-			$buffer .= $tab . '<link rel="stylesheet" href="' . $strSrc . '" type="' . $strAttr['mime'] . '"';
+			$buffer .= $tab . '<link rel="stylesheet" href="' . $strSrc . '"';
+			$buffer .= ($five && ($strAttr['mime'] == 'text/css')) ? '' : (' type="' . $strAttr['mime'] . '"');
 			if (!is_null($strAttr['media']))
 			{
 				$buffer .= ' media="' . $strAttr['media'] . '" ';
@@ -125,7 +133,9 @@ class JDocumentRendererHead extends JDocumentRenderer
 		// Generate stylesheet declarations
 		foreach ($document->_style as $type => $content)
 		{
-			$buffer .= $tab . '<style type="' . $type . '">' . $lnEnd;
+			$buffer .= $tab . '<style';
+			$buffer .= ($five && ($type == 'text/css')) ? '' : (' type="' . $type . '"');
+			$buffer .= '>' . $lnEnd;
 
 			// This is for full XHTML support.
 			if ($document->_mime != 'text/html')
