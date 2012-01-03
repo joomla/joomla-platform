@@ -484,7 +484,7 @@ class JInstallerTemplate extends JAdapterInstance
 
 		if ($scriptFile)
 		{
-			$manifestScriptFile = $this->parent->getPath('source') . '/' . $scriptFile;
+			$manifestScriptFile = $this->parent->getPath('extension_root') . DS . $scriptFile;
 
 			if (is_file($manifestScriptFile))
 			{

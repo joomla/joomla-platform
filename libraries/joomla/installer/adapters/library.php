@@ -243,7 +243,7 @@ class JInstallerLibrary extends JAdapterInstance
 		// Lastly, we will copy the manifest file to its appropriate place.
 		$manifest = array();
 		$manifest['src'] = $this->parent->getPath('manifest');
-		$manifest['dest'] = JPATH_MANIFESTS . DS . 'libraries' . DS . basename($this->parent->getPath('manifest'));
+		$manifest['dest'] = JPATH_MANIFESTS . '/libraries/' . basename($this->parent->getPath('manifest'));
 		if (!$this->parent->copyFiles(array($manifest), true))
 		{
 			// Install failed, rollback changes
@@ -255,7 +255,7 @@ class JInstallerLibrary extends JAdapterInstance
 		if($this->get('manifest_script'))
 		{
 			$path['src'] = $this->parent->getPath('source') . DS . $this->get('manifest_script');
-			$path['dest'] = JPATH_MANIFESTS . DS . 'libraries' . DS . $this->get('manifest_script');
+			$path['dest'] = $this->parent->getPath('extension_root') . DS . $this->get('manifest_script');
 
 			if (!file_exists($path['dest']) || $this->parent->getOverwrite())
 			{
@@ -383,7 +383,7 @@ class JInstallerLibrary extends JAdapterInstance
 
 		if ($scriptFile)
 		{
-			$manifestScriptFile =  JPATH_MANIFESTS . DS . 'libraries' . DS . $scriptFile;
+			$manifestScriptFile =  $this->parent->getPath('extension_root') . DS . $scriptFile;
 
 			if (is_file($manifestScriptFile))
 			{
