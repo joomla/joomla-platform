@@ -122,7 +122,7 @@ class JDate extends DateTime
 		// If the date is numeric and have more than 8 digits
 		// assume a unix timestamp and prepend a '@' char.
 		date_default_timezone_set('UTC');
-		$date = is_numeric($date) && str_len($date) > 8 ? '@'.$date : $date;
+		$date = is_numeric($date) && strlen($date) > 8 ? '@' . $date : $date;
 
 		// Call the DateTime constructor.
 		parent::__construct($date, $tz);
