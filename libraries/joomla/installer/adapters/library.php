@@ -26,7 +26,7 @@ class JInstallerLibrary extends JAdapterInstance
 	 * the manifest refers to.
 	 *
 	 * @var    string
-	 * @since  11.4
+	 * @since  12.1
 	 * */
 	protected $manifest_script = null;
 
@@ -127,8 +127,8 @@ class JInstallerLibrary extends JAdapterInstance
 			$manifestScriptFile = $this->parent->getPath('source') . DS . $manifestScript;
 			if (is_file($manifestScriptFile))
 			{
-			  // Load the file
-			  include_once $manifestScriptFile;
+				// Load the file
+				include_once $manifestScriptFile;
 			}
 
 			// Set the class name
@@ -136,10 +136,10 @@ class JInstallerLibrary extends JAdapterInstance
 
 			if (class_exists($classname))
 			{
-			  // Create a new instance
-			  $this->parent->manifestClass = new $classname($this);
-			  // And set this so we can copy it later
-			  $this->set('manifest_script', $manifestScript);
+				// Create a new instance
+				$this->parent->manifestClass = new $classname($this);
+				// And set this so we can copy it later
+				$this->set('manifest_script', $manifestScript);
 			}
 		}
 
@@ -151,9 +151,9 @@ class JInstallerLibrary extends JAdapterInstance
 		{
 			if ($this->parent->manifestClass->preflight($this->route, $this) === false)
 			{
-			  // Install failed, rollback changes
-			  $this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
-			  return false;
+				// Install failed, rollback changes
+				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
+				return false;
 			}
 		}
 
@@ -203,10 +203,10 @@ class JInstallerLibrary extends JAdapterInstance
 		{
 			if ($this->parent->manifestClass->{$this->route}($this) === false)
 			{
-			  // Install failed, rollback changes
-			  $this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
+				// Install failed, rollback changes
+				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
 
-			  return false;
+				return false;
 			}
 		}
 
@@ -259,13 +259,13 @@ class JInstallerLibrary extends JAdapterInstance
 
 			if (!file_exists($path['dest']) || $this->parent->getOverwrite())
 			{
-			  if (!$this->parent->copyFiles(array($path)))
-			  {
-			    // Install failed, rollback changes
-			    $this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_MANIFEST'));
+				if (!$this->parent->copyFiles(array($path)))
+				{
+				// Install failed, rollback changes
+				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_MANIFEST'));
 
-			    return false;
-			  }
+				return false;
+				}
 			}
 		}
 
@@ -385,8 +385,8 @@ class JInstallerLibrary extends JAdapterInstance
 
 			if (is_file($manifestScriptFile))
 			{
-			  // load the file
-			  include_once $manifestScriptFile;
+				// load the file
+				include_once $manifestScriptFile;
 			}
 
 			// Set the class name
@@ -394,12 +394,12 @@ class JInstallerLibrary extends JAdapterInstance
 
 			if (class_exists($classname))
 			{
-			  // create a new instance
-			  $this->parent->manifestClass = new $classname($this);
-			  // and set this so we can copy it later
-			  $this->set('manifest_script', $scriptFile);
+				// create a new instance
+				$this->parent->manifestClass = new $classname($this);
+				// and set this so we can copy it later
+				$this->set('manifest_script', $scriptFile);
 
-			  // Note: if we don't find the class, don't bother to copy the file
+				// Note: if we don't find the class, don't bother to copy the file
 			}
 		}
 
