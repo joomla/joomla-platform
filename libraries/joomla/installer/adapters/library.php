@@ -26,7 +26,7 @@ class JInstallerLibrary extends JAdapterInstance
 	 * the manifest refers to.
 	 *
 	 * @var    string
-	 * @since  XXX
+	 * @since  11.4
 	 * */
 	protected $manifest_script = null;
 
