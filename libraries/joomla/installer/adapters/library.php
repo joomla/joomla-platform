@@ -122,10 +122,10 @@ class JInstallerLibrary extends JAdapterInstance
 
 		// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
 		$manifestScript = (string) $this->manifest->scriptfile;
-		if($manifestScript)
+		if ($manifestScript)
 		{
-			$manifestScriptFile = $this->parent->getPath('source') . '/' . $manifestScript;
-			if(is_file($manifestScriptFile))
+			$manifestScriptFile = $this->parent->getPath('source') . DS . $manifestScript;
+			if (is_file($manifestScriptFile))
 			{
 			  // Load the file
 			  include_once $manifestScriptFile;
@@ -134,7 +134,7 @@ class JInstallerLibrary extends JAdapterInstance
 			// Set the class name
 			$classname = $element . 'InstallerScript';
 
-			if(class_exists($classname))
+			if (class_exists($classname))
 			{
 			  // Create a new instance
 			  $this->parent->manifestClass = new $classname($this);
@@ -147,9 +147,9 @@ class JInstallerLibrary extends JAdapterInstance
 		ob_start();
 		ob_implicit_flush(false);
 
-		if($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'preflight'))
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'preflight'))
 		{
-			if($this->parent->manifestClass->preflight($this->route, $this) === false)
+			if ($this->parent->manifestClass->preflight($this->route, $this) === false)
 			{
 			  // Install failed, rollback changes
 			  $this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
@@ -199,9 +199,9 @@ class JInstallerLibrary extends JAdapterInstance
 		ob_start();
 		ob_implicit_flush(false);
 
-		if($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'install'))
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'install'))
 		{
-			if($this->parent->manifestClass->{$this->route}($this) === false)
+			if ($this->parent->manifestClass->{$this->route}($this) === false)
 			{
 			  // Install failed, rollback changes
 			  $this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
@@ -252,7 +252,7 @@ class JInstallerLibrary extends JAdapterInstance
 		}
 
 		// If there is a manifest script, let's copy it.
-		if($this->get('manifest_script'))
+		if ($this->get('manifest_script'))
 		{
 			$path['src'] = $this->parent->getPath('source') . DS . $this->get('manifest_script');
 			$path['dest'] = $this->parent->getPath('extension_root') . DS . $this->get('manifest_script');
@@ -366,8 +366,6 @@ class JInstallerLibrary extends JAdapterInstance
 				JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_INVALID_MANIFEST'));
 				return false;
 			}
-
-
 		}
 		else
 		{
@@ -383,7 +381,7 @@ class JInstallerLibrary extends JAdapterInstance
 
 		if ($scriptFile)
 		{
-			$manifestScriptFile =  $this->parent->getPath('extension_root') . DS . $scriptFile;
+			$manifestScriptFile = $this->parent->getPath('extension_root') . DS . $scriptFile;
 
 			if (is_file($manifestScriptFile))
 			{
@@ -416,7 +414,6 @@ class JInstallerLibrary extends JAdapterInstance
 
 		$msg = ob_get_contents();
 		ob_end_clean();
-
 
 		$this->parent->removeFiles($xml->files, -1);
 		JFile::delete($manifestFile);

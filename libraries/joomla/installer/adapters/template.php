@@ -179,7 +179,7 @@ class JInstallerTemplate extends JAdapterInstance
 
 		if ($manifestScript)
 		{
-			$manifestScriptFile = $this->parent->getPath('source') . '/' . $manifestScript;
+			$manifestScriptFile = $this->parent->getPath('source') . DS . $manifestScript;
 
 			if (is_file($manifestScriptFile))
 			{
@@ -300,8 +300,8 @@ class JInstallerTemplate extends JAdapterInstance
 		// If there is a manifest script, let's copy it.
 		if ($this->get('manifest_script'))
 		{
-			$path['src'] = $this->parent->getPath('source') . '/' . $this->get('manifest_script');
-			$path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->get('manifest_script');
+			$path['src'] = $this->parent->getPath('source') . DS . $this->get('manifest_script');
+			$path['dest'] = $this->parent->getPath('extension_root') . DS . $this->get('manifest_script');
 
 			if (!file_exists($path['dest']) || $this->parent->getOverwrite())
 			{
