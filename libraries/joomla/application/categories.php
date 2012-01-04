@@ -853,7 +853,7 @@ class JCategoryNode extends JObject
 	 *
 	 * If the child already has a parent, the link is unset
 	 *
-	 * @param   JNode  &$child  The child to be added.
+	 * @param   JCategoryNode  &$child  The child to be added.
 	 *
 	 * @return  void
 	 *
@@ -922,7 +922,7 @@ class JCategoryNode extends JObject
 	/**
 	 * Get the parent of this node
 	 *
-	 * @return  mixed  JNode or null
+	 * @return  mixed  JCategoryNode or null
 	 *
 	 * @since   11.1
 	 */
