@@ -43,6 +43,9 @@ class JNode extends JObject
 	 */
 	public function __construct()
 	{
+		// Deprecation warning.
+		JLog::add('JNode::__construct() is deprecated.', JLog::WARNING, 'deprecated');
+
 		return true;
 	}
 
@@ -59,6 +62,9 @@ class JNode extends JObject
 	 */
 	public function addChild(&$child)
 	{
+		// Deprecation warning.
+		JLog::add('JNode::addChild() is deprecated.', JLog::WARNING, 'deprecated');
+
 		if ($child instanceof Jnode)
 		{
 			$child->setParent($this);
@@ -78,6 +84,9 @@ class JNode extends JObject
 	 */
 	public function setParent(&$parent)
 	{
+		// Deprecation warning.
+		JLog::add('JNode::setParent() is deprecated.', JLog::WARNING, 'deprecated');
+
 		if ($parent instanceof JNode || is_null($parent))
 		{
 			$hash = spl_object_hash($this);
@@ -102,6 +111,9 @@ class JNode extends JObject
 	 */
 	public function &getChildren()
 	{
+		// Deprecation warning.
+		JLog::add('JNode::getChildren() is deprecated.', JLog::WARNING, 'deprecated');
+
 		return $this->_children;
 	}
 
@@ -114,6 +126,9 @@ class JNode extends JObject
 	 */
 	public function &getParent()
 	{
+		// Deprecation warning.
+		JLog::add('JNode::getParent() is deprecated.', JLog::WARNING, 'deprecated');
+
 		return $this->_parent;
 	}
 
@@ -126,6 +141,9 @@ class JNode extends JObject
 	 */
 	public function hasChildren()
 	{
+		// Deprecation warning.
+		JLog::add('JNode::hasChildren() is deprecated.', JLog::WARNING, 'deprecated');
+
 		return (bool) count($this->_children);
 	}
 
@@ -138,6 +156,9 @@ class JNode extends JObject
 	 */
 	public function hasParent()
 	{
+		// Deprecation warning.
+		JLog::add('JNode::hasParent() is deprecated.', JLog::WARNING, 'deprecated');
+
 		return $this->getParent() != null;
 	}
 }

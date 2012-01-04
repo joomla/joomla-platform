@@ -45,6 +45,9 @@ class JTree extends JObject
 	 */
 	public function __construct()
 	{
+		// Deprecation warning.
+		JLog::add('JTree::__construct() is deprecated.', JLog::WARNING, 'deprecated');
+
 		$this->_root = new JNode('ROOT');
 		$this->_current = & $this->_root;
 	}
@@ -61,6 +64,9 @@ class JTree extends JObject
 	 */
 	public function addChild(&$node, $setCurrent = false)
 	{
+		// Deprecation warning.
+		JLog::add('JTree::addChild() is deprecated.', JLog::WARNING, 'deprecated');
+
 		$this->_current->addChild($node);
 		if ($setCurrent)
 		{
@@ -77,6 +83,9 @@ class JTree extends JObject
 	 */
 	public function getParent()
 	{
+		// Deprecation warning.
+		JLog::add('JTree::getParent() is deprecated.', JLog::WARNING, 'deprecated');
+
 		$this->_current = &$this->_current->getParent();
 	}
 
@@ -89,6 +98,9 @@ class JTree extends JObject
 	 */
 	public function reset()
 	{
+		// Deprecation warning.
+		JLog::add('JTree::reset() is deprecated.', JLog::WARNING, 'deprecated');
+
 		$this->_current = &$this->_root;
 	}
 }
