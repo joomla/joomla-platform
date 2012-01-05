@@ -28,6 +28,11 @@ class JFormRuleOptionsTest extends JoomlaTestCase
 		$this->saveFactoryState();
 		jimport('joomla.utilities.xmlelement');
 		require_once JPATH_PLATFORM.'/joomla/form/rules/options.php';
+		$this->rule = new JFormRuleOptions;
+		$this->xml = simplexml_load_string(
+			'<form><field name="field1"><option value="value1">Value1</option><option value="value2">Value2</option></field></form>',
+			'JXMLElement'
+		);
 	}
 
 	/**
@@ -42,6 +47,17 @@ class JFormRuleOptionsTest extends JoomlaTestCase
 		$this->restoreFactoryState();
 	}
 
+	private function _test($value)
+	{
+		try {
+			$this->rule->test($this->xml->field[0], $value);
+		}
+		catch(Exception $e) {
+			return $e;
+		}
+		return true;
+	}
+
 	/**
 	 * Test the JFormRuleEmail::test method.
 	 *
@@ -52,30 +68,27 @@ class JFormRuleOptionsTest extends JoomlaTestCase
 	public function testEmail()
 	{
 		// Initialise variables.
-		$rule = new JFormRuleOptions;
-		$xml = simplexml_load_string(
-			'<form><field name="field1"><option value="value1">Value1</option><option value="value2">Value2</option></field></form>',
-			'JXMLElement'
-		);
+		
 
 		// Test fail conditions.
 
+		$result = $this->_test('bogus');
 		$this->assertThat(
-			$rule->test($xml->field[0], 'bogus'),
-			$this->isFalse(),
-			'Line:'.__LINE__.' The rule should fail and return false.'
+			$result,
+			$this->isInstanceOf('Exception'),
+			'Line:'.__LINE__.' The rule should fail and throw an exception.'
 		);
 
 		// Test pass conditions.
 
 		$this->assertThat(
-			$rule->test($xml->field[0], 'value1'),
+			$this->_test('value1'),
 			$this->isTrue(),
 			'Line:'.__LINE__.' value1 should pass and return true.'
 		);
 
 		$this->assertThat(
-			$rule->test($xml->field[0], 'value2'),
+			$this->_test('value2'),
 			$this->isTrue(),
 			'Line:'.__LINE__.' value2 should pass and return true.'
 		);

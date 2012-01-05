@@ -29,22 +29,21 @@ class JFormRuleUrl extends JFormRule
 	 * @param   object  &$input    An optional JRegistry object with the entire data set to validate against the entire form.
 	 * @param   object  &$form     The form object for which the field is being tested.
 	 *
-	 * @return  boolean  True if the value is valid, false otherwise.
+	 * @return  boolean  True if the value is valid.
 	 *
 	 * @since   11.1
-	 * @throws  JException on invalid rule.
+	 * @throws  Exception on invalid value or on error.
 	 * @link    http://www.w3.org/Addressing/URL/url-spec.txt
 	 * @see	    Jstring
 	 */
 	public function test(&$element, $value, $group = null, &$input = null, &$form = null)
 	{
-		// If the field is empty and not required, the field is valid.
-		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
-		if (!$required && empty($value))
-		{
-			return true;
-		}
 		$urlParts = JString::parse_url($value);
+		if ($urlParts === false)
+		{
+			throw new Exception($this->getErrorMsg($element), -4);
+		}
+
 		// See http://www.w3.org/Addressing/URL/url-spec.txt
 		// Use the full list or optionally specify a list of permitted schemes.
 		if ($element['schemes'] == '')
@@ -62,35 +61,30 @@ class JFormRuleUrl extends JFormRule
 		// @see http://php.net/manual/en/function.parse-url.php
 		if (!array_key_exists('scheme', $urlParts))
 		{
-			return false;
+			throw new Exception($this->getErrorMsg($element), -4);
 		}
 		$urlScheme = (string) $urlParts['scheme'];
 		$urlScheme = strtolower($urlScheme);
 		if (in_array($urlScheme, $scheme) == false)
 		{
-			return false;
+			throw new Exception($this->getErrorMsg($element), -4);
 		}
 		// For some schemes here must be two slashes.
 		if (($urlScheme == 'http' || $urlScheme == 'https' || $urlScheme == 'ftp' || $urlScheme == 'sftp' || $urlScheme == 'gopher'
 			|| $urlScheme == 'wais' || $urlScheme == 'gopher' || $urlScheme == 'prospero' || $urlScheme == 'telnet' || $urlScheme == 'git')
 			&& ((substr($value, strlen($urlScheme), 3)) !== '://'))
 		{
-			return false;
+			throw new Exception($this->getErrorMsg($element), -4);
 		}
 		// The best we can do for the rest is make sure that the strings are valid UTF-8
 		// and the port is an integer.
-		if (array_key_exists('host', $urlParts) && !JString::valid((string) $urlParts['host']))
+		if ((array_key_exists('host', $urlParts) && !JString::valid((string) $urlParts['host']))
+			|| (array_key_exists('port', $urlParts) && !is_int((int) $urlParts['port']))
+			|| (array_key_exists('path', $urlParts) && !JString::valid((string) $urlParts['path'])))
 		{
-			return false;
+			throw new Exception($this->getErrorMsg($element), -4);
 		}
-		if (array_key_exists('port', $urlParts) && !is_int((int) $urlParts['port']))
-		{
-			return false;
-		}
-		if (array_key_exists('path', $urlParts) && !JString::valid((string) $urlParts['path']))
-		{
-			return false;
-		}
+
 		return true;
 	}
 }

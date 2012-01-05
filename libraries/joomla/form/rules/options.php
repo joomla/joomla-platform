@@ -29,10 +29,10 @@ class JFormRuleOptions extends JFormRule
 	 * @param   JRegistry    &$input    An optional JRegistry object with the entire data set to validate against the entire form.
 	 * @param   object       &$form     The form object for which the field is being tested.
 	 *
-	 * @return  boolean  True if the value is valid, false otherwise.
+	 * @return  boolean  True if the value is valid.
 	 *
 	 * @since   11.1
-	 * @throws  JException on invalid rule.
+	 * @throws  Exception on invalid value or on error.
 	 */
 	public function test(&$element, $value, $group = null, &$input = null, &$form = null)
 	{
@@ -44,6 +44,6 @@ class JFormRuleOptions extends JFormRule
 				return true;
 			}
 		}
-		return false;
+		throw new Exception($this->getErrorMsg($element), -4);
 	}
 }

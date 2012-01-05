@@ -29,19 +29,13 @@ class JFormRuleTel extends JFormRule
 	 * @param   object  &$input    An optional JRegistry object with the entire data set to validate against the entire form.
 	 * @param   object  &$form     The form object for which the field is being tested.
 	 *
-	 * @return  boolean  True if the value is valid, false otherwise.
+	 * @return  boolean  True if the value is valid.
 	 *
 	 * @since   11.1
-	 * @throws  JException on invalid rule.
+	 * @throws  Exception on invalid value or on error.
 	 */
 	public function test(&$element, $value, $group = null, &$input = null, &$form = null)
 	{
-		// If the field is empty and not required, the field is valid.
-		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
-		if (!$required && empty($value))
-		{
-			return true;
-		}
 		// @see http://www.nanpa.com/
 		// @see http://tools.ietf.org/html/rfc4933
 		// @see http://www.itu.int/rec/T-REC-E.164/en
@@ -72,8 +66,7 @@ class JFormRuleTel extends JFormRule
 			// Test the value against the regular expression.
 			if (preg_match($regex, $value) == false)
 			{
-
-				return false;
+				throw new Exception($this->getErrorMsg($element), -4);
 			}
 		}
 		else
@@ -85,13 +78,11 @@ class JFormRuleTel extends JFormRule
 			$regex = '/^[0-9]{7,15}?$/';
 			if (preg_match($regex, $cleanvalue) == true)
 			{
-
 				return true;
 			}
 			else
 			{
-
-				return false;
+				throw new Exception($this->getErrorMsg($element), -4);
 			}
 		}
 

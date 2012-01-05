@@ -760,7 +760,7 @@ class JFormTest extends JoomlaTestCase
 		);
 
 		$this->assertThat(
-			$errors[0] instanceof JException,
+			$errors[0] instanceof Exception,
 			$this->isTrue(),
 			'Line:'.__LINE__.' The errors should be exception objects.'
 		);
@@ -2102,6 +2102,19 @@ class JFormTest extends JoomlaTestCase
 		);
 	}
 
+	public function _validateField($form, $element, $group = null, $value = null, $input = null)
+	{
+		try
+		{
+			$result = $form->validateField($element, $group, $value, $input);
+		}
+		catch (Exception $e)
+		{
+			return $e;
+		}
+		return $result;
+	}
+
 	/**
 	 * Test for JForm::validateField method.
 	 */
@@ -2119,59 +2132,36 @@ class JFormTest extends JoomlaTestCase
 
 		// Test error handling.
 
-		$result = $form->validateField('wrong');
+		$result = $this->_validateField($form, 'wrong');
 		$this->assertThat(
 			$result instanceof Exception,
 			$this->isTrue(),
 			'Line:'.__LINE__.' Passing a non-JXmlElement should return an exception.'
 		);
 
-		$this->assertThat(
-			$result->getCode(),
-			$this->equalTo(-1),
-			'Line:'.__LINE__.' The correct exception should be returned.'
-		);
-
 		$field = array_pop($xml->xpath('fields/field[@name="missingrule"]'));
-		$result = $form->validateField($field, null, 'value');
+		$result = $this->_validateField($form, $field, null, 'value');
 		$this->assertThat(
 			$result instanceof Exception,
 			$this->isTrue(),
 			'Line:'.__LINE__.' Having a missing validation rule should return an exception.'
 		);
 
-		$this->assertThat(
-			$result->getCode(),
-			$this->equalTo(-2),
-			'Line:'.__LINE__.' The correct exception should be returned.'
-		);
 
 		$field = array_pop($xml->xpath('fields/field[@name="boolean"]'));
-		$result = $form->validateField($field);
+		$result = $this->_validateField($form, $field, null, 'not a boolean');
 		$this->assertThat(
 			$result instanceof Exception,
 			$this->isTrue(),
 			'Line:'.__LINE__.' A failed validation should return an exception.'
 		);
 
-		$this->assertThat(
-			$result->getCode(),
-			$this->equalTo(1),
-			'Line:'.__LINE__.' The correct exception should be returned.'
-		);
-
 		$field = array_pop($xml->xpath('fields/field[@name="required"]'));
-		$result = $form->validateField($field);
+		$result = $this->_validateField($form, $field);
 		$this->assertThat(
 			$result instanceof Exception,
 			$this->isTrue(),
 			'Line:'.__LINE__.' A required field missing a value should return an exception.'
-		);
-
-		$this->assertThat(
-			$result->getCode(),
-			$this->equalTo(2),
-			'Line:'.__LINE__.' The correct exception should be returned.'
 		);
 
 		// Test general usage.
@@ -2195,6 +2185,20 @@ class JFormTest extends JoomlaTestCase
 			$form->validateField($field, null, 'value'),
 			$this->isTrue(),
 			'Line:'.__LINE__.' A required field with a value should return true.'
+		);
+
+		$field = array_pop($xml->xpath('fields/field[@name="multiple"]'));
+		$this->assertThat(
+			$form->validateField($field, null, 'value'),
+			$this->isTrue(),
+			'Line:'.__LINE__.' A field with multiple validation rules should be correctly validated.'
+		);
+
+		$field = array_pop($xml->xpath('fields/field[@name="multipletrailing"]'));
+		$this->assertThat(
+			$form->validateField($field, null, 'value'),
+			$this->isTrue(),
+			'Line:'.__LINE__.' A field with multiple validation rules should be correctly validated even with trailing whitespace.'
 		);
 	}
 }

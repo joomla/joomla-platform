@@ -41,6 +41,14 @@ class JFormRule
 	protected $modifiers;
 
 	/**
+	 * The error message displayed if the test fail.
+	 *
+	 * @var    string
+	 * @since  11.3
+	 */
+	protected $errorMsg = 'JLIB_FORM_VALIDATE_FIELD_INVALID';
+
+	/**
 	 * Method to test the value.
 	 *
 	 * @param   object  &$element  The JXmlElement object representing the <field /> tag for the form field object.
@@ -51,17 +59,17 @@ class JFormRule
 	 * @param   object  &$input    An optional JRegistry object with the entire data set to validate against the entire form.
 	 * @param   object  &$form     The form object for which the field is being tested.
 	 *
-	 * @return  boolean  True if the value is valid, false otherwise.
+	 * @return  boolean  True if the value is valid.
 	 *
 	 * @since   11.1
-	 * @throws  JException on invalid rule.
+	 * @throws  Exception on invalid value or on error.
 	 */
 	public function test(&$element, $value, $group = null, &$input = null, &$form = null)
 	{
 		// Check for a valid regex.
 		if (empty($this->regex))
 		{
-			throw new JException(JText::sprintf('JLIB_FORM_INVALID_FORM_RULE', get_class($this)));
+			throw new Exception(JText::sprintf('JLIB_FORM_INVALID_FORM_RULE', get_class($this)), -3);
 		}
 
 		// Add unicode property support if available.
@@ -76,6 +84,26 @@ class JFormRule
 			return true;
 		}
 
-		return false;
+		throw new Exception($this->getErrorMsg($element), -4);
+	}
+
+	/**
+	 * Method to get the translated error message
+	 *
+	 * @param   object  $element  The JXMLElement object representing the <field /> tag for the
+	 *                            form field object.
+	 *
+	 * @return  string  The translated error message
+	 *
+	 * @since   11.3
+	 */
+	protected function getErrorMsg($element)
+	{
+		$msg = $this->errorMsg;
+		if (preg_match('/^JFormRule([a-z0-9_]*)$/i', get_class($this), $matches))
+		{
+			$msg .= '_' . strtoupper($matches[1]);
+		}
+		return JText::sprintf($msg, (string) $element['label']);
 	}
 }

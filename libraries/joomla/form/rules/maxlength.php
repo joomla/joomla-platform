@@ -3,23 +3,25 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.form.formrule');
+
 /**
- * Form Rule class for the Joomla Platform.
+ * Form Rule class for the Joomla Framework.
  *
  * @package     Joomla.Platform
  * @subpackage  Form
  * @since       11.3
  */
-class JFormRuleColor extends JFormRule
+class JFormRuleMaxLength extends JFormRule
 {
 	/**
-	 * Method to test for a valid color in hexadecimal.
+	 * Method to test the value.
 	 *
 	 * @param   object  &$element  The JXmlElement object representing the <field /> tag for the form field object.
 	 * @param   mixed   $value     The form field value to validate.
@@ -34,29 +36,30 @@ class JFormRuleColor extends JFormRule
 	 * @since   11.3
 	 * @throws  Exception on invalid value or on error.
 	 */
-	public function test(&$element, $value, $group = null, &$input = null, &$form = null)
+	public function test(& $element, $value, $group = null, & $input = null, & $form = null)
 	{
-		$value = trim($value);
-
-		if (empty($value))
+		if (JString::strlen($value) <= (int) $element['maxLength'])
 		{
 			return true;
 		}
-
-		if ($value[0] != '#')
+		else
 		{
-			return false;
+			throw new Exception($this->getErrorMsg($element));
 		}
+	}
 
-		// Remove the leading # if present to validate the numeric part
-		$value = ltrim($value, '#');
-
-		// The value must be 6 or 3 characters long
-		if (!((strlen($value) == 6 || strlen($value) == 3) && ctype_xdigit($value)))
-		{
-			throw new Exception($this->getErrorMsg($element), -4);
-		}
-
-		return true;
+	/**
+	 * Method to get the translated error message
+	 *
+	 * @param   object  $element  The JXMLElement object representing the <field /> tag for the
+	 *                            form field object.
+	 *
+	 * @return  string  The translated error message
+	 *
+	 * @since   11.3
+	 */
+	protected function getErrorMsg($element)
+	{
+		return JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID_MAXLENGTH', (string) $element['label'], (string) $element['maxLength']);
 	}
 }

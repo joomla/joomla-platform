@@ -23,88 +23,76 @@ class JFormRuleBooleanTest extends JoomlaTestCase
 	 */
 	public function setUp()
 	{
+		$this->saveFactoryState();
 		jimport('joomla.utilities.xmlelement');
 		require_once JPATH_PLATFORM.'/joomla/form/rules/boolean.php';
+		$this->rule = new JFormRuleBoolean;
+		$this->xml = simplexml_load_string('<form><field name="foo" /></form>', 'JXMLElement');
+	}
+
+	/**
+	 * Tear down test
+	 *
+	 * @return void
+	 */
+	function tearDown()
+	{
+		$this->restoreFactoryState();
+	}
+
+	public function _test($value)
+	{
+		try {
+			$this->rule->test($this->xml->field, $value);
+		}
+		catch(Exception $e) {
+			return $e;
+		}
+		return true;
 	}
 
 	/**
 	 * Test the JFormRuleBoolean::test method.
+	 *
+	 * @dataProvider provider
 	 */
-	public function testBoolean()
+	public function testBoolean($value, $expected)
 	{
-		// Initialise variables.
-
-		$rule = new JFormRuleBoolean;
-		$xml = simplexml_load_string('<form><field name="foo" /></form>', 'JXMLElement');
-
 		// Test fail conditions.
+		if ($expected == false){
+			// Test fail conditions.
+			$this->assertThat(
+				$this->_test($value),
+				$this->isInstanceOf('Exception'),
+				'Line:'.__LINE__.' The rule should fail and throw an exception.'
+			);
+		}
+		else
+		{
+			// Test pass conditions.
+			$this->assertThat(
+				$this->_test($value),
+				$this->isTrue(),
+				'Line:'.__LINE__.' The rule should return true.'
+			);
+		}
+	}
 
-		$this->assertThat(
-			$rule->test($xml->field, 'bogus'),
-			$this->isFalse(),
-			'Line:'.__LINE__.' The rule should fail and return false.'
-		);
-
-		$this->assertThat(
-			$rule->test($xml->field, '0_anything'),
-			$this->isFalse(),
-			'Line:'.__LINE__.' The rule should fail and return false.'
-		);
-
-		$this->assertThat(
-			$rule->test($xml->field, 'anything_1_anything'),
-			$this->isFalse(),
-			'Line:'.__LINE__.' The rule should fail and return false.'
-		);
-
-		$this->assertThat(
-			$rule->test($xml->field, 'anything_true_anything'),
-			$this->isFalse(),
-			'Line:'.__LINE__.' The rule should fail and return false.'
-		);
-
-		$this->assertThat(
-			$rule->test($xml->field, 'anything_false'),
-			$this->isFalse(),
-			'Line:'.__LINE__.' The rule should fail and return false.'
-		);
-
-		// Test pass conditions.
-
-		$this->assertThat(
-			$rule->test($xml->field, 0),
-			$this->isTrue(),
-			'Line:'.__LINE__.' The rule should pass and return true.'
-		);
-
-		$this->assertThat(
-			$rule->test($xml->field, '0'),
-			$this->isTrue(),
-			'Line:'.__LINE__.' The rule should pass and return true.'
-		);
-
-		$this->assertThat(
-			$rule->test($xml->field, 1),
-			$this->isTrue(),
-			'Line:'.__LINE__.' The rule should pass and return true.'
-		);
-
-		$this->assertThat(
-			$rule->test($xml->field, '1'),
-			$this->isTrue(),
-			'Line:'.__LINE__.' The rule should pass and return true.'
-		);
-
-		$this->assertThat(
-			$rule->test($xml->field, 'true'),
-			$this->isTrue(),
-			'Line:'.__LINE__.' The rule should pass and return true.'
-		);
-
-		$this->assertThat(
-			$rule->test($xml->field, 'false'),
-			$this->isTrue(),
-			'Line:'.__LINE__.' The rule should pass and return true.'
+	public function provider()
+	{
+		return
+		array(
+			array(0, true),
+			array('0', true),
+			array(1, true),
+			array('1', true),
+			array('true', true),
+			array('false', true),
+			array('bogus', false),
+			array('0_anything', false),
+			array('anything_1_anything', false),
+			array('anything_true_anything', false),
+			array('anything_false', false)
 		);
 	}
 }

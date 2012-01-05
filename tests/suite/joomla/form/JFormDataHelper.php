@@ -547,6 +547,14 @@ class JFormDataHelper
 		<field
 			name="required"
 			required="true" />
+
+		<field
+			name="multiple"
+			validate="alpha nospace" />
+
+		<field
+			name="multipletrailing"
+			validate="  alpha  nospace		" />
 	</fields>
 </form>';
 

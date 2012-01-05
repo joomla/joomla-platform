@@ -1116,23 +1116,14 @@ class JForm
 			}
 
 			// Validate the field.
-			$valid = $this->validateField($field, $group, $value, $input);
-
-			// Check for an error.
-			if ($valid instanceof Exception)
+			try
 			{
-				switch ($valid->get('level'))
-				{
-					case E_ERROR:
-						JError::raiseWarning(0, $valid->getMessage());
-						return false;
-						break;
-
-					default:
-						array_push($this->errors, $valid);
-						$return = false;
-						break;
-				}
+				$this->validateField($field, $group, $value, $input);
+			}
+			catch (Exception $e)
+			{
+				array_push($this->errors, $e);
+				$return = false;
 			}
 		}
 
@@ -1829,30 +1820,27 @@ class JForm
 	 * @param   object  $input    An optional JRegistry object with the entire data set to validate
 	 * against the entire form.
 	 *
-	 * @return  mixed  Boolean true if field value is valid, JException on failure.
+	 * @return  mixed  Boolean true if field value is valid.
 	 *
 	 * @since   11.1
+	 * @throws  Exception on invalid value or on error.
 	 */
 	protected function validateField($element, $group = null, $value = null, $input = null)
 	{
 		// Make sure there is a valid JXMLElement.
 		if (!$element instanceof JXMLElement)
 		{
-			return new JException(JText::_('JLIB_FORM_ERROR_VALIDATE_FIELD'), -1, E_ERROR);
+			throw new Exception(JText::_('JLIB_FORM_ERROR_VALIDATE_FIELD'), -1);
 		}
-
-		// Initialise variables.
-		$valid = true;
 
 		// Check if the field is required.
 		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
 
-		if ($required)
+		if ($value === '' || $value === null)
 		{
 			// If the field is required and the value is empty return an error message.
-			if (($value === '') || ($value === null))
+			if ($required)
 			{
-
 				// Does the field have a defined error message?
 				if ($element['message'])
 				{
@@ -1870,12 +1858,34 @@ class JForm
 					}
 					$message = JText::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', $message);
 				}
-				return new JException($message, 2, E_WARNING);
+				throw new Exception($message, 2);
+			}
+			else
+			{
+				// Field is empty and is not required, no need to validate
+				return true;
 			}
 		}
 
 		// Get the field validation rule.
-		if ($type = (string) $element['validate'])
+		$types = trim((string) $element['validate']);
+		if (empty($types))
+		{
+			return true;
+		}
+		$types = strpos($types, ' ') ? array_filter(explode(' ', $types)) : array($types);
+
+		// Especial treatement for minLength and maxLength
+		if ($element['minLength'])
+		{
+			$types[] = 'minLength';
+		}
+		if ($element['maxLength'])
+		{
+			$types[] = 'maxLength';
+		}
+
+		foreach ($types as $type)
 		{
 			// Load the JFormRule object for the field.
 			$rule = $this->loadRuleType($type);
@@ -1883,33 +1893,15 @@ class JForm
 			// If the object could not be loaded return an error message.
 			if ($rule === false)
 			{
-				return new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_RULE_MISSING', $type), -2, E_ERROR);
+				throw new Exception(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_RULE_MISSING', $type), -2);
 			}
 
 			// Run the field validation rule test.
 			$valid = $rule->test($element, $value, $group, $input, $this);
-
-			// Check for an error in the validation test.
-			if ($valid instanceof Exception)
+			// backward compatibility
+			if ($valid === false)
 			{
-				return $valid;
-			}
-		}
-
-		// Check if the field is valid.
-		if ($valid === false)
-		{
-
-			// Does the field have a defined error message?
-			$message = (string) $element['message'];
-
-			if ($message)
-			{
-				return new JException(JText::_($message), 1, E_WARNING);
-			}
-			else
-			{
-				return new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', JText::_((string) $element['label'])), 1, E_WARNING);
+				throw new Exception(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', JText::_((string) $element['label'])), 1);
 			}
 		}
 
