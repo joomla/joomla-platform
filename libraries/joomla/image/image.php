@@ -754,4 +754,22 @@ class JImage
 
 		return $width;
 	}
+	
+	/**
+	 * Method to give the used Memory for the current handle free
+	 *
+	 * @return  void
+	 * @see     http://de2.php.net/imagedestroy
+	 */
+	public function destroy()
+	{
+		// Make sure the resource handle is valid.
+		if ( !$this->isLoaded() )
+		{
+			throw new LogicException( 'No valid image was loaded.' );
+		}
+        
+		return imagedestroy( $this->handle );
+
+	}
 }
