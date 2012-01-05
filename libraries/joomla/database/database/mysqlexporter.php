@@ -229,7 +229,7 @@ class JDatabaseExporterMySQL
 				foreach ($row as $fieldName => $fieldValue)
 				{
 					$buffer[] = '      <field'
-						. 'name="' . $fieldName . '">'
+						. ' name="' . $fieldName . '">'
 						. htmlspecialchars($fieldValue)
 						. '</field>';
 				}
