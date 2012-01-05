@@ -213,9 +213,9 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 <mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
  <database name="">
   <table_structure name="#__test">
-   <field Field="id" Type="int(11) unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" />
-   <field Field="title" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" />
-   <key Table="#__test" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="id" Collation="A" Null="" Index_type="BTREE" Comment="" />
+   <field Field="id" Type="int(11) unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" Comment="" />
+   <field Field="title" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" Comment="" />
+   <key Table="#__test" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="id" Collation="A" Null="" Index_type="BTREE" Comment="" Index_comment="" />
   </table_structure>
  </database>
 </mysqldump>'
