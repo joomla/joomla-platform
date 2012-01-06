@@ -684,6 +684,23 @@ class JDatabaseSQLSrv extends JDatabase
 	}
 
 	/**
+	 * This function replaces a string identifier <var>$prefix</var> with the string held is the
+	 * <var>tablePrefix</var> class variable.
+	 *
+	 * @param   string  $sql     The SQL statement to prepare.
+	 * @param   string  $prefix  The common table prefix.
+	 *
+	 * @return  string  The processed SQL statement.
+	 *
+	 * @since   11.1
+	 */
+	function replacePrefix($sql, $prefix = '#__')
+	{
+		$newSQL = parent::replacePrefix($sql, $prefix);
+		return str_replace("#__", $this->tablePrefix, $newSQL);
+	}
+	
+	/**
 	 * Select a database for use.
 	 *
 	 * @param   string  $database  The name of the database to select for use.
