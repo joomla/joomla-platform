@@ -481,6 +481,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	public function lockTable($tableName)
 	{
+		$this->transactionStart();
 		$this->setQuery('LOCK TABLE ' . $this->quoteName($tableName) . ' IN ACCESS EXCLUSIVE MODE')->query();
 
 		return $this;
@@ -1061,6 +1062,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	public function unlockTables()
 	{
+		$this->transactionCommit();
 		return $this;
 	}
 
