@@ -28,6 +28,15 @@ class JInstallerTemplate extends JAdapterInstance
 	protected $route = 'install';
 
 	/**
+	 * A path to the PHP file that the scriptfile declaration in
+	 * the manifest refers to.
+	 *
+	 * @var    string
+	 * @since  12.1
+	 * */
+	protected $manifest_script = null;
+
+	/**
 	 * Custom loadLanguage method
 	 *
 	 * @param   string  $path  The path where to find language files.
@@ -163,6 +172,51 @@ class JInstallerTemplate extends JAdapterInstance
 			return false;
 		}
 
+		// Installer Trigger Loading
+
+		// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
+		$manifestScript = (string) $this->manifest->scriptfile;
+
+		if ($manifestScript)
+		{
+			$manifestScriptFile = $this->parent->getPath('source') . DS . $manifestScript;
+
+			if (is_file($manifestScriptFile))
+			{
+				// Load the file
+				include_once $manifestScriptFile;
+			}
+
+			// Set the class name
+			$classname = $element . 'InstallerScript';
+
+			if (class_exists($classname))
+			{
+				// Create a new instance
+				$this->parent->manifestClass = new $classname($this);
+				// And set this so we can copy it later
+				$this->set('manifest_script', $manifestScript);
+			}
+		}
+
+		// Run preflight if possible (since we know we're not an update)
+		ob_start();
+		ob_implicit_flush(false);
+
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'preflight'))
+		{
+			if ($this->parent->manifestClass->preflight($this->route, $this) === false)
+			{
+				// Install failed, rollback changes
+				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
+				return false;
+			}
+		}
+
+		// Create msg object; first use here
+		$msg = ob_get_contents();
+		ob_end_clean();
+
 		// If the template directory does not exist, let's create it
 		$created = false;
 		if (!file_exists($this->parent->getPath('extension_root')))
@@ -215,6 +269,24 @@ class JInstallerTemplate extends JAdapterInstance
 		// Get the template description
 		$this->parent->set('message', JText::_((string) $xml->description));
 
+		ob_start();
+		ob_implicit_flush(false);
+
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'install'))
+		{
+			if ($this->parent->manifestClass->{$this->route}($this) === false)
+			{
+				// Install failed, rollback changes
+				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
+
+				return false;
+			}
+		}
+
+		// Append messages
+		$msg .= ob_get_contents();
+		ob_end_clean();
+
 		// Lastly, we will copy the manifest file to its appropriate place.
 		if (!$this->parent->copyManifest(-1))
 		{
@@ -222,6 +294,24 @@ class JInstallerTemplate extends JAdapterInstance
 			$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_TPL_INSTALL_COPY_SETUP'));
 
 			return false;
+		}
+
+		// If there is a manifest script, let's copy it.
+		if ($this->get('manifest_script'))
+		{
+			$path['src'] = $this->parent->getPath('source') . DS . $this->get('manifest_script');
+			$path['dest'] = $this->parent->getPath('extension_root') . DS . $this->get('manifest_script');
+
+			if (!file_exists($path['dest']) || $this->parent->getOverwrite())
+			{
+				if (!$this->parent->copyFiles(array($path)))
+				{
+					// Install failed, rollback changes
+					$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_MANIFEST'));
+
+					return false;
+				}
+			}
 		}
 
 		// Extension Registration
@@ -271,6 +361,24 @@ class JInstallerTemplate extends JAdapterInstance
 			$db->setQuery($query);
 			// There is a chance this could fail but we don't care...
 			$db->query();
+		}
+
+		// And now we run the postflight
+		ob_start();
+		ob_implicit_flush(false);
+
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'postflight'))
+		{
+			$this->parent->manifestClass->postflight($this->route, $this);
+		}
+
+		// Append messages
+		$msg .= ob_get_contents();
+		ob_end_clean();
+
+		if ($msg != '')
+		{
+			$this->parent->set('extension_message', $msg);
 		}
 
 		return $row->get('extension_id');
@@ -369,6 +477,45 @@ class JInstallerTemplate extends JAdapterInstance
 
 			return false;
 		}
+
+		// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
+		$scriptFile = (string) $this->manifest->scriptfile;
+
+		if ($scriptFile)
+		{
+			$manifestScriptFile = $this->parent->getPath('extension_root') . DS . $scriptFile;
+
+			if (is_file($manifestScriptFile))
+			{
+				// load the file
+				include_once $manifestScriptFile;
+			}
+
+			// Set the class name
+			$classname = $row->element . 'InstallerScript';
+
+			if (class_exists($classname))
+			{
+				// create a new instance
+				$this->parent->manifestClass = new $classname($this);
+				// and set this so we can copy it later
+				$this->set('manifest_script', $scriptFile);
+
+				// Note: if we don't find the class, don't bother to copy the file
+			}
+		}
+
+		ob_start();
+		ob_implicit_flush(false);
+
+		// run uninstall if possible
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'uninstall'))
+		{
+			$this->parent->manifestClass->uninstall($this);
+		}
+
+		$msg = ob_get_contents();
+		ob_end_clean();
 
 		// Remove files
 		$this->parent->removeFiles($manifest->media);
