@@ -169,7 +169,11 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 						$query .= (string) $this->columns;
 					}
 
-					$query .= ' VALUES ';
+					if ($this->values->getElements() instanceof $this )
+					{
+						$query .= ' VALUES ';
+					}
+
 					$query .= (string) $this->values;
 
 					if ($this->returning)
@@ -178,10 +182,6 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 					}
 				}
 
-				break;
-
-			case 'lock':
-				$query .= (string) $this->lock;
 				break;
 
 			default:
