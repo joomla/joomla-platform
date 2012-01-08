@@ -169,7 +169,8 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 						$query .= (string) $this->columns;
 					}
 
-					if (!($this->values->getElements() instanceof $this ))
+					$elements = $this->values->getElements();
+					if (!($elements[0] instanceof $this))
 					{
 						$query .= ' VALUES ';
 					}
