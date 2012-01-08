@@ -218,7 +218,7 @@ class JInstallerModule extends JAdapterInstance
 		{
 			$db->Query();
 		}
-		catch (JException $e)
+		catch (Exception $e)
 		{
 			// Install failed, roll back changes
 			$this->parent
@@ -819,7 +819,7 @@ class JInstallerModule extends JAdapterInstance
 		{
 			$modules = $db->loadColumn();
 		}
-		catch (JException $e)
+		catch (Exception $e)
 		{
 			$modules = array();
 		}
@@ -838,7 +838,7 @@ class JInstallerModule extends JAdapterInstance
 			{
 				$db->query();
 			}
-			catch (JException $e)
+			catch (Exception $e)
 			{
 				JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_EXCEPTION', $db->stderr(true)));
 				$retval = false;
@@ -852,7 +852,7 @@ class JInstallerModule extends JAdapterInstance
 			{
 				$db->query();
 			}
-			catch (JException $e)
+			catch (Exception $e)
 			{
 				JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_EXCEPTION', $db->stderr(true)));
 				$retval = false;
@@ -869,7 +869,7 @@ class JInstallerModule extends JAdapterInstance
 			// Clean up any other ones that might exist as well
 			$db->Query();
 		}
-		catch (JException $e)
+		catch (Exception $e)
 		{
 			// Ignore the error...
 		}
@@ -909,7 +909,7 @@ class JInstallerModule extends JAdapterInstance
 		{
 			return $db->query();
 		}
-		catch (JException $e)
+		catch (Exception $e)
 		{
 			return false;
 		}
@@ -937,7 +937,7 @@ class JInstallerModule extends JAdapterInstance
 		{
 			return $db->query();
 		}
-		catch (JException $e)
+		catch (Exception $e)
 		{
 			return false;
 		}

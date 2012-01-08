@@ -141,7 +141,7 @@ class JTableUsergroup extends JTable
 	 *
 	 * @param   integer  $oid  The primary key of the user group to delete.
 	 *
-	 * @return  mixed  Boolean or Exception.
+	 * @return  mixed  True on success, Exception on failure.
 	 *
 	 * @since   11.1
 	 */
@@ -153,15 +153,15 @@ class JTableUsergroup extends JTable
 		}
 		if ($this->id == 0)
 		{
-			return new JException(JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
+			return new Exception(JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
 		}
 		if ($this->parent_id == 0)
 		{
-			return new JException(JText::_('JLIB_DATABASE_ERROR_DELETE_ROOT_CATEGORIES'));
+			return new Exception(JText::_('JLIB_DATABASE_ERROR_DELETE_ROOT_CATEGORIES'));
 		}
 		if ($this->lft == 0 or $this->rgt == 0)
 		{
-			return new JException(JText::_('JLIB_DATABASE_ERROR_DELETE_CATEGORY'));
+			return new Exception(JText::_('JLIB_DATABASE_ERROR_DELETE_CATEGORY'));
 		}
 
 		$db = $this->_db;
@@ -176,7 +176,7 @@ class JTableUsergroup extends JTable
 		$ids = $db->loadColumn();
 		if (empty($ids))
 		{
-			return new JException(JText::_('JLIB_DATABASE_ERROR_DELETE_CATEGORY'));
+			return new Exception(JText::_('JLIB_DATABASE_ERROR_DELETE_CATEGORY'));
 		}
 
 		// Delete the category dependencies

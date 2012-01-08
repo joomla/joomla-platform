@@ -546,7 +546,7 @@ class JInstallerTemplate extends JAdapterInstance
 		{
 			return $this->parent->extension->store();
 		}
-		catch (JException $e)
+		catch (Exception $e)
 		{
 			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_TPL_REFRESH_MANIFEST_CACHE'));
 			return false;

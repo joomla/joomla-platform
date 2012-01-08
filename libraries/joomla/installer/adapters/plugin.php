@@ -193,7 +193,7 @@ class JInstallerPlugin extends JAdapterInstance
 		{
 			$db->Query();
 		}
-		catch (JException $e)
+		catch (Exception $e)
 		{
 			// Install failed, roll back changes
 			$this->parent

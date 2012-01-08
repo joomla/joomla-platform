@@ -84,7 +84,7 @@ class JDate extends DateTime
 	 *
 	 * @since   11.1
 	 *
-	 * @throws  JException
+	 * @throws  Exception
 	 */
 	public function __construct($date = 'now', $tz = null)
 	{
@@ -223,7 +223,7 @@ class JDate extends DateTime
 	 * @return  JDate
 	 *
 	 * @since   11.3
-	 * @throws  JException
+	 * @throws  Exception
 	 */
 	public static function getInstance($date = 'now', $tz = null)
 	{

@@ -120,7 +120,7 @@ class JTableNested extends JTable
 	 * @param   integer  $pk          Primary key of the node for which to get the path.
 	 * @param   boolean  $diagnostic  Only select diagnostic data for the nested sets.
 	 *
-	 * @return  mixed    Boolean false on failure or array of node objects on success.
+	 * @return  mixed  Boolean false on failure or array of node objects on success.
 	 *
 	 * @link    http://docs.joomla.org/JTableNested/getPath
 	 * @since   11.1
@@ -146,7 +146,7 @@ class JTableNested extends JTable
 		// Check for a database error.
 		if ($this->_db->getErrorNum())
 		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_GET_PATH_FAILED', get_class($this), $this->_db->getErrorMsg()));
+			$e = new Exception(JText::sprintf('JLIB_DATABASE_ERROR_GET_PATH_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
 			return false;
 		}
@@ -160,7 +160,7 @@ class JTableNested extends JTable
 	 * @param   integer  $pk          Primary key of the node for which to get the tree.
 	 * @param   boolean  $diagnostic  Only select diagnostic data for the nested sets.
 	 *
-	 * @return  mixed    Boolean false on failure or array of node objects on success.
+	 * @return  mixed  Boolean false on failure or array of node objects on success.
 	 *
 	 * @link    http://docs.joomla.org/JTableNested/getTree
 	 * @since   11.1
@@ -185,7 +185,7 @@ class JTableNested extends JTable
 		// Check for a database error.
 		if ($this->_db->getErrorNum())
 		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_GET_TREE_FAILED', get_class($this), $this->_db->getErrorMsg()));
+			$e = new Exception(JText::sprintf('JLIB_DATABASE_ERROR_GET_TREE_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
 			return false;
 		}
@@ -238,7 +238,7 @@ class JTableNested extends JTable
 		// Make sure the location is valid.
 		if (($position != 'before') && ($position != 'after') && ($position != 'first-child') && ($position != 'last-child'))
 		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_INVALID_LOCATION', get_class($this)));
+			$e = new Exception(JText::sprintf('JLIB_DATABASE_ERROR_INVALID_LOCATION', get_class($this)));
 			$this->setError($e);
 			return false;
 		}
@@ -316,7 +316,6 @@ class JTableNested extends JTable
 	 * @link    http://docs.joomla.org/JTableNested/moveByReference
 	 * @since   11.1
 	 */
-
 	public function moveByReference($referenceId, $position = 'after', $pk = null)
 	{
 		if ($this->_debug)
@@ -346,7 +345,7 @@ class JTableNested extends JTable
 		// Check for a database error.
 		if ($this->_db->getErrorNum())
 		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_MOVE_FAILED', get_class($this), $this->_db->getErrorMsg()));
+			$e = new Exception(JText::sprintf('JLIB_DATABASE_ERROR_MOVE_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
 			return false;
 		}
@@ -358,7 +357,7 @@ class JTableNested extends JTable
 		// Cannot move the node to be a child of itself.
 		if (in_array($referenceId, $children))
 		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_INVALID_NODE_RECURSION', get_class($this)));
+			$e = new Exception(JText::sprintf('JLIB_DATABASE_ERROR_INVALID_NODE_RECURSION', get_class($this)));
 			$this->setError($e);
 			return false;
 		}
@@ -435,7 +434,7 @@ class JTableNested extends JTable
 			// Check for a database error.
 			if ($this->_db->getErrorNum())
 			{
-				$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_MOVE_FAILED', get_class($this), $this->_db->getErrorMsg()));
+				$e = new Exception(JText::sprintf('JLIB_DATABASE_ERROR_MOVE_FAILED', get_class($this), $this->_db->getErrorMsg()));
 				$this->setError($e);
 				$this->_unlock();
 				return false;
@@ -690,19 +689,19 @@ class JTableNested extends JTable
 			{
 				if ($this->_db->getErrorNum())
 				{
-					$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_CHECK_FAILED', get_class($this), $this->_db->getErrorMsg()));
+					$e = new Exception(JText::sprintf('JLIB_DATABASE_ERROR_CHECK_FAILED', get_class($this), $this->_db->getErrorMsg()));
 					$this->setError($e);
 				}
 				else
 				{
-					$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_INVALID_PARENT_ID', get_class($this)));
+					$e = new Exception(JText::sprintf('JLIB_DATABASE_ERROR_INVALID_PARENT_ID', get_class($this)));
 					$this->setError($e);
 				}
 			}
 		}
 		else
 		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_INVALID_PARENT_ID', get_class($this)));
+			$e = new Exception(JText::sprintf('JLIB_DATABASE_ERROR_INVALID_PARENT_ID', get_class($this)));
 			$this->setError($e);
 		}
 
@@ -718,6 +717,7 @@ class JTableNested extends JTable
 	 *
 	 * @link    http://docs.joomla.org/JTableNested/store
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public function store($updateNulls = false)
 	{
@@ -764,7 +764,7 @@ class JTableNested extends JTable
 					// Check for a database error.
 					if ($this->_db->getErrorNum())
 					{
-						$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), $this->_db->getErrorMsg()));
+						$e = new Exception(JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), $this->_db->getErrorMsg()));
 						$this->setError($e);
 						$this->_unlock();
 						return false;
@@ -817,7 +817,7 @@ class JTableNested extends JTable
 			else
 			{
 				// Negative parent ids are invalid
-				$e = new JException(JText::_('JLIB_DATABASE_ERROR_INVALID_PARENT_ID'));
+				$e = new Exception(JText::_('JLIB_DATABASE_ERROR_INVALID_PARENT_ID'));
 				$this->setError($e);
 				return false;
 			}
@@ -880,6 +880,7 @@ class JTableNested extends JTable
 	 *
 	 * @link    http://docs.joomla.org/JTableNested/publish
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
@@ -904,7 +905,7 @@ class JTableNested extends JTable
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED', get_class($this)));
+				$e = new Exception(JText::sprintf('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED', get_class($this)));
 				$this->setError($e);
 				return false;
 			}
@@ -937,7 +938,7 @@ class JTableNested extends JTable
 				// Check for checked out children.
 				if ($this->_db->loadResult())
 				{
-					$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_CHILD_ROWS_CHECKED_OUT', get_class($this)));
+					$e = new Exception(JText::sprintf('JLIB_DATABASE_ERROR_CHILD_ROWS_CHECKED_OUT', get_class($this)));
 					$this->setError($e);
 					return false;
 				}
@@ -959,14 +960,14 @@ class JTableNested extends JTable
 				// Check for a database error.
 				if ($this->_db->getErrorNum())
 				{
-					$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_PUBLISH_FAILED', get_class($this), $this->_db->getErrorMsg()));
+					$e = new Exception(JText::sprintf('JLIB_DATABASE_ERROR_PUBLISH_FAILED', get_class($this), $this->_db->getErrorMsg()));
 					$this->setError($e);
 					return false;
 				}
 
 				if (!empty($rows))
 				{
-					$e = new JException(JText::_('JLIB_DATABASE_ERROR_ANCESTOR_NODES_LOWER_STATE'));
+					$e = new Exception(JText::_('JLIB_DATABASE_ERROR_ANCESTOR_NODES_LOWER_STATE'));
 					$this->setError($e);
 					return false;
 				}
@@ -980,7 +981,7 @@ class JTableNested extends JTable
 			// Check for a database error.
 			if (!$this->_db->query())
 			{
-				$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_PUBLISH_FAILED', get_class($this), $this->_db->getErrorMsg()));
+				$e = new Exception(JText::sprintf('JLIB_DATABASE_ERROR_PUBLISH_FAILED', get_class($this), $this->_db->getErrorMsg()));
 				$this->setError($e);
 				return false;
 			}
@@ -1011,6 +1012,7 @@ class JTableNested extends JTable
 	 *
 	 * @link    http://docs.joomla.org/JTableNested/orderUp
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public function orderUp($pk)
 	{
@@ -1052,7 +1054,7 @@ class JTableNested extends JTable
 		// Check for a database error.
 		if ($this->_db->getErrorNum())
 		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_ORDERUP_FAILED', get_class($this), $this->_db->getErrorMsg()));
+			$e = new Exception(JText::sprintf('JLIB_DATABASE_ERROR_ORDERUP_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
 			$this->_unlock();
 			return false;
@@ -1069,7 +1071,7 @@ class JTableNested extends JTable
 		// Check for a database error.
 		if (!$this->_db->query())
 		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_ORDERUP_FAILED', get_class($this), $this->_db->getErrorMsg()));
+			$e = new Exception(JText::sprintf('JLIB_DATABASE_ERROR_ORDERUP_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
 			$this->_unlock();
 			return false;
@@ -1087,7 +1089,7 @@ class JTableNested extends JTable
 		// Check for a database error.
 		if (!$this->_db->query())
 		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_ORDERUP_FAILED', get_class($this), $this->_db->getErrorMsg()));
+			$e = new Exception(JText::sprintf('JLIB_DATABASE_ERROR_ORDERUP_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
 			$this->_unlock();
 			return false;
@@ -1108,6 +1110,7 @@ class JTableNested extends JTable
 	 *
 	 * @link    http://docs.joomla.org/JTableNested/orderDown
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public function orderDown($pk)
 	{
@@ -1150,7 +1153,7 @@ class JTableNested extends JTable
 		// Check for a database error.
 		if ($this->_db->getErrorNum())
 		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_ORDERDOWN_FAILED', get_class($this), $this->_db->getErrorMsg()));
+			$e = new Exception(JText::sprintf('JLIB_DATABASE_ERROR_ORDERDOWN_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
 			$this->_unlock();
 			return false;
@@ -1167,7 +1170,7 @@ class JTableNested extends JTable
 		// Check for a database error.
 		if (!$this->_db->query())
 		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_ORDERDOWN_FAILED', get_class($this), $this->_db->getErrorMsg()));
+			$e = new Exception(JText::sprintf('JLIB_DATABASE_ERROR_ORDERDOWN_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
 			$this->_unlock();
 			return false;
@@ -1185,7 +1188,7 @@ class JTableNested extends JTable
 		// Check for a database error.
 		if (!$this->_db->query())
 		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_ORDERDOWN_FAILED', get_class($this), $this->_db->getErrorMsg()));
+			$e = new Exception(JText::sprintf('JLIB_DATABASE_ERROR_ORDERDOWN_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
 			$this->_unlock();
 			return false;
@@ -1203,6 +1206,7 @@ class JTableNested extends JTable
 	 * @return  mixed  The ID of the root row, or false and the internal error is set.
 	 *
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public function getRootId()
 	{
@@ -1220,7 +1224,7 @@ class JTableNested extends JTable
 
 		if ($this->_db->getErrorNum())
 		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_GETROOTID_FAILED', get_class($this), $this->_db->getErrorMsg()));
+			$e = new Exception(JText::sprintf('JLIB_DATABASE_ERROR_GETROOTID_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
 			return false;
 		}
@@ -1241,7 +1245,7 @@ class JTableNested extends JTable
 			$result = $this->_db->loadColumn();
 			if ($this->_db->getErrorNum())
 			{
-				$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_GETROOTID_FAILED', get_class($this), $this->_db->getErrorMsg()));
+				$e = new Exception(JText::sprintf('JLIB_DATABASE_ERROR_GETROOTID_FAILED', get_class($this), $this->_db->getErrorMsg()));
 				$this->setError($e);
 				return false;
 			}
@@ -1262,7 +1266,7 @@ class JTableNested extends JTable
 				$result = $this->_db->loadColumn();
 				if ($this->_db->getErrorNum())
 				{
-					$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_GETROOTID_FAILED', get_class($this), $this->_db->getErrorMsg()));
+					$e = new Exception(JText::sprintf('JLIB_DATABASE_ERROR_GETROOTID_FAILED', get_class($this), $this->_db->getErrorMsg()));
 					$this->setError($e);
 					return false;
 				}
@@ -1273,14 +1277,14 @@ class JTableNested extends JTable
 				}
 				else
 				{
-					$e = new JException(JText::_('JLIB_DATABASE_ERROR_ROOT_NODE_NOT_FOUND'));
+					$e = new Exception(JText::_('JLIB_DATABASE_ERROR_ROOT_NODE_NOT_FOUND'));
 					$this->setError($e);
 					return false;
 				}
 			}
 			else
 			{
-				$e = new JException(JText::_('JLIB_DATABASE_ERROR_ROOT_NODE_NOT_FOUND'));
+				$e = new Exception(JText::_('JLIB_DATABASE_ERROR_ROOT_NODE_NOT_FOUND'));
 				$this->setError($e);
 				return false;
 			}
@@ -1301,6 +1305,7 @@ class JTableNested extends JTable
 	 *
 	 * @link    http://docs.joomla.org/JTableNested/rebuild
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public function rebuild($parentId = null, $leftId = 0, $level = 0, $path = '')
 	{
@@ -1374,7 +1379,7 @@ class JTableNested extends JTable
 		// If there is an update failure, return false to break out of the recursion.
 		if (!$this->_db->query())
 		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_REBUILD_FAILED', get_class($this), $this->_db->getErrorMsg()));
+			$e = new Exception(JText::sprintf('JLIB_DATABASE_ERROR_REBUILD_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
 			return false;
 		}
@@ -1393,6 +1398,7 @@ class JTableNested extends JTable
 	 *
 	 * @link    http://docs.joomla.org/JTableNested/rebuildPath
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public function rebuildPath($pk = null)
 	{
@@ -1436,7 +1442,7 @@ class JTableNested extends JTable
 		// Check for a database error.
 		if (!$this->_db->query())
 		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_REBUILDPATH_FAILED', get_class($this), $this->_db->getErrorMsg()));
+			$e = new Exception(JText::sprintf('JLIB_DATABASE_ERROR_REBUILDPATH_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
 			return false;
 		}
@@ -1456,6 +1462,7 @@ class JTableNested extends JTable
 	 * @return  integer  1 + value of root rgt on success, false on failure.
 	 *
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public function saveorder($idArray = null, $lft_array = null)
 	{
@@ -1474,7 +1481,7 @@ class JTableNested extends JTable
 				// Check for a database error.
 				if (!$this->_db->query())
 				{
-					$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_REORDER_FAILED', get_class($this), $this->_db->getErrorMsg()));
+					$e = new Exception(JText::sprintf('JLIB_DATABASE_ERROR_REORDER_FAILED', get_class($this), $this->_db->getErrorMsg()));
 					$this->setError($e);
 					$this->_unlock();
 					return false;
@@ -1504,6 +1511,7 @@ class JTableNested extends JTable
 	 * @return  mixed    Boolean false on failure or node object on success.
 	 *
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	protected function _getNode($id, $key = null)
 	{
@@ -1536,7 +1544,7 @@ class JTableNested extends JTable
 		// Check for a database error or no $row returned
 		if ((!$row) || ($this->_db->getErrorNum()))
 		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_GETNODE_FAILED', get_class($this), $this->_db->getErrorMsg()));
+			$e = new Exception(JText::sprintf('JLIB_DATABASE_ERROR_GETNODE_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
 			return false;
 		}
@@ -1686,6 +1694,7 @@ class JTableNested extends JTable
 	 * @return  boolean  False on exception
 	 *
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	protected function _runQuery($query, $errorMessage)
 	{
@@ -1694,7 +1703,7 @@ class JTableNested extends JTable
 		// Check for a database error.
 		if (!$this->_db->query())
 		{
-			$e = new JException(JText::sprintf('$errorMessage', get_class($this), $this->_db->getErrorMsg()));
+			$e = new Exception(JText::sprintf('$errorMessage', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
 			$this->_unlock();
 			return false;
