@@ -390,7 +390,11 @@ abstract class JDatabaseQuery
 						$query .= (string) $this->columns;
 					}
 
-					$query .= ' VALUES ';
+					if ($this->values->getElements() instanceof $this )
+					{
+						$query .= ' VALUES ';
+					}
+
 					$query .= (string) $this->values;
 				}
 
@@ -713,6 +717,11 @@ abstract class JDatabaseQuery
 	{
 		if (is_null($this->from))
 		{
+			if ($tables instanceof $this )
+			{
+				$tables = '( ' . (string) $tables . ' )';
+			}
+
 			$this->from = new JDatabaseQueryElement('FROM', $tables);
 		}
 		else
