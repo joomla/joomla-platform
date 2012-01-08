@@ -224,6 +224,13 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 					(string) $q,
 					$this->equalTo("\nINSERT INTO table\n(col)\n(\nSELECT col2\nWHERE a=1)")
 		);
+
+		$q->clear();
+		$q->insert('table')->columns('col')->values('3');
+		$this->assertThat(
+					(string) $q,
+					$this->equalTo("\nINSERT INTO table\n(col) VALUES \n(3)")
+		);
 	}
 
 	/**
