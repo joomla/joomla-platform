@@ -176,6 +176,65 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 	}
 
 	/**
+	 * Data for testLoadNextObject test.
+	 * 
+	 * @return  array
+	 *
+	 * @since   11.3
+	 */
+	public function dataTestLoadNextObject()
+	{
+		$objCompOne = new stdClass;
+		$objCompOne->id = 1;
+		$objCompOne->title = 'Testing';
+		$objCompOne->start_date = '1980-04-18 00:00:00';
+		$objCompOne->description = 'one';
+
+		$objCompTwo = new stdClass;
+		$objCompTwo->id = 2;
+		$objCompTwo->title = 'Testing2';
+		$objCompTwo->start_date = '1980-04-18 00:00:00';
+		$objCompTwo->description = 'one';
+
+		$objCompThree = new stdClass;
+		$objCompThree->id = 3;
+		$objCompThree->title = 'Testing3';
+		$objCompThree->start_date = '1980-04-18 00:00:00';
+		$objCompThree->description = 'three';
+
+		$objCompFour = new stdClass;
+		$objCompFour->id = 4;
+		$objCompFour->title = 'Testing4';
+		$objCompFour->start_date = '1980-04-18 00:00:00';
+		$objCompFour->description = 'four';
+
+		return array(
+			array(array($objCompOne, $objCompTwo, $objCompThree, $objCompFour))
+		);
+	}
+
+	/**
+	 * Data for testLoadNextRow test.
+	 * 
+	 * @return  array
+	 *
+	 * @since   11.3
+	 */
+	public function dataTestLoadNextRow()
+	{
+		return array(
+			array(
+				array(
+					array(1, 'Testing', '1980-04-18 00:00:00', 'one'),
+					array(2, 'Testing2', '1980-04-18 00:00:00', 'one'),
+					array(3, 'Testing3', '1980-04-18 00:00:00', 'three'),
+					array(4, 'Testing4', '1980-04-18 00:00:00', 'four')
+				)
+			)
+		);
+	}
+
+	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
 	 * @return  xml dataset
@@ -637,103 +696,284 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 	/**
 	 * Test loadNextObject function
 	 * 
+	 * @param   array  $objArr  Array of expected objects
+	 * 
 	 * @return   void
+	 * 
+	 * @dataProvider dataTestLoadNextObject
 	 */
-	public function testLoadNextObject()
+	public function testLoadNextObject($objArr)
 	{
 		$query = $this->object->getQuery(true);
 		$query->select('*');
 		$query->from('jos_dbtest');
 		$this->object->setQuery($query);
 
-		$objCompOne = new stdClass;
-		$objCompOne->id = 1;
-		$objCompOne->title = 'Testing';
-		$objCompOne->start_date = '1980-04-18 00:00:00';
-		$objCompOne->description = 'one';
-
-		$objCompTwo = new stdClass;
-		$objCompTwo->id = 2;
-		$objCompTwo->title = 'Testing2';
-		$objCompTwo->start_date = '1980-04-18 00:00:00';
-		$objCompTwo->description = 'one';
-
-		$objCompThree = new stdClass;
-		$objCompThree->id = 3;
-		$objCompThree->title = 'Testing3';
-		$objCompThree->start_date = '1980-04-18 00:00:00';
-		$objCompThree->description = 'three';
-
-		$objCompFour = new stdClass;
-		$objCompFour->id = 4;
-		$objCompFour->title = 'Testing4';
-		$objCompFour->start_date = '1980-04-18 00:00:00';
-		$objCompFour->description = 'four';
-
 		$this->assertThat(
 			$this->object->loadNextObject(),
-			$this->equalTo($objCompOne),
+			$this->equalTo($objArr[0]),
 			__LINE__
 		);
 
 		$this->assertThat(
 			$this->object->loadNextObject(),
-			$this->equalTo($objCompTwo),
+			$this->equalTo($objArr[1]),
 			__LINE__
 		);
 
 		$this->assertThat(
 			$this->object->loadNextObject(),
-			$this->equalTo($objCompThree),
+			$this->equalTo($objArr[2]),
 			__LINE__
 		);
 
 		$this->assertThat(
 			$this->object->loadNextObject(),
-			$this->equalTo($objCompFour),
+			$this->equalTo($objArr[3]),
 			__LINE__
+		);
+
+		/* last call to free cursor, asserting that returns false */
+		$this->assertFalse(
+			$this->object->loadNextObject()
+		);
+	}
+
+	/**
+	 * Test loadNextObject function with preceding loadObject call
+	 * 
+	 * @param   array  $objArr  Array of expected objects
+	 * 
+	 * @return   void
+	 * 
+	 * @dataProvider dataTestLoadNextObject
+	 */
+	public function testLoadNextObject_plusLoad($objArr)
+	{
+		$query = $this->object->getQuery(true);
+		$query->select('*');
+		$query->from('jos_dbtest');
+		$this->object->setQuery($query);
+
+		$this->object->loadObject();
+
+		$this->assertThat(
+			$this->object->loadNextObject(),
+			$this->equalTo($objArr[0]),
+			__LINE__
+		);
+
+		$this->assertThat(
+			$this->object->loadNextObject(),
+			$this->equalTo($objArr[1]),
+			__LINE__
+		);
+
+		$this->assertThat(
+			$this->object->loadNextObject(),
+			$this->equalTo($objArr[2]),
+			__LINE__
+		);
+
+		$this->assertThat(
+			$this->object->loadNextObject(),
+			$this->equalTo($objArr[3]),
+			__LINE__
+		);
+
+		/* last call to free cursor, asserting that returns false */
+		$this->assertFalse(
+			$this->object->loadNextObject()
+		);
+	}
+
+	/**
+	 * Test loadNextObject function with preceding query call
+	 * 
+	 * @param   array  $objArr  Array of expected objects
+	 * 
+	 * @return   void
+	 * 
+	 * @dataProvider dataTestLoadNextObject
+	 */
+	public function testLoadNextObject_plusQuery($objArr)
+	{
+		$query = $this->object->getQuery(true);
+		$query->select('*');
+		$query->from('jos_dbtest');
+		$this->object->setQuery($query);
+
+		$this->object->query();
+
+		$this->assertThat(
+			$this->object->loadNextObject(),
+			$this->equalTo($objArr[0]),
+			__LINE__
+		);
+
+		$this->assertThat(
+			$this->object->loadNextObject(),
+			$this->equalTo($objArr[1]),
+			__LINE__
+		);
+
+		$this->assertThat(
+			$this->object->loadNextObject(),
+			$this->equalTo($objArr[2]),
+			__LINE__
+		);
+
+		$this->assertThat(
+			$this->object->loadNextObject(),
+			$this->equalTo($objArr[3]),
+			__LINE__
+		);
+
+		/* last call to free cursor, asserting that returns false */
+		$this->assertFalse(
+			$this->object->loadNextObject()
 		);
 	}
 
 	/**
 	 * Test loadNextRow function
 	 * 
+	 * @param   array  $rowArr  Array of expected arrays
+	 * 
 	 * @return   void
+	 * 
+	 * @dataProvider dataTestLoadNextRow
 	 */
-	public function testLoadNextRow()
+	public function testLoadNextRow($rowArr)
 	{
 		$query = $this->object->getQuery(true);
 		$query->select('*');
 		$query->from('jos_dbtest');
 		$this->object->setQuery($query);
 
-		$expectedOne = array(1, 'Testing', '1980-04-18 00:00:00', 'one');
-		$expectedTwo = array(2, 'Testing2', '1980-04-18 00:00:00', 'one');
-		$expectedThree = array(3, 'Testing3', '1980-04-18 00:00:00', 'three');
-		$expectedFour = array(4, 'Testing4', '1980-04-18 00:00:00', 'four');
-
 		$this->assertThat(
 			$this->object->loadNextRow(),
-			$this->equalTo($expectedOne),
+			$this->equalTo($rowArr[0]),
 			__LINE__
 		);
 
 		$this->assertThat(
 			$this->object->loadNextRow(),
-			$this->equalTo($expectedTwo),
+			$this->equalTo($rowArr[1]),
 			__LINE__
 		);
 
 		$this->assertThat(
 			$this->object->loadNextRow(),
-			$this->equalTo($expectedThree),
+			$this->equalTo($rowArr[2]),
 			__LINE__
 		);
 
 		$this->assertThat(
 			$this->object->loadNextRow(),
-			$this->equalTo($expectedFour),
+			$this->equalTo($rowArr[3]),
 			__LINE__
+		);
+
+		/* last call to free cursor, asserting that returns false */
+		$this->assertFalse(
+			$this->object->loadNextRow()
+		);
+	}
+
+	/**
+	 * Test loadNextRow function with preceding query call
+	 * 
+	 * @param   array  $rowArr  Array of expected arrays
+	 * 
+	 * @return   void
+	 * 
+	 * @dataProvider dataTestLoadNextRow
+	 */
+	public function testLoadNextRow_plusQuery($rowArr)
+	{
+		$query = $this->object->getQuery(true);
+		$query->select('*');
+		$query->from('jos_dbtest');
+		$this->object->setQuery($query);
+
+		$this->object->query();
+
+		$this->assertThat(
+			$this->object->loadNextRow(),
+			$this->equalTo($rowArr[0]),
+			__LINE__
+		);
+
+		$this->assertThat(
+			$this->object->loadNextRow(),
+			$this->equalTo($rowArr[1]),
+			__LINE__
+		);
+
+		$this->assertThat(
+			$this->object->loadNextRow(),
+			$this->equalTo($rowArr[2]),
+			__LINE__
+		);
+
+		$this->assertThat(
+			$this->object->loadNextRow(),
+			$this->equalTo($rowArr[3]),
+			__LINE__
+		);
+
+		/* last call to free cursor, asserting that returns false */
+		$this->assertFalse(
+			$this->object->loadNextRow()
+		);
+	}
+
+	/**
+	 * Test loadNextRow function with preceding loadRow call
+	 * 
+	 * @param   array  $rowArr  Array of expected arrays
+	 * 
+	 * @return   void
+	 * 
+	 * @dataProvider dataTestLoadNextRow
+	 */
+	public function testLoadNextRow_plusLoad($rowArr)
+	{
+		$query = $this->object->getQuery(true);
+		$query->select('*');
+		$query->from('jos_dbtest');
+		$this->object->setQuery($query);
+
+		$this->object->loadRow();
+
+		$this->assertThat(
+			$this->object->loadNextRow(),
+			$this->equalTo($rowArr[0]),
+			__LINE__
+		);
+
+		$this->assertThat(
+			$this->object->loadNextRow(),
+			$this->equalTo($rowArr[1]),
+			__LINE__
+		);
+
+		$this->assertThat(
+			$this->object->loadNextRow(),
+			$this->equalTo($rowArr[2]),
+			__LINE__
+		);
+
+		$this->assertThat(
+			$this->object->loadNextRow(),
+			$this->equalTo($rowArr[3]),
+			__LINE__
+		);
+
+		/* last call to free cursor, asserting that returns false */
+		$this->assertFalse(
+			$this->object->loadNextRow()
 		);
 	}
 
