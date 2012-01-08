@@ -69,10 +69,9 @@ class JFormFieldCategory extends JFormFieldList
 				$user = JFactory::getUser();
 
 				// For new items we want a list of categories you are allowed to create in.
-				if (!$this->value[$name])
+				if (!$this->form->getValue($name))
 				{
-					foreach ($options as $i => $option)
-					{
+					foreach ($options as $i => $option) {
 						// To take save or create in a category you need to have create rights for that category
 						// unless the item is already in that category.
 						// Unset the option if the user isn't authorised for it. In this field assets are always categories.
@@ -89,7 +88,7 @@ class JFormFieldCategory extends JFormFieldList
 					foreach ($options as $i => $option)
 					{
 						// If you are only allowed to edit in this category but not edit.state, you should not get any
-						// option to change the category, but you should be able to save in that category.
+						// option to change the category.
 						if ($user->authorise('core.edit.state', $extension . '.category.' . $categoryOld) != true)
 						{
 							if ($option->value != $categoryOld)
