@@ -720,7 +720,13 @@ abstract class JFactory
 
 		if ($db->getErrorNum() > 0)
 		{
-			JError::raiseError(500, JText::sprintf('JLIB_UTIL_ERROR_CONNECT_DATABASE', $db->getErrorNum(), $db->getErrorMsg()));
+			/*
+			* BAND AID ONLY !!
+			* @todo remove as soon as exception handling is properly implemented !
+			*/
+			die(sprintf('Database connection error (%d): %s', $db->getErrorNum(), $db->getErrorMsg()));
+
+// 			JError::raiseError(500, JText::sprintf('JLIB_UTIL_ERROR_CONNECT_DATABASE', $db->getErrorNum(), $db->getErrorMsg()));
 		}
 
 		$db->setDebug($debug);
