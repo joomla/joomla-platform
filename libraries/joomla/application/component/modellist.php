@@ -133,6 +133,14 @@ class JModelList extends JModel
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
+		//For SQLServer - language has to be trimmed.
+		foreach($items as $item)
+		{
+			if(isset($item->language))
+			{
+				$item->language = trim($item->language);
+			}
+		}
 
 		// Add the items to the internal cache.
 		$this->cache[$store] = $items;
