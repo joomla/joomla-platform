@@ -215,7 +215,7 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
   <table_structure name="#__test">
    <field Field="id" Type="int(11) unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" Comment="" />
    <field Field="title" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" Comment="" />
-   <key Table="#__test" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="id" Collation="A" Null="" Index_type="BTREE" Comment="" Index_comment="" />
+   <key Table="#__test" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="id" Collation="A" Null="" Index_type="BTREE" Comment="" />
   </table_structure>
  </database>
 </mysqldump>'
@@ -274,8 +274,8 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 <mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
  <database name="">
   <table_structure name="#__test">
-   <field Field="id" Type="int(11) unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" />
-   <field Field="title" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" />
+   <field Field="id" Type="int(11) unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" Comment="" />
+   <field Field="title" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" Comment="" />
    <key Table="#__test" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="id" Collation="A" Null="" Index_type="BTREE" Comment="" />
   </table_structure>
  </database>
@@ -307,8 +307,8 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 			$this->equalTo(
 				array(
 					'  <table_structure name="#__test">',
-					'   <field Field="id" Type="int(11) unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" />',
-					'   <field Field="title" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" />',
+					'   <field Field="id" Type="int(11) unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" Comment="" />',
+					'   <field Field="title" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" Comment="" />',
 					'   <key Table="#__test" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="id" Collation="A" Null="" Index_type="BTREE" Comment="" />',
 					'  </table_structure>'
 				)

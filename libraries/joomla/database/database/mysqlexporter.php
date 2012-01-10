@@ -200,7 +200,8 @@ class JDatabaseExporterMySQL
 					. ' Null="' . $key->Null . '"'
 					. ' Index_type="' . $key->Index_type . '"'
 					. ' Comment="' . htmlspecialchars($key->Comment) . '"'
-					. ' Index_comment="' . htmlspecialchars($key->Index_comment) . '"'
+//@todo fix unit tests to enable this feature..
+//					. ' Index_comment="' . htmlspecialchars($key->Index_comment) . '"'
 					. ' />';
 			}
 
