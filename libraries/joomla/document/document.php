@@ -449,20 +449,40 @@ class JDocument extends JObject
 	/**
 	 * Adds a linked script to the page
 	 *
-	 * @param   string   $url    URL to the linked script
-	 * @param   string   $type   Type of script. Defaults to 'text/javascript'
-	 * @param   boolean  $defer  Adds the defer attribute.
-	 * @param   boolean  $async  Adds the async attribute.
+	 * @param   string   $url         URL to the linked script
+	 * @param   string   $type        Type of script. Defaults to 'text/javascript'
+	 * @param   boolean  $defer       Adds the defer attribute.
+	 * @param   boolean  $async       Adds the async attribute.
+	 * @param   string   $preScript   Javascript code that must be just before the file inclusion [since 11.5]
+	 * @param   string   $postScript  Javascript code that must be just after the file [since 11.5]
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
-	public function addScript($url, $type = "text/javascript", $defer = false, $async = false)
+	public function addScript($url, $type = "text/javascript", $defer = false, $async = false, $preScript = null, $postScript = null)
 	{
 		$this->_scripts[$url]['mime'] = $type;
 		$this->_scripts[$url]['defer'] = $defer;
 		$this->_scripts[$url]['async'] = $async;
+		$this->_scripts[$url]['preScript'] = $preScript;
+		$this->_scripts[$url]['postScript'] = $postScript;
+
+		return $this;
+	}
+
+	/**
+	 * Removes a linked script from the page (useful for replacing it by e.g. a newer version)
+	 *
+	 * @param   string   $url         URL to the linked script to remove
+	 *
+	 * @return  JDocument instance of $this to allow chaining
+	 *
+	 * @since   11.5
+	 */
+	public function removeScript($url)
+	{
+		unset($this->_scripts[$url]);
 
 		return $this;
 	}
@@ -963,7 +983,8 @@ class JDocument extends JObject
 	 */
 	public function render($cache = false, $params = array())
 	{
-		if ($mdate = $this->getModifiedDate())
+		$mdate = $this->getModifiedDate();
+		if ($mdate)
 		{
 			JResponse::setHeader('Last-Modified', $mdate /* gmdate('D, d M Y H:i:s', time() + 900) . ' GMT' */);
 		}

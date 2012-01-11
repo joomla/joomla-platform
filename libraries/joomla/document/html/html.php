@@ -478,7 +478,7 @@ class JDocumentHTML extends JDocument
 	 */
 	public function countMenuChildren()
 	{
-		static $children;
+		static $children = null;
 
 		if (!isset($children))
 		{
@@ -488,7 +488,8 @@ class JDocumentHTML extends JDocument
 			$active = $menu->getActive();
 			if ($active)
 			{
-				$query->getQuery(true);
+				$db		= JFactory::getDbo();
+				$query	= $db->getQuery(true);
 				$query->select('COUNT(*)');
 				$query->from('#__menu');
 				$query->where('parent_id = ' . $active->id);
