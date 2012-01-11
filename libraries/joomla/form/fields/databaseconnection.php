@@ -36,6 +36,8 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 	 *
 	 * This method produces a drop down list of available databases supported
 	 * by JDatabase drivers that are also supported by the application.
+	 * Applications may specify either a comma separated list of "supported" or "unsupported"
+	 * database drivers.
 	 *
 	 * @return  array    The field option objects.
 	 *
@@ -52,10 +54,18 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 		 */
 		$unsupported = explode(',', $this->element['unsupported']);
 
+		$supported = ((string) $this->element['supported']) ? explode(',', $this->element['supported']) : array();
+
 		// This gets the connectors available in the platform and supported by the server and the application.
 		foreach (JDatabase::getConnectors() as $connector)
 		{
-			if(in_array($connector, $unsupported))
+			if (in_array($connector, $unsupported))
+			{
+				// The connector is not supported by the application
+				continue;
+			}
+
+			if (count($supported) && ! in_array($connector, $supported))
 			{
 				// The connector is not supported by the application
 				continue;
