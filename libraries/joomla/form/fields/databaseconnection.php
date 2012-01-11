@@ -54,6 +54,12 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 		 */
 		$unsupported = explode(',', $this->element['unsupported']);
 
+		/**
+		 * This gets the list of database types supported by the application.
+		 * This should be entered in the form definition as a comma separated list.
+		 * If no supported databases are listed, it is assumed all available databases
+		 * are supported.
+		 */
 		$supported = ((string) $this->element['supported']) ? explode(',', $this->element['supported']) : array();
 
 		// This gets the connectors available in the platform and supported by the server and the application.
