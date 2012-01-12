@@ -363,12 +363,12 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 			'order',
 			'columns',
 			'values',
-			/*'forShare',*/
-			/*'forUpdate',*/
-			/*'limit',*/
-			/*'noWait',*/
-			/*'offset',*/
-			/*'returning',*/
+			'forShare',
+			'forUpdate',
+			'limit',
+			'noWait',
+			'offset',
+			'returning',
 		);
 
 		// Test each clause.
@@ -399,7 +399,7 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 					$this->assertThat(
 						$q->get($clause2),
 						$this->equalTo($clause2),
-						"Clearing $clause resulted in $clause2 having a value of " . $q->get($clause2) . '.'
+						"Clearing '$clause' resulted in '$clause2' having a value of " . $q->get($clause2) . '.'
 					);
 				}
 			}
@@ -511,15 +511,27 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	public function testFrom()
 	{
 		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
-		$q->from('jos_dbtest');
-
-		$query = new JDatabaseQueryPostgreSQL;
-		$query->from('jos_dbtest');
 
 		$this->assertThat(
-					$q->get('from'),
-					$this->equalTo($query->from)
-					);
+			$q->from('#__foo'),
+			$this->identicalTo($q),
+			'Tests chaining.'
+		);
+
+		$this->assertThat(
+			trim($q->from),
+			$this->equalTo('FROM #__foo'),
+			'Tests rendered value.'
+		);
+
+		// Add another column.
+		$q->from('#__bar');
+
+		$this->assertThat(
+			trim($q->from),
+			$this->equalTo('FROM #__foo,#__bar'),
+			'Tests rendered value after second use.'
+		);
 	}
 
 	/**
@@ -532,15 +544,27 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	public function testGroup()
 	{
 		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
-		$q->group('jos_dbtest');
-
-		$query = new JDatabaseQueryPostgreSQL;
-		$query->group('jos_dbtest');
 
 		$this->assertThat(
-					$q->get('group'),
-					$this->equalTo($query->group)
-					);
+			$q->group('foo'),
+			$this->identicalTo($q),
+			'Tests chaining.'
+		);
+
+		$this->assertThat(
+			trim($q->group),
+			$this->equalTo('GROUP BY foo'),
+			'Tests rendered value.'
+		);
+
+		// Add another column.
+		$q->group('bar');
+
+		$this->assertThat(
+			trim($q->group),
+			$this->equalTo('GROUP BY foo,bar'),
+			'Tests rendered value after second use.'
+		);
 	}
 
 	/**
@@ -553,24 +577,38 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	public function testHaving()
 	{
 		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
-		$q->having('i=3');
-
-		$query = new JDatabaseQueryPostgreSQL;
-		$query->having('i=3');
 
 		$this->assertThat(
-					$q->get('having'),
-					$this->equalTo($query->having)
-					);
-
-		/* check glue */
-		$q->having('k<>2', 'AND');
-		$query->having('k<>2', 'AND');
+			$q->having('COUNT(foo) > 1'),
+			$this->identicalTo($q),
+			'Tests chaining.'
+		);
 
 		$this->assertThat(
-					$q->get('having'),
-					$this->equalTo($query->having)
-					);
+			trim($q->having),
+			$this->equalTo('HAVING COUNT(foo) > 1'),
+			'Tests rendered value.'
+		);
+
+		// Add another column.
+		$q->having('COUNT(bar) > 2');
+
+		$this->assertThat(
+			trim($q->having),
+			$this->equalTo('HAVING COUNT(foo) > 1 AND COUNT(bar) > 2'),
+			'Tests rendered value after second use.'
+		);
+
+		// Reset the field to test the glue.
+		$q->having = null;
+		$q->having('COUNT(foo) > 1', 'OR');
+		$q->having('COUNT(bar) > 2');
+
+		$this->assertThat(
+			trim($q->having),
+			$this->equalTo('HAVING COUNT(foo) > 1 OR COUNT(bar) > 2'),
+			'Tests rendered value with OR glue.'
+		);
 	}
 
 	/**
@@ -583,15 +621,22 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	public function testInnerJoin()
 	{
 		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
-		$q->innerJoin('b ON b.id = a.id');
-
-		$query = new JDatabaseQueryPostgreSQL;
-		$query->innerJoin('b ON b.id = a.id');
+		$q2 = new JDatabasePostgreSQLQueryInspector($this->dbo);
+		$condition = 'foo ON foo.id = bar.id';
 
 		$this->assertThat(
-					$q->get('innerJoin'),
-					$this->equalTo($query->innerJoin)
-					);
+			$q->innerJoin($condition),
+			$this->identicalTo($q),
+			'Tests chaining.'
+		);
+
+		$q2->join('INNER', $condition);
+
+		$this->assertThat(
+			$q->join,
+			$this->equalTo($q2->join),
+			'Tests that innerJoin is an alias for join.'
+		);
 	}
 
 	/**
@@ -608,15 +653,26 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	public function testJoin($type, $conditions)
 	{
 		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
-		$q->join($type, $conditions);
-
-		$query = new JDatabaseQueryPostgreSQL;
-		$query->join($type, $conditions);
 
 		$this->assertThat(
-					$q->get('join'),
-					$this->equalTo($query->join)
-					);
+			$q->join('INNER', 'foo ON foo.id = bar.id'),
+			$this->identicalTo($q),
+			'Tests chaining.'
+		);
+
+		$this->assertThat(
+			trim($q->join[0]),
+			$this->equalTo('INNER JOIN foo ON foo.id = bar.id'),
+			'Tests that first join renders correctly.'
+		);
+
+		$q->join('OUTER', 'goo ON goo.id = car.id');
+
+		$this->assertThat(
+			trim($q->join[1]),
+			$this->equalTo('OUTER JOIN goo ON goo.id = car.id'),
+			'Tests that second join renders correctly.'
+		);
 	}
 
 	/**
@@ -629,15 +685,22 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	public function testLeftJoin()
 	{
 		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
-		$q->leftJoin('b ON b.id = a.id');
-
-		$query = new JDatabaseQueryPostgreSQL;
-		$query->leftJoin('b ON b.id = a.id');
+		$q2 = new JDatabasePostgreSQLQueryInspector($this->dbo);
+		$condition = 'foo ON foo.id = bar.id';
 
 		$this->assertThat(
-					$q->get('leftJoin'),
-					$this->equalTo($query->leftJoin)
-					);
+			$q->leftJoin($condition),
+			$this->identicalTo($q),
+			'Tests chaining.'
+		);
+
+		$q2->join('LEFT', $condition);
+
+		$this->assertThat(
+			$q->join,
+			$this->equalTo($q2->join),
+			'Tests that innerJoin is an alias for join.'
+		);
 	}
 
 	/**
@@ -672,15 +735,25 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	public function testOrder()
 	{
 		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
-		$q->order('jos_dbtest');
-
-		$query = new JDatabaseQueryPostgreSQL;
-		$query->order('jos_dbtest');
 
 		$this->assertThat(
-					$q->get('order'),
-					$this->equalTo($query->order)
-					);
+			$q->order('column'),
+			$this->identicalTo($q),
+			'Tests chaining.'
+		);
+
+		$this->assertThat(
+			trim($q->order),
+			$this->equalTo('ORDER BY column'),
+			'Tests rendered value.'
+		);
+
+		$q->order('col2');
+		$this->assertThat(
+			trim($q->order),
+			$this->equalTo('ORDER BY column,col2'),
+			'Tests rendered value.'
+		);
 	}
 
 	/**
@@ -693,15 +766,22 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	public function testOuterJoin()
 	{
 		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
-		$q->outerJoin('b ON b.id = a.id');
-
-		$query = new JDatabaseQueryPostgreSQL;
-		$query->outerJoin('b ON b.id = a.id');
+		$q2 = new JDatabasePostgreSQLQueryInspector($this->dbo);
+		$condition = 'foo ON foo.id = bar.id';
 
 		$this->assertThat(
-					$q->get('outerJoin'),
-					$this->equalTo($query->outerJoin)
-					);
+			$q->outerJoin($condition),
+			$this->identicalTo($q),
+			'Tests chaining.'
+		);
+
+		$q2->join('OUTER', $condition);
+
+		$this->assertThat(
+			$q->join,
+			$this->equalTo($q2->join),
+			'Tests that innerJoin is an alias for join.'
+		);
 	}
 
 	/**
@@ -755,15 +835,22 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	public function testRightJoin()
 	{
 		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
-		$q->rightJoin('b ON b.id = a.id');
-
-		$query = new JDatabaseQueryPostgreSQL;
-		$query->rightJoin('b ON b.id = a.id');
+		$q2 = new JDatabasePostgreSQLQueryInspector($this->dbo);
+		$condition = 'foo ON foo.id = bar.id';
 
 		$this->assertThat(
-					$q->get('rightJoin'),
-					$this->equalTo($query->rightJoin)
-					);
+			$q->rightJoin($condition),
+			$this->identicalTo($q),
+			'Tests chaining.'
+		);
+
+		$q2->join('RIGHT', $condition);
+
+		$this->assertThat(
+			$q->join,
+			$this->equalTo($q2->join),
+			'Tests that innerJoin is an alias for join.'
+		);
 	}
 
 	/**
@@ -776,15 +863,44 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	public function testSelect()
 	{
 		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
-		$q->select('jos_dbtest');
-
-		$query = new JDatabaseQueryPostgreSQL;
-		$query->select('jos_dbtest');
 
 		$this->assertThat(
-					$q->get('select'),
-					$this->equalTo($query->select)
-					);
+			$q->select('foo'),
+			$this->identicalTo($q),
+			'Tests chaining.'
+		);
+
+		$this->assertThat(
+			$q->type,
+			$this->equalTo('select'),
+			'Tests the type property is set correctly.'
+		);
+
+		$this->assertThat(
+			trim($q->select),
+			$this->equalTo('SELECT foo'),
+			'Tests the select element is set correctly.'
+		);
+
+		$q->select('bar');
+
+		$this->assertThat(
+			trim($q->select),
+			$this->equalTo('SELECT foo,bar'),
+			'Tests the second use appends correctly.'
+		);
+
+		$q->select(
+			array(
+				'goo', 'car'
+			)
+		);
+
+		$this->assertThat(
+			trim($q->select),
+			$this->equalTo('SELECT foo,bar,goo,car'),
+			'Tests the second use appends correctly.'
+		);
 	}
 
 	/**
@@ -797,24 +913,47 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	public function testWhere()
 	{
 		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
-		$q->where('i=3');
-
-		$query = new JDatabaseQueryPostgreSQL;
-		$query->where('i=3');
+		$this->assertThat(
+			$q->where('foo = 1'),
+			$this->identicalTo($q),
+			'Tests chaining.'
+		);
 
 		$this->assertThat(
-					$q->get('where'),
-					$this->equalTo($query->where)
-					);
+			trim($q->where),
+			$this->equalTo('WHERE foo = 1'),
+			'Tests rendered value.'
+		);
 
-		/* check with glue */
-		$q->where('f<>7', 'OR');
-		$query->where('f<>7', 'OR');
+		// Add another column.
+		$q->where(
+			array(
+				'bar = 2',
+				'goo = 3',
+			)
+		);
 
 		$this->assertThat(
-					$q->get('where'),
-					$this->equalTo($query->where)
-					);
+			trim($q->where),
+			$this->equalTo('WHERE foo = 1 AND bar = 2 AND goo = 3'),
+			'Tests rendered value after second use and array input.'
+		);
+
+		// Clear the where
+		$q->where = null;
+		$q->where(
+			array(
+				'bar = 2',
+				'goo = 3',
+			),
+			'OR'
+		);
+
+		$this->assertThat(
+			trim($q->where),
+			$this->equalTo('WHERE bar = 2 OR goo = 3'),
+			'Tests rendered value with glue.'
+		);
 	}
 
 	/**
@@ -844,24 +983,35 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	public function testForUpdate ()
 	{
 		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
-		$q->forUpdate('jos_dbtest');
-
-		$query = new JDatabaseQueryPostgreSQL;
-		$query->forUpdate('jos_dbtest');
 
 		$this->assertThat(
-					$q->get('forUpdate'),
-					$this->equalTo($query->forUpdate)
-					);
-
-		/* check with glue */
-		$q->forUpdate('jos_assets', ',');
-		$query->forUpdate('jos_assets', ',');
+			$q->forUpdate('#__foo'),
+			$this->identicalTo($q),
+			'Tests chaining.'
+		);
 
 		$this->assertThat(
-					$q->get('forUpdate'),
-					$this->equalTo($query->forUpdate)
-					);
+			trim($q->forUpdate),
+			$this->equalTo('FOR UPDATE OF #__foo'),
+			'Tests rendered value.'
+		);
+
+		$q->forUpdate('#__bar');
+		$this->assertThat(
+			trim($q->forUpdate),
+			$this->equalTo('FOR UPDATE OF #__foo, #__bar'),
+			'Tests rendered value.'
+		);
+
+		// testing glue
+		$q->forUpdate = null;
+		$q->forUpdate('#__foo', ';');
+		$q->forUpdate('#__bar');
+		$this->assertThat(
+			trim($q->forUpdate),
+			$this->equalTo('FOR UPDATE OF #__foo; #__bar'),
+			'Tests rendered value.'
+		);
 	}
 
 	/**
@@ -874,24 +1024,35 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	public function testForShare ()
 	{
 		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
-		$q->forShare('jos_dbtest');
-
-		$query = new JDatabaseQueryPostgreSQL;
-		$query->forShare('jos_dbtest');
 
 		$this->assertThat(
-					$q->get('forShare'),
-					$this->equalTo($query->forShare)
-					);
-
-		/* check with glue */
-		$q->forShare('jos_assets', ',');
-		$query->forShare('jos_assets', ',');
+			$q->forShare('#__foo'),
+			$this->identicalTo($q),
+			'Tests chaining.'
+		);
 
 		$this->assertThat(
-					$q->get('forShare'),
-					$this->equalTo($query->forShare)
-					);
+			trim($q->forShare),
+			$this->equalTo('FOR SHARE OF #__foo'),
+			'Tests rendered value.'
+		);
+
+		$q->forShare('#__bar');
+		$this->assertThat(
+			trim($q->forShare),
+			$this->equalTo('FOR SHARE OF #__foo, #__bar'),
+			'Tests rendered value.'
+		);
+
+		// testing glue
+		$q->forShare = null;
+		$q->forShare('#__foo', ';');
+		$q->forShare('#__bar');
+		$this->assertThat(
+			trim($q->forShare),
+			$this->equalTo('FOR SHARE OF #__foo; #__bar'),
+			'Tests rendered value.'
+		);
 	}
 
 	/**
@@ -904,15 +1065,18 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	public function testNoWait ()
 	{
 		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
-		$q->noWait();
-
-		$query = new JDatabaseQueryPostgreSQL;
-		$query->noWait();
 
 		$this->assertThat(
-					$q->get('noWait'),
-					$this->equalTo($query->noWait)
-					);
+			$q->noWait(),
+			$this->identicalTo($q),
+			'Tests chaining.'
+		);
+
+		$this->assertThat(
+			trim($q->noWait),
+			$this->equalTo('NOWAIT'),
+			'Tests rendered value.'
+		);
 	}
 
 	/** 
@@ -925,15 +1089,18 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	public function testLimit()
 	{
 		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
-		$q->limit('5');
-
-		$query = new JDatabaseQueryPostgreSQL;
-		$query->limit('5');
 
 		$this->assertThat(
-					$q->get('limit'),
-					$this->equalTo($query->limit)
-					);
+			$q->limit('5'),
+			$this->identicalTo($q),
+			'Tests chaining.'
+		);
+
+		$this->assertThat(
+			trim($q->limit),
+			$this->equalTo('LIMIT 5'),
+			'Tests rendered value.'
+		);
 	}
 
 	/** 
@@ -946,15 +1113,18 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	public function testOffset()
 	{
 		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
-		$q->offset('10');
-
-		$query = new JDatabaseQueryPostgreSQL;
-		$query->offset('10');
 
 		$this->assertThat(
-					$q->get('offset'),
-					$this->equalTo($query->offset)
-					);
+			$q->offset('10'),
+			$this->identicalTo($q),
+			'Tests chaining.'
+		);
+
+		$this->assertThat(
+			trim($q->offset),
+			$this->equalTo('OFFSET 10'),
+			'Tests rendered value.'
+		);
 	}
 
 	/** 
@@ -967,14 +1137,17 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	public function testReturning()
 	{
 		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
-		$q->returning('id');
-
-		$query = new JDatabaseQueryPostgreSQL;
-		$query->returning('id');
 
 		$this->assertThat(
-					$q->get('returning'),
-					$this->equalTo($query->returning)
-					);
+			$q->returning('id'),
+			$this->identicalTo($q),
+			'Tests chaining.'
+		);
+
+		$this->assertThat(
+			trim($q->returning),
+			$this->equalTo('RETURNING id'),
+			'Tests rendered value.'
+		);
 	}
 }
