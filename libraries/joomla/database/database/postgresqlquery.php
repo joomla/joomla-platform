@@ -319,12 +319,14 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 		if ( is_null($this->forUpdate) )
 		{
 			$glue = strtoupper($glue);
-			$this->forUpdate = new JDatabaseQueryElement('FOR UPDATE', ' OF ' . $table_name, " $glue ");
+			$this->forUpdate = new JDatabaseQueryElement('FOR UPDATE', 'OF ' . $table_name, "$glue ");
 		}
 		else
 		{
-			$this->forUpdate->append(' OF ' . $table_name);
+			$this->forUpdate->append($table_name);
 		}
+
+		return $this;
 	}
 
 	/**
@@ -344,12 +346,14 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 		if ( is_null($this->forShare) )
 		{
 			$glue = strtoupper($glue);
-			$this->forShare = new JDatabaseQueryElement('FOR SHARE', ' OF ' . $table_name, " $glue ");
+			$this->forShare = new JDatabaseQueryElement('FOR SHARE', 'OF ' . $table_name, "$glue ");
 		}
 		else
 		{
-			$this->forShare->append(' OF ' . $table_name);
+			$this->forShare->append($table_name);
 		}
+
+		return $this;
 	}
 
 	/**
@@ -367,6 +371,8 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 		{
 			$this->noWait = new JDatabaseQueryElement('NOWAIT', null);
 		}
+
+		return $this;
 	}
 
 	/**
