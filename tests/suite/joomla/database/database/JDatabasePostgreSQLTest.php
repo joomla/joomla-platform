@@ -597,11 +597,11 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 		$this->object->query();
 
 		/* get insertid of last INSERT INTO */
-		$insertIdArray = $this->object->insertid();
+		$insertId = $this->object->insertid();
 
 		/* check if first sequence val +1 is equal to last sequence val */
 		$this->assertThat(
-			$insertIdArray[0],
+			$insertId,
 			$this->equalTo($idActualVal[0] + 1),
 			__LINE__
 		);
