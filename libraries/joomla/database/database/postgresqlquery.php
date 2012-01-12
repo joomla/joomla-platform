@@ -231,6 +231,22 @@ class JDatabaseQueryPostgreSQL extends JDatabaseQuery
 				$this->returning = null;
 				break;
 
+			case 'select':
+			case 'update':
+			case 'delete':
+			case 'insert':
+			case 'from':
+			case 'join':
+			case 'set':
+			case 'where':
+			case 'group':
+			case 'having':
+			case 'order':
+			case 'columns':
+			case 'values':
+				parent::clear($clause);
+				break;
+
 			default:
 				$this->type = null;
 				$this->limit = null;
