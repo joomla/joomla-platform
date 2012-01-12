@@ -88,27 +88,36 @@ abstract class JHtmlBehavior
 	 */
 	/**
 	 * Method to load jQuery frameworks and non-conflicting javascript code into the document head
-	 * Loading and use is done in "deep non-conflict mode", which allows several concurent versions of jQuery to be loaded and run simultaneously with any other javascript framework, including another conflicting jQuery instance.
-	 * It means that the window's Javascript global namespace is not used in a fixed way: neither $ nor jQuery global variables are used. Reference: http://api.jquery.com/jQuery.noConflict/
-	 * 
+	 * Loading and use is done in "deep non-conflict mode", which allows several concurent versions of jQuery to be loaded
+	 * and run simultaneously with any other javascript framework, including another conflicting jQuery instance.
+	 * It means that the window's Javascript global namespace is not used in a fixed way: neither $ nor jQuery global variables
+	 * are used. Reference: http://api.jquery.com/jQuery.noConflict/
+	 *
 	 * Calling and params:
 	 * JHTml::_('behavior.jquery', $fullVersion, $relativePathToRoot, $listofPlugins, $javascriptCodeToRunInNonConflictMode);
-	 * 
+	 *
 	 * Use: Example:
 	 * JHTml::_('behavior.jquery', '1.6.1', 'media/jquery/', null, '$("p").css("color","red")');
 	 * JHTml::_('behavior.jquery', '1.7.0', 'media/othercompon/js/', array('jquery.flot','jquery.form'));;
 	 * JHTml::_('behavior.jquery', '1.7.1', 'media/mycomponent/jquery/', array('jquery.ui-all','jquery.form'),'$("h1,h2,h3").css("color","green")');
-	 * Will load jQuery 1.6.1 with ui and form from the 1.7.1 folder media/mycomponent/jquery, and and jQuery 1.7.1 with flot and form from the 1.7.0 folder media/othercompon/jquery
+	 * Will load jQuery 1.6.1 with ui and form from the 1.7.1 folder media/mycomponent/jquery,
+	 * and jQuery 1.7.1 with flot and form from the 1.7.0 folder media/othercompon/jquery
 	 *
 	 * If debugging mode is on an uncompressed version of jQuery is included for easier debugging.
 	 * Files: 2 files are mandatory for jquery and jQuery plugins, and do follow the jQuery naming:
 	 * jQuery: jquery-1.7.1.js for uncompressed and jquery-1.7.1.min.js
 	 * jQuery plugins: "$path/$pluginname[.min].js"
 	 *
-	 * @param   string         $version        x.y.z jQuery-Version (not jQuery plugins versions, but always jQuery one) corresponding to the file to load (highest sub-version Z of same x.y release will be loaded in the end) [MANDATORY]
-	 * @param   string         $path           Path to file from root of website (no / at start but / at end) so that it can be appended to absolute files path or live site [MANDATORY ONCE AT LEAST]
-	 * @param   array|null     $jQueryPlugins  Array of filenames (without .js or .min.js extension) of jQuery plugins or other Javascript files with jQuery code (which need the jQuery and $ to be defined correctly) [optional]
-	 * @param   string|null    $jqCode         jQuery Javascript code outputed in context with jQuery and $ defined and on dom ready [optional]
+	 * @param   string       $version        x.y.z jQuery-Version (not jQuery plugins versions, but always jQuery one)
+	 *                                       corresponding to the file to load (highest sub-version Z of same x.y release
+	 *                                       will be loaded in the end) [MANDATORY]
+	 * @param   string       $path           Path to file from root of website (no / at start but / at end) so that
+	 *                                       it can be appended to absolute files path or live site [MANDATORY ONCE AT LEAST]
+	 * @param   array|null   $jQueryPlugins  Array of filenames (without .js or .min.js extension) of jQuery plugins
+	 *                                       or other Javascript files with jQuery code (which need the jQuery
+	 *                                       and $ to be defined correctly) [optional]
+	 * @param   string|null  $jqCode         jQuery Javascript code outputed in context with jQuery and $ defined
+	 *                                       and on dom ready [optional]
 	 *
 	 * @return  void
 	 *
@@ -118,7 +127,7 @@ abstract class JHtmlBehavior
 	{
 		list($x, $y, $maintenanceVersion) = explode('.', $version);
 		$majorVersion = $x . '_' . $y;
-		
+
 		// Add (or replace if $version is newer) the base jQuery plugin with newest $version as provided in $path:
 		if ($path)
 		{
@@ -145,23 +154,28 @@ abstract class JHtmlBehavior
 			. '  ' . $jqCode . $lnEnd
 			. '});';
 
-			$document->addScriptDeclaration( $js );
+			$document->addScriptDeclaration($js);
 		}
 	}
 
 	/**
 	 * Array of jQuery and jQuery plugins by major version and by plugin their path.
 	 * E.g. self::$jQueryPlugins['1.7']['jquery'] = 'media/mycomponent/js/'
-	 * E.g. array('1.5' => array( 'jquery' => 'media/mycomponent/js/' ), '1.7' =>  array( 'jquery' => 'media/anothercomponent/jquery/', 'jquery.form' => 'media/anothercomponent/jquery/' ) )
+	 * E.g. array('1.5' => array('jquery' => 'media/mycomponent/js/' )
+	 *          , '1.7' => array('jquery' => 'media/anothercomponent/jquery/'
+	 *                         , 'jquery.form' => 'media/anothercomponent/jquery/')
+	 *            )
 	 * @var array
 	 */
 	protected static $jQueryPlugins				=	array();
+
 	/**
 	 * Array of subversions to vote for highest maintenance version within a main jquery version
 	 * E.g. self::$jQueryPluginsVersion['1.7']['jquery'] = '1.7.1'
 	 * @var array
 	 */
 	protected static $jQueryPluginsVersion		=	array();
+
 	/**
 	 * Array of paths added for each jQuery major version, that way, if a more recent maintenance version gets announced, these files can be reverted.
 	 * E.g. self::$jQueryPluginsPathsAdded = array( 'media/mycomponent/js/jquery-1.7.1.min.js'
@@ -171,12 +185,13 @@ abstract class JHtmlBehavior
 
 	/**
 	 * Internal function adding a plugin to the list of plugins to load
-	 * 
-	 * @param   string  $plugin               Name of the jQuery plugin ('jquery' for main one)
-	 * @param   string  $majorVersion         Major Version of the file to load (formatted '1_7' instead of '1.7')
-	 * @param   string  $maintenanceVersion   Maintenance Version of the file to load (number)
-	 * @param   string  $path                 Path to file from root of website (including leading / ) so that it can be appended to absolute files path or live site
-	 * 
+	 *
+	 * @param   string  $plugin              Name of the jQuery plugin ('jquery' for main one)
+	 * @param   string  $majorVersion        Major Version of the file to load (formatted '1_7' instead of '1.7')
+	 * @param   string  $maintenanceVersion  Maintenance Version of the file to load (number)
+	 * @param   string  $path                Path to file from root of website (including leading / )
+	 *                                       so that it can be appended to absolute files path or live site
+	 *
 	 * @return  void
 	 */
 	protected static function addPlugin($plugin, $majorVersion, $maintenanceVersion, $path)
@@ -202,11 +217,12 @@ abstract class JHtmlBehavior
 	}
 
 	/**
-	 * Internal function returning the global Javascript variable name for that jquery instance corresponding to the major version
+	 * Internal function returning the global Javascript variable name for that jquery instance
+	 * corresponding to the major version.
 	 * Global variable name is of the form Joomla_jQuery_1_7 but can change in future.
-	 * 
-	 * @param   string  $majorVersion
-	 * 
+	 *
+	 * @param   string  $majorVersion  The version number.
+	 *
 	 * @return  string
 	 */
 	protected static function jqueryGlobalVarName($majorVersion)
@@ -216,10 +232,10 @@ abstract class JHtmlBehavior
 
 	/**
 	 * Internal function adding the scripts code to header in a deeply non-conflcting mode
-	 * 
+	 *
 	 * @param   string      $majorVersion  E.g. '1_7'
 	 * @param   array|null  $paths         Paths to add, Null means reload all paths for that major version
-	 * 
+	 *
 	 * @return  void
 	 */
 	protected static function jqAddPaths($majorVersion, $paths = null)
@@ -240,13 +256,17 @@ abstract class JHtmlBehavior
 		$jsVarName = self::jqueryGlobalVarName($majorVersion);
 
 		// Now adds the $paths asked:
-		foreach ( $paths as $plugin => $pluginPath) {
+		foreach ( $paths as $plugin => $pluginPath)
+		{
 			if ($plugin == 'jquery')
 			{
 				// Special case for jQuery itself: build the standard jQuery name 'jquery-1.7.1.min.js' or 'jquery-1.7.1.js':
-				$file = self::$jQueryPlugins[$majorVersion]['jquery'] . 'jquery-' . str_replace( '_', '.', $majorVersion ) . '.' . self::$jQueryPluginsVersion[$majorVersion]['jquery'] . $fileExtension;
+				$file = self::$jQueryPlugins[$majorVersion]['jquery']
+					. 'jquery-' . str_replace('_', '.', $majorVersion)
+					. '.' . self::$jQueryPluginsVersion[$majorVersion]['jquery'] . $fileExtension;
 
-				// Adds code immediately after the script file for deep noConflict mode: means neither $ nor jQuery global variables are used: http://api.jquery.com/jQuery.noConflict/
+				// Adds code immediately after the script file for deep noConflict mode:
+				// means neither $ nor jQuery global variables are used: http://api.jquery.com/jQuery.noConflict/
 				$preScript = null;
 				$postScript = 'var ' . $jsVarName . ' = jQuery.noConflict(true);';
 			}
@@ -255,7 +275,8 @@ abstract class JHtmlBehavior
 				// Case of jQuery plugins or other Javascript files with jQuery code
 				$file = $pluginPath . $plugin . $fileExtension;
 
-				// These need the jQuery and $ to be defined correctly): Thus defined them before inserting the script file:
+				// These need the jQuery and $ to be defined correctly):
+				// Thus defined them before inserting the script file:
 				$preScript	= 'window.Joomla_tmp_save_jquery = window.jQuery;'
 							. 'window.Joomla_tmp_save_$ = window.$;'
 							. 'window.jQuery = window.$ = ' . $jsVarName;
@@ -265,7 +286,8 @@ abstract class JHtmlBehavior
 							. 'window.$ = window.Joomla_tmp_save_$;';
 			}
 
-			// Compute relative filename using JHtml script helper, but do not add to header as we need the $preScript and $postScript codes:
+			// Compute relative filename using JHtml script helper, but do not add to header
+			// as we need the $preScript and $postScript codes:
 			$include = JHtml::_('script', $file, false, false, true, false, false);
 			if ($include)
 			{
@@ -274,7 +296,7 @@ abstract class JHtmlBehavior
 
 				// Adds to document jQuery in noConflict mode:
 				$document->addScript($include, 'text/javascript', false, false, $preScript, $postScript);
-	
+
 				// Remember the path added so that it can be removed when replaced by a newer maintenance version:
 				self::$jQueryPluginsPathsAdded[$majorVersion][] = $include;
 			}
@@ -283,23 +305,24 @@ abstract class JHtmlBehavior
 	/**
 	 * Remove all jQuery files for a given $majorVersion
 	 * Used when a newever maintenance version for $majorVersion is added by an extension.
-	 * 
-	 * @param   string  $majorVersion
-	 * 
+	 *
+	 * @param   string  $majorVersion  The version number.
+	 *
 	 * @return  void
 	 */
 	protected static function removeAllAddedPaths($majorVersion)
 	{
 		$document = JFactory::getDocument();
-		foreach (self::$jQueryPluginsPathsAdded[$majorVersion] as $include) {
+		foreach (self::$jQueryPluginsPathsAdded[$majorVersion] as $include)
+		{
 			$document->removeScript($include);
 		}
 	}
 	/**
 	 * Adds ?v=HASHFROMFILEMODTIME... to file name so that caches get updated when file changes
-	 * 
-	 * @param   string  $include   Path and file (.js or .css)
-	 * 
+	 *
+	 * @param   string  $include  Path and file (.js or .css)
+	 *
 	 * @return  string             $inlcude with '?v=HASH' added
 	 */
 	protected static function addVersionFileUrl( $include )
@@ -311,13 +334,13 @@ abstract class JHtmlBehavior
 			if ( ! $cache)
 			{
 				// We cache the constant part for the site and Joomla version to save some time:
-				$cache = JPlatform::getLongVersion() . filemtime( __FILE__ ) . JURI::root();
+				$cache = JPlatform::getLongVersion() . filemtime(__FILE__) . JURI::root();
 			}
 			// Comute filesystem path+filename corresponding to the http path+filename:
 			$file = JPATH_ROOT . '/' . substr($include, strlen(JURI::root(true)) + 1);
 
 			// And compute the hash from the constant and from the variable part:
-			$include .= '?v=' . substr( md5( filemtime( $file ) . $cache ), 0, 16 );
+			$include .= '?v=' . substr(md5(filemtime($file) . $cache), 0, 16);
 		}
 		return $include;
 	}

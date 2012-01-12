@@ -474,9 +474,9 @@ class JDocument extends JObject
 	/**
 	 * Removes a linked script from the page (useful for replacing it by e.g. a newer version)
 	 *
-	 * @param   string   $url         URL to the linked script to remove
+	 * @param   string  $url  URL to the linked script to remove
 	 *
-	 * @return  JDocument instance of $this to allow chaining
+	 * @return  JDocument  instance of $this to allow chaining
 	 *
 	 * @since   11.5
 	 */

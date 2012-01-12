@@ -145,7 +145,7 @@ abstract class JHtml
 	/**
 	 * Checks if a JHtml::_($key) call can be made.
 	 * If the function is not registered, tries to load the corresponding class without registering the function.
-	 * 
+	 *
 	 * @param   string  $key  The name of helper method to load, (prefix).(class).function
 	 *                        prefix and class are optional and can be used to load custom
 	 *                        html helpers.
