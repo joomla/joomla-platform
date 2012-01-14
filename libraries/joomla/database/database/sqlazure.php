@@ -32,14 +32,14 @@ class JDatabaseSQLAzure extends JDatabaseSQLSrv
 	public $name = 'sqlzure';
 
 	/**
-	 * Get the current query or new JDatabaseQuery object.
+	 * Get the current query object or a new JDatabaseQuery object.
 	 *
-	 * @param   boolean  $new  False to return the last query set, True to return a new JDatabaseQuery object.
+	 * @param   boolean  $new  False to return the current query object, True to return a new JDatabaseQuery object.
 	 *
-	 * @return  mixed  The current value of the internal SQL variable or a new JDatabaseQuery object.
+	 * @return  JDatabaseQuery  The current query object or a new object extending the JDatabaseQuery class.
 	 *
 	 * @since   11.1
-	 * @throws  DatabaseException
+	 * @throws  JDatabaseException
 	 */
 	public function getQuery($new = false)
 	{
@@ -51,12 +51,10 @@ class JDatabaseSQLAzure extends JDatabaseSQLSrv
 				throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
 			}
 
-			return new JDatabaseQuerySQLAzure($this);
+			$this->query = new JDatabaseQuerySQLAzure($this);
 		}
-		else
-		{
-			return $this->sql;
-		}
+
+		return $this->query;
 	}
 
 }

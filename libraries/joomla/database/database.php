@@ -115,6 +115,12 @@ abstract class JDatabase implements JDatabaseInterface
 	protected $offset = 0;
 
 	/**
+	 * @var    JDatabaseQuery  Current query object created and returned by getQuery.
+	 * @since  12.1
+	 */
+	protected $query = null;
+
+	/**
 	 * @var    mixed  The current SQL statement to execute.
 	 * @since  11.1
 	 */
