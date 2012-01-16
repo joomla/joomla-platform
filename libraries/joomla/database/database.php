@@ -181,7 +181,7 @@ abstract class JDatabase implements JDatabaseInterface
 		$connectors = array();
 
 		// Get a list of types.
-		$types = JFolder::files(dirname(__FILE__) . '/database');
+		$types = JFolder::files(__DIR__ . '/database');
 
 		// Loop through the types and find the ones that are available.
 		foreach ($types as $type)
@@ -199,7 +199,7 @@ abstract class JDatabase implements JDatabaseInterface
 			if (!class_exists($class))
 			{
 				// Derive the file path for the driver class.
-				$path = dirname(__FILE__) . '/database/' . $type;
+				$path = __DIR__ . '/database/' . $type;
 
 				// If the file exists register the class with our class loader.
 				if (file_exists($path))
@@ -268,7 +268,7 @@ abstract class JDatabase implements JDatabaseInterface
 			{
 
 				// Derive the file path for the driver class.
-				$path = dirname(__FILE__) . '/database/' . $options['driver'] . '.php';
+				$path = __DIR__ . '/database/' . $options['driver'] . '.php';
 
 				// If the file exists register the class with our class loader.
 				if (file_exists($path))
@@ -1289,11 +1289,11 @@ abstract class JDatabase implements JDatabaseInterface
 
 	/**
 	 * Quote strings coming from quoteName call.
-	 * 
+	 *
 	 * @param   array  $strArr  Array of strings coming from quoteName dot-explosion.
 	 *
 	 * @return  string  Dot-imploded string of quoted parts.
-	 * 
+	 *
 	 * @since 11.3
 	 */
 	protected function quoteNameStr($strArr)
