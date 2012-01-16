@@ -206,6 +206,44 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	}
 
 	/**
+	 * Test for parte of date extraction.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function test__toStringGetPartOfDate()
+	{
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
+
+		// day case
+		$q->select($q->getPartOfDate($q->quoteName('col'), 'day'))->from('table');
+
+		$this->assertThat(
+					(string) $q,
+					$this->equalTo("\nSELECT EXTRACT (DAY FROM \"col\")\nFROM table")
+		);
+
+		// month case
+		$q->clear('select');
+		$q->select($q->getPartOfDate($q->quoteName('col'), 'month'));
+
+		$this->assertThat(
+					(string) $q,
+					$this->equalTo("\nSELECT EXTRACT (MONTH FROM \"col\")\nFROM table")
+		);
+
+		// year case
+		$q->clear('select');
+		$q->select($q->getPartOfDate($q->quoteName('col'), 'year'));
+
+		$this->assertThat(
+					(string) $q,
+					$this->equalTo("\nSELECT EXTRACT (YEAR FROM \"col\")\nFROM table")
+		);
+	}
+
+	/**
 	 * Test for INSERT INTO clause with subquery.
 	 *
 	 * @return  void
