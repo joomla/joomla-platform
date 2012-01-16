@@ -40,7 +40,40 @@ class JDocumentRendererHead extends JDocumentRenderer
 
 		return $buffer;
 	}
+	/**
+	 * Render a javascript statement inline.
+	 *
+	 * @param   JDocument  $document  The document for which the head will be created
+	 * @param   string     $content   The script content
+	 * @param   string     $type      The type of script (default is 'text/javascript')
+	 *
+	 * @return  string  The head hTML
+	 */
+	private function renderInlineScript( $document, $content, $type = 'text/javascript' )
+	{
+		// Get line endings
+		$lnEnd = $document->_getLineEnd();
+		$tab = $document->_getTab();
 
+		$buffer = $tab . '<script type="' . $type . '">' . $lnEnd;
+
+		// This is for full XHTML support.
+		if ($document->_mime != 'text/html')
+		{
+			$buffer .= $tab . $tab . '<![CDATA[' . $lnEnd;
+		}
+
+		$buffer .= $content . $lnEnd;
+
+		// See above note
+		if ($document->_mime != 'text/html')
+		{
+			$buffer .= $tab . $tab . ']]>' . $lnEnd;
+		}
+		$buffer .= $tab . '</script>' . $lnEnd;
+
+		return $buffer;
+	}
 	/**
 	 * Generates the head HTML and return the results as a string
 	 *
@@ -105,7 +138,8 @@ class JDocumentRendererHead extends JDocumentRenderer
 		foreach ($document->_links as $link => $linkAtrr)
 		{
 			$buffer .= $tab . '<link href="' . $link . '" ' . $linkAtrr['relType'] . '="' . $linkAtrr['relation'] . '"';
-			if ($temp = JArrayHelper::toString($linkAtrr['attribs']))
+			$temp = JArrayHelper::toString($linkAtrr['attribs']);
+			if ($temp)
 			{
 				$buffer .= ' ' . $temp;
 			}
@@ -120,7 +154,8 @@ class JDocumentRendererHead extends JDocumentRenderer
 			{
 				$buffer .= ' media="' . $strAttr['media'] . '" ';
 			}
-			if ($temp = JArrayHelper::toString($strAttr['attribs']))
+			$temp = JArrayHelper::toString($strAttr['attribs']);
+			if ($temp)
 			{
 				$buffer .= ' ' . $temp;
 			}
@@ -149,8 +184,20 @@ class JDocumentRendererHead extends JDocumentRenderer
 		}
 
 		// Generate script file links
+		$previousPreScript	=	null;
+		$pendingPostScript	=	null;
 		foreach ($document->_scripts as $strSrc => $strAttr)
 		{
+			// Javascript that must be just before the file inclusion:
+			if (($strAttr['preScript'] && ($strAttr['preScript'] != $previousPreScript))
+				||($pendingPostScript && ($strAttr['postScript'] != $pendingPostScript)))
+			{
+				$preScript = ( $pendingPostScript ? $pendingPostScript . $lnEnd : '' ) . $strAttr['preScript'];
+				$pendingPostScript = null;
+				$buffer .= $this->renderInlineScript($document, $preScript);
+			}
+			$previousPreScript = $strAttr['preScript'];
+
 			$buffer .= $tab . '<script src="' . $strSrc . '"';
 			if (!is_null($strAttr['mime']))
 			{
@@ -165,27 +212,23 @@ class JDocumentRendererHead extends JDocumentRenderer
 				$buffer .= ' async="async"';
 			}
 			$buffer .= '></script>' . $lnEnd;
+
+			// Javascript that must be just after the file:
+			if ($strAttr['postScript'])
+			{
+				// delaying: $buffer .= $this->renderInlineScript($document, $strAttr['postScript']);
+				$pendingPostScript = $strAttr['postScript'];
+			}
+		}
+		if ($pendingPostScript)
+		{
+			$buffer .= $this->renderInlineScript($document, $pendingPostScript);
 		}
 
 		// Generate script declarations
 		foreach ($document->_script as $type => $content)
 		{
-			$buffer .= $tab . '<script type="' . $type . '">' . $lnEnd;
-
-			// This is for full XHTML support.
-			if ($document->_mime != 'text/html')
-			{
-				$buffer .= $tab . $tab . '<![CDATA[' . $lnEnd;
-			}
-
-			$buffer .= $content . $lnEnd;
-
-			// See above note
-			if ($document->_mime != 'text/html')
-			{
-				$buffer .= $tab . $tab . ']]>' . $lnEnd;
-			}
-			$buffer .= $tab . '</script>' . $lnEnd;
+			$buffer .= $this->renderInlineScript($document, $content, $type);
 		}
 
 		// Generate script language declarations.

@@ -108,7 +108,8 @@ abstract class JHtml
 		if (!class_exists($className))
 		{
 			jimport('joomla.filesystem.path');
-			if ($path = JPath::find(JHtml::$includePaths, strtolower($file) . '.php'))
+			$path = JPath::find(JHtml::$includePaths, strtolower($file) . '.php');
+			if ($path)
 			{
 				require_once $path;
 
@@ -139,6 +140,43 @@ abstract class JHtml
 			JError::raiseError(500, JText::sprintf('JLIB_HTML_ERROR_NOTSUPPORTED', $className, $func));
 			return false;
 		}
+	}
+
+	/**
+	 * Checks if a JHtml::_($key) call can be made.
+	 * If the function is not registered, tries to load the corresponding class without registering the function.
+	 *
+	 * @param   string  $key  The name of helper method to load, (prefix).(class).function
+	 *                        prefix and class are optional and can be used to load custom
+	 *                        html helpers.
+	 *
+	 * @return  boolean      True: $key function is implemented, False: is not.
+	 */
+	public static function isCallable_($key)
+	{
+		// Do same as the function _($key) above but just checking without calling nor registering nor raising errors:
+
+		list($key, $prefix, $file, $func) = self::extract($key);
+		if (array_key_exists($key, self::$registry))
+		{
+			return true;
+		}
+
+		$className = $prefix . ucfirst($file);
+
+		if (!class_exists($className))
+		{
+			jimport('joomla.filesystem.path');
+			$path = JPath::find(JHtml::$includePaths, strtolower($file) . '.php');
+			if ($path)
+			{
+				require_once $path;
+			}
+		}
+
+		$toCall = array($className, $func);
+
+		return is_callable($toCall);
 	}
 
 	/**
@@ -850,7 +888,7 @@ abstract class JHtml
 	 */
 	public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = null)
 	{
-		static $done;
+		static $done = null;
 
 		if ($done === null)
 		{
