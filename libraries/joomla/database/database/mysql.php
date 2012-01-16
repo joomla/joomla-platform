@@ -3,15 +3,15 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::register('JDatabaseQueryMySQL', dirname(__FILE__) . '/mysqlquery.php');
-JLoader::register('JDatabaseExporterMySQL', dirname(__FILE__) . '/mysqlexporter.php');
-JLoader::register('JDatabaseImporterMySQL', dirname(__FILE__) . '/mysqlimporter.php');
+JLoader::register('JDatabaseQueryMySQL', __DIR__ . '/mysqlquery.php');
+JLoader::register('JDatabaseExporterMySQL', __DIR__ . '/mysqlexporter.php');
+JLoader::register('JDatabaseImporterMySQL', __DIR__ . '/mysqlimporter.php');
 
 /**
  * MySQL database driver
@@ -189,6 +189,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @return  JDatabaseMySQL  Returns this object to support chaining.
 	 *
 	 * @since   11.1
+	 * @throws  JDatabaseException
 	 */
 	public function dropTable($tableName, $ifExists = true)
 	{
@@ -457,6 +458,23 @@ class JDatabaseMySQL extends JDatabase
 	}
 
 	/**
+	 * Locks a table in the database.
+	 *
+	 * @param   string  $table  The name of the table to unlock.
+	 *
+	 * @return  JDatabaseMySQL  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 * @throws  JDatabaseException
+	 */
+	public function lockTable($table)
+	{
+		$this->setQuery('LOCK TABLES ' . $this->quoteName($table) . ' WRITE')->query();
+
+		return $this;
+	}
+
+	/**
 	 * Execute the SQL statement.
 	 *
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
@@ -533,6 +551,26 @@ class JDatabaseMySQL extends JDatabase
 		}
 
 		return $this->cursor;
+	}
+
+	/**
+	 * Renames a table in the database.
+	 *
+	 * @param   string  $oldTable  The name of the table to be renamed
+	 * @param   string  $newTable  The new name for the table.
+	 * @param   string  $backup    Not used by MySQL.
+	 * @param   string  $prefix    Not used by MySQL.
+	 *
+	 * @return  JDatabase  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 * @throws  JDatabaseException
+	 */
+	public function renameTable($oldTable, $newTable, $backup = null, $prefix = null)
+	{
+		$this->setQuery('RENAME TABLE ' . $oldTable . ' TO ' . $newTable)->query();
+
+		return $this;
 	}
 
 	/**
@@ -792,5 +830,20 @@ class JDatabaseMySQL extends JDatabase
 			}
 		}
 		return $error ? false : true;
+	}
+
+	/**
+	 * Unlocks tables in the database.
+	 *
+	 * @return  JDatabaseMySQL  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 * @throws  JDatabaseException
+	 */
+	public function unlockTables()
+	{
+		$this->setQuery('UNLOCK TABLES')->query();
+
+		return $this;
 	}
 }

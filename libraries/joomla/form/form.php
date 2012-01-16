@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -526,6 +526,11 @@ class JForm
 		// Build the result array from the found field elements.
 		foreach ($elements as $element)
 		{
+			// Get the field groups for the element.
+			$attrs	= $element->xpath('ancestor::fields[@name]/@name');
+			$groups	= array_map('strval', $attrs ? $attrs : array());
+			$group	= implode('.', $groups);
+
 			// If the field is successfully loaded add it to the result array.
 			if ($field = $this->loadField($element, $group))
 			{
@@ -1234,6 +1239,57 @@ class JForm
 				{
 					$return = '';
 				}
+				break;
+
+			// Ensures a protocol is present in the saved field. Only use when
+			// the only permitted protocols requre '://'. See JFormRuleUrl for list of these.
+
+			case 'URL':
+				if (empty($value))
+				{
+					return;
+				}
+				$value = JFilterInput::getInstance()->clean($value, 'html');
+				$value = trim($value);
+
+				// Check for a protocol
+				$protocol = parse_url($value, PHP_URL_SCHEME);
+
+				// If there is no protocol and the relative option is not specified,
+				// we assume that it is an external URL and prepend http://.
+				if (($element['type'] == 'url' && !$protocol &&  !$element['relative'])
+					|| (!$element['type'] == 'url' && !$protocol))
+				{
+					$protocol = 'http';
+					// If it looks like an internal link, then add the root.
+					if (substr($value, 0) == 'index.php')
+					{
+						$value = JURI::root() . $value;
+					}
+
+					// Otherwise we treat it is an external link.
+					// Put the url back together.
+					$value = $protocol . '://' . $value;
+				}
+
+				// If relative URLS are allowed we assume that URLs without protocols are internal.
+				elseif (!$protocol && $element['relative'])
+				{
+					$host = JURI::getInstance('SERVER')->gethost();
+
+					// If it starts with the host string, just prepend the protocol.
+					if (substr($value, 0) == $host)
+					{
+						$value = 'http://' . $value;
+					}
+					// Otherwise prepend the root.
+					else
+					{
+						$value = JURI::root() . $value;
+					}
+				}
+
+				$return = $value;
 				break;
 
 			case 'TEL':

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -81,7 +81,7 @@ class JFormFieldUser extends JFormField
 
 		// Create a dummy text field with the user name.
 		$html[] = '<div class="fltlft">';
-		$html[] = '	<input type="text" id="' . $this->id . '_name"' . ' value="' . htmlspecialchars($table->username, ENT_COMPAT, 'UTF-8') . '"'
+		$html[] = '	<input type="text" id="' . $this->id . '_name"' . ' value="' . htmlspecialchars($table->name, ENT_COMPAT, 'UTF-8') . '"'
 			. ' disabled="disabled"' . $attr . ' />';
 		$html[] = '</div>';
 

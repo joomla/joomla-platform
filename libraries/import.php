@@ -2,14 +2,14 @@
 /**
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 // Set the platform root path as a constant if necessary.
 if (!defined('JPATH_PLATFORM'))
 {
-	define('JPATH_PLATFORM', dirname(__FILE__));
+	define('JPATH_PLATFORM', __DIR__);
 }
 
 // Set the directory separator define if necessary.

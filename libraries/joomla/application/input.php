@@ -3,13 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::discover('JInput', dirname(__FILE__) . '/input');
+JLoader::discover('JInput', __DIR__ . '/input');
 
 /**
  * Joomla! Input Base Class

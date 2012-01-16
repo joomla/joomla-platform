@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -392,7 +392,7 @@ abstract class JModel extends JObject
 			$r = null;
 			if (!preg_match('/Model(.*)/i', get_class($this), $r))
 			{
-				JError::raiseError(500, 'JLIB_APPLICATION_ERROR_MODEL_GET_NAME');
+				JError::raiseError(500, JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'));
 			}
 			$this->name = strtolower($r[1]);
 		}
@@ -435,24 +435,14 @@ abstract class JModel extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function getTable($name = '', $prefix = '', $options = array())
+	public function getTable($name = '', $prefix = 'Table', $options = array())
 	{
 		if (empty($name))
 		{
 			$name = $this->getName();
 		}
 
-		if (empty($prefix))
-		{
-			$prefix = $this->getName() . 'Table';
-		}
-
 		if ($table = $this->_createTable($name, $prefix, $options))
-		{
-			return $table;
-		}
-
-		if ($table = $this->_createTable($name, 'Table', $options))
 		{
 			return $table;
 		}

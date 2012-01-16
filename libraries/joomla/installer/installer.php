@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -117,7 +117,7 @@ class JInstaller extends JAdapter
 	 */
 	public function __construct()
 	{
-		parent::__construct(dirname(__FILE__), 'JInstaller');
+		parent::__construct(__DIR__, 'JInstaller');
 	}
 
 	/**
@@ -1020,9 +1020,9 @@ class JInstaller extends JAdapter
 					if ($db->query())
 					{
 						$query->clear();
-						$query->insert('#__schemas')
-							->set('extension_id = ' . $eid)
-							->set('version_id = ' . $db->quote(end($files)));
+						$query->insert($db->quoteName('#__schemas'));
+						$query->columns(array($db->quoteName('extension_id'), $db->quoteName('version_id')));
+						$query->values($eid . ', ' . $db->quote(end($files)));
 						$db->setQuery($query);
 						$db->query();
 					}
@@ -1147,9 +1147,9 @@ class JInstaller extends JAdapter
 					if ($db->Query())
 					{
 						$query->clear();
-						$query->insert('#__schemas')
-							->set('extension_id = ' . $eid)
-							->set('version_id = ' . $db->quote(end($files)));
+						$query->insert($db->quoteName('#__schemas'));
+						$query->columns(array($db->quoteName('extension_id'), $db->quoteName('version_id')));
+						$query->values($eid . ', ' . $db->quote(end($files)));
 						$db->setQuery($query);
 						$db->Query();
 					}

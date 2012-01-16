@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -136,7 +136,7 @@ class JDatabaseQueryElement
 abstract class JDatabaseQuery
 {
 	/**
-	 * @var    resource  The database connection resource.
+	 * @var    JDatabase  The database connection resource.
 	 * @since  11.1
 	 */
 	protected $db = null;
@@ -230,6 +230,12 @@ abstract class JDatabaseQuery
 	 * @since  11.1
 	 */
 	protected $order = null;
+
+	/**
+	 * @var   object  The auto increment insert field element.
+	 * @since 11.1
+	 */
+	protected $autoIncrementField = null;
 
 	/**
 	 * Magic method to provide method alias support for quote() and quoteName().
@@ -477,6 +483,7 @@ abstract class JDatabaseQuery
 			case 'insert':
 				$this->insert = null;
 				$this->type = null;
+				$this->autoIncrementField = null;
 				break;
 
 			case 'from':
@@ -530,6 +537,7 @@ abstract class JDatabaseQuery
 				$this->order = null;
 				$this->columns = null;
 				$this->values = null;
+				$this->autoIncrementField = null;
 				break;
 		}
 
@@ -798,16 +806,18 @@ abstract class JDatabaseQuery
 	 * $query->insert('#__a)->columns('id, title')->values('1,2')->values->('3,4');
 	 * $query->insert('#__a)->columns('id, title')->values(array('1,2', '3,4'));
 	 *
-	 * @param   mixed  $table  The name of the table to insert data into.
+	 * @param   mixed    $table           The name of the table to insert data into.
+	 * @param   boolean  $incrementField  The name of the field to auto increment.
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @since   11.1
 	 */
-	public function insert($table)
+	public function insert($table, $incrementField=false)
 	{
 		$this->type = 'insert';
 		$this->insert = new JDatabaseQueryElement('INSERT INTO', $table);
+		$this->autoIncrementField = $incrementField;
 
 		return $this;
 	}

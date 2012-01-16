@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -378,6 +378,42 @@ class JFormTest extends JoomlaTestCase
 			$form->filterField($form->findField('word'), $input),
 			$this->equalTo('scriptalertscriptpSometextp'),
 			'Line:'.__LINE__.' The "word" filter should be correctly applied.'
+		);
+
+		$this->assertThat(
+			$form->filterField($form->findField('url'), 'http://example.com'),
+			$this->equalTo('http://example.com'),
+			'Line:'.__LINE__.' A field with a valid protocol should return as is.'
+		);
+
+		$this->assertThat(
+			$form->filterField($form->findField('url'), 'http://<script>alert();</script> <p>Some text.</p>'),
+			$this->equalTo('http://alert(); Some text.'),
+			'Line:'.__LINE__.' A "url" with scripts should be should be filtered.'
+		);
+
+		$this->assertThat(
+			$form->filterField($form->findField('url'), 'https://example.com'),
+			$this->equalTo('https://example.com'),
+			'Line:'.__LINE__.' A field with a valid protocol that is not http should return as is.'
+		);
+
+		$this->assertThat(
+			$form->filterField($form->findField('url'), 'example.com'),
+			$this->equalTo('http://example.com'),
+			'Line:'.__LINE__.' A field without a protocol should return with a http:// protocol.'
+		);
+
+		$this->assertThat(
+			$form->filterField($form->findField('url'), 'hptarr.com'),
+			$this->equalTo('http://hptarr.com'),
+			'Line:'.__LINE__.' A field without a protocol and starts with t should return with a http:// protocol.'
+		);
+
+		$this->assertThat(
+			$form->filterField($form->findField('url'), ''),
+			$this->equalTo(''),
+			'Line:'.__LINE__.' An empty "url" filter return nothing.'
 		);
 
 		$this->assertThat(
@@ -937,6 +973,12 @@ class JFormTest extends JoomlaTestCase
 		$this->assertThat(
 			count($form->getGroup('level1', true)),
 			$this->equalTo(2),
+			'Line:'.__LINE__.' The level1 group should have 2 nested field elements.'
+		);
+
+		$this->assertThat(
+			array_keys($form->getGroup('level1', true)),
+			$this->equalTo(array('level1_field1', 'level1_level2_field2')),
 			'Line:'.__LINE__.' The level1 group should have 2 nested field elements.'
 		);
 

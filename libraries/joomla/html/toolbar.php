@@ -3,14 +3,14 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 //Register the session storage class with the loader
-JLoader::register('JButton', dirname(__FILE__) . '/toolbar/button.php');
+JLoader::register('JButton', __DIR__ . '/toolbar/button.php');
 
 /**
  * ToolBar handler
@@ -61,7 +61,7 @@ class JToolBar extends JObject
 		$this->_name = $name;
 
 		// Set base path to find buttons.
-		$this->_buttonPath[] = dirname(__FILE__) . '/toolbar/button';
+		$this->_buttonPath[] = __DIR__ . '/toolbar/button';
 
 	}
 

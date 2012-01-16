@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -85,7 +85,6 @@ class JInstallerTemplate extends JAdapterInstance
 		if ($cname = (string) $xml->attributes()->client)
 		{
 			// Attempt to map the client to a base path
-			jimport('joomla.application.helper');
 			$client = JApplicationHelper::getClientInfo($cname, true);
 			if ($client === false)
 			{
@@ -111,7 +110,11 @@ class JInstallerTemplate extends JAdapterInstance
 		$this->set('element', $element);
 
 		$db = $this->parent->getDbo();
-		$db->setQuery('SELECT extension_id FROM #__extensions WHERE type="template" AND element = "' . $element . '"');
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('extension_id'));
+		$query->from($db->quoteName('#__extensions'));
+		$query->where($db->quoteName('type') . ' = ' . $db->quote('template'));
+		$query->where($db->quoteName('element') . ' = ' . $element);
 		$id = $db->loadResult();
 
 		// Set the template root path

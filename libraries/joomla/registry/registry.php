@@ -3,14 +3,14 @@
  * @package     Joomla.Platform
  * @subpackage  Registry
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.utilities.arrayhelper');
-JLoader::register('JRegistryFormat', dirname(__FILE__) . '/format.php');
+JLoader::register('JRegistryFormat', __DIR__ . '/format.php');
 
 /**
  * JRegistry class
@@ -580,7 +580,7 @@ class JRegistry
 	{
 		// @codeCoverageIgnoreStart
 		// Deprecation warning.
-		JLog::add('JRegistry::getValue() is deprecated.', JLog::WARNING, 'deprecated');
+		JLog::add('JRegistry::getValue() is deprecated. Use get instead.', JLog::WARNING, 'deprecated');
 
 		$parts = explode('.', $path);
 		if (count($parts) > 1)
@@ -608,7 +608,7 @@ class JRegistry
 	{
 		// @codeCoverageIgnoreStart
 		// Deprecation warning.
-		JLog::add('JRegistry::setValue() is deprecated.', JLog::WARNING, 'deprecated');
+		JLog::add('JRegistry::setValue() is deprecated. Use set instead.', JLog::WARNING, 'deprecated');
 
 		$parts = explode('.', $path);
 		if (count($parts) > 1)
@@ -635,7 +635,7 @@ class JRegistry
 	{
 		// @codeCoverageIgnoreStart
 		// Deprecation warning.
-		JLog::add('JRegistry::loadXML() is deprecated.', JLog::WARNING, 'deprecated');
+		JLog::add('JRegistry::loadSetupFile() is deprecated.', JLog::WARNING, 'deprecated');
 
 		return true;
 		// @codeCoverageIgnoreEnd

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Utilities
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -240,7 +240,7 @@ class JDate extends DateTime
 	 *
 	 * @since   11.1
 	 */
-	protected function dayToString($day, $abbr = false)
+	public function dayToString($day, $abbr = false)
 	{
 		switch ($day)
 		{
@@ -364,7 +364,7 @@ class JDate extends DateTime
 	 *
 	 * @since   11.1
 	 */
-	protected function monthToString($month, $abbr = false)
+	public function monthToString($month, $abbr = false)
 	{
 		switch ($month)
 		{
@@ -510,7 +510,6 @@ class JDate extends DateTime
 	 */
 	public function toISO8601($local = false)
 	{
-
 		return $this->format(DateTime::RFC3339, $local, false);
 	}
 

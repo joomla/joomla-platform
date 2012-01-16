@@ -3,16 +3,16 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::register('JDatabaseMySQL', dirname(__FILE__) . '/mysql.php');
-JLoader::register('JDatabaseQueryMySQLi', dirname(__FILE__) . '/mysqliquery.php');
-JLoader::register('JDatabaseExporterMySQLi', dirname(__FILE__) . '/mysqliexporter.php');
-JLoader::register('JDatabaseImporterMySQLi', dirname(__FILE__) . '/mysqliimporter.php');
+JLoader::register('JDatabaseMySQL', __DIR__ . '/mysql.php');
+JLoader::register('JDatabaseQueryMySQLi', __DIR__ . '/mysqliquery.php');
+JLoader::register('JDatabaseExporterMySQLi', __DIR__ . '/mysqliexporter.php');
+JLoader::register('JDatabaseImporterMySQLi', __DIR__ . '/mysqliimporter.php');
 
 /**
  * MySQLi database driver

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -215,7 +215,7 @@ abstract class JTable extends JObject
 		// If the internal paths have not been initialised, do so with the base table path.
 		if (!isset($_paths))
 		{
-			$_paths = array(dirname(__FILE__) . '/table');
+			$_paths = array(__DIR__ . '/table');
 		}
 
 		// Convert the passed path(s) to add to an array.
@@ -524,10 +524,21 @@ abstract class JTable extends JObject
 		}
 
 		$this->_db->setQuery($query);
-		$row = $this->_db->loadAssoc();
 
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
+		try
+		{
+			$row = $this->_db->loadAssoc();
+		}
+		catch (JDatabaseException $e)
+		{
+			$je = new JException($e->getMessage());
+			$this->setError($je);
+			return false;
+		}
+
+		// Legacy error handling switch based on the JError::$legacy switch.
+		// @deprecated  12.1
+		if (JError::$legacy && $this->_db->getErrorNum())
 		{
 			$e = new JException($this->_db->getErrorMsg());
 			$this->setError($e);
@@ -624,7 +635,7 @@ abstract class JTable extends JObject
 		$name = $this->_getAssetName();
 		$title = $this->_getAssetTitle();
 
-		$asset = JTable::getInstance('Asset');
+		$asset = JTable::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
 		$asset->loadByName($name);
 
 		// Re-inject the asset id.
@@ -1486,21 +1497,11 @@ abstract class JTable extends JObject
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
+	 * @throws  JDatabaseException
 	 */
 	protected function _lock()
 	{
-		// Lock the table for writing.
-		$this->_db->setQuery('LOCK TABLES ' . $this->_db->quoteName($this->_tbl) . ' WRITE');
-		$this->_db->query();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
+		$this->_db->lockTable($this->_tbl);
 		$this->_locked = true;
 
 		return true;
@@ -1515,18 +1516,7 @@ abstract class JTable extends JObject
 	 */
 	protected function _unlock()
 	{
-		// Unlock the table.
-		$this->_db->setQuery('UNLOCK TABLES');
-		$this->_db->query();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
+		$this->_db->unlockTables();
 		$this->_locked = false;
 
 		return true;

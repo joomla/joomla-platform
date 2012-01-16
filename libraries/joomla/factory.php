@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -306,7 +306,7 @@ abstract class JFactory
 			$debug = $conf->get('debug');
 
 			self::$database = self::createDbo();
-			self::$database->debug($debug);
+			self::$database->setDebug($debug);
 		}
 
 		return self::$database;
@@ -720,10 +720,10 @@ abstract class JFactory
 
 		if ($db->getErrorNum() > 0)
 		{
-			JError::raiseError(500, JText::sprintf('JLIB_UTIL_ERROR_CONNECT_DATABASE', $db->getErrorNum(), $db->getErrorMsg()));
+			die(sprintf('Database connection error (%d): %s', $db->getErrorNum(), $db->getErrorMsg()));
 		}
 
-		$db->debug($debug);
+		$db->setDebug($debug);
 
 		return $db;
 	}

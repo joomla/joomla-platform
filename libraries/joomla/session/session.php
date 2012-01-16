@@ -3,14 +3,14 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 // Register the session storage class with the loader
-JLoader::register('JSessionStorage', dirname(__FILE__) . '/storage.php');
+JLoader::register('JSessionStorage', __DIR__ . '/storage.php');
 
 jimport('joomla.environment.request');
 
@@ -300,7 +300,7 @@ class JSession extends JObject
 	public static function getStores()
 	{
 		jimport('joomla.filesystem.folder');
-		$handlers = JFolder::files(dirname(__FILE__) . '/storage', '.php$');
+		$handlers = JFolder::files(__DIR__ . '/storage', '.php$');
 
 		$names = array();
 		foreach ($handlers as $handler)
@@ -311,7 +311,7 @@ class JSession extends JObject
 			//Load the class only if needed
 			if (!class_exists($class))
 			{
-				require_once dirname(__FILE__) . '/storage/' . $name . '.php';
+				require_once __DIR__ . '/storage/' . $name . '.php';
 			}
 
 			if (call_user_func_array(array(trim($class), 'test'), array()))

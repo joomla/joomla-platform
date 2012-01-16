@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -465,7 +465,7 @@ class JTableUser extends JTable
 		$db = $this->_db;
 		$query = $db->getQuery(true);
 		$query->update($db->quoteName($this->_tbl));
-		$query->set($db->quoteName('lastvisitDate') . '=' . $db->quote($date->format($db->getDateFormat())));
+		$query->set($db->quoteName('lastvisitDate') . '=' . $db->quote($date->toSql()));
 		$query->where($db->quoteName('id') . '=' . (int) $userId);
 		$db->setQuery($query);
 		$db->query();

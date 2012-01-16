@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -91,7 +91,7 @@ class JMenu extends JObject
 		{
 			if ($item->home)
 			{
-				$this->_default[$item->language] = $item->id;
+				$this->_default[trim($item->language)] = $item->id;
 			}
 
 			// Decode the item params
@@ -259,7 +259,7 @@ class JMenu extends JObject
 	 */
 	public function getItems($attributes, $values, $firstonly = false)
 	{
-		$items = null;
+		$items = array();
 		$attributes = (array) $attributes;
 		$values = (array) $values;
 
