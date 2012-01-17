@@ -284,7 +284,7 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 
 		$this->assertThat(
 			$q->castAsChar('123'),
-			$this->equalTo('\'123\''),
+			$this->equalTo('123::text'),
 			'The default castAsChar behaviour is quote the input.'
 		);
 
