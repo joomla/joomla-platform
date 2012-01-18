@@ -206,40 +206,116 @@ class JDatabasePostgreSQLQueryTest extends JoomlaPostgreSQLTestCase
 	}
 
 	/**
-	 * Test for parte of date extraction.
+	 * Test for year extraction from date.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	public function test__toStringGetPartOfDate()
+	public function test__toStringYear()
 	{
 		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
 
-		// day case
-		$q->select($q->getPartOfDate($q->quoteName('col'), 'day'))->from('table');
+		$q->select($q->year($q->quoteName('col')))->from('table');
 
 		$this->assertThat(
 					(string) $q,
-					$this->equalTo("\nSELECT EXTRACT (DAY FROM \"col\")\nFROM table")
+					$this->equalTo("\nSELECT EXTRACT (YEAR FROM \"col\")\nFROM table")
 		);
+	}
 
-		// month case
-		$q->clear('select');
-		$q->select($q->getPartOfDate($q->quoteName('col'), 'month'));
+	/**
+	 * Test for month extraction from date.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function test__toStringMonth()
+	{
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
+
+		$q->select($q->month($q->quoteName('col')))->from('table');
 
 		$this->assertThat(
 					(string) $q,
 					$this->equalTo("\nSELECT EXTRACT (MONTH FROM \"col\")\nFROM table")
 		);
+	}
 
-		// year case
-		$q->clear('select');
-		$q->select($q->getPartOfDate($q->quoteName('col'), 'year'));
+	/**
+	 * Test for day extraction from date.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function test__toStringDay()
+	{
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
+
+		$q->select($q->day($q->quoteName('col')))->from('table');
 
 		$this->assertThat(
 					(string) $q,
-					$this->equalTo("\nSELECT EXTRACT (YEAR FROM \"col\")\nFROM table")
+					$this->equalTo("\nSELECT EXTRACT (DAY FROM \"col\")\nFROM table")
+		);
+	}
+
+	/**
+	 * Test for hour extraction from date.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function test__toStringHour()
+	{
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
+
+		$q->select($q->hour($q->quoteName('col')))->from('table');
+
+		$this->assertThat(
+					(string) $q,
+					$this->equalTo("\nSELECT EXTRACT (HOUR FROM \"col\")\nFROM table")
+		);
+	}
+
+	/**
+	 * Test for minute extraction from date.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function test__toStringMinute()
+	{
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
+
+		$q->select($q->minute($q->quoteName('col')))->from('table');
+
+		$this->assertThat(
+					(string) $q,
+					$this->equalTo("\nSELECT EXTRACT (MINUTE FROM \"col\")\nFROM table")
+		);
+	}
+
+	/**
+	 * Test for seconds extraction from date.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function test__toStringSecond()
+	{
+		$q = new JDatabasePostgreSQLQueryInspector($this->dbo);
+
+		$q->select($q->second($q->quoteName('col')))->from('table');
+
+		$this->assertThat(
+					(string) $q,
+					$this->equalTo("\nSELECT EXTRACT (SECOND FROM \"col\")\nFROM table")
 		);
 	}
 
