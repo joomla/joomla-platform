@@ -458,18 +458,24 @@ class JDatabaseMySQL extends JDatabase
 	}
 
 	/**
-	 * Locks a table in the database.
+	 * Locks tables in the database.
 	 *
-	 * @param   string  $table  The name of the table to unlock.
+	 * @param   string  $tables  A list of tables to lock.
 	 *
 	 * @return  JDatabaseMySQL  Returns this object to support chaining.
 	 *
 	 * @since   11.4
 	 * @throws  JDatabaseException
 	 */
-	public function lockTable($table)
+	public function lockTables($tables)
 	{
-		$this->setQuery('LOCK TABLES ' . $this->quoteName($table) . ' WRITE')->query();
+		foreach ($tables as $i => $table)
+		{
+			$tables[$i] = $this->quoteName($table);
+		}
+
+		$this->setQuery('LOCK TABLES ' . implode(' WRITE, ', $tables) . ' WRITE');
+		$this->query();
 
 		return $this;
 	}
@@ -833,7 +839,7 @@ class JDatabaseMySQL extends JDatabase
 	}
 
 	/**
-	 * Unlocks tables in the database.
+	 * Unlocks all tables in the database.
 	 *
 	 * @return  JDatabaseMySQL  Returns this object to support chaining.
 	 *
@@ -842,7 +848,8 @@ class JDatabaseMySQL extends JDatabase
 	 */
 	public function unlockTables()
 	{
-		$this->setQuery('UNLOCK TABLES')->query();
+		$this->setQuery('UNLOCK TABLES');
+		$this->query();
 
 		return $this;
 	}

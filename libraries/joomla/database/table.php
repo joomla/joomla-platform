@@ -63,14 +63,6 @@ abstract class JTable extends JObject
 	protected $_rules;
 
 	/**
-	 * Indicator that the tables have been locked.
-	 *
-	 * @var    boolean
-	 * @since  11.1
-	 */
-	protected $_locked = false;
-
-	/**
 	 * Object constructor to set table and key fields.  In most cases this will
 	 * be overridden by child classes to explicitly set the table and key fields
 	 * for a particular database table.
@@ -620,11 +612,6 @@ abstract class JTable extends JObject
 		if (!$this->_trackAssets)
 		{
 			return true;
-		}
-
-		if ($this->_locked)
-		{
-			$this->_unlock();
 		}
 
 		//
@@ -1489,36 +1476,5 @@ abstract class JTable extends JObject
 
 		// Return the XML array imploded over new lines.
 		return implode("\n", $xml);
-	}
-
-	/**
-	 * Method to lock the database table for writing.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
-	 */
-	protected function _lock()
-	{
-		$this->_db->lockTable($this->_tbl);
-		$this->_locked = true;
-
-		return true;
-	}
-
-	/**
-	 * Method to unlock the database table for writing.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   11.1
-	 */
-	protected function _unlock()
-	{
-		$this->_db->unlockTables();
-		$this->_locked = false;
-
-		return true;
 	}
 }

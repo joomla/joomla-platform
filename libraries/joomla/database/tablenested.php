@@ -364,7 +364,7 @@ class JTableNested extends JTable
 		}
 
 		// Lock the table for writing.
-		if (!$this->_lock())
+		if (!$this->_db->lockTables(array($this->_tbl)))
 		{
 			return false;
 		}
@@ -408,7 +408,7 @@ class JTableNested extends JTable
 			if (!$reference = $this->_getNode($referenceId))
 			{
 				// Error message set in getNode method.
-				$this->_unlock();
+				$this->_db->unlockTables();
 				return false;
 			}
 
@@ -416,7 +416,7 @@ class JTableNested extends JTable
 			if (!$repositionData = $this->_getTreeRepositionData($reference, $node->width, $position))
 			{
 				// Error message set in getNode method.
-				$this->_unlock();
+				$this->_db->unlockTables();
 				return false;
 			}
 		}
@@ -437,7 +437,7 @@ class JTableNested extends JTable
 			{
 				$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_MOVE_FAILED', get_class($this), $this->_db->getErrorMsg()));
 				$this->setError($e);
-				$this->_unlock();
+				$this->_db->unlockTables();
 				return false;
 			}
 			if ($this->_debug)
@@ -449,7 +449,7 @@ class JTableNested extends JTable
 			if (!$repositionData = $this->_getTreeRepositionData($reference, $node->width, 'last-child'))
 			{
 				// Error message set in getNode method.
-				$this->_unlock();
+				$this->_db->unlockTables();
 				return false;
 			}
 		}
@@ -516,8 +516,8 @@ class JTableNested extends JTable
 			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_MOVE_FAILED');
 		}
 
-		// Unlock the table for writing.
-		$this->_unlock();
+		// Unlock the tables for writing.
+		$this->_db->unlockTables();
 
 		// Set the object values.
 		$this->parent_id = $repositionData->new_parent_id;
@@ -545,10 +545,9 @@ class JTableNested extends JTable
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
-		// Lock the table for writing.
-		if (!$this->_lock())
+		// Lock the tables for writing.
+		if (!$this->_db->lockTables(array($this->_tbl, '#__assets')))
 		{
-			// Error message set in lock method.
 			return false;
 		}
 
@@ -558,28 +557,20 @@ class JTableNested extends JTable
 			$name = $this->_getAssetName();
 			$asset = JTable::getInstance('Asset');
 
-			// Lock the table for writing.
-			if (!$asset->_lock())
-			{
-				// Error message set in lock method.
-				return false;
-			}
-
 			if ($asset->loadByName($name))
 			{
 				// Delete the node in assets table.
 				if (!$asset->delete(null, $children))
 				{
 					$this->setError($asset->getError());
-					$asset->_unlock();
+					$this->_db->unlockTables();
 					return false;
 				}
-				$asset->_unlock();
 			}
 			else
 			{
 				$this->setError($asset->getError());
-				$asset->_unlock();
+				$this->_db->unlockTables();
 				return false;
 			}
 		}
@@ -588,7 +579,7 @@ class JTableNested extends JTable
 		if (!$node = $this->_getNode($pk))
 		{
 			// Error message set in getNode method.
-			$this->_unlock();
+			$this->_db->unlockTables();
 			return false;
 		}
 
@@ -658,7 +649,7 @@ class JTableNested extends JTable
 		}
 
 		// Unlock the table for writing.
-		$this->_unlock();
+		$this->_db->unlockTables();
 
 		return true;
 	}
@@ -743,7 +734,7 @@ class JTableNested extends JTable
 			if ($this->_location_id >= 0)
 			{
 				// Lock the table for writing.
-				if (!$this->_lock())
+				if (!$this->_db->lockTables(array($this->_tbl)))
 				{
 					// Error message set in lock method.
 					return false;
@@ -766,7 +757,7 @@ class JTableNested extends JTable
 					{
 						$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), $this->_db->getErrorMsg()));
 						$this->setError($e);
-						$this->_unlock();
+						$this->_db->unlockTables();
 						return false;
 					}
 					if ($this->_debug)
@@ -781,7 +772,7 @@ class JTableNested extends JTable
 					if (!$reference = $this->_getNode($this->_location_id))
 					{
 						// Error message set in getNode method.
-						$this->_unlock();
+						$this->_db->unlockTables();
 						return false;
 					}
 				}
@@ -790,7 +781,7 @@ class JTableNested extends JTable
 				if (!($repositionData = $this->_getTreeRepositionData($reference, 2, $this->_location)))
 				{
 					// Error message set in getNode method.
-					$this->_unlock();
+					$this->_db->unlockTables();
 					return false;
 				}
 
@@ -840,7 +831,7 @@ class JTableNested extends JTable
 			}
 
 			// Lock the table for writing.
-			if (!$this->_lock())
+			if (!$this->_db->lockTables(array($this->_tbl)))
 			{
 				// Error message set in lock method.
 				return false;
@@ -850,7 +841,7 @@ class JTableNested extends JTable
 		// Store the row to the database.
 		if (!parent::store($updateNulls))
 		{
-			$this->_unlock();
+			$this->_db->unlockTables();
 			return false;
 		}
 		if ($this->_debug)
@@ -859,7 +850,7 @@ class JTableNested extends JTable
 		}
 
 		// Unlock the table for writing.
-		$this->_unlock();
+		$this->_db->unlockTables();
 
 		return true;
 	}
@@ -1019,7 +1010,7 @@ class JTableNested extends JTable
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
 		// Lock the table for writing.
-		if (!$this->_lock())
+		if (!$this->_db->lockTables(array($this->_tbl)))
 		{
 			// Error message set in lock method.
 			return false;
@@ -1029,7 +1020,7 @@ class JTableNested extends JTable
 		if (!$node = $this->_getNode($pk))
 		{
 			// Error message set in getNode method.
-			$this->_unlock();
+			$this->_db->unlockTables();
 			return false;
 		}
 
@@ -1037,7 +1028,7 @@ class JTableNested extends JTable
 		if (!$sibling = $this->_getNode($node->lft - 1, 'right'))
 		{
 			// Error message set in getNode method.
-			$this->_unlock();
+			$this->_db->unlockTables();
 			return false;
 		}
 
@@ -1054,7 +1045,7 @@ class JTableNested extends JTable
 		{
 			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_ORDERUP_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
-			$this->_unlock();
+			$this->_db->unlockTables();
 			return false;
 		}
 
@@ -1071,7 +1062,7 @@ class JTableNested extends JTable
 		{
 			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_ORDERUP_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
-			$this->_unlock();
+			$this->_db->unlockTables();
 			return false;
 		}
 
@@ -1089,12 +1080,12 @@ class JTableNested extends JTable
 		{
 			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_ORDERUP_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
-			$this->_unlock();
+			$this->_db->unlockTables();
 			return false;
 		}
 
 		// Unlock the table for writing.
-		$this->_unlock();
+		$this->_db->unlockTables();
 
 		return true;
 	}
@@ -1116,7 +1107,7 @@ class JTableNested extends JTable
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
 		// Lock the table for writing.
-		if (!$this->_lock())
+		if (!$this->_db->lockTables(array($this->_tbl)))
 		{
 			// Error message set in lock method.
 			return false;
@@ -1126,7 +1117,7 @@ class JTableNested extends JTable
 		if (!$node = $this->_getNode($pk))
 		{
 			// Error message set in getNode method.
-			$this->_unlock();
+			$this->_db->unlockTables();
 			return false;
 		}
 
@@ -1134,8 +1125,7 @@ class JTableNested extends JTable
 		if (!$sibling = $this->_getNode($node->rgt + 1, 'left'))
 		{
 			// Error message set in getNode method.
-			$query->unlock($this->_db);
-			$this->_locked = false;
+			$this->_db->unlockTables();
 			return false;
 		}
 
@@ -1152,7 +1142,7 @@ class JTableNested extends JTable
 		{
 			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_ORDERDOWN_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
-			$this->_unlock();
+			$this->_db->unlockTables();
 			return false;
 		}
 
@@ -1169,7 +1159,7 @@ class JTableNested extends JTable
 		{
 			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_ORDERDOWN_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
-			$this->_unlock();
+			$this->_db->unlockTables();
 			return false;
 		}
 
@@ -1187,12 +1177,12 @@ class JTableNested extends JTable
 		{
 			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_ORDERDOWN_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
-			$this->_unlock();
+			$this->_db->unlockTables();
 			return false;
 		}
 
 		// Unlock the table for writing.
-		$this->_unlock();
+		$this->_db->unlockTables();
 
 		return true;
 	}
@@ -1476,7 +1466,7 @@ class JTableNested extends JTable
 				{
 					$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_REORDER_FAILED', get_class($this), $this->_db->getErrorMsg()));
 					$this->setError($e);
-					$this->_unlock();
+					$this->_db->unlockTables();
 					return false;
 				}
 
@@ -1696,7 +1686,7 @@ class JTableNested extends JTable
 		{
 			$e = new JException(JText::sprintf('$errorMessage', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
-			$this->_unlock();
+			$this->_db->unlockTables();
 			return false;
 		}
 		if ($this->_debug)
