@@ -174,14 +174,7 @@ class JView extends JObject
 	 * Callback for escaping.
 	 *
 	 * @var string
-	 */
-	protected $escape = 'htmlspecialchars';
-
-	/**
-	 * Callback for escaping.
-	 *
-	 * @var string
-	 * @deprecated use $escape declare as private
+	 * @deprecated 13.3 Will be removed
 	 */
 	protected $_escape = 'htmlspecialchars';
 
@@ -435,6 +428,7 @@ class JView extends JObject
 	 * @return  mixed  The escaped value.
 	 *
 	 * @since   11.1
+	 * @deprecated 13.3 Use htmlspecialchars()
 	 */
 	public function escape($var)
 	{
@@ -640,6 +634,7 @@ class JView extends JObject
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @deprecated 13.3 This will be removed without a replacement
 	 */
 	public function setEscape($spec)
 	{
