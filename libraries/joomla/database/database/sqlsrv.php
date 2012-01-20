@@ -345,11 +345,11 @@ class JDatabaseSQLSrv extends JDatabase
 	}
 
 	/**
-	 * Get the current or query, or new JDatabaseQuery object.
+	 * Get the current query object or a new JDatabaseQuery object.
 	 *
-	 * @param   boolean  $new  False to return the last query set, True to return a new JDatabaseQuery object.
+	 * @param   boolean  $new  False to return the current query object, True to return a new JDatabaseQuery object.
 	 *
-	 * @return  mixed  The current value of the internal SQL variable or a new JDatabaseQuery object.
+	 * @return  JDatabaseQuery  The current query object or a new object extending the JDatabaseQuery class.
 	 *
 	 * @since   11.1
 	 * @throws  JDatabaseException
@@ -363,12 +363,11 @@ class JDatabaseSQLSrv extends JDatabase
 			{
 				throw new JDatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
 			}
-			return new JDatabaseQuerySQLSrv($this);
+
+			$this->query = new JDatabaseQuerySQLSrv($this);
 		}
-		else
-		{
-			return $this->sql;
-		}
+
+		return $this->query;
 	}
 
 	/**
