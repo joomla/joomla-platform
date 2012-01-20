@@ -10,6 +10,8 @@
 defined('JPATH_PLATFORM') or die;
 
 JLoader::register('JDatabaseQueryPostgreSQL', dirname(__FILE__) . '/postgresqlquery.php');
+JLoader::register('JDatabaseExporterPostgreSQL', dirname(__FILE__) . '/postgresqlexporter.php');
+JLoader::register('JDatabaseImporterPostgreSQL', dirname(__FILE__) . '/postgresqlimporter.php');
 
 /**
  * PostgreSQL database driver
