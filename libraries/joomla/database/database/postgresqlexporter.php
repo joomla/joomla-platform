@@ -167,21 +167,29 @@ class JDatabaseExporterPostgreSQL
 			// Get the details columns information.
 			$fields = $this->db->getTableColumns($table);
 			$keys = $this->db->getTableKeys($table);
+			$sequences = $this->db->getTableSequences($table);
 
 			$buffer[] = '  <table_structure name="' . $table . '">';
 
+			foreach ($sequences as $sequence)
+			{
+				$buffer[] = '   <sequence Name="' . $sequence->sequence_name . '"' . ' Type="' . $sequence->data_type . '"' . ' Start_Value="' .
+					$sequence->start_value . '"' . ' Min_Value="' . $sequence->minimum_value . '"' . ' Max_Value="' . $sequence->maximum_value . '"' .
+					' Increment="' . $sequence->increment . '"' . ' Cycle_option="' . $sequence->cycle_option . '"' .
+					' />';
+			}
+
 			foreach ($fields as $field)
 			{
-				$buffer[] = '   <field Field="' . $field->Field . '"' . ' Type="' . $field->Type . '"' . ' Null="' . $field->Null . '"' . ' Key="' .
-					$field->Key . '"' . (isset($field->Default) ? ' Default="' . $field->Default . '"' : '') . ' Extra="' . $field->Extra . '"' .
+				$buffer[] = '   <field Field="' . $field->column_name . '"' . ' Type="' . $field->type . '"' . ' Null="' . $field->Null . '"' .
+							(isset($field->default) ? ' Default="' . $field->default . '"' : '') . ' Comments="' . $field->comments . '"' .
 					' />';
 			}
 
 			foreach ($keys as $key)
 			{
-				$buffer[] = '   <key Table="' . $table . '"' . ' Non_unique="' . $key->Non_unique . '"' . ' Key_name="' . $key->Key_name . '"' .
-					' Seq_in_index="' . $key->Seq_in_index . '"' . ' Column_name="' . $key->Column_name . '"' . ' Collation="' . $key->Collation . '"' .
-					' Null="' . $key->Null . '"' . ' Index_type="' . $key->Index_type . '"' . ' Comment="' . htmlspecialchars($key->Comment) . '"' .
+				$buffer[] = '   <key Index="' . $key->idxName . '"' . ' is_primary="' . $key->isPrimary . '"' . ' is_unique="' . $key->isUnique . '"' .
+					' Column_index="' . $key->idxColumn . '"' . ' Index_Cardinality="' . $key->idxCardinality . '"' . ' Query="' . $key->Query . '"' .
 					' />';
 			}
 
