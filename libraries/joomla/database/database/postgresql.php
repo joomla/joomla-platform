@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -297,12 +297,50 @@ class JDatabasePostgreSQL extends JDatabase
 		if ( in_array($table, $tableList) )
 		{
 			// Get the details columns information.
+			$this->setQuery('
+					SELECT pgClass2nd.relname AS "idxName", indisprimary AS "isPrimary", indisunique AS "isUnique",
+							indkey AS "idxColumn", indnatts  AS "idxCardinality",
+						CASE WHEN indisprimary = true THEN 
+							( SELECT \'ALTER TABLE "\' || pgClass2nd.relname || \'" ADD \' || pg_catalog.pg_get_constraintdef(const.oid, true) 
+								FROM pg_constraint AS const WHERE const.conname= pgClass2nd.relname )
+						ELSE pg_catalog.pg_get_indexdef(indexrelid, 0, true) 
+						END AS "Query"
+
+					FROM pg_class AS pgClassFirst , pg_index AS pgIndex, pg_class AS pgClass2nd
+					WHERE pgClassFirst.oid=pgIndex.indrelid
+					AND pgClass2nd.relfilenode=pgIndex.indexrelid
+					AND pgClassFirst.relname=' . $this->quote($table)
+					. ' ORDER BY indkey'
+			);
+			$keys = $this->loadObjectList();
+
+			return $keys;
+		}
+		return false;
+	}
+
+	/**
+	 * Get the details list of sequences for a table.
+	 *
+	 * @param   string  $table  The name of the table.
+	 *
+	 * @return  array  An array of sequences specification for the table.
+	 *
+	 * @since   11.3
+	 * @throws  JDatabaseException
+	 */
+	public function getTableSequences($table)
+	{
+		// To check if table exists and prevent SQL injection
+		$tableList = $this->getTableList();
+
+		if ( in_array($table, $tableList) )
+		{
+			// Get the details columns information.
 			$query = $this->getQuery(true);
-			$query->select('pgClass2nd.relname, pgIndex.*')
-					->from('pg_class AS pgClassFirst , pg_index AS pgIndex, pg_class AS pgClass2nd')
-					->where('pgClassFirst.oid=pgIndex.indrelid')
-					->where('pgClass2nd.relfilenode=pgIndex.indexrelid')
-					->where('pgClassFirst.relname=' . $this->quote($table));
+			$query->select('sequence_name, data_type, start_value, minimum_value, maximum_value, increment, cycle_option')
+					->from('information_schema.sequences')
+					->where('sequence_name LIKE \'' . $table . '%\'');
 			$this->setQuery($query);
 			$keys = $this->loadObjectList();
 
@@ -753,11 +791,31 @@ class JDatabasePostgreSQL extends JDatabase
 
 		$tableSub = $this->replacePrefix($table);
 
-		$query = $this->getQuery(true);
-		$query->select('column_name, data_type, collation_name, is_nullable, column_default AS "Default"')
-				->from('information_schema.columns')
-				->where('table_name=' . $this->quote($tableSub));
-		$this->setQuery($query);
+		$this->setQuery('
+				SELECT a.attname AS "column_name",
+					pg_catalog.format_type(a.atttypid, a.atttypmod) as "type",
+					CASE WHEN a.attnotnull IS TRUE 
+						THEN \'NO\'
+						ELSE \'YES\' 
+					END AS "null",
+					CASE WHEN pg_catalog.pg_get_expr(adef.adbin, adef.adrelid, true) IS NOT NULL 
+						THEN pg_catalog.pg_get_expr(adef.adbin, adef.adrelid, true)
+					END as "default",
+					CASE WHEN pg_catalog.col_description(a.attrelid, a.attnum) IS NULL
+					THEN \'\'
+					ELSE pg_catalog.col_description(a.attrelid, a.attnum) 
+					END  AS "comments"
+				FROM pg_catalog.pg_attribute a 
+				LEFT JOIN pg_catalog.pg_attrdef adef ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum
+				LEFT JOIN pg_catalog.pg_type t ON a.atttypid=t.oid
+				WHERE a.attrelid =
+					(SELECT oid FROM pg_catalog.pg_class WHERE relname=' . $this->quote($table) . '
+						AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE
+						nspname = \'public\')
+					)
+				AND a.attnum > 0 AND NOT a.attisdropped
+				ORDER BY a.attnum'
+		);
 
 		$fields = $this->loadObjectList();
 
@@ -765,7 +823,7 @@ class JDatabasePostgreSQL extends JDatabase
 		{
 			foreach ($fields as $field)
 			{
-				$result[$field->column_name] = preg_replace("/[(0-9)]/", '', $field->data_type);
+				$result[$field->column_name] = preg_replace("/[(0-9)]/", '', $field->type);
 			}
 		}
 		else
