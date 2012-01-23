@@ -79,34 +79,35 @@ class JFormFieldCalendar extends JFormField
 		$config = JFactory::getConfig();
 		$user = JFactory::getUser();
 
-		// If a known filter is given use it.
-		switch (strtoupper((string) $this->element['filter']))
+		if ($this->value instanceof JDate)
 		{
-			case 'SERVER_UTC':
-				// Convert a date to UTC based on the server timezone.
-				if (intval($this->value))
-				{
-					// Get a date object based on the correct timezone.
-					$date = JFactory::getDate($this->value, 'UTC');
+			$date = $this->value;
+		}
+		elseif (intval($this->value))
+		{
+			// Get a date object based on the correct timezone.
+			$date = JFactory::getDate($this->value, 'UTC');
+		}
+
+		if ($this->value instanceof JDate)
+		{
+			// If a known filter is given use it.
+			switch (strtoupper((string) $this->element['filter']))
+			{
+				case 'SERVER_UTC':
 					$date->setTimezone(new DateTimeZone($config->get('offset')));
+					break;
 
-					// Transform the date string.
-					$this->value = $date->format('Y-m-d H:i:s', true, false);
-				}
-				break;
-
-			case 'USER_UTC':
-				// Convert a date to UTC based on the user timezone.
-				if (intval($this->value))
-				{
-					// Get a date object based on the correct timezone.
-					$date = JFactory::getDate($this->value, 'UTC');
+				case 'USER_UTC':
 					$date->setTimezone(new DateTimeZone($user->getParam('timezone', $config->get('offset'))));
+					break;
+			}
+		}
 
-					// Transform the date string.
-					$this->value = $date->format('Y-m-d H:i:s', true, false);
-				}
-				break;
+		if (isset($date))
+		{
+			// Transform the date string.
+			$this->value = $date->format('Y-m-d H:i:s', true, false);
 		}
 
 		return JHtml::_('calendar', $this->value, $this->name, $this->id, $format, $attributes);
