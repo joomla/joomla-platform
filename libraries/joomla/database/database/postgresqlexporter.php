@@ -181,7 +181,7 @@ class JDatabaseExporterPostgreSQL
 
 			foreach ($fields as $field)
 			{
-				$buffer[] = '   <field Field="' . $field->column_name . '"' . ' Type="' . $field->type . '"' . ' Null="' . $field->Null . '"' .
+				$buffer[] = '   <field Field="' . $field->column_name . '"' . ' Type="' . $field->type . '"' . ' Null="' . $field->null . '"' .
 							(isset($field->default) ? ' Default="' . $field->default . '"' : '') . ' Comments="' . $field->comments . '"' .
 					' />';
 			}
