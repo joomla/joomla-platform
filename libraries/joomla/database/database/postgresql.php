@@ -303,7 +303,7 @@ class JDatabasePostgreSQL extends JDatabase
 					SELECT pgClass2nd.relname AS "idxName", indisprimary AS "isPrimary", indisunique AS "isUnique",
 							indkey AS "idxColumn", indnatts  AS "idxCardinality",
 						CASE WHEN indisprimary = true THEN 
-							( SELECT \'ALTER TABLE "\' || pgClass2nd.relname || \'" ADD \' || pg_catalog.pg_get_constraintdef(const.oid, true) 
+							( SELECT \'ALTER TABLE "\' || pgClassFirst.relname || \'" ADD \' || pg_catalog.pg_get_constraintdef(const.oid, true) 
 								FROM pg_constraint AS const WHERE const.conname= pgClass2nd.relname )
 						ELSE pg_catalog.pg_get_indexdef(indexrelid, 0, true) 
 						END AS "Query"
