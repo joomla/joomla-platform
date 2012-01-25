@@ -21,7 +21,7 @@ class JContentType extends JDatabaseObject implements JAuthorisationAuthorisable
 	/**
 	 * The application object.
 	 *
-	 * @var     JWeb
+	 * @var     JApplicationWeb
 	 * @since   12.1
 	 */
 	protected $app;

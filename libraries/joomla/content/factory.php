@@ -29,7 +29,7 @@ class JContentFactory
 	/**
 	 * The application object.
 	 *
-	 * @var     JWeb
+	 * @var     JApplicationWeb
 	 * @since   12.1
 	 */
 	protected $app;
@@ -58,7 +58,7 @@ class JContentFactory
 	 *                           adapter.  If the argument is a JDatbase adapter that object will become
 	 *                           the database adapter, otherwise the default adapter will be used.
 	 * @param   mixed   $app     An optional argument to provide dependency injection for the application.
-	 *                           If the argument is a JWeb instance that object will become the application,
+	 *                           If the argument is a JApplicationWeb instance that object will become the application,
 	 *                           otherwise the default application will be used.
 	 * @param   mixed   $user    An optional argument to provide dependency injection for the user. If the
 	 *                           argument is a JUser instance that object will become the user, otherwise the
@@ -66,7 +66,7 @@ class JContentFactory
 	 *
 	 * @since   12.1
 	 */
-	public function __construct($prefix = '', JDatabase $db = null, JWeb $app = null, JUser $user = null)
+	public function __construct($prefix = '', JDatabase $db = null, JApplicationWeb $app = null, JUser $user = null)
 	{
 		// Set the prefix.
 		$this->prefix = $prefix;
@@ -113,7 +113,7 @@ class JContentFactory
 	 *                           adapter.  If the argument is a JDatbase adapter that object will become
 	 *                           the database adapter, otherwise the default adapter will be used.
 	 * @param   mixed   $app     An optional argument to provide dependency injection for the application.
-	 *                           If the argument is a JWeb instance that object will become the application,
+	 *                           If the argument is a JApplicationWeb instance that object will become the application,
 	 *                           otherwise the default application will be used.
 	 * @param   mixed   $user    An optional argument to provide dependency injection for the user. If the
 	 *                           argument is a JUser instance that object will become the user, otherwise the
@@ -123,7 +123,7 @@ class JContentFactory
 	 *
 	 * @since   12.1
 	 */
-	public static function getInstance($prefix = '', JDatabase $db = null, JWeb $app = null, JUser $user = null)
+	public static function getInstance($prefix = '', JDatabase $db = null, JApplicationWeb $app = null, JUser $user = null)
 	{
 		return new JContentFactory($prefix, $db, $app, $user);
 	}

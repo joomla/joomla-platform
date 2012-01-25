@@ -44,7 +44,7 @@ class JContent extends JDatabaseObject implements JAuthorisationAuthorisable
 	/**
 	 * The application object.
 	 *
-	 * @var    JWeb
+	 * @var    JApplicationWeb
 	 * @since  12.1
 	 */
 	protected $app;
@@ -123,7 +123,7 @@ class JContent extends JDatabaseObject implements JAuthorisationAuthorisable
 	 *                            adapter.  If the argument is a JDatbase adapter that object will become
 	 *                            the database adapter, otherwise the default adapter will be used.
 	 * @param   mixed   $app      An optional argument to provide dependency injection for the application.
-	 *                            If the argument is a JWeb instance that object will become the application,
+	 *                            If the argument is a JApplicationWeb instance that object will become the application,
 	 *                            otherwise the default application will be used.
 	 * @param   mixed   $user     An optional argument to provide dependency injection for the user. If the
 	 *                            argument is a JUser instance that object will become the user, otherwise the
@@ -132,7 +132,7 @@ class JContent extends JDatabaseObject implements JAuthorisationAuthorisable
 	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
-	public function __construct($prefix, $type, JContentFactory $factory = null, JDatabase $db = null, JWeb $app = null, JUser $user = null)
+	public function __construct($prefix, $type, JContentFactory $factory = null, JDatabase $db = null, JApplicationWeb $app = null, JUser $user = null)
 	{
 		// Check if the type table is defined.
 		if (!empty($type->table))
@@ -149,7 +149,7 @@ class JContent extends JDatabaseObject implements JAuthorisationAuthorisable
 		$this->prefix	= $prefix;
 
 		// If an application object is given, use it.
-		if ($app instanceof JWeb)
+		if ($app instanceof JApplicationWeb)
 		{
 			$this->app = $app;
 		}
