@@ -5,7 +5,7 @@
 
 SET FOREIGN_KEY_CHECKS=0;
 
-CREATE TABLE IF NOT EXISTS `jos_content` (
+CREATE TABLE IF NOT EXISTS `#__content` (
   `content_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `type_id` int(10) unsigned NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL DEFAULT '',
@@ -37,38 +37,38 @@ CREATE TABLE IF NOT EXISTS `jos_content` (
   KEY `modified_user_id` (`modified_user_id`),
   KEY `checked_out_user_id` (`checked_out_user_id`),
   KEY `created_user_id` (`created_user_id`),
-  CONSTRAINT `jos_content_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `jos_content_types` (`type_id`),
-  CONSTRAINT `jos_content_ibfk_2` FOREIGN KEY (`modified_user_id`) REFERENCES `jos_users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `jos_content_ibfk_3` FOREIGN KEY (`checked_out_user_id`) REFERENCES `jos_users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `jos_content_ibfk_4` FOREIGN KEY (`created_user_id`) REFERENCES `jos_users` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+  CONSTRAINT `#__content_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `#__content_types` (`type_id`),
+  CONSTRAINT `#__content_ibfk_2` FOREIGN KEY (`modified_user_id`) REFERENCES `#__users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `#__content_ibfk_3` FOREIGN KEY (`checked_out_user_id`) REFERENCES `#__users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `#__content_ibfk_4` FOREIGN KEY (`created_user_id`) REFERENCES `#__users` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `jos_content_hits` (
+CREATE TABLE IF NOT EXISTS `#__content_hits` (
   `content_id` int(10) unsigned NOT NULL DEFAULT '0',
   `hits` int(10) unsigned NOT NULL DEFAULT '0',
   `hit_modified_date` datetime DEFAULT NULL COMMENT 'The time that the content was last hit.',
   PRIMARY KEY (`content_id`),
   KEY `idx_hits` (`hits`),
-  CONSTRAINT `jos_content_hits_ibfk_1` FOREIGN KEY (`content_id`) REFERENCES `jos_content` (`content_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `#__content_hits_ibfk_1` FOREIGN KEY (`content_id`) REFERENCES `#__content` (`content_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `jos_content_likes` (
+CREATE TABLE IF NOT EXISTS `#__content_likes` (
   `content_id` int(10) unsigned NOT NULL DEFAULT '0',
   `user_id` int(10) unsigned NOT NULL DEFAULT '0',
   `like_state` tinyint(1) NOT NULL DEFAULT '1' COMMENT '+1 if the user likes the content, -1 if the user explicitly dislikes the content.',
   `like_modified_date` datetime DEFAULT NULL COMMENT 'The time that the like was updated',
   PRIMARY KEY (`content_id`,`user_id`),
   KEY `member_id` (`user_id`),
-  CONSTRAINT `jos_content_likes_ibfk_1` FOREIGN KEY (`content_id`) REFERENCES `jos_content` (`content_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `#__content_likes_ibfk_1` FOREIGN KEY (`content_id`) REFERENCES `#__content` (`content_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `jos_content_types` (
+CREATE TABLE IF NOT EXISTS `#__content_types` (
   `type_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL DEFAULT '',
   `alias` varchar(255) NOT NULL DEFAULT '',
   `table` varchar(255) NOT NULL DEFAULT '',
   `rules` text NOT NULL,
   PRIMARY KEY (`type_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 SET FOREIGN_KEY_CHECKS=1;
