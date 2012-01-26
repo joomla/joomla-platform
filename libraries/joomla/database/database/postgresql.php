@@ -340,9 +340,21 @@ class JDatabasePostgreSQL extends JDatabase
 		{
 			// Get the details columns information.
 			$query = $this->getQuery(true);
-			$query->select('sequence_name, data_type, start_value, minimum_value, maximum_value, increment, cycle_option')
-					->from('information_schema.sequences')
-					->where('sequence_name LIKE \'' . $table . '%\'');
+			$query->select(
+							$this->quoteName(
+									array('s.relname', 'n.nspname', 't.relname', 'a.attname', 'info.data_type', 'info.start_value',
+											'info.minimum_value', 'info.maximum_value', 'info.increment', 'info.cycle_option'),
+									array('sequence', 'schema', 'table', 'column', 'data_type', 'start_value',
+											'minimum_value', 'maximum_value', 'increment', 'cycle_option')
+							)
+					)
+					->from('pg_class AS s')
+					->leftJoin("pg_depend d ON d.objid=s.oid AND d.classid='pg_class'::regclass AND d.refclassid='pg_class'::regclass")
+					->leftJoin('pg_class t ON t.oid=d.refobjid')
+					->leftJoin('pg_namespace n ON n.oid=t.relnamespace')
+					->leftJoin('pg_attribute a ON a.attrelid=t.oid AND a.attnum=d.refobjsubid')
+					->leftJoin('information_schema.sequences AS info ON infoseq.sequence_name=s.relname')
+					->where("s.relkind='S' AND d.deptype='a' AND t.relname=" . $this->quote($table));
 			$this->setQuery($query);
 			$keys = $this->loadObjectList();
 
