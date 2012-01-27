@@ -348,18 +348,6 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 	}
 
 	/**
-	 * Test explain function
-	 * 
-	 * @return   void
-	 * 
-	 * @since   11.3
-	 */
-	public function testExplain()
-	{
-		$this->markTestSkipped('This function is deprecated.');
-	}
-
-	/**
 	 * Test getAffectedRows method.
 	 *
 	 * @return  void
@@ -395,25 +383,6 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 			'UTF-8',
 			$this->object->getCollation(),
 			__LINE__
-		);
-	}
-
-	/**
-	 * Test getEscaped function
-	 * 
-	 * @param   string  $text   The string to be escaped.
-	 * @param   bool    $extra  Optional parameter to provide extra escaping.
-	 * 
-	 * @return   void
-	 * 
-	 * @dataProvider  dataTestGetEscaped
-	 */
-	public function testGetEscaped($text, $extra)
-	{
-		$this->assertThat(
-			$this->object->escape($text, $extra),
-			$this->equalTo($this->object->getEscaped($text, $extra)),
-			'The string was not escaped properly'
 		);
 	}
 
@@ -541,22 +510,6 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 		$this->assertGreaterThanOrEqual(
 			$versionArray[1],
 			$this->object->getVersion(),
-			__LINE__
-		);
-	}
-
-	/**
-	 * Tests the JDatabasePostgreSQL hasUTF method.
-	 * 
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testHasUTF()
-	{
-		$this->assertThat(
-			$this->object->hasUTF(),
-			$this->isTrue(),
 			__LINE__
 		);
 	}
@@ -1088,32 +1041,6 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 	}
 
 	/**
-	 * Test loadResultArray method
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testLoadResultArray()
-	{
-		$query = $this->object->getQuery(true);
-		$query->select('Title');
-		$query->from('jos_dbtest');
-		$query->where('description=' . $this->object->quote('one'));
-
-		$this->object->setQuery($query);
-		$result = $this->object->loadResultArray();
-
-		$expected = array( 0 => 'Testing', 1 => 'Testing2' );
-
-		$this->assertThat(
-			$result,
-			$this->equalTo($expected),
-			__LINE__
-		);
-	}
-
-	/**
 	 * Test loadRow method
 	 *
 	 * @return  void
@@ -1196,19 +1123,6 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 			$this->equalTo(5),
 			__LINE__
 		);
-	}
-
-	/**
-	 * Test queryBatch, deprecated since 12.1
-	 * 
-	 * @todo Implement testQueryBatch().
-	 * 
-	 * @return   void
-	 */
-	public function testQueryBatch()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**

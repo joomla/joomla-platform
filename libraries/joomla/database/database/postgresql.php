@@ -402,20 +402,6 @@ class JDatabasePostgreSQL extends JDatabase
 	}
 
 	/**
-	 * Determines if the database engine supports UTF-8 character encoding.
-	 *
-	 * @return  boolean  True if supported.
-	 *
-	 * @since   11.3
-	 * @deprecated 12.1
-	 */
-	public function hasUTF()
-	{
-		JLog::add('JDatabasePostgreSQL::hasUTF() is deprecated.', JLog::WARNING, 'deprecated');
-		return true;
-	}
-
-	/**
 	 * Method to get the auto-incremented value from the last INSERT statement.
 	 * To be called after the INSERT statement, it's MANDATORY to have a sequence on
 	 * every primary key table.
@@ -735,60 +721,6 @@ class JDatabasePostgreSQL extends JDatabase
 	}
 
 	/**
-	 * Diagnostic method to return explain information for a query.
-	 *
-	 * @return      string  The explain output.
-	 *
-	 * @since       11.1
-	 * @deprecated  11.2
-	 */
-	public function explain()
-	{
-		// Deprecation warning.
-		JLog::add('JDatabase::explain() is deprecated.', JLog::WARNING, 'deprecated');
-
-		$temp = $this->sql;
-		$this->sql = "EXPLAIN $this->sql";
-
-		if (!($cur = $this->query()))
-		{
-			return null;
-		}
-		$first = true;
-
-		$buffer = '<table id="explain-sql">';
-		$buffer .= '<thead><tr><td colspan="99">' . $this->getQuery() . '</td></tr>';
-		while ($row = $this->fetchAssoc($cur))
-		{
-			if ($first)
-			{
-				$buffer .= '<tr>';
-				foreach ($row as $k => $v)
-				{
-					$buffer .= '<th>' . $k . '</th>';
-				}
-				$buffer .= '</tr>';
-				$first = false;
-			}
-			$buffer .= '</thead><tbody><tr>';
-			foreach ($row as $k => $v)
-			{
-				$buffer .= '<td>' . $v . '</td>';
-			}
-			$buffer .= '</tr>';
-		}
-		$buffer .= '</tbody></table>';
-
-		// Restore the original query to it's state before we ran the explain.
-		$this->sql = $temp;
-
-		// Free up system resources and return.
-		$this->freeResult($cur);
-
-		return $buffer;
-	}
-
-	/**
 	 * Retrieves field information about a given table.
 	 *
 	 * @param   string   $table     The name of the database table.
@@ -850,8 +782,6 @@ class JDatabasePostgreSQL extends JDatabase
 
 		return $result;
 	}
-
-	/* EXTRA FUNCTION postgreSQL */
 
 	/**
 	 * Get the substring position inside a string
@@ -1239,59 +1169,4 @@ class JDatabasePostgreSQL extends JDatabase
 
 		return $this->query();
 	}
-
-	/**
-	 * Execute a query batch.
-	 *
-	 * @param   boolean  $abortOnError     Abort on error.
-	 * @param   boolean  $transactionSafe  Transaction safe queries.
-	 *
-	 * @return  mixed  A database resource if successful, false if not.
-	 *
-	 * @deprecated  12.1
-	 * @since   11.3
-	 */
-	public function queryBatch($abortOnError = true, $transactionSafe = false)
-	{
-		// Deprecation warning.
-		JLog::add('JDatabase::queryBatch() is deprecated.', JLog::WARNING, 'deprecated');
-
-		$sql = $this->replacePrefix((string) $this->sql);
-		$this->errorNum = 0;
-		$this->errorMsg = '';
-
-		// If the batch is meant to be transaction safe then we need to wrap it in a transaction.
-		if ($transactionSafe)
-		{
-			$sql = 'START TRANSACTION;' . rtrim($sql, "; \t\r\n\0") . '; COMMIT;';
-		}
-		$queries = $this->splitSql($sql);
-		$error = 0;
-		foreach ($queries as $query)
-		{
-			$query = trim($query);
-			if ($query != '')
-			{
-				$this->cursor = pg_query($query, $this->connection);
-				if ($this->debug)
-				{
-					$this->count++;
-					$this->log[] = $query;
-				}
-				if (!$this->cursor)
-				{
-					$error = 1;
-					$this->errorNum = (int) pg_result_error_field($this->cursor, PGSQL_DIAG_SQLSTATE) . ' ';
-					$this->errorMsg = (string) pg_result_error_field($this->cursor, PGSQL_DIAG_MESSAGE_PRIMARY) . " SQL=$sql <br />";
-
-					if ($abortOnError)
-					{
-						return $this->cursor;
-					}
-				}
-			}
-		}
-		return $error ? false : true;
-	}
-
 }
