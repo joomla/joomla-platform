@@ -445,6 +445,52 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 	}
 
 	/**
+	 * Test getTableKeys function.
+	 * 
+	 * @return   void
+	 */
+	public function testGetTableKeys()
+	{
+		$pkey = new stdClass;
+		$pkey->idxName = 'jos_assets_pkey';
+		$pkey->isPrimary = 't';
+		$pkey->isUnique = 't';
+		$pkey->idxColumn = '1';
+		$pkey->idxCardinality = '1';
+		$pkey->Query = 'ALTER TABLE "jos_assets" ADD PRIMARY KEY (id)';
+
+		$asset = new stdClass;
+		$asset->idxName = 'idx_asset_name';
+		$asset->isPrimary = 'f';
+		$asset->isUnique = 't';
+		$asset->idxColumn = '6';
+		$asset->idxCardinality = '1';
+		$asset->Query = 'CREATE UNIQUE INDEX idx_asset_name ON jos_assets USING btree (name)';
+
+		$lftrgt = new stdClass;
+		$lftrgt->idxName = 'jos_assets_idx_lft_rgt';
+		$lftrgt->isPrimary = 'f';
+		$lftrgt->isUnique = 'f';
+		$lftrgt->idxColumn = '3 4';
+		$lftrgt->idxCardinality = '2';
+		$lftrgt->Query = 'CREATE INDEX jos_assets_idx_lft_rgt ON jos_assets USING btree (lft, rgt)';
+
+		$id = new stdClass;
+		$id->idxName = 'jos_assets_idx_parent_id';
+		$id->isPrimary = 'f';
+		$id->isUnique = 'f';
+		$id->idxColumn = '2';
+		$id->idxCardinality = '1';
+		$id->Query = 'CREATE INDEX jos_assets_idx_parent_id ON jos_assets USING btree (parent_id)';
+
+		$this->assertThat(
+			$this->object->getTableKeys('jos_assets'),
+			$this->equalTo(array($pkey, $id, $lftrgt, $asset)),
+			__LINE__
+		);
+	}
+
+	/**
 	 * Tests the JDatabasePostgreSQL getTableList method.
 	 * 
 	 * @return  void
