@@ -116,8 +116,9 @@ abstract class JDatabaseObject extends JCacheObject
 			throw new LogicException(JText::_('JDATABASEOBJECT_PRIMARY_TABLE_NOT_SET'));
 		}
 
+		$keys = array_keys($this->tables);
 		// Assert that the primary table is first.
-		if (array_shift(array_keys($this->tables)) !== 'primary')
+		if (array_shift($keys) !== 'primary')
 		{
 			throw new LogicException(JText::_('JDATABASEOBJECT_PRIMARY_TABLE_NOT_FIRST'));
 		}
@@ -558,7 +559,8 @@ abstract class JDatabaseObject extends JCacheObject
 			foreach ($this->tables as $alias => $table)
 			{
 				// Store the data to the database.
-				$this->db->updateObject($table, $this->dumpTable($alias), $primaryKey);
+				$dump = $this->dumpTable($alias);
+				$this->db->updateObject($table, $dump, $primaryKey);
 			}
 
 			// Commit the transaction.
