@@ -61,6 +61,16 @@ class JDatabaseIterator implements Iterator
 	/**
 	 * Constructor.
 	 *
+	 * classic use is
+	 *
+	 * <code>
+	 * $dbo = JFactory::getDbo();
+	 * foreach (new JDatabaseIterator($dbo, $dbo->getQuery(true)->select('*')->from('#__content')) as $i => $row)
+	 * {
+	 *     var_dump($i, $row);
+	 * } 
+	 * </code>
+	 *
 	 * @param   JDatabase              $dbo      The database object
 	 * @param   JDatabaseQuery|string  $query    The query to execute
 	 * @param   array                  $options  An array of options.  Available key are:
