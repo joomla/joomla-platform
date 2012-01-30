@@ -96,7 +96,7 @@ class JDatabaseNosql extends JDatabase
 	 *
 	 * @since   11.4
 	 */
-	protected function fetchArray($cursor = null)
+	public function fetchArray($cursor = null)
 	{
 		return array();
 	}
@@ -110,7 +110,7 @@ class JDatabaseNosql extends JDatabase
 	 *
 	 * @since   11.4
 	 */
-	protected function fetchAssoc($cursor = null)
+	public function fetchAssoc($cursor = null)
 	{
 		return array();
 	}
@@ -125,7 +125,7 @@ class JDatabaseNosql extends JDatabase
 	 *
 	 * @since   11.4
 	 */
-	protected function fetchObject($cursor = null, $class = 'stdClass')
+	public function fetchObject($cursor = null, $class = 'stdClass')
 	{
 		return new $class;
 	}
@@ -139,7 +139,7 @@ class JDatabaseNosql extends JDatabase
 	 *
 	 * @since   11.4
 	 */
-	protected function freeResult($cursor = null)
+	public function freeResult($cursor = null)
 	{
 		return null;
 	}

@@ -832,32 +832,25 @@ abstract class JDatabase implements JDatabaseInterface
 	 */
 	public function loadAssocList($key = null, $column = null)
 	{
-		// Initialise variables.
-		$array = array();
+		// Get the iterator
+		$iterator = new JDatabaseIterator(
+			$this->getQuery(),
+			array('dbo' => $this, 'key' => $key, 'offset' => $this->offset, 'limit' => $this->limit));
 
-		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
+		// Get the rows
+		$array = iterator_to_array($iterator);
+		foreach ($array as $key => $row)
 		{
-			return null;
-		}
-
-		// Get all of the rows from the result set.
-		while ($row = $this->fetchAssoc($cursor))
-		{
-			$value = ($column) ? (isset($row[$column]) ? $row[$column] : $row) : $row;
-			if ($key)
+			if (isset($row[$column]))
 			{
-				$array[$row[$key]] = $value;
-			}
-			else
-			{
-				$array[] = $value;
+				$array[$key] = $row[$column];
 			}
 		}
 
-		// Free up system resources and return.
-		$this->freeResult($cursor);
+		// free result
+		unset($iterator);
 
+		// Return the rows
 		return $array;
 	}
 
@@ -904,10 +897,14 @@ abstract class JDatabase implements JDatabaseInterface
 	 *
 	 * @since   11.1
 	 * @throws  JDatabaseException
+	 *
+	 * @deprecated  12.3  Use JDatabaseIterator instead
 	 */
 	public function loadNextObject($class = 'stdClass')
 	{
 		static $cursor;
+
+		JLog::add(__METHOD__ . ' is deprecated, use JDatabaseIterator instead.', JLog::WARNING, 'deprecated');
 
 		// Execute the query and get the result set cursor.
 		if (!($cursor = $this->query()))
@@ -935,10 +932,14 @@ abstract class JDatabase implements JDatabaseInterface
 	 *
 	 * @since   11.1
 	 * @throws  JDatabaseException
+	 *
+	 * @deprecated  12.3  Use JDatabaseIterator instead
 	 */
 	public function loadNextRow()
 	{
 		static $cursor;
+
+		JLog::add(__METHOD__ . ' is deprecated, use JDatabaseIterator instead.', JLog::WARNING, 'deprecated');
 
 		// Execute the query and get the result set cursor.
 		if (!($cursor = $this->query()))
@@ -1007,33 +1008,20 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @since   11.1
 	 * @throws  JDatabaseException
 	 */
-	public function loadObjectList($key = '', $class = 'stdClass')
+	public function loadObjectList($key = null, $class = 'stdClass')
 	{
-		// Initialise variables.
-		$array = array();
+		// Get the iterator
+		$iterator = new JDatabaseIterator(
+			$this->getQuery(),
+			array('dbo' => $this, 'type' => $class, 'key' => empty($key) ? null : $key, 'offset' => $this->offset, 'limit' => $this->limit));
 
-		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
-		{
-			return null;
-		}
+		// Get the rows
+		$array = iterator_to_array($iterator);
 
-		// Get all of the rows from the result set as objects of type $class.
-		while ($row = $this->fetchObject($cursor, $class))
-		{
-			if ($key)
-			{
-				$array[$row->$key] = $row;
-			}
-			else
-			{
-				$array[] = $row;
-			}
-		}
+		// free result
+		unset($iterator);
 
-		// Free up system resources and return.
-		$this->freeResult($cursor);
-
+		// Return the rows
 		return $array;
 	}
 
@@ -1116,31 +1104,18 @@ abstract class JDatabase implements JDatabaseInterface
 	 */
 	public function loadRowList($key = null)
 	{
-		// Initialise variables.
-		$array = array();
+		// Get the iterator
+		$iterator = new JDatabaseIterator(
+			$this->getQuery(),
+			array('dbo' => $this, 'type' => 'array', 'key' => $key, 'offset' => $this->offset, 'limit' => $this->limit));
 
-		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
-		{
-			return null;
-		}
+		// Get the rows
+		$array = iterator_to_array($iterator);
 
-		// Get all of the rows from the result set as arrays.
-		while ($row = $this->fetchArray($cursor))
-		{
-			if ($key !== null)
-			{
-				$array[$row[$key]] = $row;
-			}
-			else
-			{
-				$array[] = $row;
-			}
-		}
+		// free result
+		unset($iterator);
 
-		// Free up system resources and return.
-		$this->freeResult($cursor);
-
+		// Return the rows
 		return $array;
 	}
 
