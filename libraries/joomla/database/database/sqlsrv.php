@@ -914,7 +914,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	protected function freeResult($cursor = null)
+	public function freeResult($cursor = null)
 	{
 		sqlsrv_free_stmt($cursor ? $cursor : $this->cursor);
 	}

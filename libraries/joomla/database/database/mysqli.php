@@ -493,7 +493,7 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 	 *
 	 * @since   11.1
 	 */
-	protected function freeResult($cursor = null)
+	public function freeResult($cursor = null)
 	{
 		mysqli_free_result($cursor ? $cursor : $this->cursor);
 	}

@@ -701,7 +701,7 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	protected function freeResult($cursor = null)
+	public function freeResult($cursor = null)
 	{
 		mysql_free_result($cursor ? $cursor : $this->cursor);
 	}
