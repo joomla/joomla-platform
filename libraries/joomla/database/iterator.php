@@ -19,28 +19,34 @@ defined('JPATH_PLATFORM') or die;
 class JDatabaseIterator implements Iterator
 {
 	/**
-	 * @var    JDatabase
+	 * @var    JDatabase  The JDatabase object
 	 * @since  12.1
 	 */
 	protected $dbo;
 
 	/**
-	 * @var    JDatabaseQuery|string
+	 * @var    JDatabaseQuery|string  The database query
 	 * @since  12.1
 	 */
 	protected $query;
 
 	/**
-	 * @var    'array'|'assoc'|className
+	 * @var    string  The query type 'array'|'assoc'|className
 	 * @since  12.1
 	 */
 	protected $type;
 
 	/**
-	 * @var    int  Current position
+	 * @var    string|integer  The key used
 	 * @since  12.1
 	 */
-	protected $position = 0;
+	protected $key;
+
+	/**
+	 * @var    scalar  Current position
+	 * @since  12.1
+	 */
+	protected $position;
 
 	/**
 	 * @var    mixed  The result set cursor from which to fetch the rows.
@@ -57,15 +63,28 @@ class JDatabaseIterator implements Iterator
 	 *
 	 * @param   JDatabase              $dbo      The database object
 	 * @param   JDatabaseQuery|string  $query    The query to execute
-	 * @param   string                 $type     The type of result ('array', 'assoc' or class name).
+	 * @param   array                  $options  An array of options.  Available key are:
+	 *                                           'type' for the type of result ('array', 'assoc' or class name). Default is 'array',
+	 *                                           'key' for the key used. Default is incremental integers.
 	 *
 	 * @since   12.1
 	 */
-	public function __construct(JDatabase $dbo, $query, $type = 'array')
+	public function __construct(JDatabase $dbo, $query, array $options = array())
 	{
 		$this->dbo = $dbo;
 		$this->query = $query;
-		$this->type = $type;
+		if (isset($options['type']))
+		{
+			$this->type = $options['type'];
+		}
+		else
+		{
+			$this->type = 'array';
+		}
+		if (isset($options['key']))
+		{
+			$this->key = $options['key'];
+		}
 	}
 
 	/**
@@ -87,11 +106,20 @@ class JDatabaseIterator implements Iterator
 	 */
 	public function rewind()
 	{
+		// Relase the database cursor
 		$this->releaseCursor();
+
+		// Set the query
 		$this->dbo->setQuery($this->query);
+
+		// Run the query
 		$this->cursor = $this->dbo->query();
-		$this->result = $this->fetch();
-		$this->position = 0;
+
+		// Initialise the position
+		unset($this->position);
+
+		// Get the first row
+		$this->next();
     }
 
 	/**
@@ -121,8 +149,49 @@ class JDatabaseIterator implements Iterator
 	 */
 	public function next()
 	{
-		$this->result = $this->fetch();
-		$this->position++;
+		// Get the next result
+		if ($this->type == 'array')
+		{
+			$this->result = $this->dbo->fetchArray($this->cursor);
+		}
+		elseif ($this->type == 'assoc')
+		{
+			$this->result = $this->dbo->fetchAssoc($this->cursor);
+		}
+		else
+		{
+			$this->result = $this->dbo->fetchObject($this->cursor, $this->type);
+		}
+
+		// If there is a result
+		if ($this->result)
+		{
+			// Get the next position
+			if (isset($this->key))
+			{
+				// If a key was givern
+				if ($this->type == 'array' || $this->type == 'assoc')
+				{
+					// Get the next position using the result array
+					$this->position = $this->result[$this->key];
+				}
+				else
+				{
+					// Get the next position using the result object
+					$this->position = $this->result->{$this->key};
+				}
+			}
+			elseif (isset($this->position))
+			{
+				// Increment current position
+				$this->position++;
+			}
+			else
+			{
+				// Initialise position to 0
+				$this->position = 0;
+			}
+		}
     }
 
 	/**
@@ -132,37 +201,17 @@ class JDatabaseIterator implements Iterator
 	 */
 	public function valid()
 	{
-		if (!$this->result)
+		// If there is no result, the validation failed
+		if ($this->result)
+		{
+			return true;
+		}
+		else
 		{
 			$this->releaseCursor();
 			return false;
 		}
-		else
-		{
-			return true;
-		}
     }
-
-	/**
-	 * Return the next row
-	 *
-	 * @since   12.1
-	 */
-	protected function fetch()
-	{
-		if ($this->type == 'array')
-		{
-			return $this->dbo->fetchArray($this->cursor);
-		}
-		elseif ($this->type == 'assoc')
-		{
-			return $this->dbo->fetchAssoc($this->cursor);
-		}
-		else
-		{
-			return $this->dbo->fetchObject($this->cursor, $this->type);
-		}
-	}
 
 	/**
 	 * Release the cursor if it is set
