@@ -484,7 +484,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 *
 	 * @since   11.1
 	 */
-	abstract protected function fetchArray($cursor = null);
+	abstract public function fetchArray($cursor = null);
 
 	/**
 	 * Method to fetch a row from the result set cursor as an associative array.
@@ -495,7 +495,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 *
 	 * @since   11.1
 	 */
-	abstract protected function fetchAssoc($cursor = null);
+	abstract public function fetchAssoc($cursor = null);
 
 	/**
 	 * Method to fetch a row from the result set cursor as an object.
@@ -507,7 +507,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 *
 	 * @since   11.1
 	 */
-	abstract protected function fetchObject($cursor = null, $class = 'stdClass');
+	abstract public function fetchObject($cursor = null, $class = 'stdClass');
 
 	/**
 	 * Method to free up the memory used for the result set.
@@ -518,7 +518,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 *
 	 * @since   11.1
 	 */
-	abstract protected function freeResult($cursor = null);
+	abstract public function freeResult($cursor = null);
 
 	/**
 	 * Get the number of affected rows for the previous executed SQL statement.

@@ -658,7 +658,7 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	protected function fetchArray($cursor = null)
+	public function fetchArray($cursor = null)
 	{
 		return mysql_fetch_row($cursor ? $cursor : $this->cursor);
 	}
@@ -672,7 +672,7 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	protected function fetchAssoc($cursor = null)
+	public function fetchAssoc($cursor = null)
 	{
 		return mysql_fetch_assoc($cursor ? $cursor : $this->cursor);
 	}
@@ -687,7 +687,7 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	protected function fetchObject($cursor = null, $class = 'stdClass')
+	public function fetchObject($cursor = null, $class = 'stdClass')
 	{
 		return mysql_fetch_object($cursor ? $cursor : $this->cursor, $class);
 	}

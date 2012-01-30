@@ -871,7 +871,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	protected function fetchArray($cursor = null)
+	public function fetchArray($cursor = null)
 	{
 		return sqlsrv_fetch_array($cursor ? $cursor : $this->cursor, SQLSRV_FETCH_NUMERIC);
 	}
@@ -885,7 +885,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	protected function fetchAssoc($cursor = null)
+	public function fetchAssoc($cursor = null)
 	{
 		return sqlsrv_fetch_array($cursor ? $cursor : $this->cursor, SQLSRV_FETCH_ASSOC);
 	}
@@ -900,7 +900,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	protected function fetchObject($cursor = null, $class = 'stdClass')
+	public function fetchObject($cursor = null, $class = 'stdClass')
 	{
 		return sqlsrv_fetch_object($cursor ? $cursor : $this->cursor, $class);
 	}
