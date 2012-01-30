@@ -300,19 +300,16 @@ class JDatabasePostgreSQL extends JDatabase
 		{
 			// Get the details columns information.
 			$this->setQuery('
-					SELECT pgClass2nd.relname AS "idxName", indisprimary AS "isPrimary", indisunique AS "isUnique",
-							indkey AS "idxColumn", indnatts  AS "idxCardinality",
+					SELECT indexname AS "idxName", indisprimary AS "isPrimary", indisunique  AS "isUnique",
 						CASE WHEN indisprimary = true THEN 
-							( SELECT \'ALTER TABLE "\' || pgClassFirst.relname || \'" ADD \' || pg_catalog.pg_get_constraintdef(const.oid, true) 
-								FROM pg_constraint AS const WHERE const.conname= pgClass2nd.relname )
+							( SELECT \'ALTER TABLE "\' || tablename || \'" ADD \' || pg_catalog.pg_get_constraintdef(const.oid, true) 
+								FROM pg_constraint AS const WHERE const.conname= pgClassFirst.relname )
 						ELSE pg_catalog.pg_get_indexdef(indexrelid, 0, true) 
 						END AS "Query"
-
-					FROM pg_class AS pgClassFirst , pg_index AS pgIndex, pg_class AS pgClass2nd
-					WHERE pgClassFirst.oid=pgIndex.indrelid
-					AND pgClass2nd.relfilenode=pgIndex.indexrelid
-					AND pgClassFirst.relname=' . $this->quote($table)
-					. ' ORDER BY indkey'
+					FROM pg_indexes
+					LEFT JOIN pg_class AS pgClassFirst ON indexname=pgClassFirst.relname
+					LEFT JOIN pg_index AS pgIndex ON pgClassFirst.oid=pgIndex.indexrelid
+					WHERE tablename=' . $this->quote($table) . ' ORDER BY indkey'
 			);
 			$keys = $this->loadObjectList();
 
