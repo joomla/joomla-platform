@@ -221,7 +221,8 @@ class JAdapter extends JObject
 
 				if (!class_exists($class))
 				{
-					continue; // skip to next one
+					// Skip to next one
+					continue;
 				}
 
 				$adapter = new $class($this, $this->_db, $options);

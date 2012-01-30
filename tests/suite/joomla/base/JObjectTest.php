@@ -233,26 +233,4 @@ class JObjectTest extends PHPUnit_Framework_TestCase {
 			$this->o
 		);
 	}
-
-	/**
-	 * Tests getting the string of the object.
-	 *
-	 * @group	JObject
-	 * @covers	JObject::toString
-	 * @return void
-	 */
-	public function testToString() {
-		$this->object = new JObject(
-			array(
-				'_privateproperty1' => 'valuep1',
-				'property1' => 'value1',
-				'property2' => 5
-			)
-		);
-		$this->assertEquals(
-			"JObject",
-			$this->object->toString(),
-			'Should convert the object to a string'
-		);
-	}
 }

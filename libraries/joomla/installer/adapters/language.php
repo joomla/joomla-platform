@@ -63,24 +63,7 @@ class JInstallerLanguage extends JAdapterInstance
 		$root = $this->manifest->document;
 
 		// Get the client application target
-		if ((string) $this->manifest->attributes()->client == 'both')
-		{
-			JError::raiseWarning(42, JText::_('JLIB_INSTALLER_ERROR_DEPRECATED_FORMAT'));
-			$element = $this->manifest->site->files;
-			if (!$this->_install('site', JPATH_SITE, 0, $element))
-			{
-				return false;
-			}
-
-			$element = $this->manifest->administration->files;
-			if (!$this->_install('administrator', JPATH_ADMINISTRATOR, 1, $element))
-			{
-				return false;
-			}
-			// This causes an issue because we have two eid's, *sigh* nasty hacks!
-			return true;
-		}
-		elseif ($cname = (string) $this->manifest->attributes()->client)
+		if ($cname = (string) $this->manifest->attributes()->client)
 		{
 			// Attempt to map the client to a base path
 			$client = JApplicationHelper::getClientInfo($cname, true);
@@ -188,15 +171,19 @@ class JInstallerLanguage extends JAdapterInstance
 		{
 			// Look for an update function or update tag
 			$updateElement = $this->manifest->update;
-			// Upgrade manually set or
-			// Update function available or
-			// Update tag detected
-			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
+
+			/*
+			 * Upgrade manually set or
+			 * Update function available or
+			 * Update tag detected
+			 */
+			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
 				|| is_a($updateElement, 'JXMLElement'))
 			{
-				return $this->update(); // transfer control to the update function
+				// Transfer control to the update function
+				return $this->update();
 			}
-			elseif (!$this->parent->getOverwrite())
+			elseif (!$this->parent->isOverwrite())
 			{
 				// Overwrite is set
 				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
@@ -274,6 +261,7 @@ class JInstallerLanguage extends JAdapterInstance
 		$row->set('name', $this->get('name'));
 		$row->set('type', 'language');
 		$row->set('element', $this->get('tag'));
+
 		// There is no folder for languages
 		$row->set('folder', '');
 		$row->set('enabled', 1);
@@ -416,8 +404,10 @@ class JInstallerLanguage extends JAdapterInstance
 		}
 		else
 		{
-			// set the defaults
-			$row->set('folder', ''); // There is no folder for language
+			// Set the defaults
+
+			// There is no folder for language
+			$row->set('folder', '');
 			$row->set('enabled', 1);
 			$row->set('protected', 0);
 			$row->set('access', 0);
@@ -443,7 +433,9 @@ class JInstallerLanguage extends JAdapterInstance
 		{
 			$this->parent->manifestClass->postflight('update', $this);
 		}
-		$msg .= ob_get_contents(); // append messages
+
+		// Append messages
+		$msg .= ob_get_contents();
 		ob_end_clean();
 		if ($msg != '')
 		{
@@ -467,6 +459,7 @@ class JInstallerLanguage extends JAdapterInstance
 		// Load up the extension details
 		$extension = JTable::getInstance('extension');
 		$extension->load($eid);
+
 		// Grab a copy of the client details
 		$client = JApplicationHelper::getClientInfo($extension->get('client_id'));
 
@@ -499,6 +492,7 @@ class JInstallerLanguage extends JAdapterInstance
 
 		// Get the package manifest object and remove media
 		$this->parent->setPath('source', $path);
+
 		// We do findManifest to avoid problem when uninstalling a list of extension: getManifest cache its manifest file
 		$this->parent->findManifest();
 		$this->manifest = $this->parent->getManifest();
@@ -634,7 +628,8 @@ class JInstallerLanguage extends JAdapterInstance
 		$this->parent->extension->state = 0;
 		$this->parent->extension->name = $manifest_details['name'];
 		$this->parent->extension->enabled = 1;
-		//$this->parent->extension->params = $this->parent->getParams();
+
+		// @todo remove code: $this->parent->extension->params = $this->parent->getParams();
 		try
 		{
 			$this->parent->extension->store();

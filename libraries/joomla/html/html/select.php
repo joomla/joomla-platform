@@ -298,6 +298,7 @@ abstract class JHtmlSelect
 		{
 			// Assume we have an options array
 			$options = array_merge($options, $attribs);
+
 			// Extract the format and remove it from downstream options
 			$format = $options['option.format'];
 			unset($options['option.format']);
@@ -568,11 +569,13 @@ abstract class JHtmlSelect
 				$text = $element;
 			}
 
-			// The use of options that contain optgroup HTML elements was
-			// somewhat hacked for J1.5. J1.6 introduces the grouplist() method
-			// to handle this better. The old solution is retained through the
-			// "groups" option, which defaults true in J1.6, but should be
-			// deprecated at some point in the future.
+			/*
+			 * The use of options that contain optgroup HTML elements was
+			 * somewhat hacked for J1.5. J1.6 introduces the grouplist() method
+			 * to handle this better. The old solution is retained through the
+			 * "groups" option, which defaults true in J1.6, but should be
+			 * deprecated at some point in the future.
+			 */
 
 			$key = (string) $key;
 			if ($options['groups'] && $key == '<OPTGROUP>')
@@ -587,7 +590,7 @@ abstract class JHtmlSelect
 			}
 			else
 			{
-				// if no string after hyphen - take hyphen out
+				// If no string after hyphen - take hyphen out
 				$splitText = explode(' - ', $text, 2);
 				$text = $splitText[0];
 				if (isset($splitText[1]))
