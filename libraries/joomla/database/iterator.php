@@ -96,7 +96,7 @@ class JDatabaseIterator implements Iterator
 	 */
 	public function __destruct()
 	{
-		$this->releaseCursor();
+		$this->freeResult();
 	}
 
 	/**
@@ -106,8 +106,8 @@ class JDatabaseIterator implements Iterator
 	 */
 	public function rewind()
 	{
-		// Relase the database cursor
-		$this->releaseCursor();
+		// Release the database cursor
+		$this->freeResult();
 
 		// Set the query
 		$this->dbo->setQuery($this->query);
@@ -208,7 +208,7 @@ class JDatabaseIterator implements Iterator
 		}
 		else
 		{
-			$this->releaseCursor();
+			$this->freeResult();
 			return false;
 		}
     }
@@ -218,9 +218,9 @@ class JDatabaseIterator implements Iterator
 	 *
 	 * @since   12.1
 	 */
-	protected function releaseCursor()
+	protected function freeResult()
 	{
-		if (isset($this->cursor))
+		if (!empty($this->cursor))
 		{
 			$this->dbo->freeResult($this->cursor);
 		}
