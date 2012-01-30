@@ -191,8 +191,7 @@ class JDatabaseExporterPostgreSQL
 			foreach ($keys as $key)
 			{
 				$buffer[] = '   <key Index="' . $key->idxName . '"' . ' is_primary="' . $key->isPrimary . '"' . ' is_unique="' . $key->isUnique . '"' .
-					' Column_index="' . $key->idxColumn . '"' . ' Index_Cardinality="' . $key->idxCardinality . '"' . ' Query="' . $key->Query . '"' .
-					' />';
+					' Query="' . $key->Query . '" />';
 			}
 
 			$buffer[] = '  </table_structure>';
