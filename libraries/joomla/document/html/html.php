@@ -457,7 +457,7 @@ class JDocumentHTML extends JDocument
 		$words = preg_split('# ' . $operators . ' #', $condition, null, PREG_SPLIT_DELIM_CAPTURE);
 		for ($i = 0, $n = count($words); $i < $n; $i += 2)
 		{
-			// odd parts (modules)
+			// Odd parts (modules)
 			$name = strtolower($words[$i]);
 			$words[$i] = ((isset(parent::$_buffer['modules'][$name])) && (parent::$_buffer['modules'][$name] === false))
 				? 0
@@ -488,7 +488,7 @@ class JDocumentHTML extends JDocument
 			$active = $menu->getActive();
 			if ($active)
 			{
-				$query->getQuery(true);
+				$query = $dbo->getQuery(true);
 				$query->select('COUNT(*)');
 				$query->from('#__menu');
 				$query->where('parent_id = ' . $active->id);
@@ -516,7 +516,7 @@ class JDocumentHTML extends JDocument
 	 */
 	protected function _loadTemplate($directory, $filename)
 	{
-		//		$component	= JApplicationHelper::getComponentName();
+		// @todo remove code: $component	= JApplicationHelper::getComponentName();
 
 		$contents = '';
 
@@ -526,7 +526,7 @@ class JDocumentHTML extends JDocument
 			// Store the file path
 			$this->_file = $directory . '/' . $filename;
 
-			//get the file content
+			// Get the file content
 			ob_start();
 			require $directory . '/' . $filename;
 			$contents = ob_get_contents();
@@ -575,8 +575,8 @@ class JDocumentHTML extends JDocument
 
 		// Load the language file for the template
 		$lang = JFactory::getLanguage();
-		// 1.5 or core then 1.6
 
+		// 1.5 or core then 1.6
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, false)
 			|| $lang->load('tpl_' . $template, $directory . '/' . $template, null, false, false)
 			|| $lang->load('tpl_' . $template, JPATH_BASE, $lang->getDefault(), false, false)

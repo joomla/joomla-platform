@@ -206,7 +206,8 @@ class JDatabaseSQLSrv extends JDatabase
 		$result = addslashes($text);
 		$result = str_replace("\'", "''", $result);
 		$result = str_replace('\"', '"', $result);
-		//$result = str_replace("\\", "''", $result);
+
+		// $result = str_replace("\\", "''", $result);
 
 		if ($extra)
 		{
@@ -388,12 +389,14 @@ class JDatabaseSQLSrv extends JDatabase
 		$result = array();
 
 		$table_temp = $this->replacePrefix((string) $table);
+
 		// Set the query to get the table fields statement.
 		$this->setQuery(
 			'SELECT column_name as Field, data_type as Type, is_nullable as \'Null\', column_default as \'Default\'' .
 			' FROM information_schema.columns' . ' WHERE table_name = ' . $this->quote($table_temp)
 		);
 		$fields = $this->loadObjectList();
+
 		// If we only want the type as the value add just that to the list.
 		if ($typeOnly)
 		{
@@ -473,20 +476,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 */
 	public function getVersion()
 	{
-		//TODO: Don't hardcode this.
-		return '5.1.0';
-	}
-
-	/**
-	 * Determines if the database engine supports UTF-8 character encoding.
-	 *
-	 * @return  boolean  True if supported.
-	 *
-	 * @since   11.1
-	 */
-	public function hasUTF()
-	{
-		return true;
+		return sqlsrv_server_info($this->connection);
 	}
 
 	/**
@@ -518,7 +508,7 @@ class JDatabaseSQLSrv extends JDatabase
 			}
 			if ($k[0] == '_')
 			{
-				// internal field
+				// Internal field
 				continue;
 			}
 			if ($k == $key && $key == 0)
@@ -582,7 +572,8 @@ class JDatabaseSQLSrv extends JDatabase
 		}
 		// Free up system resources and return.
 		$this->freeResult($cursor);
-		//For SQLServer - we need to strip slashes
+
+		// For SQLServer - we need to strip slashes
 		$ret = stripslashes($ret);
 
 		return $ret;
@@ -641,7 +632,7 @@ class JDatabaseSQLSrv extends JDatabase
 		$this->errorNum = 0;
 		$this->errorMsg = '';
 
-		// sqlsrv_num_rows requires a static or keyset cursor.
+		// SQLSrv_num_rows requires a static or keyset cursor.
 		if (strncmp(ltrim(strtoupper($sql)), 'SELECT', strlen('SELECT')) == 0)
 		{
 			$array = array('Scrollable' => SQLSRV_CURSOR_KEYSET);
@@ -697,6 +688,7 @@ class JDatabaseSQLSrv extends JDatabase
 	public function replacePrefix($sql, $prefix = '#__')
 	{
 		$tablePrefix = 'jos_';
+
 		// Initialize variables.
 		$escaped = false;
 		$startPos = 0;
@@ -741,7 +733,7 @@ class JDatabaseSQLSrv extends JDatabase
 				break;
 			}
 
-			// quote comes first, find end of quote
+			// Quote comes first, find end of quote
 			while (true)
 			{
 				$k = strpos($sql, $quoteChar, $j);
@@ -765,7 +757,7 @@ class JDatabaseSQLSrv extends JDatabase
 			}
 			if ($k === false)
 			{
-				// error in the query - no end quote; ignore it
+				// Error in the query - no end quote; ignore it
 				break;
 			}
 			$literal .= substr($sql, $startPos, $k - $startPos + 1);
@@ -925,129 +917,6 @@ class JDatabaseSQLSrv extends JDatabase
 	protected function freeResult($cursor = null)
 	{
 		sqlsrv_free_stmt($cursor ? $cursor : $this->cursor);
-	}
-
-	/**
-	 * Diagnostic method to return explain information for a query.
-	 *
-	 * @return      string  The explain output.
-	 *
-	 * @deprecated  12.1
-	 * @see         http://msdn.microsoft.com/en-us/library/aa259203%28SQL.80%29.aspx
-	 * @since       11.1
-	 */
-	public function explain()
-	{
-		// Deprecation warning.
-		JLog::add('JDatabase::explain() is deprecated.', JLog::WARNING, 'deprecated');
-
-		// Backup the current query so we can reset it later.
-		$backup = $this->sql;
-
-		// SET SHOWPLAN_ALL ON - will make sqlsrv to show some explain of query instead of run it
-		$this->setQuery('SET SHOWPLAN_ALL ON');
-		$this->query();
-
-		// Execute the query and get the result set cursor.
-		$this->setQuery($backup);
-		if (!($cursor = $this->query()))
-		{
-			return null;
-		}
-
-		// Build the HTML table.
-		$first = true;
-		$buffer = '<table id="explain-sql">';
-		$buffer .= '<thead><tr><td colspan="99">' . $this->getQuery() . '</td></tr>';
-		while ($row = $this->fetchAssoc($cursor))
-		{
-			if ($first)
-			{
-				$buffer .= '<tr>';
-				foreach ($row as $k => $v)
-				{
-					$buffer .= '<th>' . $k . '</th>';
-				}
-				$buffer .= '</tr></thead>';
-				$first = false;
-			}
-			$buffer .= '<tbody><tr>';
-			foreach ($row as $k => $v)
-			{
-				$buffer .= '<td>' . $v . '</td>';
-			}
-			$buffer .= '</tr>';
-		}
-		$buffer .= '</tbody></table>';
-
-		// Free up system resources and return.
-		$this->freeResult($cursor);
-
-		// Remove the explain status.
-		$this->setQuery('SET SHOWPLAN_ALL OFF');
-		$this->query();
-
-		// Restore the original query to its state before we ran the explain.
-		$this->sql = $backup;
-
-		return $buffer;
-	}
-
-	/**
-	 * Execute a query batch.
-	 *
-	 * @param   boolean  $abortOnError     Abort on error.
-	 * @param   boolean  $transactionSafe  Transaction safe queries.
-	 *
-	 * @return  mixed  A database resource if successful, false if not.
-	 *
-	 * @since   11.1
-	 * @deprecated  12.1
-	 */
-	public function queryBatch($abortOnError = true, $transactionSafe = false)
-	{
-		// Deprecation warning.
-		JLog::add('JDatabase::queryBatch() is deprecated.', JLog::WARNING, 'deprecated');
-
-		$sql = $this->replacePrefix((string) $this->sql);
-		$this->errorNum = 0;
-		$this->errorMsg = '';
-
-		// If the batch is meant to be transaction safe then we need to wrap it in a transaction.
-		if ($transactionSafe)
-		{
-			$this->_sql = 'BEGIN TRANSACTION;' . $this->sql . '; COMMIT TRANSACTION;';
-		}
-
-		$queries = $this->splitSql($sql);
-		$error = 0;
-		foreach ($queries as $query)
-		{
-			$query = trim($query);
-
-			if ($query != '')
-			{
-				$this->cursor = sqlsrv_query($this->connection, $query, null, array('scrollable' => SQLSRV_CURSOR_STATIC));
-				if ($this->_debug)
-				{
-					$this->count++;
-					$this->log[] = $query;
-				}
-				if (!$this->cursor)
-				{
-					$error = 1;
-					$errors = sqlsrv_errors();
-					$this->errorNum = $errors[0]['sqlstate'];
-					$this->errorMsg = $errors[0]['message'];
-
-					if ($abortOnError)
-					{
-						return $this->cursor;
-					}
-				}
-			}
-		}
-		return $error ? false : true;
 	}
 
 	/**
