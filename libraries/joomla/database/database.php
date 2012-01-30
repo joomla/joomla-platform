@@ -833,9 +833,7 @@ abstract class JDatabase implements JDatabaseInterface
 	public function loadAssocList($key = null, $column = null)
 	{
 		// Get the iterator
-		$iterator = new JDatabaseIterator(
-			$this->getQuery(),
-			array('dbo' => $this, 'key' => $key, 'offset' => $this->offset, 'limit' => $this->limit));
+		$iterator = new JDatabaseIterator($this->sql, array('dbo' => $this, 'key' => $key, 'offset' => $this->offset, 'limit' => $this->limit));
 
 		// Get the rows
 		$array = iterator_to_array($iterator);
@@ -1012,8 +1010,9 @@ abstract class JDatabase implements JDatabaseInterface
 	{
 		// Get the iterator
 		$iterator = new JDatabaseIterator(
-			$this->getQuery(),
-			array('dbo' => $this, 'type' => $class, 'key' => empty($key) ? null : $key, 'offset' => $this->offset, 'limit' => $this->limit));
+			$this->sql,
+			array('dbo' => $this, 'type' => $class, 'key' => empty($key) ? null : $key, 'offset' => $this->offset, 'limit' => $this->limit)
+		);
 
 		// Get the rows
 		$array = iterator_to_array($iterator);
@@ -1106,8 +1105,9 @@ abstract class JDatabase implements JDatabaseInterface
 	{
 		// Get the iterator
 		$iterator = new JDatabaseIterator(
-			$this->getQuery(),
-			array('dbo' => $this, 'type' => 'array', 'key' => $key, 'offset' => $this->offset, 'limit' => $this->limit));
+			$this->sql,
+			array('dbo' => $this, 'type' => 'array', 'key' => $key, 'offset' => $this->offset, 'limit' => $this->limit)
+		);
 
 		// Get the rows
 		$array = iterator_to_array($iterator);
