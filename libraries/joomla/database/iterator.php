@@ -62,11 +62,13 @@ class JDatabaseIterator implements Iterator
 
 	/**
 	 * @var    mixed  The result set cursor from which to fetch the rows.
+	 * @since  12.1
 	 */
 	protected $cursor;
 
 	/**
 	 * @var    mixed  The current row.
+	 * @since  12.1
 	 */
 	protected $result;
 
