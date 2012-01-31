@@ -518,7 +518,7 @@ abstract class JDatabase implements JDatabaseInterface, Iterator
 	 *
 	 * @throw  InvalidArgumentException
 	 *
-	 * @see  JDatabase::setType
+	 * @see  JDatabase::setKey
 	 *
 	 * @since   12.1
 	 */
