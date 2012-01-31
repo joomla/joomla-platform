@@ -29,7 +29,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $name = 'mysql';
+	public static $name = 'mysql';
 
 	/**
 	 * The character(s) used to quote SQL statement names such as table names or field names,
@@ -40,7 +40,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @var    string
 	 * @since  11.1
 	 */
-	protected $nameQuote = '`';
+	protected static $nameQuote = '`';
 
 	/**
 	 * The null or zero representation of a timestamp for the database driver.  This should be
@@ -49,7 +49,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @var    string
 	 * @since  11.1
 	 */
-	protected $nullDate = '0000-00-00 00:00:00';
+	protected static $nullDate = '0000-00-00 00:00:00';
 
 	/**
 	 * Constructor.
@@ -123,10 +123,11 @@ class JDatabaseMySQL extends JDatabase
 	 */
 	public function __destruct()
 	{
-		if (is_resource($this->connection))
+		if ($this->cloned == 0 && is_resource($this->connection))
 		{
 			mysql_close($this->connection);
 		}
+		parent::__destruct();
 	}
 
 	/**
@@ -658,7 +659,7 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	public function fetchArray($cursor = null)
+	protected function fetchArray($cursor = null)
 	{
 		return mysql_fetch_row($cursor ? $cursor : $this->cursor);
 	}
@@ -672,7 +673,7 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	public function fetchAssoc($cursor = null)
+	protected function fetchAssoc($cursor = null)
 	{
 		return mysql_fetch_assoc($cursor ? $cursor : $this->cursor);
 	}
@@ -687,7 +688,7 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	public function fetchObject($cursor = null, $class = 'stdClass')
+	protected function fetchObject($cursor = null, $class = 'stdClass')
 	{
 		return mysql_fetch_object($cursor ? $cursor : $this->cursor, $class);
 	}
@@ -701,7 +702,7 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	public function freeResult($cursor = null)
+	protected function freeResult($cursor = null)
 	{
 		mysql_free_result($cursor ? $cursor : $this->cursor);
 	}

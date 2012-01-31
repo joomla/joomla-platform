@@ -608,4 +608,250 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
+
+	/**
+	 * Test foreach control
+	 *
+	 * @covers JDatabase::rewind
+	 * @covers JDatabase::current
+	 * @covers JDatabase::key
+	 * @covers JDatabase::next
+	 * @covers JDatabase::valid
+	 * @covers JDatabase::__clone
+	 * @covers JDatabase::__destruct
+	 * @covers JDatabaseMySQL::__destruct
+	 * @covers JDatabase::setKey
+	 * @covers JDatabase::setType
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function testForEach()
+	{
+		// Testing 'alloc' type without specific key
+		$this->object->setType('assoc')->setKey(null)->setQuery($this->object->getQuery(true)->select('title')->from('jos_dbtest'));
+		$results = array(
+			array('title' => 'Testing'),
+			array('title' => 'Testing2'),
+			array('title' => 'Testing3'),
+			array('title' => 'Testing4')
+		);
+		foreach ($this->object as $i => $result)
+		{
+			$this->assertThat(
+				$result,
+				$this->equalTo($results[$i]),
+				__LINE__
+			);
+		}
+		foreach ($this->object as $i => $result)
+		{
+			$this->assertThat(
+				$result,
+				$this->equalTo($results[$i]),
+				__LINE__
+			);
+		}
+
+		// Testing 'alloc' type without specific key and an offset
+		$this->object->setQuery($this->object->getQuery(true)->select('title')->from('jos_dbtest'), 2);
+		$results = array(
+			array('title' => 'Testing3'),
+			array('title' => 'Testing4')
+		);
+		foreach ($this->object as $i => $result)
+		{
+			$this->assertThat(
+				$result,
+				$this->equalTo($results[$i]),
+				__LINE__
+			);
+		}
+		foreach ($this->object as $i => $result)
+		{
+			$this->assertThat(
+				$result,
+				$this->equalTo($results[$i]),
+				__LINE__
+			);
+		}
+
+		// Testing 'alloc' type without specific key and an limit
+		$this->object->setQuery($this->object->getQuery(true)->select('title')->from('jos_dbtest'), 0, 2);
+		$results = array(
+			array('title' => 'Testing'),
+			array('title' => 'Testing2')
+		);
+		foreach ($this->object as $i => $result)
+		{
+			$this->assertThat(
+				$result,
+				$this->equalTo($results[$i]),
+				__LINE__
+			);
+		}
+		foreach ($this->object as $i => $result)
+		{
+			$this->assertThat(
+				$result,
+				$this->equalTo($results[$i]),
+				__LINE__
+			);
+		}
+
+		// Testing 'stdClass' type without specific key
+		$this->object->setType('stdClass');
+		$results = array(
+			(object) array('title' => 'Testing'),
+			(object) array('title' => 'Testing2'),
+			(object) array('title' => 'Testing3'),
+			(object) array('title' => 'Testing4')
+		);
+		foreach ($this->object as $i => $result)
+		{
+			$this->assertThat(
+				$result,
+				$this->equalTo($results[$i]),
+				__LINE__
+			);
+		}
+		foreach ($this->object as $i => $result)
+		{
+			$this->assertThat(
+				$result,
+				$this->equalTo($results[$i]),
+				__LINE__
+			);
+		}
+
+		// Testing 'array' type without specific key
+		$this->object->setType('array');
+		$results = array(
+			array(0 => 'Testing'),
+			array(0 => 'Testing2'),
+			array(0 => 'Testing3'),
+			array(0 => 'Testing4')
+		);
+		foreach ($this->object as $i => $result)
+		{
+			$this->assertThat(
+				$result,
+				$this->equalTo($results[$i]),
+				__LINE__
+			);
+		}
+		foreach ($this->object as $i => $result)
+		{
+			$this->assertThat(
+				$result,
+				$this->equalTo($results[$i]),
+				__LINE__
+			);
+		}
+
+		// Testing 'assoc' type with a specific key
+		$this->object->setType('assoc')->setKey('title')->setQuery($this->object->getQuery(true)->select('id, title')->from('jos_dbtest'));
+		$results = array(
+			'Testing' => array('title' => 'Testing', 'id' => '1'),
+			'Testing2' => array('title' => 'Testing2', 'id' => '2'),
+			'Testing3' => array('title' => 'Testing3', 'id' => '3'),
+			'Testing4' => array('title' => 'Testing4', 'id' => '4')
+		);
+		foreach ($this->object as $i => $result)
+		{
+			$this->assertThat(
+				$result,
+				$this->equalTo($results[$i]),
+				__LINE__
+			);
+		}
+		foreach ($this->object as $i => $result)
+		{
+			$this->assertThat(
+				$result,
+				$this->equalTo($results[$i]),
+				__LINE__
+			);
+		}
+
+		// Testing 'stdClass' type with a specific key
+		$this->object->setType('stdClass');
+		$results = array(
+			'Testing' => (object) array('title' => 'Testing', 'id' => '1'),
+			'Testing2' => (object) array('title' => 'Testing2', 'id' => '2'),
+			'Testing3' => (object) array('title' => 'Testing3', 'id' => '3'),
+			'Testing4' => (object) array('title' => 'Testing4', 'id' => '4')
+		);
+		foreach ($this->object as $i => $result)
+		{
+			$this->assertThat(
+				$result,
+				$this->equalTo($results[$i]),
+				__LINE__
+			);
+		}
+		foreach ($this->object as $i => $result)
+		{
+			$this->assertThat(
+				$result,
+				$this->equalTo($results[$i]),
+				__LINE__
+			);
+		}
+
+		// Testing 'array' type with a specific key
+		$this->object->setType('array')->setKey(1);
+		$results = array(
+			'Testing' => array(0 => '1', 1=> 'Testing'),
+			'Testing2' => array(0 => '2', 1=> 'Testing2'),
+			'Testing3' => array(0 => '3', 1=> 'Testing3'),
+			'Testing4' => array(0 => '4', 1=> 'Testing4')
+		);
+		foreach ($this->object as $i => $result)
+		{
+			$this->assertThat(
+				$result,
+				$this->equalTo($results[$i]),
+				__LINE__
+			);
+		}
+		foreach ($this->object as $i => $result)
+		{
+			$this->assertThat(
+				$result,
+				$this->equalTo($results[$i]),
+				__LINE__
+			);
+		}
+
+		// Test cloning and nested loops
+		$dbo = clone $this->object;
+		foreach ($this->object as $i => $result)
+		{
+			$this->assertThat(
+				$result,
+				$this->equalTo($results[$i]),
+				__LINE__
+			);
+			foreach ($dbo as $i => $result)
+			{
+				$this->assertThat(
+					$result,
+					$this->equalTo($results[$i]),
+					__LINE__
+				);
+			}
+		}
+
+		try
+		{
+			$dbo->setType('UnexistingClass');
+		}
+		catch (InvalidArgumentException $e)
+		{
+			return;
+		}
+		$this->fail('Expected exception not thrown');
+	}
 }

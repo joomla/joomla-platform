@@ -22,7 +22,7 @@ class JDatabaseNosql extends JDatabase
 	 * @var    string
 	 * @since  11.4
 	 */
-	public $name = 'nosql';
+	public static $name = 'nosql';
 
 	/**
 	 * The character(s) used to quote SQL statement names such as table names or field names,
@@ -33,7 +33,7 @@ class JDatabaseNosql extends JDatabase
 	 * @var    string
 	 * @since  11.4
 	 */
-	protected $nameQuote = '[]';
+	protected static $nameQuote = '[]';
 
 	/**
 	 * The null or zero representation of a timestamp for the database driver.  This should be
@@ -42,7 +42,7 @@ class JDatabaseNosql extends JDatabase
 	 * @var    string
 	 * @since  11.4
 	 */
-	protected $nullDate = '1BC';
+	protected static $nullDate = '1BC';
 
 	/**
 	 * Determines if the connection to the server is active.
@@ -96,7 +96,7 @@ class JDatabaseNosql extends JDatabase
 	 *
 	 * @since   11.4
 	 */
-	public function fetchArray($cursor = null)
+	protected function fetchArray($cursor = null)
 	{
 		return array();
 	}
@@ -110,7 +110,7 @@ class JDatabaseNosql extends JDatabase
 	 *
 	 * @since   11.4
 	 */
-	public function fetchAssoc($cursor = null)
+	protected function fetchAssoc($cursor = null)
 	{
 		return array();
 	}
@@ -125,7 +125,7 @@ class JDatabaseNosql extends JDatabase
 	 *
 	 * @since   11.4
 	 */
-	public function fetchObject($cursor = null, $class = 'stdClass')
+	protected function fetchObject($cursor = null, $class = 'stdClass')
 	{
 		return new $class;
 	}
@@ -139,7 +139,7 @@ class JDatabaseNosql extends JDatabase
 	 *
 	 * @since   11.4
 	 */
-	public function freeResult($cursor = null)
+	protected function freeResult($cursor = null)
 	{
 		return null;
 	}

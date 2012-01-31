@@ -29,7 +29,7 @@ class JDatabaseSQLAzure extends JDatabaseSQLSrv
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $name = 'sqlzure';
+	public static $name = 'sqlzure';
 
 	/**
 	 * Get the current query or new JDatabaseQuery object.

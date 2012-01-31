@@ -30,7 +30,7 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $name = 'mysqli';
+	public static $name = 'mysqli';
 
 	/**
 	 * Constructor.
@@ -136,10 +136,11 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 	 */
 	public function __destruct()
 	{
-		if (is_callable($this->connection, 'close'))
+		if ($this->cloned == 0 && is_callable($this->connection, 'close'))
 		{
 			mysqli_close($this->connection);
 		}
+		parent::__destruct();
 	}
 
 	/**
@@ -450,7 +451,7 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 	 *
 	 * @since   11.1
 	 */
-	public function fetchArray($cursor = null)
+	protected function fetchArray($cursor = null)
 	{
 		return mysqli_fetch_row($cursor ? $cursor : $this->cursor);
 	}
@@ -464,7 +465,7 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 	 *
 	 * @since   11.1
 	 */
-	public function fetchAssoc($cursor = null)
+	protected function fetchAssoc($cursor = null)
 	{
 		return mysqli_fetch_assoc($cursor ? $cursor : $this->cursor);
 	}
@@ -479,7 +480,7 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 	 *
 	 * @since   11.1
 	 */
-	public function fetchObject($cursor = null, $class = 'stdClass')
+	protected function fetchObject($cursor = null, $class = 'stdClass')
 	{
 		return mysqli_fetch_object($cursor ? $cursor : $this->cursor, $class);
 	}
@@ -493,7 +494,7 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 	 *
 	 * @since   11.1
 	 */
-	public function freeResult($cursor = null)
+	protected function freeResult($cursor = null)
 	{
 		mysqli_free_result($cursor ? $cursor : $this->cursor);
 	}
