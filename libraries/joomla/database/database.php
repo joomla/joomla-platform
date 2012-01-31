@@ -1082,11 +1082,8 @@ abstract class JDatabase implements JDatabaseInterface, Iterator
 	 */
 	public function loadAssocList($key = null, $column = null)
 	{
-		// Set the key and the type
-		$this->setType('assoc')->setKey($key);
-
 		// Get the rows
-		$array = iterator_to_array($this);
+		$array = iterator_to_array($this->setType('assoc')->setKey($key));
 		foreach ($array as $key => $row)
 		{
 			if (isset($row[$column]))
@@ -1256,7 +1253,7 @@ abstract class JDatabase implements JDatabaseInterface, Iterator
 	public function loadObjectList($key = null, $class = 'stdClass')
 	{
 		// Get the rows
-		return iterator_to_array($this->setKey(empty($key) ? null : $key)->setType($class));
+		return iterator_to_array($this->setType($class)->setKey(empty($key) ? null : $key));
 	}
 
 	/**
