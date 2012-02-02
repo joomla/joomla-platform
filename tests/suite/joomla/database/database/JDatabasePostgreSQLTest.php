@@ -442,6 +442,41 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 			$this->equalTo($tableCol),
 			__LINE__
 		);
+
+		/* not only type field */
+		$id = new stdClass;
+		$id->column_name = 'id';
+		$id->type = 'integer';
+		$id->null = 'NO';
+		$id->default = 'nextval(\'jos_dbtest_id_seq\'::regclass)';
+		$id->comments = '';
+
+		$title = new stdClass;
+		$title->column_name = 'title';
+		$title->type = 'character varying(50)';
+		$title->null = 'NO';
+		$title->default = null;
+		$title->comments = '';
+
+		$start_date = new stdClass;
+		$start_date->column_name = 'start_date';
+		$start_date->type = 'timestamp without time zone';
+		$start_date->null = 'NO';
+		$start_date->default = null;
+		$start_date->comments = '';
+
+		$description = new stdClass;
+		$description->column_name = 'description';
+		$description->type = 'text';
+		$description->null = 'NO';
+		$description->default = null;
+		$description->comments = '';
+
+		$this->assertThat(
+			$this->object->getTableColumns('jos_dbtest', false),
+			$this->equalTo(array('id' => $id, 'title' => $title, 'start_date' => $start_date, 'description' => $description)),
+			__LINE__
+		);
 	}
 
 	/**
@@ -478,6 +513,32 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 		$this->assertThat(
 			$this->object->getTableKeys('jos_assets'),
 			$this->equalTo(array($pkey, $id, $lftrgt, $asset)),
+			__LINE__
+		);
+	}
+
+	/**
+	 * Test getTableSequences function.
+	 * 
+	 * @return   void
+	 */
+	public function testGetTableSequences()
+	{
+		$seq = new stdClass;
+		$seq->sequence = 'jos_dbtest_id_seq';
+		$seq->schema = 'public';
+		$seq->table = 'jos_dbtest';
+		$seq->column = 'id';
+		$seq->data_type = 'bigint';
+		$seq->start_value = '1';
+		$seq->minimum_value = '1';
+		$seq->maximum_value = '9223372036854775807';
+		$seq->increment = '1';
+		$seq->cycle_option = 'NO';
+
+		$this->assertThat(
+			$this->object->getTableSequences('jos_dbtest'),
+			$this->equalTo(array($seq)),
 			__LINE__
 		);
 	}
