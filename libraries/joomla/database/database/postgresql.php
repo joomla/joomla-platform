@@ -350,7 +350,7 @@ class JDatabasePostgreSQL extends JDatabase
 					->leftJoin('pg_class t ON t.oid=d.refobjid')
 					->leftJoin('pg_namespace n ON n.oid=t.relnamespace')
 					->leftJoin('pg_attribute a ON a.attrelid=t.oid AND a.attnum=d.refobjsubid')
-					->leftJoin('information_schema.sequences AS info ON infoseq.sequence_name=s.relname')
+					->leftJoin('information_schema.sequences AS info ON info.sequence_name=s.relname')
 					->where("s.relkind='S' AND d.deptype='a' AND t.relname=" . $this->quote($table));
 			$this->setQuery($query);
 			$keys = $this->loadObjectList();
