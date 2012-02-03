@@ -238,6 +238,12 @@ abstract class JDatabaseQuery
 	protected $autoIncrementField = null;
 
 	/**
+	 * @var    JDatabaseQueryElement  The union element.
+	 * @since  12.1
+	 */
+	protected $union = null;
+
+	/**
 	 * Magic method to provide method alias support for quote() and quoteName().
 	 *
 	 * @param   string  $method  The called method.
@@ -332,6 +338,10 @@ abstract class JDatabaseQuery
 				}
 
 				break;
+
+			case 'union':
+				$query .= (string) $this->union;
+			break;
 
 			case 'delete':
 				$query .= (string) $this->delete;
@@ -524,6 +534,10 @@ abstract class JDatabaseQuery
 				$this->values = null;
 				break;
 
+			case 'union':
+				$this->union = null;
+				break;
+
 			default:
 				$this->type = null;
 				$this->select = null;
@@ -540,6 +554,7 @@ abstract class JDatabaseQuery
 				$this->columns = null;
 				$this->values = null;
 				$this->autoIncrementField = null;
+				$this->union = null;
 				break;
 		}
 
@@ -1303,5 +1318,80 @@ abstract class JDatabaseQuery
 				$this->{$k} = unserialize(serialize($v));
 			}
 		}
+	}
+
+	/**
+	 * Add a query to UNION with the current query.
+	 * Multiple unions each require separate statements and create an array of unions.
+	 *
+	 * Usage:
+	 * $query->union('SELECT name FROM  #__foo')
+	 * $query->union('SELECT name FROM  #__foo','distinct')
+	 * $query->union(array('SELECT name FROM  #__foo','SELECT name FROM  #__bar'))
+	 *
+	 * @param   JDatabaseQuery  $query     The JDatabaseQuery object to union.
+	 * @param   boolean         $distinct  True to only return distinct rows from the union.
+	 * @param   string          $glue      The glue by which to join the conditions.
+	 *
+	 * @return  mixed    The JDatabaseQuery object on success or boolean false on failure.
+	 *
+	 * @since   12.1
+	 */
+	public function union($query, $distinct = false, $glue = '')
+	{
+
+		// Clear any ORDER BY clause in UNION query
+		// See http://dev.mysql.com/doc/refman/5.0/en/union.html
+		if (!is_null($this->order))
+		{
+			$this->clear('order');
+		}
+
+		// Set up the DISTINCT flag, the name with parentheses, and the glue.
+		if ($distinct)
+		{
+			$name = 'UNION DISTINCT ()';
+			$glue = ')' . PHP_EOL . 'UNION DISTINCT (';
+		}
+		else
+		{
+			$glue = ')' . PHP_EOL . 'UNION (';
+			$name = 'UNION ()';
+
+		}
+		// Great the JDatabaseQueryElement if it does not exist
+		if (is_null($this->union))
+		{
+				$this->union = new JDatabaseQueryElement($name, $query, "$glue");
+		}
+		// Otherwise append the second UNION.
+		else
+		{
+			$glue = '';
+			$this->union->append($query);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Add a query to UNION DISTINCT with the current query. Simply a proxy to Union with the Distinct clause.
+	 *
+	 * Usage:
+	 * $query->unionDistinct('SELECT name FROM  #__foo')
+	 *
+	 * @param   JDatabaseQuery  $query  The object to union.
+	 * @param   string          $glue   The glue by which to join the conditions.
+	 *
+	 * @return  mixed   The JDatabaseQuery object on success or boolean false on failure.
+	 *
+	 * @since   12.1
+	 */
+	public function unionDistinct($query, $glue = '')
+	{
+		$distinct = true;
+
+		// Apply the distinct flag to the union.
+		return $this->union($query, $distinct, $glue);
 	}
 }

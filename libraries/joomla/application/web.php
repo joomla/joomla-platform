@@ -9,10 +9,10 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.application.input');
-jimport('joomla.application.web.webclient');
-jimport('joomla.environment.uri');
-jimport('joomla.event.dispatcher');
+JLoader::register('JInput', JPATH_BASE . '/joomla/application/input');
+JLoader::register('JWebClient', JPATH_BASE . '/joomla/application/web/webclient');
+JLoader::register('JURI', JPATH_BASE . '/joomla/environment/uri');
+JLoader::register('JDispatcher', JPATH_BASE . '/joomla/event/dispatcher');
 
 /**
  * Base class for a Joomla! Web application.
