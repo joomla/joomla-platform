@@ -153,9 +153,23 @@ class JDatabaseImporterPostgreSQL
 	}
 
 	/**
+	 * Get the SQL syntax to add an index.
+	 *
+	 * @param   SimpleXMLElement  $field  The XML index definition.
+	 *
+	 * @return  string
+	 *
+	 * @since   12.1
+	 */
+	protected function getAddIndexSQL(SimpleXMLElement $field)
+	{
+		return (string) $field['Query'];
+	}
+
+	/**
 	 * Get alters for table if there is a difference.
 	 *
-	 * @param   SimpleXMLElement  $structure  The XML structure pf the table.
+	 * @param   SimpleXMLElement  $structure  The XML structure of the table.
 	 *
 	 * @return  array
 	 *
@@ -176,39 +190,40 @@ class JDatabaseImporterPostgreSQL
 		$newSequence = $structure->xpath('sequence');
 
 		/* Sequence section */
-		foreach ($newSequence as $newSeq)
-		{
-			$sName = (string) $newSeq['sequence'];
+		$oldSeq = $this->getSeqLookup($oldSequence);
+		$newSequenceLook = $this->getSeqLookup($newSequence);
 
-			if (isset($oldSequence[$sName]))
+		foreach ($newSequenceLook as $kSeqName => $vSeq)
+		{
+			if (isset($oldSeq[$kSeqName]))
 			{
 				// The field exists, check it's the same.
-				$column = $oldSequence[$sName];
+				$column = $oldSeq[$kSeqName][0];
 
 				// Test whether there is a change.
-				$change = ((string) $newSeq['data_type'] != $column->data_type) || ((string) $newSeq['start_value'] != $column->start_value)
-					|| ((string) $newSeq['minimum_value'] != $column->minimum_value) || ((string) $newSeq['maximum_value'] != $column->maximum_value)
-					|| ((string) $newSeq['increment'] != $column->increment) || ((string) $newSeq['cycle_option'] != $column->cycle_option)
-					|| ((string) $newSeq['table'] != $column->table) || ((string) $newSeq['column'] != $column->column)
-					|| ((string) $newSeq['schema'] != $column->schema);
+				$change = ((string) $vSeq[0]['Type'] != $column->Type) || ((string) $vSeq[0]['Start_Value'] != $column->Start_Value)
+					|| ((string) $vSeq[0]['Min_Value'] != $column->Min_Value) || ((string) $vSeq[0]['Max_Value'] != $column->Max_Value)
+					|| ((string) $vSeq[0]['Increment'] != $column->Increment) || ((string) $vSeq[0]['Cycle_option'] != $column->Cycle_option)
+					|| ((string) $vSeq[0]['Table'] != $column->Table) || ((string) $vSeq[0]['Column'] != $column->Column)
+					|| ((string) $vSeq[0]['Schema'] != $column->Schema) || ((string) $vSeq[0]['Name'] != $column->Name);
 
 				if ($change)
 				{
-					$alters[] = $this->getChangeSequenceSQL($sName, $newSeq);
+					$alters[] = $this->getChangeSequenceSQL($kSeqName, $vSeq);
 				}
 
 				// Unset this field so that what we have left are fields that need to be removed.
-				unset($oldSequence[$sName]);
+				unset($oldSeq[$kSeqName]);
 			}
 			else
 			{
 				// The sequence is new
-				$alters[] = $this->getAddSequenceSQL($field);
+				$alters[] = $this->getAddSequenceSQL($newSequenceLook[$kSeqName][0]);
 			}
 		}
 
 		// Any sequences left are orphans
-		foreach ($oldSequence as $name => $column)
+		foreach ($oldSeq as $name => $column)
 		{
 			// Delete the sequence.
 			$alters[] = $this->getDropSequenceSQL($name);
@@ -218,7 +233,7 @@ class JDatabaseImporterPostgreSQL
 		// Loop through each field in the new structure.
 		foreach ($newFields as $field)
 		{
-			$fName = (string) $field['column_name'];
+			$fName = (string) $field['Field'];
 
 			if (isset($oldFields[$fName]))
 			{
@@ -226,8 +241,8 @@ class JDatabaseImporterPostgreSQL
 				$column = $oldFields[$fName];
 
 				// Test whether there is a change.
-				$change = ((string) $field['type'] != $column->type) || ((string) $field['null'] != $column->null)
-					|| ((string) $field['default'] != $column->default);
+				$change = ((string) $field['Type'] != $column->Type) || ((string) $field['Null'] != $column->Null)
+					|| ((string) $field['Default'] != $column->Default);
 
 				if ($change)
 				{
@@ -252,7 +267,7 @@ class JDatabaseImporterPostgreSQL
 		}
 
 		/* Index section */
-		// Get the lookups for the old and new keys.
+		// Get the lookups for the old and new keys
 		$oldLookup = $this->getIdxLookup($oldKeys);
 		$newLookup = $this->getIdxLookup($newKeys);
 
@@ -269,13 +284,16 @@ class JDatabaseImporterPostgreSQL
 				// There is a key on this field in the old and new tables. Are they the same?
 				if ($newCount == $oldCount)
 				{
-					// check only query field -> different query means different index
-					$same = ((string) $newLookup[$name]['Query'] == $oldLookup[$name]->Query);
-
-					if (!$same)
+					for ($i = 0; $i < $newCount; $i++)
 					{
-						// Break out of the loop. No need to check further.
-						break;
+						// check only query field -> different query means different index
+						$same = ((string) $newLookup[$name][$i]['Query'] == $oldLookup[$name][$i]->Query);
+	
+						if (!$same)
+						{
+							// Break out of the loop. No need to check further.
+							break;
+						}
 					}
 				}
 				else
@@ -287,7 +305,7 @@ class JDatabaseImporterPostgreSQL
 				if (!$same)
 				{
 					$alters[] = $this->getDropIndexSQL($name);
-					$alters[]  = (string) $newLookup[$name]['Query'];
+					$alters[]  = (string) $newLookup[$name][0]['Query'];
 				}
 
 				// Unset this field so that what we have left are fields that need to be removed.
@@ -296,16 +314,16 @@ class JDatabaseImporterPostgreSQL
 			else
 			{
 				// This is a new key.
-				$alters[] = (string) $newLookup[$name]['Query'];
+				$alters[] = (string) $newLookup[$name][0]['Query'];
 			}
 		}
 
 		// Any keys left are orphans.
 		foreach ($oldLookup as $name => $keys)
 		{
-			if ($oldLookup[$name]->isPrimary == true)
+			if ($oldLookup[$name][0]->is_primary == 'TRUE')
 			{
-				$alters[] = $this->getDropPrimaryKeySQL($table, $oldLookup[$name]->idxName);
+				$alters[] = $this->getDropPrimaryKeySQL($table, $oldLookup[$name][0]->Index);
 			}
 			else
 			{
@@ -340,14 +358,14 @@ class JDatabaseImporterPostgreSQL
 	 *
 	 * @since   12.1
 	 */
-	protected function getAddSequenceSQL($field)  //ok called
+	protected function getAddSequenceSQL($field)
 	{
-		$sql = 'CREATE SEQUENCE ' . (string) $field['table'] . '_' . (string) $field['column'] .
-				' INCREMENT BY ' . (string) $field['increment'] . ' MINVALUE ' . (string) $field['minimum_value'] .
-				' MAXVALUE ' . (string) $field['maximum_value'] . ' START ' . (string) $field['start_value'] .
-				(((string) $field['cycle_option'] == 'NO' ) ? ' NO' : '' ) . ' CYCLE' .
+		$sql = 'CREATE SEQUENCE ' . (string) $field['Name'] .
+				' INCREMENT BY ' . (string) $field['Increment'] . ' MINVALUE ' . $field['Min_Value'] .
+				' MAXVALUE ' . (string) $field['Max_Value'] . ' START ' . (string) $field['Start_Value'] .
+				(((string) $field['Cycle_option'] == 'NO' ) ? ' NO' : '' ) . ' CYCLE' .
 				' OWNED BY ' . $this->db->quoteName(
-									(string) $field['schema'] . '.' . (string) $field['table'] . '.' . (string) $field['column']
+									(string) $field['Schema'] . '.' . (string) $field['Table'] . '.' . (string) $field['Column']
 								);
 		return $sql;
 	}
@@ -355,20 +373,19 @@ class JDatabaseImporterPostgreSQL
 	/**
 	 * Get the syntax to alter a sequence.
 	 *
-	 * @param   string            $fName  The name of the sequence to alter.
 	 * @param   SimpleXMLElement  $field  The XML definition for the sequence.
 	 *
 	 * @return  string
 	 *
 	 * @since   12.1
 	 */
-	protected function getChangeSequenceSQL($fName, $field)
+	protected function getChangeSequenceSQL($field)
 	{
-		$sql = 'ALTER SEQUENCE ' . $this->db->quoteName($fName) .
-				' INCREMENT BY ' . (string) $field['increment'] . ' MINVALUE ' . (string) $field['minimum_value'] .
-				' MAXVALUE ' . (string) $field['maximum_value'] . ' START ' . (string) $field['start_value'] .
+		$sql = 'ALTER SEQUENCE ' . (string) $field['Name'] .
+				' INCREMENT BY ' . (string) $field['Increment'] . ' MINVALUE ' . (string) $field['Min_Value'] .
+				' MAXVALUE ' . (string) $field['Max_Value'] . ' START ' . (string) $field['Start_Value'] .
 				' OWNED BY ' . $this->db->quoteName(
-									(string) $field['schema'] . '.' . (string) $field['table'] . '.' . (string) $field['column']
+									(string) $field['Schema'] . '.' . (string) $field['Table'] . '.' . (string) $field['Column']
 								);
 		return $sql;
 	}
@@ -385,7 +402,7 @@ class JDatabaseImporterPostgreSQL
 	 */
 	protected function getChangeColumnSQL($table, SimpleXMLElement $field)
 	{
-		$sql = 'ALTER TABLE ' . $this->db->quoteName($table) . ' ALTER COLUMN ' . $this->db->quoteName((string) $field['column_name']) . ' '
+		$sql = 'ALTER TABLE ' . $this->db->quoteName($table) . ' ALTER COLUMN ' . $this->db->quoteName((string) $field['Field']) . ' '
 			. $this->getAlterColumnSQL($table, $field);
 
 		return $sql;
@@ -401,16 +418,18 @@ class JDatabaseImporterPostgreSQL
 	 *
 	 * @since   12.1
 	 */
-	protected function getAlterColumnSQL($table, $field) //ok called
+	protected function getAlterColumnSQL($table, $field)
 	{
 		// Initialise variables.
 		// TODO Incorporate into parent class and use $this.
 		$blobs = array('text', 'smalltext', 'mediumtext', 'largetext');
 
-		$fName = (string) $field['column_name'];
-		$fType = (string) $field['type'];
-		$fNull = (string) $field['null'];
-		$fDefault = isset($field['default']) ? (string) $field['default'] : null;
+		$fName = (string) $field['Field'];
+		$fType = (string) $field['Type'];
+		$fNull = (string) $field['Null'];
+		$fDefault = (isset($field['Default']) && $field['Default'] != 'NULL' ) ?
+						preg_match('/^[0-9]$/', $field['Default']) ? $field['Default'] : $this->db->quote((string) $field['Default'])
+					: null;
 
 		$sql = ' TYPE ' . $fType;
 
@@ -454,16 +473,18 @@ class JDatabaseImporterPostgreSQL
 	 *
 	 * @since   12.1
 	 */
-	protected function getColumnSQL(SimpleXMLElement $field) //ok called
+	protected function getColumnSQL(SimpleXMLElement $field)
 	{
 		// Initialise variables.
 		// TODO Incorporate into parent class and use $this.
 		$blobs = array('text', 'smalltext', 'mediumtext', 'largetext');
 
-		$fName = (string) $field['column_name'];
-		$fType = (string) $field['type'];
-		$fNull = (string) $field['null'];
-		$fDefault = isset($field['default']) ? (string) $field['default'] : null;
+		$fName = (string) $field['Field'];
+		$fType = (string) $field['Type'];
+		$fNull = (string) $field['Null'];
+		$fDefault = (isset($field['Default']) && $field['Default'] != 'NULL' ) ?
+						preg_match('/^[0-9]$/', $field['Default']) ? $field['Default'] : $this->db->quote((string) $field['Default'])
+					: null;
 
 		/* nextval() as default value means that type field is serial */
 		if (strpos($fDefault, 'nextval') !== false)
@@ -507,7 +528,7 @@ class JDatabaseImporterPostgreSQL
 	 *
 	 * @since   12.1
 	 */
-	protected function getDropColumnSQL($table, $name)  //ok called
+	protected function getDropColumnSQL($table, $name)
 	{
 		$sql = 'ALTER TABLE ' . $this->db->quoteName($table) . ' DROP COLUMN ' . $this->db->quoteName($name);
 
@@ -565,17 +586,51 @@ class JDatabaseImporterPostgreSQL
 		{
 			if ($key instanceof SimpleXMLElement)
 			{
-				$kName = (string) $key['idxName'];
+				$kName = (string) $key['Index'];
 			}
 			else
 			{
-				$kName = $key->idxName;
+				$kName = $key->Index;
 			}
 			if (empty($lookup[$kName]))
 			{
 				$lookup[$kName] = array();
 			}
 			$lookup[$kName][] = $key;
+		}
+
+		return $lookup;
+	}
+
+	/**
+	 * Get the details list of sequences for a table.
+	 *
+	 * @param   array  $sequences  An array of objects that comprise the sequences for the table.
+	 *
+	 * @return  array  The lookup array. array({key name} => array(object, ...))
+	 *
+	 * @since   12.1
+	 * @throws  Exception
+	 */
+	protected function getSeqLookup($sequences)
+	{
+		// First pass, create a lookup of the keys.
+		$lookup = array();
+		foreach ($sequences as $seq)
+		{
+			if ($seq instanceof SimpleXMLElement)
+			{
+				$sName = (string) $seq['Name'];
+			}
+			else
+			{
+				$sName = $seq->Name;
+			}
+			if (empty($lookup[$sName]))
+			{
+				$lookup[$sName] = array();
+			}
+			$lookup[$sName][] = $seq;
 		}
 
 		return $lookup;
