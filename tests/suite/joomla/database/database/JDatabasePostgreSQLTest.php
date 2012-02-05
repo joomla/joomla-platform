@@ -490,7 +490,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 		$pkey->idxName = 'jos_assets_pkey';
 		$pkey->isPrimary = 't';
 		$pkey->isUnique = 't';
-		$pkey->Query = 'ALTER TABLE "jos_assets" ADD PRIMARY KEY (id)';
+		$pkey->Query = 'ALTER TABLE jos_assets ADD PRIMARY KEY (id)';
 
 		$asset = new stdClass;
 		$asset->idxName = 'idx_asset_name';
@@ -1256,7 +1256,7 @@ class JDatabasePostgreSQLTest extends JoomlaDatabasePostgreSQLTestCase
 	{
 		/* it's not possible to select a database, already done during connection, return true */
 		$this->assertThat(
-			$this->object->select(),
+			$this->object->select('database'),
 			$this->isTrue(),
 			__LINE__
 		);

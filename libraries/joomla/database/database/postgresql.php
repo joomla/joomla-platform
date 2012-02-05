@@ -302,7 +302,7 @@ class JDatabasePostgreSQL extends JDatabase
 			$this->setQuery('
 					SELECT indexname AS "idxName", indisprimary AS "isPrimary", indisunique  AS "isUnique",
 						CASE WHEN indisprimary = true THEN 
-							( SELECT \'ALTER TABLE "\' || tablename || \'" ADD \' || pg_catalog.pg_get_constraintdef(const.oid, true) 
+							( SELECT \'ALTER TABLE \' || tablename || \' ADD \' || pg_catalog.pg_get_constraintdef(const.oid, true) 
 								FROM pg_constraint AS const WHERE const.conname= pgClassFirst.relname )
 						ELSE pg_catalog.pg_get_indexdef(indexrelid, 0, true) 
 						END AS "Query"
@@ -353,9 +353,9 @@ class JDatabasePostgreSQL extends JDatabase
 					->leftJoin('information_schema.sequences AS info ON info.sequence_name=s.relname')
 					->where("s.relkind='S' AND d.deptype='a' AND t.relname=" . $this->quote($table));
 			$this->setQuery($query);
-			$keys = $this->loadObjectList();
+			$seq = $this->loadObjectList();
 
-			return $keys;
+			return $seq;
 		}
 		return false;
 	}
@@ -625,7 +625,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 *
 	 * @return  boolean  Always true
 	 */
-	public function select($database=null)
+	public function select($database)
 	{
 		return true;
 	}
