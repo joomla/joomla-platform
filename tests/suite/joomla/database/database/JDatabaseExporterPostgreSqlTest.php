@@ -2,22 +2,22 @@
 /**
  * @version    $Id: JDatabaseExporterPostgreSQLTest.php gpongelli $
  * @package    Joomla.UnitTest
- * 
+ *
  * @copyright  Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
  * @license    GNU General Public License
  */
 
-require_once __DIR__ . '/JDatabaseExporterPostgreSqlInspector.php';
+require_once __DIR__ . '/JDatabaseExporterPostgreSQLInspector.php';
 
 /**
- * Test the JDatabaseExporterPostgreSql class.
- * 
+ * Test the JDatabaseExporterPostgreSQL class.
+ *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- * 
+ *
  * @since       12.1
  */
-class JDatabaseExporterPostgreSqlTest extends PHPUnit_Framework_TestCase
+class JDatabaseExporterPostgreSQLTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var    object  The mocked database object for use by test methods.
@@ -35,7 +35,7 @@ class JDatabaseExporterPostgreSqlTest extends PHPUnit_Framework_TestCase
 	 * Sets up the testing conditions
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   12.1
 	 */
 	public function setup()
@@ -43,7 +43,7 @@ class JDatabaseExporterPostgreSqlTest extends PHPUnit_Framework_TestCase
 		// Set up the database object mock.
 
 		$this->dbo = $this->getMock(
-			'JDatabasePostgreSql',
+			'JDatabasePostgreSQL',
 			array(
 				'getErrorNum',
 				'getPrefix',
@@ -103,7 +103,7 @@ class JDatabaseExporterPostgreSqlTest extends PHPUnit_Framework_TestCase
 						'null' => 'NO',
 						'default' => 'NULL',
 						'comments' => '',
-					),
+					)
 				)
 			)
 		);
@@ -183,7 +183,7 @@ class JDatabaseExporterPostgreSqlTest extends PHPUnit_Framework_TestCase
 	 * Callback for the dbo loadObjectList method.
 	 *
 	 * @return array  An array of results based on the setting of the last query.
-	 * 
+	 *
 	 * @since  12.1
 	 */
 	public function callbackLoadObjectList()
@@ -196,8 +196,8 @@ class JDatabaseExporterPostgreSqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @param   string  $value  The value to be quoted.
 	 *
-	 * @return string  The value passed wrapped in PostgreSql quotes.
-	 * 
+	 * @return string  The value passed wrapped in PostgreSQL quotes.
+	 *
 	 * @since  12.1
 	 */
 	public function callbackQuoteName($value)
@@ -211,7 +211,7 @@ class JDatabaseExporterPostgreSqlTest extends PHPUnit_Framework_TestCase
 	 * @param   string  $query  The query.
 	 *
 	 * @return void
-	 * 
+	 *
 	 * @since  12.1
 	 */
 	public function callbackSetQuery($query)
@@ -223,12 +223,12 @@ class JDatabaseExporterPostgreSqlTest extends PHPUnit_Framework_TestCase
 	 * Test the magic __toString method.
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   12.1
 	 */
 	public function test__toString()
 	{
-		$instance = new JDatabaseExporterPostgreSqlInspector;
+		$instance = new JDatabaseExporterPostgreSQLInspector;
 
 		// Set up the export settings.
 		$instance
@@ -262,12 +262,12 @@ class JDatabaseExporterPostgreSqlTest extends PHPUnit_Framework_TestCase
 	 * Tests the asXml method.
 	 *
 	 * @return void
-	 * 
+	 *
 	 * @since  12.1
 	 */
 	public function testAsXml()
 	{
-		$instance = new JDatabaseExporterPostgreSqlInspector;
+		$instance = new JDatabaseExporterPostgreSQLInspector;
 
 		$result = $instance->asXml();
 
@@ -288,12 +288,12 @@ class JDatabaseExporterPostgreSqlTest extends PHPUnit_Framework_TestCase
 	 * Test the buildXML method.
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   12.1
 	 */
 	public function testBuildXml()
 	{
-		$instance = new JDatabaseExporterPostgreSqlInspector;
+		$instance = new JDatabaseExporterPostgreSQLInspector;
 
 		// Set up the export settings.
 		$instance
@@ -326,12 +326,12 @@ class JDatabaseExporterPostgreSqlTest extends PHPUnit_Framework_TestCase
 	 * Tests the buildXmlStructure method.
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   12.1
 	 */
 	public function testBuildXmlStructure()
 	{
-		$instance = new JDatabaseExporterPostgreSqlInspector;
+		$instance = new JDatabaseExporterPostgreSQLInspector;
 
 		// Set up the export settings.
 		$instance
@@ -361,12 +361,12 @@ class JDatabaseExporterPostgreSqlTest extends PHPUnit_Framework_TestCase
 	 * Tests the check method.
 	 *
 	 * @return void
-	 * 
+	 *
 	 * @since  12.1
 	 */
 	public function testCheckWithNoDbo()
 	{
-		$instance = new JDatabaseExporterPostgreSqlInspector;
+		$instance = new JDatabaseExporterPostgreSQLInspector;
 
 		try
 		{
@@ -387,12 +387,12 @@ class JDatabaseExporterPostgreSqlTest extends PHPUnit_Framework_TestCase
 	 * Tests the check method.
 	 *
 	 * @return void
-	 * 
+	 *
 	 * @since  12.1
 	 */
 	public function testCheckWithNoTables()
 	{
-		$instance	= new JDatabaseExporterPostgreSqlInspector;
+		$instance	= new JDatabaseExporterPostgreSQLInspector;
 		$instance->setDbo($this->dbo);
 
 		try
@@ -414,12 +414,12 @@ class JDatabaseExporterPostgreSqlTest extends PHPUnit_Framework_TestCase
 	 * Tests the check method.
 	 *
 	 * @return void
-	 * 
+	 *
 	 * @since  12.1
 	 */
 	public function testCheckWithGoodInput()
 	{
-		$instance	= new JDatabaseExporterPostgreSqlInspector;
+		$instance	= new JDatabaseExporterPostgreSQLInspector;
 		$instance->setDbo($this->dbo);
 		$instance->from('foobar');
 
@@ -445,12 +445,12 @@ class JDatabaseExporterPostgreSqlTest extends PHPUnit_Framework_TestCase
 	 * Tests the from method with bad input.
 	 *
 	 * @return void
-	 * 
+	 *
 	 * @since  12.1
 	 */
 	public function testFromWithBadInput()
 	{
-		$instance = new JDatabaseExporterPostgreSqlInspector;
+		$instance = new JDatabaseExporterPostgreSQLInspector;
 
 		try
 		{
@@ -471,12 +471,12 @@ class JDatabaseExporterPostgreSqlTest extends PHPUnit_Framework_TestCase
 	 * Tests the from method with expected good inputs.
 	 *
 	 * @return void
-	 * 
+	 *
 	 * @since  12.1
 	 */
 	public function testFromWithGoodInput()
 	{
-		$instance = new JDatabaseExporterPostgreSqlInspector;
+		$instance = new JDatabaseExporterPostgreSQLInspector;
 
 		try
 		{
@@ -506,12 +506,12 @@ class JDatabaseExporterPostgreSqlTest extends PHPUnit_Framework_TestCase
 	 * Tests the method getGenericTableName method.
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   12.1
 	 */
 	public function testGetGenericTableName()
 	{
-		$instance = new JDatabaseExporterPostgreSqlInspector;
+		$instance = new JDatabaseExporterPostgreSQLInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -525,12 +525,12 @@ class JDatabaseExporterPostgreSqlTest extends PHPUnit_Framework_TestCase
 	 * Tests the setDbo method with the wrong type of class.
 	 *
 	 * @return void
-	 * 
+	 *
 	 * @since  12.1
 	 */
 	public function testSetDboWithBadInput()
 	{
-		$instance	= new JDatabaseExporterPostgreSqlInspector;
+		$instance	= new JDatabaseExporterPostgreSQLInspector;
 
 		try
 		{
@@ -543,7 +543,7 @@ class JDatabaseExporterPostgreSqlTest extends PHPUnit_Framework_TestCase
 		}
 
 		$this->fail(
-			'setDbo requires a JDatabasePostgreSql object and should throw an exception.'
+			'setDbo requires a JDatabasePostgreSQL object and should throw an exception.'
 		);
 	}
 
@@ -551,12 +551,12 @@ class JDatabaseExporterPostgreSqlTest extends PHPUnit_Framework_TestCase
 	 * Tests the setDbo method with the wrong type of class.
 	 *
 	 * @return void
-	 * 
+	 *
 	 * @since  12.1
 	 */
 	public function testSetDboWithGoodInput()
 	{
-		$instance = new JDatabaseExporterPostgreSqlInspector;
+		$instance = new JDatabaseExporterPostgreSQLInspector;
 
 		try
 		{
@@ -582,12 +582,12 @@ class JDatabaseExporterPostgreSqlTest extends PHPUnit_Framework_TestCase
 	 * Tests the withStructure method.
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   12.1
 	 */
 	public function testWithStructure()
 	{
-		$instance = new JDatabaseExporterPostgreSqlInspector;
+		$instance = new JDatabaseExporterPostgreSQLInspector;
 
 		$result = $instance->withStructure();
 
