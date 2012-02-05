@@ -2,7 +2,7 @@
 /**
  * @version    $Id: JDatabaseExporterPostgreSQLInspector.php gpongelli $
  * @package    Joomla.UnitTest
- * 
+ *
  * @copyright  Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
  * @license    GNU General Public License
  */
@@ -10,14 +10,14 @@
 require_once JPATH_PLATFORM . '/joomla/database/database/postgresqlexporter.php';
 
 /**
- * Class to expose protected properties and methods in JDatabasePostgreSqlExporter for testing purposes
- * 
+ * Class to expose protected properties and methods in JDatabasePostgreSQLExporter for testing purposes
+ *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- * 
+ *
  * @since       12.1
  */
-class JDatabaseExporterPostgreSqlInspector extends JDatabaseExporterPostgreSql
+class JDatabaseExporterPostgreSQLInspector extends JDatabaseExporterPostgreSQL
 {
 	/**
 	 * Gets any property from the class.
@@ -25,7 +25,7 @@ class JDatabaseExporterPostgreSqlInspector extends JDatabaseExporterPostgreSql
 	 * @param   string  $property  The name of the class property.
 	 *
 	 * @return  mixed   The value of the class property.
-	 * 
+	 *
 	 * @since   12.1
 	 */
 	public function __get($property)
@@ -37,7 +37,7 @@ class JDatabaseExporterPostgreSqlInspector extends JDatabaseExporterPostgreSql
 	 * Exposes the protected buildXml method.
 	 *
 	 * @return  string	An XML string
-	 * 
+	 *
 	 * @throws  Exception if an error occurs.
 	 * @since   12.1
 	 */
@@ -50,7 +50,7 @@ class JDatabaseExporterPostgreSqlInspector extends JDatabaseExporterPostgreSql
 	 * Exposes the protected buildXmlStructure method.
 	 *
 	 * @return  array  An array of XML lines (strings).
-	 * 
+	 *
 	 * @throws  Exception if an error occurs.
 	 * @since   12.1
 	 */
@@ -63,7 +63,7 @@ class JDatabaseExporterPostgreSqlInspector extends JDatabaseExporterPostgreSql
 	 * Exposes the protected check method.
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   12.1
 	 */
 	public function check()
@@ -77,7 +77,7 @@ class JDatabaseExporterPostgreSqlInspector extends JDatabaseExporterPostgreSql
 	 * @param   mixed  $table  The name of a table or an array of table names.
 	 *
 	 * @return  array  An array of column definitions.
-	 * 
+	 *
 	 * @since   12.1
 	 */
 	public function getColumns($table)
@@ -91,7 +91,7 @@ class JDatabaseExporterPostgreSqlInspector extends JDatabaseExporterPostgreSql
 	 * @param   string  $table  The name of a table.
 	 *
 	 * @return  string  The name of the table with the database prefix replaced with #__.
-	 * 
+	 *
 	 * @since   12.1
 	 */
 	public function getGenericTableName($table)
@@ -105,7 +105,7 @@ class JDatabaseExporterPostgreSqlInspector extends JDatabaseExporterPostgreSql
 	 * @param   mixed  $table  The name of a table or an array of table names.
 	 *
 	 * @return  array  An array of key definitions.
-	 * 
+	 *
 	 * @since   12.1
 	 */
 	public function getKeys($table)
@@ -114,26 +114,12 @@ class JDatabaseExporterPostgreSqlInspector extends JDatabaseExporterPostgreSql
 	}
 
 	/**
-	 * Exposes the protected getSequences method.
-	 *
-	 * @param   mixed  $table  The name of a table or an array of table names.
-	 *
-	 * @return  array  An array of sequence definitions.
-	 * 
-	 * @since   12.1
-	 *//*
-	public function getSequences($table)
-	{
-		return parent::getSequences($table);
-	}*/
-
-	/**
 	 * Exposes the protected withStructure method.
 	 *
 	 * @param   boolean  $setting  True to export the structure, false to not.
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since	12.1
 	 */
 	public function withStructure($setting = true)
