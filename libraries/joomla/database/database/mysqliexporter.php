@@ -54,7 +54,7 @@ class JDatabaseExporterMySQLi extends JDatabaseExporterMySQL
 	 *
 	 * @since   11.1
 	 */
-	public function setDbo(JDatabaseMySQLi $db)
+	public function setDbo(JDatabaseMySQL $db)
 	{
 		$this->db = $db;
 
