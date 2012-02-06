@@ -84,7 +84,7 @@ class JDocumentOpensearch extends JDocument
 			if (file_exists($dir . '/favicon.ico'))
 			{
 
-				$path = str_replace(JPATH_BASE . DS, '', $dir);
+				$path = str_replace(JPATH_BASE . '/', '', $dir);
 				$path = str_replace('\\', '/', $path);
 
 				$favicon = new JOpenSearchImage;
@@ -148,6 +148,7 @@ class JDocumentOpensearch extends JDocument
 		{
 			$elUrl = $xml->createElementNS($osns, 'Url');
 			$elUrl->setAttribute('type', $url->type);
+
 			// Results is the defualt value so we don't need to add it
 			if ($url->rel != 'results')
 			{

@@ -118,7 +118,7 @@ class JControllerForm extends JController
 				array('/s$/i', "s"),
 				array('/$/', "s"));
 
-			// check for matches using regular expressions
+			// Check for matches using regular expressions
 			foreach ($plural as $pattern)
 			{
 				if (preg_match($pattern[0], $this->view_item))
@@ -297,7 +297,7 @@ class JControllerForm extends JController
 	 */
 	public function cancel($key = null)
 	{
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$app = JFactory::getApplication();
@@ -557,7 +557,7 @@ class JControllerForm extends JController
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$app = JFactory::getApplication();
