@@ -24,13 +24,14 @@ class JDatabaseGlobalMock
 	/**
 	 * Creates and instance of the mock JDatabase object.
 	 *
-	 * @param   object  $test   A test object.
+	 * @param   PHPUnit_Framework_TestCase  $test               A test object.
+	 * @param   string                      $originalClassName  The name of the original class. Defaults to 'JDatabase'.
 	 *
 	 * @return  object
 	 *
 	 * @since   11.3
 	 */
-	public static function create($test)
+	public static function create(PHPUnit_Framework_TestCase $test, $originalClassName = 'JDatabase')
 	{
 		// Collect all the relevant methods in JDatabase.
 		$methods = array(
@@ -89,7 +90,7 @@ class JDatabaseGlobalMock
 
 		// Create the mock.
 		$mockObject = $test->getMock(
-			'JDatabase',
+			$originalClassName,
 			$methods,
 			// Constructor arguments.
 			array(),

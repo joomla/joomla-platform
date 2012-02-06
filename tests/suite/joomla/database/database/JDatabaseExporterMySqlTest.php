@@ -4,7 +4,7 @@
  * @license    GNU General Public License
  */
 
-require_once __DIR__.'/JDatabaseExporterMySqlInspector.php';
+require_once JPATH_PLATFORM.'/joomla/database/database/mysqlexporter.php';
 
 /**
  * Tests the JDatabaseExporterMySql class.
@@ -13,8 +13,14 @@ require_once __DIR__.'/JDatabaseExporterMySqlInspector.php';
  * @subpackage Database
  * @since      11.1
  */
-class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
+class JDatabaseExporterMySqlTest extends JoomlaTestCase
 {
+	/**
+	 * @var    JDatabaseExporterMySQL
+	 * @since  12.1
+	 */
+	protected $class;
+
 	/**
 	 * @var    object  The mocked database object for use by test methods.
 	 * @since  11.1
@@ -35,23 +41,10 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setup()
 	{
-		// Set up the database object mock.
+		$this->class = new JDatabaseExporterMySQL;
 
-		$this->dbo = $this->getMock(
-			'JDatabaseMySql',
-			array(
-				'getErrorNum',
-				'getPrefix',
-				'getTableColumns',
-				'getTableKeys',
-				'quoteName',
-				'loadObjectList',
-				'setQuery',
-			),
-			array(),
-			'',
-			false
-		);
+		// Set up the database object mock.
+		$this->dbo = $this->getMockDatabase('JDatabaseMySQL');
 
 		$this->dbo->expects(
 			$this->any()
@@ -124,26 +117,6 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 		$this->dbo->expects(
 			$this->any()
 		)
-		->method('quoteName')
-		->will(
-			$this->returnCallback(
-				array($this, 'callbackQuoteName')
-			)
-		);
-
-		$this->dbo->expects(
-			$this->any()
-		)
-		->method('setQuery')
-		->will(
-			$this->returnCallback(
-				array($this, 'callbackSetQuery')
-			)
-		);
-
-		$this->dbo->expects(
-			$this->any()
-		)
 		->method('loadObjectList')
 		->will(
 			$this->returnCallback(
@@ -164,32 +137,6 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Callback for the dbo quoteName method.
-	 *
-	 * @param  string  $value  The value to be quoted.
-	 *
-	 * @return string  The value passed wrapped in MySQL quotes.
-	 * @since  11.1
-	 */
-	public function callbackQuoteName($value)
-	{
-		return "`$value`";
-	}
-
-	/**
-	 * Callback for the dbo setQuery method.
-	 *
-	 * @param  string  $query  The query.
-	 *
-	 * @return void
-	 * @since  11.1
-	 */
-	public function callbackSetQuery($query)
-	{
-		$this->lastQuery = $query;
-	}
-
-	/**
 	 * Test the magic __toString method.
 	 *
 	 * @return  void
@@ -197,17 +144,15 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test__toString()
 	{
-		$instance = new JDatabaseExporterMySqlInspector;
-
 		// Set up the export settings.
-		$instance
+		$this->class
 			->setDbo($this->dbo)
 			->from('jos_test')
 			->withStructure(true)
 			;
 
 		$this->assertThat(
-			(string) $instance,
+			(string) $this->class,
 			$this->equalTo(
 '<?xml version="1.0"?>
 <mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -233,18 +178,16 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAsXml()
 	{
-		$instance = new JDatabaseExporterMySqlInspector;
-
-		$result = $instance->asXml();
+		$result = $this->class->asXml();
 
 		$this->assertThat(
 			$result,
-			$this->identicalTo($instance),
+			$this->identicalTo($this->class),
 			'asXml must return an object to support chaining.'
 		);
 
 		$this->assertThat(
-			$instance->asFormat,
+			ReflectionHelper::getValue($this->class, 'asFormat'),
 			$this->equalTo('xml'),
 			'The asXml method should set the protected asFormat property to "xml".'
 		);
@@ -258,17 +201,15 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testBuildXml()
 	{
-		$instance = new JDatabaseExporterMySqlInspector;
-
 		// Set up the export settings.
-		$instance
+		$this->class
 			->setDbo($this->dbo)
 			->from('jos_test')
 			->withStructure(true)
 			;
 
 		$this->assertThat(
-			$instance->buildXml(),
+			ReflectionHelper::invoke($this->class, 'buildXml'),
 			$this->equalTo(
 '<?xml version="1.0"?>
 <mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -293,17 +234,15 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testBuildXmlStructure()
 	{
-		$instance = new JDatabaseExporterMySqlInspector;
-
 		// Set up the export settings.
-		$instance
+		$this->class
 			->setDbo($this->dbo)
 			->from('jos_test')
 			->withStructure(true)
 			;
 
 		$this->assertThat(
-			$instance->buildXmlStructure(),
+			ReflectionHelper::invoke($this->class, 'buildXmlStructure'),
 			$this->equalTo(
 				array(
 					'  <table_structure name="#__test">',
@@ -325,11 +264,9 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithNoDbo()
 	{
-		$instance = new JDatabaseExporterMySqlInspector;
-
 		try
 		{
-			$instance->check();
+			$this->class->check();
 		}
 		catch (Exception $e)
 		{
@@ -350,12 +287,11 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithNoTables()
 	{
-		$instance	= new JDatabaseExporterMySqlInspector;
-		$instance->setDbo($this->dbo);
+		$this->class->setDbo($this->dbo);
 
 		try
 		{
-			$instance->check();
+			$this->class->check();
 		}
 		catch (Exception $e)
 		{
@@ -376,17 +312,16 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithGoodInput()
 	{
-		$instance	= new JDatabaseExporterMySqlInspector;
-		$instance->setDbo($this->dbo);
-		$instance->from('foobar');
+		$this->class->setDbo($this->dbo);
+		$this->class->from('foobar');
 
 		try
 		{
-			$result = $instance->check();
+			$result = $this->class->check();
 
 			$this->assertThat(
 				$result,
-				$this->identicalTo($instance),
+				$this->identicalTo($this->class),
 				'check must return an object to support chaining.'
 			);
 		}
@@ -406,11 +341,9 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testFromWithBadInput()
 	{
-		$instance = new JDatabaseExporterMySqlInspector;
-
 		try
 		{
-			$instance->from(new stdClass);
+			$this->class->from(new stdClass);
 		}
 		catch (Exception $e)
 		{
@@ -431,20 +364,18 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testFromWithGoodInput()
 	{
-		$instance = new JDatabaseExporterMySqlInspector;
-
 		try
 		{
-			$result = $instance->from('jos_foobar');
+			$result = $this->class->from('jos_foobar');
 
 			$this->assertThat(
 				$result,
-				$this->identicalTo($instance),
+				$this->identicalTo($this->class),
 				'from must return an object to support chaining.'
 			);
 
 			$this->assertThat(
-				$instance->from,
+				ReflectionHelper::getValue($this->class, 'from'),
 				$this->equalTo(array('jos_foobar')),
 				'The from method should convert a string input to an array.'
 			);
@@ -465,11 +396,10 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetGenericTableName()
 	{
-		$instance = new JDatabaseExporterMySqlInspector;
-		$instance->setDbo($this->dbo);
+		$this->class->setDbo($this->dbo);
 
 		$this->assertThat(
-			$instance->getGenericTableName('jos_test'),
+			ReflectionHelper::invoke($this->class, 'getGenericTableName', 'jos_test'),
 			$this->equalTo('#__test'),
 			'The testGetGenericTableName should replace the database prefix with #__.'
 		);
@@ -483,11 +413,9 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetDboWithBadInput()
 	{
-		$instance	= new JDatabaseExporterMySqlInspector;
-
 		try
 		{
-			$instance->setDbo(new stdClass);
+			$this->class->setDbo(new stdClass);
 		}
 		catch (PHPUnit_Framework_Error $e)
 		{
@@ -508,15 +436,13 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetDboWithGoodInput()
 	{
-		$instance = new JDatabaseExporterMySqlInspector;
-
 		try
 		{
-			$result = $instance->setDbo($this->dbo);
+			$result = $this->class->setDbo($this->dbo);
 
 			$this->assertThat(
 				$result,
-				$this->identicalTo($instance),
+				$this->identicalTo($this->class),
 				'setDbo must return an object to support chaining.'
 			);
 
@@ -538,32 +464,30 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testWithStructure()
 	{
-		$instance = new JDatabaseExporterMySqlInspector;
-
-		$result = $instance->withStructure();
+		$result = $this->class->withStructure();
 
 		$this->assertThat(
 			$result,
-			$this->identicalTo($instance),
+			$this->identicalTo($this->class),
 			'withStructure must return an object to support chaining.'
 		);
 
 		$this->assertThat(
-			$instance->options->get('with-structure'),
+			ReflectionHelper::getValue($this->class, 'options')->get('with-structure'),
 			$this->isTrue(),
 			'The default use of withStructure should result in true.'
 		);
 
-		$instance->withStructure(true);
+		$this->class->withStructure(true);
 		$this->assertThat(
-			$instance->options->get('with-structure'),
+			ReflectionHelper::getValue($this->class, 'options')->get('with-structure'),
 			$this->isTrue(),
 			'The explicit use of withStructure with true should result in true.'
 		);
 
-		$instance->withStructure(false);
+		$this->class->withStructure(false);
 		$this->assertThat(
-			$instance->options->get('with-structure'),
+			ReflectionHelper::getValue($this->class, 'options')->get('with-structure'),
 			$this->isFalse(),
 			'The explicit use of withStructure with false should result in false.'
 		);
