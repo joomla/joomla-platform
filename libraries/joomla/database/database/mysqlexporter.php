@@ -88,22 +88,28 @@ class JDatabaseExporterMySQL
 	 * @return  string
 	 *
 	 * @since   11.1
-	 * @throws  Exception if an error is encountered.
 	 */
 	public function __toString()
 	{
-		// Check everything is ok to run first.
-		$this->check();
-
-		$buffer = '';
-
-		// Get the format.
-		switch ($this->asFormat)
+		try
 		{
-			case 'xml':
-			default:
-				$buffer = $this->buildXml();
-				break;
+			// Check everything is ok to run first.
+			$this->check();
+
+			$buffer = '';
+
+			// Get the format.
+			switch ($this->asFormat)
+			{
+				case 'xml':
+				default:
+					$buffer = $this->buildXml();
+					break;
+			}
+		}
+		catch (Exception $e)
+		{
+			$buffer = $e->getMessage();
 		}
 
 		return $buffer;
