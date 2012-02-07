@@ -826,7 +826,7 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 		}
 
 		// Test cloning and nested loops
-		$dbo = clone $this->object;
+		$dbo2 = clone $this->object;
 		foreach ($this->object as $i => $result)
 		{
 			$this->assertThat(
@@ -834,11 +834,11 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 				$this->equalTo($results[$i]),
 				__LINE__
 			);
-			foreach ($dbo as $i => $result)
+			foreach ($dbo2 as $i2 => $result2)
 			{
 				$this->assertThat(
-					$result,
-					$this->equalTo($results[$i]),
+					$result2,
+					$this->equalTo($results[$i2]),
 					__LINE__
 				);
 			}
@@ -846,7 +846,7 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 
 		try
 		{
-			$dbo->setType('UnexistingClass');
+			$dbo2->setType('UnexistingClass');
 		}
 		catch (InvalidArgumentException $e)
 		{
