@@ -50,6 +50,12 @@ class JDatabaseSQLSrv extends JDatabase
 	protected static $nullDate = '1900-01-01 00:00:00';
 
 	/**
+	 * @var    string  The minimum supported database version.
+	 * @since  12.1
+	 */
+	protected static $dbMinimum = '10.50.1600.1';
+
+	/**
 	 * Test to see if the SQLSRV connector is available.
 	 *
 	 * @return  boolean  True on success, false otherwise.
@@ -477,7 +483,8 @@ class JDatabaseSQLSrv extends JDatabase
 	 */
 	public function getVersion()
 	{
-		return sqlsrv_server_info($this->connection);
+		$version = sqlsrv_server_info($this->connection);
+		return $version['SQLServerVersion'];
 	}
 
 	/**

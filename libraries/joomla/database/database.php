@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::register('JDatabaseException', JPATH_PLATFORM . '/joomla/database/databaseexception.php');
+JLoader::register('JDatabaseException', JPATH_PLATFORM . '/joomla/database/exception.php');
 jimport('joomla.filesystem.folder');
 
 /**
@@ -151,6 +151,12 @@ abstract class JDatabase implements JDatabaseInterface, Iterator
 	 * @since  11.1
 	 */
 	protected static $instances = array();
+
+	/**
+	 * @var    string  The minimum supported database version.
+	 * @since  12.1
+	 */
+	protected static $dbMinimum;
 
 	/**
 	 * @var    string  The query type 'array'|'assoc'|className
@@ -445,7 +451,7 @@ abstract class JDatabase implements JDatabaseInterface, Iterator
 				return $this->quote($args[0], isset($args[1]) ? $args[1] : true);
 				break;
 			case 'qn':
-				return $this->quoteName($args[0]);
+				return $this->quoteName($args[0], isset($args[1]) ? $args[1] : null);
 				break;
 		}
 	}
@@ -850,6 +856,18 @@ abstract class JDatabase implements JDatabaseInterface, Iterator
 	}
 
 	/**
+	 * Get the minimum supported database version.
+	 *
+	 * @return  string  The minimum version number for the database driver.
+	 *
+	 * @since   12.1
+	 */
+	public function getMinimum()
+	{
+		return static::$dbMinimum;
+	}
+
+	/**
 	 * Get the null or zero representation of a timestamp for the database driver.
 	 *
 	 * @return  string  Null or zero representation of a timestamp.
@@ -1029,6 +1047,18 @@ abstract class JDatabase implements JDatabaseInterface, Iterator
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method to check whether the installed database version is supported by the database driver
+	 *
+	 * @return  boolean  True if the database version is supported
+	 *
+	 * @since   12.1
+	 */
+	public function isSupported()
+	{
+		return version_compare($this->getVersion(), static::$dbMinimum) >= 0;
 	}
 
 	/**
@@ -1250,7 +1280,7 @@ abstract class JDatabase implements JDatabaseInterface, Iterator
 	 * @since   11.1
 	 * @throws  JDatabaseException
 	 */
-	public function loadObjectList($key = null, $class = 'stdClass')
+	public function loadObjectList($key = '', $class = 'stdClass')
 	{
 		// Get the rows
 		return iterator_to_array($this->setType($class)->setKey(empty($key) ? null : $key));
