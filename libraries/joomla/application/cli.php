@@ -18,13 +18,19 @@ jimport('joomla.event.dispatcher');
  * @subpackage  Application
  * @since       11.4
  */
-class JApplicationCli
+class JApplicationCli implements JApplicationInterface
 {
 	/**
 	 * @var    JInputCli  The application input object.
 	 * @since  11.1
 	 */
 	public $input;
+
+	/**
+	 * @var    string  Character encoding string.
+	 * @since  11.3
+	 */
+	public $charSet = 'utf-8';
 
 	/**
 	 * @var    JRegistry  The application configuration object.
@@ -116,21 +122,6 @@ class JApplicationCli
 
 		// Set the current directory.
 		$this->set('cwd', getcwd());
-	}
-
-	/**
-	 * Returns a property of the object or the default value if the property is not set.
-	 *
-	 * @param   string  $key      The name of the property.
-	 * @param   mixed   $default  The default value (optional) if none is set.
-	 *
-	 * @return  mixed   The value of the configuration.
-	 *
-	 * @since   11.3
-	 */
-	public function get($key, $default = null)
-	{
-		return $this->config->get($key, $default);
 	}
 
 	/**
@@ -306,7 +297,22 @@ class JApplicationCli
 	}
 
 	/**
-	 * Modifies a property of the object, creating it if it does not already exist.
+	 * Method to get a property of the application or the default value if the property is not set.
+	 *
+	 * @param   string  $key      The name of the property.
+	 * @param   mixed   $default  The default value (optional) if none is set.
+	 *
+	 * @return  mixed   The value of the configuration.
+	 *
+	 * @since   11.3
+	 */
+	public function get($key, $default = null)
+	{
+		return $this->config->get($key, $default);
+	}
+
+	/**
+	 * Method to set a property of the application, creating it if it does not already exist.
 	 *
 	 * @param   string  $key    The name of the property.
 	 * @param   mixed   $value  The value of the property to set (optional).
@@ -321,6 +327,58 @@ class JApplicationCli
 		$this->config->set($key, $value);
 
 		return $previous;
+	}
+
+	/**
+	 * Method to get the application character set.
+	 *
+	 * @return  string  The character set.
+	 *
+	 * @since   12.1
+	 */
+	public function getCharacterSet()
+	{
+		return $this->charSet;
+	}
+
+	/**
+	 * Method to set the application character set.
+	 *
+	 * @param   string  $charset  The character set.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function setCharacterSet($charset)
+	{
+		$this->charSet = $charset;
+	}
+
+	/**
+	 * Method to get the application input.
+	 *
+	 * @return  JInput  The input object.
+	 *
+	 * @since   12.1
+	 */
+	public function getInput()
+	{
+		return $this->input;
+	}
+
+	/**
+	 * Method to set the application input.
+	 *
+	 * @param   JInput  $input  The input object.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function setInput(JInput $input)
+	{
+		$this->input = $input;
 	}
 
 	/**

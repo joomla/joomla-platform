@@ -248,13 +248,13 @@ class JApplicationDaemonTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests the JApplicationDaemon::start method.
+	 * Tests the JApplicationDaemon::execute method.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.3
 	 */
-	public function testStart()
+	public function testExecute()
 	{
 		$this->markTestIncomplete();
 	}
