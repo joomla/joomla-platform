@@ -132,7 +132,7 @@ class JInputCLI extends JInput
 				// Attempt to split the thing over equals so we can get the key/value pair if an = was used.
 				$arg = substr($arg, 2);
 				$parts = explode('=', $arg);
-				$this->data[$parts[0]] = true;
+				$this->data[$parts[0]] = 'true';
 
 				// Does not have an =, so let's look ahead to the next argument for the value.
 				if (count($parts) == 1 && isset($args[$i + 1]) && preg_match('/^--?.+/', $args[$i + 1]) == 0)
