@@ -621,7 +621,7 @@ abstract class JDatabase implements JDatabaseInterface, Iterator
 	public function setType($type)
 	{
 		// Set the type
-		if (in_array($type, array('array', 'assoc')) || class_exists($type))
+		if (in_array($type, array('array', 'assoc')) || is_string($type) && class_exists($type))
 		{
 			$this->type = $type;
 		}
@@ -633,12 +633,30 @@ abstract class JDatabase implements JDatabaseInterface, Iterator
 	}
 
 	/**
+	 * Get the type of result
+	 *
+	 * @return  string  The type of result. Possible values are 'array', 'assoc' or an existing class name
+	 *
+	 * @see  JDatabase::setType
+	 *
+	 * @since   12.1
+	 */
+	public function getType()
+	{
+		return $this->type;
+	}
+
+	/**
 	 * Set the key
 	 *
-	 * @param   integer|string  $key  The key used for retreiving rows. Possible values are integer if the type of result is array
-	 *                               or a string if the type of result is 'assoc' or an existing class name
+	 * @param   integer|string|null  $key  The key used for retreiving rows. Possible values are
+	 *                                     -an integer if the type of result is array
+	 *                                     -a string if the type of result is 'assoc' or an existing class name
+	 *                                     -null to use natural index
 	 *
 	 * @return  JDatabase  $this object for chaining
+	 *
+	 * @throw  InvalidArgumentException
 	 *
 	 * @see  JDatabase::setType
 	 *
@@ -646,8 +664,30 @@ abstract class JDatabase implements JDatabaseInterface, Iterator
 	 */
 	public function setKey($key)
 	{
-		$this->key = $key;
+		// Set the type
+		if (is_int($key) || is_string($key) || is_null($key))
+		{
+			$this->key = $key;
+		}
+		else
+		{
+			throw new InvalidArgumentException("The key must be an integer, a string or the null value");
+		}
 		return $this;
+	}
+
+	/**
+	 * Get the key used for the results
+	 *
+	 * @return  integer|string|null  The key used for retreiving rows
+	 *
+	 * @see  JDatabase::setKey
+	 *
+	 * @since   12.1
+	 */
+	public function getKey()
+	{
+		return $this->key;
 	}
 
 	/**

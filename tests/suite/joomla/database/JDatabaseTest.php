@@ -45,6 +45,96 @@ class JDatabaseTest extends JoomlaDatabaseTestCase
 
 
 	/**
+	 * Test for the JDatabase::setKey and JDatabase::getKey method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function testgetKey_setKey()
+	{
+		// Tests the default key
+		$this->assertEquals(
+			$this->db->getKey(),
+			null,
+			'Tests the default key.'
+		);
+
+		// Tests a string key.
+		$this->db->setKey('mykey');
+		$this->assertEquals(
+			$this->db->getKey(),
+			'mykey',
+			'Tests a string key.'
+		);
+
+		// Tests an integer key.
+		$this->db->setKey(3);
+		$this->assertEquals(
+			$this->db->getKey(),
+			3,
+			'Tests an integer key.'
+		);
+
+		// Tests the null key.
+		$this->db->setKey(null);
+		$this->assertEquals(
+			$this->db->getKey(),
+			null,
+			'Tests the null key.'
+		);
+
+		// Test the exception
+		$this->setExpectedException('InvalidArgumentException');
+		$this->db->setKey(array());
+	}
+
+	/**
+	 * Test for the JDatabase::setType and JDatabase::getType method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function testgetType_setType()
+	{
+		// Tests the default type
+		$this->assertEquals(
+			$this->db->getType(),
+			'assoc',
+			'Tests the default type.'
+		);
+
+		// Tests the assoc type.
+		$this->db->setType('assoc');
+		$this->assertEquals(
+			$this->db->getType(),
+			'assoc',
+			'Tests the assoc type.'
+		);
+
+		// Tests the array type.
+		$this->db->setType('array');
+		$this->assertEquals(
+			$this->db->getType(),
+			'array',
+			'Tests the array type.'
+		);
+
+		// Tests the class type.
+		$this->db->setType('stdClass');
+		$this->assertEquals(
+			$this->db->getType(),
+			'stdClass',
+			'Tests the class type.'
+		);
+
+		// Test the exception
+		$this->setExpectedException('InvalidArgumentException');
+		$this->db->setType(array());
+	}
+
+	/**
 	 * Test for the JDatabase::__clone and JDatabase::__destruct method.
 	 *
 	 * @return  void

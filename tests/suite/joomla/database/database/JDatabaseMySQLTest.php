@@ -610,6 +610,143 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
+	 * Data provider for the testForEach method
+	 *
+	 * @return  array
+	 *
+	 * @since   11.3
+	 */
+	public function getForEachData()
+	{
+		return array(
+			// Testing 'assoc' type without specific key, offset or limit
+			array(
+				'assoc',
+				null,
+				'title',
+				'#__dbtest',
+				0,
+				0,
+				array(
+					array('title' => 'Testing'),
+					array('title' => 'Testing2'),
+					array('title' => 'Testing3'),
+					array('title' => 'Testing4')
+				)
+			),
+
+			// Testing 'assoc' type, offset=2 without specific key, or limit
+			array(
+				'assoc',
+				null,
+				'title',
+				'#__dbtest',
+				2,
+				0,
+				array(
+					array('title' => 'Testing3'),
+					array('title' => 'Testing4')
+				)
+			),
+
+			// Testing 'assoc' type, limit=2 without specific key, or offset
+			array(
+				'assoc',
+				null,
+				'title',
+				'#__dbtest',
+				0,
+				2,
+				array(
+					array('title' => 'Testing'),
+					array('title' => 'Testing2')
+				)
+			),
+
+			// Testing 'assoc' type, key='title' without specific limit, or offset
+			array(
+				'assoc',
+				'title',
+				'title, id',
+				'#__dbtest',
+				0,
+				0,
+				array(
+					'Testing' => array('title' => 'Testing', 'id' => '1'),
+					'Testing2' => array('title' => 'Testing2', 'id' => '2'),
+					'Testing3' => array('title' => 'Testing3', 'id' => '3'),
+					'Testing4' => array('title' => 'Testing4', 'id' => '4')
+				)
+			),
+
+			// Testing 'stdClass' type without specific key, offset or limit
+			array(
+				'stdClass',
+				null,
+				'title',
+				'#__dbtest',
+				0,
+				0,
+				array(
+					(object) array('title' => 'Testing'),
+					(object) array('title' => 'Testing2'),
+					(object) array('title' => 'Testing3'),
+					(object) array('title' => 'Testing4')
+				)
+			),
+
+			// Testing 'stdClass' type, key='title' without specific limit, or offset
+			array(
+				'stdClass',
+				'title',
+				'title, id',
+				'#__dbtest',
+				0,
+				0,
+				array(
+					'Testing' => (object) array('title' => 'Testing', 'id' => '1'),
+					'Testing2' => (object) array('title' => 'Testing2', 'id' => '2'),
+					'Testing3' => (object) array('title' => 'Testing3', 'id' => '3'),
+					'Testing4' => (object) array('title' => 'Testing4', 'id' => '4')
+				)
+			),
+
+			// Testing 'array' type without specific key, offset or limit
+			array(
+				'array',
+				null,
+				'title',
+				'#__dbtest',
+				0,
+				0,
+				array(
+					array(0 => 'Testing'),
+					array(0 => 'Testing2'),
+					array(0 => 'Testing3'),
+					array(0 => 'Testing4')
+				)
+			),
+
+			// Testing 'array' type, key='title' without specific limit, or offset
+			array(
+				'array',
+				0,
+				'title, id',
+				'#__dbtest',
+				0,
+				0,
+				array(
+					'Testing' => array(0 => 'Testing', 1 => '1'),
+					'Testing2' => array(0 => 'Testing2', 1 => '2'),
+					'Testing3' => array(0 => 'Testing3', 1 => '3'),
+					'Testing4' => array(0 => 'Testing4', 1 => '4')
+				)
+			),
+
+		);
+	}
+
+	/**
 	 * Test foreach control
 	 *
 	 * @covers JDatabase::rewind
@@ -617,34 +754,18 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 	 * @covers JDatabase::key
 	 * @covers JDatabase::next
 	 * @covers JDatabase::valid
-	 * @covers JDatabase::__clone
-	 * @covers JDatabase::__destruct
-	 * @covers JDatabaseMySQL::__destruct
-	 * @covers JDatabase::setKey
-	 * @covers JDatabase::setType
 	 *
 	 * @return  void
 	 *
+	 * @dataProvider getForEachData
+	 *
 	 * @since   12.1
 	 */
-	public function testForEach()
+	public function testForEach($type, $key, $select, $from, $offset, $limit, $results)
 	{
-		// Testing 'alloc' type without specific key
-		$this->object->setType('assoc')->setKey(null)->setQuery($this->object->getQuery(true)->select('title')->from('jos_dbtest'));
-		$results = array(
-			array('title' => 'Testing'),
-			array('title' => 'Testing2'),
-			array('title' => 'Testing3'),
-			array('title' => 'Testing4')
-		);
-		foreach ($this->object as $i => $result)
-		{
-			$this->assertThat(
-				$result,
-				$this->equalTo($results[$i]),
-				__LINE__
-			);
-		}
+		$this->object->setType($type)->setKey($key)->setQuery($this->object->getQuery(true)->select($select)->from($from), $offset, $limit);
+
+		// Run the Iterator pattern
 		foreach ($this->object as $i => $result)
 		{
 			$this->assertThat(
@@ -654,168 +775,7 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 			);
 		}
 
-		// Testing 'alloc' type without specific key and an offset
-		$this->object->setQuery($this->object->getQuery(true)->select('title')->from('jos_dbtest'), 2);
-		$results = array(
-			array('title' => 'Testing3'),
-			array('title' => 'Testing4')
-		);
-		foreach ($this->object as $i => $result)
-		{
-			$this->assertThat(
-				$result,
-				$this->equalTo($results[$i]),
-				__LINE__
-			);
-		}
-		foreach ($this->object as $i => $result)
-		{
-			$this->assertThat(
-				$result,
-				$this->equalTo($results[$i]),
-				__LINE__
-			);
-		}
-
-		// Testing 'alloc' type without specific key and an limit
-		$this->object->setQuery($this->object->getQuery(true)->select('title')->from('jos_dbtest'), 0, 2);
-		$results = array(
-			array('title' => 'Testing'),
-			array('title' => 'Testing2')
-		);
-		foreach ($this->object as $i => $result)
-		{
-			$this->assertThat(
-				$result,
-				$this->equalTo($results[$i]),
-				__LINE__
-			);
-		}
-		foreach ($this->object as $i => $result)
-		{
-			$this->assertThat(
-				$result,
-				$this->equalTo($results[$i]),
-				__LINE__
-			);
-		}
-
-		// Testing 'stdClass' type without specific key
-		$this->object->setType('stdClass');
-		$results = array(
-			(object) array('title' => 'Testing'),
-			(object) array('title' => 'Testing2'),
-			(object) array('title' => 'Testing3'),
-			(object) array('title' => 'Testing4')
-		);
-		foreach ($this->object as $i => $result)
-		{
-			$this->assertThat(
-				$result,
-				$this->equalTo($results[$i]),
-				__LINE__
-			);
-		}
-		foreach ($this->object as $i => $result)
-		{
-			$this->assertThat(
-				$result,
-				$this->equalTo($results[$i]),
-				__LINE__
-			);
-		}
-
-		// Testing 'array' type without specific key
-		$this->object->setType('array');
-		$results = array(
-			array(0 => 'Testing'),
-			array(0 => 'Testing2'),
-			array(0 => 'Testing3'),
-			array(0 => 'Testing4')
-		);
-		foreach ($this->object as $i => $result)
-		{
-			$this->assertThat(
-				$result,
-				$this->equalTo($results[$i]),
-				__LINE__
-			);
-		}
-		foreach ($this->object as $i => $result)
-		{
-			$this->assertThat(
-				$result,
-				$this->equalTo($results[$i]),
-				__LINE__
-			);
-		}
-
-		// Testing 'assoc' type with a specific key
-		$this->object->setType('assoc')->setKey('title')->setQuery($this->object->getQuery(true)->select('id, title')->from('jos_dbtest'));
-		$results = array(
-			'Testing' => array('title' => 'Testing', 'id' => '1'),
-			'Testing2' => array('title' => 'Testing2', 'id' => '2'),
-			'Testing3' => array('title' => 'Testing3', 'id' => '3'),
-			'Testing4' => array('title' => 'Testing4', 'id' => '4')
-		);
-		foreach ($this->object as $i => $result)
-		{
-			$this->assertThat(
-				$result,
-				$this->equalTo($results[$i]),
-				__LINE__
-			);
-		}
-		foreach ($this->object as $i => $result)
-		{
-			$this->assertThat(
-				$result,
-				$this->equalTo($results[$i]),
-				__LINE__
-			);
-		}
-
-		// Testing 'stdClass' type with a specific key
-		$this->object->setType('stdClass');
-		$results = array(
-			'Testing' => (object) array('title' => 'Testing', 'id' => '1'),
-			'Testing2' => (object) array('title' => 'Testing2', 'id' => '2'),
-			'Testing3' => (object) array('title' => 'Testing3', 'id' => '3'),
-			'Testing4' => (object) array('title' => 'Testing4', 'id' => '4')
-		);
-		foreach ($this->object as $i => $result)
-		{
-			$this->assertThat(
-				$result,
-				$this->equalTo($results[$i]),
-				__LINE__
-			);
-		}
-		foreach ($this->object as $i => $result)
-		{
-			$this->assertThat(
-				$result,
-				$this->equalTo($results[$i]),
-				__LINE__
-			);
-		}
-
-		// Testing 'array' type with a specific key
-		$this->object->setType('array')->setKey(1);
-		$results = array(
-			'Testing' => array(0 => '1', 1=> 'Testing'),
-			'Testing2' => array(0 => '2', 1=> 'Testing2'),
-			'Testing3' => array(0 => '3', 1=> 'Testing3'),
-			'Testing4' => array(0 => '4', 1=> 'Testing4')
-		);
-		foreach ($this->object as $i => $result)
-		{
-			$this->assertThat(
-				$result,
-				$this->equalTo($results[$i]),
-				__LINE__
-			);
-		}
+		// Running twice
 		foreach ($this->object as $i => $result)
 		{
 			$this->assertThat(
@@ -843,15 +803,5 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 				);
 			}
 		}
-
-		try
-		{
-			$dbo2->setType('UnexistingClass');
-		}
-		catch (InvalidArgumentException $e)
-		{
-			return;
-		}
-		$this->fail('Expected exception not thrown');
 	}
 }
