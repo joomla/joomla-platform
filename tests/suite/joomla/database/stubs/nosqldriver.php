@@ -85,7 +85,7 @@ class JDatabaseNosql extends JDatabase
 	/**
 	 * Get the number of clones
 	 *
-	 * @return  integer  number of clones
+	 * @return  integer  Number of clones
 	 *
 	 * @since   12.1
 	 */
