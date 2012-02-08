@@ -83,6 +83,18 @@ class JDatabaseNosql extends JDatabase
 	}
 
 	/**
+	 * Get the number of clones
+	 *
+	 * @return  integer  number of clones
+	 *
+	 * @since   12.1
+	 */
+	public function &getCloned()
+	{
+		return $this->cloned;
+	}
+
+	/**
 	 * Determines if the connection to the server is active.
 	 *
 	 * @return  boolean  True if connected to the database engine.

@@ -43,12 +43,53 @@ class JDatabaseTest extends JoomlaDatabaseTestCase
 	{
 	}
 
+
+	/**
+	 * Test for the JDatabase::__clone and JDatabase::__destruct method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function test__clone__destruct()
+	{
+		$cloned = &$this->db->getCloned();
+		$this->assertEquals(
+			$cloned,
+			0,
+			'Tests the "cloned" instance property.'
+		);
+
+		$dbo = clone $this->db;
+		$cloned = &$this->db->getCloned();
+		$this->assertEquals(
+			$cloned,
+			1,
+			'Tests the "cloned" instance property.'
+		);
+		$cloned = &$dbo->getCloned();
+		$this->assertEquals(
+			$cloned,
+			1,
+			'Tests the "cloned" instance property.'
+		);
+		unset($dbo);
+		$cloned = &$this->db->getCloned();
+		$this->assertEquals(
+			$cloned,
+			0,
+			'Tests the "cloned" instance property.'
+		);
+		unset($this->db);
+	}
+
 	/**
 	 * Test for the JDatabase::__set and JDatabase::__get method.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
+	 * @deprecated 12.3
 	 */
 	public function test__get__set()
 	{
