@@ -457,6 +457,96 @@ abstract class JDatabase implements JDatabaseInterface, Iterator
 	}
 
 	/**
+	 * Magic get for backward compatibility
+	 *
+	 * @param   string  $property  Property name
+	 *
+	 * @return  mixed  The property value
+	 *
+	 * @since   12.1
+	 *
+	 * @deprecated 12.3
+	 */
+	public function __get($property)
+	{
+		switch ($property)
+		{
+			// Public property
+			case 'name':
+				JLog::add('"name" instance property is deprecated, use "name" static property instead', JLog::WARNING, 'deprecated');
+
+				// Return the static property "name"
+				return static::$name;
+
+			// Protected properties
+			case 'nameQuote':
+			case 'nullDate':
+			case 'utf':
+				// Get the calling stack
+				$stack = debug_backtrace();
+
+				// If it's asked from this object (protected vars) and not from this method
+				if ($stack[1]['object'] == $this && $stack[1]['function'] != '__get')
+				{
+					JLog::add('"' . $property . '" instance property is deprecated, use "' . $property . '" static property instead', JLog::WARNING, 'deprecated');
+
+					// Return the static property
+					return static::$$property;
+				}
+
+			default:
+				// Force an error
+				return $this->$property;
+		}
+	}
+
+	/**
+	 * Magic set for backward compatibility
+	 *
+	 * @param   string  $property  Property name
+	 * @param   mixed   $value     Property value
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 *
+	 * @deprecated 12.3
+	 */
+	public function __set($property, $value)
+	{
+		switch ($property)
+		{
+			// Public property
+			case 'name':
+				JLog::add('$this->name property is deprecated, use ' . get_called_class() . '::$name or static::$name instead', JLog::WARNING, 'deprecated');
+
+				// Set the static property
+				static::$name = $value;
+				break;
+
+			// Protected properties
+			case 'nameQuote':
+			case 'nullDate':
+			case 'utf':
+				// Get the calling stack
+				$stack = debug_backtrace();
+
+				// If it's asked from this object (protected vars) and not from this method
+				if ($stack[1]['object'] == $this && $stack[1]['function'] != '__set')
+				{
+					JLog::add('"' . $property . '" instance property is deprecated, use "' . $property . '" static property instead', JLog::WARNING, 'deprecated');
+
+					// Set the static property
+					static::$$property = $value;
+				}
+
+			default:
+				// Assign public property
+				$this->$property = $value;
+		}
+	}
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array  $options  List of options used to configure the connection

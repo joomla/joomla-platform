@@ -44,6 +44,69 @@ class JDatabaseTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
+	 * Test for the JDatabase::__set and JDatabase::__get method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function test__get__set()
+	{
+		// Test the old 'name' public property (now declared as static)
+		$old_name = $this->db->name;
+		$this->assertEquals(
+			$old_name,
+			JDatabaseNosql::$name,
+			'Tests the "name" instance property.'
+		);
+		$this->db->name = 'newname';
+		$this->assertEquals(
+			'newname',
+			JDatabaseNosql::$name,
+			'Tests the "name" instance property.'
+		);
+		$this->db->name = $old_name;
+
+		// Test the old 'namequote' protected property (now declared as static: should trigger an exception)
+	    try
+	    {
+	    	$value = $this->db->namequote;
+	    	$this->fail();
+	    }
+	    catch (PHPUnit_Framework_Error_Notice $e)
+	    {
+	    }
+
+    	$this->db->nameQuote = 'novalue';
+    	$this->assertNotEquals(
+    		$this->db->getNameQuote(),
+    		'novalue',
+    		'Tests the "namequote" instance property'
+	    );
+
+		// Test the old 'utf' protected property using object methods
+		$this->assertEquals(
+			$this->db->getUTFSupport(),
+			true,
+    		'Tests the "utf" instance property'
+    	);
+    	$this->db->setUTFSupport(false);
+		$this->assertEquals(
+			$this->db->getUTFSupport(),
+			false,
+    		'Tests the "utf" instance property'
+    	);
+
+		// Test a dummy property
+		$this->db->dummy = 'dummy';
+		$this->assertEquals(
+			$this->db->dummy,
+			'dummy',
+    		'Tests a "dummy" instance property'
+    	);
+	}
+
+	/**
 	 * Test for the JDatabase::__call method.
 	 *
 	 * @return  void

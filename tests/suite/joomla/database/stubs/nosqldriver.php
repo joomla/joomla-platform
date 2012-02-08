@@ -51,6 +51,38 @@ class JDatabaseNosql extends JDatabase
 	protected static $dbMinimum = '12.1';
 
 	/**
+	 * Determine whether or not the database engine supports UTF-8 character encoding.
+	 *
+	 * Used for testing deprecated "utf" instance property
+	 *
+	 * @return  boolean  True if the database engine supports UTF-8 character encoding.
+	 *
+	 * @since   12.1
+	 *
+	 * @deprecated 12.3
+	 */
+	public function getUTFSupport()
+	{
+		return $this->utf;
+	}
+
+	/**
+	 * Set the database engine supports UTF-8 character encoding.
+	 *
+	 * Used for testing deprecated "utf" instance property
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 *
+	 * @deprecated 12.3
+	 */
+	public function setUTFSupport($value)
+	{
+		$this->utf = $value;
+	}
+
+	/**
 	 * Determines if the connection to the server is active.
 	 *
 	 * @return  boolean  True if connected to the database engine.
