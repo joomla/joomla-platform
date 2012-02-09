@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::register('JDatabaseQuerySQLSrv', dirname(__FILE__) . '/sqlsrvquery.php');
 // Deprecation warning.
 JLog::add('JDatabaseSqlsrv is deprecated, use JDatabaseDriverSqlsrv instead.', JLog::NOTICE, 'deprecated');
 JLoader::register('JDatabaseQuerySQLSrv', __DIR__ . '/sqlsrvquery.php');

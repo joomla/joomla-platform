@@ -614,7 +614,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 
 		return $this->cursor;
 	}
-	
+
 	/**
 	 * This function replaces a string identifier <var>$prefix</var> with the string held is the
 	 * <var>tablePrefix</var> class variable.

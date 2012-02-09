@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- * @since       11.4
+ * @since       12.1
  */
 class JDatabaseDriverNosql extends JDatabaseDriver
 {
@@ -20,7 +20,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 * The name of the database driver.
 	 *
 	 * @var    string
-	 * @since  11.4
+	 * @since  12.1
 	 */
 	public $name = 'nosql';
 
@@ -31,7 +31,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 * used for the opening quote and the second for the closing quote.
 	 *
 	 * @var    string
-	 * @since  11.4
+	 * @since  12.1
 	 */
 	protected $nameQuote = '[]';
 
@@ -40,7 +40,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 * defined in child classes to hold the appropriate value for the engine.
 	 *
 	 * @var    string
-	 * @since  11.4
+	 * @since  12.1
 	 */
 	protected $nullDate = '1BC';
 
@@ -68,7 +68,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 *
 	 * @return  boolean  True if connected to the database engine.
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function connected()
 	{
@@ -83,7 +83,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 *
 	 * @return  JDatabase  Returns this object to support chaining.
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 * @throws  JDatabaseException
 	 */
 	public function dropTable($table, $ifExists = true)
@@ -99,7 +99,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 *
 	 * @return  string   The escaped string.
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function escape($text, $extra = false)
 	{
@@ -113,7 +113,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 *
 	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	protected function fetchArray($cursor = null)
 	{
@@ -127,7 +127,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 *
 	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	protected function fetchAssoc($cursor = null)
 	{
@@ -142,7 +142,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 *
 	 * @return  mixed   Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	protected function fetchObject($cursor = null, $class = 'stdClass')
 	{
@@ -156,7 +156,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	protected function freeResult($cursor = null)
 	{
@@ -168,7 +168,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 *
 	 * @return  integer  The number of affected rows.
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function getAffectedRows()
 	{
@@ -180,7 +180,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 *
 	 * @return  mixed  The collation in use by the database or boolean false if not supported.
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function getCollation()
 	{
@@ -194,7 +194,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 *
 	 * @return  integer   The number of returned rows.
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function getNumRows($cursor = null)
 	{
@@ -208,7 +208,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 *
 	 * @return  JDatabaseQuery  The current query object or a new object extending the JDatabaseQuery class.
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 * @throws  JDatabaseException
 	 */
 	public function getQuery($new = false)
@@ -224,7 +224,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 *
 	 * @return  array  An array of fields by table.
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 * @throws  JDatabaseException
 	 */
 	public function getTableColumns($table, $typeOnly = true)
@@ -239,7 +239,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 *
 	 * @return  array  A list of the create SQL for the tables.
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 * @throws  JDatabaseException
 	 */
 	public function getTableCreate($tables)
@@ -254,7 +254,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 *
 	 * @return  array  An array of keys for the table(s).
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 * @throws  JDatabaseException
 	 */
 	public function getTableKeys($tables)
@@ -267,7 +267,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 *
 	 * @return  array  An array of all the tables in the database.
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 * @throws  JDatabaseException
 	 */
 	public function getTableList()
@@ -280,7 +280,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 *
 	 * @return  string  The database connector version.
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function getVersion()
 	{
@@ -292,7 +292,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 *
 	 * @return  integer  The value of the auto-increment field from the last inserted row.
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function insertid()
 	{
@@ -306,7 +306,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 *
 	 * @return  JDatabase  Returns this object to support chaining.
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 * @throws  JDatabaseException
 	 */
 	public function lockTable($tableName)
@@ -337,7 +337,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 *
 	 * @return  JDatabase  Returns this object to support chaining.
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 * @throws  JDatabaseException
 	 */
 	public function renameTable($oldTable, $newTable, $backup = null, $prefix = null)
@@ -352,7 +352,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 *
 	 * @return  boolean  True if the database was successfully selected.
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 * @throws  JDatabaseException
 	 */
 	public function select($database)
@@ -365,7 +365,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	*
 	* @return  boolean  True on success.
 	*
-	* @since   11.4
+	* @since   12.1
 	*/
 	public function setUTF()
 	{
@@ -377,7 +377,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.2
+	 * @since   12.1
 	 */
 	public static function test()
 	{
@@ -389,7 +389,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 * @throws  JDatabaseException
 	 */
 	public function transactionCommit()
@@ -401,7 +401,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 * @throws  JDatabaseException
 	 */
 	public function transactionRollback()
@@ -413,7 +413,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 * @throws  JDatabaseException
 	 */
 	public function transactionStart()
@@ -425,7 +425,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 *
 	 * @return  JDatabase  Returns this object to support chaining.
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 * @throws  JDatabaseException
 	 */
 	public function unlockTables()

@@ -5,17 +5,17 @@
  */
 
 /**
- * Tests the JDatabaseMySqlExporter class.
+ * Tests the JDatabaseExporterMySQLi class.
  *
  * @package    Joomla.UnitTest
  * @subpackage Database
- * @since      11.1
+ * @since      12.1
  */
-class JDatabaseExporterMySqliTest extends PHPUnit_Framework_TestCase
+class JDatabaseExporterMysqliTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var    object  The mocked database object for use by test methods.
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	protected $dbo = null;
 
@@ -23,7 +23,7 @@ class JDatabaseExporterMySqliTest extends PHPUnit_Framework_TestCase
 	 * Sets up the testing conditions
 	 *
 	 * @return  void
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function setup()
 	{
@@ -42,7 +42,7 @@ class JDatabaseExporterMySqliTest extends PHPUnit_Framework_TestCase
 	 * Tests the check method.
 	 *
 	 * @return void
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public function testCheckWithNoDbo()
 	{
@@ -67,7 +67,7 @@ class JDatabaseExporterMySqliTest extends PHPUnit_Framework_TestCase
 	 * Tests the check method.
 	 *
 	 * @return void
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public function testCheckWithNoTables()
 	{
@@ -93,7 +93,7 @@ class JDatabaseExporterMySqliTest extends PHPUnit_Framework_TestCase
 	 * Tests the check method.
 	 *
 	 * @return void
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public function testCheckWithGoodInput()
 	{
@@ -123,7 +123,7 @@ class JDatabaseExporterMySqliTest extends PHPUnit_Framework_TestCase
 	 * Tests the setDbo method with the wrong type of class.
 	 *
 	 * @return void
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public function testSetDboWithBadInput()
 	{
@@ -148,7 +148,7 @@ class JDatabaseExporterMySqliTest extends PHPUnit_Framework_TestCase
 	 * Tests the setDbo method with the wrong type of class.
 	 *
 	 * @return void
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public function testSetDboWithGoodInput()
 	{

@@ -5,7 +5,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once JPATH_PLATFORM . '/joomla/database/database.php';
+require_once JPATH_PLATFORM . '/joomla/database/driver.php';
 require_once __DIR__ . '/stubs/nosqldriver.php';
 
 /**
@@ -16,7 +16,7 @@ class JDatabaseDriverTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var	   JDatabaseDriver
-	 * @since  11.4
+	 * @since  12.1
 	 */
 	protected $db;
 
@@ -103,7 +103,7 @@ class JDatabaseDriverTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function testGetConnection()
 	{
@@ -129,7 +129,7 @@ class JDatabaseDriverTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function testGetCount()
 	{
@@ -146,7 +146,7 @@ class JDatabaseDriverTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function testGetDatabase()
 	{
@@ -161,7 +161,7 @@ class JDatabaseDriverTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function testGetDateFormat()
 	{
@@ -229,7 +229,7 @@ class JDatabaseDriverTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function testGetLog()
 	{
@@ -246,7 +246,7 @@ class JDatabaseDriverTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function testGetPrefix()
 	{
@@ -261,7 +261,7 @@ class JDatabaseDriverTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function testGetNullDate()
 	{
@@ -333,7 +333,7 @@ class JDatabaseDriverTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function testQuote()
 	{
@@ -355,7 +355,7 @@ class JDatabaseDriverTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function testQuoteName()
 	{

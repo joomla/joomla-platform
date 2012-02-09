@@ -181,7 +181,7 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 		$table = strtoupper($table);
 		$query->setQuery('pragma table_info( ' . $table . ')');
 
-		//$query->bind(':tableName', $table);
+		// $query->bind(':tableName', $table);
 
 		$this->setQuery($query);
 		$rows = $this->loadObjectList();

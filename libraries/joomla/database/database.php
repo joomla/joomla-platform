@@ -35,7 +35,6 @@ abstract class JDatabase extends JDatabaseDriver
 		return $this->execute();
 	}
 
-
 	/**
 	 * Gets the error message from the database connection.
 	 *
