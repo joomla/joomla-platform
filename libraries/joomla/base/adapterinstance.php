@@ -29,7 +29,7 @@ class JAdapterInstance extends JObject
 	/**
 	 * Database
 	 *
-	 * @var    JDatabase
+	 * @var    JDatabaseDriver
 	 * @since  11.1
 	 */
 	protected $db = null;
@@ -38,7 +38,7 @@ class JAdapterInstance extends JObject
 	 * Constructor
 	 *
 	 * @param   object  &$parent  Parent object [JAdapter instance]
-	 * @param   object  &$db      Database object [JDatabase instance]
+	 * @param   object  &$db      Database driver [JDatabaseDriver instance]
 	 * @param   array   $options  Configuration Options
 	 *
 	 * @since   11.1

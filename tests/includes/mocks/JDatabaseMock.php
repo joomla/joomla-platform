@@ -34,9 +34,11 @@ class JDatabaseGlobalMock
 	{
 		// Collect all the relevant methods in JDatabase.
 		$methods = array(
+			'connect',
 			'connected',
 			'dropTable',
 			'escape',
+			'execute',
 			'fetchArray',
 			'fetchAssoc',
 			'fetchObject',

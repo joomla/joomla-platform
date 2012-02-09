@@ -7,12 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/log/log.php';
-require_once JPATH_PLATFORM.'/joomla/database/database.php';
-require_once JPATH_PLATFORM.'/joomla/database/database/mysqli.php';
-require_once JPATH_PLATFORM.'/joomla/database/query.php';
-require_once JPATH_PLATFORM.'/joomla/database/database/mysqliquery.php';
-
 /**
  * Test class for JDatabaseMySQL.
  *
@@ -150,7 +144,7 @@ class JDatabaseMySQLiTest extends JoomlaDatabaseTestCase
 		$query->from('jos_dbtest');
 		$this->object->setQuery($query);
 
-		$result = $this->object->query();
+		$result = $this->object->execute();
 
 		$this->assertThat(
 			$this->object->getAffectedRows(),
@@ -547,7 +541,7 @@ class JDatabaseMySQLiTest extends JoomlaDatabaseTestCase
 		$this->object->setQuery("REPLACE INTO `jos_dbtest` SET `id` = 5, `title` = 'testTitle'");
 
 		$this->assertThat(
-			$this->object->query(),
+			$this->object->execute(),
 			$this->isTrue(),
 			__LINE__
 		);

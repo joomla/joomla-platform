@@ -14,7 +14,7 @@
  * @subpackage  Database
  * @since       11.4
  */
-class JDatabaseNosql extends JDatabase
+class JDatabaseDriverNosql extends JDatabaseDriver
 {
 	/**
 	 * The name of the database driver.
@@ -49,6 +49,19 @@ class JDatabaseNosql extends JDatabase
 	 * @since  12.1
 	 */
 	protected static $dbMinimum = '12.1';
+
+	/**
+	 * Connects to the database if needed.
+	 *
+	 * @return  void  Returns void if the database connected successfully.
+	 *
+	 * @since   12.1
+	 * @throws  RuntimeException
+	 */
+	public function connect()
+	{
+		return;
+	}
 
 	/**
 	 * Determines if the connection to the server is active.
@@ -306,10 +319,10 @@ class JDatabaseNosql extends JDatabase
 	 *
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 * @throws  JDatabaseException
 	 */
-	public function query()
+	public function execute()
 	{
 		return false;
 	}
