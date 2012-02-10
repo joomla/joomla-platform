@@ -78,9 +78,6 @@ class JInstallerTemplate extends JAdapterInstance
 	 */
 	public function install()
 	{
-		// Get a database connector object
-		$db = $this->parent->getDbo();
-
 		$lang = JFactory::getLanguage();
 		$xml = $this->parent->getManifest();
 
@@ -113,6 +110,7 @@ class JInstallerTemplate extends JAdapterInstance
 		$this->set('element', $element);
 
 		// Check to see if a template by the same name is already installed.
+		$db = $this->parent->getDbo();
 		$query = $db->getQuery(true);
 		$query->select($query->qn('extension_id'))->from($query->qn('#__extensions'));
 		$query->where($query->qn('type') . ' = ' . $query->q('template'));
@@ -123,19 +121,10 @@ class JInstallerTemplate extends JAdapterInstance
 		{
 			$id = $db->loadResult();
 		}
-		catch (JDatabaseException $e)
+		catch (RuntimeException $e)
 		{
 			// Install failed, roll back changes
 			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_ROLLBACK'), $e->getMessage());
-			return false;
-		}
-
-		// Legacy error handling switch based on the JError::$legacy switch.
-		// @deprecated  12.1
-		if (JError::$legacy && $db->getErrorNum())
-		{
-			// Install failed, roll back changes
-			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_ROLLBACK', $db->stderr(true)));
 			return false;
 		}
 
@@ -305,7 +294,7 @@ class JInstallerTemplate extends JAdapterInstance
 			$db->setQuery($query);
 
 			// There is a chance this could fail but we don't care...
-			$db->query();
+			$db->execute();
 		}
 
 		return $row->get('extension_id');
@@ -547,7 +536,7 @@ class JInstallerTemplate extends JAdapterInstance
 			$query->set('title=' . $db->Quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', $this->parent->extension->name)));
 			$query->set('params=' . $db->Quote($this->parent->extension->params));
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 
 			return $this->parent->extension->get('extension_id');
 		}

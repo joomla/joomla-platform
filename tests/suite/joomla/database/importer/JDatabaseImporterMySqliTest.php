@@ -4,20 +4,18 @@
  * @license    GNU General Public License
  */
 
-require_once JPATH_PLATFORM.'/joomla/database/database/mysqliexporter.php';
-
 /**
- * Tests the JDatabaseMySqlExporter class.
+ * Tests the JDatabaseImporterMySQLi class.
  *
  * @package    Joomla.UnitTest
  * @subpackage Database
- * @since      11.1
+ * @since      12.1
  */
-class JDatabaseExporterMySQLiTest extends PHPUnit_Framework_TestCase
+class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var    object  The mocked database object for use by test methods.
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	protected $dbo = null;
 
@@ -25,14 +23,14 @@ class JDatabaseExporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 * Sets up the testing conditions
 	 *
 	 * @return  void
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function setup()
 	{
 		// Set up the database object mock.
 
 		$this->dbo = $this->getMock(
-			'JDatabaseMySqli',
+			'JDatabaseDriverMysqli',
 			array(),
 			array(),
 			'',
@@ -44,11 +42,11 @@ class JDatabaseExporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 * Tests the check method.
 	 *
 	 * @return void
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public function testCheckWithNoDbo()
 	{
-		$instance = new JDatabaseExporterMySqli;
+		$instance = new JDatabaseImporterMysqli;
 
 		try
 		{
@@ -69,11 +67,11 @@ class JDatabaseExporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 * Tests the check method.
 	 *
 	 * @return void
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public function testCheckWithNoTables()
 	{
-		$instance	= new JDatabaseExporterMySqli;
+		$instance	= new JDatabaseImporterMysqli;
 		$instance->setDbo($this->dbo);
 
 		try
@@ -95,11 +93,11 @@ class JDatabaseExporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 * Tests the check method.
 	 *
 	 * @return void
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public function testCheckWithGoodInput()
 	{
-		$instance	= new JDatabaseExporterMySqli;
+		$instance	= new JDatabaseImporterMysqli;
 		$instance->setDbo($this->dbo);
 		$instance->from('foobar');
 
@@ -125,11 +123,11 @@ class JDatabaseExporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 * Tests the setDbo method with the wrong type of class.
 	 *
 	 * @return void
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public function testSetDboWithBadInput()
 	{
-		$instance	= new JDatabaseExporterMySqli;
+		$instance	= new JDatabaseImporterMysqli;
 
 		try
 		{
@@ -142,7 +140,7 @@ class JDatabaseExporterMySQLiTest extends PHPUnit_Framework_TestCase
 		}
 
 		$this->fail(
-			'setDbo requires a JDatabaseMySql object and should throw an exception.'
+			'setDbo requires a JDatabaseDriverMysql object and should throw an exception.'
 		);
 	}
 
@@ -150,11 +148,11 @@ class JDatabaseExporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 * Tests the setDbo method with the wrong type of class.
 	 *
 	 * @return void
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public function testSetDboWithGoodInput()
 	{
-		$instance = new JDatabaseExporterMySqli;
+		$instance = new JDatabaseImporterMysqli;
 
 		try
 		{
