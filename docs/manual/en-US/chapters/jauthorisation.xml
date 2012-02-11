@@ -61,7 +61,7 @@
 
         <programlisting>try
 {
-	$authoriser = JAuthorisationFactory::getInstace()
+	$authoriser = JAuthorisationFactory::getInstance()
 		-&gt;getAuthoriser('default');
 }
 catch (Exception $e)
