@@ -22,17 +22,38 @@ class JCacheControllerPage extends JCacheController
 	 * @var    integer  ID property for the cache page object.
 	 * @since  11.1
 	 */
+	protected $id;
+
+	/**
+	 * @var    integer  ID property for the cache page object.
+	 * @since  11.1
+	 * @deprecated use $id or declare as private
+	 */
 	protected $_id;
 
 	/**
 	 * @var    string  Cache group
 	 * @since  11.1
 	 */
+	protected $group;
+
+	/**
+	 * @var    string  Cache group
+	 * @since  11.1
+	 * @deprecated use $group or declare as private
+	 */
 	protected $_group;
 
 	/**
 	 * @var    object  Cache lock test
 	 * @since  11.1
+	 */
+	protected $locktest = null;
+
+	/**
+	 * @var    object  Cache lock test
+	 * @since  11.1
+	 * @deprecated use $locktest or declare as private
 	 */
 	protected $_locktest = null;
 

@@ -25,10 +25,16 @@ defined('JPATH_PLATFORM') or die;
  */
 class JBrowser extends JObject
 {
+	/**
+	 * @var    integer  Major version number
+	 * @since  11.1
+	 */
+	protected $majorVersion = 0;
 
 	/**
 	 * @var    integer  Major version number
 	 * @since  11.1
+	 * @deprecated use $majorVersion or declare as private
 	 */
 	protected $_majorVersion = 0;
 
@@ -36,11 +42,25 @@ class JBrowser extends JObject
 	 * @var    integer  Minor version number
 	 * @since  11.1
 	 */
+	protected $minorVersion = 0;
+
+	/**
+	 * @var    integer  Minor version number
+	 * @since  11.1
+	 * @deprecated use $minorVersion or declare as private
+	 */
 	protected $_minorVersion = 0;
 
 	/**
 	 * @var    string  Browser name.
 	 * @since  11.1
+	 */
+	protected $browser = '';
+
+	/**
+	 * @var    string  Browser name.
+	 * @since  11.1
+	 * @deprecated use $browser or declare as private
 	 */
 	protected $_browser = '';
 
@@ -48,11 +68,25 @@ class JBrowser extends JObject
 	 * @var    string  Full user agent string.
 	 * @since  11.1
 	 */
+	protected $agent = '';
+
+	/**
+	 * @var    string  Full user agent string.
+	 * @since  11.1
+	 * @deprecated use $agent or declare as private
+	 */
 	protected $_agent = '';
 
 	/**
 	 * @var    string  Lower-case user agent string
 	 * @since  11.1
+	 */
+	protected $lowerAgent = '';
+
+	/**
+	 * @var    string  Lower-case user agent string
+	 * @since  11.1
+	 * @deprecated use $lowerAgent or declare as private
 	 */
 	protected $_lowerAgent = '';
 
@@ -60,11 +94,25 @@ class JBrowser extends JObject
 	 * @var    string  HTTP_ACCEPT string.
 	 * @since  11.1
 	 */
+	protected $accept = '';
+
+	/**
+	 * @var    string  HTTP_ACCEPT string.
+	 * @since  11.1
+	 * @deprecated use $accept or declare as private
+	 */
 	protected $_accept = '';
 
 	/**
 	 * @var    array  Parsed HTTP_ACCEPT string
 	 * @since  11.1
+	 */
+	protected $accept_parsed = array();
+
+	/**
+	 * @var    array  Parsed HTTP_ACCEPT string
+	 * @since  11.1
+	 * @deprecated use $accept_parsed or declare as private
 	 */
 	protected $_accept_parsed = array();
 
@@ -72,11 +120,72 @@ class JBrowser extends JObject
 	 * @var    string  Platform the browser is running on
 	 * @since  11.1
 	 */
+	protected $platform = '';
+
+	/**
+	 * @var    string  Platform the browser is running on
+	 * @since  11.1
+	 * @deprecated use $platform or declare as private
+	 */
 	protected $_platform = '';
 
 	/**
 	 * @var    array  Known robots.
 	 * @since  11.1
+	 */
+	protected $robots = array(
+		/* The most common ones. */
+		'Googlebot',
+		'msnbot',
+		'Slurp',
+		'Yahoo',
+		/* The rest alphabetically. */
+		'Arachnoidea',
+		'ArchitextSpider',
+		'Ask Jeeves',
+		'B-l-i-t-z-Bot',
+		'Baiduspider',
+		'BecomeBot',
+		'cfetch',
+		'ConveraCrawler',
+		'ExtractorPro',
+		'FAST-WebCrawler',
+		'FDSE robot',
+		'fido',
+		'geckobot',
+		'Gigabot',
+		'Girafabot',
+		'grub-client',
+		'Gulliver',
+		'HTTrack',
+		'ia_archiver',
+		'InfoSeek',
+		'kinjabot',
+		'KIT-Fireball',
+		'larbin',
+		'LEIA',
+		'lmspider',
+		'Lycos_Spider',
+		'Mediapartners-Google',
+		'MuscatFerret',
+		'NaverBot',
+		'OmniExplorer_Bot',
+		'polybot',
+		'Pompos',
+		'Scooter',
+		'Teoma',
+		'TheSuBot',
+		'TurnitinBot',
+		'Ultraseek',
+		'ViolaBot',
+		'webbandit',
+		'www.almaden.ibm.com/cs/crawler',
+		'ZyBorg');
+
+	/**
+	 * @var    array  Known robots.
+	 * @since  11.1
+	 * @deprecated use $robots or declare as private
 	 */
 	protected $_robots = array(
 		/* The most common ones. */
@@ -131,12 +240,45 @@ class JBrowser extends JObject
 	 * @var    boolean  Is this a mobile browser?
 	 * @since  11.1
 	 */
+	protected $mobile = false;
+
+	/**
+	 * @var    boolean  Is this a mobile browser?
+	 * @since  11.1
+	 * @deprecated use $mobile or declare as private
+	 */
 	protected $_mobile = false;
 
 	/**
 	 * @var    array  Features.
 	 * @since  11.1
 	 * @deprecated 12.1 This variable will be dropped without replacement
+	 */
+	protected $features = array(
+		'html' => true,
+		'wml' => false,
+		'images' => true,
+		'iframes' => false,
+		'frames' => true,
+		'tables' => true,
+		'java' => true,
+		'javascript' => true,
+		'dom' => false,
+		'utf' => false,
+		'rte' => false,
+		'homepage' => false,
+		'accesskey' => false,
+		'xmlhttpreq' => false,
+		'xhtml+xml' => false,
+		'mathml' => false,
+		'svg' => false
+	);
+
+	/**
+	 * @var    array  Features.
+	 * @since  11.1
+	 * @deprecated 12.1 This variable will be dropped without replacement
+	 * @deprecated use $features or declare as private
 	 */
 	protected $_features = array(
 		'html' => true,
@@ -157,6 +299,29 @@ class JBrowser extends JObject
 		'mathml' => false,
 		'svg' => false
 	);
+
+	/**
+	 * @var    array  Quirks.
+	 * @since  11.1
+	 * @deprecated 12.1 This variable will be dropped without replacement
+	 */
+	protected $quirks = array(
+		'avoid_popup_windows' => false,
+		'break_disposition_header' => false,
+		'break_disposition_filename' => false,
+		'broken_multipart_form' => false,
+		'cache_same_url' => false,
+		'cache_ssl_downloads' => false,
+		'double_linebreak_textarea' => false,
+		'empty_file_input_value' => false,
+		'must_cache_forms' => false,
+		'no_filename_spaces' => false,
+		'no_hidden_overflow_tables' => false,
+		'ow_gui_1.3' => false,
+		'png_transparency' => false,
+		'scrollbar_in_way' => false,
+		'scroll_tds' => false,
+		'windowed_controls' => false);
 
 	/**
 	 * @var    array  Quirks.
@@ -187,6 +352,16 @@ class JBrowser extends JObject
 	 *
 	 * @var    array
 	 * @since  11.1
+	 */
+	protected $images = array('jpeg', 'gif', 'png', 'pjpeg', 'x-png', 'bmp');
+
+	/**
+	 * List of viewable image MIME subtypes.
+	 * This list of viewable images works for IE and Netscape/Mozilla.
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $images or declare as private
 	 */
 	protected $_images = array('jpeg', 'gif', 'png', 'pjpeg', 'x-png', 'bmp');
 

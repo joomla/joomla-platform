@@ -23,6 +23,14 @@ class JButtonStandard extends JButton
 	 *
 	 * @var    string
 	 */
+	protected $name = 'Standard';
+
+	/**
+	 * Button type
+	 *
+	 * @var    string
+	 * @deprecated use $name or declare as private
+	 */
 	protected $_name = 'Standard';
 
 	/**

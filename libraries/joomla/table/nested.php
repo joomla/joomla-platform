@@ -70,6 +70,16 @@ class JTableNested extends JTable
 	 * @var    string
 	 * @since  11.1
 	 */
+	protected $location;
+
+	/**
+	 * Object property to hold the location type to use when storing the row.
+	 * Possible values are: ['before', 'after', 'first-child', 'last-child'].
+	 *
+	 * @var    string
+	 * @since  11.1
+	 * @deprecated use $location or declare as private
+	 */
 	protected $_location;
 
 	/**
@@ -80,6 +90,17 @@ class JTableNested extends JTable
 	 * @var    integer
 	 * @since  11.1
 	 */
+	protected $location_id;
+
+	/**
+	 * Object property to hold the primary key of the location reference node to
+	 * use when storing the row.  A combination of location type and reference
+	 * node describes where to store the current node in the tree.
+	 *
+	 * @var    integer
+	 * @since  11.1
+	 * @deprecated use $location_id or declare as private
+	 */
 	protected $_location_id;
 
 	/**
@@ -88,6 +109,15 @@ class JTableNested extends JTable
 	 * @var    array
 	 * @since  11.1
 	 */
+	protected $cache = array();
+
+	/**
+	 * An array to cache values in recursive processes.
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $cache or declare as private
+	 */
 	protected $_cache = array();
 
 	/**
@@ -95,6 +125,15 @@ class JTableNested extends JTable
 	 *
 	 * @var    integer
 	 * @since  11.1
+	 */
+	protected $debug = 0;
+
+	/**
+	 * Debug level
+	 *
+	 * @var    integer
+	 * @since  11.1
+	 * @deprecated use $debug or declare as private
 	 */
 	protected $_debug = 0;
 

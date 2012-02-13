@@ -31,11 +31,12 @@ abstract class JHtml
 	 *     fmtEol, string. The end of line string, default is linefeed.
 	 *     fmtIndent, string. The string to use for indentation, default is
 	 *     tab.
+	 * Use JHtml::setFormatOptions(array $options) to set the ptions.
 	 *
 	 * @var    array
 	 * @since  11.1
 	 */
-	static $formatOptions = array('format.depth' => 0, 'format.eol' => "\n", 'format.indent' => "\t");
+	public static $formatOptions = array('format.depth' => 0, 'format.eol' => "\n", 'format.indent' => "\t");
 
 	/**
 	 * An array to hold included paths

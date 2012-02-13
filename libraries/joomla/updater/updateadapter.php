@@ -30,6 +30,13 @@ class JUpdateAdapter extends JAdapterInstance
 	 * @var    array
 	 * @since 11.1
 	 */
+	protected $stack = array('base');
+
+	/**
+	 * @var    array
+	 * @since 11.1
+	 * @deprecated use $stack or declare as private
+	 */
 	protected $_stack = array('base');
 
 	/**
@@ -38,6 +45,15 @@ class JUpdateAdapter extends JAdapterInstance
 	 * @var    string
 	 * @since  11.1
 	 */
+	protected $update_site_id = 0;
+
+	/**
+	 * ID of update site
+	 *
+	 * @var    string
+	 * @since  11.1
+	 * @deprecated use $update_site_id or declare as private
+	 */
 	protected $_update_site_id = 0;
 
 	/**
@@ -45,6 +61,15 @@ class JUpdateAdapter extends JAdapterInstance
 	 *
 	 * @var    array
 	 * @since  11.1
+	 */
+	protected $updatecols = array('NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT', 'VERSION', 'DESCRIPTION', 'INFOURL');
+
+	/**
+	 * Columns in the extensions table to be updated
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $updatecols or declare as private
 	 */
 	protected $_updatecols = array('NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT', 'VERSION', 'DESCRIPTION', 'INFOURL');
 

@@ -25,6 +25,15 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	 * @var    string
 	 * @since  11.1
 	 */
+	protected $mime = "application/rss+xml";
+
+	/**
+	 * Renderer mime type
+	 *
+	 * @var    string
+	 * @since  11.1
+	 * @deprecated use $mime or declare as private
+	 */
 	protected $_mime = "application/rss+xml";
 
 	/**

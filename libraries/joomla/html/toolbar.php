@@ -26,12 +26,28 @@ class JToolBar extends JObject
 	 *
 	 * @var    string
 	 */
+	protected $name = array();
+
+	/**
+	 * Toolbar name
+	 *
+	 * @var    string
+	 * @deprecated use $name or declare as private
+	 */
 	protected $_name = array();
 
 	/**
 	 * Toolbar array
 	 *
 	 * @var    array
+	 */
+	protected $bar = array();
+
+	/**
+	 * Toolbar array
+	 *
+	 * @var    array
+	 * @deprecated use $bar or declare as private
 	 */
 	protected $_bar = array();
 
@@ -40,12 +56,28 @@ class JToolBar extends JObject
 	 *
 	 * @var    array
 	 */
+	protected $buttons = array();
+
+	/**
+	 * Loaded buttons
+	 *
+	 * @var    array
+	 * @deprecated use $buttons or declare as private
+	 */
 	protected $_buttons = array();
 
 	/**
 	 * Directories, where button types can be stored.
 	 *
 	 * @var    array
+	 */
+	protected $buttonPath = array();
+
+	/**
+	 * Directories, where button types can be stored.
+	 *
+	 * @var    array
+	 * @deprecated use $buttonPath or declare as private
 	 */
 	protected $_buttonPath = array();
 

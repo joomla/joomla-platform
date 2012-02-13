@@ -29,6 +29,15 @@ class JAdapter extends JObject
 	 * @var    array
 	 * @since  11.1
 	 */
+	protected $adapters = array();
+
+	/**
+	 * Associative array of adapters
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $adapters or declare as private
+	 */
 	protected $_adapters = array();
 
 	/**
@@ -36,11 +45,26 @@ class JAdapter extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
+	protected $adapterfolder = 'adapters';
+
+	/**
+	 * Adapter Folder
+	 * @var    string
+	 * @since  11.1
+	 * @deprecated use $adapterfolder or declare as private
+	 */
 	protected $_adapterfolder = 'adapters';
 
 	/**
 	 * @var    string	Adapter Class Prefix
 	 * @since  11.1
+	 */
+	protected $classprefix = 'J';
+
+	/**
+	 * @var    string	Adapter Class Prefix
+	 * @since  11.1
+	 * @deprecated use $classprefix or declare as private
 	 */
 	protected $_classprefix = 'J';
 
@@ -50,6 +74,15 @@ class JAdapter extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
+	protected $basepath = null;
+
+	/**
+	 * Base Path for the adapter instance
+	 *
+	 * @var    string
+	 * @since  11.1
+	 * @deprecated use $basepath or declare as private
+	 */
 	protected $_basepath = null;
 
 	/**
@@ -57,6 +90,15 @@ class JAdapter extends JObject
 	 *
 	 * @var    JDatabase
 	 * @since  11.1
+	 */
+	protected $db;
+
+	/**
+	 * Database Connector Object
+	 *
+	 * @var    JDatabase
+	 * @since  11.1
+	 * @deprecated use $db or declare as private
 	 */
 	protected $_db;
 

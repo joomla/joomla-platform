@@ -24,6 +24,15 @@ class JDocumentError extends JDocument
 	 * @var    object
 	 * @since  11.1
 	 */
+	protected $error;
+
+	/**
+	 * Error Object
+	 *
+	 * @var    object
+	 * @since  11.1
+	 * @deprecated use $error or declare as private
+	 */
 	protected $_error;
 
 	/**

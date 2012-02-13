@@ -23,17 +23,38 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @var    Memcache
 	 * @since  11.1
 	 */
+	protected static $db = null;
+
+	/**
+	 * @var    Memcache
+	 * @since  11.1
+	 * @deprecated use $db or declare as private
+	 */
 	protected static $_db = null;
 
 	/**
 	 * @var    boolean
 	 * @since  11.1
 	 */
+	protected $persistent = false;
+
+	/**
+	 * @var    boolean
+	 * @since  11.1
+	 * @deprecated use $persistent or declare as private
+	 */
 	protected $_persistent = false;
 
 	/**
 	 * @var
 	 * @since   11.1
+	 */
+	protected $compress = 0;
+
+	/**
+	 * @var
+	 * @since   11.1
+	 * @deprecated use $compress or declare as private
 	 */
 	protected $_compress = 0;
 

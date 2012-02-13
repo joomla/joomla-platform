@@ -29,6 +29,15 @@ class JDocumentRendererAtom extends JDocumentRenderer
 	 * @var    string
 	 * @since  11.1
 	 */
+	protected $mime = "application/atom+xml";
+
+	/**
+	 * Document mime type
+	 *
+	 * @var    string
+	 * @since  11.1
+	 * @deprecated use $mime or declare as private
+	 */
 	protected $_mime = "application/atom+xml";
 
 	/**

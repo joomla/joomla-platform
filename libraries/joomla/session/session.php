@@ -34,6 +34,17 @@ class JSession extends JObject
 	 * @see    getState()
 	 * @since  11.1
 	 */
+	protected $state = 'active';
+
+	/**
+	 * Internal state.
+	 * One of 'active'|'expired'|'destroyed|'error'
+	 *
+	 * @var    string
+	 * @see    getState()
+	 * @since  11.1
+	 * @deprecated use $state or declare as private
+	 */
 	protected $_state = 'active';
 
 	/**
@@ -42,6 +53,15 @@ class JSession extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
+	protected $expire = 15;
+
+	/**
+	 * Maximum age of unused session in minutes
+	 *
+	 * @var    string
+	 * @since  11.1
+	 * @deprecated use $expire or declare as private
+	 */
 	protected $_expire = 15;
 
 	/**
@@ -49,6 +69,15 @@ class JSession extends JObject
 	 *
 	 * @var    JSessionStorage
 	 * @since  11.1
+	 */
+	protected $store = null;
+
+	/**
+	 * The session store object.
+	 *
+	 * @var    JSessionStorage
+	 * @since  11.1
+	 * @deprecated use $store or declare as private
 	 */
 	protected $_store = null;
 
@@ -63,6 +92,20 @@ class JSession extends JObject
 	 * @var array
 	 * @since  11.1
 	 */
+	protected $security = array('fix_browser');
+
+	/**
+	 * Security policy.
+	 * List of checks that will be done.
+	 *
+	 * Default values:
+	 * - fix_browser
+	 * - fix_adress
+	 *
+	 * @var array
+	 * @since  11.1
+	 * @deprecated use $security or declare as private
+	 */
 	protected $_security = array('fix_browser');
 
 	/**
@@ -71,6 +114,16 @@ class JSession extends JObject
 	 *
 	 * @var    boolean
 	 * @since  11.1
+	 */
+	protected $force_ssl = false;
+
+	/**
+	 * Force cookies to be SSL only
+	 * Default  false
+	 *
+	 * @var    boolean
+	 * @since  11.1
+	 * @deprecated use $force_ssl or declare as private
 	 */
 	protected $_force_ssl = false;
 

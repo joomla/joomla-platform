@@ -29,6 +29,13 @@ class JCacheStorageCachelite extends JCacheStorage
 	 * @var
 	 * @since   11.1
 	 */
+	protected $root;
+
+	/**
+	 * @var
+	 * @since   11.1
+	 * @deprecated use $root or declare as private
+	 */
 	protected $_root;
 
 	/**

@@ -27,6 +27,7 @@ abstract class JTable extends JObject
 	 *
 	 * @var    string
 	 * @since  11.1
+	 * @deprecated use $tbl and find another method to identify "internal fields" in JDatabase::insertObject()
 	 */
 	protected $_tbl = '';
 
@@ -35,6 +36,7 @@ abstract class JTable extends JObject
 	 *
 	 * @var    string
 	 * @since  11.1
+	 * @deprecated use $tbl_key and find another method to identify "internal fields" in JDatabase::insertObject()
 	 */
 	protected $_tbl_key = '';
 
@@ -43,6 +45,7 @@ abstract class JTable extends JObject
 	 *
 	 * @var    JDatabase
 	 * @since  11.1
+	 * @deprecated use $db and find another method to identify "internal fields" in JDatabase::insertObject()
 	 */
 	protected $_db;
 
@@ -51,6 +54,7 @@ abstract class JTable extends JObject
 	 *
 	 * @var    boolean
 	 * @since  11.1
+	 * @deprecated use $trackAssets and find another method to identify "internal fields" in JDatabase::insertObject()
 	 */
 	protected $_trackAssets = false;
 
@@ -59,6 +63,7 @@ abstract class JTable extends JObject
 	 *
 	 * @var    JAccessRules  A JAccessRules object.
 	 * @since  11.1
+	 * @deprecated use $rules and find another method to identify "internal fields" in JDatabase::insertObject()
 	 */
 	protected $_rules;
 
@@ -67,6 +72,7 @@ abstract class JTable extends JObject
 	 *
 	 * @var    boolean
 	 * @since  11.1
+	 * @deprecated use $locked and find another method to identify "internal fields" in JDatabase::insertObject()
 	 */
 	protected $_locked = false;
 

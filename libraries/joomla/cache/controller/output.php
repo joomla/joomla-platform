@@ -21,15 +21,33 @@ class JCacheControllerOutput extends JCacheController
 	/**
 	 * @since   11.1
 	 */
+	protected $id;
+
+	/**
+	 * @since   11.1
+	 * @deprecated use $id or declare as private
+	 */
 	protected $_id;
 
 	/**
 	 * @since   11.1
 	 */
+	protected $group;
+
+	/**
+	 * @since   11.1
+	 * @deprecated use $group or declare as private
+	 */
 	protected $_group;
 
 	/**
 	 * @since   11.1
+	 */
+	protected $locktest = null;
+
+	/**
+	 * @since   11.1
+	 * @deprecated use $locktest or declare as private
 	 */
 	protected $_locktest = null;
 

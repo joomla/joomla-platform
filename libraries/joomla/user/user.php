@@ -141,6 +141,7 @@ class JUser extends JObject
 	 * User parameters
 	 * @var    object
 	 * @since  11.1
+	 * @deprecated choose another name as $params is already in use
 	 */
 	protected $_params = null;
 
@@ -150,6 +151,15 @@ class JUser extends JObject
 	 * @var    array
 	 * @since  11.1
 	 */
+	protected $authGroups = null;
+
+	/**
+	 * Authorised access groups
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $authGroups or declare as private
+	 */
 	protected $_authGroups = null;
 
 	/**
@@ -157,6 +167,15 @@ class JUser extends JObject
 	 *
 	 * @var    array
 	 * @since  11.1
+	 */
+	protected $authLevels = null;
+
+	/**
+	 * Authorised access levels
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $authLevels or declare as private
 	 */
 	protected $_authLevels = null;
 
@@ -166,6 +185,15 @@ class JUser extends JObject
 	 * @var    array
 	 * @since  11.1
 	 */
+	protected $authActions = null;
+
+	/**
+	 * Authorised access actions
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $authActions or declare as private
+	 */
 	protected $_authActions = null;
 
 	/**
@@ -173,6 +201,15 @@ class JUser extends JObject
 	 *
 	 * @var    string
 	 * @since  11.1
+	 */
+	protected $errorMsg = null;
+
+	/**
+	 * Error message
+	 *
+	 * @var    string
+	 * @since  11.1
+	 * @deprecated use $errorMsg or declare as private
 	 */
 	protected $_errorMsg = null;
 

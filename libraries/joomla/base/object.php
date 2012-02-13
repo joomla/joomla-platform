@@ -29,6 +29,15 @@ class JObject
 	 * @see     JError
 	 * @deprecated 12.3  JError has been deprecated
 	 */
+	protected $errors = array();
+
+	/**
+	 * An array of error messages or JExceptions objects.
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $errors or declare as private
+	 */
 	protected $_errors = array();
 
 	/**

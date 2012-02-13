@@ -26,6 +26,15 @@ class JTree extends JObject
 	 * @var    object
 	 * @since  11.1
 	 */
+	protected $root = null;
+
+	/**
+	 * Root node
+	 *
+	 * @var    object
+	 * @since  11.1
+	 * @deprecated use $root or declare as private
+	 */
 	protected $_root = null;
 
 	/**
@@ -33,6 +42,15 @@ class JTree extends JObject
 	 *
 	 * @var    object
 	 * @since  11.1
+	 */
+	protected $current = null;
+
+	/**
+	 * Current working node
+	 *
+	 * @var    object
+	 * @since  11.1
+	 * @deprecated use $current or declare as private
 	 */
 	protected $_current = null;
 

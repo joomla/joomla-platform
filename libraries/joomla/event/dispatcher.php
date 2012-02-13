@@ -29,6 +29,15 @@ class JDispatcher extends JObject
 	 * @var    array
 	 * @since  11.3
 	 */
+	protected $observers = array();
+
+	/**
+	 * An array of Observer objects to notify
+	 *
+	 * @var    array
+	 * @since  11.3
+	 * @deprecated use $observers or declare as private
+	 */
 	protected $_observers = array();
 
 	/**
@@ -37,6 +46,15 @@ class JDispatcher extends JObject
 	 * @var    mixed
 	 * @since  11.3
 	 */
+	protected $state = null;
+
+	/**
+	 * The state of the observable object
+	 *
+	 * @var    mixed
+	 * @since  11.3
+	 * @deprecated use $state or declare as private
+	 */
 	protected $_state = null;
 
 	/**
@@ -44,6 +62,15 @@ class JDispatcher extends JObject
 	 *
 	 * @var    array
 	 * @since  11.3
+	 */
+	protected $methods = array();
+
+	/**
+	 * A multi dimensional array of [function][] = key for observers
+	 *
+	 * @var    array
+	 * @since  11.3
+	 * @deprecated use $methods or declare as private
 	 */
 	protected $_methods = array();
 

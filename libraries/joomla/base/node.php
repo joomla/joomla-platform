@@ -24,6 +24,15 @@ class JNode extends JObject
 	 *
 	 * @since  11.1
 	 */
+	protected $parent = null;
+
+	/**
+	 * Parent node
+	 * @var    object
+	 *
+	 * @since  11.1
+	 * @deprecated use $parent or declare as private
+	 */
 	protected $_parent = null;
 
 	/**
@@ -31,6 +40,15 @@ class JNode extends JObject
 	 *
 	 * @var    array
 	 * @since  11.1
+	 */
+	protected $children = array();
+
+	/**
+	 * Array of Children
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $children or declare as private
 	 */
 	protected $_children = array();
 

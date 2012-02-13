@@ -26,6 +26,15 @@ class JEditor extends JObject
 	 * @var    array
 	 * @since  11.1
 	 */
+	protected $observers = array();
+
+	/**
+	 * An array of Observer objects to notify
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $observers or declare as private
+	 */
 	protected $_observers = array();
 
 	/**
@@ -33,6 +42,15 @@ class JEditor extends JObject
 	 *
 	 * @var    mixed
 	 * @since  11.1
+	 */
+	protected $state = null;
+
+	/**
+	 * The state of the observable object
+	 *
+	 * @var    mixed
+	 * @since  11.1
+	 * @deprecated use $state or declare as private
 	 */
 	protected $_state = null;
 
@@ -42,6 +60,15 @@ class JEditor extends JObject
 	 * @var    array
 	 * @since  11.1
 	 */
+	protected $methods = array();
+
+	/**
+	 * A multi dimensional array of [function][] = key for observers
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $methods or declare as private
+	 */
 	protected $_methods = array();
 
 	/**
@@ -49,12 +76,28 @@ class JEditor extends JObject
 	 *
 	 * @var  object
 	 */
+	protected $editor = null;
+
+	/**
+	 * Editor Plugin object
+	 *
+	 * @var  object
+	 * @deprecated use $editor or declare as private
+	 */
 	protected $_editor = null;
 
 	/**
 	 * Editor Plugin name
 	 *
 	 * @var  string
+	 */
+	protected $name = null;
+
+	/**
+	 * Editor Plugin name
+	 *
+	 * @var  string
+	 * @deprecated use $name or declare as private
 	 */
 	protected $_name = null;
 

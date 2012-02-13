@@ -22,6 +22,13 @@ class JButtonLink extends JButton
 	 * Button type
 	 * @var    string
 	 */
+	protected $name = 'Link';
+
+	/**
+	 * Button type
+	 * @var    string
+	 * @deprecated use $name or declare as private
+	 */
 	protected $_name = 'Link';
 
 	/**

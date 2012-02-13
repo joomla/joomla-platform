@@ -24,6 +24,15 @@ class JDocumentXml extends JDocument
 	 * @var    string
 	 * @since  11.1
 	 */
+	protected $name = 'joomla';
+
+	/**
+	 * Document name
+	 *
+	 * @var    string
+	 * @since  11.1
+	 * @deprecated use $name or declare as private
+	 */
 	protected $_name = 'joomla';
 
 	/**
