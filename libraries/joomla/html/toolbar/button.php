@@ -27,14 +27,14 @@ abstract class JButton
 	 *
 	 * @var    string
 	 */
-	protected $_name = null;
+	protected $name = null;
 
 	/**
 	 * reference to the object that instantiated the element
 	 *
 	 * @var    JButton
 	 */
-	protected $_parent = null;
+	protected $parent = null;
 
 	/**
 	 * Constructor
@@ -43,7 +43,55 @@ abstract class JButton
 	 */
 	public function __construct($parent = null)
 	{
-		$this->_parent = $parent;
+		$this->parent = $parent;
+	}
+
+	/**
+	 * magic get method
+	 *
+	 * @param   $propertyName  Property name
+	 *
+	 * @return  mixed  the property value
+	 *
+	 * @since   12.1
+	 * @deprecated  12.3
+	 */
+	public function __get($propertyName)
+	{
+		if ($propertyName[0] == '_' && property_exists($this, $newPropertyName = substr($propertyName, 1)))
+		{
+			JLog::add(get_called_class() . '::$' . $propertyName . ' is deprecated. Use ' . get_called_class() . '::$'. $newPropertyName . ' instead.', JLog::WARNING, 'deprecated');
+			return $this->$newPropertyName;
+		}
+		else
+		{
+			// Trigger an error
+			return $this->$propertyName;
+		}
+	}
+
+	/**
+	 * magic set method
+	 *
+	 * @param   $propertyName  Property name
+	 * @param   $value         Property name
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 * @deprecated  12.3
+	 */
+	public function __set($propertyName, $value)
+	{
+		if ($propertyName[0] == '_' && property_exists($this, $newPropertyName = substr($propertyName, 1)))
+		{
+			JLog::add(get_called_class() . '::$' . $propertyName . ' is deprecated. Use ' . get_called_class() . '::$'. $newPropertyName . ' instead.', JLog::WARNING, 'deprecated');
+			$this->$newPropertyName = $value;
+		}
+		else
+		{
+			$this->$propertyName = $value;
+		}
 	}
 
 	/**
@@ -53,7 +101,7 @@ abstract class JButton
 	 */
 	public function getName()
 	{
-		return $this->_name;
+		return $this->name;
 	}
 
 	/**

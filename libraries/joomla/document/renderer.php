@@ -24,7 +24,7 @@ class JDocumentRenderer
 	 * @var    JDocument
 	 * @since  11.1
 	 */
-	protected	$_doc = null;
+	protected $doc = null;
 
 	/**
 	 * Renderer mime type
@@ -32,7 +32,7 @@ class JDocumentRenderer
 	 * @var    string
 	 * @since  11.1
 	 */
-	protected $_mime = "text/html";
+	protected $mime = "text/html";
 
 	/**
 	 * Class constructor
@@ -43,7 +43,55 @@ class JDocumentRenderer
 	 */
 	public function __construct(&$doc)
 	{
-		$this->_doc = &$doc;
+		$this->doc = &$doc;
+	}
+
+	/**
+	 * magic get method
+	 *
+	 * @param   $propertyName  Property name
+	 *
+	 * @return  mixed  the property value
+	 *
+	 * @since   12.1
+	 * @deprecated  12.3
+	 */
+	public function __get($propertyName)
+	{
+		if ($propertyName[0] == '_' && property_exists($this, $newPropertyName = substr($propertyName, 1)))
+		{
+			JLog::add(get_called_class() . '::$' . $propertyName . ' is deprecated. Use ' . get_called_class() . '::$'. $newPropertyName . ' instead.', JLog::WARNING, 'deprecated');
+			return $this->$newPropertyName;
+		}
+		else
+		{
+			// Trigger an error
+			return $this->$propertyName;
+		}
+	}
+
+	/**
+	 * magic set method
+	 *
+	 * @param   $propertyName  Property name
+	 * @param   $value         Property name
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 * @deprecated  12.3
+	 */
+	public function __set($propertyName, $value)
+	{
+		if ($propertyName[0] == '_' && property_exists($this, $newPropertyName = substr($propertyName, 1)))
+		{
+			JLog::add(get_called_class() . '::$' . $propertyName . ' is deprecated. Use ' . get_called_class() . '::$'. $newPropertyName . ' instead.', JLog::WARNING, 'deprecated');
+			$this->$newPropertyName = $value;
+		}
+		else
+		{
+			$this->$propertyName = $value;
+		}
 	}
 
 	/**
@@ -70,6 +118,6 @@ class JDocumentRenderer
 	 */
 	public function getContentType()
 	{
-		return $this->_mime;
+		return $this->mime;
 	}
 }

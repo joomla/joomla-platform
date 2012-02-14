@@ -69,7 +69,7 @@ class JButtonStandard extends JButton
 	 */
 	public function fetchId($type = 'Standard', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
 	{
-		return $this->_parent->getName() . '-' . $name;
+		return $this->parent->getName() . '-' . $name;
 	}
 
 	/**
