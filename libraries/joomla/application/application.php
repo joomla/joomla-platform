@@ -814,7 +814,7 @@ class JApplication extends JApplicationBase
 	 *
 	 * @since   11.1
 	 */
-	static public function getRouter($name = null, array $options = array())
+	public static function getRouter($name = null, array $options = array())
 	{
 		if (!isset($name))
 		{
@@ -844,7 +844,7 @@ class JApplication extends JApplicationBase
 	 *
 	 * @since   11.1
 	 */
-	static public function stringURLSafe($string)
+	public static function stringURLSafe($string)
 	{
 		if (JFactory::getConfig()->get('unicodeslugs') == 1)
 		{
@@ -868,7 +868,7 @@ class JApplication extends JApplicationBase
 	 *
 	 * @since   11.1
 	 */
-	public function getPathway($name = null, $options = array())
+	public static function getPathway($name = null, $options = array())
 	{
 		if (!isset($name))
 		{
@@ -896,7 +896,7 @@ class JApplication extends JApplicationBase
 	 *
 	 * @since   11.1
 	 */
-	public function getMenu($name = null, $options = array())
+	public static function getMenu($name = null, $options = array())
 	{
 		if (!isset($name))
 		{
