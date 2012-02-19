@@ -43,6 +43,200 @@ class JDatabaseTest extends JoomlaDatabaseTestCase
 	{
 	}
 
+
+	/**
+	 * Test for the JDatabase::setKey and JDatabase::getKey method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function testgetKey_setKey()
+	{
+		// Tests the default key
+		$this->assertEquals(
+			$this->db->getKey(),
+			null,
+			'Tests the default key.'
+		);
+
+		// Tests a string key.
+		$this->db->setKey('mykey');
+		$this->assertEquals(
+			$this->db->getKey(),
+			'mykey',
+			'Tests a string key.'
+		);
+
+		// Tests an integer key.
+		$this->db->setKey(3);
+		$this->assertEquals(
+			$this->db->getKey(),
+			3,
+			'Tests an integer key.'
+		);
+
+		// Tests the null key.
+		$this->db->setKey(null);
+		$this->assertEquals(
+			$this->db->getKey(),
+			null,
+			'Tests the null key.'
+		);
+
+		// Test the exception
+		$this->setExpectedException('InvalidArgumentException');
+		$this->db->setKey(array());
+	}
+
+	/**
+	 * Test for the JDatabase::setType and JDatabase::getType method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function testgetType_setType()
+	{
+		// Tests the default type
+		$this->assertEquals(
+			$this->db->getType(),
+			'assoc',
+			'Tests the default type.'
+		);
+
+		// Tests the assoc type.
+		$this->db->setType('assoc');
+		$this->assertEquals(
+			$this->db->getType(),
+			'assoc',
+			'Tests the assoc type.'
+		);
+
+		// Tests the array type.
+		$this->db->setType('array');
+		$this->assertEquals(
+			$this->db->getType(),
+			'array',
+			'Tests the array type.'
+		);
+
+		// Tests the class type.
+		$this->db->setType('stdClass');
+		$this->assertEquals(
+			$this->db->getType(),
+			'stdClass',
+			'Tests the class type.'
+		);
+
+		// Test the exception
+		$this->setExpectedException('InvalidArgumentException');
+		$this->db->setType(array());
+	}
+
+	/**
+	 * Test for the JDatabase::__clone and JDatabase::__destruct method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function test__clone__destruct()
+	{
+		$cloned = &$this->db->getCloned();
+		$this->assertEquals(
+			$cloned,
+			0,
+			'Tests the "cloned" instance property.'
+		);
+
+		$dbo = clone $this->db;
+		$cloned = &$this->db->getCloned();
+		$this->assertEquals(
+			$cloned,
+			1,
+			'Tests the "cloned" instance property.'
+		);
+		$cloned = &$dbo->getCloned();
+		$this->assertEquals(
+			$cloned,
+			1,
+			'Tests the "cloned" instance property.'
+		);
+		unset($dbo);
+		$cloned = &$this->db->getCloned();
+		$this->assertEquals(
+			$cloned,
+			0,
+			'Tests the "cloned" instance property.'
+		);
+		unset($this->db);
+	}
+
+	/**
+	 * Test for the JDatabase::__set and JDatabase::__get method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 * @deprecated 12.3
+	 */
+	public function test__get__set()
+	{
+		// Test the old 'name' public property (now declared as static)
+		$old_name = $this->db->name;
+		$this->assertEquals(
+			$old_name,
+			JDatabaseNosql::$name,
+			'Tests the "name" instance property.'
+		);
+		$this->db->name = 'newname';
+		$this->assertEquals(
+			'newname',
+			JDatabaseNosql::$name,
+			'Tests the "name" instance property.'
+		);
+		$this->db->name = $old_name;
+
+		// Test the old 'namequote' protected property (now declared as static: should trigger an exception)
+	    try
+	    {
+	    	$value = $this->db->namequote;
+	    	$this->fail();
+	    }
+	    catch (PHPUnit_Framework_Error_Notice $e)
+	    {
+	    }
+
+    	$this->db->nameQuote = 'novalue';
+    	$this->assertNotEquals(
+    		$this->db->getNameQuote(),
+    		'novalue',
+    		'Tests the "namequote" instance property'
+	    );
+
+		// Test the old 'utf' protected property using object methods
+		$this->assertEquals(
+			$this->db->getUTFSupport(),
+			true,
+    		'Tests the "utf" instance property'
+    	);
+    	$this->db->setUTFSupport(false);
+		$this->assertEquals(
+			$this->db->getUTFSupport(),
+			false,
+    		'Tests the "utf" instance property'
+    	);
+
+		// Test a dummy property
+		$this->db->dummy = 'dummy';
+		$this->assertEquals(
+			$this->db->dummy,
+			'dummy',
+    		'Tests a "dummy" instance property'
+    	);
+	}
+
 	/**
 	 * Test for the JDatabase::__call method.
 	 *

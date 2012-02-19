@@ -22,7 +22,7 @@ class JDatabaseNosql extends JDatabase
 	 * @var    string
 	 * @since  11.4
 	 */
-	public $name = 'nosql';
+	public static $name = 'nosql';
 
 	/**
 	 * The character(s) used to quote SQL statement names such as table names or field names,
@@ -33,7 +33,7 @@ class JDatabaseNosql extends JDatabase
 	 * @var    string
 	 * @since  11.4
 	 */
-	protected $nameQuote = '[]';
+	protected static $nameQuote = '[]';
 
 	/**
 	 * The null or zero representation of a timestamp for the database driver.  This should be
@@ -42,13 +42,57 @@ class JDatabaseNosql extends JDatabase
 	 * @var    string
 	 * @since  11.4
 	 */
-	protected $nullDate = '1BC';
+	protected static $nullDate = '1BC';
 
 	/**
 	 * @var    string  The minimum supported database version.
 	 * @since  12.1
 	 */
 	protected static $dbMinimum = '12.1';
+
+	/**
+	 * Determine whether or not the database engine supports UTF-8 character encoding.
+	 *
+	 * Used for testing deprecated "utf" instance property
+	 *
+	 * @return  boolean  True if the database engine supports UTF-8 character encoding.
+	 *
+	 * @since   12.1
+	 *
+	 * @deprecated 12.3
+	 */
+	public function getUTFSupport()
+	{
+		return $this->utf;
+	}
+
+	/**
+	 * Set the database engine supports UTF-8 character encoding.
+	 *
+	 * Used for testing deprecated "utf" instance property
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 *
+	 * @deprecated 12.3
+	 */
+	public function setUTFSupport($value)
+	{
+		$this->utf = $value;
+	}
+
+	/**
+	 * Get the number of clones
+	 *
+	 * @return  integer  Number of clones
+	 *
+	 * @since   12.1
+	 */
+	public function &getCloned()
+	{
+		return $this->cloned;
+	}
 
 	/**
 	 * Determines if the connection to the server is active.

@@ -608,4 +608,200 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
+
+	/**
+	 * Data provider for the testForEach method
+	 *
+	 * @return  array
+	 *
+	 * @since   11.3
+	 */
+	public function getForEachData()
+	{
+		return array(
+			// Testing 'assoc' type without specific key, offset or limit
+			array(
+				'assoc',
+				null,
+				'title',
+				'#__dbtest',
+				0,
+				0,
+				array(
+					array('title' => 'Testing'),
+					array('title' => 'Testing2'),
+					array('title' => 'Testing3'),
+					array('title' => 'Testing4')
+				)
+			),
+
+			// Testing 'assoc' type, offset=2 without specific key, or limit
+			array(
+				'assoc',
+				null,
+				'title',
+				'#__dbtest',
+				2,
+				0,
+				array(
+					array('title' => 'Testing3'),
+					array('title' => 'Testing4')
+				)
+			),
+
+			// Testing 'assoc' type, limit=2 without specific key, or offset
+			array(
+				'assoc',
+				null,
+				'title',
+				'#__dbtest',
+				0,
+				2,
+				array(
+					array('title' => 'Testing'),
+					array('title' => 'Testing2')
+				)
+			),
+
+			// Testing 'assoc' type, key='title' without specific limit, or offset
+			array(
+				'assoc',
+				'title',
+				'title, id',
+				'#__dbtest',
+				0,
+				0,
+				array(
+					'Testing' => array('title' => 'Testing', 'id' => '1'),
+					'Testing2' => array('title' => 'Testing2', 'id' => '2'),
+					'Testing3' => array('title' => 'Testing3', 'id' => '3'),
+					'Testing4' => array('title' => 'Testing4', 'id' => '4')
+				)
+			),
+
+			// Testing 'stdClass' type without specific key, offset or limit
+			array(
+				'stdClass',
+				null,
+				'title',
+				'#__dbtest',
+				0,
+				0,
+				array(
+					(object) array('title' => 'Testing'),
+					(object) array('title' => 'Testing2'),
+					(object) array('title' => 'Testing3'),
+					(object) array('title' => 'Testing4')
+				)
+			),
+
+			// Testing 'stdClass' type, key='title' without specific limit, or offset
+			array(
+				'stdClass',
+				'title',
+				'title, id',
+				'#__dbtest',
+				0,
+				0,
+				array(
+					'Testing' => (object) array('title' => 'Testing', 'id' => '1'),
+					'Testing2' => (object) array('title' => 'Testing2', 'id' => '2'),
+					'Testing3' => (object) array('title' => 'Testing3', 'id' => '3'),
+					'Testing4' => (object) array('title' => 'Testing4', 'id' => '4')
+				)
+			),
+
+			// Testing 'array' type without specific key, offset or limit
+			array(
+				'array',
+				null,
+				'title',
+				'#__dbtest',
+				0,
+				0,
+				array(
+					array(0 => 'Testing'),
+					array(0 => 'Testing2'),
+					array(0 => 'Testing3'),
+					array(0 => 'Testing4')
+				)
+			),
+
+			// Testing 'array' type, key='title' without specific limit, or offset
+			array(
+				'array',
+				0,
+				'title, id',
+				'#__dbtest',
+				0,
+				0,
+				array(
+					'Testing' => array(0 => 'Testing', 1 => '1'),
+					'Testing2' => array(0 => 'Testing2', 1 => '2'),
+					'Testing3' => array(0 => 'Testing3', 1 => '3'),
+					'Testing4' => array(0 => 'Testing4', 1 => '4')
+				)
+			),
+
+		);
+	}
+
+	/**
+	 * Test foreach control
+	 *
+	 * @covers JDatabase::rewind
+	 * @covers JDatabase::current
+	 * @covers JDatabase::key
+	 * @covers JDatabase::next
+	 * @covers JDatabase::valid
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider getForEachData
+	 *
+	 * @since   12.1
+	 */
+	public function testForEach($type, $key, $select, $from, $offset, $limit, $results)
+	{
+		$this->object->setType($type)->setKey($key)->setQuery($this->object->getQuery(true)->select($select)->from($from), $offset, $limit);
+
+		// Run the Iterator pattern
+		foreach ($this->object as $i => $result)
+		{
+			$this->assertThat(
+				$result,
+				$this->equalTo($results[$i]),
+				__LINE__
+			);
+		}
+
+		// Running twice
+		foreach ($this->object as $i => $result)
+		{
+			$this->assertThat(
+				$result,
+				$this->equalTo($results[$i]),
+				__LINE__
+			);
+		}
+
+		// Test cloning and nested loops
+		$dbo2 = clone $this->object;
+		foreach ($this->object as $i => $result)
+		{
+			$this->assertThat(
+				$result,
+				$this->equalTo($results[$i]),
+				__LINE__
+			);
+			foreach ($dbo2 as $i2 => $result2)
+			{
+				$this->assertThat(
+					$result2,
+					$this->equalTo($results[$i2]),
+					__LINE__
+				);
+			}
+		}
+	}
 }

@@ -25,7 +25,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $name = 'sqlsrv';
+	public static $name = 'sqlsrv';
 
 	/**
 	 * The character(s) used to quote SQL statement names such as table names or field names,
@@ -36,7 +36,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @var    string
 	 * @since  11.1
 	 */
-	protected $nameQuote = '[]';
+	protected static $nameQuote = '[]';
 
 	/**
 	 * The null or zero representation of a timestamp for the database driver.  This should be
@@ -45,7 +45,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @var    string
 	 * @since  11.1
 	 */
-	protected $nullDate = '1900-01-01 00:00:00';
+	protected static $nullDate = '1900-01-01 00:00:00';
 
 	/**
 	 * @var    string  The minimum supported database version.
@@ -145,10 +145,11 @@ class JDatabaseSQLSrv extends JDatabase
 	 */
 	public function __destruct()
 	{
-		if (is_resource($this->connection))
+		if ($this->cloned == 0 && is_resource($this->connection))
 		{
 			sqlsrv_close($this->connection);
 		}
+		parent::__destruct();
 	}
 
 	/**

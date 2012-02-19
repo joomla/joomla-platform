@@ -28,7 +28,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $name = 'mysql';
+	public static $name = 'mysql';
 
 	/**
 	 * The character(s) used to quote SQL statement names such as table names or field names,
@@ -39,7 +39,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @var    string
 	 * @since  11.1
 	 */
-	protected $nameQuote = '`';
+	protected static $nameQuote = '`';
 
 	/**
 	 * The null or zero representation of a timestamp for the database driver.  This should be
@@ -48,7 +48,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @var    string
 	 * @since  11.1
 	 */
-	protected $nullDate = '0000-00-00 00:00:00';
+	protected static $nullDate = '0000-00-00 00:00:00';
 
 	/**
 	 * @var    string  The minimum supported database version.
@@ -128,10 +128,11 @@ class JDatabaseMySQL extends JDatabase
 	 */
 	public function __destruct()
 	{
-		if (is_resource($this->connection))
+		if ($this->cloned == 0 && is_resource($this->connection))
 		{
 			mysql_close($this->connection);
 		}
+		parent::__destruct();
 	}
 
 	/**

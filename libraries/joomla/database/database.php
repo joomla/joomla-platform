@@ -40,7 +40,7 @@ interface JDatabaseInterface
  * @method      string  q   Alias for quote method
  * @method      mixed   qn  Alias for quoteName method
  */
-abstract class JDatabase implements JDatabaseInterface
+abstract class JDatabase implements JDatabaseInterface, Iterator
 {
 	/**
 	 * The name of the database.
@@ -56,7 +56,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $name;
+	public static $name;
 
 	/**
 	 * @var    resource  The database connection resource.
@@ -101,14 +101,14 @@ abstract class JDatabase implements JDatabaseInterface
 	 *                 used for the opening quote and the second for the closing quote.
 	 * @since  11.1
 	 */
-	protected $nameQuote;
+	protected static $nameQuote;
 
 	/**
 	 * @var    string  The null or zero representation of a timestamp for the database driver.  This should be
 	 *                 defined in child classes to hold the appropriate value for the engine.
 	 * @since  11.1
 	 */
-	protected $nullDate;
+	protected static $nullDate;
 
 	/**
 	 * @var    integer  The affected row offset to apply for the current SQL statement.
@@ -132,7 +132,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @var    boolean  True if the database engine supports UTF-8 character encoding.
 	 * @since  11.1
 	 */
-	protected $utf = true;
+	protected static $utf = true;
 
 	/**
 	 * @var         integer  The database error number
@@ -159,6 +159,36 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @since  12.1
 	 */
 	protected static $dbMinimum;
+
+	/**
+	 * @var    string  The query type 'array'|'assoc'|className
+	 * @since  12.1
+	 */
+	protected $type = 'assoc';
+
+	/**
+	 * @var    string|integer  The key used
+	 * @since  12.1
+	 */
+	protected $key;
+
+	/**
+	 * @var    scalar  Current position
+	 * @since  12.1
+	 */
+	protected $position;
+
+	/**
+	 * @var    mixed  The current row.
+	 * @since  12.1
+	 */
+	protected $result;
+
+	/**
+	 * @var    integer  The number of clone.
+	 * @since  12.1
+	 */
+	protected $cloned;
 
 	/**
 	 * Get a list of available database connectors.  The list will only be populated with connectors that both
@@ -429,6 +459,96 @@ abstract class JDatabase implements JDatabaseInterface
 	}
 
 	/**
+	 * Magic get for backward compatibility
+	 *
+	 * @param   string  $property  Property name
+	 *
+	 * @return  mixed  The property value
+	 *
+	 * @since   12.1
+	 *
+	 * @deprecated 12.3
+	 */
+	public function __get($property)
+	{
+		switch ($property)
+		{
+			// Public property
+			case 'name':
+				JLog::add('"name" instance property is deprecated, use "name" static property instead', JLog::WARNING, 'deprecated');
+
+				// Return the static property "name"
+				return static::$name;
+
+			// Protected properties
+			case 'nameQuote':
+			case 'nullDate':
+			case 'utf':
+				// Get the calling stack
+				$stack = debug_backtrace();
+
+				// If it's asked from this object (protected vars) and not from this method
+				if ($stack[1]['object'] == $this && $stack[1]['function'] != '__get')
+				{
+					JLog::add('"' . $property . '" instance property is deprecated, use "' . $property . '" static property instead', JLog::WARNING, 'deprecated');
+
+					// Return the static property
+					return static::$$property;
+				}
+
+			default:
+				// Force an error
+				return $this->$property;
+		}
+	}
+
+	/**
+	 * Magic set for backward compatibility
+	 *
+	 * @param   string  $property  Property name
+	 * @param   mixed   $value     Property value
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 *
+	 * @deprecated 12.3
+	 */
+	public function __set($property, $value)
+	{
+		switch ($property)
+		{
+			// Public property
+			case 'name':
+				JLog::add('$this->name property is deprecated, use ' . get_called_class() . '::$name or static::$name instead', JLog::WARNING, 'deprecated');
+
+				// Set the static property
+				static::$name = $value;
+				break;
+
+			// Protected properties
+			case 'nameQuote':
+			case 'nullDate':
+			case 'utf':
+				// Get the calling stack
+				$stack = debug_backtrace();
+
+				// If it's asked from this object (protected vars) and not from this method
+				if ($stack[1]['object'] == $this && $stack[1]['function'] != '__set')
+				{
+					JLog::add('"' . $property . '" instance property is deprecated, use "' . $property . '" static property instead', JLog::WARNING, 'deprecated');
+
+					// Set the static property
+					static::$$property = $value;
+				}
+
+			default:
+				// Assign public property
+				$this->$property = $value;
+		}
+	}
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array  $options  List of options used to configure the connection
@@ -442,11 +562,271 @@ abstract class JDatabase implements JDatabaseInterface
 
 		$this->tablePrefix = (isset($options['prefix'])) ? $options['prefix'] : 'jos_';
 		$this->count = 0;
+		$this->cloned = 0;
 		$this->errorNum = 0;
 		$this->log = array();
 
+		// Set some properties by ref to share them between clones
+		$this->_database = & $this->_database;
+		$this->tablePrefix = & $this->tablePrefix;
+		$this->count = & $this->count;
+		$this->cloned = & $this->cloned;
+		$this->log = & $this->log;
+
 		// Set charactersets (needed for MySQL 4.1.2+).
 		$this->setUTF();
+	}
+
+	/**
+	 * Destructor.
+	 *
+	 * The destructor releases the database cursor.
+	 *
+	 * @since   12.1
+	 */
+	public function __destruct()
+	{
+		if (is_resource($this->cursor))
+		{
+			$this->freeResult($this->cursor);
+		}
+		$this->cloned--;
+	}
+
+	/**
+	 * Clone.
+	 *
+	 * The clone method increment the number of clones
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function __clone()
+	{
+		$this->cloned++;
+	}
+
+	/**
+	 * Set the type of result
+	 *
+	 * @param   string  $type  The query type. Possible values are 'array', 'assoc' or an existing class name
+	 *
+	 * @return  JDatabase  $this object for chaining
+	 *
+	 * @throw  InvalidArgumentException
+	 *
+	 * @see  JDatabase::setKey
+	 *
+	 * @since   12.1
+	 */
+	public function setType($type)
+	{
+		// Set the type
+		if (in_array($type, array('array', 'assoc')) || is_string($type) && class_exists($type))
+		{
+			$this->type = $type;
+		}
+		else
+		{
+			throw new InvalidArgumentException("The type must be 'array', 'assoc' or an existing class name");
+		}
+		return $this;
+	}
+
+	/**
+	 * Get the type of result
+	 *
+	 * @return  string  The type of result. Possible values are 'array', 'assoc' or an existing class name
+	 *
+	 * @see  JDatabase::setType
+	 *
+	 * @since   12.1
+	 */
+	public function getType()
+	{
+		return $this->type;
+	}
+
+	/**
+	 * Set the key
+	 *
+	 * @param   integer|string|null  $key  The key used for retreiving rows. Possible values are
+	 *                                     -an integer if the type of result is array
+	 *                                     -a string if the type of result is 'assoc' or an existing class name
+	 *                                     -null to use natural index
+	 *
+	 * @return  JDatabase  $this object for chaining
+	 *
+	 * @throw  InvalidArgumentException
+	 *
+	 * @see  JDatabase::setType
+	 *
+	 * @since   12.1
+	 */
+	public function setKey($key)
+	{
+		// Set the type
+		if (is_int($key) || is_string($key) || is_null($key))
+		{
+			$this->key = $key;
+		}
+		else
+		{
+			throw new InvalidArgumentException("The key must be an integer, a string or the null value");
+		}
+		return $this;
+	}
+
+	/**
+	 * Get the key used for the results
+	 *
+	 * @return  integer|string|null  The key used for retreiving rows
+	 *
+	 * @see  JDatabase::setKey
+	 *
+	 * @since   12.1
+	 */
+	public function getKey()
+	{
+		return $this->key;
+	}
+
+	/**
+	 * Rewind the iterator to the first row
+	 *
+	 * <code>
+	 * $dbo = JFactory::getDbo()->setType('stdClass');
+	 * $dbo->setQuery($dbo->getQuery(true)->select('*')->from('#__users'));
+	 * $dbo2 = clone $dbo;
+	 * foreach ($dbo as $i => $row)
+	 * {
+	 *     $dbo2->setQuery($dbo2->getQuery(true)->select('*')->from('#__user_usergroup_map')->where('user_id = ' . (int) $row->id));
+	 *     foreach ($dbo2 as $i2 => $row2)
+	 *     {
+	 *         var_dump($row->id, $row2->group_id);
+	 *     }
+	 * }
+	 * </code>
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function rewind()
+	{
+		// Release the database cursor
+		if (is_resource($this->cursor))
+		{
+			$this->freeResult($this->cursor);
+		}
+
+		// Run the query
+		$this->cursor = $this->query();
+
+		// Initialise the position
+		unset($this->position);
+
+		// Get the first row
+		$this->next();
+	}
+
+	/**
+	 * Return the current row
+	 *
+	 * @return  mixed  The current row
+	 *
+	 * @see  JDatabase::rewind
+	 *
+	 * @since   12.1
+	 */
+	public function current()
+	{
+		return $this->result;
+	}
+
+	/**
+	 * Return the position of the current row
+	 *
+	 * @return  scalar  The current key
+	 *
+	 * @see  JDatabase::rewind
+	 *
+	 * @since   12.1
+	 */
+	public function key()
+	{
+		return $this->position;
+	}
+
+	/**
+	 * Move forward to next row
+	 *
+	 * @return  void
+	 *
+	 * @see  JDatabase::rewind
+	 *
+	 * @since   12.1
+	 */
+	public function next()
+	{
+		// Get the next result
+		if ($this->type == 'array')
+		{
+			$this->result = $this->fetchArray($this->cursor);
+		}
+		elseif ($this->type == 'assoc')
+		{
+			$this->result = $this->fetchAssoc($this->cursor);
+		}
+		else
+		{
+			$this->result = $this->fetchObject($this->cursor, $this->type);
+		}
+
+		// If there is a result
+		if ($this->result)
+		{
+			// Get the next position
+			if (isset($this->key))
+			{
+				// If a key was given
+				if ($this->type == 'array' || $this->type == 'assoc')
+				{
+					// Get the next position using the result array
+					$this->position = $this->result[$this->key];
+				}
+				else
+				{
+					// Get the next position using the result object
+					$this->position = $this->result->{$this->key};
+				}
+			}
+			elseif (isset($this->position))
+			{
+				// Increment current position
+				$this->position++;
+			}
+			else
+			{
+				// Initialise position to 0
+				$this->position = 0;
+			}
+		}
+	}
+
+	/**
+	 * Checks if the current position is valid
+	 *
+	 * @return  bool  TRUE on success, FALSE on failure
+	 *
+	 * @see  JDatabase::rewind
+	 *
+	 * @since   12.1
+	 */
+	public function valid()
+	{
+		return (bool) $this->result;
 	}
 
 	/**
@@ -628,7 +1008,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 */
 	public function getNullDate()
 	{
-		return $this->nullDate;
+		return static::$nullDate;
 	}
 
 	/**
@@ -722,7 +1102,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 */
 	public function getUTFSupport()
 	{
-		return $this->utf;
+		return static::$utf;
 	}
 
 	/**
@@ -864,32 +1244,17 @@ abstract class JDatabase implements JDatabaseInterface
 	 */
 	public function loadAssocList($key = null, $column = null)
 	{
-		// Initialise variables.
-		$array = array();
-
-		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
+		// Get the rows
+		$array = iterator_to_array($this->setType('assoc')->setKey($key));
+		foreach ($array as $key => $row)
 		{
-			return null;
-		}
-
-		// Get all of the rows from the result set.
-		while ($row = $this->fetchAssoc($cursor))
-		{
-			$value = ($column) ? (isset($row[$column]) ? $row[$column] : $row) : $row;
-			if ($key)
+			if (isset($row[$column]))
 			{
-				$array[$row[$key]] = $value;
-			}
-			else
-			{
-				$array[] = $value;
+				$array[$key] = $row[$column];
 			}
 		}
 
-		// Free up system resources and return.
-		$this->freeResult($cursor);
-
+		// Return the rows
 		return $array;
 	}
 
@@ -936,10 +1301,14 @@ abstract class JDatabase implements JDatabaseInterface
 	 *
 	 * @since   11.1
 	 * @throws  JDatabaseException
+	 *
+	 * @deprecated  12.3  Use Iterator interface instead
 	 */
 	public function loadNextObject($class = 'stdClass')
 	{
 		static $cursor;
+
+		JLog::add(__METHOD__ . ' is deprecated, use Iterator interface instead.', JLog::WARNING, 'deprecated');
 
 		// Execute the query and get the result set cursor.
 		if (!($cursor = $this->query()))
@@ -967,10 +1336,14 @@ abstract class JDatabase implements JDatabaseInterface
 	 *
 	 * @since   11.1
 	 * @throws  JDatabaseException
+	 *
+	 * @deprecated  12.3  Use Iterator interface instead
 	 */
 	public function loadNextRow()
 	{
 		static $cursor;
+
+		JLog::add(__METHOD__ . ' is deprecated, use Iterator interface instead.', JLog::WARNING, 'deprecated');
 
 		// Execute the query and get the result set cursor.
 		if (!($cursor = $this->query()))
@@ -1041,32 +1414,8 @@ abstract class JDatabase implements JDatabaseInterface
 	 */
 	public function loadObjectList($key = '', $class = 'stdClass')
 	{
-		// Initialise variables.
-		$array = array();
-
-		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
-		{
-			return null;
-		}
-
-		// Get all of the rows from the result set as objects of type $class.
-		while ($row = $this->fetchObject($cursor, $class))
-		{
-			if ($key)
-			{
-				$array[$row->$key] = $row;
-			}
-			else
-			{
-				$array[] = $row;
-			}
-		}
-
-		// Free up system resources and return.
-		$this->freeResult($cursor);
-
-		return $array;
+		// Get the rows
+		return iterator_to_array($this->setType($class)->setKey(empty($key) ? null : $key));
 	}
 
 	/**
@@ -1148,32 +1497,8 @@ abstract class JDatabase implements JDatabaseInterface
 	 */
 	public function loadRowList($key = null)
 	{
-		// Initialise variables.
-		$array = array();
-
-		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
-		{
-			return null;
-		}
-
-		// Get all of the rows from the result set as arrays.
-		while ($row = $this->fetchArray($cursor))
-		{
-			if ($key !== null)
-			{
-				$array[$row[$key]] = $row;
-			}
-			else
-			{
-				$array[] = $row;
-			}
-		}
-
-		// Free up system resources and return.
-		$this->freeResult($cursor);
-
-		return $array;
+		// Get the rows
+		return iterator_to_array($this->setType('array')->setKey($key));
 	}
 
 	/**
@@ -1276,7 +1601,7 @@ abstract class JDatabase implements JDatabaseInterface
 	protected function quoteNameStr($strArr)
 	{
 		$parts = array();
-		$q = $this->nameQuote;
+		$q = static::$nameQuote;
 
 		foreach ($strArr as $part)
 		{

@@ -29,7 +29,7 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $name = 'mysqli';
+	public static $name = 'mysqli';
 
 	/**
 	 * Constructor.
@@ -135,10 +135,11 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 	 */
 	public function __destruct()
 	{
-		if (is_callable($this->connection, 'close'))
+		if ($this->cloned == 0 && is_callable($this->connection, 'close'))
 		{
 			mysqli_close($this->connection);
 		}
+		parent::__destruct();
 	}
 
 	/**
