@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Database
+ * @subpackage  Query
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -10,20 +10,12 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * SQL Server database driver
+ * PDO Query Building Class.
  *
  * @package     Joomla.Platform
  * @subpackage  Database
- * @see         http://msdn.microsoft.com/en-us/library/ee336279.aspx
- * @since       12.1
+ * @since       11.4
  */
-class JDatabaseDriverSqlazure extends JDatabaseDriverSqlsrv
+class JDatabaseQueryPdo extends JDatabaseQuery
 {
-	/**
-	 * The name of the database driver.
-	 *
-	 * @var    string
-	 * @since  12.1
-	 */
-	public $name = 'sqlzure';
 }

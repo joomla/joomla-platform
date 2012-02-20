@@ -9,17 +9,14 @@
 
 defined('JPATH_PLATFORM') or die;
 
-// Deprecation warning.
-JLog::add('JDatabaseException is deprecated, use SPL Exceptions instead.', JLog::NOTICE, 'deprecated');
-
 /**
- * Exception class definition for the Database subpackage.
+ * Joomla Platform Database Importer Class
  *
  * @package     Joomla.Platform
  * @subpackage  Database
- * @since       11.1
- * @deprecated  12.3 Use semantic exceptions instead
+ * @since       12.1
  */
-class JDatabaseException extends Exception
+abstract class JDatabaseImporter
 {
+
 }
