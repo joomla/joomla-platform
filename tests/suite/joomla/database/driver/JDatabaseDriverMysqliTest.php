@@ -7,22 +7,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/log/log.php';
-require_once JPATH_PLATFORM.'/joomla/database/database.php';
-require_once JPATH_PLATFORM.'/joomla/database/database/mysql.php';
-require_once JPATH_PLATFORM.'/joomla/database/query.php';
-require_once JPATH_PLATFORM.'/joomla/database/query/mysql.php';
-
 /**
- * Test class for JDatabaseMySQL.
+ * Test class for JDatabaseDriverMySQL.
  *
- * @package     Joomla.UnitTest
+ * @package		Joomla.UnitTest
  * @subpackage  Database
  */
-class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
+class JDatabaseDriverMysqliTest extends JoomlaDatabaseTestCase
 {
 	/**
-	 * @var  JDatabaseMySQL
+	 * @var	 JDatabaseDriverMysqli
 	 */
 	protected $object;
 
@@ -31,7 +25,7 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function dataTestEscape()
 	{
@@ -46,7 +40,7 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return  xml dataset
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	protected function getDataSet()
 	{
@@ -59,15 +53,15 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	protected function setUp()
 	{
-		@include_once JPATH_TESTS . '/config_mysql.php';
-		if (class_exists('JMySQLTestConfig')) {
-			$config = new JMySQLTestConfig;
+		@include_once JPATH_TESTS . '/config_mysqli.php';
+		if (class_exists('JMysqliTestConfig')) {
+			$config = new JMysqliTestConfig;
 		} else {
-			$this->markTestSkipped('There is no MySQL test config file present.');
+			$this->markTestSkipped('There is no MySQLi test config file present.');
 		}
 		$this->object = JDatabase::getInstance(
 			array(
@@ -101,30 +95,30 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
-	 * Tests the JDatabaseMySQL dropTable method.
+	 * Tests the JDatabaseDriverMysqli dropTable method.
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function testDropTable()
 	{
 		$this->assertThat(
 			$this->object->dropTable('#__bar', true),
-			$this->isInstanceOf('JDatabaseMySQL'),
+			$this->isInstanceOf('JDatabaseDriverMysqli'),
 			'The table is dropped if present.'
 		);
 	}
 
 	/**
-	 * Tests the JDatabaseMySQL escape method.
+	 * Tests the JDatabaseDriverMysqli escape method.
 	 *
 	 * @param   string   $text   The string to be escaped.
 	 * @param   boolean  $extra  Optional parameter to provide extra escaping.
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 * @dataProvider  dataTestEscape
 	 */
 	public function testEscape($text, $extra, $result)
@@ -141,7 +135,7 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function testGetAffectedRows()
 	{
@@ -150,7 +144,7 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 		$query->from('jos_dbtest');
 		$this->object->setQuery($query);
 
-		$result = $this->object->query();
+		$result = $this->object->execute();
 
 		$this->assertThat(
 			$this->object->getAffectedRows(),
@@ -160,26 +154,17 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
-	 * @todo Implement testGetCollation().
-	 */
-	public function testGetCollation()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
 	 * Test getExporter method.
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function testGetExporter()
 	{
 		$this->assertThat(
 			$this->object->getExporter(),
-			$this->isInstanceOf('JDatabaseExporterMySQL'),
+			$this->isInstanceOf('JDatabaseExporterMysqli'),
 			'Line:'.__LINE__.' The getExporter method should return the correct exporter.'
 		);
 	}
@@ -189,13 +174,13 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function testGetImporter()
 	{
 		$this->assertThat(
 			$this->object->getImporter(),
-			$this->isInstanceOf('JDatabaseImporterMySQL'),
+			$this->isInstanceOf('JDatabaseImporterMysqli'),
 			'Line:'.__LINE__.' The getImporter method should return the correct importer.'
 		);
 	}
@@ -210,11 +195,11 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
-	 * Tests the JDatabaseMySQL getTableCreate method.
+	 * Tests the JDatabaseDriverMysqli getTableCreate method.
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function testGetTableCreate()
 	{
@@ -226,20 +211,11 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
-	 * @todo Implement testGetTableColumns().
-	 */
-	public function testGetTableColumns()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Tests the JDatabaseMySQL getTableKeys method.
+	 * Tests the JDatabaseDriverMysqli getTableKeys method.
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function testGetTableKeys()
 	{
@@ -251,11 +227,11 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
-	 * Tests the JDatabaseMySQL getTableList method.
+	 * Tests the JDatabaseDriverMysqli getTableList method.
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function testGetTableList()
 	{
@@ -271,7 +247,7 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 */
 	public function testGetVersion()
 	{
@@ -292,11 +268,20 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
+	 * @todo Implement testInsertObject().
+	 */
+	public function testInsertObject()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
 	 * Test loadAssoc method.
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function testLoadAssoc()
 	{
@@ -318,7 +303,7 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function testLoadAssocList()
 	{
@@ -345,7 +330,7 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function testLoadColumn()
 	{
@@ -385,7 +370,7 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function testLoadObject()
 	{
@@ -414,7 +399,7 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function testLoadObjectList()
 	{
@@ -471,7 +456,7 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function testLoadResult()
 	{
@@ -496,7 +481,7 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function testLoadRow()
 	{
@@ -521,7 +506,7 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function testLoadRowList()
 	{
@@ -545,18 +530,18 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
-	 * Test the JDatabaseMySQL::query() method
+	 * Test the JDatabaseDriverMysqli::execute() method
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	public function testQuery()
+	public function testExecute()
 	{
 		$this->object->setQuery("REPLACE INTO `jos_dbtest` SET `id` = 5, `title` = 'testTitle'");
 
 		$this->assertThat(
-			$this->object->query(),
+			$this->object->execute(),
 			$this->isTrue(),
 			__LINE__
 		);
@@ -594,7 +579,7 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase
 	public function testTest()
 	{
 		$this->assertThat(
-			JDatabaseMySQL::test(),
+			JDatabaseDriverMysqli::test(),
 			$this->isTrue(),
 			__LINE__
 		);

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Database
+ * @subpackage  Query
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -9,18 +9,13 @@
 
 defined('JPATH_PLATFORM') or die;
 
-// Deprecation warning.
-JLog::add('JDatabaseMysql is deprecated, use JDatabaseDriverMysql instead.', JLog::NOTICE, 'deprecated');
-
 /**
- * MySQL database driver
+ * PDO Query Building Class.
  *
  * @package     Joomla.Platform
  * @subpackage  Database
- * @see         http://dev.mysql.com/doc/
- * @since       11.1
- * @deprecated  13.1
+ * @since       11.4
  */
-class JDatabaseMysql extends JDatabaseDriverMysql
+class JDatabaseQueryPdo extends JDatabaseQuery
 {
 }

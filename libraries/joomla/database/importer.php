@@ -9,18 +9,14 @@
 
 defined('JPATH_PLATFORM') or die;
 
-// Deprecation warning.
-JLog::add('JDatabaseMysql is deprecated, use JDatabaseDriverMysql instead.', JLog::NOTICE, 'deprecated');
-
 /**
- * MySQL database driver
+ * Joomla Platform Database Importer Class
  *
  * @package     Joomla.Platform
  * @subpackage  Database
- * @see         http://dev.mysql.com/doc/
- * @since       11.1
- * @deprecated  13.1
+ * @since       12.1
  */
-class JDatabaseMysql extends JDatabaseDriverMysql
+abstract class JDatabaseImporter
 {
+
 }

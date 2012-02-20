@@ -4,15 +4,13 @@
  * @license    GNU General Public License
  */
 
-require_once JPATH_PLATFORM.'/joomla/database/database/mysqlexporter.php';
-
 /**
- * Class to expose protected properties and methods in JDatabaseMySqlExporter for testing purposes.
+ * Class to expose protected properties and methods in JDatabaseExporterMySQL for testing purposes.
  *
  * @package    Joomla.UnitTest
  * @subpackage Database
  */
-class JDatabaseExporterMySqlInspector extends JDatabaseExporterMySql
+class JDatabaseExporterMysqlInspector extends JDatabaseExporterMysql
 {
 	/**
 	 * Gets any property from the class.
@@ -20,7 +18,7 @@ class JDatabaseExporterMySqlInspector extends JDatabaseExporterMySql
 	 * @param   string  $property  The name of the class property.
 	 *
 	 * @return  mixed   The value of the class property.
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function __get($property)
 	{
@@ -32,7 +30,7 @@ class JDatabaseExporterMySqlInspector extends JDatabaseExporterMySql
 	 *
 	 * @return  string	An XML string
 	 * @throws  Exception if an error occurs.
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function buildXml()
 	{
@@ -44,7 +42,7 @@ class JDatabaseExporterMySqlInspector extends JDatabaseExporterMySql
 	 *
 	 * @return  array  An array of XML lines (strings).
 	 * @throws  Exception if an error occurs.
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function buildXmlStructure()
 	{
@@ -55,7 +53,7 @@ class JDatabaseExporterMySqlInspector extends JDatabaseExporterMySql
 	 * Exposes the protected check method.
 	 *
 	 * @return  void
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function check()
 	{
@@ -68,7 +66,7 @@ class JDatabaseExporterMySqlInspector extends JDatabaseExporterMySql
 	 * @param   mixed  $table  The name of a table or an array of table names.
 	 *
 	 * @return  array  An array of column definitions.
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function getColumns($table)
 	{
@@ -81,7 +79,7 @@ class JDatabaseExporterMySqlInspector extends JDatabaseExporterMySql
 	 * @param   string  $table  The name of a table.
 	 *
 	 * @return  string  The name of the table with the database prefix replaced with #__.
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function getGenericTableName($table)
 	{
@@ -94,7 +92,7 @@ class JDatabaseExporterMySqlInspector extends JDatabaseExporterMySql
 	 * @param   mixed  $table  The name of a table or an array of table names.
 	 *
 	 * @return  array  An array of key definitions.
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function getKeys($table)
 	{
@@ -107,11 +105,10 @@ class JDatabaseExporterMySqlInspector extends JDatabaseExporterMySql
 	 * @param   boolean	$setting	True to export the structure, false to not.
 	 *
 	 * @return  void
-	 * @since	11.1
+	 * @since	12.1
 	 */
 	public function withStructure($setting = true)
 	{
 		return parent::withStructure($setting);
 	}
-
 }
