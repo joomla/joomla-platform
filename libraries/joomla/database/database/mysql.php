@@ -295,9 +295,9 @@ class JDatabaseMySQL extends JDatabase
 	/**
 	 * Get the current or query, or new JDatabaseQuery object.
 	 *
-	 * @param   boolean  $new  False to return the last query set, True to return a new JDatabaseQuery object.
+	 * @param   boolean  $new  False to return the current JDatabaseQuery object, True to return a new JDatabaseQuery object.
 	 *
-	 * @return  mixed  The current value of the internal SQL variable or a new JDatabaseQuery object.
+	 * @return  JDatabaseQuery  The current JDatabaseQuery or a new JDatabaseQuery object.
 	 *
 	 * @since   11.1
 	 * @throws  JDatabaseException

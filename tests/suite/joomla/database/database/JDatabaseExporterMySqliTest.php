@@ -4,6 +4,8 @@
  * @license    GNU General Public License
  */
 
+// Must include the mysqli database class so the mock inherits it's class lineage.
+require_once JPATH_PLATFORM.'/joomla/database/database/mysqli.php';
 require_once JPATH_PLATFORM.'/joomla/database/database/mysqliexporter.php';
 
 /**
@@ -13,8 +15,14 @@ require_once JPATH_PLATFORM.'/joomla/database/database/mysqliexporter.php';
  * @subpackage Database
  * @since      11.1
  */
-class JDatabaseExporterMySQLiTest extends PHPUnit_Framework_TestCase
+class JDatabaseExporterMySQLiTest extends JoomlaTestCase
 {
+	/**
+	 * @var    JDatabaseExporterMySQLi
+	 * @since  12.1
+	 */
+	protected $class;
+
 	/**
 	 * @var    object  The mocked database object for use by test methods.
 	 * @since  11.1
@@ -29,15 +37,11 @@ class JDatabaseExporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setup()
 	{
-		// Set up the database object mock.
+		// Initialise the class object to test.
+		$this->class = new JDatabaseExporterMySqli;
 
-		$this->dbo = $this->getMock(
-			'JDatabaseMySqli',
-			array(),
-			array(),
-			'',
-			false
-		);
+		// Set up the database object mock.
+		$this->dbo = $this->getMockDatabase('JDatabaseMySqli');
 	}
 
 	/**
@@ -48,11 +52,9 @@ class JDatabaseExporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithNoDbo()
 	{
-		$instance = new JDatabaseExporterMySqli;
-
 		try
 		{
-			$instance->check();
+			$this->class->check();
 		}
 		catch (Exception $e)
 		{
@@ -73,12 +75,12 @@ class JDatabaseExporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithNoTables()
 	{
-		$instance	= new JDatabaseExporterMySqli;
-		$instance->setDbo($this->dbo);
+		$this->class	= new JDatabaseExporterMySqli;
+		$this->class->setDbo($this->dbo);
 
 		try
 		{
-			$instance->check();
+			$this->class->check();
 		}
 		catch (Exception $e)
 		{
@@ -99,17 +101,16 @@ class JDatabaseExporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithGoodInput()
 	{
-		$instance	= new JDatabaseExporterMySqli;
-		$instance->setDbo($this->dbo);
-		$instance->from('foobar');
+		$this->class->setDbo($this->dbo);
+		$this->class->from('foobar');
 
 		try
 		{
-			$result = $instance->check();
+			$result = $this->class->check();
 
 			$this->assertThat(
 				$result,
-				$this->identicalTo($instance),
+				$this->identicalTo($this->class),
 				'check must return an object to support chaining.'
 			);
 		}
@@ -129,11 +130,9 @@ class JDatabaseExporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetDboWithBadInput()
 	{
-		$instance	= new JDatabaseExporterMySqli;
-
 		try
 		{
-			$instance->setDbo(new stdClass);
+			$this->class->setDbo(new stdClass);
 		}
 		catch (PHPUnit_Framework_Error $e)
 		{
@@ -154,15 +153,13 @@ class JDatabaseExporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetDboWithGoodInput()
 	{
-		$instance = new JDatabaseExporterMySqli;
-
 		try
 		{
-			$result = $instance->setDbo($this->dbo);
+			$result = $this->class->setDbo($this->dbo);
 
 			$this->assertThat(
 				$result,
-				$this->identicalTo($instance),
+				$this->identicalTo($this->class),
 				'setDbo must return an object to support chaining.'
 			);
 
