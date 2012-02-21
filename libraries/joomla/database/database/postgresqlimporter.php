@@ -288,7 +288,7 @@ class JDatabaseImporterPostgreSQL
 					{
 						// check only query field -> different query means different index
 						$same = ((string) $newLookup[$name][$i]['Query'] == $oldLookup[$name][$i]->Query);
-	
+
 						if (!$same)
 						{
 							// Break out of the loop. No need to check further.
