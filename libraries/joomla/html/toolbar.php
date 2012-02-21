@@ -26,28 +26,28 @@ class JToolBar
 	 *
 	 * @var    string
 	 */
-	protected $_name = array();
+	protected $name = array();
 
 	/**
 	 * Toolbar array
 	 *
 	 * @var    array
 	 */
-	protected $_bar = array();
+	protected $bar = array();
 
 	/**
 	 * Loaded buttons
 	 *
 	 * @var    array
 	 */
-	protected $_buttons = array();
+	protected $buttons = array();
 
 	/**
 	 * Directories, where button types can be stored.
 	 *
 	 * @var    array
 	 */
-	protected $_buttonPath = array();
+	protected $buttonPath = array();
 
 	/**
 	 * Constructor
@@ -58,11 +58,58 @@ class JToolBar
 	 */
 	public function __construct($name = 'toolbar')
 	{
-		$this->_name = $name;
+		$this->name = $name;
 
 		// Set base path to find buttons.
-		$this->_buttonPath[] = __DIR__ . '/toolbar/button';
+		$this->buttonPath[] = __DIR__ . '/toolbar/button';
+	}
 
+	/**
+	 * magic get method
+	 *
+	 * @param   $propertyName  Property name
+	 *
+	 * @return  mixed  the property value
+	 *
+	 * @since   12.1
+	 * @deprecated  12.3
+	 */
+	public function __get($propertyName)
+	{
+		if ($propertyName[0] == '_' && property_exists($this, $newPropertyName = substr($propertyName, 1)))
+		{
+			JLog::add(get_called_class() . '::$' . $propertyName . ' is deprecated. Use ' . get_called_class() . '::$'. $newPropertyName . ' instead.', JLog::WARNING, 'deprecated');
+			return $this->$newPropertyName;
+		}
+		else
+		{
+			// Trigger an error
+			return $this->$propertyName;
+		}
+	}
+
+	/**
+	 * magic set method
+	 *
+	 * @param   $propertyName  Property name
+	 * @param   $value         Property name
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 * @deprecated  12.3
+	 */
+	public function __set($propertyName, $value)
+	{
+		if ($propertyName[0] == '_' && property_exists($this, $newPropertyName = substr($propertyName, 1)))
+		{
+			JLog::add(get_called_class() . '::$' . $propertyName . ' is deprecated. Use ' . get_called_class() . '::$'. $newPropertyName . ' instead.', JLog::WARNING, 'deprecated');
+			$this->$newPropertyName = $value;
+		}
+		else
+		{
+			$this->$propertyName = $value;
+		}
 	}
 
 	/**
@@ -104,7 +151,7 @@ class JToolBar
 	{
 		// Push button onto the end of the toolbar array.
 		$btn = func_get_args();
-		array_push($this->_bar, $btn);
+		array_push($this->bar, $btn);
 		return true;
 	}
 
@@ -117,7 +164,7 @@ class JToolBar
 	 */
 	public function getItems()
 	{
-		return $this->_bar;
+		return $this->bar;
 	}
 
 	/**
@@ -129,7 +176,7 @@ class JToolBar
 	 */
 	public function getName()
 	{
-		return $this->_name;
+		return $this->name;
 	}
 
 	/**
@@ -143,7 +190,7 @@ class JToolBar
 	{
 		// Insert button into the front of the toolbar array.
 		$btn = func_get_args();
-		array_unshift($this->_bar, $btn);
+		array_unshift($this->bar, $btn);
 		return true;
 	}
 
@@ -159,11 +206,11 @@ class JToolBar
 		$html = array();
 
 		// Start toolbar div.
-		$html[] = '<div class="toolbar-list" id="' . $this->_name . '">';
+		$html[] = '<div class="toolbar-list" id="' . $this->name . '">';
 		$html[] = '<ul>';
 
 		// Render each button in the toolbar.
-		foreach ($this->_bar as $button)
+		foreach ($this->bar as $button)
 		{
 			$html[] = $this->renderButton($button);
 		}
@@ -213,9 +260,9 @@ class JToolBar
 	public function loadButtonType($type, $new = false)
 	{
 		$signature = md5($type);
-		if (isset($this->_buttons[$signature]) && $new === false)
+		if (isset($this->buttons[$signature]) && $new === false)
 		{
-			return $this->_buttons[$signature];
+			return $this->buttons[$signature];
 		}
 
 		if (!class_exists('JButton'))
@@ -227,9 +274,9 @@ class JToolBar
 		$buttonClass = 'JButton' . $type;
 		if (!class_exists($buttonClass))
 		{
-			if (isset($this->_buttonPath))
+			if (isset($this->buttonPath))
 			{
-				$dirs = $this->_buttonPath;
+				$dirs = $this->buttonPath;
 			}
 			else
 			{
@@ -255,9 +302,9 @@ class JToolBar
 			// @todo remove code: return	JError::raiseError('SOME_ERROR_CODE', "Module file $buttonFile does not contain class $buttonClass.");
 			return false;
 		}
-		$this->_buttons[$signature] = new $buttonClass($this);
+		$this->buttons[$signature] = new $buttonClass($this);
 
-		return $this->_buttons[$signature];
+		return $this->buttons[$signature];
 	}
 
 	/**
@@ -295,7 +342,7 @@ class JToolBar
 			}
 
 			// Add to the top of the search dirs.
-			array_unshift($this->_buttonPath, $dir);
+			array_unshift($this->buttonPath, $dir);
 		}
 
 	}

@@ -62,7 +62,7 @@ class JButtonHelp extends JButton
 	 */
 	public function fetchId()
 	{
-		return $this->_parent->getName() . '-' . "help";
+		return $this->parent->getName() . '-' . "help";
 	}
 
 	/**
