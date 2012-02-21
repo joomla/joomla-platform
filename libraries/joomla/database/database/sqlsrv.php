@@ -680,6 +680,20 @@ class JDatabaseSQLSrv extends JDatabase
 		return $this->cursor;
 	}
 	/**
+	 * Method to quote and optionally escape a string to database requirements for insertion into the database.
+	 *
+	 * @param   string   $text    The string to quote.
+	 * @param   boolean  $escape  True (default) to escape the string, false to leave it unchanged.
+	 *
+	 * @return  string  The quoted input string.
+	 *
+	 * @since   11.1
+	 */
+	public function quote($text, $escape = true)
+	{
+		return 'N\'' . ($escape ? $this->escape($text) : $text) . '\'';
+	}	
+	/**
 	 * This function replaces a string identifier <var>$prefix</var> with the string held is the
 	 * <var>tablePrefix</var> class variable.
 	 *
