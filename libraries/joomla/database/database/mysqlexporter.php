@@ -144,7 +144,7 @@ class JDatabaseExporterMySQL
 		$buffer[] = ' </database>';
 		$buffer[] = '</mysqldump>';
 
-		return implode("\n", $buffer);
+		return implode(PHP_EOL, $buffer);
 	}
 
 	/**
