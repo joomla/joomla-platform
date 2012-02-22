@@ -3,19 +3,18 @@
  * @package     Joomla.Platform
  * @subpackage  String
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
-//
 // PHP mbstring and iconv local configuration
-//
+
 // Check if mbstring extension is loaded and attempt to load it if not present except for windows
 if (extension_loaded('mbstring') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && dl('mbstring.so'))))
 {
-	// Make sure to surpress the output in case ini_set is disabled
+	// Make sure to suppress the output in case ini_set is disabled
 	@ini_set('mbstring.internal_encoding', 'UTF-8');
 	@ini_set('mbstring.http_input', 'UTF-8');
 	@ini_set('mbstring.http_output', 'UTF-8');
@@ -63,6 +62,28 @@ abstract class JString
 			array(' (%d)', '(%d)'),
 		),
 	);
+
+	/**
+	 * Split a string in camel case format
+	 *
+	 * "FooBarABCDef"            becomes  array("Foo", "Bar", "ABC", "Def");
+	 * "JFooBar"                 becomes  array("J", "Foo", "Bar");
+	 * "J001FooBar002"           becomes  array("J001", "Foo", "Bar002");
+	 * "abcDef"                  becomes  array("abc", "Def");
+	 * "abc_defGhi_Jkl"          becomes  array("abc_def", "Ghi_Jkl");
+	 * "ThisIsA_NASAAstronaut"   becomes  array("This", "Is", "A_NASA", "Astronaut")),
+	 * "JohnFitzgerald_Kennedy"  becomes  array("John", "Fitzgerald_Kennedy")),
+	 *
+	 * @param   string  $string  The source string.
+	 *
+	 * @return  array   The splitted string.
+	 *
+	 * @since   11.3
+	 */
+	public static function splitCamelCase($string)
+	{
+		return preg_split('/(?<=[^A-Z_])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][^A-Z_])/x', $string);
+	}
 
 	/**
 	 * Increments a trailing number in a string.
@@ -127,7 +148,7 @@ abstract class JString
 	 * Find position of first occurrence of a string.
 	 *
 	 * @param   string   $str     String being examined
-	 * @param   string   $search  String being searced for
+	 * @param   string   $search  String being searched for
 	 * @param   integer  $offset  Optional, specifies the position from which the search should be performed
 	 *
 	 * @return  mixed  Number of characters before the first match or FALSE on failure
@@ -296,7 +317,7 @@ abstract class JString
 
 	/**
 	 * UTF-8/LOCALE aware alternative to strcasecmp
-	 * A case insensivite string comparison
+	 * A case insensitive string comparison
 	 *
 	 * @param   string  $str1    string 1 to compare
 	 * @param   string  $str2    string 2 to compare
@@ -325,7 +346,7 @@ abstract class JString
 			{
 				$encoding = 'CP' . $m[1];
 			}
-			else if (stristr($locale, 'UTF-8'))
+			elseif (stristr($locale, 'UTF-8'))
 			{
 				$encoding = 'UTF-8';
 			}
@@ -334,7 +355,7 @@ abstract class JString
 				$encoding = 'nonrecodable';
 			}
 
-			// if we sucesfuly set encoding it to utf-8 or encoding is sth weird don't recode
+			// If we successfully set encoding it to utf-8 or encoding is sth weird don't recode
 			if ($encoding == 'UTF-8' || $encoding == 'nonrecodable')
 			{
 				return strcoll(utf8_strtolower($str1), utf8_strtolower($str2));
@@ -384,7 +405,7 @@ abstract class JString
 			{
 				$encoding = 'CP' . $m[1];
 			}
-			else if (stristr($locale, 'UTF-8'))
+			elseif (stristr($locale, 'UTF-8'))
 			{
 				$encoding = 'UTF-8';
 			}
@@ -393,7 +414,7 @@ abstract class JString
 				$encoding = 'nonrecodable';
 			}
 
-			// If we sucesfuly set encoding it to utf-8 or encoding is sth weird don't recode
+			// If we successfully set encoding it to utf-8 or encoding is sth weird don't recode
 			if ($encoding == 'UTF-8' || $encoding == 'nonrecodable')
 			{
 				return strcoll($str1, $str2);
@@ -430,7 +451,7 @@ abstract class JString
 		{
 			return utf8_strcspn($str, $mask);
 		}
-		else if ($length === false)
+		elseif ($length === false)
 		{
 			return utf8_strcspn($str, $mask, $start);
 		}
@@ -499,7 +520,7 @@ abstract class JString
 		{
 			return utf8_strspn($str, $mask);
 		}
-		else if ($length === null)
+		elseif ($length === null)
 		{
 			return utf8_strspn($str, $mask, $start);
 		}
@@ -525,7 +546,7 @@ abstract class JString
 	 */
 	public static function substr_replace($str, $repl, $start, $length = null)
 	{
-		// loaded by library loader
+		// Loaded by library loader
 		if ($length === false)
 		{
 			return utf8_substr_replace($str, $repl, $start);
@@ -638,19 +659,34 @@ abstract class JString
 
 	/**
 	 * UTF-8 aware alternative to ucfirst
-	 * Make a string's first character uppercase
+	 * Make a string's first character uppercase or all words' first character uppercase
 	 *
-	 * @param   string  $str  String to be processed
+	 * @param   string  $str           String to be processed
+	 * @param   string  $delimiter     The words delimiter (null means do not split the string)
+	 * @param   string  $newDelimiter  The new words delimiter (null means equal to $delimiter)
 	 *
-	 * @return  string  String with first character as upper case (if applicable)
+	 * @return  string  If $delimiter is null, return the string with first character as upper case (if applicable)
+	 *                  else consider the string of words separated by the delimiter, apply the ucfirst to each words
+	 *                  and return the string with the new delimiter
 	 *
 	 * @see     http://www.php.net/ucfirst
 	 * @since   11.1
 	 */
-	public static function ucfirst($str)
+	public static function ucfirst($str, $delimiter = null, $newDelimiter = null)
 	{
 		jimport('phputf8.ucfirst');
-		return utf8_ucfirst($str);
+		if ($delimiter === null)
+		{
+			return utf8_ucfirst($str);
+		}
+		else
+		{
+			if ($newDelimiter === null)
+			{
+				$newDelimiter = $delimiter;
+			}
+			return implode($newDelimiter, array_map('utf8_ucfirst', explode($delimiter, $str)));
+		}
 	}
 
 	/**
@@ -737,7 +773,7 @@ abstract class JString
 					// US-ASCII, pass straight through.
 					$mBytes = 1;
 				}
-				else if (0xC0 == (0xE0 & ($in)))
+				elseif (0xC0 == (0xE0 & ($in)))
 				{
 					// First octet of 2 octet sequence
 					$mUcs4 = ($in);
@@ -745,7 +781,7 @@ abstract class JString
 					$mState = 1;
 					$mBytes = 2;
 				}
-				else if (0xE0 == (0xF0 & ($in)))
+				elseif (0xE0 == (0xF0 & ($in)))
 				{
 					// First octet of 3 octet sequence
 					$mUcs4 = ($in);
@@ -753,7 +789,7 @@ abstract class JString
 					$mState = 2;
 					$mBytes = 3;
 				}
-				else if (0xF0 == (0xF8 & ($in)))
+				elseif (0xF0 == (0xF8 & ($in)))
 				{
 					// First octet of 4 octet sequence
 					$mUcs4 = ($in);
@@ -761,7 +797,7 @@ abstract class JString
 					$mState = 3;
 					$mBytes = 4;
 				}
-				else if (0xF8 == (0xFC & ($in)))
+				elseif (0xF8 == (0xFC & ($in)))
 				{
 					/* First octet of 5 octet sequence.
 					 *
@@ -776,7 +812,7 @@ abstract class JString
 					$mState = 4;
 					$mBytes = 5;
 				}
-				else if (0xFC == (0xFE & ($in)))
+				elseif (0xFC == (0xFE & ($in)))
 				{
 					// First octet of 6 octet sequence, see comments for 5 octet sequence.
 					$mUcs4 = ($in);
@@ -818,8 +854,7 @@ abstract class JString
 						if (((2 == $mBytes) && ($mUcs4 < 0x0080)) || ((3 == $mBytes) && ($mUcs4 < 0x0800)) || ((4 == $mBytes) && ($mUcs4 < 0x10000))
 							|| (4 < $mBytes)
 							|| (($mUcs4 & 0xFFFFF800) == 0xD800) // From Unicode 3.2, surrogate characters are illegal
-							|| ($mUcs4 > 0x10FFFF) // Codepoints outside the Unicode range are illegal
-						)
+							|| ($mUcs4 > 0x10FFFF)) // Codepoints outside the Unicode range are illegal
 						{
 							return false;
 						}
@@ -868,10 +903,13 @@ abstract class JString
 		{
 			return true;
 		}
-		// If even just the first character can be matched, when the /u
-		// modifier is used, then it's valid UTF-8. If the UTF-8 is somehow
-		// invalid, nothing at all will match, even if the string contains
-		// some valid sequences
+
+		/*
+		 * If even just the first character can be matched, when the /u
+		 * modifier is used, then it's valid UTF-8. If the UTF-8 is somehow
+		 * invalid, nothing at all will match, even if the string contains
+		 * some valid sequences
+		 */
 		return (preg_match('/^.{1}/us', $str, $ar) == 1);
 	}
 
@@ -888,15 +926,19 @@ abstract class JString
 	public static function parse_url($url)
 	{
 		$result = array();
+
 		// Build arrays of values we need to decode before parsing
 		$entities = array('%21', '%2A', '%27', '%28', '%29', '%3B', '%3A', '%40', '%26', '%3D', '%24', '%2C', '%2F', '%3F', '%25', '%23', '%5B',
 			'%5D');
 		$replacements = array('!', '*', "'", "(", ")", ";", ":", "@", "&", "=", "$", ",", "/", "?", "%", "#", "[", "]");
+
 		// Create encoded URL with special URL characters decoded so it can be parsed
-		// All other charcters will be encoded
+		// All other characters will be encoded
 		$encodedURL = str_replace($entities, $replacements, urlencode($url));
+
 		// Parse the encoded URL
 		$encodedParts = parse_url($encodedURL);
+
 		// Now, decode each value of the resulting array
 		foreach ($encodedParts as $key => $value)
 		{

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,16 +11,16 @@
  * A unit test class for SubjectClass
  * The two annotations below are required because we use mocks.  This avoids bringing bogus classes into the main process.
  */
-class JCacheControllerCallbackTest_Callback extends PHPUnit_Extensions_OutputTestCase
+class JCacheControllerCallbackTest_Callback extends PHPUnit_Framework_TestCase
 {
 
 	public function setUp() {
-		//require_once dirname(dirname(dirname(dirname(dirname(dirname(__FILE__)))))).'/bootstrap.php';
+		//require_once dirname(dirname(dirname(dirname(dirname(__DIR__))))).'/bootstrap.php';
 		jimport('joomla.cache.cache');
 
-		require_once dirname(dirname(__FILE__)).'/storage/JCacheStorageMock.php';
+		require_once dirname(__DIR__).'/storage/JCacheStorageMock.php';
 
-		require_once dirname(__FILE__).'/JCacheControllerCallback.helper.php';
+		require_once __DIR__.'/JCacheControllerCallback.helper.php';
 
 		// some tests are affected by the output of the logger, so we clear the logger here.
 		JLog::setInstance(null);
@@ -72,4 +72,3 @@ $cache =& JCache::getInstance('callback', array('storage'=>'mock'));
 
 
 }
-

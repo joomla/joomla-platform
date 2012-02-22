@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,7 +30,7 @@ class JButtonStandard extends JButton
 	 *
 	 * @param   string   $type  Unused string.
 	 * @param   string   $name  The name of the button icon class.
-	 * @param   sring    $text  Button text.
+	 * @param   string   $text  Button text.
 	 * @param   string   $task  Task associated with the button.
 	 * @param   boolean  $list  True to allow lists
 	 *

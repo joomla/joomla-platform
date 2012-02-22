@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -96,7 +96,7 @@ class JDocumentRendererRSSTest extends JoomlaTestCase
 		$this->object->addItem($item);
 		$this->assertThat(
 			// use original 'id' and 'name' here (from XML definition of the form field)
-			preg_replace('#\t\t<lastBuildDate>[^<]*</lastBuildDate>\n#','',$this->object->render()),
+			preg_replace('#\t\t<lastBuildDate>[^<]*</lastBuildDate>\n#', '', $this->object->render()),
 			$this->equalTo('<?xml version="1.0" encoding="utf-8"?>
 <!-- generator="Joomla! 1.6 - Open Source Content Management" -->
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">

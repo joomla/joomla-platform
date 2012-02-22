@@ -3,12 +3,12 @@
  * @package     Joomla.UnitTest
  * @subpackage  Filter
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM.'/joomla/string/string.php';
-require_once JPATH_PLATFORM.'/joomla/filter/filteroutput.php';
+require_once JPATH_PLATFORM.'/joomla/filter/output.php';
 
 /**
  * FilterTestObject
@@ -96,7 +96,7 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testObjectHTMLSafeWithArray()
 	{
-		$this->object->objectHTMLSafe($this->safeObject, null, array('string1','string3'));
+		$this->object->objectHTMLSafe($this->safeObject, null, array('string1', 'string3'));
 		$this->assertEquals('<script>alert();</script>', $this->safeObject->string1, "Script tag should pass array test");
 		$this->assertEquals('This is a test.', $this->safeObject->string2, "Plain text should pass array test");
 		$this->assertEquals('<script>alert(3);</script>', $this->safeObject->string3, "This Script tag should pass array test");
@@ -124,7 +124,7 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	public function testStringURLSafe()
 	{
 		$this->assertEquals(
-			'1234567890-a-qwertyuiopqwertyuiopasdfghjklasdfghjklqzxcvbnmzxcvbnmlg',
+			'1234567890-qwertyuiop-qwertyuiop-asdfghjkl-asdfghjkl-zxcvbnm-zxcvbnm',
 			$this->object->stringURLSafe('`1234567890-=~!@#$%^&*()_+	qwertyuiop[]\QWERTYUIOP{}|asdfghjkl;\'ASDFGHJKL:"zxcvbnm,./ZXCVBNM<>?'),
 			'Should clean keyboard string down to ASCII-7'
 		);

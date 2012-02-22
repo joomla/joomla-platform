@@ -3,13 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
-
-jimport('joomla.log.logentry');
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Joomla! Logger Base Class
@@ -34,8 +32,6 @@ abstract class JLogger
 	 * Constructor.
 	 *
 	 * @param   array  &$options  Log object options.
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */

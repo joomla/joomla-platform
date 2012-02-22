@@ -1,23 +1,15 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package    Joomla.Platform
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
-
-defined('_JEXEC') or die;
 
 // Set the platform root path as a constant if necessary.
 if (!defined('JPATH_PLATFORM'))
 {
-	define('JPATH_PLATFORM', dirname(__FILE__));
-}
-
-// Set the directory separator define if necessary.
-if (!defined('DS'))
-{
-	define('DS', DIRECTORY_SEPARATOR);
+	define('JPATH_PLATFORM', __DIR__);
 }
 
 // Detect the native operating system type.
@@ -47,35 +39,26 @@ if (!class_exists('JLoader'))
 	require_once JPATH_PLATFORM . '/loader.php';
 }
 
-/**
- * Import the base Joomla Platform libraries.
- */
+class_exists('JLoader') or die;
 
-// Import the factory library.
+// Setup the autoloaders.
+JLoader::setup();
+
+// Import the base Joomla Platform libraries.
 JLoader::import('joomla.factory');
-
-// Import the exception and error handling libraries.
-JLoader::import('joomla.error.error');
 JLoader::import('joomla.error.exception');
-
-/*
- * If the HTTP_HOST environment variable is set we assume a Web request and
- * thus we import the request library and most likely clean the request input.
- */
-if (isset($_SERVER['HTTP_HOST']))
-{
-	JLoader::import('joomla.environment.request');
-
-	// If an application flags it doesn't want this, adhere to that.
-	if (!defined('_JREQUEST_NO_CLEAN'))
-	{
-		JRequest::clean();
-	}
-}
-
-// Import the base object library.
 JLoader::import('joomla.base.object');
+
+// Register JRequest for legacy reasons
+JLoader::register('JRequest', JPATH_PLATFORM . '/joomla/environment/request.php');
 
 // Register classes that don't follow one file per class naming conventions.
 JLoader::register('JText', JPATH_PLATFORM . '/joomla/methods.php');
 JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/methods.php');
+
+// Register classes where the names have been changed to fit the autoloader rules
+// @deprecated  12.3
+JLoader::register('JDatabaseQueryMySQL', JPATH_PLATFORM . '/database/query/mysql.php');
+JLoader::register('JDatabaseQueryMySQLi', JPATH_PLATFORM . '/database/query/mysqli.php');
+JLoader::register('JDatabaseQuerySQLAzure', JPATH_PLATFORM . '/database/query/sqlazure.php');
+JLoader::register('JDatabaseQuerySQLSrv', JPATH_PLATFORM . '/database/query/sqlsrv.php');

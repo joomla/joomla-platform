@@ -3,13 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Environment
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
-
-jimport('joomla.string.string');
+defined('JPATH_PLATFORM') or die;
 
 /**
  * JURI Class
@@ -22,7 +20,7 @@ jimport('joomla.string.string');
  * @subpackage  Environment
  * @since       11.1
  */
-class JURI extends JObject
+class JURI
 {
 	/**
 	 * @var    string Original URI
@@ -164,9 +162,11 @@ class JURI extends JObject
 					$https = '://';
 				}
 
-				// Since we are assigning the URI from the server variables, we first need
-				// to determine if we are running on apache or IIS.  If PHP_SELF and REQUEST_URI
-				// are present, we will assume we are running on apache.
+				/*
+				 * Since we are assigning the URI from the server variables, we first need
+				 * to determine if we are running on apache or IIS.  If PHP_SELF and REQUEST_URI
+				 * are present, we will assume we are running on apache.
+				 */
 
 				if (!empty($_SERVER['PHP_SELF']) && !empty($_SERVER['REQUEST_URI']))
 				{
@@ -176,11 +176,13 @@ class JURI extends JObject
 				}
 				else
 				{
-					// Since we do not have REQUEST_URI to work with, we will assume we are
-					// running on IIS and will therefore need to work some magic with the SCRIPT_NAME and
-					// QUERY_STRING environment variables.
-
-					// IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable... thanks, MS
+					/*
+					 * Since we do not have REQUEST_URI to work with, we will assume we are
+					 * running on IIS and will therefore need to work some magic with the SCRIPT_NAME and
+					 * QUERY_STRING environment variables.
+					 *
+					 * IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable... thanks, MS
+					 */
 					$theURI = 'http' . $https . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
 
 					// If the query string exists append it to the URI string
@@ -376,7 +378,7 @@ class JURI extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function toString($parts = array('scheme', 'user', 'pass', 'host', 'port', 'path', 'query', 'fragment'))
+	public function toString(array $parts = array('scheme', 'user', 'pass', 'host', 'port', 'path', 'query', 'fragment'))
 	{
 		// Make sure the query is created
 		$query = $this->getQuery();
@@ -464,7 +466,7 @@ class JURI extends JObject
 		{
 			unset($this->_vars[$name]);
 
-			//empty the query
+			// Empty the query
 			$this->_query = null;
 		}
 	}
@@ -533,9 +535,9 @@ class JURI extends JObject
 	 * @see     parse_str()
 	 * @since   11.1
 	 */
-	public static function buildQuery($params)
+	public static function buildQuery(array $params)
 	{
-		if (!is_array($params) || count($params) == 0)
+		if (count($params) == 0)
 		{
 			return false;
 		}
@@ -786,16 +788,16 @@ class JURI extends JObject
 
 		for ($i = 0, $n = count($path); $i < $n; $i++)
 		{
-			if ($path[$i] == '.' or $path[$i] == '..')
+			if ($path[$i] == '.' || $path[$i] == '..')
 			{
-				if (($path[$i] == '.') or ($path[$i] == '..' and $i == 1 and $path[0] == ''))
+				if (($path[$i] == '.') || ($path[$i] == '..' && $i == 1 && $path[0] == ''))
 				{
 					unset($path[$i]);
 					$path = array_values($path);
 					$i--;
 					$n--;
 				}
-				else if ($path[$i] == '..' and ($i > 1 or ($i == 1 and $path[0] != '')))
+				elseif ($path[$i] == '..' && ($i > 1 || ($i == 1 && $path[0] != '')))
 				{
 					unset($path[$i]);
 					unset($path[$i - 1]);

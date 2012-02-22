@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -61,7 +61,7 @@ abstract class JHtmlCategory
 				{
 					$query->where('a.published = ' . (int) $config['filter.published']);
 				}
-				else if (is_array($config['filter.published']))
+				elseif (is_array($config['filter.published']))
 				{
 					JArrayHelper::toInteger($config['filter.published']);
 					$query->where('a.published IN (' . implode(',', $config['filter.published']) . ')');
@@ -91,7 +91,7 @@ abstract class JHtmlCategory
 	 * Returns an array of categories for the given extension.
 	 *
 	 * @param   string  $extension  The extension option.
-	 * @param   array   $config     An array of configuration options. By default, only published and unpulbished categories are returned.
+	 * @param   array   $config     An array of configuration options. By default, only published and unpublished categories are returned.
 	 *
 	 * @return  array   Categories for the extension
 	 *
@@ -121,7 +121,7 @@ abstract class JHtmlCategory
 				{
 					$query->where('a.published = ' . (int) $config['filter.published']);
 				}
-				else if (is_array($config['filter.published']))
+				elseif (is_array($config['filter.published']))
 				{
 					JArrayHelper::toInteger($config['filter.published']);
 					$query->where('a.published IN (' . implode(',', $config['filter.published']) . ')');

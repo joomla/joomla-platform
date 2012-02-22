@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Base
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -150,6 +150,17 @@ class JObjectTest extends PHPUnit_Framework_TestCase {
 			$this->o->getError(),
 			'Should return the third test error'
 		);
+		$this->assertFalse(
+			$this->o->getError(20),
+			'Should return false, since the error does not exist'
+		);
+
+		$exception = new Exception('error');
+		$this->o->setError($exception);
+		$this->assertThat(
+			$this->o->getError(3, true),
+			$this->equalTo((string)$exception)
+		);
 	}
 
 	/**
@@ -218,28 +229,6 @@ class JObjectTest extends PHPUnit_Framework_TestCase {
 			array( 'A Test Error' ),
 			'_errors',
 			$this->o
-		);
-	}
-
-	/**
-	 * Tests getting the string of the object.
-	 *
-	 * @group	JObject
-	 * @covers	JObject::toString
-	 * @return void
-	 */
-	public function testToString() {
-		$this->object = new JObject(
-			array(
-				'_privateproperty1' => 'valuep1',
-				'property1' => 'value1',
-				'property2' => 5
-			)
-		);
-		$this->assertEquals(
-			"JObject",
-			$this->object->toString(),
-			'Should convert the object to a string'
 		);
 	}
 }

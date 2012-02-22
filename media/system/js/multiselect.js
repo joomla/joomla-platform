@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,8 +12,8 @@
 	Joomla.JMultiSelect = new Class({
 		initialize : function(table) {
 			this.table = document.id(table);
-			if (table) {
-				this.boxes = table.getElements('input[type=checkbox]');
+			if (this.table) {
+				this.boxes = this.table.getElements('input[type=checkbox]');
 				this.boxes.addEvent('click', function(e){
 					this.doselect(e);
 				}.bind(this));

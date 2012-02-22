@@ -3,12 +3,12 @@
  * @package     Joomla.UnitTest
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM.'/joomla/log/loggers/formattedtext.php';
-require_once dirname(__FILE__).'/stubs/formattedtext/inspector.php';
+require_once __DIR__.'/stubs/formattedtext/inspector.php';
 
 /**
  * Test class for JLoggerFormattedText.

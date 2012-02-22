@@ -1,10 +1,10 @@
 <?php
 /**
- * @copyright  Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
  * @license    GNU General Public License
  */
 
-require_once dirname(__FILE__).'/JDatabaseImporterMySqlInspector.php';
+require_once __DIR__.'/JDatabaseImporterMySqlInspector.php';
 
 /**
  * Tests the JDatabaseMySqlExporter class.

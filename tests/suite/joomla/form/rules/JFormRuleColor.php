@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,7 +24,6 @@ class JFormRuleColorTest extends JoomlaTestCase
 	public function setUp()
 	{
 		$this->saveFactoryState();
-		jimport('joomla.form.formrule');
 		jimport('joomla.utilities.xmlelement');
 		require_once JPATH_PLATFORM.'/joomla/form/rules/color.php';
 	}
@@ -45,7 +44,7 @@ class JFormRuleColorTest extends JoomlaTestCase
 	public function testColor()
 	{
 		echo "color";
-		
+
 		// Initialise variables.
 		$rule = new JFormRuleColor;
 		$xml = simplexml_load_string('<form><field name="color" /></form>', 'JXMLElement');
@@ -87,7 +86,7 @@ class JFormRuleColorTest extends JoomlaTestCase
 	public function testColorData($color, $expectedResult)
 	{
 		echo "colordata";
-		
+
 		$rule = new JFormRuleColor;
 		$xml = simplexml_load_string('<form><field name="color1" /></form>', 'JXMLElement');
 		$this->assertThat(

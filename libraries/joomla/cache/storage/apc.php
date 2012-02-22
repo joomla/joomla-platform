@@ -3,11 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * APC cache storage handler
@@ -153,7 +153,6 @@ class JCacheStorageApc extends JCacheStorage
 	 */
 	public function gc()
 	{
-		$lifetime = $this->_lifetime;
 		$allinfo = apc_cache_info('user');
 		$keys = $allinfo['cache_list'];
 		$secret = $this->_hash;
@@ -206,7 +205,8 @@ class JCacheStorageApc extends JCacheStorage
 
 			$lock_counter = 0;
 
-			// loop until you find that the lock has been released.  that implies that data get from other thread has finished
+			// Loop until you find that the lock has been released.
+			// That implies that data get from other thread has finished
 			while ($data_lock === false)
 			{
 

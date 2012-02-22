@@ -3,11 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.path');
 
@@ -169,14 +169,24 @@ class JFormHelper
 	 */
 	protected static function loadClass($entity, $type)
 	{
-		$class = 'JForm' . ucfirst($entity) . ucfirst($type);
+		if (strpos($type, '.'))
+		{
+			list($prefix, $type) = explode('.', $type);
+		}
+		else
+		{
+			$prefix = 'J';
+		}
+
+		$class = JString::ucfirst($prefix, '_') . 'Form' . JString::ucfirst($entity, '_') . JString::ucfirst($type, '_');
+
 		if (class_exists($class))
 		{
 			return $class;
 		}
 
 		// Get the field search path array.
-		$paths = JFormHelper::addPath($entity);
+		$paths = self::addPath($entity);
 
 		// If the type is complex, add the base type to the paths.
 		if ($pos = strpos($type, '_'))
@@ -191,7 +201,7 @@ class JFormHelper
 				// If the path does not exist, add it.
 				if (!in_array($path, $paths))
 				{
-					array_unshift($paths, $path);
+					$paths[] = $path;
 				}
 			}
 			// Break off the end of the complex type.
@@ -199,9 +209,17 @@ class JFormHelper
 		}
 
 		// Try to find the class file.
-		if ($file = JPath::find($paths, strtolower($type) . '.php'))
+		$type = strtolower($type) . '.php';
+		foreach ($paths as $path)
 		{
-			include_once $file;
+			if ($file = JPath::find($path, $type))
+			{
+				require_once $file;
+				if (class_exists($class))
+				{
+					break;
+				}
+			}
 		}
 
 		// Check for all if the class exists.
@@ -272,10 +290,13 @@ class JFormHelper
 			// While we support limited number of entities (form, field and rule)
 			// we can do this simple pluralisation:
 			$entity_plural = $entity . 's';
-			// But when someday we would want to support more entities, then we should consider adding
-			// an inflector class to "libraries/joomla/utilities" and use it here (or somebody can use a real inflector in his subclass).
-			// see also: pluralization snippet by Paul Osman in JControllerForm's constructor.
-			$paths[] = dirname(__FILE__) . '/' . $entity_plural;
+
+			/*
+			 * But when someday we would want to support more entities, then we should consider adding
+			 * an inflector class to "libraries/joomla/utilities" and use it here (or somebody can use a real inflector in his subclass).
+			 * See also: pluralization snippet by Paul Osman in JControllerForm's constructor.
+			 */
+			$paths[] = __DIR__ . '/' . $entity_plural;
 		}
 
 		// Force the new path(s) to an array.

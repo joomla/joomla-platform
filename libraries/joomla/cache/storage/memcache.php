@@ -3,11 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Memcache cache storage handler
@@ -42,8 +42,6 @@ class JCacheStorageMemcache extends JCacheStorage
 	 *
 	 * @param   array  $options  Optional parameters.
 	 *
-	 * @return  JCacheStorageMemcache
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($options = array())
@@ -73,12 +71,15 @@ class JCacheStorageMemcache extends JCacheStorage
 		$this->_persistent = $config->get('memcache_persist', true);
 		$this->_compress = $config->get('memcache_compress', false) == false ? 0 : MEMCACHE_COMPRESSED;
 
-		// This will be an array of loveliness
-		// @todo: multiple servers
-		//$servers	= (isset($params['servers'])) ? $params['servers'] : array();
+		/*
+		 * This will be an array of loveliness
+		 * @todo: multiple servers
+		 * $servers	= (isset($params['servers'])) ? $params['servers'] : array();
+		 */
 		$server = array();
 		$server['host'] = $config->get('memcache_server_host', 'localhost');
 		$server['port'] = $config->get('memcache_server_port', 11211);
+
 		// Create the memcache connection
 		self::$_db = new Memcache;
 		self::$_db->addServer($server['host'], $server['port'], $this->_persistent);
@@ -89,7 +90,7 @@ class JCacheStorageMemcache extends JCacheStorage
 			return JError::raiseError(404, "Could not connect to memcache server");
 		}
 
-		// Memcahed has no list keys, we do our own accounting, initalise key index
+		// Memcahed has no list keys, we do our own accounting, initialise key index
 		if (self::$_db->get($this->_hash . '-index') === false)
 		{
 			$empty = array();
@@ -200,7 +201,7 @@ class JCacheStorageMemcache extends JCacheStorage
 		self::$_db->replace($this->_hash . '-index', $index, 0, 0);
 		$this->unlockindex();
 
-		// prevent double writes, write only if it doesn't exist else replace
+		// Prevent double writes, write only if it doesn't exist else replace
 		if (!self::$_db->replace($cache_id, $data, $this->_compress, $this->_lifetime))
 		{
 			self::$_db->set($cache_id, $data, $this->_compress, $this->_lifetime);
@@ -397,8 +398,6 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	public function unlock($id, $group = null)
 	{
-		$unlock = false;
-
 		$cache_id = $this->_getCacheId($id, $group) . '_lock';
 
 		if (!$this->lockindex())

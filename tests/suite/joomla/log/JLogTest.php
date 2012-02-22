@@ -3,15 +3,15 @@
  * @package     Joomla.UnitTest
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM.'/joomla/log/log.php';
-require_once JPATH_PLATFORM.'/joomla/log/logentry.php';
+require_once JPATH_PLATFORM.'/joomla/log/entry.php';
 require_once JPATH_PLATFORM.'/joomla/log/logexception.php';
 require_once JPATH_PLATFORM.'/joomla/log/logger.php';
-require_once dirname(__FILE__).'/stubs/log/inspector.php';
+require_once __DIR__.'/stubs/log/inspector.php';
 
 /**
  * Test class for JLog.
@@ -20,8 +20,25 @@ require_once dirname(__FILE__).'/stubs/log/inspector.php';
  * @subpackage  Log
  * @since       11.1
  */
-class JLogTest extends PHPUnit_Extensions_OutputTestCase
+class JLogTest extends PHPUnit_Framework_TestCase
 {
+	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   11.1
+	 */
+	protected function tearDown()
+	{
+		// Clear out the log instance.
+		$log = new JLogInspector;
+		JLog::setInstance($log);
+
+		parent::tearDown();
+	}
+
 	/**
 	 * Test the JLog::addEntry method to make sure if we give it invalid scalar input it will return false
 	 * just as in Joomla! CMS 1.5.  This method is deprecated and will be removed in 11.2.

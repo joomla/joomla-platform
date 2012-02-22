@@ -3,12 +3,12 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM.'/joomla/form/form.php';
-require_once JPATH_PLATFORM.'/joomla/form/formfield.php';
+require_once JPATH_PLATFORM.'/joomla/form/field.php';
 
 /**
  * Test class for JForm.
@@ -26,7 +26,6 @@ class JFormFieldTest extends JoomlaTestCase
 	public function setUp()
 	{
 		$this->saveFactoryState();
-		jimport('joomla.form.form');
 		include_once 'inspectors.php';
 		include_once 'JFormDataHelper.php';
 	}
@@ -67,6 +66,33 @@ class JFormFieldTest extends JoomlaTestCase
 			$this->identicalTo($form),
 			'Line:'.__LINE__.' The internal form should be identical to the variable passed in the contructor.'
 		);
+
+		// Add custom path.
+		JForm::addFieldPath(__DIR__ . '/_testfields');
+
+		JFormHelper::loadFieldType('foo.bar');
+		$field = new FooFormFieldBar($form);
+		$this->assertEquals(
+			$field->type,
+			'FooBar',
+			'Line:'.__LINE__.' The field type should have been guessed by the constructor.'
+		);
+
+		JFormHelper::loadFieldType('foo');
+		$field = new JFormFieldFoo($form);
+		$this->assertEquals(
+			$field->type,
+			'Foo',
+			'Line:'.__LINE__.' The field type should have been guessed by the constructor.'
+		);
+
+		JFormHelper::loadFieldType('modal_foo');
+		$field = new JFormFieldModal_Foo($form);
+		$this->assertEquals(
+			$field->type,
+			'Modal_Foo',
+			'Line:'.__LINE__.' The field type should have been guessed by the constructor.'
+		);
 	}
 
 	/**
@@ -82,7 +108,7 @@ class JFormFieldTest extends JoomlaTestCase
 	 */
 	public function testGetId()
 	{
-		$form = new JFormInspector('form1');
+		$form = new JFormInspector('form1', array('control' => 'jform'));
 
 		$this->assertThat(
 			$form->load(JFormDataHelper::$loadFieldDocument),
@@ -106,7 +132,7 @@ class JFormFieldTest extends JoomlaTestCase
 		$this->assertThat(
 			// use original 'id' and 'name' here (from XML definition of the form field)
 			$field->getId((string) $colours['id'], (string) $colours['name']),
-			$this->equalTo('params_colours'),
+			$this->equalTo('jform_params_colours'),
 			'Line:'.__LINE__.' The property should be computed from the XML.'
 		);
 	}
@@ -150,6 +176,37 @@ class JFormFieldTest extends JoomlaTestCase
 			$this->equalTo('<label id="title_id-lbl" for="title_id" class="hasTip required" title="Title::The title.">Title<span class="star">&#160;*</span></label>'),
 			'Line:'.__LINE__.' The property should be computed from the XML.'
 		);
+
+		// Not required
+
+		$colours = array_pop($xml->xpath('fields/fields[@name="params"]/field[@name="colours"]'));
+
+		$this->assertThat(
+			$field->setup($colours, 'id'),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The setup method should return true if successful.'
+		);
+
+		$this->assertThat(
+			$field->getLabel(),
+			$this->equalTo('<label id="colours-lbl" for="colours" class="">colours</label>'),
+			'Line:'.__LINE__.' The property should be computed from the XML.'
+		);
+		// Hidden field
+
+		$id = array_pop($xml->xpath('fields/field[@name="id"]'));
+
+		$this->assertThat(
+			$field->setup($id, 'id'),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The setup method should return true if successful.'
+		);
+
+		$this->assertThat(
+			$field->getLabel(),
+			$this->equalTo(''),
+			'Line:'.__LINE__.' The property should be computed from the XML.'
+		);
 	}
 
 	/**
@@ -181,6 +238,22 @@ class JFormFieldTest extends JoomlaTestCase
 		$this->assertThat(
 			$field->getTitle(),
 			$this->equalTo('Title'),
+			'Line:'.__LINE__.' The property should be computed from the XML.'
+		);
+
+		// Hidden field
+
+		$id = array_pop($xml->xpath('fields/field[@name="id"]'));
+
+		$this->assertThat(
+			$field->setup($id, 'id'),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The setup method should return true if successful.'
+		);
+
+		$this->assertThat(
+			$field->getTitle(),
+			$this->equalTo(''),
 			'Line:'.__LINE__.' The property should be computed from the XML.'
 		);
 	}
@@ -280,6 +353,30 @@ class JFormFieldTest extends JoomlaTestCase
 			'Line:'.__LINE__.' The property should be computed from the XML.'
 		);
 
+		$this->assertThat(
+			$field->input,
+			$this->equalTo(''),
+			'Line:'.__LINE__.' The property should be computed from the XML.'
+		);
+
+		$this->assertThat(
+			$field->label,
+			$this->equalTo('<label id="title_id-lbl" for="title_id" class="hasTip required" title="Title::The title.">Title<span class="star">&#160;*</span></label>'),
+			'Line:'.__LINE__.' The property should be computed from the XML.'
+		);
+
+		$this->assertThat(
+			$field->title,
+			$this->equalTo('Title'),
+			'Line:'.__LINE__.' The property should be computed from the XML.'
+		);
+
+		$this->assertThat(
+			$field->unexisting,
+			$this->equalTo(null),
+			'Line:'.__LINE__.' The property should be computed from the XML.'
+		);
+
 		// Test multiple attribute and form group name.
 
 		$colours = array_pop($xml->xpath('fields/fields[@name="params"]/field[@name="colours"]'));
@@ -360,6 +457,41 @@ class JFormFieldTest extends JoomlaTestCase
 			$field->name,
 			$this->equalTo('__field1'),
 			'Line:'.__LINE__.' The spacer name should be set using an automatic generated name.'
+		);
+
+		// Test nested groups and forced multiple.
+
+		$comment = array_pop($xml->xpath('fields/fields[@name="params"]/fields[@name="subparams"]/field[@name="comment"]'));
+		$field->forceMultiple = true;
+
+		$this->assertThat(
+			$field->setup($comment, 'My comment', 'params.subparams'),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The setup method should return true if successful.'
+		);
+
+		$this->assertThat(
+			$field->id,
+			$this->equalTo('params_subparams_comment'),
+			'Line:'.__LINE__.' The property should be computed from the XML.'
+		);
+
+		$this->assertThat(
+			$field->name,
+			$this->equalTo('params[subparams][comment][]'),
+			'Line:'.__LINE__.' The property should be computed from the XML.'
+		);
+
+		$this->assertEquals(
+			$field->group,
+			'params.subparams',
+			'Line:'.__LINE__.' The property should be set to the the group name.'
+		);
+
+		$this->assertEquals(
+			$field->element['class'],
+			'required',
+			'Line:'.__LINE__.' The property should be computed from the XML.'
 		);
 	}
 }

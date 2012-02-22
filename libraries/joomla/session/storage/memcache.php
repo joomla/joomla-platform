@@ -3,11 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Memcache session storage handler for PHP
@@ -27,7 +27,7 @@ class JSessionStorageMemcache extends JSessionStorage
 	 * @var    resource
 	 * @since  11.1
 	 */
-	var $_db;
+	private $_db;
 
 	/**
 	 * Use compression?
@@ -35,7 +35,7 @@ class JSessionStorageMemcache extends JSessionStorage
 	 * @var    int
 	 * @since  11.1
 	 */
-	var $_compress = null;
+	private $_compress = null;
 
 	/**
 	 * Use persistent connections
@@ -43,14 +43,12 @@ class JSessionStorageMemcache extends JSessionStorage
 	 * @var    boolean
 	 * @since  11.1
 	 */
-	var $_persistent = false;
+	private $_persistent = false;
 
 	/**
 	 * Constructor
 	 *
 	 * @param   array  $options  Optional parameters.
-	 *
-	 * @return  JSessionStorageMemcache
 	 *
 	 * @since   11.1
 	 */
@@ -64,22 +62,18 @@ class JSessionStorageMemcache extends JSessionStorage
 		parent::__construct($options);
 
 		$config = JFactory::getConfig();
-		$params = $config->get('memcache_settings');
-		if (!is_array($params))
-		{
-			$params = unserialize(stripslashes($params));
-		}
 
-		if (!$params)
-		{
-			$params = array();
-		}
-
-		$this->_compress = (isset($params['compression'])) ? $params['compression'] : 0;
-		$this->_persistent = (isset($params['persistent'])) ? $params['persistent'] : false;
+		$this->_compress	= $config->get('memcache_compress', false)?MEMCACHE_COMPRESSED:false;
+		$this->_persistent	= $config->get('memcache_persist', true);
 
 		// This will be an array of loveliness
-		$this->_servers = (isset($params['servers'])) ? $params['servers'] : array();
+		// @todo: multiple servers
+		$this->_servers = array(
+			array(
+				'host' => $config->get('memcache_server_host', 'localhost'),
+				'port' => $config->get('memcache_server_port', 11211)
+			)
+		);
 	}
 
 	/**
@@ -217,7 +211,7 @@ class JSessionStorageMemcache extends JSessionStorage
 		$lifetime = ini_get("session.gc_maxlifetime");
 		$expire = $this->_db->get($key . '_expire');
 
-		// set prune period
+		// Set prune period
 		if ($expire + $lifetime < time())
 		{
 			$this->_db->delete($key);

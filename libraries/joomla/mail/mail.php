@@ -3,14 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  Mail
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('phpmailer.phpmailer');
-jimport('joomla.mail.helper');
 
 /**
  * Email Class.  Provides a common interface to send email from the Joomla! Platform
@@ -21,6 +20,18 @@ jimport('joomla.mail.helper');
  */
 class JMail extends PHPMailer
 {
+	/**
+	 * @var    array  JMail instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
+
+	/**
+	 * @var    string  Charset of the message.
+	 * @since  11.1
+	 */
+	public $CharSet = 'utf-8';
+
 	/**
 	 * Constructor
 	 */
@@ -45,19 +56,12 @@ class JMail extends PHPMailer
 	 */
 	public static function getInstance($id = 'Joomla')
 	{
-		static $instances;
-
-		if (!isset($instances))
+		if (empty(self::$instances[$id]))
 		{
-			$instances = array();
+			self::$instances[$id] = new JMail;
 		}
 
-		if (empty($instances[$id]))
-		{
-			$instances[$id] = new JMail;
-		}
-
-		return $instances[$id];
+		return self::$instances[$id];
 	}
 
 	/**
@@ -100,7 +104,15 @@ class JMail extends PHPMailer
 		if (is_array($from))
 		{
 			// If $from is an array we assume it has an address and a name
-			$this->SetFrom(JMailHelper::cleanLine($from[0]), JMailHelper::cleanLine($from[1]));
+			if (isset($from[2]))
+			{
+				// If it is an array with entries, use them
+				$this->SetFrom(JMailHelper::cleanLine($from[0]), JMailHelper::cleanLine($from[1]), (bool) $from[2]);
+			}
+			else
+			{
+				$this->SetFrom(JMailHelper::cleanLine($from[0]), JMailHelper::cleanLine($from[1]));
+			}
 		}
 		elseif (is_string($from))
 		{
@@ -286,7 +298,7 @@ class JMail extends PHPMailer
 	 *
 	 * @param   array  $replyto  Either an array or multi-array of form
 	 *                           <code>array([0] => email Address [1] => Name)</code>
-	 * @param   array  $name     Either an array or single string
+	 * @param   mixed  $name     Either an array or single string
 	 *
 	 * @return  JMail  Returns this object for chaining.
 	 *
@@ -402,8 +414,8 @@ class JMail extends PHPMailer
 	 *
 	 * @since   11.1
 	 */
-	public function sendMail($from, $fromName, $recipient, $subject, $body, $mode = 0, $cc = null, $bcc = null, $attachment = null, $replyTo = null,
-		$replyToName = null)
+	public function sendMail($from, $fromName, $recipient, $subject, $body, $mode = false, $cc = null, $bcc = null, $attachment = null,
+		$replyTo = null, $replyToName = null)
 	{
 		$this->setSender(array($from, $fromName));
 		$this->setSubject($subject);
@@ -430,7 +442,7 @@ class JMail extends PHPMailer
 				$this->addReplyTo(array($replyTo[$i], $replyToName[$i]));
 			}
 		}
-		else if (isset($replyTo))
+		elseif (isset($replyTo))
 		{
 			$this->addReplyTo(array($replyTo, $replyToName));
 		}
@@ -447,7 +459,7 @@ class JMail extends PHPMailer
 	 * @param   string  $type        Type of item to approve
 	 * @param   string  $title       Title of item to approve
 	 * @param   string  $author      Author of item to approve
-	 * @param   string  $url         A URL to inclued in the mail
+	 * @param   string  $url         A URL to included in the mail
 	 *
 	 * @return  boolean  True on success
 	 *

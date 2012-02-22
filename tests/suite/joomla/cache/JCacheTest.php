@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -437,7 +437,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	public function testRemove()
 	{
 		$options = array('storage'		=> 'file');
-		$this->object = JCache::getInstance('output',$options);
+		$this->object = JCache::getInstance('output', $options);
 		$this->object->setCaching(true);
 		$this->object->store(
 			'Now is the time for all good people to throw a party.',
@@ -480,7 +480,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	public function testClean()
 	{
 		$options = array('storage'		=> 'file');
-		$this->object = JCache::getInstance('output',$options);
+		$this->object = JCache::getInstance('output', $options);
 		$this->object->setCaching(true);
 		$this->object->store(
 			'Now is the time for all good people to throw a party.',

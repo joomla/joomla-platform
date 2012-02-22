@@ -3,14 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
-// Register the session storage class with the loader
-JLoader::register('JSessionStorage', dirname(__FILE__) . '/storage.php');
+jimport('joomla.environment.request');
 
 /**
  * Class for managing HTTP sessions
@@ -76,12 +75,16 @@ class JSession extends JObject
 	protected $_force_ssl = false;
 
 	/**
+	 * @var    JSession  JSession instances container.
+	 * @since  11.3
+	 */
+	protected static $instance;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   string  $store    The type of storage for the session.
 	 * @param   array   $options  Optional parameters
-	 *
-	 * @return  JSession
 	 *
 	 * @since   11.1
 	 */
@@ -94,30 +97,30 @@ class JSession extends JObject
 			session_destroy();
 		}
 
-		// set default sessios save handler
+		// Set default sessios save handler
 		ini_set('session.save_handler', 'files');
 
-		// disable transparent sid support
+		// Disable transparent sid support
 		ini_set('session.use_trans_sid', '0');
 
-		// create handler
+		// Create handler
 		$this->_store = JSessionStorage::getInstance($store, $options);
 
-		// set options
+		// Set options
 		$this->_setOptions($options);
 
 		$this->_setCookieParams();
 
-		// load the session
+		// Load the session
 		$this->_start();
 
-		// initialise the session
+		// Initialise the session
 		$this->_setCounter();
 		$this->_setTimers();
 
 		$this->_state = 'active';
 
-		// perform security checks
+		// Perform security checks
 		$this->_validate();
 	}
 
@@ -144,14 +147,12 @@ class JSession extends JObject
 	 */
 	public static function getInstance($handler, $options)
 	{
-		static $instance;
-
-		if (!is_object($instance))
+		if (!is_object(self::$instance))
 		{
-			$instance = new JSession($handler, $options);
+			self::$instance = new JSession($handler, $options);
 		}
 
-		return $instance;
+		return self::$instance;
 	}
 
 	/**
@@ -195,7 +196,7 @@ class JSession extends JObject
 	{
 		$token = $this->get('session.token');
 
-		//create a token
+		// Create a token
 		if ($token === null || $forceNew)
 		{
 			$token = $this->_createToken(12);
@@ -218,10 +219,10 @@ class JSession extends JObject
 	 */
 	public function hasToken($tCheck, $forceExpire = true)
 	{
-		// check if a token exists in the session
+		// Check if a token exists in the session
 		$tStored = $this->get('session.token');
 
-		//check token
+		// Check token
 		if (($tStored !== $tCheck))
 		{
 			if ($forceExpire)
@@ -250,6 +251,42 @@ class JSession extends JObject
 		$hash = JApplication::getHash($user->get('id', 0) . $session->getToken($forceNew));
 
 		return $hash;
+	}
+
+	/**
+	 * Checks for a form token in the request.
+	 *
+	 * Use in conjunction with JHtml::_('form.token') or JSession::getFormToken.
+	 *
+	 * @param   string  $method  The request method in which to look for the token key.
+	 *
+	 * @return  boolean  True if found and valid, false otherwise.
+	 *
+	 * @since       12.1
+	 */
+	public static function checkToken($method = 'post')
+	{
+		$token = self::getFormToken();
+		$app = JFactory::getApplication();
+
+		if (!$app->input->$method->get($token, '', 'alnum'))
+		{
+			$session = JFactory::getSession();
+			if ($session->isNew())
+			{
+				// Redirect to login screen.
+				$app->redirect(JRoute::_('index.php'), JText::_('JLIB_ENVIRONMENT_SESSION_EXPIRED'));
+				$app->close();
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return true;
+		}
 	}
 
 	/**
@@ -296,7 +333,7 @@ class JSession extends JObject
 	public static function getStores()
 	{
 		jimport('joomla.filesystem.folder');
-		$handlers = JFolder::files(dirname(__FILE__) . '/storage', '.php$');
+		$handlers = JFolder::files(__DIR__ . '/storage', '.php$');
 
 		$names = array();
 		foreach ($handlers as $handler)
@@ -304,10 +341,10 @@ class JSession extends JObject
 			$name = substr($handler, 0, strrpos($handler, '.'));
 			$class = 'JSessionStorage' . ucfirst($name);
 
-			//Load the class only if needed
+			// Load the class only if needed
 			if (!class_exists($class))
 			{
-				require_once dirname(__FILE__) . '/storage/' . $name . '.php';
+				require_once __DIR__ . '/storage/' . $name . '.php';
 			}
 
 			if (call_user_func_array(array(trim($class), 'test'), array()))
@@ -349,7 +386,8 @@ class JSession extends JObject
 	 */
 	public function get($name, $default = null, $namespace = 'default')
 	{
-		$namespace = '__' . $namespace; //add prefix to namespace to avoid collisions
+		// Add prefix to namespace to avoid collisions
+		$namespace = '__' . $namespace;
 
 		if ($this->_state !== 'active' && $this->_state !== 'expired')
 		{
@@ -378,7 +416,8 @@ class JSession extends JObject
 	 */
 	public function set($name, $value = null, $namespace = 'default')
 	{
-		$namespace = '__' . $namespace; //add prefix to namespace to avoid collisions
+		// Add prefix to namespace to avoid collisions
+		$namespace = '__' . $namespace;
 
 		if ($this->_state !== 'active')
 		{
@@ -511,9 +550,11 @@ class JSession extends JObject
 			return true;
 		}
 
-		// In order to kill the session altogether, such as to log the user out, the session id
-		// must also be unset. If a cookie is used to propagate the session id (default behavior),
-		// then the session cookie must be deleted.
+		/*
+		 * In order to kill the session altogether, such as to log the user out, the session id
+		 * must also be unset. If a cookie is used to propagate the session id (default behavior),
+		 * then the session cookie must be deleted.
+		 */
 		if (isset($_COOKIE[session_name()]))
 		{
 			$config = JFactory::getConfig();
@@ -550,8 +591,9 @@ class JSession extends JObject
 		$this->_store->register();
 
 		$this->_state = 'restart';
-		//regenerate session id
-		$id = $this->_createId(strlen($this->getId()));
+
+		// Regenerate session id
+		$id = $this->_createId();
 		session_id($id);
 		$this->_start();
 		$this->_state = 'active';
@@ -589,7 +631,7 @@ class JSession extends JObject
 		$cookie = session_get_cookie_params();
 
 		// Create new session id
-		$id = $this->_createId(strlen($this->getId()));
+		$id = $this->_createId();
 
 		// Kill session
 		session_destroy();
@@ -597,11 +639,11 @@ class JSession extends JObject
 		// Re-register the session store after a session has been destroyed, to avoid PHP bug
 		$this->_store->register();
 
-		// restore config
+		// Restore config
 		ini_set('session.use_trans_sid', $trans);
 		session_set_cookie_params($cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure']);
 
-		// restart session with new id
+		// Restart session with new id
 		session_id($id);
 		session_start();
 
@@ -835,7 +877,7 @@ class JSession extends JObject
 			$this->set('session.client.forwarded', $_SERVER['HTTP_X_FORWARDED_FOR']);
 		}
 
-		// Check for client adress
+		// Check for client address
 		if (in_array('fix_adress', $this->_security) && isset($_SERVER['REMOTE_ADDR']))
 		{
 			$ip = $this->get('session.client.address');
@@ -844,7 +886,7 @@ class JSession extends JObject
 			{
 				$this->set('session.client.address', $_SERVER['REMOTE_ADDR']);
 			}
-			else if ($_SERVER['REMOTE_ADDR'] !== $ip)
+			elseif ($_SERVER['REMOTE_ADDR'] !== $ip)
 			{
 				$this->_state = 'error';
 				return false;
@@ -860,10 +902,10 @@ class JSession extends JObject
 			{
 				$this->set('session.client.browser', $_SERVER['HTTP_USER_AGENT']);
 			}
-			else if ($_SERVER['HTTP_USER_AGENT'] !== $browser)
+			elseif ($_SERVER['HTTP_USER_AGENT'] !== $browser)
 			{
-				//				$this->_state	=	'error';
-			//				return false;
+				// @todo remove code: 				$this->_state	=	'error';
+				// @todo remove code: 				return false;
 			}
 		}
 

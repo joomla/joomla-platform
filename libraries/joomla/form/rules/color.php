@@ -3,13 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
-
-jimport('joomla.form.formrule');
 
 /**
  * Form Rule class for the Joomla Platform.
@@ -21,7 +19,7 @@ jimport('joomla.form.formrule');
 class JFormRuleColor extends JFormRule
 {
 	/**
-	 * Method to test for a valid color in hexadecimaö.
+	 * Method to test for a valid color in hexadecimal.
 	 *
 	 * @param   object  &$element  The JXmlElement object representing the <field /> tag for the form field object.
 	 * @param   mixed   $value     The form field value to validate.
@@ -34,7 +32,6 @@ class JFormRuleColor extends JFormRule
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
 	 * @since   11.2
-	 * @throws  JException on invalid rule.
 	 */
 	public function test(&$element, $value, $group = null, &$input = null, &$form = null)
 	{

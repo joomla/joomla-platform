@@ -3,11 +3,64 @@
  * @package     Joomla.UnitTest
  * @subpackage  Base
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM.'/joomla/base/observable.php';
+
+//require_once JPATH_TESTS.'/includes/mocks/JObserverMock.php';
+
+/**
+ * General inspector class for JObservable.
+ *
+ * @package Joomla.UnitTest
+ * @subpackage HTML
+ * @since 11.3
+ */
+class JObservableInspector extends JObservable
+{
+	/**
+	* Method for inspecting protected variables.
+	*
+	* @return mixed The value of the class variable.
+	*/
+	public function __get($name)
+	{
+		if (property_exists($this, $name)) {
+			return $this->$name;
+		} else {
+			trigger_error('Undefined or private property: ' . __CLASS__.'::'.$name, E_USER_ERROR);
+			return null;
+		}
+	}
+
+	/**
+	* Sets any property from the class.
+	*
+	* @param string $property The name of the class property.
+	* @param string $value The value of the class property.
+	*
+	* @return void
+	*/
+	public function __set($property, $value)
+	{
+		$this->$property = $value;
+	}
+
+	/**
+	 * Calls any inaccessible method from the class.
+	 *
+	 * @param string 	$name Name of the method to invoke
+	 * @param array 	$parameters Parameters to be handed over to the original method
+	 *
+	 * @return mixed The return value of the method
+	 */
+	public function __call($name, $parameters = false)
+	{
+		return call_user_func_array(array($this,$name), $parameters);
+	}
+}
 
 /**
  * Test class for JObservable.
@@ -24,7 +77,7 @@ class JObservableTest extends PHPUnit_Framework_TestCase {
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp() {
-		$this->object = new JObservable;
+		$this->object = new JObservableInspector;
 	}
 
 	/**
@@ -35,11 +88,15 @@ class JObservableTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @todo Implement testGetState().
+	 * Test for JObservable::getState()
 	 */
 	public function testGetState() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object->_state = 'test1';
+
+		$this->assertThat(
+			$this->object->getState(),
+			$this->equalTo('test1')
+		);
 	}
 
 	/**
@@ -48,6 +105,16 @@ class JObservableTest extends PHPUnit_Framework_TestCase {
 	public function testNotify() {
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
+
+		$obj1 = new JObserverMock($this->object);
+		$obj2 = new JObserverMock($this->object);
+		$obj2->name = 'JObserverMock2';
+		$this->object->_observers = array($obj1, $obj2);
+
+		$this->assertThat(
+			$this->object->notify(),
+			$this->equalTo(array('JObserverMock', 'JObserverMock2'))
+		);
 	}
 
 	/**
@@ -66,4 +133,3 @@ class JObservableTest extends PHPUnit_Framework_TestCase {
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }
-

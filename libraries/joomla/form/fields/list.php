@@ -3,14 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
-
-jimport('joomla.html.html');
-jimport('joomla.form.formfield');
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Form Field class for the Joomla Platform.
@@ -32,7 +29,7 @@ class JFormFieldList extends JFormField
 
 	/**
 	 * Method to get the field input markup for a generic list.
-	 * Use the multiple attribue to enable multiselect.
+	 * Use the multiple attribute to enable multiselect.
 	 *
 	 * @return  string  The field input markup.
 	 *

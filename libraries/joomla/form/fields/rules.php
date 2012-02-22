@@ -3,15 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
-
-jimport('joomla.html.html');
-jimport('joomla.access.access');
-jimport('joomla.form.formfield');
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Form Field class for the Joomla Platform.
@@ -69,7 +65,11 @@ class JFormFieldRules extends JFormField
 		{
 			// Need to find the asset id by the name of the component.
 			$db = JFactory::getDbo();
-			$db->setQuery('SELECT id FROM #__assets WHERE name = ' . $db->quote($component));
+			$query = $db->getQuery(true);
+			$query->select($db->quoteName('id'));
+			$query->from($db->quoteName('#__assets'));
+			$query->where($db->quoteName('name') . ' = ' . $db->quote($component));
+			$db->setQuery($query);
 			$assetId = (int) $db->loadResult();
 
 			if ($error = $db->getErrorMsg())
@@ -85,9 +85,12 @@ class JFormFieldRules extends JFormField
 		}
 
 		// Use the compact form for the content rules (deprecated).
-		//if (!empty($component) && $section != 'component') {
-		//	return JHtml::_('rules.assetFormWidget', $actions, $assetId, $assetId ? null : $component, $this->name, $this->id);
-		//}
+
+		/* @todo remove code:
+		if (!empty($component) && $section != 'component') {
+			return JHtml::_('rules.assetFormWidget', $actions, $assetId, $assetId ? null : $component, $this->name, $this->id);
+		}
+		 */
 
 		// Full width format.
 
@@ -115,7 +118,7 @@ class JFormFieldRules extends JFormField
 			{
 				$html[] = '<li><ul>';
 			}
-			else if ($difLevel < 0)
+			elseif ($difLevel < 0)
 			{
 				$html[] = str_repeat('</ul></li>', -$difLevel);
 			}
@@ -209,11 +212,11 @@ class JFormFieldRules extends JFormField
 						{
 							$html[] = '<span class="icon-16-unset">' . JText::_('JLIB_RULES_NOT_ALLOWED') . '</span>';
 						}
-						else if ($inheritedRule === true)
+						elseif ($inheritedRule === true)
 						{
 							$html[] = '<span class="icon-16-allowed">' . JText::_('JLIB_RULES_ALLOWED') . '</span>';
 						}
-						else if ($inheritedRule === false)
+						elseif ($inheritedRule === false)
 						{
 							if ($assetRule === false)
 							{
@@ -226,7 +229,7 @@ class JFormFieldRules extends JFormField
 							}
 						}
 					}
-					else if (!empty($component))
+					elseif (!empty($component))
 					{
 						$html[] = '<span class="icon-16-allowed"><span class="icon-16-locked">' . JText::_('JLIB_RULES_ALLOWED_ADMIN')
 							. '</span></span>';
@@ -278,6 +281,9 @@ class JFormFieldRules extends JFormField
 		}
 		$html[] = '</div></div>';
 
+		// Get the JInput object
+		$input = JFactory::getApplication()->input;
+
 		$js = "window.addEvent('domready', function(){ new Fx.Accordion($$('div#permissions-sliders.pane-sliders .panel h3.pane-toggler'),"
 			. "$$('div#permissions-sliders.pane-sliders .panel div.pane-slider'), {onActive: function(toggler, i) {toggler.addClass('pane-toggler-down');"
 			. "toggler.removeClass('pane-toggler');i.addClass('pane-down');i.removeClass('pane-hide');Cookie.write('jpanesliders_permissions-sliders"
@@ -285,8 +291,8 @@ class JFormFieldRules extends JFormField
 			. "',$$('div#permissions-sliders.pane-sliders .panel h3').indexOf(toggler));},"
 			. "onBackground: function(toggler, i) {toggler.addClass('pane-toggler');toggler.removeClass('pane-toggler-down');i.addClass('pane-hide');"
 			. "i.removeClass('pane-down');}, duration: 300, display: "
-			. JRequest::getInt('jpanesliders_permissions-sliders' . $component, 0, 'cookie') . ", show: "
-			. JRequest::getInt('jpanesliders_permissions-sliders' . $component, 0, 'cookie') . ", alwaysHide:true, opacity: false}); });";
+			. $input->cookie->get('jpanesliders_permissions-sliders' . $component, 0, 'integer') . ", show: "
+			. $input->cookie->get('jpanesliders_permissions-sliders' . $component, 0, 'integer') . ", alwaysHide:true, opacity: false}); });";
 
 		JFactory::getDocument()->addScriptDeclaration($js);
 
@@ -304,13 +310,12 @@ class JFormFieldRules extends JFormField
 	{
 		// Initialise variables.
 		$db = JFactory::getDBO();
-		$query = $db->getQuery(true)
-			->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level, a.parent_id')
+		$query = $db->getQuery(true);
+		$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level, a.parent_id')
 			->from('#__usergroups AS a')
 			->leftJoin($db->quoteName('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt')
-			->group('a.id')
+			->group('a.id, a.title, a.lft, a.rgt, a.parent_id')
 			->order('a.lft ASC');
-
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
 

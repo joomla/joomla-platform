@@ -3,11 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Abstract cache storage handler
@@ -65,8 +65,6 @@ class JCacheStorage
 	 *
 	 * @param   array  $options  Optional parameters
 	 *
-	 * @return  void
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($options = array())
@@ -100,7 +98,7 @@ class JCacheStorage
 	 * @param   string  $handler  The cache storage handler to instantiate
 	 * @param   array   $options  Array of handler options
 	 *
-	 * @return  JCacheStorageHandler  A JCacheStorageHandler object
+	 * @return  JCacheStorage  A JCacheStorage instance
 	 *
 	 * @since   11.1
 	 */
@@ -108,7 +106,7 @@ class JCacheStorage
 	{
 		static $now = null;
 
-		JCacheStorage::addIncludePath(JPATH_PLATFORM . '/joomla/cache/storage');
+		self::addIncludePath(JPATH_PLATFORM . '/joomla/cache/storage');
 
 		if (!isset($handler))
 		{
@@ -126,7 +124,8 @@ class JCacheStorage
 		}
 
 		$options['now'] = $now;
-		//We can't cache this since options may change...
+
+		// We can't cache this since options may change...
 		$handler = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $handler));
 
 		$class = 'JCacheStorage' . ucfirst($handler);
@@ -134,7 +133,7 @@ class JCacheStorage
 		{
 			// Search for the class file in the JCacheStorage include paths.
 			jimport('joomla.filesystem.path');
-			if ($path = JPath::find(JCacheStorage::addIncludePath(), strtolower($handler) . '.php'))
+			if ($path = JPath::find(self::addIncludePath(), strtolower($handler) . '.php'))
 			{
 				include_once $path;
 			}

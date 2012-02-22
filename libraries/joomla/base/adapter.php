@@ -3,11 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Base
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
@@ -55,7 +55,7 @@ class JAdapter extends JObject
 	/**
 	 * Database Connector Object
 	 *
-	 * @var    object
+	 * @var    JDatabase
 	 * @since  11.1
 	 */
 	protected $_db;
@@ -66,8 +66,6 @@ class JAdapter extends JObject
 	 * @param   string  $basepath       Base Path of the adapters
 	 * @param   string  $classprefix    Class prefix of adapters
 	 * @param   string  $adapterfolder  Name of folder to append to base path
-	 *
-	 * @return  JAdapter  JAdapter object
 	 *
 	 * @since   11.1
 	 */
@@ -83,7 +81,7 @@ class JAdapter extends JObject
 	/**
 	 * Get the database connector object
 	 *
-	 * @return  object  Database connector object
+	 * @return  JDatabase  Database connector object
 	 *
 	 * @since   11.1
 	 */
@@ -103,7 +101,7 @@ class JAdapter extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function setAdapter($name, &$adapter = null, $options = Array())
+	public function setAdapter($name, &$adapter = null, $options = array())
 	{
 		if (!is_object($adapter))
 		{
@@ -141,7 +139,7 @@ class JAdapter extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function getAdapter($name, $options = Array())
+	public function getAdapter($name, $options = array())
 	{
 		if (!array_key_exists($name, $this->_adapters))
 		{
@@ -181,7 +179,8 @@ class JAdapter extends JObject
 
 				if (!class_exists($class))
 				{
-					continue; // skip to next one
+					// Skip to next one
+					continue;
 				}
 
 				$adapter = new $class($this, $this->_db, $options);

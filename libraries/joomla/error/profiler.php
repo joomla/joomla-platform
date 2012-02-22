@@ -3,11 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Error
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Utility class to assist in the process of benchmarking the execution
@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die();
  * @subpackage  Error
  * @since       11.1
  */
-class JProfiler extends JObject
+class JProfiler
 {
 	/**
 	 * @var    integer  The start time.
@@ -56,11 +56,15 @@ class JProfiler extends JObject
 	protected $_iswin = false;
 
 	/**
+	 * @var    array  JProfiler instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
+
+	/**
 	 * Constructor
 	 *
 	 * @param   string  $prefix  Prefix for mark messages
-	 *
-	 * @return  void
 	 *
 	 * @since  11.1
 	 */
@@ -84,19 +88,12 @@ class JProfiler extends JObject
 	 */
 	public static function getInstance($prefix = '')
 	{
-		static $instances;
-
-		if (!isset($instances))
+		if (empty(self::$instances[$prefix]))
 		{
-			$instances = array();
+			self::$instances[$prefix] = new JProfiler($prefix);
 		}
 
-		if (empty($instances[$prefix]))
-		{
-			$instances[$prefix] = new JProfiler($prefix);
-		}
-
-		return $instances[$prefix];
+		return self::$instances[$prefix];
 	}
 
 	/**

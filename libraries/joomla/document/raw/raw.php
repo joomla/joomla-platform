@@ -3,15 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
-
-jimport('joomla.document.document');
-
-jimport('joomla.document.document');
+defined('JPATH_PLATFORM') or die;
 
 /**
  * DocumentRAW class, provides an easy interface to parse and display raw output
@@ -27,18 +23,16 @@ class JDocumentRaw extends JDocument
 	 *
 	 * @param   array  $options  Associative array of options
 	 *
-	 * @return  JDocumentRaw
-	 *
 	 * @since   11.1
 	 */
 	public function __construct($options = array())
 	{
 		parent::__construct($options);
 
-		//set mime type
+		// Set mime type
 		$this->_mime = 'text/html';
 
-		//set document type
+		// Set document type
 		$this->_type = 'raw';
 	}
 

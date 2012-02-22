@@ -3,11 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * JMenu class
@@ -24,6 +24,15 @@ class JMenu extends JObject
 	 * @var    array
 	 * @since   11.1
 	 */
+	protected $items = array();
+
+	/**
+	 * Array to hold the menu items
+	 *
+	 * @var    array
+	 * @since   11.1
+	 * @deprecated use $items declare as private
+	 */
 	protected $_items = array();
 
 	/**
@@ -31,6 +40,15 @@ class JMenu extends JObject
 	 *
 	 * @var    integer
 	 * @since   11.1
+	 */
+	protected $default = array();
+
+	/**
+	 * Identifier of the default menu item
+	 *
+	 * @var    integer
+	 * @since   11.1
+	 * @deprecated use $default declare as private
 	 */
 	protected $_default = array();
 
@@ -40,14 +58,27 @@ class JMenu extends JObject
 	 * @var    integer
 	 * @since  11.1
 	 */
+	protected $active = 0;
+
+	/**
+	 * Identifier of the active menu item
+	 *
+	 * @var    integer
+	 * @since  11.1
+	 * @deprecated use $active declare as private
+	 */
 	protected $_active = 0;
+
+	/**
+	 * @var    array  JMenu instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
 
 	/**
 	 * Class constructor
 	 *
 	 * @param   array  $options  An array of configuration options.
-	 *
-	 * @return  JMenu  A JMenu object
 	 *
 	 * @since   11.1
 	 */
@@ -56,11 +87,11 @@ class JMenu extends JObject
 		// Load the menu items
 		$this->load();
 
-		foreach ($this->_items as $k => $item)
+		foreach ($this->_items as $item)
 		{
 			if ($item->home)
 			{
-				$this->_default[$item->language] = $item->id;
+				$this->_default[trim($item->language)] = $item->id;
 			}
 
 			// Decode the item params
@@ -82,39 +113,37 @@ class JMenu extends JObject
 	 */
 	public static function getInstance($client, $options = array())
 	{
-		static $instances;
-
-		if (!isset($instances))
+		if (empty(self::$instances[$client]))
 		{
-			$instances = array();
-		}
-
-		if (empty($instances[$client]))
-		{
-			//Load the router object
+			// Load the router object
 			$info = JApplicationHelper::getClientInfo($client, true);
 
 			$path = $info->path . '/includes/menu.php';
 			if (file_exists($path))
 			{
-				include_once $path;
-
 				// Create a JPathway object
 				$classname = 'JMenu' . ucfirst($client);
+
+				// Only load if not already loaded.
+				if (class_exists($classname) == false)
+				{
+					include $path;
+				}
+
 				$instance = new $classname($options);
 			}
 			else
 			{
-				//$error = JError::raiseError(500, 'Unable to load menu: '.$client);
-				//TODO: Solve this
+				// $error = JError::raiseError(500, 'Unable to load menu: '.$client);
+				// TODO: Solve this
 				$error = null;
 				return $error;
 			}
 
-			$instances[$client] = & $instance;
+			self::$instances[$client] = & $instance;
 		}
 
-		return $instances[$client];
+		return self::$instances[$client];
 	}
 
 	/**
@@ -143,7 +172,7 @@ class JMenu extends JObject
 	 * @param   integer  $id        The menu item id.
 	 * @param   string   $language  The language cod (since 1.6).
 	 *
-	 * @return  boolean  True, if succesful
+	 * @return  boolean  True, if successful
 	 *
 	 * @since   11.1
 	 */
@@ -167,13 +196,13 @@ class JMenu extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function getDefault($language = '*')
+	public function getDefault($language = '*')
 	{
 		if (array_key_exists($language, $this->_default))
 		{
 			return $this->_items[$this->_default[$language]];
 		}
-		else if (array_key_exists('*', $this->_default))
+		elseif (array_key_exists('*', $this->_default))
 		{
 			return $this->_items[$this->_default['*']];
 		}
@@ -188,7 +217,7 @@ class JMenu extends JObject
 	 *
 	 * @param   integer  $id  The item id
 	 *
-	 * @return  mixed  If successfull the active item, otherwise null
+	 * @return  mixed  If successful the active item, otherwise null
 	 *
 	 * @since   11.1
 	 */
@@ -235,7 +264,7 @@ class JMenu extends JObject
 	 */
 	public function getItems($attributes, $values, $firstonly = false)
 	{
-		$items = null;
+		$items = array();
 		$attributes = (array) $attributes;
 		$values = (array) $values;
 

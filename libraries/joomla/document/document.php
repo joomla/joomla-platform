@@ -3,14 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
-JLoader::register('JDocumentRenderer', dirname(__FILE__) . '/renderer.php');
-jimport('joomla.filter.filteroutput');
+jimport('joomla.environment.response');
 
 /**
  * Document class, provides an easy interface to parse and display a document
@@ -74,7 +73,7 @@ class JDocument extends JObject
 	 *
 	 * @var    string
 	 */
-	public $_generator = 'Joomla! 1.7 - Open Source Content Management';
+	public $_generator = 'Joomla! - Open Source Content Management';
 
 	/**
 	 * Document modified date
@@ -197,11 +196,15 @@ class JDocument extends JObject
 	public static $_buffer = null;
 
 	/**
+	 * @var    array  JDocument instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   array  $options  Associative array of options
-	 *
-	 * @return  JDocument
 	 *
 	 * @since   11.1
 	 */
@@ -258,19 +261,12 @@ class JDocument extends JObject
 	 */
 	public static function getInstance($type = 'html', $attributes = array())
 	{
-		static $instances;
-
-		if (!isset($instances))
-		{
-			$instances = array();
-		}
-
 		$signature = serialize(array($type, $attributes));
 
-		if (empty($instances[$signature]))
+		if (empty(self::$instances[$signature]))
 		{
 			$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
-			$path = dirname(__FILE__) . '/' . $type . '/' . $type . '.php';
+			$path = __DIR__ . '/' . $type . '/' . $type . '.php';
 			$ntype = null;
 
 			// Check if the document type exists
@@ -285,7 +281,7 @@ class JDocument extends JObject
 			$class = 'JDocument' . $type;
 			if (!class_exists($class))
 			{
-				$path = dirname(__FILE__) . '/' . $type . '/' . $type . '.php';
+				$path = __DIR__ . '/' . $type . '/' . $type . '.php';
 				if (file_exists($path))
 				{
 					require_once $path;
@@ -297,7 +293,7 @@ class JDocument extends JObject
 			}
 
 			$instance = new $class($attributes);
-			$instances[$signature] = &$instance;
+			self::$instances[$signature] = &$instance;
 
 			if (!is_null($ntype))
 			{
@@ -306,7 +302,7 @@ class JDocument extends JObject
 			}
 		}
 
-		return $instances[$signature];
+		return self::$instances[$signature];
 	}
 
 	/**
@@ -384,7 +380,7 @@ class JDocument extends JObject
 		{
 			$result = $this->getGenerator();
 		}
-		else if ($name == 'description')
+		elseif ($name == 'description')
 		{
 			$result = $this->getDescription();
 		}
@@ -409,13 +405,12 @@ class JDocument extends JObject
 	 * @param   string   $name        Value of name or http-equiv tag
 	 * @param   string   $content     Value of the content tag
 	 * @param   boolean  $http_equiv  META type "http-equiv" defaults to null
-	 * @param   boolean  $sync        Should http-equiv="content-type" by synced with HTTP-header?
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
-	public function setMetaData($name, $content, $http_equiv = false, $sync = true)
+	public function setMetaData($name, $content, $http_equiv = false)
 	{
 		$name = strtolower($name);
 
@@ -423,7 +418,7 @@ class JDocument extends JObject
 		{
 			$this->setGenerator($content);
 		}
-		else if ($name == 'description')
+		elseif ($name == 'description')
 		{
 			$this->setDescription($content);
 		}
@@ -432,12 +427,6 @@ class JDocument extends JObject
 			if ($http_equiv == true)
 			{
 				$this->_metaTags['http-equiv'][$name] = $content;
-
-				// Syncing with HTTP-header
-				if ($sync && strtolower($name) == 'content-type')
-				{
-					$this->setMimeEncoding($content, false);
-				}
 			}
 			else
 			{
@@ -815,7 +804,7 @@ class JDocument extends JObject
 		// Syncing with meta-data
 		if ($sync)
 		{
-			$this->setMetaData('content-type', $type, true, false);
+			$this->setMetaData('content-type', $type . '; charset=' . $this->_charset, true);
 		}
 
 		return $this;
@@ -907,7 +896,7 @@ class JDocument extends JObject
 	 *
 	 * @param   string  $type  The renderer type
 	 *
-	 * @return  mixed   Object or null if class does not exist
+	 * @return  JDocumentRenderer  Object or null if class does not exist
 	 *
 	 * @since   11.1
 	 */
@@ -917,7 +906,7 @@ class JDocument extends JObject
 
 		if (!class_exists($class))
 		{
-			$path = dirname(__FILE__) . '/' . $this->_type . '/renderer/' . $type . '.php';
+			$path = __DIR__ . '/' . $this->_type . '/renderer/' . $type . '.php';
 
 			if (file_exists($path))
 			{
@@ -970,6 +959,6 @@ class JDocument extends JObject
 			JResponse::setHeader('Last-Modified', $mdate /* gmdate('D, d M Y H:i:s', time() + 900) . ' GMT' */);
 		}
 
-		JResponse::setHeader('Content-Type', $this->_mime . '; charset=' . $this->_charset);
+		JResponse::setHeader('Content-Type', $this->_mime . ($this->_charset ? '; charset=' . $this->_charset : ''));
 	}
 }

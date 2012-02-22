@@ -3,11 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * APC session storage handler for PHP
@@ -23,8 +23,6 @@ class JSessionStorageApc extends JSessionStorage
 	 * Constructor
 	 *
 	 * @param   array  $options  Optional parameters
-	 *
-	 * @return  JSessionStorageApc
 	 *
 	 * @since   11.1
 	 */
@@ -127,7 +125,7 @@ class JSessionStorageApc extends JSessionStorage
 	 *
 	 * @return boolean  True on success, false otherwise.
 	 */
-	static function test()
+	public static function test()
 	{
 		return extension_loaded('apc');
 	}

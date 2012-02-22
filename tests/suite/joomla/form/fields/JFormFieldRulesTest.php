@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -20,11 +20,9 @@ class JFormFieldRulesTest extends JoomlaTestCase
 	 */
 	protected function setUp()
 	{
-		jimport('joomla.form.form');
-		jimport('joomla.form.formfield');
 		jimport('joomla.environment.request');
 		require_once JPATH_PLATFORM.'/joomla/form/fields/rules.php';
-		include_once dirname(dirname(__FILE__)).'/inspectors.php';
+		include_once dirname(__DIR__).'/inspectors.php';
 
 		$this->saveFactoryState();
 

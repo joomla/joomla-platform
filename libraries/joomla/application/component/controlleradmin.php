@@ -3,11 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.application.component.controller');
 
@@ -60,10 +60,18 @@ class JControllerAdmin extends JController
 		parent::__construct($config);
 
 		// Define standard task mappings.
-		$this->registerTask('unpublish', 'publish'); // value = 0
-		$this->registerTask('archive', 'publish'); // value = 2
-		$this->registerTask('trash', 'publish'); // value = -2
-		$this->registerTask('report', 'publish'); // value = -3
+
+		// Value = 0
+		$this->registerTask('unpublish', 'publish');
+
+		// Value = 2
+		$this->registerTask('archive', 'publish');
+
+		// Value = -2
+		$this->registerTask('trash', 'publish');
+
+		// Value = -3
+		$this->registerTask('report', 'publish');
 		$this->registerTask('orderup', 'reorder');
 		$this->registerTask('orderdown', 'reorder');
 
@@ -98,10 +106,10 @@ class JControllerAdmin extends JController
 	 *
 	 * @since   11.1
 	 */
-	function delete()
+	public function delete()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Get items to remove from the request.
 		$cid = JRequest::getVar('cid', array(), '', 'array');
@@ -143,25 +151,22 @@ class JControllerAdmin extends JController
 	 *
 	 * @since   11.1
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cachable = false, $urlparams = array())
 	{
 		return $this;
 	}
 
 	/**
-	 * Method to publish a list of taxa
+	 * Method to publish a list of items
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	function publish()
+	public function publish()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die(JText::_('JINVALID_TOKEN'));
-
-		$session = JFactory::getSession();
-		$registry = $session->get('registry');
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
 		$cid = JRequest::getVar('cid', array(), '', 'array');
@@ -192,11 +197,11 @@ class JControllerAdmin extends JController
 				{
 					$ntext = $this->text_prefix . '_N_ITEMS_PUBLISHED';
 				}
-				else if ($value == 0)
+				elseif ($value == 0)
 				{
 					$ntext = $this->text_prefix . '_N_ITEMS_UNPUBLISHED';
 				}
-				else if ($value == 2)
+				elseif ($value == 2)
 				{
 					$ntext = $this->text_prefix . '_N_ITEMS_ARCHIVED';
 				}
@@ -215,17 +220,16 @@ class JControllerAdmin extends JController
 	/**
 	 * Changes the order of one or more records.
 	 *
-	 * @return  void
+	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
 	 */
 	public function reorder()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
-		$user = JFactory::getUser();
 		$ids = JRequest::getVar('cid', null, 'post', 'array');
 		$inc = ($this->getTask() == 'orderup') ? -1 : +1;
 
@@ -250,14 +254,14 @@ class JControllerAdmin extends JController
 	/**
 	 * Method to save the submitted ordering values for records.
 	 *
-	 * @return  void
+	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
 	 */
 	public function saveorder()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the input
 		$pks = JRequest::getVar('cid', null, 'post', 'array');
@@ -292,17 +296,16 @@ class JControllerAdmin extends JController
 	/**
 	 * Check in of one or more records.
 	 *
-	 * @return  void
+	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
 	 */
 	public function checkin()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
-		$user = JFactory::getUser();
 		$ids = JRequest::getVar('cid', null, 'post', 'array');
 
 		$model = $this->getModel();

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -118,13 +118,13 @@ class JUpdate extends JObject
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $_stack = Array('base');
+	protected $_stack = array('base');
 
 	/**
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $_state_store = Array();
+	protected $_state_store = array();
 
 	/**
 	 * Gets the reference to the current direct parent
@@ -162,10 +162,11 @@ class JUpdate extends JObject
 	 * @note    This is public because it is called externally
 	 * @since   11.1
 	 */
-	public function _startElement($parser, $name, $attrs = Array())
+	public function _startElement($parser, $name, $attrs = array())
 	{
 		array_push($this->_stack, $name);
 		$tag = $this->_getStackLocation();
+
 		// Reset the data
 		eval('$this->' . $tag . '->_data = "";');
 
@@ -175,9 +176,11 @@ class JUpdate extends JObject
 			case 'UPDATE':
 				$this->_current_update = new stdClass;
 				break;
+
 			// Don't do anything
 			case 'UPDATES':
 				break;
+
 			// For everything else there's...the default!
 			default:
 				$name = strtolower($name);
@@ -212,8 +215,7 @@ class JUpdate extends JObject
 				$ver = new JVersion;
 				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd'));
 				if ($product == $this->_current_update->targetplatform->name
-					&& preg_match('/' . $this->_current_update->targetplatform->version . '/', $ver->RELEASE)
-				)
+					&& preg_match('/' . $this->_current_update->targetplatform->version . '/', $ver->RELEASE))
 				{
 					if (isset($this->_latest))
 					{
@@ -229,7 +231,7 @@ class JUpdate extends JObject
 				}
 				break;
 			case 'UPDATES':
-			// If the latest item is set then we transfer it to where we want to
+				// If the latest item is set then we transfer it to where we want to
 				if (isset($this->_latest))
 				{
 					foreach (get_object_vars($this->_latest) as $key => $val)
@@ -239,7 +241,7 @@ class JUpdate extends JObject
 					unset($this->_latest);
 					unset($this->_current_update);
 				}
-				else if (isset($this->_current_update))
+				elseif (isset($this->_current_update))
 				{
 					// The update might be for an older version of j!
 					unset($this->_current_update);
@@ -262,8 +264,10 @@ class JUpdate extends JObject
 	public function _characterData($parser, $data)
 	{
 		$tag = $this->_getLastTag();
-		//if(!isset($this->$tag->_data)) $this->$tag->_data = '';
-		//$this->$tag->_data .= $data;
+
+		// @todo remove code: if(!isset($this->$tag->_data)) $this->$tag->_data = '';
+		// @todo remove code: $this->$tag->_data .= $data;
+
 		// Throw the data for this item together
 		$tag = strtolower($tag);
 		$this->_current_update->$tag->_data .= $data;

@@ -3,14 +3,14 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.application.module.helper');
-jimport('joomla.document.document');
+jimport('joomla.utilities.utility');
 
 /**
  * DocumentHTML class, provides an easy interface to parse and display a HTML document
@@ -54,7 +54,7 @@ class JDocumentHTML extends JDocument
 	public $baseurl = null;
 
 	/**
-	 * Array of template parameterss
+	 * Array of template parameters
 	 *
 	 * @var    array
 	 * @since  11.1
@@ -94,6 +94,14 @@ class JDocumentHTML extends JDocument
 	protected $_caching = null;
 
 	/**
+	 * Set to true when the document should be output as HTML%
+	 *
+	 * @var    boolean
+	 * @since  12.1
+	 */
+	private $_html5 = null;
+
+	/**
 	 * Class constructor
 	 *
 	 * @param   array  $options  Associative array of options
@@ -108,8 +116,7 @@ class JDocumentHTML extends JDocument
 		$this->_type = 'html';
 
 		// Set default mime type and document metadata (meta data syncs with mime type by default)
-		$this->setMetaData('Content-Type', 'text/html', true);
-		$this->setMetaData('robots', 'index, follow');
+		$this->setMimeEncoding('text/html');
 	}
 
 	/**
@@ -122,16 +129,16 @@ class JDocumentHTML extends JDocument
 	public function getHeadData()
 	{
 		$data = array();
-		$data['title'] = $this->title;
+		$data['title']       = $this->title;
 		$data['description'] = $this->description;
-		$data['link'] = $this->link;
-		$data['metaTags'] = $this->_metaTags;
-		$data['links'] = $this->_links;
+		$data['link']        = $this->link;
+		$data['metaTags']    = $this->_metaTags;
+		$data['links']       = $this->_links;
 		$data['styleSheets'] = $this->_styleSheets;
-		$data['style'] = $this->_style;
-		$data['scripts'] = $this->_scripts;
-		$data['script'] = $this->_script;
-		$data['custom'] = $this->_custom;
+		$data['style']       = $this->_style;
+		$data['scripts']     = $this->_scripts;
+		$data['script']      = $this->_script;
+		$data['custom']      = $this->_custom;
 		return $data;
 	}
 
@@ -183,11 +190,11 @@ class JDocumentHTML extends JDocument
 		}
 
 		$this->title = (isset($data['title']) && !empty($data['title']) && !stristr($this->title, $data['title']))
-					? $this->title . $data['title']
-					: $this->title;
+			? $this->title . $data['title']
+			: $this->title;
 		$this->description = (isset($data['description']) && !empty($data['description']) && !stristr($this->description, $data['description']))
-							? $this->description . $data['description']
-							: $this->description;
+			? $this->description . $data['description']
+			: $this->description;
 		$this->link = (isset($data['link'])) ? $data['link'] : $this->link;
 
 		if (isset($data['metaTags']))
@@ -203,11 +210,11 @@ class JDocumentHTML extends JDocument
 		}
 
 		$this->_links = (isset($data['links']) && !empty($data['links']) && is_array($data['links']))
-						? array_unique(array_merge($this->_links, $data['links']))
-						: $this->_links;
+			? array_unique(array_merge($this->_links, $data['links']))
+			: $this->_links;
 		$this->_styleSheets = (isset($data['styleSheets']) && !empty($data['styleSheets']) && is_array($data['styleSheets']))
-							? array_merge($this->_styleSheets, $data['styleSheets'])
-							: $this->_styleSheets;
+			? array_merge($this->_styleSheets, $data['styleSheets'])
+			: $this->_styleSheets;
 
 		if (isset($data['style']))
 		{
@@ -221,8 +228,8 @@ class JDocumentHTML extends JDocument
 		}
 
 		$this->_scripts = (isset($data['scripts']) && !empty($data['scripts']) && is_array($data['scripts']))
-						? array_merge($this->_scripts, $data['scripts'])
-						: $this->_scripts;
+			? array_merge($this->_scripts, $data['scripts'])
+			: $this->_scripts;
 
 		if (isset($data['script']))
 		{
@@ -236,8 +243,8 @@ class JDocumentHTML extends JDocument
 		}
 
 		$this->_custom = (isset($data['custom']) && !empty($data['custom']) && is_array($data['custom']))
-						? array_unique(array_merge($this->_custom, $data['custom']))
-						: $this->_custom;
+			? array_unique(array_merge($this->_custom, $data['custom']))
+			: $this->_custom;
 
 		return $this;
 	}
@@ -299,12 +306,40 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @since   11.1
 	 */
-
 	public function addCustomTag($html)
 	{
 		$this->_custom[] = trim($html);
 
 		return $this;
+	}
+
+	/**
+	 * Returns whether the document is set up to be output as HTML5
+	 *
+	 * @return  Boolean true when HTML5 is used
+	 *
+	 * @since   12.1
+	 */
+	public function isHtml5()
+	{
+		return $this->_html5;
+	}
+
+	/**
+	 * Sets whether the document should be output as HTML5
+	 *
+	 * @param   bool  $state  True when HTML5 should be output
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function setHtml5($state)
+	{
+		if (is_bool($state))
+		{
+			$this->_html5 = $state;
+		}
 	}
 
 	/**
@@ -455,17 +490,15 @@ class JDocumentHTML extends JDocument
 	 */
 	public function countModules($condition)
 	{
-		$result = '';
-
 		$operators = '(\+|\-|\*|\/|==|\!=|\<\>|\<|\>|\<=|\>=|and|or|xor)';
 		$words = preg_split('# ' . $operators . ' #', $condition, null, PREG_SPLIT_DELIM_CAPTURE);
 		for ($i = 0, $n = count($words); $i < $n; $i += 2)
 		{
-			// odd parts (modules)
+			// Odd parts (modules)
 			$name = strtolower($words[$i]);
 			$words[$i] = ((isset(parent::$_buffer['modules'][$name])) && (parent::$_buffer['modules'][$name] === false))
-						? 0
-						: count(JModuleHelper::getModules($name));
+				? 0
+				: count(JModuleHelper::getModules($name));
 		}
 
 		$str = 'return ' . implode(' ', $words) . ';';
@@ -489,13 +522,14 @@ class JDocumentHTML extends JDocument
 			$dbo = JFactory::getDbo();
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
-			$where = Array();
 			$active = $menu->getActive();
 			if ($active)
 			{
-				$where[] = 'parent = ' . $active->id;
-				$where[] = 'published = 1';
-				$dbo->setQuery('SELECT COUNT(*) FROM #__menu WHERE ' . implode(' AND ', $where));
+				$query = $dbo->getQuery(true);
+				$query->select('COUNT(*)');
+				$query->from('#__menu');
+				$query->where('parent_id = ' . $active->id);
+				$query->where('published = 1');
 				$children = $dbo->loadResult();
 			}
 			else
@@ -519,7 +553,7 @@ class JDocumentHTML extends JDocument
 	 */
 	protected function _loadTemplate($directory, $filename)
 	{
-		//		$component	= JApplicationHelper::getComponentName();
+		// @todo remove code: $component	= JApplicationHelper::getComponentName();
 
 		$contents = '';
 
@@ -529,7 +563,7 @@ class JDocumentHTML extends JDocument
 			// Store the file path
 			$this->_file = $directory . '/' . $filename;
 
-			//get the file content
+			// Get the file content
 			ob_start();
 			require $directory . '/' . $filename;
 			$contents = ob_get_contents();
@@ -578,8 +612,8 @@ class JDocumentHTML extends JDocument
 
 		// Load the language file for the template
 		$lang = JFactory::getLanguage();
-		// 1.5 or core then 1.6
 
+		// 1.5 or core then 1.6
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, false)
 			|| $lang->load('tpl_' . $template, $directory . '/' . $template, null, false, false)
 			|| $lang->load('tpl_' . $template, JPATH_BASE, $lang->getDefault(), false, false)
@@ -599,9 +633,7 @@ class JDocumentHTML extends JDocument
 	/**
 	 * Parse a document template
 	 *
-	 * @return  The parsed contents of the template
-	 *
-	 * @return  JDocumentHTML instance of $this to allow chaining
+	 * @return  JDocumentHTML  instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */

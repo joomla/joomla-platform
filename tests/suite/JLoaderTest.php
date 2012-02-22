@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.UnitTest
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -79,7 +79,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 			),
 			'bogus' => array(
 				'bogusload',
-				JPATH_TESTS.'/objects',
+				JPATH_TESTS.'/suite/stubs',
 				'',
 				true,
 				'bogusload.php should load properly',
@@ -130,8 +130,8 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
-		$this->bogusPath = JPATH_TESTS.'/objects';
-		$this->bogusFullPath = JPATH_TESTS.'/objects/bogusload.php';
+		$this->bogusPath = JPATH_TESTS.'/suite/stubs';
+		$this->bogusFullPath = JPATH_TESTS.'/suite/stubs/bogusload.php';
 	}
 
 	/**
@@ -153,18 +153,18 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 			'Tests that an invalid folder is ignored.'
 		);
 
-		JLoader::discover(null, JPATH_TESTS.'/objects/discover1');
+		JLoader::discover(null, JPATH_TESTS.'/suite/stubs/discover1');
 		$classes = JLoader::getClassList();
 
 		$this->assertThat(
-			$classes['challenger'],
-			$this->equalTo(JPATH_TESTS.'/objects/discover1/challenger.php'),
+			realpath($classes['challenger']),
+			$this->equalTo(realpath(JPATH_TESTS.'/suite/stubs/discover1/challenger.php')),
 			'Checks that the class path is correct (1).'
 		);
 
 		$this->assertThat(
-			$classes['columbia'],
-			$this->equalTo(JPATH_TESTS.'/objects/discover1/columbia.php'),
+			realpath($classes['columbia']),
+			$this->equalTo(realpath(JPATH_TESTS.'/suite/stubs/discover1/columbia.php')),
 			'Checks that the class path is correct (2).'
 		);
 
@@ -174,27 +174,27 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 			'Checks that non-php files are ignored.'
 		);
 
-		JLoader::discover('Shuttle', JPATH_TESTS.'/objects/discover1');
+		JLoader::discover('Shuttle', JPATH_TESTS.'/suite/stubs/discover1');
 		$classes = JLoader::getClassList();
 
 		$this->assertThat(
-			$classes['shuttlechallenger'],
-			$this->equalTo(JPATH_TESTS.'/objects/discover1/challenger.php'),
+			realpath($classes['shuttlechallenger']),
+			$this->equalTo(realpath(JPATH_TESTS.'/suite/stubs/discover1/challenger.php')),
 			'Checks that the class path with prefix is correct (1).'
 		);
 
 		$this->assertThat(
-			$classes['shuttlecolumbia'],
-			$this->equalTo(JPATH_TESTS.'/objects/discover1/columbia.php'),
+			realpath($classes['shuttlecolumbia']),
+			$this->equalTo(realpath(JPATH_TESTS.'/suite/stubs/discover1/columbia.php')),
 			'Checks that the class path with prefix is correct (2).'
 		);
 
-		JLoader::discover('Shuttle', JPATH_TESTS.'/objects/discover2', false);
+		JLoader::discover('Shuttle', JPATH_TESTS.'/suite/stubs/discover2', false);
 		$classes = JLoader::getClassList();
 
 		$this->assertThat(
-			$classes['shuttlechallenger'],
-			$this->equalTo(JPATH_TESTS.'/objects/discover1/challenger.php'),
+			realpath($classes['shuttlechallenger']),
+			$this->equalTo(realpath(JPATH_TESTS.'/suite/stubs/discover1/challenger.php')),
 			'Checks that the original class paths are maintained when not forced.'
 		);
 
@@ -204,18 +204,18 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 			'Checks that directory was not recursed.'
 		);
 
-		JLoader::discover('Shuttle', JPATH_TESTS.'/objects/discover2', true, true);
+		JLoader::discover('Shuttle', JPATH_TESTS.'/suite/stubs/discover2', true, true);
 		$classes = JLoader::getClassList();
 
 		$this->assertThat(
-			$classes['shuttlechallenger'],
-			$this->equalTo(JPATH_TESTS.'/objects/discover2/challenger.php'),
+			realpath($classes['shuttlechallenger']),
+			$this->equalTo(realpath(JPATH_TESTS.'/suite/stubs/discover2/challenger.php')),
 			'Checks that force overrides existing classes.'
 		);
 
 		$this->assertThat(
-			$classes['shuttleatlantis'],
-			$this->equalTo(JPATH_TESTS.'/objects/discover2/discover3/atlantis.php'),
+			realpath($classes['shuttleatlantis']),
+			$this->equalTo(realpath(JPATH_TESTS.'/suite/stubs/discover2/discover3/atlantis.php')),
 			'Checks that recurse works.'
 		);
 	}
@@ -245,7 +245,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLoad()
 	{
-		JLoader::discover('Shuttle', JPATH_TESTS.'/objects/discover2', true);
+		JLoader::discover('Shuttle', JPATH_TESTS.'/suite/stubs/discover2', true);
 
 		JLoader::load('ShuttleChallenger');
 
@@ -351,6 +351,60 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 			in_array('fred.php', JLoader::getClassList()),
 			$this->isFalse(),
 			'Tests that a file that does not exist does not get registered.'
+		);
+	}
+
+	/**
+	* Tests the JLoader::setup method.
+	*
+	* @return  void
+	*
+	* @since   11.4
+	*/
+	public function testSetup()
+	{
+		$loaders = spl_autoload_functions();
+
+		// We unregister the two loaders in case they are missing
+		foreach ($loaders AS $loader)
+		{
+			if ($loader[0] == 'JLoader' && ($loader[1] == 'load' || $loader[1] == '_autoload'))
+			{
+				spl_autoload_unregister($loader);
+			}
+		}
+
+		// We call the method under test.
+		JLoader::setup();
+
+		// We get the list of autoload functions
+		$newLoaders = spl_autoload_functions();
+
+		$foundLoad = false;
+		$foundAutoload = false;
+
+		// We search the list of autoload functions to see if our methods are there.
+		foreach ($newLoaders AS $loader)
+		{
+			if ($loader[0] == 'JLoader' && $loader[1] == 'load')
+			{
+				$foundLoad = true;
+			}
+
+			if ($loader[0] == 'JLoader' && $loader[1] == '_autoload')
+			{
+				$foundAutoload = true;
+			}
+		}
+
+		$this->assertThat(
+			$foundLoad,
+			$this->isTrue()
+		);
+
+		$this->assertThat(
+			$foundAutoload,
+			$this->isTrue()
 		);
 	}
 }

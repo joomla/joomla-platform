@@ -3,11 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Joomla! Cache view type object
@@ -48,15 +48,16 @@ class JCacheControllerView extends JCacheController
 		if ($data === false)
 		{
 			$locktest = $this->cache->lock($id, null);
-			// If the loop is completed and returned true it means the lock has been set
-			// If looped is true try to get the cached data again; it could exist now
+
+			// If the loop is completed and returned true it means the lock has been set.
+			// If looped is true try to get the cached data again; it could exist now.
 			if ($locktest->locked == true && $locktest->locklooped == true)
 			{
 				$data = $this->cache->get($id);
 			}
 
-		// False means that locking is either turned off or maxtime has been exceeded.
-		// Execute the view.
+			// False means that locking is either turned off or maxtime has been exceeded.
+			// Execute the view.
 		}
 
 		if ($data !== false)
@@ -67,9 +68,9 @@ class JCacheControllerView extends JCacheController
 			{
 				echo JCache::getWorkarounds($data);
 			}
-
 			else
-			{ // No workarounds, so all data is stored in one piece
+			{
+				// No workarounds, so all data is stored in one piece
 				echo (isset($data)) ? $data : null;
 			}
 

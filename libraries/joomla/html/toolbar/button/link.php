@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -29,7 +29,7 @@ class JButtonLink extends JButton
 	 *
 	 * @param   string  $type  Unused string.
 	 * @param   string  $name  Name to be used as apart of the id
- 	 * @param   string  $text  Button text
+	 * @param   string  $text  Button text
 	 * @param   string  $url   The link url
 	 *
 	 * @return  string  HTML string for the button

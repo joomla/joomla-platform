@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  HTML
  * @since       11.1
  */
-abstract class JButton extends JObject
+abstract class JButton
 {
 	/**
 	 * element name
@@ -32,17 +32,14 @@ abstract class JButton extends JObject
 	/**
 	 * reference to the object that instantiated the element
 	 *
-	 * @var    object
+	 * @var    JButton
 	 */
 	protected $_parent = null;
 
 	/**
 	 * Constructor
-<<<<<<< HEAD
 	 *
 	 * @param   object  $parent  The parent
-=======
->>>>>>> 1739596a2e65b7143de644b4e755263ae63d6cd5
 	 */
 	public function __construct($parent = null)
 	{

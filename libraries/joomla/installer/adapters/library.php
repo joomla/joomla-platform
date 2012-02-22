@@ -3,11 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.installer.librarymanifest');
 jimport('joomla.base.adapterinstance');
@@ -62,19 +62,24 @@ class JInstallerLibrary extends JAdapterInstance
 
 		// Manifest Document Setup Section
 
-		// Set the extensions name
+		// Set the extension's name
 		$name = JFilterInput::getInstance()->clean((string) $this->manifest->name, 'string');
 		$element = str_replace('.xml', '', basename($this->parent->getPath('manifest')));
 		$this->set('name', $name);
 		$this->set('element', $element);
 
 		$db = $this->parent->getDbo();
-		$db->setQuery('SELECT extension_id FROM #__extensions WHERE type="library" AND element = "' . $element . '"');
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('extension_id'));
+		$query->from($db->quoteName('#__extensions'));
+		$query->where($db->quoteName('type') . ' = ' . $db->quote('library'));
+		$query->where($db->quoteName('element') . ' = ' . $db->quote($element));
+		$db->setQuery($query);
 		$result = $db->loadResult();
 		if ($result)
 		{
 			// Already installed, can we upgrade?
-			if ($this->parent->getOverwrite() || $this->parent->getUpgrade())
+			if ($this->parent->isOverwrite() || $this->parent->isUpgrade())
 			{
 				// We can upgrade, so uninstall the old one
 				$installer = new JInstaller; // we don't want to compromise this instance!
@@ -88,7 +93,7 @@ class JInstallerLibrary extends JAdapterInstance
 			}
 		}
 
-		// Get the libraries description
+		// Get the library's description
 		$description = (string) $this->manifest->description;
 		if ($description)
 		{
@@ -108,12 +113,12 @@ class JInstallerLibrary extends JAdapterInstance
 		}
 		else
 		{
-			$this->parent->setPath('extension_root', JPATH_PLATFORM . '/' . implode(DS, explode('/', $group)));
+			$this->parent->setPath('extension_root', JPATH_PLATFORM . '/' . implode(DIRECTORY_SEPARATOR, explode('/', $group)));
 		}
 
 		// Filesystem Processing Section
 
-		// If the plugin directory does not exist, let's create it
+		// If the library directory does not exist, let's create it
 		$created = false;
 		if (!file_exists($this->parent->getPath('extension_root')))
 		{
@@ -126,9 +131,11 @@ class JInstallerLibrary extends JAdapterInstance
 			}
 		}
 
-		// If we created the plugin directory and will want to remove it if we
-		// have to roll back the installation, let's add it to the installation
-		// step stack
+		/*
+		 * If we created the library directory and will want to remove it if we
+		 * have to roll back the installation, let's add it to the installation
+		 * step stack
+		 */
 
 		if ($created)
 		{
@@ -152,13 +159,17 @@ class JInstallerLibrary extends JAdapterInstance
 		$row->name = $this->get('name');
 		$row->type = 'library';
 		$row->element = $this->get('element');
-		$row->folder = ''; // There is no folder for modules
+
+		// There is no folder for modules
+		$row->folder = '';
 		$row->enabled = 1;
 		$row->protected = 0;
 		$row->access = 1;
 		$row->client_id = 0;
 		$row->params = $this->parent->getParams();
-		$row->custom_data = ''; // custom data
+
+		// Custom data
+		$row->custom_data = '';
 		$row->manifest_cache = $this->parent->generateManifestCache();
 		if (!$row->store())
 		{
@@ -170,7 +181,7 @@ class JInstallerLibrary extends JAdapterInstance
 		// Finalization and Cleanup Section
 
 		// Lastly, we will copy the manifest file to its appropriate place.
-		$manifest = Array();
+		$manifest = array();
 		$manifest['src'] = $this->parent->getPath('manifest');
 		$manifest['dest'] = JPATH_MANIFESTS . '/libraries/' . basename($this->parent->getPath('manifest'));
 		if (!$this->parent->copyFiles(array($manifest), true))
@@ -203,9 +214,16 @@ class JInstallerLibrary extends JAdapterInstance
 		$element = str_replace('.xml', '', basename($this->parent->getPath('manifest')));
 		$this->set('name', $name);
 		$this->set('element', $element);
-		$installer = new JInstaller; // we don't want to compromise this instance!
+
+		// We don't want to compromise this instance!
+		$installer = new JInstaller;
 		$db = $this->parent->getDbo();
-		$db->setQuery('SELECT extension_id FROM #__extensions WHERE type="library" AND element = "' . $element . '"');
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('extension_id'));
+		$query->from($db->quoteName('#__extensions'));
+		$query->where($db->quoteName('type') . ' = ' . $db->quote('library'));
+		$query->where($db->quoteName('element') . ' = ' . $db->quote($element));
+		$db->setQuery($query);
 		$result = $db->loadResult();
 		if ($result)
 		{
@@ -253,7 +271,8 @@ class JInstallerLibrary extends JAdapterInstance
 		if (file_exists($manifestFile))
 		{
 			$manifest = new JLibraryManifest($manifestFile);
-			// Set the plugin root path
+
+			// Set the library root path
 			$this->parent->setPath('extension_root', JPATH_PLATFORM . '/' . $manifest->libraryname);
 
 			$xml = JFactory::getXML($manifestFile);
@@ -266,10 +285,8 @@ class JInstallerLibrary extends JAdapterInstance
 			}
 
 			// Check for a valid XML root tag.
-			// TODO: Remove backwards compatability in a future version
-			// Should be 'extension', but for backward compatability we will accept 'install'.
 
-			if ($xml->getName() != 'install' && $xml->getName() != 'extension')
+			if ($xml->getName() != 'extension')
 			{
 				JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_INVALID_MANIFEST'));
 				return false;
@@ -302,6 +319,7 @@ class JInstallerLibrary extends JAdapterInstance
 			}
 		}
 
+		$this->parent->removeFiles($xml->media);
 		$this->parent->removeFiles($xml->languages);
 
 		$row->delete($row->extension_id);
@@ -319,11 +337,11 @@ class JInstallerLibrary extends JAdapterInstance
 	 */
 	public function discover()
 	{
-		$results = Array();
+		$results = array();
 		$file_list = JFolder::files(JPATH_MANIFESTS . '/libraries', '\.xml$');
 		foreach ($file_list as $file)
 		{
-			$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_MANIFESTS . '/libraries/' . $file);
+			$manifest_details = JInstaller::parseXMLInstallFile(JPATH_MANIFESTS . '/libraries/' . $file);
 			$file = JFile::stripExt($file);
 			$extension = JTable::getInstance('extension');
 			$extension->set('type', 'library');
@@ -340,7 +358,7 @@ class JInstallerLibrary extends JAdapterInstance
 	/**
 	 * Custom discover_install method
 	 *
-	 * @return  void
+	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
 	 */
@@ -360,7 +378,7 @@ class JInstallerLibrary extends JAdapterInstance
 		$manifestPath = JPATH_MANIFESTS . '/libraries/' . $this->parent->extension->element . '.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
-		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->state = 0;
 		$this->parent->extension->name = $manifest_details['name'];
@@ -391,7 +409,7 @@ class JInstallerLibrary extends JAdapterInstance
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 
-		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->name = $manifest_details['name'];
 
@@ -399,7 +417,7 @@ class JInstallerLibrary extends JAdapterInstance
 		{
 			return $this->parent->extension->store();
 		}
-		catch (JException $e)
+		catch (RuntimeException $e)
 		{
 			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_LIB_REFRESH_MANIFEST_CACHE'));
 			return false;

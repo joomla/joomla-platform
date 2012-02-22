@@ -3,12 +3,12 @@
  * @package     Joomla.UnitTest
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM.'/joomla/log/loggers/database.php';
-require_once dirname(__FILE__).'/stubs/database/inspector.php';
+require_once __DIR__.'/stubs/database/inspector.php';
 
 /**
  * Test class for JLoggerDatabase.
@@ -22,7 +22,7 @@ class JLoggerDatabaseTest extends JoomlaDatabaseTestCase
 	 */
 	protected function getDataSet()
 	{
-		return $this->createXMLDataSet(dirname(__FILE__).'/stubs/database/S01.xml');
+		return $this->createXMLDataSet(__DIR__.'/stubs/database/S01.xml');
 	}
 
 	/**
@@ -54,7 +54,7 @@ class JLoggerDatabaseTest extends JoomlaDatabaseTestCase
 		$logger = new JLoggerDatabaseInspector($config);
 
 		// Get the expected database from XML.
-		$expected = $this->createXMLDataSet(dirname(__FILE__).'/stubs/database/S01E01.xml');
+		$expected = $this->createXMLDataSet(__DIR__.'/stubs/database/S01E01.xml');
 
 		// Add the new entries to the database.
 		$logger->addEntry(new JLogEntry('Testing Entry 02', JLog::INFO, null, '2009-12-01 12:30:00'));
@@ -91,7 +91,7 @@ class JLoggerDatabaseTest extends JoomlaDatabaseTestCase
 		$logger = new JLoggerDatabaseInspector($config);
 
 		// Get the expected database from XML.
-		$expected = $this->createXMLDataSet(dirname(__FILE__).'/stubs/database/S01E01.xml');
+		$expected = $this->createXMLDataSet(__DIR__.'/stubs/database/S01E01.xml');
 
 		// Add the new entries to the database.
 		$logger->addEntry(new JLogEntry('Testing Entry 02', JLog::INFO, null, '2009-12-01 12:30:00'));
@@ -129,7 +129,7 @@ class JLoggerDatabaseTest extends JoomlaDatabaseTestCase
 		$logger = new JLoggerDatabaseInspector($config);
 		$logger->connect();
 
-		$this->assertTrue($logger->dbo instanceof JDatabase, 'Line: '.__LINE__);
+		$this->assertTrue($logger->dbo instanceof JDatabaseDriver, 'Line: '.__LINE__);
 	}
 
 	/**

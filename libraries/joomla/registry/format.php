@@ -3,11 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Registry
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Abstract Format for JRegistry
@@ -19,36 +19,35 @@ defined('JPATH_PLATFORM') or die();
 abstract class JRegistryFormat
 {
 	/**
+	 * @var    array  JRegistryFormat instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
+
+	/**
 	 * Returns a reference to a Format object, only creating it
 	 * if it doesn't already exist.
 	 *
 	 * @param   string  $type  The format to load
 	 *
-	 * @return  object  Registry format handler
+	 * @return  JRegistryFormat  Registry format handler
 	 *
 	 * @since   11.1
 	 * @throws  JException
 	 */
 	public static function getInstance($type)
 	{
-		// Initialize static variable.
-		static $instances;
-		if (!isset($instances))
-		{
-			$instances = array();
-		}
-
 		// Sanitize format type.
 		$type = strtolower(preg_replace('/[^A-Z0-9_]/i', '', $type));
 
 		// Only instantiate the object if it doesn't already exist.
-		if (!isset($instances[$type]))
+		if (!isset(self::$instances[$type]))
 		{
 			// Only load the file the class does not exist.
 			$class = 'JRegistryFormat' . $type;
 			if (!class_exists($class))
 			{
-				$path = dirname(__FILE__) . '/format/' . $type . '.php';
+				$path = __DIR__ . '/format/' . $type . '.php';
 				if (is_file($path))
 				{
 					include_once $path;
@@ -59,9 +58,9 @@ abstract class JRegistryFormat
 				}
 			}
 
-			$instances[$type] = new $class;
+			self::$instances[$type] = new $class;
 		}
-		return $instances[$type];
+		return self::$instances[$type];
 	}
 
 	/**
@@ -86,5 +85,5 @@ abstract class JRegistryFormat
 	 *
 	 * @since   11.1
 	 */
-	abstract public function stringToObject($data, $options = null);
+	abstract public function stringToObject($data, array $options = array());
 }

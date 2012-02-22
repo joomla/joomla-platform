@@ -3,11 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Base
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Base object class.
@@ -26,6 +26,8 @@ class JObject
 	 *
 	 * @var    array
 	 * @since  11.1
+	 * @see     JError
+	 * @deprecated 12.3  JError has been deprecated
 	 */
 	protected $_errors = array();
 
@@ -34,8 +36,6 @@ class JObject
 	 *
 	 * @param   mixed  $properties  Either and associative array or another
 	 *                              object to set the initial properties of the object.
-	 *
-	 * @return  JObject
 	 *
 	 * @since   11.1
 	 */
@@ -53,6 +53,7 @@ class JObject
 	 * @return  string  The classname.
 	 *
 	 * @since   11.1
+	 * @deprecated 12.3  Classes should provide their own __toString() implementation.
 	 */
 	public function __toString()
 	{
@@ -133,6 +134,8 @@ class JObject
 	 * @return  string   Error message
 	 *
 	 * @since   11.1
+	 * @see     JError
+	 * @deprecated 12.3  JError has been deprecated
 	 */
 	public function getError($i = null, $toString = true)
 	{
@@ -142,7 +145,7 @@ class JObject
 			// Default, return the last message
 			$error = end($this->_errors);
 		}
-		else if (!array_key_exists($i, $this->_errors))
+		elseif (!array_key_exists($i, $this->_errors))
 		{
 			// If $i has been specified but does not exist, return false
 			return false;
@@ -153,7 +156,7 @@ class JObject
 		}
 
 		// Check if only the string is requested
-		if (JError::isError($error) && $toString)
+		if ($error instanceof Exception && $toString)
 		{
 			return (string) $error;
 		}
@@ -167,6 +170,8 @@ class JObject
 	 * @return  array  Array of error messages or JErrors.
 	 *
 	 * @since   11.1
+	 * @see     JError
+	 * @deprecated 12.3  JError has been deprecated
 	 */
 	public function getErrors()
 	{
@@ -207,7 +212,7 @@ class JObject
 		{
 			foreach ((array) $properties as $k => $v)
 			{
-				// Use the set function which might be overriden.
+				// Use the set function which might be overridden.
 				$this->set($k, $v);
 			}
 			return true;
@@ -224,26 +229,11 @@ class JObject
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @see     JError
+	 * @deprecated 12.3  JError has been deprecated
 	 */
 	public function setError($error)
 	{
 		array_push($this->_errors, $error);
-	}
-
-	/**
-	 * Converts the object to a string (the class name).
-	 *
-	 * @return  string
-	 *
-	 * @since   11.1
-	 * @deprecated  12.1    Use magic method __toString()
-	 * @see         __toString()
-	 */
-	function toString()
-	{
-		// Deprecation warning.
-		JLog::add('JObject::toString() is deprecated.', JLog::WARNING, 'deprecated');
-
-		return $this->__toString();
 	}
 }

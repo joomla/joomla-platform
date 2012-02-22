@@ -3,13 +3,12 @@
  * @package     Joomla.Platform
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.log.log');
 jimport('joomla.log.logger');
 jimport('joomla.filesystem.folder');
 
@@ -69,8 +68,6 @@ class JLoggerFormattedText extends JLogger
 	 *
 	 * @param   array  &$options  Log object options.
 	 *
-	 * @return  void
-	 *
 	 * @since   11.1
 	 */
 	public function __construct(array &$options)
@@ -111,8 +108,6 @@ class JLoggerFormattedText extends JLogger
 
 	/**
 	 * Destructor.
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -194,7 +189,7 @@ class JLoggerFormattedText extends JLogger
 	/**
 	 * Method to generate the log file header.
 	 *
-	 * @return  void
+	 * @return  string  The log file header
 	 *
 	 * @since   11.1
 	 */
@@ -208,6 +203,8 @@ class JLoggerFormattedText extends JLogger
 		// If the no php flag is not set add the php die statement.
 		if (empty($this->options['text_file_no_php']))
 		{
+			// Blank line to prevent information disclose: https://bugs.php.net/bug.php?id=60677
+			$head[] = '#';
 			$head[] = '#<?php die(\'Forbidden.\'); ?>';
 		}
 		$head[] = '#Date: ' . gmdate('Y-m-d H:i:s') . ' UTC';

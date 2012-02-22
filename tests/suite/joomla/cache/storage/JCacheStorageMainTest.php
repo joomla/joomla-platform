@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -21,7 +21,7 @@ class JCacheStorageTest_Main extends PHPUnit_Framework_TestCase
 {
 	public function setUp()
 	{
-		require_once dirname(dirname(__FILE__)).'/controller/JCacheControllerRaw.php';
+		require_once dirname(__DIR__).'/controller/JCacheControllerRaw.php';
 	}
 
 	public static function provider()
@@ -30,7 +30,7 @@ class JCacheStorageTest_Main extends PHPUnit_Framework_TestCase
 
 		if (empty($ret)) {
 			$names = JCache::getStores();
-			foreach ($names AS $name) {
+			foreach ($names as $name) {
 				$ret[] = array($name);
 			}
 		}

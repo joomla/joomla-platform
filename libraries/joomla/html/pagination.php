@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -20,19 +20,19 @@ defined('JPATH_PLATFORM') or die;
 class JPagination extends JObject
 {
 	/**
-	 * @var    integer  The record number to start dislpaying from.
+	 * @var    integer  The record number to start displaying from.
 	 * @since  11.1
 	 */
 	public $limitstart = null;
 
 	/**
-	 * @var integer  Number of rows to display per page.
+	 * @var    integer  Number of rows to display per page.
 	 * @since  11.1
 	 */
 	public $limit = null;
 
 	/**
-	 * @var integer  Total number of rows.
+	 * @var    integer  Total number of rows.
 	 * @since  11.1
 	 */
 	public $total = null;
@@ -66,11 +66,9 @@ class JPagination extends JObject
 	 * @param   integer  $limit       The number of items to display per page.
 	 * @param   string   $prefix      The prefix used for request variables.
 	 *
-	 * @return  void
-	 *
 	 * @since   11.1
 	 */
-	function __construct($total, $limitstart, $limit, $prefix = '')
+	public function __construct($total, $limitstart, $limit, $prefix = '')
 	{
 		// Value/type checking.
 		$this->total = (int) $total;
@@ -335,7 +333,8 @@ class JPagination extends JObject
 			$list['previous']['data'] = ($itemOverride) ? pagination_item_inactive($data->previous) : $this->_item_inactive($data->previous);
 		}
 
-		$list['pages'] = array(); //make sure it exists
+		// Make sure it exists
+		$list['pages'] = array();
 		foreach ($data->pages as $i => $page)
 		{
 			if ($page->base !== null)
@@ -443,26 +442,26 @@ class JPagination extends JObject
 		if ($app->isAdmin())
 		{
 			$html = JHtml::_(
-						'select.genericlist',
-						$limits,
-						$this->prefix . 'limit',
-						'class="inputbox" size="1" onchange="Joomla.submitform();"',
-						'value',
-						'text',
-						$selected
-					);
+				'select.genericlist',
+				$limits,
+				$this->prefix . 'limit',
+				'class="inputbox" size="1" onchange="Joomla.submitform();"',
+				'value',
+				'text',
+				$selected
+			);
 		}
 		else
 		{
 			$html = JHtml::_(
-						'select.genericlist',
-						$limits,
-						$this->prefix . 'limit',
-						'class="inputbox" size="1" onchange="this.form.submit()"',
-						'value',
-						'text',
-						$selected
-					);
+				'select.genericlist',
+				$limits,
+				$this->prefix . 'limit',
+				'class="inputbox" size="1" onchange="this.form.submit()"',
+				'value',
+				'text',
+				$selected
+			);
 		}
 		return $html;
 	}
@@ -660,7 +659,7 @@ class JPagination extends JObject
 			$page = ($this->get('pages.current') - 2) * $this->limit;
 
 			// Set the empty for removal from route
-			//$page = $page == 0 ? '' : $page;
+			// @todo remove code: $page = $page == 0 ? '' : $page;
 
 			$data->start->base = '0';
 			$data->start->link = JRoute::_($params . '&' . $this->prefix . 'limitstart=0');
@@ -688,8 +687,9 @@ class JPagination extends JObject
 		for ($i = $this->get('pages.start'); $i <= $stop; $i++)
 		{
 			$offset = ($i - 1) * $this->limit;
+
 			// Set the empty for removal from route
-			//$offset = $offset == 0 ? '' : $offset;
+			// @todo remove code: $offset = $offset == 0 ? '' : $offset;
 
 			$data->pages[$i] = new JPaginationObject($i, $this->prefix);
 			if ($i != $this->get('pages.current') || $this->_viewall)
@@ -742,8 +742,6 @@ class JPaginationObject extends JObject
 	 * @param   integer  $prefix  The prefix used for request variables.
 	 * @param   integer  $base    The number of rows as a base offset.
 	 * @param   string   $link    The link URL.
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */

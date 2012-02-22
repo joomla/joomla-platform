@@ -3,14 +3,14 @@
  * @package     Joomla.Platform
  * @subpackage  Utilities
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * JSimpleCrypt is a very simple encryption algorithm for encyrpting/decrypting strings
+ * JSimpleCrypt is a very simple encryption algorithm for encrypting/decrypting strings
  *
  * @package     Joomla.Platform
  * @subpackage  Utilities
@@ -30,8 +30,6 @@ class JSimpleCrypt extends JObject
 	 * secret word from the configuration object is used.
 	 *
 	 * @param   string  $key  Optional encryption key
-	 *
-	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -101,8 +99,12 @@ class JSimpleCrypt extends JObject
 	{
 		(int) $j = $i * 2;
 		(string) $s1 = $s;
-		(string) $c = substr($s1, $j, 1); // get the char at position $j, length 1
-		(string) $c1 = substr($s1, $j + 1, 1); // get the char at postion $j + 1, length 1
+
+		// Get the char at position $j, length 1
+		(string) $c = substr($s1, $j, 1);
+
+		// Get the char at postion $j + 1, length 1
+		(string) $c1 = substr($s1, $j + 1, 1);
 		(int) $k = 0;
 
 		switch ($c)

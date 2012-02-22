@@ -3,13 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
-
-jimport('joomla.event.event');
+defined('JPATH_PLATFORM') or die;
 
 /**
  * JPlugin Class
@@ -23,7 +21,7 @@ abstract class JPlugin extends JEvent
 	/**
 	 * A JRegistry object holding the parameters for the plugin
 	 *
-	 * @var    A JRegistry object
+	 * @var    JRegistry
 	 * @since  11.1
 	 */
 	public $params = null;
@@ -32,6 +30,7 @@ abstract class JPlugin extends JEvent
 	 * The name of the plugin
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	protected $_name = null;
 
@@ -39,6 +38,7 @@ abstract class JPlugin extends JEvent
 	 * The plugin type
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	protected $_type = null;
 
@@ -49,8 +49,6 @@ abstract class JPlugin extends JEvent
 	 * @param   array   $config    An optional associative array of configuration settings.
 	 *                             Recognized key values include 'name', 'group', 'params', 'language'
 	 *                             (this list is not meant to be comprehensive).
-	 *
-	 * @return  JPlugin
 	 *
 	 * @since   11.1
 	 */
@@ -106,7 +104,6 @@ abstract class JPlugin extends JEvent
 		return $lang->load(strtolower($extension), $basePath, null, false, false)
 			|| $lang->load(strtolower($extension), JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name, null, false, false)
 			|| $lang->load(strtolower($extension), $basePath, $lang->getDefault(), false, false)
-			|| $lang->load(strtolower($extension), JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name, $lang->getDefault(), false, false
-		);
+			|| $lang->load(strtolower($extension), JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name, $lang->getDefault(), false, false);
 	}
 }

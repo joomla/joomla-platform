@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -61,18 +61,24 @@ abstract class JHtmlJGrid
 		}
 		if ($enabled)
 		{
-			return '<a class="jgrid' . ($tip ? ' hasTip' : '') . '" href="javascript:void(0);" onclick="return listItemTask(\'' . $checkbox . $i
-				. '\',\'' . $prefix . $task . '\')" title="'
-				. addslashes(htmlspecialchars($translate ? JText::_($active_title) : $active_title, ENT_COMPAT, 'UTF-8')) . '"><span class="state '
-				. $active_class . '"><span class="text">' . ($translate ? JText::_($text) : $text) . '</span></span></a>';
+			$html[] = '<a class="jgrid' . ($tip ? ' hasTip' : '') . '"';
+			$html[] = ' href="javascript:void(0);" onclick="return listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
+			$html[] = ' title="' . addslashes(htmlspecialchars($translate ? JText::_($active_title) : $active_title, ENT_COMPAT, 'UTF-8')) . '">';
+			$html[] = '<span class="state ' . $active_class . '">';
+			$html[] = $text ? ('<span class="text">' . ($translate ? JText::_($text):$text) . '</span>') : '';
+			$html[] = '</span>';
+			$html[] = '</a>';
 		}
 		else
 		{
-			return '<span class="jgrid' . ($tip ? ' hasTip' : '') . '" title="'
-				. addslashes(htmlspecialchars($translate ? JText::_($inactive_title) : $inactive_title, ENT_COMPAT, 'UTF-8'))
-				. '"><span class="state ' . $inactive_class . '"><span class="text">' . ($translate ? JText::_($text) : $text)
-				. '</span></span></span>';
+			$html[] = '<a class="jgrid' . ($tip ? ' hasTip' : '') . '"';
+			$html[] = ' title="' . addslashes(htmlspecialchars($translate ? JText::_($inactive_title) : $inactive_title, ENT_COMPAT, 'UTF-8')) . '">';
+			$html[] = '<span class="state ' . $inactive_class . '">';
+			$html[] = $text ? ('<span class="text">' . ($translate ? JText::_($text) : $text) . '</span>') :'';
+			$html[] = '</span>';
+			$html[] = '</a>';
 		}
+		return implode($html);
 	}
 
 	/**
@@ -147,7 +153,7 @@ abstract class JHtmlJGrid
 		$states = array(1 => array('unpublish', 'JPUBLISHED', 'JLIB_HTML_UNPUBLISH_ITEM', 'JPUBLISHED', false, 'publish', 'publish'),
 			0 => array('publish', 'JUNPUBLISHED', 'JLIB_HTML_PUBLISH_ITEM', 'JUNPUBLISHED', false, 'unpublish', 'unpublish'),
 			2 => array('unpublish', 'JARCHIVED', 'JLIB_HTML_UNPUBLISH_ITEM', 'JARCHIVED', false, 'archive', 'archive'),
-			-2 => array('publish', 'JTRASHED', 'JLIB_HTML_PUBLISH_ITEM', 'JTRASHED', false, 'trash', 'trash'),);
+			-2 => array('publish', 'JTRASHED', 'JLIB_HTML_PUBLISH_ITEM', 'JTRASHED', false, 'trash', 'trash'));
 
 		// Special state for dates
 		if ($publish_up || $publish_down)
@@ -179,12 +185,12 @@ abstract class JHtmlJGrid
 				if ($key == 1)
 				{
 					$states[$key][2] = $states[$key][3] = 'JLIB_HTML_PUBLISHED_ITEM';
-					if ($publish_up && $nowDate < $publish_up->toUnix())
+					if ($publish_up > $nullDate && $nowDate < $publish_up->toUnix())
 					{
 						$states[$key][2] = $states[$key][3] = 'JLIB_HTML_PUBLISHED_PENDING_ITEM';
 						$states[$key][5] = $states[$key][6] = 'pending';
 					}
-					if ($publish_down && $nowDate > $publish_down->toUnix())
+					if ($publish_down > $nullDate && $nowDate > $publish_down->toUnix())
 					{
 						$states[$key][2] = $states[$key][3] = 'JLIB_HTML_PUBLISHED_EXPIRED_ITEM';
 						$states[$key][5] = $states[$key][6] = 'expired';
@@ -215,7 +221,7 @@ abstract class JHtmlJGrid
 	 * @param   boolean       $enabled   An optional setting for access control on the action.
 	 * @param   string        $checkbox  An optional prefix for checkboxes.
 	 *
-	 * @return  The Html code
+	 * @return  string  The HTML code
 	 *
 	 * @see     JHtmlJGrid::state
 	 * @since   11.1

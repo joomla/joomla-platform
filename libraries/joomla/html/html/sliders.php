@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -78,7 +78,11 @@ abstract class JHtmlSliders
 		static $loaded = array();
 		if (!array_key_exists($group, $loaded))
 		{
+			// Get the JInput object
+			$input = JFactory::getApplication()->input;
+
 			$loaded[$group] = true;
+
 			// Include mootools framework.
 			JHtml::_('behavior.framework', true);
 
@@ -89,17 +93,17 @@ abstract class JHtmlSliders
 			$show = (isset($params['startOffset']) && !(isset($params['startTransition']) && $params['startTransition']))
 				? (int) $params['startOffset'] : null;
 			$options = '{';
-			$opt['onActive'] = "function(toggler, i) {toggler.addClass('pane-toggler-down');' .
-				'toggler.removeClass('pane-toggler');i.addClass('pane-down');i.removeClass('pane-hide');Cookie.write('jpanesliders_"
+			$opt['onActive'] = "function(toggler, i) {toggler.addClass('pane-toggler-down');" .
+				"toggler.removeClass('pane-toggler');i.addClass('pane-down');i.removeClass('pane-hide');Cookie.write('jpanesliders_"
 				. $group . "',$$('div#" . $group . ".pane-sliders > .panel > h3').indexOf(toggler));}";
-			$opt['onBackground'] = "function(toggler, i) {toggler.addClass('pane-toggler');' .
-				'toggler.removeClass('pane-toggler-down');i.addClass('pane-hide');i.removeClass('pane-down');if($$('div#"
+			$opt['onBackground'] = "function(toggler, i) {toggler.addClass('pane-toggler');" .
+				"toggler.removeClass('pane-toggler-down');i.addClass('pane-hide');i.removeClass('pane-down');if($$('div#"
 				. $group . ".pane-sliders > .panel > h3').length==$$('div#" . $group
 				. ".pane-sliders > .panel > h3.pane-toggler').length) Cookie.write('jpanesliders_" . $group . "',-1);}";
 			$opt['duration'] = (isset($params['duration'])) ? (int) $params['duration'] : 300;
-			$opt['display'] = (isset($params['useCookie']) && $params['useCookie']) ? JRequest::getInt('jpanesliders_' . $group, $display, 'cookie')
+			$opt['display'] = (isset($params['useCookie']) && $params['useCookie']) ? $input->cookie->get('jpanesliders_' . $group, $display, 'integer')
 				: $display;
-			$opt['show'] = (isset($params['useCookie']) && $params['useCookie']) ? JRequest::getInt('jpanesliders_' . $group, $show, 'cookie') : $show;
+			$opt['show'] = (isset($params['useCookie']) && $params['useCookie']) ? $input->cookie->get('jpanesliders_' . $group, $show, 'integer') : $show;
 			$opt['opacity'] = (isset($params['opacityTransition']) && ($params['opacityTransition'])) ? 'true' : 'false';
 			$opt['alwaysHide'] = (isset($params['allowAllClose']) && (!$params['allowAllClose'])) ? 'false' : 'true';
 			foreach ($opt as $k => $v)

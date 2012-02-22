@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,17 +14,24 @@ require_once JPATH_PLATFORM.'/joomla/html/html/list.php';
  *
  * @since  11.1
  */
-class JHtmlListTest extends PHPUnit_Framework_TestCase
+class JHtmlListTest extends JoomlaDatabaseTestCase
 {
 	/**
-	 * @todo Implement testAccesslevel().
+	 * @var    JHtmlList
+	 * @since  11.3
 	 */
-	public function testAccesslevel()
+	protected $object;
+
+	/**
+	 * Gets the data set to be loaded into the database during setup
+	 *
+	 * @return  xml dataset
+	 *
+	 * @since   11.3
+	 */
+	protected function getDataSet()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
+		return $this->createXMLDataSet(__DIR__.'/testfiles/JHtmlTest.xml');
 	}
 
 	/**
@@ -50,17 +57,6 @@ class JHtmlListTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testSpecificordering().
-	 */
-	public function testSpecificordering()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
-	}
-
-	/**
 	 * @todo Implement testOrdering().
 	 */
 	public function testOrdering()
@@ -72,35 +68,39 @@ class JHtmlListTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testUsers().
+	 * Tests the JHtmlList::users method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
 	 */
 	public function testUsers()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+		$this->assertThat(
+			JHtmlList::users('user-list', '43', '1'),
+			$this->StringContains('<option value="43" selected="selected">Publisher</option>')
+		);
+
+		$this->assertThat(
+			JHtmlList::users('user-list', '42'),
+			$this->StringContains('<option value="43">Publisher</option>')
 		);
 	}
 
 	/**
-	 * @todo Implement testPositions().
+	 * Tests the JHtmlList::positions method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
 	 */
 	public function testPositions()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+		//TODO: Replace JGLOBAL_LEFT with translated string
+		$this->assertThat(
+			JHtmlList::positions('position-list', 'center', null, '1', '1', '1', '1', 'positions'),
+			$this->StringContains('<option value="left">JGLOBAL_LEFT</option>')
 		);
-	}
 
-	/**
-	 * @todo Implement testCategory().
-	 */
-	public function testCategory()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
 	}
 }

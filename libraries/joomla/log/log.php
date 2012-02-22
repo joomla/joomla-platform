@@ -3,18 +3,17 @@
  * @package     Joomla.Platform
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.log.logentry');
 jimport('joomla.log.logger');
 
 JLoader::register('LogException', JPATH_PLATFORM . '/joomla/log/logexception.php');
 
-JLoader::discover('JLogger', dirname(__FILE__) . '/loggers');
+JLoader::discover('JLogger', __DIR__ . '/loggers');
 
 // @deprecated  12.1
 jimport('joomla.filesystem.path');
@@ -137,8 +136,6 @@ class JLog
 	/**
 	 * Constructor.
 	 *
-	 * @return  JLog
-	 *
 	 * @since   11.1
 	 */
 	protected function __construct()
@@ -157,7 +154,7 @@ class JLog
 	 *
 	 * @since   11.1
 	 */
-	public static function add($entry, $priority = JLog::INFO, $category = '', $date = null)
+	public static function add($entry, $priority = self::INFO, $category = '', $date = null)
 	{
 		// Automatically instantiate the singleton object if not already done.
 		if (empty(self::$instance))
@@ -186,7 +183,7 @@ class JLog
 	 *
 	 * @since   11.1
 	 */
-	public static function addLogger(array $options, $priorities = JLog::ALL, $categories = array())
+	public static function addLogger(array $options, $priorities = self::ALL, $categories = array())
 	{
 		// Automatically instantiate the singleton object if not already done.
 		if (empty(self::$instance))
@@ -233,8 +230,7 @@ class JLog
 	 */
 	public static function getInstance($file = 'error.php', $options = null, $path = null)
 	{
-		// Deprecation warning.
-		JLog::add('JLog::getInstance() is deprecated.  See JLog::addLogger().', JLog::WARNING, 'deprecated');
+		self::add('JLog::getInstance() is deprecated.  See JLog::addLogger().', self::WARNING, 'deprecated');
 
 		// Get the system configuration object.
 		$config = JFactory::getConfig();
@@ -269,7 +265,7 @@ class JLog
 			self::$legacy[$signature]->configurations[$signature] = $options;
 
 			// Setup the lookup to catch all.
-			self::$legacy[$signature]->lookup[$signature] = (object) array('priorities' => JLog::ALL, 'categories' => array());
+			self::$legacy[$signature]->lookup[$signature] = (object) array('priorities' => self::ALL, 'categories' => array());
 		}
 
 		return self::$legacy[$signature];
@@ -277,7 +273,7 @@ class JLog
 
 	/**
 	 * Returns a reference to the a JLog object, only creating it if it doesn't already exist.
-	 * Note: This is principly made available for testing and internal purposes.
+	 * Note: This is principally made available for testing and internal purposes.
 	 *
 	 * @param   JLog  $instance  The logging object instance to be used by the static methods.
 	 *
@@ -307,7 +303,7 @@ class JLog
 	public function addEntry($entry)
 	{
 		// Deprecation warning.
-		JLog::add('JLog::addEntry() is deprecated, use JLog::add() instead.', JLog::WARNING, 'deprecated');
+		self::add('JLog::addEntry() is deprecated, use JLog::add() instead.', self::WARNING, 'deprecated');
 
 		// Easiest case is we already have a JLogEntry object to add.
 		if ($entry instanceof JLogEntry)
@@ -382,7 +378,7 @@ class JLog
 			}
 
 			// Add the entry to the logger.
-			$this->loggers[$signature]->addEntry($entry);
+			$this->loggers[$signature]->addEntry(clone($entry));
 		}
 	}
 

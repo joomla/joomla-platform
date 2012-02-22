@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,7 +30,7 @@ abstract class JHtmlGrid
 	 *
 	 * @since    11.1
 	 */
-	static function boolean($i, $value, $taskOn = null, $taskOff = null)
+	public static function boolean($i, $value, $taskOn = null, $taskOff = null)
 	{
 		// Load the behavior.
 		self::behavior();
@@ -51,7 +51,7 @@ abstract class JHtmlGrid
 		}
 		else
 		{
-			$html = '<a class="grid_' . $bool . '" rel="{id:\'cb' . $i . '\', task:\'' . $task . '\'}"></a>';
+			$html = '<a class="grid_' . $bool . '"></a>';
 		}
 
 		return $html;
@@ -86,7 +86,7 @@ abstract class JHtmlGrid
 			$direction = ($direction == 'desc') ? 'asc' : 'desc';
 		}
 
-		$html = '<a href="javascript:tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\');" title="'
+		$html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\');" title="'
 			. JText::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN') . '">';
 		$html .= JText::_($title);
 
@@ -119,57 +119,8 @@ abstract class JHtmlGrid
 		else
 		{
 			return '<input type="checkbox" id="cb' . $rowNum . '" name="' . $name . '[]" value="' . $recId
-				. '" onclick="isChecked(this.checked);" title="' . JText::sprintf('JGRID_CHECKBOX_ROW_N', ($rowNum + 1)) . '" />';
+				. '" onclick="Joomla.isChecked(this.checked);" title="' . JText::sprintf('JGRID_CHECKBOX_ROW_N', ($rowNum + 1)) . '" />';
 		}
-	}
-
-	/**
-	 * Deprecated method to change access level in a grid
-	 *
-	 * @param   integer  &$row      Row id
-	 * @param   integer  $i         Row index
-	 * @param   boolean  $archived  True if the item is archived
-	 *
-	 * @return  string
-	 *
-	 * @deprecated  12.1
-	 * @note    This method is incompatible with JAccess
-	 * @since   11.1
-	 */
-	public static function access(&$row, $i, $archived = null)
-	{
-		// Deprecation warning.
-		JLog::add('JGrid::access is deprecated.', JLog::WARNING, 'deprecated');
-
-		// TODO: This needs to be reworked to suit the new access levels
-		if ($row->access <= 1)
-		{
-			$color_access = 'class="allow"';
-			$task_access = 'accessregistered';
-		}
-		else if ($row->access == 1)
-		{
-			$color_access = 'class="deny"';
-			$task_access = 'accessspecial';
-		}
-		else
-		{
-			$color_access = 'class="none"';
-			$task_access = 'accesspublic';
-		}
-
-		if ($archived == -1)
-		{
-			$href = JText::_($row->groupname);
-		}
-		else
-		{
-			$href = '
-			<a href="javascript:void(0);" onclick="return listItemTask(\'cb' . $i . '\',\'' . $task_access . '\')" ' . $color_access . '>
-			' . JText::_($row->groupname) . '</a>';
-		}
-
-		return $href;
 	}
 
 	/**
@@ -201,7 +152,7 @@ abstract class JHtmlGrid
 		$checked = '';
 		if ($result)
 		{
-			$checked = JHtmlGrid::_checkedOut($row);
+			$checked = self::_checkedOut($row);
 		}
 		else
 		{
@@ -251,7 +202,7 @@ abstract class JHtmlGrid
 	}
 	/**
 	 * Method to create a select list of states for filtering
-	 * By default the filter shows only published and unpublishe items
+	 * By default the filter shows only published and unpublished items
 	 *
 	 * @param   string  $filter_state  The initial filter state
 	 * @param   string  $published     The JText string for published
@@ -314,11 +265,11 @@ abstract class JHtmlGrid
 	 * @param   object   &$row     The row object
 	 * @param   boolean  $overlib  True if an overlib with checkout information should be created.
 	 *
-	 * @return  string   HTMl for the icon and ovelib
+	 * @return  string   HTMl for the icon and overlib
 	 *
 	 * @since   11.1
 	 */
-	protected static function _checkedOut(&$row, $overlib = 1)
+	protected static function _checkedOut(&$row, $overlib = true)
 	{
 		$hover = '';
 
@@ -344,7 +295,7 @@ abstract class JHtmlGrid
 	 *
 	 * @since   11.1
 	 */
-	static function behavior()
+	public static function behavior()
 	{
 		static $loaded;
 

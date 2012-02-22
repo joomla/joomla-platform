@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -20,10 +20,8 @@ class JFormFieldCalendarTest extends JoomlaTestCase
 	 */
 	protected function setUp()
 	{
-		jimport('joomla.form.form');
-		jimport('joomla.form.formfield');
 		require_once JPATH_PLATFORM.'/joomla/form/fields/calendar.php';
-		include_once dirname(dirname(__FILE__)).'/inspectors.php';
+		include_once dirname(__DIR__).'/inspectors.php';
 		$this->saveFactoryState();
 	}
 
@@ -278,7 +276,7 @@ class JFormFieldCalendarTest extends JoomlaTestCase
 		JFactory::$session = $sessionMock;	// put the stub in place
 
 		// include our inspector which will allow us to manipulate and call protected methods and attributes
-		require_once dirname(__FILE__).'/inspectors/JFormFieldCalendar.php';
+		require_once __DIR__.'/inspectors/JFormFieldCalendar.php';
 		$calendar = new JFormFieldCalendarInspector;
 
 		if ($expectedParameters[0] == 'strftime(\'%Y-%m-%d\')') {
@@ -331,7 +329,7 @@ class JFormFieldCalendarTest extends JoomlaTestCase
 		JFactory::$language = $languageMock;	// put the stub in place
 
 		// include our inspector which will allow us to manipulate and call protected methods and attributes
-		require_once dirname(__FILE__).'/inspectors/JFormFieldCalendar.php';
+		require_once __DIR__.'/inspectors/JFormFieldCalendar.php';
 		$calendar = new JFormFieldCalendarInspector;
 
 		// setup our values from our data set
@@ -401,7 +399,7 @@ class JFormFieldCalendarTest extends JoomlaTestCase
 		JFactory::$language = $languageMock;	// put the stub in place
 
 		// include our inspector which will allow us to manipulate and call protected methods and attributes
-		require_once dirname(__FILE__).'/inspectors/JFormFieldCalendar.php';
+		require_once __DIR__.'/inspectors/JFormFieldCalendar.php';
 		$calendar = new JFormFieldCalendarInspector;
 
 		// setup our values from our data set

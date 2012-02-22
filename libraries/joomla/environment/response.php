@@ -3,11 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Environment
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * JResponse Class.
@@ -136,7 +136,7 @@ class JResponse
 				}
 				else
 				{
-					header($header['name'] . ': ' . $header['value']);
+					header($header['name'] . ': ' . $header['value'], false);
 				}
 			}
 		}
@@ -233,6 +233,7 @@ class JResponse
 		if (self::allowCache() === false)
 		{
 			self::setHeader('Cache-Control', 'no-cache', false);
+
 			// HTTP 1.0
 			self::setHeader('Pragma', 'no-cache');
 		}

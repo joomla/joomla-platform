@@ -3,15 +3,14 @@
  * @package     Joomla.Platform
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
-jimport('joomla.filesystem.archive');
 jimport('joomla.filesystem.path');
 
 /**
@@ -43,7 +42,6 @@ abstract class JInstallerHelper
 		ini_set('track_errors', true);
 
 		// Set user agent
-		jimport('joomla.version');
 		$version = new JVersion;
 		ini_set('user_agent', $version->getUserAgent('Installer'));
 
@@ -98,7 +96,7 @@ abstract class JInstallerHelper
 		// Restore error tracking to what it was before
 		ini_set('track_errors', $track_errors);
 
-		// bump the max execution time because not using built in php zip libs are slow
+		// Bump the max execution time because not using built in php zip libs are slow
 		@set_time_limit(ini_get('max_execution_time'));
 
 		// Return the name of the downloaded package
@@ -213,12 +211,14 @@ abstract class JInstallerHelper
 			}
 
 			$type = (string) $xml->attributes()->type;
+
 			// Free up memory
 			unset($xml);
 			return $type;
 		}
 
 		JError::raiseWarning(1, JText::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'));
+
 		// Free up memory.
 		unset($xml);
 		return false;

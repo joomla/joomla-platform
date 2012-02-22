@@ -1,10 +1,8 @@
 <?php
 /**
- * @copyright  Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
  * @license    GNU General Public License
  */
-
-require_once JPATH_PLATFORM.'/joomla/database/database/mysqlexporter.php';
 
 /**
  * Class to expose protected properties and methods in JDatabaseMySqlExporter for testing purposes.
@@ -12,7 +10,7 @@ require_once JPATH_PLATFORM.'/joomla/database/database/mysqlexporter.php';
  * @package    Joomla.UnitTest
  * @subpackage Database
  */
-class JDatabaseExporterMySqlInspector extends JDatabaseExporterMySql
+class JDatabaseExporterMySqlInspector extends JDatabaseExporterMysql
 {
 	/**
 	 * Gets any property from the class.

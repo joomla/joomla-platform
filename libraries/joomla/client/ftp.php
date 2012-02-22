@@ -3,11 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Client
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /** Error Codes:
  * - 30 : Unable to connect to host
@@ -60,57 +60,57 @@ if (!defined('FTP_NATIVE'))
  *
  * @package     Joomla.Platform
  * @subpackage  Client
- * @since       11.1
+ * @since       12.1
  */
-class JFTP extends JObject
+class JClientFtp
 {
 	/**
 	 * @var    resource  Socket resource
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	var $_conn = null;
+	private $_conn = null;
 
 	/**
 	 * @var    resource  Data port connection resource
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	var $_dataconn = null;
+	private $_dataconn = null;
 
 	/**
 	 * @var    array  Passive connection information
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	var $_pasv = null;
+	private $_pasv = null;
 
 	/**
 	 * @var    string  Response Message
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	var $_response = null;
+	private $_response = null;
 
 	/**
 	 * @var    integer  Timeout limit
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	var $_timeout = 15;
+	private $_timeout = 15;
 
 	/**
 	 * @var    integer  Transfer Type
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	var $_type = null;
+	private $_type = null;
 
 	/**
 	 * @var    string  Native OS Type
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	var $_OS = null;
+	private $_OS = null;
 
 	/**
 	 * @var    array  Array to hold ascii format file extensions
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	var $_autoAscii = array(
+	private $_autoAscii = array(
 		"asp",
 		"bat",
 		"c",
@@ -137,22 +137,25 @@ class JFTP extends JObject
 	 * Array to hold native line ending characters
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	var $_lineEndings = array('UNIX' => "\n", 'MAC' => "\r", 'WIN' => "\r\n");
+	private $_lineEndings = array('UNIX' => "\n", 'MAC' => "\r", 'WIN' => "\r\n");
 
 	/**
-	 * JFTP object constructor
+	 * @var    array  JClientFtp instances container.
+	 * @since  12.1
+	 */
+	protected static $instances = array();
+
+	/**
+	 * JClientFtp object constructor
 	 *
 	 * @param   array  $options  Associative array of options to set
 	 *
-	 * @return  void
-	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	function __construct($options = array())
+	public function __construct(array $options = array())
 	{
-
 		// If default transfer type is not set, set it to autoascii detect
 		if (!isset($options['type']))
 		{
@@ -177,21 +180,20 @@ class JFTP extends JObject
 		{
 			// Import the generic buffer stream handler
 			jimport('joomla.utilities.buffer');
+
 			// Autoloading fails for JBuffer as the class is used as a stream handler
 			JLoader::load('JBuffer');
 		}
 	}
 
 	/**
-	 * JFTP object destructor
+	 * JClientFtp object destructor
 	 *
 	 * Closes an existing connection, if we have one
 	 *
-	 * @return  void
-	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	function __destruct()
+	public function __destruct()
 	{
 		if (is_resource($this->_conn))
 		{
@@ -214,37 +216,35 @@ class JFTP extends JObject
 	 * @param   string  $user     Username to use for a connection
 	 * @param   string  $pass     Password to use for a connection
 	 *
-	 * @return  JFTP    The FTP Client object.
+	 * @return  JClientFtp        The FTP Client object.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	function getInstance($host = '127.0.0.1', $port = '21', $options = null, $user = null, $pass = null)
+	public static function getInstance($host = '127.0.0.1', $port = '21', array $options = null, $user = null, $pass = null)
 	{
-		static $instances = array();
-
 		$signature = $user . ':' . $pass . '@' . $host . ":" . $port;
 
 		// Create a new instance, or set the options of an existing one
-		if (!isset($instances[$signature]) || !is_object($instances[$signature]))
+		if (!isset(self::$instances[$signature]) || !is_object(self::$instances[$signature]))
 		{
-			$instances[$signature] = new JFTP($options);
+			self::$instances[$signature] = new static($options);
 		}
 		else
 		{
-			$instances[$signature]->setOptions($options);
+			self::$instances[$signature]->setOptions($options);
 		}
 
 		// Connect to the server, and login, if requested
-		if (!$instances[$signature]->isConnected())
+		if (!self::$instances[$signature]->isConnected())
 		{
-			$return = $instances[$signature]->connect($host, $port);
+			$return = self::$instances[$signature]->connect($host, $port);
 			if ($return && $user !== null && $pass !== null)
 			{
-				$instances[$signature]->login($user, $pass);
+				self::$instances[$signature]->login($user, $pass);
 			}
 		}
 
-		return $instances[$signature];
+		return self::$instances[$signature];
 	}
 
 	/**
@@ -254,11 +254,10 @@ class JFTP extends JObject
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	function setOptions($options)
+	public function setOptions(array $options)
 	{
-
 		if (isset($options['type']))
 		{
 			$this->_type = $options['type'];
@@ -278,11 +277,10 @@ class JFTP extends JObject
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	function connect($host = '127.0.0.1', $port = 21)
+	public function connect($host = '127.0.0.1', $port = 21)
 	{
-
 		// Initialise variables.
 		$errno = null;
 		$err = null;
@@ -316,7 +314,7 @@ class JFTP extends JObject
 		}
 
 		// Set the timeout for this connection
-		socket_set_timeout($this->_conn, $this->_timeout);
+		socket_set_timeout($this->_conn, $this->_timeout, 0);
 
 		// Check for welcome response code
 		if (!$this->_verifyResponse(220))
@@ -333,9 +331,9 @@ class JFTP extends JObject
 	 *
 	 * @return  boolean  True if connected
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	function isConnected()
+	public function isConnected()
 	{
 		return is_resource($this->_conn);
 	}
@@ -348,11 +346,10 @@ class JFTP extends JObject
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	function login($user = 'anonymous', $pass = 'jftp@joomla.org')
+	public function login($user = 'anonymous', $pass = 'jftp@joomla.org')
 	{
-
 		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE)
 		{
@@ -392,11 +389,10 @@ class JFTP extends JObject
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	function quit()
+	public function quit()
 	{
-
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE)
 		{
@@ -416,11 +412,10 @@ class JFTP extends JObject
 	 *
 	 * @return  string   Current working directory
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	function pwd()
+	public function pwd()
 	{
-
 		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE)
 		{
@@ -454,11 +449,10 @@ class JFTP extends JObject
 	 *
 	 * @return  string   System identifier string
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	function syst()
+	public function syst()
 	{
-
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE)
 		{
@@ -504,11 +498,10 @@ class JFTP extends JObject
 	 *
 	 * @return  boolean True if successful
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	function chdir($path)
+	public function chdir($path)
 	{
-
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE)
 		{
@@ -537,11 +530,10 @@ class JFTP extends JObject
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	function reinit()
+	public function reinit()
 	{
-
 		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE)
 		{
@@ -571,11 +563,10 @@ class JFTP extends JObject
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	function rename($from, $to)
+	public function rename($from, $to)
 	{
-
 		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE)
 		{
@@ -612,11 +603,10 @@ class JFTP extends JObject
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	function chmod($path, $mode)
+	public function chmod($path, $mode)
 	{
-
 		// If no filename is given, we assume the current directory is the target
 		if ($path == '')
 		{
@@ -662,11 +652,10 @@ class JFTP extends JObject
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	function delete($path)
+	public function delete($path)
 	{
-
 		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE)
 		{
@@ -700,11 +689,10 @@ class JFTP extends JObject
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	function mkdir($path)
+	public function mkdir($path)
 	{
-
 		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE)
 		{
@@ -732,11 +720,10 @@ class JFTP extends JObject
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	function restart($point)
+	public function restart($point)
 	{
-
 		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE)
 		{
@@ -765,15 +752,14 @@ class JFTP extends JObject
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	function create($path)
+	public function create($path)
 	{
-
 		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE)
 		{
-			// turn passive mode on
+			// Turn passive mode on
 			if (@ftp_pasv($this->_conn, true) === false)
 			{
 				JError::raiseWarning('36', JText::_('JLIB_CLIENT_ERROR_JFTP_CREATE_BAD_RESPONSE_PASSIVE'));
@@ -825,11 +811,10 @@ class JFTP extends JObject
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	function read($remote, &$buffer)
+	public function read($remote, &$buffer)
 	{
-
 		// Determine file type
 		$mode = $this->_findMode($remote);
 
@@ -910,11 +895,10 @@ class JFTP extends JObject
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	function get($local, $remote)
+	public function get($local, $remote)
 	{
-
 		// Determine file type
 		$mode = $this->_findMode($remote);
 
@@ -964,7 +948,7 @@ class JFTP extends JObject
 		while (!feof($this->_dataconn))
 		{
 			$buffer = fread($this->_dataconn, 4096);
-			$ret = fwrite($fp, $buffer, 4096);
+			fwrite($fp, $buffer, 4096);
 		}
 
 		// Close the data port connection and file pointer
@@ -988,11 +972,10 @@ class JFTP extends JObject
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	function store($local, $remote = null)
+	public function store($local, $remote = null)
 	{
-
 		// If remote file is not given, use the filename of the local file in the current
 		// working directory.
 		if ($remote == null)
@@ -1092,11 +1075,10 @@ class JFTP extends JObject
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	function write($remote, $buffer)
+	public function write($remote, $buffer)
 	{
-
 		// Determine file type
 		$mode = $this->_findMode($remote);
 
@@ -1176,11 +1158,10 @@ class JFTP extends JObject
 	 *
 	 * @return  string  Directory listing
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	function listNames($path = null)
+	public function listNames($path = null)
 	{
-
 		// Initialise variables.
 		$data = null;
 
@@ -1233,6 +1214,7 @@ class JFTP extends JObject
 		if (!$this->_putCmd('NLST' . $path, array(150, 125)))
 		{
 			@ fclose($this->_dataconn);
+
 			// Workaround for empty directories on some servers
 			if ($this->listDetails($path, 'files') === array())
 			{
@@ -1275,14 +1257,16 @@ class JFTP extends JObject
 	 * @param   string  $type  Return type [raw|all|folders|files]
 	 *
 	 * @return  mixed  If $type is raw: string Directory listing, otherwise array of string with file-names
+	 *
+	 * @since   12.1
 	 */
-	function listDetails($path = null, $type = 'all')
+	public function listDetails($path = null, $type = 'all')
 	{
-
 		// Initialise variables.
 		$dir_list = array();
 		$data = null;
 		$regs = null;
+
 		// TODO: Deal with recurse -- nightmare
 		// For now we will just set it to false
 		$recurse = false;
@@ -1369,8 +1353,10 @@ class JFTP extends JObject
 
 		// Regular expressions for the directory listing parsing.
 		$regexps = array(
-			'UNIX' => '#([-dl][rwxstST-]+).* ([0-9]*) ([a-zA-Z0-9]+).* ([a-zA-Z0-9]+).* ([0-9]*) ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{1,2}:[0-9]{2})|[0-9]{4}) (.+)#',
-			'MAC' => '#([-dl][rwxstST-]+).* ?([0-9 ]*)?([a-zA-Z0-9]+).* ([a-zA-Z0-9]+).* ([0-9]*) ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{2}:[0-9]{2})|[0-9]{4}) (.+)#',
+			'UNIX' => '#([-dl][rwxstST-]+).* ([0-9]*) ([a-zA-Z0-9]+).* ([a-zA-Z0-9]+).* ([0-9]*)'
+				. ' ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{1,2}:[0-9]{2})|[0-9]{4}) (.+)#',
+			'MAC' => '#([-dl][rwxstST-]+).* ?([0-9 ]*)?([a-zA-Z0-9]+).* ([a-zA-Z0-9]+).* ([0-9]*)'
+				. ' ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{2}:[0-9]{2})|[0-9]{4}) (.+)#',
 			'WIN' => '#([0-9]{2})-([0-9]{2})-([0-9]{2}) +([0-9]{2}):([0-9]{2})(AM|PM) +([0-9]+|<DIR>) +(.+)#'
 		);
 
@@ -1394,7 +1380,7 @@ class JFTP extends JObject
 		/*
 		 * Here is where it is going to get dirty....
 		 */
-		if ($osType == 'UNIX')
+		if ($osType == 'UNIX' || $osType == 'MAC')
 		{
 			foreach ($contents as $file)
 			{
@@ -1402,49 +1388,16 @@ class JFTP extends JObject
 				if (@preg_match($regexp, $file, $regs))
 				{
 					$fType = (int) strpos("-dl", $regs[1]{0});
-					//$tmp_array['line'] = $regs[0];
+
+					// $tmp_array['line'] = $regs[0];
 					$tmp_array['type'] = $fType;
 					$tmp_array['rights'] = $regs[1];
-					//$tmp_array['number'] = $regs[2];
+
+					// $tmp_array['number'] = $regs[2];
 					$tmp_array['user'] = $regs[3];
 					$tmp_array['group'] = $regs[4];
 					$tmp_array['size'] = $regs[5];
 					$tmp_array['date'] = @date("m-d", strtotime($regs[6]));
-					$tmp_array['time'] = $regs[7];
-					$tmp_array['name'] = $regs[9];
-				}
-				// If we just want files, do not add a folder
-				if ($type == 'files' && $tmp_array['type'] == 1)
-				{
-					continue;
-				}
-				// If we just want folders, do not add a file
-				if ($type == 'folders' && $tmp_array['type'] == 0)
-				{
-					continue;
-				}
-				if (is_array($tmp_array) && $tmp_array['name'] != '.' && $tmp_array['name'] != '..')
-				{
-					$dir_list[] = $tmp_array;
-				}
-			}
-		}
-		elseif ($osType == 'MAC')
-		{
-			foreach ($contents as $file)
-			{
-				$tmp_array = null;
-				if (@preg_match($regexp, $file, $regs))
-				{
-					$fType = (int) strpos("-dl", $regs[1]{0});
-					//$tmp_array['line'] = $regs[0];
-					$tmp_array['type'] = $fType;
-					$tmp_array['rights'] = $regs[1];
-					//$tmp_array['number'] = $regs[2];
-					$tmp_array['user'] = $regs[3];
-					$tmp_array['group'] = $regs[4];
-					$tmp_array['size'] = $regs[5];
-					$tmp_array['date'] = date("m-d", strtotime($regs[6]));
 					$tmp_array['time'] = $regs[7];
 					$tmp_array['name'] = $regs[9];
 				}
@@ -1473,10 +1426,12 @@ class JFTP extends JObject
 				{
 					$fType = (int) ($regs[7] == '<DIR>');
 					$timestamp = strtotime("$regs[3]-$regs[1]-$regs[2] $regs[4]:$regs[5]$regs[6]");
-					//$tmp_array['line'] = $regs[0];
+
+					// $tmp_array['line'] = $regs[0];
 					$tmp_array['type'] = $fType;
 					$tmp_array['rights'] = '';
-					//$tmp_array['number'] = 0;
+
+					// $tmp_array['number'] = 0;
 					$tmp_array['user'] = '';
 					$tmp_array['group'] = '';
 					$tmp_array['size'] = (int) $regs[7];
@@ -1512,11 +1467,10 @@ class JFTP extends JObject
 	 *
 	 * @return  boolean  True if command executed successfully
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	function _putCmd($cmd, $expectedResponse)
+	protected function _putCmd($cmd, $expectedResponse)
 	{
-
 		// Make sure we have a connection to the server
 		if (!is_resource($this->_conn))
 		{
@@ -1540,11 +1494,10 @@ class JFTP extends JObject
 	 *
 	 * @return  boolean  True if response code from the server is expected
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	function _verifyResponse($expected)
+	protected function _verifyResponse($expected)
 	{
-
 		// Initialise variables.
 		$parts = null;
 
@@ -1599,11 +1552,10 @@ class JFTP extends JObject
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	function _passive()
+	protected function _passive()
 	{
-
 		// Initialize variables.
 		$match = array();
 		$parts = array();
@@ -1666,7 +1618,7 @@ class JFTP extends JObject
 		}
 
 		// Set the timeout for this connection
-		socket_set_timeout($this->_conn, $this->_timeout);
+		socket_set_timeout($this->_conn, $this->_timeout, 0);
 
 		return true;
 	}
@@ -1678,9 +1630,9 @@ class JFTP extends JObject
 	 *
 	 * @return  integer Transfer-mode for this filetype [FTP_ASCII|FTP_BINARY]
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	function _findMode($fileName)
+	protected function _findMode($fileName)
 	{
 		if ($this->_type == FTP_AUTOASCII)
 		{
@@ -1715,9 +1667,9 @@ class JFTP extends JObject
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	function _mode($mode)
+	protected function _mode($mode)
 	{
 		if ($mode == FTP_BINARY)
 		{
@@ -1736,5 +1688,29 @@ class JFTP extends JObject
 			}
 		}
 		return true;
+	}
+}
+
+/**
+ * Deprecated class placeholder. You should use JClientFtp instead.
+ *
+ * @package     Joomla.Platform
+ * @subpackage  Client
+ * @since       11.1
+ * @deprecated  12.3
+ */
+class JFTP extends JClientFtp
+{
+	/**
+	 * JFTP object constructor
+	 *
+	 * @param   array  $options  Associative array of options to set
+	 *
+	 * @since   11.1
+	 */
+	public function __construct($options)
+	{
+		JLog::add('JFTP is deprecated. Use JClientFtp instead.', JLog::WARNING, 'deprecated');
+		parent::__construct($options);
 	}
 }

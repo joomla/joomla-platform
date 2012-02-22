@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -59,7 +59,7 @@ class JDocumentRAWTest extends PHPUnit_Framework_TestCase
 
 		$headers = JResponse::getHeaders();
 
-		foreach($headers AS $head)
+		foreach($headers as $head)
 		{
 			if ($head['name'] == 'Expires') {
 				$this->assertThat(

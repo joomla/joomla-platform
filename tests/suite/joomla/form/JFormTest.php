@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -32,7 +32,6 @@ class JFormTest extends JoomlaTestCase
 	public function setUp()
 	{
 		$this->saveFactoryState();
-		jimport('joomla.form.form');
 		jimport('joomla.utilities.xmlelement');
 		include_once 'inspectors.php';
 		include_once 'JFormDataHelper.php';
@@ -59,7 +58,7 @@ class JFormTest extends JoomlaTestCase
 		$paths = JForm::addFieldPath();
 
 		// The default path is the class file folder/forms
-		$valid = JPATH_PLATFORM.DS.'joomla'.DS.'form'.DS.'fields';
+		$valid = JPATH_PLATFORM . '/joomla/form/fields';
 
 		$this->assertThat(
 			in_array($valid, $paths),
@@ -68,11 +67,11 @@ class JFormTest extends JoomlaTestCase
 		);
 
 		// Test adding a custom folder.
-		JForm::addFieldPath(dirname(__FILE__));
+		JForm::addFieldPath(__DIR__);
 		$paths = JForm::addFieldPath();
 
 		$this->assertThat(
-			in_array(dirname(__FILE__), $paths),
+			in_array(__DIR__, $paths),
 			$this->isTrue(),
 			'Line:'.__LINE__.' An added path should be in the returned array.'
 		);
@@ -89,7 +88,7 @@ class JFormTest extends JoomlaTestCase
 		$paths = JForm::addFormPath();
 
 		// The default path is the class file folder/forms
-		$valid = JPATH_PLATFORM.DS.'joomla'.DS.'form'.DS.'forms';
+		$valid = JPATH_PLATFORM . '/joomla/form/forms';
 
 		$this->assertThat(
 			in_array($valid, $paths),
@@ -98,11 +97,11 @@ class JFormTest extends JoomlaTestCase
 		);
 
 		// Test adding a custom folder.
-		JForm::addFormPath(dirname(__FILE__));
+		JForm::addFormPath(__DIR__);
 		$paths = JForm::addFormPath();
 
 		$this->assertThat(
-			in_array(dirname(__FILE__), $paths),
+			in_array(__DIR__, $paths),
 			$this->isTrue(),
 			'Line:'.__LINE__.' An added path should be in the returned array.'
 		);
@@ -119,7 +118,7 @@ class JFormTest extends JoomlaTestCase
 		$paths = JForm::addRulePath();
 
 		// The default path is the class file folder/rules
-		$valid = JPATH_PLATFORM.DS.'joomla'.DS.'form'.DS.'rules';
+		$valid = JPATH_PLATFORM . '/joomla/form/rules';
 
 		$this->assertThat(
 			in_array($valid, $paths),
@@ -128,11 +127,11 @@ class JFormTest extends JoomlaTestCase
 		);
 
 		// Test adding a custom folder.
-		JForm::addRulePath(dirname(__FILE__));
+		JForm::addRulePath(__DIR__);
 		$paths = JForm::addRulePath();
 
 		$this->assertThat(
-			in_array(dirname(__FILE__), $paths),
+			in_array(__DIR__, $paths),
 			$this->isTrue(),
 			'Line:'.__LINE__.' An added path should be in the returned array.'
 		);
@@ -379,6 +378,42 @@ class JFormTest extends JoomlaTestCase
 			$form->filterField($form->findField('word'), $input),
 			$this->equalTo('scriptalertscriptpSometextp'),
 			'Line:'.__LINE__.' The "word" filter should be correctly applied.'
+		);
+
+		$this->assertThat(
+			$form->filterField($form->findField('url'), 'http://example.com'),
+			$this->equalTo('http://example.com'),
+			'Line:'.__LINE__.' A field with a valid protocol should return as is.'
+		);
+
+		$this->assertThat(
+			$form->filterField($form->findField('url'), 'http://<script>alert();</script> <p>Some text.</p>'),
+			$this->equalTo('http://alert(); Some text.'),
+			'Line:'.__LINE__.' A "url" with scripts should be should be filtered.'
+		);
+
+		$this->assertThat(
+			$form->filterField($form->findField('url'), 'https://example.com'),
+			$this->equalTo('https://example.com'),
+			'Line:'.__LINE__.' A field with a valid protocol that is not http should return as is.'
+		);
+
+		$this->assertThat(
+			$form->filterField($form->findField('url'), 'example.com'),
+			$this->equalTo('http://example.com'),
+			'Line:'.__LINE__.' A field without a protocol should return with a http:// protocol.'
+		);
+
+		$this->assertThat(
+			$form->filterField($form->findField('url'), 'hptarr.com'),
+			$this->equalTo('http://hptarr.com'),
+			'Line:'.__LINE__.' A field without a protocol and starts with t should return with a http:// protocol.'
+		);
+
+		$this->assertThat(
+			$form->filterField($form->findField('url'), ''),
+			$this->equalTo(''),
+			'Line:'.__LINE__.' An empty "url" filter return nothing.'
 		);
 
 		$this->assertThat(
@@ -942,6 +977,12 @@ class JFormTest extends JoomlaTestCase
 		);
 
 		$this->assertThat(
+			array_keys($form->getGroup('level1', true)),
+			$this->equalTo(array('level1_field1', 'level1_level2_field2')),
+			'Line:'.__LINE__.' The level1 group should have 2 nested field elements.'
+		);
+
+		$this->assertThat(
 			count($form->getGroup('level1.level2')),
 			$this->equalTo(1),
 			'Line:'.__LINE__.' The level2 group should have 1 field element.'
@@ -1021,7 +1062,7 @@ class JFormTest extends JoomlaTestCase
 			'Line:'.__LINE__.' The method should return a simple input text field whose value is marked untranslated.'
 		);
 
-		$lang->load('form_test', dirname(__FILE__));
+		$lang->load('form_test', __DIR__);
 		$this->assertThat(
 			$form->getInput('translate_default'),
 			$this->equalTo(
@@ -1391,10 +1432,28 @@ class JFormTest extends JoomlaTestCase
 		);
 
 		// Add custom path.
-		JForm::addFieldPath(dirname(__FILE__).'/_testfields');
+		JForm::addFieldPath(__DIR__.'/_testfields');
 
 		$this->assertThat(
 			(JFormInspector::loadFieldType('test') instanceof JFormFieldTest),
+			$this->isTrue(),
+			'Line:'.__LINE__.' loadFieldType should return the correct custom class.'
+		);
+
+		$this->assertThat(
+			(JFormInspector::loadFieldType('foo.bar') instanceof FooFormFieldBar),
+			$this->isTrue(),
+			'Line:'.__LINE__.' loadFieldType should return the correct custom class.'
+		);
+
+		$this->assertThat(
+			(JFormInspector::loadFieldType('modal_foo') instanceof JFormFieldModal_Foo),
+			$this->isTrue(),
+			'Line:'.__LINE__.' loadFieldType should return the correct custom class.'
+		);
+
+		$this->assertThat(
+			(JFormInspector::loadFieldType('foo.modal_bar') instanceof FooFormFieldModal_Bar),
 			$this->isTrue(),
 			'Line:'.__LINE__.' loadFieldType should return the correct custom class.'
 		);
@@ -1426,7 +1485,7 @@ class JFormTest extends JoomlaTestCase
 		// Testing loading a file by full path.
 
 		$this->assertThat(
-			$form->loadFile(dirname(__FILE__).'/example.xml'),
+			$form->loadFile(__DIR__.'/example.xml'),
 			$this->isTrue(),
 			'Line:'.__LINE__.' XML file by full path should load successfully.'
 		);
@@ -1440,7 +1499,7 @@ class JFormTest extends JoomlaTestCase
 		// Testing loading a file by file name.
 
 		$form = new JFormInspector('form1');
-		JForm::addFormPath(dirname(__FILE__));
+		JForm::addFormPath(__DIR__);
 
 		$this->assertThat(
 			$form->loadFile('example'),
@@ -1472,7 +1531,7 @@ class JFormTest extends JoomlaTestCase
 
 		// Test loading a custom rule.
 
-		JForm::addRulePath(dirname(__FILE__).'/_testrules');
+		JForm::addRulePath(__DIR__.'/_testrules');
 
 		$this->assertThat(
 			($form->loadRuleType('custom') instanceof JFormRule),
@@ -1523,7 +1582,7 @@ class JFormTest extends JoomlaTestCase
 			$this->isTrue(),
 			'Line:'.__LINE__.' Loading the color rule should return a rule object.'
 		);
-		
+
 		$this->assertThat(
 			($form->loadRuleType('tel') instanceof JFormRule),
 			$this->isTrue(),

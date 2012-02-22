@@ -3,9 +3,11 @@
  * @package     Joomla.UnitTest
  * @subpackage  Environment
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+require_once JPATH_PLATFORM.'/joomla/environment/request.php';
 
 class JRequestTest_DataSet {
 	/**
@@ -118,7 +120,7 @@ class JRequestTest_DataSet {
 		$_ENV = array('tag' => 'from _ENV');
 		$_FILES = array('tag' => 'from _FILES');
 		$_POST = array('tag' => 'from _POST');
-		$_SERVER = array('tag' => 'from _SERVER','REQUEST_METHOD' => 'POST');
+		$_SERVER = array('tag' => 'from _SERVER', 'REQUEST_METHOD' => 'POST');
 		/**
 		 * Merge get and post into request.
 		 */
