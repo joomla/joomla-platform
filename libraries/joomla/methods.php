@@ -51,6 +51,14 @@ class JRoute
 		$uri = $router->build($url);
 		$url = $uri->toString(array('path', 'query', 'fragment'));
 
+		if (JPATH_BASE == JPATH_ADMINISTRATOR) {
+			$config = JFactory::getConfig();
+			$live_site = $config->get('live_site');
+			if (trim($live_site) != '') {
+				$url = JURI::current() . $url;
+			}
+		}
+
 		// Replace spaces.
 		$url = preg_replace('/\s/u', '%20', $url);
 

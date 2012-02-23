@@ -298,7 +298,14 @@ class JURI
 		// Get the current URL.
 		if (empty(self::$current))
 		{
-			$uri = self::getInstance();
+			$config = JFactory::getConfig();
+			$live_site = $config->get('live_site');
+			if (trim($live_site) != '') {
+				$uri = self::getInstance($live_site);
+			}
+			else {
+				$uri = self::getInstance();
+			}
 			self::$current = $uri->toString(array('scheme', 'host', 'port', 'path'));
 		}
 
