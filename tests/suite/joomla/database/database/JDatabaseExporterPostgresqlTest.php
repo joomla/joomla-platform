@@ -7,7 +7,7 @@
  * @license    GNU General Public License
  */
 
-require_once __DIR__ . '/JDatabaseExporterPostgreSQLInspector.php';
+require_once __DIR__ . '/JDatabaseExporterPostgresqlInspector.php';
 
 /**
  * Test the JDatabaseExporterPostgreSQL class.
@@ -228,7 +228,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test__toString()
 	{
-		$instance = new JDatabaseExporterPostgreSQLInspector;
+		$instance = new JDatabaseExporterPostgresqlInspector;
 
 		// Set up the export settings.
 		$instance
@@ -267,7 +267,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAsXml()
 	{
-		$instance = new JDatabaseExporterPostgreSQLInspector;
+		$instance = new JDatabaseExporterPostgresqlInspector;
 
 		$result = $instance->asXml();
 
@@ -293,7 +293,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testBuildXml()
 	{
-		$instance = new JDatabaseExporterPostgreSQLInspector;
+		$instance = new JDatabaseExporterPostgresqlInspector;
 
 		// Set up the export settings.
 		$instance
@@ -331,7 +331,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testBuildXmlStructure()
 	{
-		$instance = new JDatabaseExporterPostgreSQLInspector;
+		$instance = new JDatabaseExporterPostgresqlInspector;
 
 		// Set up the export settings.
 		$instance
@@ -366,7 +366,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithNoDbo()
 	{
-		$instance = new JDatabaseExporterPostgreSQLInspector;
+		$instance = new JDatabaseExporterPostgresqlInspector;
 
 		try
 		{
@@ -392,7 +392,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithNoTables()
 	{
-		$instance	= new JDatabaseExporterPostgreSQLInspector;
+		$instance	= new JDatabaseExporterPostgresqlInspector;
 		$instance->setDbo($this->dbo);
 
 		try
@@ -419,7 +419,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithGoodInput()
 	{
-		$instance	= new JDatabaseExporterPostgreSQLInspector;
+		$instance	= new JDatabaseExporterPostgresqlInspector;
 		$instance->setDbo($this->dbo);
 		$instance->from('foobar');
 
@@ -450,7 +450,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testFromWithBadInput()
 	{
-		$instance = new JDatabaseExporterPostgreSQLInspector;
+		$instance = new JDatabaseExporterPostgresqlInspector;
 
 		try
 		{
@@ -476,7 +476,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testFromWithGoodInput()
 	{
-		$instance = new JDatabaseExporterPostgreSQLInspector;
+		$instance = new JDatabaseExporterPostgresqlInspector;
 
 		try
 		{
@@ -511,7 +511,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetGenericTableName()
 	{
-		$instance = new JDatabaseExporterPostgreSQLInspector;
+		$instance = new JDatabaseExporterPostgresqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -530,7 +530,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetDboWithBadInput()
 	{
-		$instance	= new JDatabaseExporterPostgreSQLInspector;
+		$instance	= new JDatabaseExporterPostgresqlInspector;
 
 		try
 		{
@@ -556,7 +556,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetDboWithGoodInput()
 	{
-		$instance = new JDatabaseExporterPostgreSQLInspector;
+		$instance = new JDatabaseExporterPostgresqlInspector;
 
 		try
 		{
@@ -587,7 +587,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testWithStructure()
 	{
-		$instance = new JDatabaseExporterPostgreSQLInspector;
+		$instance = new JDatabaseExporterPostgresqlInspector;
 
 		$result = $instance->withStructure();
 
