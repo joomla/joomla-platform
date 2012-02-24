@@ -256,22 +256,19 @@ class JDatabasePostgresqlTest extends JoomlaDatabasePostgresqlTestCase
 	 */
 	protected function setUp()
 	{
+		@include_once JPATH_TESTS . '/config_postgresql.php';
 		if (class_exists('JPostgresqlTestConfig'))
 		{
 			$config = new JPostgresqlTestConfig;
 		}
-		elseif (class_exists('JTestConfig'))
-		{
-			$config = new JTestConfig;
-		}
 		else
 		{
-			$this->markTestSkipped('There is no PostgreSQL test config file present.');
+			$this->markTestSkipped('There is no Postgresql test config file present.');
 		}
 
 		try
 		{
-			$this->object = JDatabaseDriver::getInstance(
+			$this->object = JDatabase::getInstance(
 				array(
 					'driver' => $config->dbtype,
 					'database' => $config->db,

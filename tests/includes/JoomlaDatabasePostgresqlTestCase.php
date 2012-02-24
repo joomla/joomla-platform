@@ -28,8 +28,6 @@ class JoomlaDatabasePostgresqlTestCase extends JoomlaDatabaseTestCase
 	 */
 	public static function setUpBeforeClass()
 	{
-		@include_once JPATH_TESTS . '/config_postgresql.php';
-
 		jimport('joomla.database.database');
 		jimport('joomla.database.database.postgresql');
 		jimport('joomla.database.table');
@@ -39,15 +37,11 @@ class JoomlaDatabasePostgresqlTestCase extends JoomlaDatabaseTestCase
 		{
 			$config = new JPostgresqlTestConfig;
 		}
-		elseif (class_exists('JTestConfig'))
-		{
-			$config = new JTestConfig;
-		}
 
 		if (!is_object(self::$dbo))
 		{
 			$options = array(
-				'driver' => isset($config) ? $config->dbtype : 'mysql',
+				'driver' => isset($config) ? $config->dbtype : 'postgresql',
 				'host' => isset($config) ? $config->host : '127.0.0.1',
 				'user' => isset($config) ? $config->user : 'utuser',
 				'password' => isset($config) ? $config->password : 'ut1234',
