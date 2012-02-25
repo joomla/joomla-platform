@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    $Id: JDatabasePostgreSQLQueryDummy.php gpongelli $
+ * @version    $Id: JDatabasePostgresqlQueryDummy.php gpongelli $
  * @package    Joomla.UnitTest
  * 
  * @copyright  Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
@@ -10,7 +10,7 @@
 require_once JPATH_PLATFORM . '/joomla/database/query/postgresql.php';
 
 /**
- * Dummy type of JDatabaseQueryPostgreSQL class for testing.
+ * Dummy type of JDatabaseQueryPostgresql class for testing.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database

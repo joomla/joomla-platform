@@ -257,12 +257,12 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		if ($new)
 		{
 			// Make sure we have a query class for this driver.
-			if (!class_exists('JDatabaseQueryPostgreSQL'))
+			if (!class_exists('JDatabaseQueryPostgresql'))
 			{
 				throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
 			}
 
-			$this->queryObject = new JDatabaseQueryPostgreSQL($this);
+			$this->queryObject = new JDatabaseQueryPostgresql($this);
 		}
 
 		return $this->queryObject;

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    $Id: JDatabaseExporterPostgreSQLTest.php gpongelli $
+ * @version    $Id: JDatabaseExporterPostgresqlTest.php gpongelli $
  * @package    Joomla.UnitTest
  *
  * @copyright  Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
@@ -10,7 +10,7 @@
 require_once __DIR__ . '/JDatabaseExporterPostgresqlInspector.php';
 
 /**
- * Test the JDatabaseExporterPostgreSQL class.
+ * Test the JDatabaseExporterPostgresql class.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
@@ -43,7 +43,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 		// Set up the database object mock.
 
 		$this->dbo = $this->getMock(
-			'JDatabasePostgreSQL',
+			'JDatabasePostgresql',
 			array(
 				'getErrorNum',
 				'getPrefix',
@@ -543,7 +543,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 		}
 
 		$this->fail(
-			'setDbo requires a JDatabasePostgreSQL object and should throw an exception.'
+			'setDbo requires a JDatabasePostgresql object and should throw an exception.'
 		);
 	}
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    $Id: JDatabasePostgreSQLTestCase.php gpongelli $
+ * @version    $Id: JDatabasePostgresqlTestCase.php gpongelli $
  * @package    Joomla.UnitTest
  * 
  * @copyright  Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
