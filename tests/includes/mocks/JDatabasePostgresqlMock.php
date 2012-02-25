@@ -7,7 +7,7 @@
  * @license    GNU General Public License
  */
 
-require_once dirname(__FILE__) . '/JDatabaseMock.php';
+require_once dirname(__FILE__) . '/JDatabaseGlobalMock.php';
 
 /**
  * Mock class for JDatabase.
