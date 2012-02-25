@@ -9,7 +9,7 @@
 
 require_once __DIR__ . '/JDatabasePostgresqlQueryInspector.php';
 require_once JPATH_PLATFORM . '/joomla/database/query/postgresql.php';
-require_once JPATH_TESTS . '/includes/JoomlaPostgresqlTestCase.php';
+require_once JPATH_TESTS . '/includes/JoomlaTestCase.php';
 
 /**
  * Test class for JDatabasePostgresqlQuery.
@@ -19,7 +19,7 @@ require_once JPATH_TESTS . '/includes/JoomlaPostgresqlTestCase.php';
  * 
  * @since       11.3
  */
-class JDatabasePostgresqlQueryTest extends JoomlaPostgresqlTestCase
+class JDatabasePostgresqlQueryTest extends JoomlaTestCase
 {
 	/**
 	 * @var  JDatabase  A mock of the JDatabase object for testing purposes.
@@ -101,7 +101,7 @@ class JDatabasePostgresqlQueryTest extends JoomlaPostgresqlTestCase
 	 */
 	protected function setUp()
 	{
-		$this->dbo = $this->getMockDatabase();
+		$this->dbo = $this->getMockDatabase('JDatabasePostgresqlMock');
 
 		// Mock the escape method to ensure the API is calling the DBO's escape method.
 		$this->assignMockCallbacks(
