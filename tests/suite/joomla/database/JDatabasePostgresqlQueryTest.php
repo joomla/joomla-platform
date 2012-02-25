@@ -123,7 +123,7 @@ class JDatabasePostgresqlQueryTest extends JoomlaPostgresqlTestCase
 	}
 
 	/**
-	 * Test for the JDatabaseQueryPostgreSQL::__string method for a 'select' case.
+	 * Test for the JDatabaseQueryPostgresql::__string method for a 'select' case.
 	 *
 	 * @return  void
 	 *
@@ -1050,7 +1050,7 @@ class JDatabasePostgresqlQueryTest extends JoomlaPostgresqlTestCase
 	}
 
 	/**
-	 * Tests the JDatabaseQueryPostgreSQL::escape method.
+	 * Tests the JDatabaseQueryPostgresql::escape method.
 	 *
 	 * @return  void
 	 *

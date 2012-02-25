@@ -280,7 +280,7 @@ class JDatabasePostgresqlTest extends JoomlaDatabasePostgresqlTestCase
 		}
 		catch (RuntimeException $jdbException)
 		{
-			$this->markTestSkipped('PostgreSQL database not present or wrong configuration.');
+			$this->markTestSkipped('Postgresql database not present or wrong configuration.');
 		}
 
 		parent::setUp();

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    $Id: JDatabaseImporterPostgreSQLTest.php gpongelli $
+ * @version    $Id: JDatabaseImporterPostgresqlTest.php gpongelli $
  * @package    Joomla.UnitTest
  * 
  * @copyright  Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
@@ -10,7 +10,7 @@
 require_once __DIR__ . '/JDatabaseImporterPostgresqlInspector.php';
 
 /**
- * Test the JDatabaseImporterPostgreSQL class.
+ * Test the JDatabaseImporterPostgresql class.
  * 
  * @package     Joomla.UnitTest
  * @subpackage  Database
@@ -58,7 +58,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 		// Set up the database object mock.
 
 		$this->dbo = $this->getMock(
-			'JDatabasePostgreSQL',
+			'JDatabasePostgresql',
 			array(
 				'getErrorNum',
 				'getPrefix',
@@ -432,7 +432,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAsXml()
 	{
-		$instance = new JDatabaseImporterPostgreSQLInspector;
+		$instance = new JDatabaseImporterPostgresqlInspector;
 
 		$result = $instance->asXml();
 
@@ -458,7 +458,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithNoDbo()
 	{
-		$instance = new JDatabaseImporterPostgreSQLInspector;
+		$instance = new JDatabaseImporterPostgresqlInspector;
 
 		try
 		{
@@ -484,7 +484,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithNoFrom()
 	{
-		$instance	= new JDatabaseImporterPostgreSQLInspector;
+		$instance	= new JDatabaseImporterPostgresqlInspector;
 		$instance->setDbo($this->dbo);
 
 		try
@@ -511,7 +511,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithGoodInput()
 	{
-		$instance	= new JDatabaseImporterPostgreSQLInspector;
+		$instance	= new JDatabaseImporterPostgresqlInspector;
 		$instance->setDbo($this->dbo);
 		$instance->from('foobar');
 
@@ -542,7 +542,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testFromWithGoodInput()
 	{
-		$instance = new JDatabaseImporterPostgreSQLInspector;
+		$instance = new JDatabaseImporterPostgresqlInspector;
 
 		try
 		{
@@ -579,7 +579,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetAddColumnSQL()
 	{
-		$instance = new JDatabaseImporterPostgreSQLInspector;
+		$instance = new JDatabaseImporterPostgresqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -627,7 +627,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetAddSequenceSQL()
 	{
-		$instance = new JDatabaseImporterPostgreSQLInspector;
+		$instance = new JDatabaseImporterPostgresqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -650,7 +650,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetAddIndexSQL()
 	{
-		$instance = new JDatabaseImporterPostgreSQLInspector;
+		$instance = new JDatabaseImporterPostgresqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -689,7 +689,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetAlterTableSQL($structure, $expected, $message)
 	{
-		$instance = new JDatabaseImporterPostgreSQLInspector;
+		$instance = new JDatabaseImporterPostgresqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -714,7 +714,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetChangeColumnSQL()
 	{
-		$instance = new JDatabaseImporterPostgreSQLInspector;
+		$instance = new JDatabaseImporterPostgresqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -740,7 +740,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetChangeSequenceSQL()
 	{
-		$instance = new JDatabaseImporterPostgreSQLInspector;
+		$instance = new JDatabaseImporterPostgresqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -769,7 +769,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetColumnSQL($field, $expected, $message)
 	{
-		$instance	= new JDatabaseImporterPostgreSQLInspector;
+		$instance	= new JDatabaseImporterPostgresqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -788,7 +788,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetDropColumnSQL()
 	{
-		$instance = new JDatabaseImporterPostgreSQLInspector;
+		$instance = new JDatabaseImporterPostgresqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -812,7 +812,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetDropIndexSQL()
 	{
-		$instance = new JDatabaseImporterPostgreSQLInspector;
+		$instance = new JDatabaseImporterPostgresqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -835,7 +835,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetDropPrimaryKeySQL()
 	{
-		$instance = new JDatabaseImporterPostgreSQLInspector;
+		$instance = new JDatabaseImporterPostgresqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -858,7 +858,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetDropSequenceSQL()
 	{
-		$instance = new JDatabaseImporterPostgreSQLInspector;
+		$instance = new JDatabaseImporterPostgresqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -881,7 +881,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetIdxLookup()
 	{
-		$instance = new JDatabaseImporterPostgreSQLInspector;
+		$instance = new JDatabaseImporterPostgresqlInspector;
 
 		$o1 = (object) array('Index' => 'id', 'foo' => 'bar1');
 		$o2 = (object) array('Index' => 'id', 'foo' => 'bar2');
@@ -927,7 +927,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetRealTableName()
 	{
-		$instance	= new JDatabaseImporterPostgreSQLInspector;
+		$instance	= new JDatabaseImporterPostgresqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -946,7 +946,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetDboWithBadInput()
 	{
-		$instance	= new JDatabaseImporterPostgreSQLInspector;
+		$instance	= new JDatabaseImporterPostgresqlInspector;
 
 		try
 		{
@@ -959,7 +959,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 		}
 
 		$this->fail(
-			'setDbo requires a JDatabasePostgreSQL object and should throw an exception.'
+			'setDbo requires a JDatabasePostgresql object and should throw an exception.'
 		);
 	}
 
@@ -972,7 +972,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetDboWithGoodInput()
 	{
-		$instance = new JDatabaseImporterPostgreSQLInspector;
+		$instance = new JDatabaseImporterPostgresqlInspector;
 
 		try
 		{
@@ -1003,7 +1003,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testWithStructure()
 	{
-		$instance = new JDatabaseImporterPostgreSQLInspector;
+		$instance = new JDatabaseImporterPostgresqlInspector;
 
 		$result = $instance->withStructure();
 

@@ -29,7 +29,7 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 	/**
 	 * The database connector to use for exporting structure and/or data.
 	 *
-	 * @var    JDatabasePostgreSQL
+	 * @var    JDatabasePostgresql
 	 * @since  12.1
 	 */
 	protected $db = null;
@@ -212,7 +212,7 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 	public function check()
 	{
 		// Check if the db connector has been set.
-		if (!($this->db instanceof JDatabasePostgreSQL))
+		if (!($this->db instanceof JDatabasePostgresql))
 		{
 			throw new Exception('JPLATFORM_ERROR_DATABASE_CONNECTOR_WRONG_TYPE');
 		}
@@ -277,13 +277,13 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 	/**
 	 * Sets the database connector to use for exporting structure and/or data from PostgreSQL.
 	 *
-	 * @param   JDatabasePostgreSQL  $db  The database connector.
+	 * @param   JDatabasePostgresql  $db  The database connector.
 	 *
 	 * @return  JDatabaseExporterPostgresql  Method supports chaining.
 	 *
 	 * @since   12.1
 	 */
-	public function setDbo(JDatabasePostgreSQL $db)
+	public function setDbo(JDatabasePostgresql $db)
 	{
 		$this->db = $db;
 

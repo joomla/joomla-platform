@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    $Id: JDatabaseExporterPostgreSQLInspector.php gpongelli $
+ * @version    $Id: JDatabaseExporterPostgresqlInspector.php gpongelli $
  * @package    Joomla.UnitTest
  *
  * @copyright  Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    $Id: JDatabaseImporterPostgreSQLInspector.php gpongelli $
+ * @version    $Id: JDatabaseImporterPostgresqlInspector.php gpongelli $
  * @package    Joomla.UnitTest
  *
  * @copyright  Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
@@ -11,7 +11,7 @@ require_once JPATH_PLATFORM . '/joomla/database/importer/postgresql.php';
 require_once JPATH_PLATFORM . '/joomla/database/exception.php';
 
 /**
- * Class to expose protected properties and methods in JDatabasePostgreSQLImporter for testing purposes
+ * Class to expose protected properties and methods in JDatabasePostgresqlImporter for testing purposes
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
