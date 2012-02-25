@@ -126,7 +126,7 @@ class JoomlaDatabasePostgresqlTestCase extends JoomlaDatabaseTestCase
 		require_once JPATH_PLATFORM . '/joomla/database/database/postgresql.php';
 
 		// Load the mock class builder.
-		require_once JPATH_TESTS . '/includes/mocks/JDatabasePostgreSQLMock.php';
+		require_once JPATH_TESTS . '/includes/mocks/JDatabasePostgresqlMock.php';
 
 		return JDatabasePostgresqlMock::create($this);
 	}
