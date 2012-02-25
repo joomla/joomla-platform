@@ -357,19 +357,21 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Gets a mock database object.
 	 *
+	 * @param   string  $mockClass  Database's mock class name to be created.
+	 *
 	 * @return  JDatabase
 	 *
 	 * @since   11.3
 	 */
-	public function getMockDatabase()
+	public function getMockDatabase($mockClass = 'JDatabaseGlobalMock')
 	{
 		// Load the real class first otherwise the mock will be used if jimport is called again.
 		require_once JPATH_PLATFORM . '/joomla/database/database.php';
 
 		// Load the mock class builder.
-		require_once JPATH_TESTS . '/includes/mocks/JDatabaseMock.php';
+		require_once JPATH_TESTS . '/includes/mocks/' . $mockClass . '.php';
 
-		return JDatabaseGlobalMock::create($this);
+		return $mockClass::create($this);
 	}
 
 	/**
