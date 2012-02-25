@@ -10,7 +10,7 @@
 require_once JPATH_PLATFORM . '/joomla/log/log.php';
 require_once JPATH_PLATFORM . '/joomla/database/driver/postgresql.php';
 require_once JPATH_PLATFORM . '/joomla/database/query/postgresql.php';
-require_once JPATH_TESTS . '/includes/JoomlaDatabasePostgresqlTestCase.php';
+require_once JPATH_TESTS . '/includes/JoomlaDatabaseTestCase.php';
 
 /**
  * Test class for JDatabasePostgresql.
@@ -20,7 +20,7 @@ require_once JPATH_TESTS . '/includes/JoomlaDatabasePostgresqlTestCase.php';
  * 
  * @since       11.3
  */
-class JDatabasePostgresqlTest extends JoomlaDatabasePostgresqlTestCase
+class JDatabasePostgresqlTest extends JoomlaDatabaseTestCase
 {
 	/**
 	 * @var  JDatabasePostgresql
@@ -256,19 +256,19 @@ class JDatabasePostgresqlTest extends JoomlaDatabasePostgresqlTestCase
 	 */
 	protected function setUp()
 	{
-		@include_once JPATH_TESTS . '/config_postgresql.php';
-		if (class_exists('JPostgresqlTestConfig'))
+		@include_once JPATH_TESTS . '/config.php';
+		if (class_exists('JTestConfig'))
 		{
-			$config = new JPostgresqlTestConfig;
+			$config = new JTestConfig;
 		}
 		else
 		{
-			$this->markTestSkipped('There is no Postgresql test config file present.');
+			$this->markTestSkipped('There is no test config file present.');
 		}
 
 		try
 		{
-			$this->object = JDatabase::getInstance(
+			$this->object = JDatabaseDriver::getInstance(
 				array(
 					'driver' => $config->dbtype,
 					'database' => $config->db,
