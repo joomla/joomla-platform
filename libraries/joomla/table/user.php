@@ -109,7 +109,7 @@ class JTableUser extends JTable
 			$this->_db->setQuery($query);
 
 			// Add the groups to the user data.
-			$this->groups = $this->_db->loadAssocList('id', 'id');
+			$this->groups = $this->_db->loadAssocList('title', 'id');
 
 			// Check for an error message.
 			if ($this->_db->getErrorNum())
