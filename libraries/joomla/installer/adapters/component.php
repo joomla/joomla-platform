@@ -474,11 +474,9 @@ class JInstallerComponent extends JAdapterInstance
 			return false;
 		}
 
-		$eid = $db->insertid();
-
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(array('element' => $this->get('element'), 'type' => 'component', 'client_id' => '', 'folder' => ''));
+		$uid = $update->find(array('extension_id' => $row->extension_id));
 
 		if ($uid)
 		{
@@ -505,7 +503,7 @@ class JInstallerComponent extends JAdapterInstance
 		// Set the schema version to be the latest update version
 		if ($this->manifest->update)
 		{
-			$this->parent->setSchemaVersion($this->manifest->update->schemas, $eid);
+			$this->parent->setSchemaVersion($this->manifest->update->schemas, $row->extension_id);
 		}
 
 		// Register the component container just under root in the assets table.
@@ -1008,7 +1006,7 @@ class JInstallerComponent extends JAdapterInstance
 			JFolder::delete($this->parent->getPath('extension_site'));
 
 			// Remove the menu
-			$this->_removeAdminMenus($row);
+			$this->_removeAdminMenus($id);
 
 			// Raise a warning
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_ERRORREMOVEMANUALLY'));
@@ -1109,7 +1107,7 @@ class JInstallerComponent extends JAdapterInstance
 			}
 		}
 
-		$this->_removeAdminMenus($row);
+		$this->_removeAdminMenus($id);
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -1200,11 +1198,13 @@ class JInstallerComponent extends JAdapterInstance
 	/**
 	 * Method to build menu database entries for a component
 	 *
+	 * @param   integer  $component_id  The component id
+	 *
 	 * @return  boolean  True if successful
 	 *
 	 * @since   11.1
 	 */
-	protected function _buildAdminMenus()
+	protected function _buildAdminMenus($component_id)
 	{
 		// Initialise variables.
 		$db = $this->parent->getDbo();
@@ -1212,22 +1212,21 @@ class JInstallerComponent extends JAdapterInstance
 		$option = $this->get('element');
 
 		// If a component exists with this option in the table then we don't need to add menus
-		$query = $db->getQuery(true);
-		$query->select('m.id, e.extension_id');
-		$query->from('#__menu AS m');
-		$query->leftJoin('#__extensions AS e ON m.component_id = e.extension_id');
-		$query->where('m.parent_id = 1');
-		$query->where("m.client_id = 1");
-		$query->where('e.element = ' . $db->quote($option));
+		$query = $db->getQuery(true)
+			->select('m.id')
+			->from('#__menu AS m')
+			->leftJoin('#__extensions AS e ON m.component_id = e.extension_id')
+			->where('m.parent_id = 1')
+			->where("m.client_id = 1")
+			->where('e.element = ' . $db->quote($option));
 
 		$db->setQuery($query);
 
-		$componentrow = $db->loadObject();
+		$componentrow = $db->loadResult();
 
 		// Check if menu items exist
 		if ($componentrow)
 		{
-
 			// Don't do anything if overwrite has not been enabled
 			if (!$this->parent->isOverwrite())
 			{
@@ -1235,90 +1234,41 @@ class JInstallerComponent extends JAdapterInstance
 			}
 
 			// Remove existing menu items if overwrite has been enabled
-			if ($option)
-			{
-				// If something goes wrong, theres no way to rollback TODO: Search for better solution
-				$this->_removeAdminMenus($componentrow);
-			}
-
-			$component_id = $componentrow->extension_id;
-		}
-		else
-		{
-			// Lets Find the extension id
-			$query->clear();
-			$query->select('e.extension_id');
-			$query->from('#__extensions AS e');
-			$query->where('e.element = ' . $db->quote($option));
-
-			$db->setQuery($query);
-
-			// TODO Find Some better way to discover the component_id
-			$component_id = $db->loadResult();
+			$this->_removeAdminMenus($component_id);
 		}
 
 		// Ok, now its time to handle the menus.  Start with the component root menu, then handle submenus.
 		$menuElement = $this->manifest->administration->menu;
 
-		if ($menuElement)
-		{
-			$data = array();
-			$data['menutype'] = 'main';
-			$data['client_id'] = 1;
-			$data['title'] = (string) $menuElement;
-			$data['alias'] = (string) $menuElement;
-			$data['link'] = 'index.php?option=' . $option;
-			$data['type'] = 'component';
-			$data['published'] = 0;
-			$data['parent_id'] = 1;
-			$data['component_id'] = $component_id;
-			$data['img'] = ((string) $menuElement->attributes()->img) ? (string) $menuElement->attributes()->img : 'class:component';
-			$data['home'] = 0;
+		// Basic menu structure
+		$data = array(
+			'menutype'	=> 'menu',
+			'client_id'	=> 1,
+			'link'	=> 'index.php?option=' . $option,
+			'type'	=> 'component',
+			'published'	=> 0,
+			'parent_id'	=> 1,
+			'component_id'	=> $component_id,
+			'home'	=> 0
+		);
 
-			if (!$table->setLocation(1, 'last-child') || !$table->bind($data) || !$table->check() || !$table->store())
-			{
-				// Install failed, warn user and rollback changes
-				JError::raiseWarning(1, $table->getError());
-				return false;
-			}
+		$data['title'] = $menuElement ? (string) $menuElement : $option;
+		$data['alias'] = $menuElement ? (string) $menuElement : $option;
+		$data['img'] = ($menuElement && (string) $menuElement->attributes()->img) ? (string) $menuElement->attributes()->img : 'class:component';
 
-			/*
-			 * Since we have created a menu item, we add it to the installation step stack
-			 * so that if we have to rollback the changes we can undo it.
-			 */
-			$this->parent->pushStep(array('type' => 'menu', 'id' => $component_id));
-		}
-		// No menu element was specified, Let's make a generic menu item
-		else
-		{
-			$data = array();
-			$data['menutype'] = 'main';
-			$data['client_id'] = 1;
-			$data['title'] = $option;
-			$data['alias'] = $option;
-			$data['link'] = 'index.php?option=' . $option;
-			$data['type'] = 'component';
-			$data['published'] = 0;
-			$data['parent_id'] = 1;
-			$data['component_id'] = $component_id;
-			$data['img'] = 'class:component';
-			$data['home'] = 0;
-
-			if (!$table->setLocation(1, 'last-child') || !$table->bind($data) || !$table->check() || !$table->store())
-			{
-				// Install failed, warn user and rollback changes
-				JError::raiseWarning(1, $table->getError());
-				return false;
-			}
-
-			/*
-			 * Since we have created a menu item, we add it to the installation step stack
-			 * so that if we have to rollback the changes we can undo it.
-			 */
-			$this->parent->pushStep(array('type' => 'menu', 'id' => $component_id));
-		}
+		// Store in the database
+		if (!$table->setLocation(1, 'last-child') || !$table->bind($data) || !$table->check() || !$table->store()) {
+			JError::raiseError(0, $table->getError());
+			return false;
+ 		}
 
 		$parent_id = $table->id;
+
+		/*
+		 * Since we have created a menu item, we add it to the installation step stack
+		 * so that if we have to rollback the changes we can undo it.
+		 */
+		$this->parent->pushStep(array('type' => 'menu', 'id' => $component_id));
 
 		/*
 		 * Process SubMenus
@@ -1329,21 +1279,13 @@ class JInstallerComponent extends JAdapterInstance
 			return true;
 		}
 
-		$parent_id = $table->id;
+		$data['parent_id'] = $table->id;
 
 		foreach ($this->manifest->administration->submenu->menu as $child)
 		{
-			$data = array();
-			$data['menutype'] = 'main';
-			$data['client_id'] = 1;
 			$data['title'] = (string) $child;
 			$data['alias'] = (string) $child;
-			$data['type'] = 'component';
-			$data['published'] = 0;
-			$data['parent_id'] = $parent_id;
-			$data['component_id'] = $component_id;
 			$data['img'] = ((string) $child->attributes()->img) ? (string) $child->attributes()->img : 'class:component';
-			$data['home'] = 0;
 
 			// Set the sub menu link
 			if ((string) $child->attributes()->link)
@@ -1390,7 +1332,7 @@ class JInstallerComponent extends JAdapterInstance
 
 			$table = JTable::getInstance('menu');
 
-			if (!$table->setLocation($parent_id, 'last-child') || !$table->bind($data) || !$table->check() || !$table->store())
+			if (!$table->setLocation($data['parent_id'], 'last-child') || !$table->bind($data) || !$table->check() || !$table->store())
 			{
 				// Install failed, rollback changes
 				return false;
@@ -1409,32 +1351,29 @@ class JInstallerComponent extends JAdapterInstance
 	/**
 	 * Method to remove admin menu references to a component
 	 *
-	 * @param   object  &$row  Component table object.
+	 * @param   integer  $component_id  The component id
 	 *
 	 * @return  boolean  True if successful.
 	 *
 	 * @since   11.1
 	 */
-	protected function _removeAdminMenus(&$row)
+	protected function _removeAdminMenus($component_id)
 	{
 		// Initialise Variables
 		$db = $this->parent->getDbo();
 		$table = JTable::getInstance('menu');
-		$id = $row->extension_id;
 
 		// Get the ids of the menu items
 		$query = $db->getQuery(true);
-		$query->select('id');
-		$query->from('#__menu');
-		$query->where($query->qn('client_id') . ' = 1');
-		$query->where($query->qn('component_id') . ' = ' . (int) $id);
+		$query->delete()
+			->from('#__menu');
+			->where($query->qn('client_id') . ' = 1')
+			->where($query->qn('component_id') . ' = ' . (int) $component_id);
 
 		$db->setQuery($query);
 
-		$ids = $db->loadColumn();
-
 		// Check for error
-		if ($error = $db->getErrorMsg())
+		if (!$db->query() || $error = $db->getErrorMsg()){
 		{
 			JError::raiseWarning('', JText::_('JLIB_INSTALLER_ERROR_COMP_REMOVING_ADMIN_MENUS_FAILED'));
 
@@ -1445,21 +1384,10 @@ class JInstallerComponent extends JAdapterInstance
 
 			return false;
 		}
-		elseif (!empty($ids))
-		{
-			// Iterate the items to delete each one.
-			foreach ($ids as $menuid)
-			{
-				if (!$table->delete((int) $menuid))
-				{
-					$this->setError($table->getError());
-					return false;
-				}
-			}
-			// Rebuild the whole tree
-			$table->rebuild();
 
-		}
+		// Rebuild the whole tree
+		$table->rebuild();
+
 		return true;
 	}
 
@@ -1475,7 +1403,7 @@ class JInstallerComponent extends JAdapterInstance
 	 */
 	protected function _rollback_menu($step)
 	{
-		return $this->_removeAdminMenus((object) array('extension_id' => $step['id']));
+		return $this->_removeAdminMenus($step['id']);
 	}
 
 	/**
