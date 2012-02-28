@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Utilities
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -21,6 +21,16 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 * @since  11.2
 	 */
 	protected $object;
+
+	/**
+	 * @return  array
+	 *
+	 * @since   11.3
+	 */
+	public function getSplitCamelCaseData()
+	{
+		return JStringTest_DataSet::$splitCamelCase;
+	}
 
 	/**
 	 * @return  array
@@ -250,6 +260,20 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	public function getValidData()
 	{
 		return JStringTest_DataSet::$validTests;
+	}
+
+	/**
+	 * @return  void
+	 *
+	 * @dataProvider  getSplitCamelCaseData
+	 * @since   11.3
+	 */
+	public function testSplitCamelCase($string, $expected)
+	{
+		$this->assertThat(
+			JString::splitCamelCase($string),
+			$this->equalTo($expected)
+		);
 	}
 
 	/**
@@ -531,9 +555,9 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 * @dataProvider  getUcfirstData
 	 * @since   11.2
 	 */
-	public function testUcfirst($string, $expect)
+	public function testUcfirst($string, $delimiter, $newDelimiter, $expect)
 	{
-		$actual = JString::ucfirst($string);
+		$actual = JString::ucfirst($string, $delimiter, $newDelimiter);
 		$this->assertEquals($expect, $actual);
 	}
 

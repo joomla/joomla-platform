@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -28,33 +28,6 @@ class JApplicationHelperTest extends PHPUnit_Framework_TestCase
 	 * @todo Implement testGetClientInfo().
 	 */
 	public function testGetClientInfo()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo Implement testGetPath().
-	 */
-	public function testGetPath()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo Implement testParseXMLInstallFile().
-	 */
-	public function testParseXMLInstallFile()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo Implement testParseXMLLangMetaFile().
-	 */
-	public function testParseXMLLangMetaFile()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');

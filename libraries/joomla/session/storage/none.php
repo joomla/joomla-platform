@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,7 +30,7 @@ class JSessionStorageNone extends JSessionStorage
 	 */
 	public function register($options = array())
 	{
-		//let php handle the session storage
+		// Let php handle the session storage
 	}
 
 	/**
@@ -114,7 +114,7 @@ class JSessionStorageNone extends JSessionStorage
 	 *
 	 * @since   11.1
 	 */
-	function gc($lifetime = 1440)
+	public function gc($lifetime = 1440)
 	{
 		return true;
 	}
@@ -124,9 +124,9 @@ class JSessionStorageNone extends JSessionStorage
 	 *
 	 * @return  boolean  True on if available, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	public static function test()
+	public static function isSupported()
 	{
 		return true;
 	}

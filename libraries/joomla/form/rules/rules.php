@@ -3,13 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
-
-jimport('joomla.form.formrule');
 
 /**
  * Form Rule class for the Joomla Platform.
@@ -34,7 +32,6 @@ class JFormRuleRules extends JFormRule
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
 	 * @since   11.1
-	 * @throws  JException on invalid rule.
 	 */
 	public function test(&$element, $value, $group = null, &$input = null, &$form = null)
 	{

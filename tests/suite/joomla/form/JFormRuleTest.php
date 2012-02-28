@@ -3,11 +3,11 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-jimport('joomla.form.formrule');
+require_once JPATH_PLATFORM.'/joomla/form/rule.php';
 
 /**
  * General inspector class for JFormRule.

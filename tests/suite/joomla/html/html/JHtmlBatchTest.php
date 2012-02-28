@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -89,6 +89,21 @@ class JHtmlBatchTest extends JoomlaDatabaseTestCase
 		$this->assertThat(
 			JHtmlBatch::language(),
 			$this->StringContains('<option value="en-GB">English (UK)</option>')
+		);
+	}
+
+	/**
+	 * Tests the JHtmlBatch::user method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public function testUser()
+	{
+		$this->assertThat(
+			JHtmlBatch::user(true),
+			$this->StringContains('<option value="42">Super User</option>')
 		);
 	}
 }

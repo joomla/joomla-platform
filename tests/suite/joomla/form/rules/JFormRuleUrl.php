@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  * @package     Joomla.UnitTest
  */
@@ -24,7 +24,6 @@ class JFormRuleUrlTest extends JoomlaTestCase
 	 */
 	public function setUp()
 	{
-		jimport('joomla.form.formrule');
 		jimport('joomla.utilities.xmlelement');
 		require_once JPATH_PLATFORM.'/joomla/form/rules/url.php';
 	}

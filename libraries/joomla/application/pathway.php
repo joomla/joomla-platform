@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,11 +24,25 @@ class JPathway extends JObject
 	 * @var    array  Array to hold the pathway item objects
 	 * @since  11.1
 	 */
+	protected $pathway = null;
+
+	/**
+	 * @var    array  Array to hold the pathway item objects
+	 * @since  11.1
+	 * @deprecated use $pathway declare as private
+	 */
 	protected $_pathway = null;
 
 	/**
 	 * @var    integer  Integer number of items in the pathway
 	 * @since  11.1
+	 */
+	protected $count = 0;
+
+	/**
+	 * @var    integer  Integer number of items in the pathway
+	 * @since  11.1
+	 * @deprecated use $count declare as private
 	 */
 	protected $_count = 0;
 
@@ -45,9 +59,9 @@ class JPathway extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function __construct($options = array())
+	public function __construct($options = array())
 	{
-		//Initialise the array
+		// Initialise the array
 		$this->_pathway = array();
 	}
 
@@ -65,7 +79,7 @@ class JPathway extends JObject
 	{
 		if (empty(self::$instances[$client]))
 		{
-			//Load the router object
+			// Load the router object
 			$info = JApplicationHelper::getClientInfo($client, true);
 
 			$path = $info->path . '/includes/pathway.php';
@@ -142,7 +156,7 @@ class JPathway extends JObject
 			$names[] = $item->name;
 		}
 
-		//Use array_values to reset the array keys numerically
+		// Use array_values to reset the array keys numerically
 		return array_values($names);
 	}
 

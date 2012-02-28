@@ -3,14 +3,14 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
- * Test class for JForm.
+ * Test class for JFormFieldAccessLevel.
  *
- * @package		Joomla.UnitTest
+ * @package     Joomla.UnitTest
  * @subpackage  Form
  * @since       11.1
  */
@@ -25,10 +25,20 @@ class JFormFieldAccessLevelTest extends JoomlaDatabaseTestCase
 	 */
 	protected function setUp()
 	{
-		jimport('joomla.form.form');
-		jimport('joomla.form.formfield');
-		require_once JPATH_PLATFORM.'/joomla/form/fields/accesslevel.php';
-		include_once dirname(__DIR__).'/inspectors.php';
+		require_once JPATH_PLATFORM . '/joomla/form/fields/accesslevel.php';
+		include_once dirname(__DIR__) . '/inspectors.php';
+	}
+
+	/**
+	 * Gets the data set to be loaded into the database during setup
+	 *
+	 * @return  xml  dataset
+	 *
+	 * @since   12.1
+	 */
+	protected function getDataSet()
+	{
+		return $this->createXMLDataSet(__DIR__ . '/testfiles/JFormField.xml');
 	}
 
 	/**

@@ -3,31 +3,38 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JFormFieldCacheHandler.
  *
- * @package		Joomla.UnitTest
+ * @package     Joomla.UnitTest
  * @subpackage  Form
+ * @since       11.1
  */
 class JFormFieldCacheHandlerTest extends JoomlaTestCase
 {
 	/**
 	 * Sets up dependencies for the test.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	protected function setUp()
 	{
-		jimport('joomla.form.form');
-		jimport('joomla.form.formfield');
-		require_once JPATH_PLATFORM.'/joomla/form/fields/cachehandler.php';
-		include_once dirname(__DIR__).'/inspectors.php';
+		require_once JPATH_PLATFORM . '/joomla/form/fields/cachehandler.php';
+		include_once dirname(__DIR__) . '/inspectors.php';
 	}
 
 	/**
 	 * Test the getInput method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testGetInput()
 	{
@@ -47,14 +54,10 @@ class JFormFieldCacheHandlerTest extends JoomlaTestCase
 			'Line:'.__LINE__.' The setup method should return true.'
 		);
 
-		$this->markTestIncomplete('Problems encountered in next assertion');
-
 		$this->assertThat(
 			strlen($field->input),
 			$this->greaterThan(0),
 			'Line:'.__LINE__.' The getInput method should return something without error.'
 		);
-
-		// TODO: Should check all the attributes have come in properly.
 	}
 }

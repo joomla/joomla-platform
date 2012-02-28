@@ -3,15 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.path');
-jimport('joomla.form.formfield');
-jimport('joomla.form.helper');
 jimport('joomla.utilities.arrayhelper');
 
 /**
@@ -528,6 +526,11 @@ class JForm
 		// Build the result array from the found field elements.
 		foreach ($elements as $element)
 		{
+			// Get the field groups for the element.
+			$attrs	= $element->xpath('ancestor::fields[@name]/@name');
+			$groups	= array_map('strval', $attrs ? $attrs : array());
+			$group	= implode('.', $groups);
+
 			// If the field is successfully loaded add it to the result array.
 			if ($field = $this->loadField($element, $group))
 			{
@@ -561,12 +564,12 @@ class JForm
 	}
 
 	/**
-	 * Method to get a form field markup for the field input.
+	 * Method to get the label for a field input.
 	 *
 	 * @param   string  $name   The name of the form field.
 	 * @param   string  $group  The optional dot-separated form group path on which to find the field.
 	 *
-	 * @return  string  The form field markup.
+	 * @return  string  The form field label.
 	 *
 	 * @since   11.1
 	 */
@@ -950,7 +953,7 @@ class JForm
 		}
 
 		// Find the form field element from the definition.
-		$element = &$this->findField($name, $group);
+		$element = $this->findField($name, $group);
 
 		// If the element doesn't exist return false.
 		if (!($element instanceof JXMLElement))
@@ -1116,7 +1119,7 @@ class JForm
 			$valid = $this->validateField($field, $group, $value, $input);
 
 			// Check for an error.
-			if (JError::isError($valid))
+			if ($valid instanceof Exception)
 			{
 				switch ($valid->get('level'))
 				{
@@ -1213,8 +1216,8 @@ class JForm
 					// Get the server timezone setting.
 					$offset = JFactory::getConfig()->get('offset');
 
-					// Return a MySQL formatted datetime string in UTC.
-					$return = JFactory::getDate($value, $offset)->toMySQL();
+					// Return an SQL formatted datetime string in UTC.
+					$return = JFactory::getDate($value, $offset)->toSql();
 				}
 				else
 				{
@@ -1230,7 +1233,7 @@ class JForm
 					$offset = JFactory::getUser()->getParam('timezone', JFactory::getConfig()->get('offset'));
 
 					// Return a MySQL formatted datetime string in UTC.
-					$return = JFactory::getDate($value, $offset)->toMySQL();
+					$return = JFactory::getDate($value, $offset)->toSql();
 				}
 				else
 				{
@@ -1238,8 +1241,61 @@ class JForm
 				}
 				break;
 
+			// Ensures a protocol is present in the saved field. Only use when
+			// the only permitted protocols requre '://'. See JFormRuleUrl for list of these.
+
+			case 'URL':
+				if (empty($value))
+				{
+					return;
+				}
+				$value = JFilterInput::getInstance()->clean($value, 'html');
+				$value = trim($value);
+
+				// Check for a protocol
+				$protocol = parse_url($value, PHP_URL_SCHEME);
+
+				// If there is no protocol and the relative option is not specified,
+				// we assume that it is an external URL and prepend http://.
+				if (($element['type'] == 'url' && !$protocol &&  !$element['relative'])
+					|| (!$element['type'] == 'url' && !$protocol))
+				{
+					$protocol = 'http';
+
+					// If it looks like an internal link, then add the root.
+					if (substr($value, 0) == 'index.php')
+					{
+						$value = JURI::root() . $value;
+					}
+
+					// Otherwise we treat it is an external link.
+					// Put the url back together.
+					$value = $protocol . '://' . $value;
+				}
+
+				// If relative URLS are allowed we assume that URLs without protocols are internal.
+				elseif (!$protocol && $element['relative'])
+				{
+					$host = JURI::getInstance('SERVER')->gethost();
+
+					// If it starts with the host string, just prepend the protocol.
+					if (substr($value, 0) == $host)
+					{
+						$value = 'http://' . $value;
+					}
+					// Otherwise prepend the root.
+					else
+					{
+						$value = JURI::root() . $value;
+					}
+				}
+
+				$return = $value;
+				break;
+
 			case 'TEL':
 				$value = trim($value);
+
 				// Does it match the NANP pattern?
 				if (preg_match('/^(?:\+?1[-. ]?)?\(?([2-9][0-8][0-9])\)?[-. ]?([2-9][0-9]{2})[-. ]?([0-9]{4})$/', $value) == 1)
 				{
@@ -1286,7 +1342,8 @@ class JForm
 					if ($value != null && strlen($value) <= 15)
 					{
 						$length = strlen($value);
-						// if it is fewer than 13 digits assume it is a local number
+
+						// If it is fewer than 13 digits assume it is a local number
 						if ($length <= 12)
 						{
 							$result = '.' . $value;
@@ -1646,10 +1703,12 @@ class JForm
 			$field = $this->loadFieldType('text');
 		}
 
-		// Get the value for the form field if not set.
-		// Default to the translated version of the 'default' attribute
-		// if 'translate_default' attribute if set to 'true' or '1'
-		// else the value of the 'default' attribute for the field.
+		/*
+		 * Get the value for the form field if not set.
+		 * Default to the translated version of the 'default' attribute
+		 * if 'translate_default' attribute if set to 'true' or '1'
+		 * else the value of the 'default' attribute for the field.
+		 */
 		if ($value === null)
 		{
 			$default = (string) $element['default'];
@@ -1829,14 +1888,14 @@ class JForm
 			// If the object could not be loaded return an error message.
 			if ($rule === false)
 			{
-				return new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_RULE_MISSING', $rule), -2, E_ERROR);
+				return new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_RULE_MISSING', $type), -2, E_ERROR);
 			}
 
 			// Run the field validation rule test.
 			$valid = $rule->test($element, $value, $group, $input, $this);
 
 			// Check for an error in the validation test.
-			if (JError::isError($valid))
+			if ($valid instanceof Exception)
 			{
 				return $valid;
 			}

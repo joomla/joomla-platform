@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -38,7 +38,6 @@ abstract class JFolder
 		@set_time_limit(ini_get('max_execution_time'));
 
 		// Initialise variables.
-		jimport('joomla.client.helper');
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
 		if ($path)
@@ -48,8 +47,8 @@ abstract class JFolder
 		}
 
 		// Eliminate trailing directory separators, if any
-		$src = rtrim($src, DS);
-		$dest = rtrim($dest, DS);
+		$src = rtrim($src, DIRECTORY_SEPARATOR);
+		$dest = rtrim($dest, DIRECTORY_SEPARATOR);
 
 		if (!self::exists($src))
 		{
@@ -70,8 +69,7 @@ abstract class JFolder
 		if ($FTPOptions['enabled'] == 1 && !$use_streams)
 		{
 			// Connect the FTP client
-			jimport('joomla.client.ftp');
-			$ftp = JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+			$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 
 			if (!($dh = @opendir($src)))
 			{
@@ -166,7 +164,6 @@ abstract class JFolder
 	public static function create($path = '', $mode = 0755)
 	{
 		// Initialise variables.
-		jimport('joomla.client.helper');
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 		static $nested = 0;
 
@@ -208,8 +205,7 @@ abstract class JFolder
 		if ($FTPOptions['enabled'] == 1)
 		{
 			// Connect the FTP client
-			jimport('joomla.client.ftp');
-			$ftp = JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+			$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 
 			// Translate path to FTP path
 			$path = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), '/');
@@ -235,13 +231,13 @@ abstract class JFolder
 				// Create the array of open_basedir paths
 				$obdArray = explode($obdSeparator, $obd);
 				$inBaseDir = false;
+
 				// Iterate through open_basedir paths looking for a match
 				foreach ($obdArray as $test)
 				{
 					$test = JPath::clean($test);
 					if (strpos($path, $test) === 0)
 					{
-						$obdpath = $test;
 						$inBaseDir = true;
 						break;
 					}
@@ -296,7 +292,6 @@ abstract class JFolder
 		}
 
 		// Initialise variables.
-		jimport('joomla.client.helper');
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
 		// Check to make sure the path valid and clean
@@ -345,8 +340,7 @@ abstract class JFolder
 		if ($FTPOptions['enabled'] == 1)
 		{
 			// Connect the FTP client
-			jimport('joomla.client.ftp');
-			$ftp = JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+			$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 		}
 
 		// In case of restricted permissions we zap it one way or the other
@@ -359,6 +353,7 @@ abstract class JFolder
 		{
 			// Translate path and delete
 			$path = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), '/');
+
 			// FTP connector throws an error
 			$ret = $ftp->delete($path);
 		}
@@ -385,7 +380,6 @@ abstract class JFolder
 	public static function move($src, $dest, $path = '', $use_streams = false)
 	{
 		// Initialise variables.
-		jimport('joomla.client.helper');
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
 		if ($path)
@@ -416,10 +410,9 @@ abstract class JFolder
 			if ($FTPOptions['enabled'] == 1)
 			{
 				// Connect the FTP client
-				jimport('joomla.client.ftp');
-				$ftp = JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 
-				//Translate path for the FTP account
+				// Translate path for the FTP account
 				$src = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
 				$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
 
@@ -641,6 +634,7 @@ abstract class JFolder
 		if ($level < $maxLevel)
 		{
 			$folders = self::folders($path, $filter);
+
 			// First path, index foldernames
 			foreach ($folders as $name)
 			{
@@ -666,7 +660,6 @@ abstract class JFolder
 	 */
 	public static function makeSafe($path)
 	{
-		//$ds = (DS == '\\') ? '\\/' : DS;
 		$regex = array('#[^A-Za-z0-9:_\\\/-]#');
 		return preg_replace($regex, '', $path);
 	}

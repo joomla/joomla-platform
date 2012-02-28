@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -111,14 +111,12 @@ class JFile
 		else
 		{
 			// Initialise variables.
-			jimport('joomla.client.helper');
 			$FTPOptions = JClientHelper::getCredentials('ftp');
 
 			if ($FTPOptions['enabled'] == 1)
 			{
 				// Connect the FTP client
-				jimport('joomla.client.ftp');
-				$ftp = JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 
 				// If the parent folder doesn't exist we must create it
 				if (!file_exists(dirname($dest)))
@@ -164,7 +162,6 @@ class JFile
 	public static function delete($file)
 	{
 		// Initialise variables.
-		jimport('joomla.client.helper');
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
 		if (is_array($file))
@@ -180,8 +177,7 @@ class JFile
 		if ($FTPOptions['enabled'] == 1)
 		{
 			// Connect the FTP client
-			jimport('joomla.client.ftp');
-			$ftp = JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+			$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 		}
 
 		foreach ($files as $file)
@@ -263,14 +259,12 @@ class JFile
 		else
 		{
 			// Initialise variables.
-			jimport('joomla.client.helper');
 			$FTPOptions = JClientHelper::getCredentials('ftp');
 
 			if ($FTPOptions['enabled'] == 1)
 			{
 				// Connect the FTP client
-				jimport('joomla.client.ftp');
-				$ftp = JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 
 				// Translate path for the FTP account
 				$src = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
@@ -348,10 +342,13 @@ class JFile
 		else
 		{
 			$data = '';
-			// While it's:
-			// 1: Not the end of the file AND
-			// 2a: No Max Amount set OR
-			// 2b: The length of the data is less than the max amount we want
+
+			/*
+			 * While it's:
+			 * 1: Not the end of the file AND
+			 * 2a: No Max Amount set OR
+			 * 2b: The length of the data is less than the max amount we want
+			 */
 			while (!feof($fh) && (!$amount || strlen($data) < $amount))
 			{
 				$data .= fread($fh, $chunksize);
@@ -387,6 +384,7 @@ class JFile
 		if ($use_streams)
 		{
 			$stream = JFactory::getStream();
+
 			// Beef up the chunk size to a meg
 			$stream->set('chunksize', (1024 * 1024 * 1024));
 
@@ -401,14 +399,12 @@ class JFile
 		else
 		{
 			// Initialise variables.
-			jimport('joomla.client.helper');
 			$FTPOptions = JClientHelper::getCredentials('ftp');
 
 			if ($FTPOptions['enabled'] == 1)
 			{
 				// Connect the FTP client
-				jimport('joomla.client.ftp');
-				$ftp = JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 
 				// Translate path for the FTP account and use FTP write buffer to file
 				$file = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
@@ -464,15 +460,13 @@ class JFile
 		else
 		{
 			// Initialise variables.
-			jimport('joomla.client.helper');
 			$FTPOptions = JClientHelper::getCredentials('ftp');
 			$ret = false;
 
 			if ($FTPOptions['enabled'] == 1)
 			{
 				// Connect the FTP client
-				jimport('joomla.client.ftp');
-				$ftp = JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 
 				// Translate path for the FTP account
 				$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');

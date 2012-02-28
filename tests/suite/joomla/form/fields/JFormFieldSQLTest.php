@@ -3,16 +3,16 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JFormFieldSQL.
  *
- * @package		Joomla.UnitTest
+ * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       11.3
+ * @since       12.1
  */
 class JFormFieldSQLTest extends JoomlaDatabaseTestCase
 {
@@ -21,14 +21,12 @@ class JFormFieldSQLTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   12.1
 	 */
 	protected function setUp()
 	{
-		jimport('joomla.form.form');
-		jimport('joomla.form.formfield');
-		require_once JPATH_PLATFORM.'/joomla/form/fields/sql.php';
-		include_once dirname(__DIR__).'/inspectors.php';
+		require_once JPATH_PLATFORM . '/joomla/form/fields/sql.php';
+		include_once dirname(__DIR__) . '/inspectors.php';
 	}
 
 	/**
@@ -36,11 +34,11 @@ class JFormFieldSQLTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return  xml dataset
 	 *
-	 * @since   11.3
+	 * @since   12.1
 	 */
 	protected function getDataSet()
 	{
-		return $this->createXMLDataSet(__DIR__.'/testfiles/JFormField.xml');
+		return $this->createXMLDataSet(__DIR__ . '/testfiles/JFormField.xml');
 	}
 
 	/**
@@ -48,7 +46,7 @@ class JFormFieldSQLTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   12.1
 	 */
 	public function testGetInput()
 	{
@@ -57,7 +55,7 @@ class JFormFieldSQLTest extends JoomlaDatabaseTestCase
 		$this->assertThat(
 			$form->load('<form><field name="sql" type="sql" key_field="id" query="SELECT * FROM `jos_categories`"><option value="*">None</option></field></form>'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' XML string should load successfully.'
+		'Line:'.__LINE__.' XML string should load successfully.'
 		);
 
 		$field = new JFormFieldSQL($form);
@@ -65,13 +63,13 @@ class JFormFieldSQLTest extends JoomlaDatabaseTestCase
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The setup method should return true.'
+		'Line:'.__LINE__.' The setup method should return true.'
 		);
 
 		$this->assertThat(
 			strlen($field->input),
 			$this->greaterThan(0),
-			'Line:'.__LINE__.' The getInput method should return something without error.'
+		'Line:'.__LINE__.' The getInput method should return something without error.'
 		);
 	}
 }

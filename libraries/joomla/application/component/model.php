@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,6 +27,15 @@ abstract class JModel extends JObject
 	 * @var    boolean
 	 * @since  11.1
 	 */
+	protected $stateSet = null;
+
+	/**
+	 * Indicates if the internal state has been set
+	 *
+	 * @var    boolean
+	 * @since  11.1
+	 * @deprecated use $stateSet declare as private
+	 */
 	protected $__state_set = null;
 
 	/**
@@ -34,6 +43,15 @@ abstract class JModel extends JObject
 	 *
 	 * @var    object
 	 * @since  11.1
+	 */
+	protected $db;
+
+	/**
+	 * Database Connector
+	 *
+	 * @var    object
+	 * @since  11.1
+	 * @deprecated use $db declare as private
 	 */
 	protected $_db;
 
@@ -130,7 +148,6 @@ abstract class JModel extends JObject
 	 */
 	public static function addTablePath($path)
 	{
-		jimport('joomla.database.table');
 		JTable::addIncludePath($path);
 	}
 
@@ -177,10 +194,10 @@ abstract class JModel extends JObject
 		if (!class_exists($modelClass))
 		{
 			jimport('joomla.filesystem.path');
-			$path = JPath::find(JModel::addIncludePath(null, $prefix), JModel::_createFileName('model', array('name' => $type)));
+			$path = JPath::find(self::addIncludePath(null, $prefix), self::_createFileName('model', array('name' => $type)));
 			if (!$path)
 			{
-				$path = JPath::find(JModel::addIncludePath(null, ''), JModel::_createFileName('model', array('name' => $type)));
+				$path = JPath::find(self::addIncludePath(null, ''), self::_createFileName('model', array('name' => $type)));
 			}
 			if ($path)
 			{
@@ -315,7 +332,7 @@ abstract class JModel extends JObject
 	protected function _getListCount($query)
 	{
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 
 		return $this->_db->getNumRows();
 	}
@@ -348,9 +365,9 @@ abstract class JModel extends JObject
 	}
 
 	/**
-	 * Method to get the database connector object
+	 * Method to get the database driver object
 	 *
-	 * @return  JDatabase  JDatabase connector object
+	 * @return  JDatabaseDriver
 	 */
 	public function getDbo()
 	{
@@ -374,7 +391,7 @@ abstract class JModel extends JObject
 			$r = null;
 			if (!preg_match('/Model(.*)/i', get_class($this), $r))
 			{
-				JError::raiseError(500, 'JLIB_APPLICATION_ERROR_MODEL_GET_NAME');
+				JError::raiseError(500, JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'));
 			}
 			$this->name = strtolower($r[1]);
 		}
@@ -417,24 +434,14 @@ abstract class JModel extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function getTable($name = '', $prefix = '', $options = array())
+	public function getTable($name = '', $prefix = 'Table', $options = array())
 	{
 		if (empty($name))
 		{
 			$name = $this->getName();
 		}
 
-		if (empty($prefix))
-		{
-			$prefix = $this->getName() . 'Table';
-		}
-
 		if ($table = $this->_createTable($name, $prefix, $options))
-		{
-			return $table;
-		}
-
-		if ($table = $this->_createTable($name, 'Table', $options))
 		{
 			return $table;
 		}
@@ -461,9 +468,9 @@ abstract class JModel extends JObject
 	}
 
 	/**
-	 * Method to set the database connector object
+	 * Method to set the database driver object
 	 *
-	 * @param   object  &$db  A JDatabase based object
+	 * @param   JDatabaseDriver  &$db  A JDatabaseDriver based object
 	 *
 	 * @return  void
 	 *

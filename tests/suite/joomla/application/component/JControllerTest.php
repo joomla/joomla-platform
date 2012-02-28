@@ -1,7 +1,7 @@
 <?php
 /**
  * @version   $Id: JControllerTest.php 20196 2011-01-09 02:40:25Z ian $
- * @copyright Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
+ * @copyright Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
  * @license   GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -146,14 +146,6 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test JController::authorize
-	 */
-	public function testAuthorize()
-	{
-		$this->markTestSkipped('This method is depracated.');
-	}
-
-	/**
 	 * Test JController::createModel
 	 */
 	public function testCreateModel()
@@ -195,7 +187,49 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 	public function testGetInstance()
 	{
 		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$controller = $this->getMock('JController', null, array(), '', false);
+		$className = get_class($controller);
+		$_SERVER['REQUEST_METHOD'] = 'get';
+		JRequest::setVar('format', 'json');
+		try
+		{
+			$className::getInstance('MyPrefix', array('base_path' => __DIR__ . '/_data/component1'));
+		}
+		catch (Exception $e)
+		{
+			$this->assertEquals(
+				$e->getMessage(),
+				'JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS',
+				'Line:'.__LINE__.' File _data/component1/controller.json.php must be found.'
+			);
+		}
+		JRequest::setVar('format', 'xml');
+		try
+		{
+			$className::getInstance('MyPrefix', array('base_path' => __DIR__ . '/_data/component1'));
+		}
+		catch (Exception $e)
+		{
+			$this->assertEquals(
+				$e->getMessage(),
+				'JLIB_APPLICATION_ERROR_INVALID_CONTROLLER',
+				'Line:'.__LINE__.' File _data/component1/controller.xml.php and _data/component1/controller.php must not be found.'
+			);
+		}
+		JRequest::setVar('format', 'xml');
+		try
+		{
+			$className::getInstance('MyPrefix', array('base_path' => __DIR__ . '/_data/component2'));
+		}
+		catch (Exception $e)
+		{
+			$this->assertEquals(
+				$e->getMessage(),
+				'JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS',
+				'Line:'.__LINE__.' File _data/component2/controller.php must be found.'
+			);
+		}
+		$this->markTestIncomplete('This test is not been complete yet.');
 	}
 
 	/**
@@ -309,15 +343,6 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 	 * Test JController::registerTask
 	 */
 	public function testRegisterTask()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test JController::setAccessControl
-	 */
-	public function testSetAccessControl()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');

@@ -7,7 +7,7 @@
  *
  * @package     Joomla.UnitTest
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  * @link        http://www.phpunit.de/manual/current/en/installation.html
  */
@@ -79,3 +79,4 @@ require_once JPATH_PLATFORM . '/import.php';
 // Include the base test cases.
 require_once JPATH_TESTS . '/includes/JoomlaTestCase.php';
 require_once JPATH_TESTS . '/includes/JoomlaDatabaseTestCase.php';
+require_once JPATH_TESTS . '/includes/ReflectionHelper.php';

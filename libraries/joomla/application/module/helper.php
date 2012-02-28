@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -33,7 +33,7 @@ abstract class JModuleHelper
 	public static function &getModule($name, $title = null)
 	{
 		$result = null;
-		$modules = JModuleHelper::_load();
+		$modules =& self::_load();
 		$total = count($modules);
 
 		for ($i = 0; $i < $total; $i++)
@@ -46,7 +46,7 @@ abstract class JModuleHelper
 				{
 					// Found it
 					$result = &$modules[$i];
-					break; // Found it
+					break;
 				}
 			}
 		}
@@ -54,16 +54,16 @@ abstract class JModuleHelper
 		// If we didn't find it, and the name is mod_something, create a dummy object
 		if (is_null($result) && substr($name, 0, 4) == 'mod_')
 		{
-			$result = new stdClass;
-			$result->id = 0;
-			$result->title = '';
-			$result->module = $name;
-			$result->position = '';
-			$result->content = '';
+			$result            = new stdClass;
+			$result->id        = 0;
+			$result->title     = '';
+			$result->module    = $name;
+			$result->position  = '';
+			$result->content   = '';
 			$result->showtitle = 0;
-			$result->control = '';
-			$result->params = '';
-			$result->user = 0;
+			$result->control   = '';
+			$result->params    = '';
+			$result->user      = 0;
 		}
 
 		return $result;
@@ -83,7 +83,7 @@ abstract class JModuleHelper
 		$position = strtolower($position);
 		$result = array();
 
-		$modules = JModuleHelper::_load();
+		$modules =& self::_load();
 
 		$total = count($modules);
 		for ($i = 0; $i < $total; $i++)
@@ -98,7 +98,7 @@ abstract class JModuleHelper
 		{
 			if (JRequest::getBool('tp') && JComponentHelper::getParams('com_templates')->get('template_positions_display'))
 			{
-				$result[0] = JModuleHelper::getModule('mod_' . $position);
+				$result[0] = self::getModule('mod_' . $position);
 				$result[0]->title = $position;
 				$result[0]->content = $position;
 				$result[0]->position = $position;
@@ -119,7 +119,7 @@ abstract class JModuleHelper
 	 */
 	public static function isEnabled($module)
 	{
-		$result = JModuleHelper::getModule($module);
+		$result = self::getModule($module);
 
 		return !is_null($result);
 	}
@@ -164,6 +164,7 @@ abstract class JModuleHelper
 		if (empty($module->user) && file_exists($path))
 		{
 			$lang = JFactory::getLanguage();
+
 			// 1.5 or Core then 1.6 3PD
 			$lang->load($module->module, JPATH_BASE, null, false, false) ||
 				$lang->load($module->module, dirname($path), null, false, false) ||
@@ -224,7 +225,7 @@ abstract class JModuleHelper
 			}
 		}
 
-		//revert the scope
+		// Revert the scope
 		$app->scope = $scope;
 
 		if (constant('JDEBUG'))
@@ -297,99 +298,80 @@ abstract class JModuleHelper
 		$lang = JFactory::getLanguage()->getTag();
 		$clientId = (int) $app->getClientId();
 
-		$cache = JFactory::getCache('com_modules', '');
-		$cacheid = md5(serialize(array($Itemid, $groups, $clientId, $lang)));
+		$db = JFactory::getDbo();
 
-		if (!($clean = $cache->get($cacheid)))
+		$query = $db->getQuery(true);
+		$query->select('m.id, m.title, m.module, m.position, m.content, m.showtitle, m.params, mm.menuid');
+		$query->from('#__modules AS m');
+		$query->join('LEFT', '#__modules_menu AS mm ON mm.moduleid = m.id');
+		$query->where('m.published = 1');
+
+		$query->join('LEFT', '#__extensions AS e ON e.element = m.module AND e.client_id = m.client_id');
+		$query->where('e.enabled = 1');
+
+		$date = JFactory::getDate();
+		$now = $date->toSql();
+		$nullDate = $db->getNullDate();
+		$query->where('(m.publish_up = ' . $db->Quote($nullDate) . ' OR m.publish_up <= ' . $db->Quote($now) . ')');
+		$query->where('(m.publish_down = ' . $db->Quote($nullDate) . ' OR m.publish_down >= ' . $db->Quote($now) . ')');
+
+		$query->where('m.access IN (' . $groups . ')');
+		$query->where('m.client_id = ' . $clientId);
+		$query->where('(mm.menuid = ' . (int) $Itemid . ' OR mm.menuid <= 0)');
+
+		// Filter by language
+		if ($app->isSite() && $app->getLanguageFilter())
 		{
-			$db = JFactory::getDbo();
-
-			$query = $db->getQuery(true);
-			$query->select('m.id, m.title, m.module, m.position, m.content, m.showtitle, m.params, mm.menuid');
-			$query->from('#__modules AS m');
-			$query->join('LEFT', '#__modules_menu AS mm ON mm.moduleid = m.id');
-			$query->where('m.published = 1');
-
-			$query->join('LEFT', '#__extensions AS e ON e.element = m.module AND e.client_id = m.client_id');
-			$query->where('e.enabled = 1');
-
-			$date = JFactory::getDate();
-			$now = $date->toMySQL();
-			$nullDate = $db->getNullDate();
-			$query->where('(m.publish_up = ' . $db->Quote($nullDate) . ' OR m.publish_up <= ' . $db->Quote($now) . ')');
-			$query->where('(m.publish_down = ' . $db->Quote($nullDate) . ' OR m.publish_down >= ' . $db->Quote($now) . ')');
-
-			$query->where('m.access IN (' . $groups . ')');
-			$query->where('m.client_id = ' . $clientId);
-			$query->where('(mm.menuid = ' . (int) $Itemid . ' OR mm.menuid <= 0)');
-
-			// Filter by language
-			if ($app->isSite() && $app->getLanguageFilter())
-			{
-				$query->where('m.language IN (' . $db->Quote($lang) . ',' . $db->Quote('*') . ')');
-			}
-
-			$query->order('m.position, m.ordering');
-
-			// Set the query
-			$db->setQuery($query);
-			$modules = $db->loadObjectList();
-			$clean = array();
-
-			if ($db->getErrorNum())
-			{
-				JError::raiseWarning(500, JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $db->getErrorMsg()));
-				return $clean;
-			}
-
-			// Apply negative selections and eliminate duplicates
-			$negId = $Itemid ? -(int) $Itemid : false;
-			$dupes = array();
-			for ($i = 0, $n = count($modules); $i < $n; $i++)
-			{
-				$module = &$modules[$i];
-
-				// The module is excluded if there is an explicit prohibition or if
-				// the Itemid is missing or zero and the module is in exclude mode.
-				$negHit = ($negId === (int) $module->menuid) || (!$negId && (int) $module->menuid < 0);
-
-				if (isset($dupes[$module->id]))
-				{
-					// If this item has been excluded, keep the duplicate flag set,
-					// but remove any item from the cleaned array.
-					if ($negHit)
-					{
-						unset($clean[$module->id]);
-					}
-					continue;
-				}
-
-				$dupes[$module->id] = true;
-
-				// Only accept modules without explicit exclusions.
-				if (!$negHit)
-				{
-					// Determine if this is a 1.0 style custom module (no mod_ prefix)
-					// This should be eliminated when the class is refactored.
-					// $module->user is deprecated.
-					$file = $module->module;
-					$custom = substr($file, 0, 4) == 'mod_' ?  0 : 1;
-					$module->user = $custom;
-					// 1.0 style custom module name is given by the title field, otherwise strip off "mod_"
-					$module->name = $custom ? $module->module : substr($file, 4);
-					$module->style = null;
-					$module->position = strtolower($module->position);
-					$clean[$module->id] = $module;
-				}
-			}
-
-			unset($dupes);
-
-			// Return to simple indexing that matches the query order.
-			$clean = array_values($clean);
-
-			$cache->store($clean, $cacheid);
+			$query->where('m.language IN (' . $db->Quote($lang) . ',' . $db->Quote('*') . ')');
 		}
+
+		$query->order('m.position, m.ordering');
+
+		// Set the query
+		$db->setQuery($query);
+		$modules = $db->loadObjectList();
+		$clean = array();
+
+		if ($db->getErrorNum())
+		{
+			JError::raiseWarning(500, JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $db->getErrorMsg()));
+			return $clean;
+		}
+
+		// Apply negative selections and eliminate duplicates
+		$negId = $Itemid ? -(int) $Itemid : false;
+		$dupes = array();
+		for ($i = 0, $n = count($modules); $i < $n; $i++)
+		{
+			$module = &$modules[$i];
+
+			// The module is excluded if there is an explicit prohibition
+			$negHit = ($negId === (int) $module->menuid);
+
+			if (isset($dupes[$module->id]))
+			{
+				// If this item has been excluded, keep the duplicate flag set,
+				// but remove any item from the cleaned array.
+				if ($negHit)
+				{
+					unset($clean[$module->id]);
+				}
+				continue;
+			}
+
+			$dupes[$module->id] = true;
+
+			// Only accept modules without explicit exclusions.
+			if (!$negHit)
+			{
+				$module->name = substr($module->module, 4);
+				$module->style = null;
+				$module->position = strtolower($module->position);
+				$clean[$module->id] = $module;
+			}
+		}
+
+		unset($dupes);
 
 		return $clean;
 	}
@@ -400,8 +382,6 @@ abstract class JModuleHelper
 	 * Caching modes:
 	 * To be set in XML:
 	 * 'static'      One cache file for all pages with the same module parameters
-	 * 'oldstatic'   1.5 definition of module caching, one cache file for all pages
-	 * with the same module id and user aid,
 	 * 'itemid'      Changes on itemid change, to be called from inside the module:
 	 * 'safeuri'     Id created from $cacheparams->modeparams array,
 	 * 'id'          Module sets own cache id's
@@ -438,7 +418,7 @@ abstract class JModuleHelper
 			$cache->setCaching(false);
 		}
 
-		// module cache is set in seconds, global cache in minutes, setLifeTime works in minutes
+		// Module cache is set in seconds, global cache in minutes, setLifeTime works in minutes
 		$cache->setLifeTime($moduleparams->get('cache_time', $conf->get('cachetime') * 60) / 60);
 
 		$wrkaroundoptions = array('nopathway' => 1, 'nohead' => 0, 'nomodules' => 1, 'modulemode' => 1, 'mergehead' => 1);
@@ -489,16 +469,6 @@ abstract class JModuleHelper
 						$cacheparams->method),
 					$cacheparams->methodparams,
 					$module->module . md5(serialize($cacheparams->methodparams)),
-					$wrkarounds,
-					$wrkaroundoptions
-				);
-				break;
-
-			case 'oldstatic': // provided for backward compatibility, not really usefull
-				$ret = $cache->get(
-					array($cacheparams->class, $cacheparams->method),
-					$cacheparams->methodparams,
-					$module->id . $view_levels,
 					$wrkarounds,
 					$wrkaroundoptions
 				);

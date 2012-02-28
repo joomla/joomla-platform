@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright  Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
  * @license    GNU General Public License
  */
 
@@ -32,7 +32,7 @@ class JDatabaseImporterMySQLiTest extends PHPUnit_Framework_TestCase
 		// Set up the database object mock.
 
 		$this->dbo = $this->getMock(
-			'JDatabaseMySqli',
+			'JDatabaseMysqli',
 			array(),
 			array(),
 			'',
@@ -48,7 +48,7 @@ class JDatabaseImporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithNoDbo()
 	{
-		$instance = new JDatabaseImporterMySqli;
+		$instance = new JDatabaseImporterMysqli;
 
 		try
 		{
@@ -73,7 +73,7 @@ class JDatabaseImporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithNoTables()
 	{
-		$instance	= new JDatabaseImporterMySqli;
+		$instance	= new JDatabaseImporterMysqli;
 		$instance->setDbo($this->dbo);
 
 		try
@@ -99,7 +99,7 @@ class JDatabaseImporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithGoodInput()
 	{
-		$instance	= new JDatabaseImporterMySqli;
+		$instance	= new JDatabaseImporterMysqli;
 		$instance->setDbo($this->dbo);
 		$instance->from('foobar');
 
@@ -129,7 +129,7 @@ class JDatabaseImporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetDboWithBadInput()
 	{
-		$instance	= new JDatabaseImporterMySqli;
+		$instance	= new JDatabaseImporterMysqli;
 
 		try
 		{
@@ -154,7 +154,7 @@ class JDatabaseImporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetDboWithGoodInput()
 	{
-		$instance = new JDatabaseImporterMySqli;
+		$instance = new JDatabaseImporterMysqli;
 
 		try
 		{

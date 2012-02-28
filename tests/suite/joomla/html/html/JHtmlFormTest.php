@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,28 +24,25 @@ class JHtmlFormTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 */
 	protected function setUp()
 	{
-		parent::setUp();
+		parent::setup();
 
-		jimport('joomla.utilities.utility');
-		jimport('joomla.filter.filterinput');
-
-		// Need a mock session
 		$this->saveFactoryState();
 
 		JFactory::$session = $this->getMockSession();
 	}
 
 	/**
-	 * Tears down the fixture, for example, closes a network connection.
+	 * Tears down the fixture.
+	 *
 	 * This method is called after a test is executed.
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 */
 	protected function tearDown()
 	{
@@ -59,14 +56,15 @@ class JHtmlFormTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   11.4
 	 */
 	public function testToken()
 	{
+		$token = JSession::getFormToken();
+
 		$this->assertThat(
-			strlen(JHtmlForm::token()),
-			$this->greaterThan(0),
-			'Line:'.__LINE__.' The token method should return something without error.'
+			JHtmlForm::token(),
+			$this->equalTo('<input type="hidden" name="' . $token . '" value="1" />')
 		);
 	}
 }

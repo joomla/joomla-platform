@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Error
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Error
  * @since       11.1
  */
-class JProfiler extends JObject
+class JProfiler
 {
 	/**
 	 * @var    integer  The start time.

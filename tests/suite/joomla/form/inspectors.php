@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,7 +11,7 @@
  * Inspector classes for the forms library.
  */
 require_once JPATH_PLATFORM.'/joomla/form/form.php';
-require_once JPATH_PLATFORM.'/joomla/form/formfield.php';
+require_once JPATH_PLATFORM.'/joomla/form/field.php';
 
 /**
  * @package		Joomla.UnitTest
@@ -104,6 +104,18 @@ class JFormInspector extends JForm
  */
 class JFormFieldInspector extends JFormField
 {
+	public function __get($name)
+	{
+		if ($name == 'element')
+		{
+			return $this->element;
+		}
+		else
+		{
+			return parent::__get($name);
+		}
+	}
+
 	public function getInput()
 	{
 		return null;

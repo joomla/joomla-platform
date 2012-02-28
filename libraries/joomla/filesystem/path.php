@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,12 +14,6 @@ define('JPATH_ISWIN', (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN'));
 
 // Define a boolean constant as true if a Mac based host
 define('JPATH_ISMAC', (strtoupper(substr(PHP_OS, 0, 3)) === 'MAC'));
-
-if (!defined('DS'))
-{
-	// Define a string constant shortcut for the DIRECTORY_SEPARATOR define
-	define('DS', DIRECTORY_SEPARATOR);
-}
 
 if (!defined('JPATH_ROOT'))
 {
@@ -87,7 +81,7 @@ class JPath
 					$fullpath = $path . '/' . $file;
 					if (is_dir($fullpath))
 					{
-						if (!JPath::setPermissions($fullpath, $filemode, $foldermode))
+						if (!self::setPermissions($fullpath, $filemode, $foldermode))
 						{
 							$ret = false;
 						}
@@ -135,7 +129,7 @@ class JPath
 	 */
 	public static function getPermissions($path)
 	{
-		$path = JPath::clean($path);
+		$path = self::clean($path);
 		$mode = @ decoct(@ fileperms($path) & 0777);
 
 		if (strlen($mode) < 3)
@@ -146,11 +140,13 @@ class JPath
 		$parsed_mode = '';
 		for ($i = 0; $i < 3; $i++)
 		{
-			// read
+			// Read
 			$parsed_mode .= ($mode{$i} & 04) ? "r" : "-";
-			// write
+
+			// Write
 			$parsed_mode .= ($mode{$i} & 02) ? "w" : "-";
-			// execute
+
+			// Execute
 			$parsed_mode .= ($mode{$i} & 01) ? "x" : "-";
 		}
 
@@ -176,8 +172,8 @@ class JPath
 			jexit();
 		}
 
-		$path = JPath::clean($path);
-		if (strpos($path, JPath::clean(JPATH_ROOT)) !== 0)
+		$path = self::clean($path);
+		if ((JPATH_ROOT != '') && strpos($path, self::clean(JPATH_ROOT)) !== 0)
 		{
 			// Don't translate
 			JError::raiseError(20, 'JPath::check Snooping out of bounds @ ' . $path);
@@ -207,7 +203,7 @@ class JPath
 		}
 		else
 		{
-			// Remove double slashes and backslashes and convert all slashes and backslashes to DS
+			// Remove double slashes and backslashes and convert all slashes and backslashes to DIRECTORY_SEPARATOR
 			$path = preg_replace('#[/\\\\]+#', $ds, $path);
 		}
 
@@ -226,7 +222,6 @@ class JPath
 	public static function isOwner($path)
 	{
 		jimport('joomla.filesystem.file');
-		jimport('joomla.user.helper');
 
 		$tmp = md5(JUserHelper::genRandomPassword(16));
 		$ssp = ini_get('session.save_path');
@@ -269,7 +264,11 @@ class JPath
 	 */
 	public static function find($paths, $file)
 	{
-		settype($paths, 'array'); //force to array
+		// Force to array
+		if (!is_array($paths) && !($paths instanceof Iterator))
+		{
+			settype($paths, 'array');
+		}
 
 		// Start looping through the path set
 		foreach ($paths as $path)
@@ -282,14 +281,18 @@ class JPath
 			{
 				// Not a stream, so do a realpath() to avoid directory
 				// traversal attempts on the local file system.
-				$path = realpath($path); // needed for substr() later
+
+				// Needed for substr() later
+				$path = realpath($path);
 				$fullname = realpath($fullname);
 			}
 
-			// The substr() check added to make sure that the realpath()
-			// results in a directory registered so that
-			// non-registered directories are not accessible via directory
-			// traversal attempts.
+			/*
+			 * The substr() check added to make sure that the realpath()
+			 * results in a directory registered so that
+			 * non-registered directories are not accessible via directory
+			 * traversal attempts.
+			 */
 			if (file_exists($fullname) && substr($fullname, 0, strlen($path)) == $path)
 			{
 				return $fullname;

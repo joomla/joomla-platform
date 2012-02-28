@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,6 +24,15 @@ class JMenu extends JObject
 	 * @var    array
 	 * @since   11.1
 	 */
+	protected $items = array();
+
+	/**
+	 * Array to hold the menu items
+	 *
+	 * @var    array
+	 * @since   11.1
+	 * @deprecated use $items declare as private
+	 */
 	protected $_items = array();
 
 	/**
@@ -32,6 +41,15 @@ class JMenu extends JObject
 	 * @var    integer
 	 * @since   11.1
 	 */
+	protected $default = array();
+
+	/**
+	 * Identifier of the default menu item
+	 *
+	 * @var    integer
+	 * @since   11.1
+	 * @deprecated use $default declare as private
+	 */
 	protected $_default = array();
 
 	/**
@@ -39,6 +57,15 @@ class JMenu extends JObject
 	 *
 	 * @var    integer
 	 * @since  11.1
+	 */
+	protected $active = 0;
+
+	/**
+	 * Identifier of the active menu item
+	 *
+	 * @var    integer
+	 * @since  11.1
+	 * @deprecated use $active declare as private
 	 */
 	protected $_active = 0;
 
@@ -64,7 +91,7 @@ class JMenu extends JObject
 		{
 			if ($item->home)
 			{
-				$this->_default[$item->language] = $item->id;
+				$this->_default[trim($item->language)] = $item->id;
 			}
 
 			// Decode the item params
@@ -88,22 +115,27 @@ class JMenu extends JObject
 	{
 		if (empty(self::$instances[$client]))
 		{
-			//Load the router object
+			// Load the router object
 			$info = JApplicationHelper::getClientInfo($client, true);
 
 			$path = $info->path . '/includes/menu.php';
 			if (file_exists($path))
 			{
-				include_once $path;
-
 				// Create a JPathway object
 				$classname = 'JMenu' . ucfirst($client);
+
+				// Only load if not already loaded.
+				if (class_exists($classname) == false)
+				{
+					include $path;
+				}
+
 				$instance = new $classname($options);
 			}
 			else
 			{
-				//$error = JError::raiseError(500, 'Unable to load menu: '.$client);
-				//TODO: Solve this
+				// $error = JError::raiseError(500, 'Unable to load menu: '.$client);
+				// TODO: Solve this
 				$error = null;
 				return $error;
 			}
@@ -164,7 +196,7 @@ class JMenu extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function getDefault($language = '*')
+	public function getDefault($language = '*')
 	{
 		if (array_key_exists($language, $this->_default))
 		{
@@ -232,7 +264,7 @@ class JMenu extends JObject
 	 */
 	public function getItems($attributes, $values, $firstonly = false)
 	{
-		$items = null;
+		$items = array();
 		$attributes = (array) $attributes;
 		$values = (array) $values;
 

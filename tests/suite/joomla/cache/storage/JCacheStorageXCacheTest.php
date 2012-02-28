@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -111,14 +111,14 @@ class JCacheStorageXCacheTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Testing test().
+	 * Testing isSupported().
 	 *
 	 * @return void
 	 */
-	public function testTest()
+	public function testIsSupported()
 	{
 		$this->assertThat(
-			$this->object->test(),
+			$this->object->isSupported(),
 			$this->equalTo($this->xcacheAvailable),
 			'Claims xcache is not loaded.'
 		);

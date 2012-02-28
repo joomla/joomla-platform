@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -81,6 +81,9 @@ class JFormDataHelper
 
 		<field
 			name="tel" filter="tel" />
+
+		<field
+			name="url" filter="url" />
 
 		<fields
 			name="params"
@@ -384,6 +387,14 @@ class JFormDataHelper
 				<option value="green">Green</option>
 				<option value="yellow">Yellow</option>
 			</field>
+			<fields
+				name="subparams">
+				<field
+					name="comment"
+					type="text"
+					required="true"
+				/>
+			</fields>
 		</fields>
 
 		<field

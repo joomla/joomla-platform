@@ -3,12 +3,13 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/environment/request.php';
-require_once JPATH_PLATFORM.'/joomla/application/application.php';
+require_once JPATH_PLATFORM . '/joomla/input/input.php';
+require_once JPATH_PLATFORM . '/joomla/environment/request.php';
+require_once JPATH_PLATFORM . '/joomla/application/application.php';
 
 /**
  * Test class for JApplication.

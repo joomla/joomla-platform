@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,7 +11,7 @@
  * A unit test class for SubjectClass
  * The two annotations below are required because we use mocks.  This avoids bringing bogus classes into the main process.
  */
-class JCacheControllerCallbackTest_Callback extends PHPUnit_Extensions_OutputTestCase
+class JCacheControllerCallbackTest_Callback extends PHPUnit_Framework_TestCase
 {
 
 	public function setUp() {

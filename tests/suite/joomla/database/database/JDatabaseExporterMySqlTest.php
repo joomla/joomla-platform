@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright  Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
  * @license    GNU General Public License
  */
 
@@ -38,7 +38,7 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 		// Set up the database object mock.
 
 		$this->dbo = $this->getMock(
-			'JDatabaseMySql',
+			'JDatabaseMysql',
 			array(
 				'getErrorNum',
 				'getPrefix',

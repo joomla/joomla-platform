@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -48,7 +48,7 @@ abstract class JHtmlAccess
 
 		$query->select('a.id AS value, a.title AS text');
 		$query->from('#__viewlevels AS a');
-		$query->group('a.id');
+		$query->group('a.id, a.title, a.ordering');
 		$query->order('a.ordering ASC');
 		$query->order($query->qn('title') . ' ASC');
 
@@ -107,7 +107,7 @@ abstract class JHtmlAccess
 		$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level');
 		$query->from($db->quoteName('#__usergroups') . ' AS a');
 		$query->join('LEFT', $db->quoteName('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
-		$query->group('a.id');
+		$query->group('a.id, a.title, a.lft, a.rgt');
 		$query->order('a.lft ASC');
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
@@ -157,7 +157,7 @@ abstract class JHtmlAccess
 		$query->select('a.*, COUNT(DISTINCT b.id) AS level');
 		$query->from($db->quoteName('#__usergroups') . ' AS a');
 		$query->join('LEFT', $db->quoteName('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
-		$query->group('a.id');
+		$query->group('a.id, a.title, a.lft, a.rgt, a.parent_id');
 		$query->order('a.lft ASC');
 		$db->setQuery($query);
 		$groups = $db->loadObjectList();
@@ -182,6 +182,7 @@ abstract class JHtmlAccess
 			{
 				// Setup  the variable attributes.
 				$eid = $count . 'group_' . $item->id;
+
 				// Don't call in_array unless something is selected
 				$checked = '';
 				if ($selected)
@@ -254,26 +255,24 @@ abstract class JHtmlAccess
 	/**
 	 * Gets a list of the asset groups as an array of JHtml compatible options.
 	 *
-	 * @param   array  $config  An array of options for the options
-	 *
 	 * @return  mixed  An array or false if an error occurs
 	 *
 	 * @since   11.1
 	 */
-	public static function assetgroups($config = array())
+	public static function assetgroups()
 	{
-		if (empty(JHtmlAccess::$asset_groups))
+		if (empty(self::$asset_groups))
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 
 			$query->select('a.id AS value, a.title AS text');
 			$query->from($db->quoteName('#__viewlevels') . ' AS a');
-			$query->group('a.id');
+			$query->group('a.id, a.title, a.ordering');
 			$query->order('a.ordering ASC');
 
 			$db->setQuery($query);
-			JHtmlAccess::$asset_groups = $db->loadObjectList();
+			self::$asset_groups = $db->loadObjectList();
 
 			// Check for a database error.
 			if ($db->getErrorNum())
@@ -283,7 +282,7 @@ abstract class JHtmlAccess
 			}
 		}
 
-		return JHtmlAccess::$asset_groups;
+		return self::$asset_groups;
 	}
 
 	/**
@@ -302,7 +301,7 @@ abstract class JHtmlAccess
 	{
 		static $count;
 
-		$options = JHtmlAccess::assetgroups();
+		$options = self::assetgroups();
 		if (isset($config['title']))
 		{
 			array_unshift($options, JHtml::_('select.option', '', $config['title']));
@@ -313,7 +312,7 @@ abstract class JHtmlAccess
 			$options,
 			$name,
 			array(
-				'id' => isset($config['id']) ? $config['id'] : 'assetgroups_' . ++$count,
+				'id' => isset($config['id']) ? $config['id'] : 'assetgroups_' . (++$count),
 				'list.attr' => (is_null($attribs) ? 'class="inputbox" size="3"' : $attribs),
 				'list.select' => (int) $selected
 			)
