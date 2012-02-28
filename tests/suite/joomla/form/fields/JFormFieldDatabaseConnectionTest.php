@@ -79,7 +79,5 @@ class JFormFieldDatabaseConnectionTest extends JoomlaTestCase
 			$this->greaterThan(0),
 		'Line:'.__LINE__.' The getInput method should return something without error; in this case, a "None" option.'
 		);
-
-		// TODO: Should check all the attributes have come in properly.
 	}
 }

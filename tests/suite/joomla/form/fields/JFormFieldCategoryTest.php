@@ -42,6 +42,18 @@ class JFormFieldCategoryTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
+	 * Gets the data set to be loaded into the database during setup
+	 *
+	 * @return  xml dataset
+	 *
+	 * @since   11.3
+	 */
+	protected function getDataSet()
+	{
+		return $this->createXMLDataSet(__DIR__.'/testfiles/JFormField.xml');
+	}
+
+	/**
 	 * Test the getInput method.
 	 *
 	 * @return  void

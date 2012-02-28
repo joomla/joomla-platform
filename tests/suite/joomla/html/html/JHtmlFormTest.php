@@ -12,7 +12,9 @@ require_once JPATH_PLATFORM.'/joomla/html/html/form.php';
 /**
  * Test class for JHtmlForm.
  *
- * @since  11.1
+ * @package     Joomla.UnitTest
+ * @subpackage  HTML
+ * @since       11.1
  */
 class JHtmlFormTest extends JoomlaTestCase
 {

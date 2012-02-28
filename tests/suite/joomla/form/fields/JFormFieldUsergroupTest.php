@@ -71,7 +71,5 @@ class JFormFieldUsergroupTest extends JoomlaDatabaseTestCase
 			$this->greaterThan(0),
 			'Line:'.__LINE__.' The getInput method should return something without error.'
 		);
-
-		// TODO: Should check all the attributes have come in properly.
 	}
 }

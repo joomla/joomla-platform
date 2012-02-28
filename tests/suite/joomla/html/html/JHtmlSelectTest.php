@@ -13,7 +13,9 @@ require_once 'TestHelpers/JHtmlSelect-helper-dataset.php';
 /**
  * Test class for JHtmlSelect.
  *
- * @since  11.1
+ * @package     Joomla.UnitTest
+ * @subpackage  HTML
+ * @since       11.1
  */
 class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 {
@@ -28,13 +30,18 @@ class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testBooleanlist().
+	 * Test the booleanlist method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
 	 */
 	public function testBooleanlist()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+		$this->assertThat(
+			strlen(JHtmlSelect::booleanlist('booleanlist')),
+			$this->greaterThan(0),
+			'Line:'.__LINE__.' The booleanlist method should return something without error.'
 		);
 	}
 
@@ -61,13 +68,18 @@ class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testIntegerlist().
+	 * Test the integerlist method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
 	 */
 	public function testIntegerlist()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+		$this->assertThat(
+			strlen(JHtmlSelect::integerlist(1, 10, 1, 'integerlist')),
+			$this->greaterThan(0),
+			'Line:'.__LINE__.' The integerlist method should return something without error.'
 		);
 	}
 
