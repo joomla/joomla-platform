@@ -4,7 +4,7 @@
  * @license    GNU General Public License
  */
 
-require_once JPATH_PLATFORM.'/joomla/database/database/mysqliexporter.php';
+require_once JPATH_PLATFORM.'/joomla/database/exporter/mysqli.php';
 
 /**
  * Tests the JDatabaseMySqlExporter class.
