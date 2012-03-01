@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../../libraries/joomla/http/factory.php';
+require_once JPATH_PLATFORM.'/joomla/http/factory.php';
 
 /**
  * Test class for JHttpFactory.

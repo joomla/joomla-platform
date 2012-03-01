@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../../libraries/joomla/language/transliterate.php';
+require_once JPATH_PLATFORM.'/joomla/language/transliterate.php';
 
 /**
  * Test class for JLanguageTransliterate.

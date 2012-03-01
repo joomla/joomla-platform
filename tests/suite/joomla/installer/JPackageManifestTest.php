@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../../libraries/joomla/installer/packagemanifest.php';
+require_once JPATH_PLATFORM.'/joomla/installer/packagemanifest.php';
 
 /**
  * Test class for JPackageManifest.

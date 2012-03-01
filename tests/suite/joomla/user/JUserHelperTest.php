@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../../libraries/joomla/user/helper.php';
+require_once JPATH_PLATFORM.'/joomla/user/helper.php';
 
 /**
  * Test class for JUserHelper.

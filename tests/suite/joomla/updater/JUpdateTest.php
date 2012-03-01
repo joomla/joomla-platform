@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../../libraries/joomla/updater/update.php';
+require_once JPATH_PLATFORM.'/joomla/updater/update.php';
 
 /**
  * Test class for JUpdate.

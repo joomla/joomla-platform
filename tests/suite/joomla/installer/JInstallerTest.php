@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../../libraries/joomla/installer/installer.php';
+require_once JPATH_PLATFORM.'/joomla/installer/installer.php';
 
 /**
  * Test class for JInstaller.

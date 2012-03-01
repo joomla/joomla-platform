@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../../libraries/joomla/utilities/xmlelement.php';
+require_once JPATH_PLATFORM.'/joomla/utilities/xmlelement.php';
 
 /**
  * Test class for JXMLElement.

@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../../libraries/joomla/language/text.php';
+require_once JPATH_PLATFORM.'/joomla/language/text.php';
 
 /**
  * Test class for JText.

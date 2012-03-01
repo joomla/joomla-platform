@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../../../libraries/joomla/html/html/tabs.php';
+require_once JPATH_PLATFORM.'/joomla/html/html/tabs.php';
 
 /**
  * Test class for JHtmlTabs.

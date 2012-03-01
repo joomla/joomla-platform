@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../../libraries/joomla/form/helper.php';
+require_once JPATH_PLATFORM.'/joomla/form/helper.php';
 
 /**
  * Test class for JFormHelper.

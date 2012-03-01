@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../../libraries/joomla/application/route.php';
+require_once JPATH_PLATFORM.'/joomla/application/route.php';
 
 /**
  * Test class for JRoute.

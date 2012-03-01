@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../../libraries/joomla/database/driver.php';
+require_once JPATH_PLATFORM.'/joomla/database/driver.php';
 
 /**
  * Test class for JDatabaseDriver.

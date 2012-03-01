@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../../libraries/joomla/crypt/crypt.php';
+require_once JPATH_PLATFORM.'/joomla/crypt/crypt.php';
 
 /**
  * Test class for JCrypt.

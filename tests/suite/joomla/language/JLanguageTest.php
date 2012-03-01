@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../../libraries/joomla/language/language.php';
+require_once JPATH_PLATFORM.'/joomla/language/language.php';
 
 /**
  * Test class for JLanguage.
