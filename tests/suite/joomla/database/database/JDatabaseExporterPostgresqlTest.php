@@ -32,6 +32,12 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	protected $lastQuery = '';
 
 	/**
+	 * @var    bool  Boolean value to know if current database version is newer than 9.1.0
+	 * @since  12.1
+	 */
+	private $_ver9dot1 = true;
+
+	/**
 	 * Sets up the testing conditions
 	 *
 	 * @return  void
@@ -50,6 +56,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 				'getTableColumns',
 				'getTableKeys',
 				'getTableSequences',
+				'getVersion',
 				'quoteName',
 				'loadObjectList',
 				'setQuery',
@@ -125,6 +132,29 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 			)
 		);
 
+		/* Check if database is at least 9.1.0 */
+		$this->dbo->expects(
+			$this->any()
+		)
+		->method('getVersion')
+		->will(
+			$this->returnValue(
+				'9.1.2'
+			)
+		);
+
+		if (version_compare($this->dbo->getVersion(), '9.1.0') >= 0)
+		{
+			$this->_ver9dot1 = true;
+			$start_val = '1';
+		}
+		else
+		{
+			/* Older version */
+			$this->_ver9dot1 = false;
+			$start_val = null;
+		}
+
 		$this->dbo->expects(
 			$this->any()
 		)
@@ -138,7 +168,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 						'table' => 'jos_dbtest',
 						'column' => 'id',
 						'data_type' => 'bigint',
-						'start_value' => '1',
+						'start_value' => $start_val,
 						'minimum_value' => '1',
 						'maximum_value' => '9223372036854775807',
 						'increment' => '1',
@@ -236,6 +266,13 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 			->from('jos_test')
 			->withStructure(true);
 
+		/* Depending on which version is running, 9.1.0 or older */
+		$start_val = null;
+		if ($this->_ver9dot1)
+		{
+			$start_val = '1';
+		}
+
 		$this->assertThat(
 			(string) $instance,
 			$this->equalTo(
@@ -243,7 +280,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 <postgresqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
  <database name="">
   <table_structure name="#__test">
-   <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="1" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />
+   <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' . $start_val . '" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />
    <field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />
    <field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />
    <field Field="start_date" Type="timestamp without time zone" Null="NO" Default="NULL" Comments="" />
@@ -301,6 +338,13 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 			->from('jos_test')
 			->withStructure(true);
 
+		/* Depending on which version is running, 9.1.0 or older */
+		$start_val = null;
+		if ($this->_ver9dot1)
+		{
+			$start_val = '1';
+		}
+
 		$this->assertThat(
 			$instance->buildXml(),
 			$this->equalTo(
@@ -308,7 +352,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 <postgresqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
  <database name="">
   <table_structure name="#__test">
-   <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="1" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />
+   <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' . $start_val . '" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />
    <field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />
    <field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />
    <field Field="start_date" Type="timestamp without time zone" Null="NO" Default="NULL" Comments="" />
@@ -339,12 +383,19 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 			->from('jos_test')
 			->withStructure(true);
 
+		/* Depending on which version is running, 9.1.0 or older */
+		$start_val = null;
+		if ($this->_ver9dot1)
+		{
+			$start_val = '1';
+		}
+
 		$this->assertThat(
 			$instance->buildXmlStructure(),
 			$this->equalTo(
 				array(
 					'  <table_structure name="#__test">',
-					'   <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="1" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />',
+					'   <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' . $start_val . '" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />',
 					'   <field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />',
 					'   <field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />',
 					'   <field Field="start_date" Type="timestamp without time zone" Null="NO" Default="NULL" Comments="" />',

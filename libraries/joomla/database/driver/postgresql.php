@@ -435,16 +435,20 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 		if ( in_array($table, $tableList) )
 		{
+			$name = array('s.relname', 'n.nspname', 't.relname', 'a.attname', 'info.data_type',
+							'info.minimum_value', 'info.maximum_value', 'info.increment', 'info.cycle_option');
+			$as = array('sequence', 'schema', 'table', 'column', 'data_type',
+							'minimum_value', 'maximum_value', 'increment', 'cycle_option');
+
+			if (version_compare($this->getVersion(), '9.1.0') >= 0)
+			{
+				$name[] .= 'info.start_value';
+				$as[] .= 'start_value';
+			}
+
 			// Get the details columns information.
 			$query = $this->getQuery(true);
-			$query->select(
-							$this->quoteName(
-									array('s.relname', 'n.nspname', 't.relname', 'a.attname', 'info.data_type', 'info.start_value',
-											'info.minimum_value', 'info.maximum_value', 'info.increment', 'info.cycle_option'),
-									array('sequence', 'schema', 'table', 'column', 'data_type', 'start_value',
-											'minimum_value', 'maximum_value', 'increment', 'cycle_option')
-							)
-					)
+			$query->select($this->quoteName($name, $as))
 					->from('pg_class AS s')
 					->leftJoin("pg_depend d ON d.objid=s.oid AND d.classid='pg_class'::regclass AND d.refclassid='pg_class'::regclass")
 					->leftJoin('pg_class t ON t.oid=d.refobjid')
