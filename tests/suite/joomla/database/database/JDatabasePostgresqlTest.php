@@ -527,11 +527,22 @@ class JDatabasePostgresqlTest extends JoomlaDatabaseTestCase
 		$seq->table = 'jos_dbtest';
 		$seq->column = 'id';
 		$seq->data_type = 'bigint';
-		$seq->start_value = '1';
-		$seq->minimum_value = '1';
-		$seq->maximum_value = '9223372036854775807';
-		$seq->increment = '1';
-		$seq->cycle_option = 'NO';
+
+		if (version_compare($this->object->getVersion(), '9.1.0') >= 0)
+		{
+			$seq->start_value = '1';
+			$seq->minimum_value = '1';
+			$seq->maximum_value = '9223372036854775807';
+			$seq->increment = '1';
+			$seq->cycle_option = 'NO';
+		}
+		else
+		{
+			$seq->minimum_value = null;
+			$seq->maximum_value = null;
+			$seq->increment = null;
+			$seq->cycle_option = null;
+		}
 
 		$this->assertThat(
 			$this->object->getTableSequences('jos_dbtest'),

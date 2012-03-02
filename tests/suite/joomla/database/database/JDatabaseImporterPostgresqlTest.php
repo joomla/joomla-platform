@@ -69,6 +69,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 				'getChangeSequenceSQL',
 				'getDropSequenceSQL',
 				'getAddIndexSQL',
+				'getVersion',
 				'quoteName',
 				'loadObjectList',
 				'quote',
@@ -137,6 +138,27 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 			)
 		);
 
+		/* Check if database is at least 9.1.0 */
+		$this->dbo->expects(
+			$this->any()
+		)
+		->method('getVersion')
+		->will(
+			$this->returnValue(
+				'7.1.2'
+			)
+		);
+
+		if (version_compare($this->dbo->getVersion(), '9.1.0') >= 0)
+		{
+			$start_val = '1';
+		}
+		else
+		{
+			/* Older version */
+			$start_val = null;
+		}
+
 		$this->dbo->expects(
 			$this->any()
 		)
@@ -150,7 +172,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 						'Table' => 'jos_dbtest',
 						'Column' => 'id',
 						'Type' => 'bigint',
-						'Start_Value' => '1',
+						'Start_Value' => $start_val,
 						'Min_Value' => '1',
 						'Max_Value' => '9223372036854775807',
 						'Increment' => '1',
