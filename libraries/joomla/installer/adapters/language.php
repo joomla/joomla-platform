@@ -101,6 +101,7 @@ class JInstallerLanguage extends JAdapterInstance
 		// Set the extensions name
 		$name = JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd');
 		$this->set('name', $name);
+		$this->set('element', $name);
 
 		// Get the Language tag [ISO tag, eg. en-GB]
 		$tag = (string) $this->manifest->tag;
@@ -246,7 +247,7 @@ class JInstallerLanguage extends JAdapterInstance
 		$row = JTable::getInstance('extension');
 		$row->set('name', $this->get('name'));
 		$row->set('type', 'language');
-		$row->set('element', $this->get('tag'));
+		$row->set('element', $this->get('element'));
 
 		// There is no folder for languages
 		$row->set('folder', '');
@@ -266,7 +267,7 @@ class JInstallerLanguage extends JAdapterInstance
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(array('element' => $this->get('tag'), 'type' => 'language', 'client_id' => '', 'folder' => ''));
+		$uid = $update->find(array('element' => $this->get('element'), 'type' => 'language', 'client_id' => '', 'folder' => ''));
 		if ($uid)
 		{
 			$update->delete($uid);
@@ -305,6 +306,7 @@ class JInstallerLanguage extends JAdapterInstance
 		$name = (string) $this->manifest->name;
 		$name = JFilterInput::getInstance()->clean($name, 'cmd');
 		$this->set('name', $name);
+		$this->set('element', $name);
 
 		// Get the Language tag [ISO tag, eg. en-GB]
 		$tag = (string) $xml->tag;
@@ -379,7 +381,7 @@ class JInstallerLanguage extends JAdapterInstance
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(array('element' => $this->get('tag'), 'type' => 'language', 'client_id' => $clientId));
+		$uid = $update->find(array('element' => $this->get('element'), 'type' => 'language', 'client_id' => $clientId));
 		if ($uid)
 		{
 			$update->delete($uid);
@@ -387,7 +389,7 @@ class JInstallerLanguage extends JAdapterInstance
 
 		// Update an entry to the extension table
 		$row = JTable::getInstance('extension');
-		$eid = $row->find(array('element' => strtolower($this->get('tag')), 'type' => 'language', 'client_id' => $clientId));
+		$eid = $row->find(array('element' => strtolower($this->get('element')), 'type' => 'language', 'client_id' => $clientId));
 		if ($eid)
 		{
 			$row->load($eid);
@@ -406,7 +408,7 @@ class JInstallerLanguage extends JAdapterInstance
 		}
 		$row->set('name', $this->get('name'));
 		$row->set('type', 'language');
-		$row->set('element', $this->get('tag'));
+		$row->set('element', $this->get('element'));
 		$row->set('manifest_cache', $this->parent->generateManifestCache());
 
 		if (!$row->store())
