@@ -81,6 +81,12 @@ class JApplicationWeb extends JApplicationBase
 	protected static $instance;
 
 	/**
+	 * @var    array  System message queue.
+	 * @since  ?
+	 */
+	protected $messageQueue;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   mixed  $input   An optional argument to provide dependency injection for the application's
@@ -1169,6 +1175,49 @@ class JApplicationWeb extends JApplicationBase
 			$this->set('uri.media.full', $this->get('uri.base.full') . 'media/');
 			$this->set('uri.media.path', $this->get('uri.base.path') . 'media/');
 		}
+	}
+
+	/**
+	 * Enqueue a system message.
+	 *
+	 * @param   string  $msg   The message to enqueue.
+	 * @param   string  $type  The message type. Default is message.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function enqueueMessage($msg, $type = 'message')
+	{
+		$this->getMessageQueue();
+
+		// Enqueue the message.
+		$this->messageQueue[] = array('message' => $msg, 'type' => strtolower($type));
+	}
+
+	/**
+	 * Get the system message queue.
+	 *
+	 * @return  array  The system message queue.
+	 *
+	 * @since   11.1
+	 */
+	public function getMessageQueue()
+	{
+		// For empty queue, if messages exists in the session, enqueue them.
+		if (!count($this->messageQueue))
+		{
+			$session = JFactory::getSession();
+			$sessionQueue = $session->get('application.queue');
+
+			if (count($sessionQueue))
+			{
+				$this->messageQueue = $sessionQueue;
+				$session->set('application.queue', null);
+			}
+		}
+
+		return $this->messageQueue;
 	}
 }
 

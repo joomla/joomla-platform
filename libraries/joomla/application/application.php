@@ -50,15 +50,6 @@ class JApplication extends JApplicationBase
 	protected $messageQueue = array();
 
 	/**
-	 * The application message queue.
-	 *
-	 * @var    array
-	 * @since  11.1
-	 * @deprecated use $messageQueue or declare as private
-	 */
-	protected $_messageQueue = array();
-
-	/**
 	 * The name of the application.
 	 *
 	 * @var    array
@@ -450,27 +441,19 @@ class JApplication extends JApplicationBase
 	 * @param   string  $msg   The message to enqueue.
 	 * @param   string  $type  The message type. Default is message.
 	 *
-	 * @return  void
+	 * @return  JApplication
 	 *
 	 * @since   11.1
 	 */
 	public function enqueueMessage($msg, $type = 'message')
 	{
 		// For empty queue, if messages exists in the session, enqueue them first.
-		if (!count($this->_messageQueue))
-		{
-			$session = JFactory::getSession();
-			$sessionQueue = $session->get('application.queue');
-
-			if (count($sessionQueue))
-			{
-				$this->_messageQueue = $sessionQueue;
-				$session->set('application.queue', null);
-			}
-		}
+		$this->getMessageQueue();
 
 		// Enqueue the message.
-		$this->_messageQueue[] = array('message' => $msg, 'type' => strtolower($type));
+		$this->messageQueue[] = array('message' => $msg, 'type' => strtolower($type));
+
+		return $this;
 	}
 
 	/**
@@ -483,19 +466,19 @@ class JApplication extends JApplicationBase
 	public function getMessageQueue()
 	{
 		// For empty queue, if messages exists in the session, enqueue them.
-		if (!count($this->_messageQueue))
+		if (!count($this->messageQueue))
 		{
 			$session = JFactory::getSession();
 			$sessionQueue = $session->get('application.queue');
 
 			if (count($sessionQueue))
 			{
-				$this->_messageQueue = $sessionQueue;
+				$this->messageQueue = $sessionQueue;
 				$session->set('application.queue', null);
 			}
 		}
 
-		return $this->_messageQueue;
+		return $this->messageQueue;
 	}
 
 	/**
