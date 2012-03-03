@@ -1473,7 +1473,7 @@ abstract class JDatabaseQuery
 		}
 		else
 		{
-			$this->where->append($conditions);
+			$this->where->append($conditions," $glue ");
 		}
 
 		return $this;
