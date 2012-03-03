@@ -31,6 +31,12 @@ class JDatabaseQueryElement
 	protected $elements = null;
 
 	/**
+	 * @var    array  An array of elements with glues.
+	 * @since  11.1
+	 */
+	protected $elements_with_glues = null;
+
+	/**
 	 * @var    string  Glue piece.
 	 * @since  11.1
 	 */
@@ -48,6 +54,7 @@ class JDatabaseQueryElement
 	public function __construct($name, $elements, $glue = ',')
 	{
 		$this->elements = array();
+		$this->elements_with_glues = array();
 		$this->name = $name;
 		$this->glue = $glue;
 
@@ -65,19 +72,19 @@ class JDatabaseQueryElement
 	{
 		if (substr($this->name, -2) == '()')
 		{
-			return PHP_EOL . substr($this->name, 0, -2) . '(' . implode('',$this->elements) . ')';
+			return PHP_EOL . substr($this->name, 0, -2) . '(' . implode('', $this->elements_with_glues) . ')';
 		}
 		else
 		{
-			return PHP_EOL . $this->name . ' ' . implode('', $this->elements);
+			return PHP_EOL . $this->name . ' ' . implode('', $this->elements_with_glues);
 		}
 	}
 
 	/**
 	 * Appends element parts to the internal list.
 	 *
-	 * @param   mixed  $elements  String or array.
-	 * @param   string $glue A glue that will replace the default one if different from null.
+	 * @param   mixed   $elements  String or array.
+	 * @param   string  $glue      A glue that will replace the default one if different from null.
 	 *
 	 * @return  void
 	 *
@@ -94,16 +101,17 @@ class JDatabaseQueryElement
 		{
 			foreach ($elements as $element)
 			{
-				$this->append($element,$glue);
+				$this->append($element, $glue);
 			}
 		}
 		else
 		{
 			//Won't add the glue on the first element
-			if(sizeof($this->elements) > 0)
+			if(count($this->elements) > 0)
 			{
-				$this->elements[] = $glue;
+				$this->elements_with_glues[] = $glue;
 			}
+			$this->elements_with_glues[] = $elements;
 			$this->elements[] = $elements;
 		}
 	}
@@ -1476,7 +1484,7 @@ abstract class JDatabaseQuery
 		}
 		else
 		{
-			$this->where->append($conditions," $glue ");
+			$this->where->append($conditions, " $glue ");
 		}
 
 		return $this;
