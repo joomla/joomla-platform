@@ -41,7 +41,7 @@ class JDatabaseQueryElement
 	 *
 	 * @param   string  $name      The name of the element.
 	 * @param   mixed   $elements  String or array.
-	 * @param   string  $glue      The glue for elements.
+	 * @param   string  $glue      The default glue for elements.
 	 *
 	 * @since   11.1
 	 */
@@ -65,11 +65,11 @@ class JDatabaseQueryElement
 	{
 		if (substr($this->name, -2) == '()')
 		{
-			return PHP_EOL . substr($this->name, 0, -2) . '(' . implode($this->glue, $this->elements) . ')';
+			return PHP_EOL . substr($this->name, 0, -2) . '(' . implode('',$this->elements) . ')';
 		}
 		else
 		{
-			return PHP_EOL . $this->name . ' ' . implode($this->glue, $this->elements);
+			return PHP_EOL . $this->name . ' ' . implode('', $this->elements);
 		}
 	}
 
@@ -77,20 +77,31 @@ class JDatabaseQueryElement
 	 * Appends element parts to the internal list.
 	 *
 	 * @param   mixed  $elements  String or array.
+	 * @param   string $glue A glue that will replace the default one if different from null.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	public function append($elements)
+	public function append($elements, $glue = null)
 	{
+		if($glue === null)
+		{
+			$glue = $this->glue;
+		}
+
 		if (is_array($elements))
 		{
-			$this->elements = array_merge($this->elements, $elements);
+			foreach ($elements as $element)
+			{
+				$this->elements[] = $glue;
+				$this->elements[] = $element;
+			}
 		}
 		else
 		{
-			$this->elements = array_merge($this->elements, array($elements));
+			$this->elements[] = $glue;
+			$this->elements[] = $elements;
 		}
 	}
 
