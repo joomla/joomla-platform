@@ -94,13 +94,16 @@ class JDatabaseQueryElement
 		{
 			foreach ($elements as $element)
 			{
-				$this->elements[] = $glue;
-				$this->elements[] = $element;
+				$this->append($element,$glue);
 			}
 		}
 		else
 		{
-			$this->elements[] = $glue;
+			//Won't add the glue on the first element
+			if(sizeof($this->elements) > 0)
+			{
+				$this->elements[] = $glue;
+			}
 			$this->elements[] = $elements;
 		}
 	}
