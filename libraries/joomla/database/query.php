@@ -1524,11 +1524,11 @@ abstract class JDatabaseQuery
 		if (is_null($this->where))
 		{
 			$glue = strtoupper($glue);
-			$this->where = new JDatabaseQueryElement('WHERE', $conditions, " $glue ");
+			$this->where = new JDatabaseQueryElement('WHERE', $conditions, " $glue ", "(", ")");
 		}
 		else
 		{
-			$this->where->append($conditions," $glue ");
+			$this->where->append($conditions," $glue ", true);
 		}
 
 		return $this;
