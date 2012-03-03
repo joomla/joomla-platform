@@ -31,6 +31,12 @@ class JDatabaseQueryElement
 	protected $elements = null;
 
 	/**
+	 * @var    array  An array of elements with glues.
+	 * @since  11.1
+	 */
+	protected $elements_with_glues = null;
+
+	/**
 	 * @var    string  Glue piece.
 	 * @since  11.1
 	 */
@@ -77,21 +83,21 @@ class JDatabaseQueryElement
 	{
 		if (substr($this->name, -2) == '()')
 		{
-			return PHP_EOL . substr($this->name, 0, -2) . '(' . implode('',$this->elements) . ')';
+			return PHP_EOL . substr($this->name, 0, -2) . '(' . implode('', $this->elements_with_glues) . ')';
 		}
 		else
 		{
-			return PHP_EOL . $this->name . ' ' . implode('', $this->elements);
+			return PHP_EOL . $this->name . ' ' . implode('', $this->elements_with_glues);
 		}
 	}
 
 	/**
 	 * Appends element parts to the internal list.
 	 *
-	 * @param   mixed  $elements  String or array.
-	 * @param   string $glue A glue that will replace the default one if different from null.
-	 * @param   boolean $nesting In case of an array, do we need to nest it ?
-	 * @param   boolean $nesting_start To notify the function that the last action done was the starting of a nesting
+	 * @param   mixed    $elements  String or array.
+	 * @param   string   $glue A glue that will replace the default one if different from null.
+	 * @param   boolean  $nesting In case of an array, do we need to nest it ?
+	 * @param   boolean  $nesting_start To notify the function that the last action done was the starting of a nesting
 	 *
 	 * @return  void
 	 *
@@ -107,18 +113,19 @@ class JDatabaseQueryElement
 		if (is_array($elements))
 		{
 			//Won't add the glue on the first element of the list or of a nesting
-			if(sizeof($this->elements) > 0 && $nesting_start == false)
+			if (count($this->elements) > 0 && $nesting_start == false)
 			{
-				$this->elements[] = $glue;
+				$this->elements_with_glues[] = $glue;
 			}
 
-			if($nesting)
-				$this->elements[] = $this->nesting_start;
+			if ($nesting)
+				$this->elements_with_glues[] = $this->nesting_start;
 
 			$firstelement = true;
 			foreach ($elements as $element)
 			{
-				if(is_array($element) && isset($element["glue"])){
+				if (is_array($element) && isset($element["glue"]))
+				{
 					$this->append(
 						$element[0],
 						$element['glue'],
@@ -126,7 +133,8 @@ class JDatabaseQueryElement
 						$firstelement?true:false
 					);
 				}
-				else{
+				else
+				{
 					$this->append(
 						$element,
 						$glue,
@@ -137,17 +145,18 @@ class JDatabaseQueryElement
 				$firstelement = false;
 			}
 
-			if($nesting)
-				$this->elements[] = $this->nesting_end;
+			if ($nesting)
+				$this->elements_with_glues[] = $this->nesting_end;
 		}
 		else
 		{
 			//Won't add the glue on the first element of the list or of a nesting
-			if(sizeof($this->elements) > 0 && $nesting_start == false)
+			if (count($this->elements) > 0 && $nesting_start == false)
 			{
-				$this->elements[] = $glue;
+				$this->elements_with_glues[] = $glue;
 			}
 			$this->elements[] = $elements;
+			$this->elements_with_glues[] = $elements;
 		}
 	}
 
