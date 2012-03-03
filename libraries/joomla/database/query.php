@@ -37,6 +37,18 @@ class JDatabaseQueryElement
 	protected $glue = null;
 
 	/**
+	 * @var string Start of a nesting of element
+	 * @since 12.1
+	 */
+	protected $nesting_start = null;
+
+	/**
+	 * @var string End of a nesting of element
+	 * @since 12.1
+	 */
+	protected $nesting_end = null;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   string  $name      The name of the element.
@@ -45,7 +57,7 @@ class JDatabaseQueryElement
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($name, $elements, $glue = ',')
+	public function __construct($name, $elements, $glue = ',',$nesting_start = '',$nesting_end = '')
 	{
 		$this->elements = array();
 		$this->name = $name;
@@ -78,12 +90,14 @@ class JDatabaseQueryElement
 	 *
 	 * @param   mixed  $elements  String or array.
 	 * @param   string $glue A glue that will replace the default one if different from null.
+	 * @param   boolean $nesting In case of an array, do we need to nest it ?
+	 * @param   boolean $nesting_start To notify the function that the last action done was the starting of a nesting
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	public function append($elements, $glue = null)
+	public function append($elements, $glue = null, $nesting = false, $nesting_start = false)
 	{
 		if($glue === null)
 		{
@@ -92,15 +106,44 @@ class JDatabaseQueryElement
 
 		if (is_array($elements))
 		{
+			//Won't add the glue on the first element of the list or of a nesting
+			if(sizeof($this->elements) > 0 && $nesting_start == false)
+			{
+				$this->elements[] = $glue;
+			}
+
+			if($nesting)
+				$this->elements[] = $this->nesting_start;
+
+			$firstelement = true;
 			foreach ($elements as $element)
 			{
-				$this->append($element,$glue);
+				if(is_array($element) && isset($element["glue"])){
+					$this->append(
+						$element[0],
+						$element['glue'],
+						$nesting,
+						$firstelement?true:false
+					);
+				}
+				else{
+					$this->append(
+						$element,
+						$glue,
+						$nesting,
+						$firstelement?true:false
+					);
+				}
+				$firstelement = false;
 			}
+
+			if($nesting)
+				$this->elements[] = $this->nesting_end;
 		}
 		else
 		{
-			//Won't add the glue on the first element
-			if(sizeof($this->elements) > 0)
+			//Won't add the glue on the first element of the list or of a nesting
+			if(sizeof($this->elements) > 0 && $nesting_start == false)
 			{
 				$this->elements[] = $glue;
 			}
