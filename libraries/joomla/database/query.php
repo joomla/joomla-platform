@@ -1446,14 +1446,15 @@ abstract class JDatabaseQuery
 	 * $query->where(array('a = 1', 'b = 2'));
 	 *
 	 * @param   mixed   $conditions  A string or array of where conditions.
-	 * @param   string  $glue        The glue by which to join the conditions. Defaults to AND.
-	 *                               Note that the glue is set on first use and cannot be changed.
+	 * @param   string  $glue        The glue by which to join the conditions. Defaults to empty.
+	 *                               Note that the glue isn't set on first use and can be changed
+	 *                               for each call.
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @since   11.1
 	 */
-	public function where($conditions, $glue = 'AND')
+	public function where($conditions, $glue = '')
 	{
 		if (is_null($this->where))
 		{
@@ -1462,7 +1463,16 @@ abstract class JDatabaseQuery
 		}
 		else
 		{
-			$this->where->append($conditions);
+			if (is_array($conditions))
+			{
+				$im = strtoupper($glue) . ' ';
+				$im .= implode(' ' . strtoupper($glue) . ' ', $conditions);
+			}
+			else
+			{
+				$im = strtoupper($glue) . ' ' . $conditions;
+			}
+			$this->where->append($im);
 		}
 
 		return $this;
