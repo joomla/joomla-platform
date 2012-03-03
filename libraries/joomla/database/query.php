@@ -92,7 +92,7 @@ class JDatabaseQueryElement
 	 */
 	public function append($elements, $glue = null)
 	{
-		if($glue === null)
+		if ($glue === null)
 		{
 			$glue = $this->glue;
 		}
@@ -107,7 +107,7 @@ class JDatabaseQueryElement
 		else
 		{
 			//Won't add the glue on the first element
-			if(count($this->elements) > 0)
+			if (count($this->elements) > 0)
 			{
 				$this->elements_with_glues[] = $glue;
 			}
