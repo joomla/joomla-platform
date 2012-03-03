@@ -57,19 +57,23 @@ class JDatabaseQueryElement
 	/**
 	 * Constructor.
 	 *
-	 * @param   string  $name      The name of the element.
-	 * @param   mixed   $elements  String or array.
-	 * @param   string  $glue      The default glue for elements.
-	 *
+	 * @param   string  $name          The name of the element.
+	 * @param   mixed   $elements      String or array.
+	 * @param   string  $glue          The default glue for elements.
+	 * @param   string  $nesting_start Starting character for nesting
+	 * @param   string  $nesting_end   Ending character for nesting
+	 * @param   bool    $nested        If there is nesting for first added elements
 	 * @since   11.1
 	 */
-	public function __construct($name, $elements, $glue = ',',$nesting_start = '',$nesting_end = '')
+	public function __construct($name, $elements, $glue = ',',$nesting_start = '',$nesting_end = '',$nested = false)
 	{
 		$this->elements = array();
 		$this->name = $name;
 		$this->glue = $glue;
+		$this->nesting_start = $nesting_start;
+		$this->nesting_end = $nesting_end;
 
-		$this->append($elements);
+		$this->append($elements,$glue,$nested);
 	}
 
 	/**
@@ -1524,7 +1528,7 @@ abstract class JDatabaseQuery
 		if (is_null($this->where))
 		{
 			$glue = strtoupper($glue);
-			$this->where = new JDatabaseQueryElement('WHERE', $conditions, " $glue ", "(", ")");
+			$this->where = new JDatabaseQueryElement('WHERE', $conditions, " $glue ", "(", ")", true);
 		}
 		else
 		{
