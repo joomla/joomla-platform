@@ -1473,7 +1473,7 @@ class JDatabaseQueryTest extends JoomlaTestCase
 
 		$this->assertThat(
 			trim($q->where),
-			$this->equalTo('WHERE foo = 1  AND bar = 2 AND goo = 3'),
+			$this->equalTo('WHERE foo = 1 AND bar = 2 AND goo = 3'),
 			'Tests rendered value after second use and array input.'
 		);
 
@@ -1504,11 +1504,19 @@ class JDatabaseQueryTest extends JoomlaTestCase
 	public function testWhereDiffGlues()
 	{
 		$q = new JDatabaseQueryInspector($this->dbo);
-		$q->where("a = 1")->where("b = 1", 'OR')->where("c = 1", 'AND');
+		$q->where('a = 1')->where('b = 1', 'OR')->where('c = 1', 'AND');
 
 		$this->assertThat(
 			trim($q->where),
-			$this->equalTo('WHERE a = 1  OR b = 1  AND c = 1'),
+			$this->equalTo('WHERE a = 1 OR b = 1 AND c = 1'),
+			'Tests rendered value.'
+		);
+
+		$q->clear();
+		$q->where('a = 1')->where('(b = 1 OR c = 4)')->where('c = 7', 'OR');
+		$this->assertThat(
+			trim($q->where),
+			$this->equalTo('WHERE a = 1 AND (b = 1 OR c = 4) OR c = 7'),
 			'Tests rendered value.'
 		);
 	}
