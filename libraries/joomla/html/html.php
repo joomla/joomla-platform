@@ -803,7 +803,7 @@ abstract class JHtml
 			$attribs = JArrayHelper::toString($attribs);
 		}
 
-		if ((!$readonly) && (!$disabled))
+		if (!$disabled)
 		{
 			// Load the calendar behavior
 			self::_('behavior.calendar');
