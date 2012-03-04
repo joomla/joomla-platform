@@ -907,6 +907,18 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	}
 
 	/**
+	 * Test to see if the PostgreSQL connector is available.
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   12.1
+	 */
+	public static function isSupported()
+	{
+		return (function_exists('pg_connect'));
+	}
+
+	/**
 	 * Returns an array containing database's table list.
 	 *
 	 * @return	array	The database's table list.

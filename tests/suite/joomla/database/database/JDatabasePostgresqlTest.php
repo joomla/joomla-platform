@@ -681,6 +681,20 @@ class JDatabasePostgresqlTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
+	 * Test isSupported function.
+	 *
+	 * @return   void
+	 */
+	public function testIsSupported()
+	{
+		$this->assertThat(
+			JDatabaseDriverPostgresql::isSupported(),
+			$this->isTrue(),
+			__LINE__
+		);
+	}
+
+	/**
 	 * Test loadAssoc method.
 	 *
 	 * @return  void
