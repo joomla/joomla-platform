@@ -1493,6 +1493,34 @@ class JDatabaseQueryTest extends JoomlaTestCase
 			'Tests rendered value with glue.'
 		);
 	}
+
+	/**
+	 * Test for WHERE clause using different glues. 
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function testWhereDiffGlues()
+	{
+		$q = new JDatabaseQueryInspector($this->dbo);
+		$q->where('a = 1')->where('b = 1', 'OR')->where('c = 1', 'AND');
+
+		$this->assertThat(
+			trim($q->where),
+			$this->equalTo('WHERE a = 1 OR b = 1 AND c = 1'),
+			'Tests rendered value.'
+		);
+
+		$q->clear();
+		$q->where('a = 1')->where('(b = 1 OR c = 4)')->where('c = 7', 'OR');
+		$this->assertThat(
+			trim($q->where),
+			$this->equalTo('WHERE a = 1 AND (b = 1 OR c = 4) OR c = 7'),
+			'Tests rendered value.'
+		);
+	}
+
 	/**
 	* Tests the JDatabaseQuery::__clone method properly clones an array.
 	*
