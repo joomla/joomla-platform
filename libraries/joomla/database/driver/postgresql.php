@@ -245,14 +245,15 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * Get the current or query, or new JDatabaseQuery object.
 	 *
-	 * @param   boolean  $new  False to return the last query set, True to return a new JDatabaseQuery object.
+	 * @param   boolean  $new    False to return the last query set, True to return a new JDatabaseQuery object.
+	 * @param   boolean  $asObj  False to return last query as string, true to get JDatabaseQueryPostgresql object.
 	 *
 	 * @return  JDatabaseQuery  The current query object or a new object extending the JDatabaseQuery class.
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
-	public function getQuery($new = false)
+	public function getQuery($new = false, $asObj = false)
 	{
 		if ($new)
 		{
@@ -263,9 +264,19 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			}
 
 			$this->queryObject = new JDatabaseQueryPostgresql($this);
+			return $this->queryObject;
 		}
-
-		return $this->queryObject;
+		else
+		{
+			if ($asObj)
+			{
+				return $this->queryObject;
+			}
+			else
+			{
+				return $this->sql;
+			}
+		}
 	}
 
 	/**
@@ -511,7 +522,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	public function insertid()
 	{
 		$this->connect();
-		$insertQuery = $this->getQuery();
+		$insertQuery = $this->getQuery(false, true);
 		$table = $insertQuery->__get('insert')->getElements();
 
 		/* find sequence column name */
