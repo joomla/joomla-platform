@@ -1468,7 +1468,7 @@ class JDatabaseQueryTest extends JoomlaTestCase
 			array(
 				'bar = 2',
 				'goo = 3',
-			), 'AND'
+			)
 		);
 
 		$this->assertThat(
