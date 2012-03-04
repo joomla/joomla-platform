@@ -1351,7 +1351,7 @@ class JDatabaseQueryTest extends JoomlaTestCase
 
 		$this->assertThat(
 			trim($q->set),
-			$this->identicalTo("SET foo = 1" . PHP_EOL . ", bar = 2"),
+			$this->identicalTo("SET foo = 1" . PHP_EOL . "\t, bar = 2"),
 			'Tests set with an array.'
 		);
 
@@ -1473,7 +1473,7 @@ class JDatabaseQueryTest extends JoomlaTestCase
 
 		$this->assertThat(
 			trim($q->where),
-			$this->equalTo('WHERE foo = 1 AND bar = 2 AND goo = 3'),
+			$this->equalTo('WHERE foo = 1 AND (bar = 2 AND goo = 3)'),
 			'Tests rendered value after second use and array input.'
 		);
 
@@ -1489,7 +1489,7 @@ class JDatabaseQueryTest extends JoomlaTestCase
 
 		$this->assertThat(
 			trim($q->where),
-			$this->equalTo('WHERE bar = 2 OR goo = 3'),
+			$this->equalTo('WHERE (bar = 2 OR goo = 3)'),
 			'Tests rendered value with glue.'
 		);
 	}
