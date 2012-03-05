@@ -117,7 +117,7 @@ class JInstallerLibrary extends JAdapterInstance
 		}
 		else
 		{
-			$this->parent->setPath('extension_root', JPATH_PLATFORM . '/' . implode(DIRECTORY_SEPARATOR, explode('/', $group)));
+			$this->parent->setPath('extension_root', JPATH_PLATFORM . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, explode('/', $group)));
 		}
 
 		/*
