@@ -200,8 +200,7 @@ class JApplication extends JApplicationBase
 			}
 			else
 			{
-				$error = JError::raiseError(500, JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $client));
-				return $error;
+				throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $client), 500);
 			}
 
 			self::$instances[$client] = $instance;
@@ -271,7 +270,7 @@ class JApplication extends JApplicationBase
 
 		foreach ($result as $key => $value)
 		{
-			$this->input->def($key, $value);
+			$this->input->set($key, $value);
 		}
 
 		// Trigger the onAfterRoute event.
@@ -535,7 +534,7 @@ class JApplication extends JApplicationBase
 			$r = null;
 			if (!preg_match('/J(.*)/i', get_class($this), $r))
 			{
-				JError::raiseError(500, JText::_('JLIB_APPLICATION_ERROR_APPLICATION_GET_NAME'));
+				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_APPLICATION_GET_NAME'), 500);
 			}
 			$name = strtolower($r[1]);
 		}
@@ -669,13 +668,13 @@ class JApplication extends JApplicationBase
 					switch ($authorisation->status)
 					{
 						case JAuthentication::STATUS_EXPIRED:
-							return JError::raiseWarning('102002', JText::_('JLIB_LOGIN_EXPIRED'));
+							return JLog::add(JText::_('JLIB_LOGIN_EXPIRED'), JLog::WARNING, 'jerror');
 							break;
 						case JAuthentication::STATUS_DENIED:
-							return JError::raiseWarning('102003', JText::_('JLIB_LOGIN_DENIED'));
+							return JLog::add(JText::_('JLIB_LOGIN_DENIED'), JLog::WARNING, 'jerror');
 							break;
 						default:
-							return JError::raiseWarning('102004', JText::_('JLIB_LOGIN_AUTHORISATION'));
+							return JLog::add(JText::_('JLIB_LOGIN_AUTHORISATION'), JLog::WARNING, 'jerror');
 							break;
 					}
 				}
@@ -731,7 +730,7 @@ class JApplication extends JApplicationBase
 		// If status is success, any error will have been raised by the user plugin
 		if ($response->status !== JAuthentication::STATUS_SUCCESS)
 		{
-			JError::raiseWarning('102001', $response->error_message);
+			JLog::add($response->error_message, JLog::WARNING, 'jerror');
 		}
 
 		return false;
