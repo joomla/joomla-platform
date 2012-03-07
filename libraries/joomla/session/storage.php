@@ -65,8 +65,7 @@ abstract class JSessionStorage extends JObject
 				}
 				else
 				{
-					// Attempt to close the non-existing session
-					jexit('Unable to load session storage class: ' . $name);
+					throw new Exception('Unable to load session storage class: ' . $name, 500);
 				}
 			}
 
