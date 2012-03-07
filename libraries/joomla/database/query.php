@@ -31,27 +31,49 @@ class JDatabaseQueryElement
 	protected $elements = null;
 
 	/**
+	 * @var    array  An array of elements with glues.
+	 * @since  11.1
+	 */
+	protected $elements_with_glues = null;
+
+	/**
 	 * @var    string  Glue piece.
 	 * @since  11.1
 	 */
 	protected $glue = null;
 
 	/**
+	 * @var string Start of a nesting of element
+	 * @since 12.1
+	 */
+	protected $nesting_start = null;
+
+	/**
+	 * @var string End of a nesting of element
+	 * @since 12.1
+	 */
+	protected $nesting_end = null;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param   string  $name      The name of the element.
-	 * @param   mixed   $elements  String or array.
-	 * @param   string  $glue      The glue for elements.
-	 *
+	 * @param   string  $name          The name of the element.
+	 * @param   mixed   $elements      String or array.
+	 * @param   string  $glue          The default glue for elements.
+	 * @param   string  $nesting_start Starting character for nesting
+	 * @param   string  $nesting_end   Ending character for nesting
+	 * @param   bool    $nested        If there is nesting for first added elements
 	 * @since   11.1
 	 */
-	public function __construct($name, $elements, $glue = ',')
+	public function __construct($name, $elements, $glue = ',',$nesting_start = '',$nesting_end = '',$nested = false)
 	{
 		$this->elements = array();
 		$this->name = $name;
 		$this->glue = $glue;
+		$this->nesting_start = $nesting_start;
+		$this->nesting_end = $nesting_end;
 
-		$this->append($elements);
+		$this->append($elements,$glue,$nested);
 	}
 
 	/**
@@ -65,32 +87,80 @@ class JDatabaseQueryElement
 	{
 		if (substr($this->name, -2) == '()')
 		{
-			return PHP_EOL . substr($this->name, 0, -2) . '(' . implode($this->glue, $this->elements) . ')';
+			return PHP_EOL . substr($this->name, 0, -2) . '(' . implode('', $this->elements_with_glues) . ')';
 		}
 		else
 		{
-			return PHP_EOL . $this->name . ' ' . implode($this->glue, $this->elements);
+			return PHP_EOL . $this->name . ' ' . implode('', $this->elements_with_glues);
 		}
 	}
 
 	/**
 	 * Appends element parts to the internal list.
 	 *
-	 * @param   mixed  $elements  String or array.
+	 * @param   mixed    $elements  String or array.
+	 * @param   string   $glue A glue that will replace the default one if different from null.
+	 * @param   boolean  $nesting In case of an array, do we need to nest it ?
+	 * @param   boolean  $nesting_start To notify the function that the last action done was the starting of a nesting
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	public function append($elements)
+	public function append($elements, $glue = null, $nesting = false, $nesting_start = false)
 	{
+		if($glue === null)
+		{
+			$glue = $this->glue;
+		}
+
 		if (is_array($elements))
 		{
-			$this->elements = array_merge($this->elements, $elements);
+			//Won't add the glue on the first element of the list or of a nesting
+			if (count($this->elements) > 0 && $nesting_start == false)
+			{
+				$this->elements_with_glues[] = $glue;
+			}
+
+			if ($nesting)
+				$this->elements_with_glues[] = $this->nesting_start;
+
+			$firstelement = true;
+			foreach ($elements as $element)
+			{
+				if (is_array($element) && isset($element["glue"]))
+				{
+					$this->append(
+						$element[0],
+						$element['glue'],
+						$nesting,
+						$firstelement?true:false
+					);
+				}
+				else
+				{
+					$this->append(
+						$element,
+						$glue,
+						$nesting,
+						$firstelement?true:false
+					);
+				}
+				$firstelement = false;
+			}
+
+			if ($nesting)
+				$this->elements_with_glues[] = $this->nesting_end;
 		}
 		else
 		{
-			$this->elements = array_merge($this->elements, array($elements));
+			//Won't add the glue on the first element of the list or of a nesting
+			if (count($this->elements) > 0 && $nesting_start == false)
+			{
+				$this->elements_with_glues[] = $glue;
+			}
+			$this->elements[] = $elements;
+			$this->elements_with_glues[] = $elements;
 		}
 	}
 
@@ -1458,11 +1528,11 @@ abstract class JDatabaseQuery
 		if (is_null($this->where))
 		{
 			$glue = strtoupper($glue);
-			$this->where = new JDatabaseQueryElement('WHERE', $conditions, " $glue ");
+			$this->where = new JDatabaseQueryElement('WHERE', $conditions, " $glue ", "(", ")", true);
 		}
 		else
 		{
-			$this->where->append($conditions);
+			$this->where->append($conditions," $glue ", true);
 		}
 
 		return $this;
