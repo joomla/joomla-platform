@@ -537,23 +537,8 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 
 		if (!is_resource($this->connection))
 		{
-
-			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  12.1
-			if (JError::$legacy)
-			{
-
-				if ($this->debug)
-				{
-					throw new Exception('JDatabaseDriverSQLAzure::query: ' . $this->errorNum . ' - ' . $this->errorMsg);
-				}
-				return false;
-			}
-			else
-			{
-				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-				throw new RuntimeException($this->errorMsg, $this->errorNum);
-			}
+            JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
+            throw new RuntimeException($this->errorMsg, $this->errorNum);
 		}
 
 		// Take a local copy so that we don't modify the original query and cause issues later
@@ -594,28 +579,11 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		// If an error occurred handle it.
 		if (!$this->cursor)
 		{
-
-			// Populate the errors.
 			$errors = sqlsrv_errors();
 			$this->errorNum = $errors[0]['SQLSTATE'];
 			$this->errorMsg = $errors[0]['message'] . 'SQL=' . $sql;
-
-			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  12.1
-			if (JError::$legacy)
-			{
-
-				if ($this->debug)
-				{
-					throw new Exception('JDatabaseDriverSQLAzure::query: ' . $this->errorNum . ' - ' . $this->errorMsg, 500);
-				}
-				return false;
-			}
-			else
-			{
-				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-				throw new RuntimeException($this->errorMsg, $this->errorNum);
-			}
+            JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+            throw new RuntimeException($this->errorMsg, $this->errorNum);
 		}
 
 		return $this->cursor;
@@ -739,19 +707,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 
 		if (!sqlsrv_query($this->connection, 'USE ' . $database, null, array('scrollable' => SQLSRV_CURSOR_STATIC)))
 		{
-
-			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  12.1
-			if (JError::$legacy)
-			{
-				$this->errorNum = 3;
-				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT');
-				return false;
-			}
-			else
-			{
-				throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'));
-			}
+            throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'));
 		}
 
 		return true;
