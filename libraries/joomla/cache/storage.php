@@ -114,7 +114,7 @@ class JCacheStorage
 			$handler = $conf->get('cache_handler');
 			if (empty($handler))
 			{
-				return JError::raiseWarning(500, JText::_('JLIB_CACHE_ERROR_CACHE_HANDLER_NOT_SET'));
+				JLog::add(JText::_('JLIB_CACHE_ERROR_CACHE_HANDLER_NOT_SET'), JLog::WARNING, 'jerror');
 			}
 		}
 
@@ -139,7 +139,7 @@ class JCacheStorage
 			}
 			else
 			{
-				return JError::raiseWarning(500, JText::sprintf('JLIB_CACHE_ERROR_CACHE_STORAGE_LOAD', $handler));
+				JLog::add(JText::sprintf('JLIB_CACHE_ERROR_CACHE_STORAGE_LOAD', $handler), JLog::WARNING, 'jerror');
 			}
 		}
 
