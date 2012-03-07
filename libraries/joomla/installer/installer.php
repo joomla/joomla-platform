@@ -317,7 +317,7 @@ class JInstaller extends JAdapter
 		// Raise abort warning
 		if ($msg)
 		{
-			JError::raiseWarning(100, $msg);
+			JLog::add($msg, JLog::WARNING, 'jerror');
 		}
 
 		while ($step != null)
@@ -838,8 +838,7 @@ class JInstaller extends JAdapter
 
 			if (!$db->execute())
 			{
-				JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)));
-
+				JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
 				return false;
 			}
 		}
@@ -894,8 +893,7 @@ class JInstaller extends JAdapter
 				// Check that sql files exists before reading. Otherwise raise error for rollback
 				if (!file_exists($sqlfile))
 				{
-					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_SQL_FILENOTFOUND', $sqlfile));
-
+					JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_FILENOTFOUND', $sqlfile), JLog::WARNING, 'jerror');
 					return false;
 				}
 
@@ -904,8 +902,7 @@ class JInstaller extends JAdapter
 				// Graceful exit and rollback if read not successful
 				if ($buffer === false)
 				{
-					JError::raiseWarning(1, JText::_('JLIB_INSTALLER_ERROR_SQL_READBUFFER'));
-
+					JLog::add(JText::_('JLIB_INSTALLER_ERROR_SQL_READBUFFER'), JLog::WARNING, 'jerror');
 					return false;
 				}
 
@@ -929,8 +926,7 @@ class JInstaller extends JAdapter
 
 						if (!$db->execute())
 						{
-							JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)));
-
+							JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
 							return false;
 						}
 					}
@@ -1079,8 +1075,7 @@ class JInstaller extends JAdapter
 								// Graceful exit and rollback if read not successful
 								if ($buffer === false)
 								{
-									JError::raiseWarning(1, JText::_('JLIB_INSTALLER_ERROR_SQL_READBUFFER'));
-
+									JLog::add(JText::_('JLIB_INSTALLER_ERROR_SQL_READBUFFER'), JLog::WARNING, 'jerror');
 									return false;
 								}
 
@@ -1103,8 +1098,7 @@ class JInstaller extends JAdapter
 
 										if (!$db->execute())
 										{
-											JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)));
-
+											JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
 											return false;
 										}
 
@@ -1252,7 +1246,7 @@ class JInstaller extends JAdapter
 
 				if (!JFolder::create($newdir))
 				{
-					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir));
+					JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), JLog::WARNING, 'jerror');
 					return false;
 				}
 			}
@@ -1368,8 +1362,7 @@ class JInstaller extends JAdapter
 
 				if (!JFolder::create($newdir))
 				{
-					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir));
-
+					JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), JLog::WARNING, 'jerror');
 					return false;
 				}
 			}
@@ -1453,8 +1446,7 @@ class JInstaller extends JAdapter
 
 				if (!JFolder::create($newdir))
 				{
-					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir));
-
+					JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), JLog::WARNING, 'jerror');
 					return false;
 				}
 			}
@@ -1564,8 +1556,7 @@ class JInstaller extends JAdapter
 					 * The source file does not exist.  Nothing to copy so set an error
 					 * and return false.
 					 */
-					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_NO_FILE', $filesource));
-
+					JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_NO_FILE', $filesource), JLog::WARNING, 'jerror');
 					return false;
 				}
 				elseif (($exists = file_exists($filedest)) && !$overwrite)
@@ -1579,9 +1570,7 @@ class JInstaller extends JAdapter
 
 					// The destination file already exists and the overwrite flag is false.
 					// Set an error and return false.
-
-					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_FILE_EXISTS', $filedest));
-
+					JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_FILE_EXISTS', $filedest), JLog::WARNING, 'jerror');
 					return false;
 				}
 				else
@@ -1591,7 +1580,7 @@ class JInstaller extends JAdapter
 					{
 						if (!(JFolder::copy($filesource, $filedest, null, $overwrite)))
 						{
-							JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FOLDER', $filesource, $filedest));
+							JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FOLDER', $filesource, $filedest), JLog::WARNING, 'jerror');
 							return false;
 						}
 
@@ -1601,8 +1590,7 @@ class JInstaller extends JAdapter
 					{
 						if (!(JFile::copy($filesource, $filedest, null)))
 						{
-							JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FILE', $filesource, $filedest));
-
+							JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FILE', $filesource, $filedest), JLog::WARNING, 'jerror');
 							return false;
 						}
 
@@ -1782,7 +1770,7 @@ class JInstaller extends JAdapter
 
 			if ($val === false)
 			{
-				JError::raiseWarning(43, 'Failed to delete ' . $path);
+				JLog::add('Failed to delete ' . $path, JLog::WARNING, 'jerror');
 				$retval = false;
 			}
 		}
@@ -1873,14 +1861,13 @@ class JInstaller extends JAdapter
 			}
 
 			// None of the XML files found were valid install files
-			JError::raiseWarning(1, JText::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'));
-
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'), JLog::WARNING, 'jerror');
 			return false;
 		}
 		else
 		{
 			// No XML files were found in the install folder
-			JError::raiseWarning(1, JText::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'));
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), JLog::WARNING, 'jerror');
 			return false;
 		}
 	}

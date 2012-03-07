@@ -77,12 +77,12 @@ class JArchiveTar implements JArchiveExtractable
 		if (!$this->_data = JFile::read($archive))
 		{
 			$this->set('error.message', 'Unable to read archive');
-			return JError::raiseWarning(100, $this->get('error.message'));
+			return JLog::add($this->get('error.message'), JLog::WARNING, 'jerror');
 		}
 
 		if (!$this->_getTarInfo($this->_data))
 		{
-			return JError::raiseWarning(100, $this->get('error.message'));
+			return JLog::add($this->get('error.message'), JLog::WARNING, 'jerror');
 		}
 
 		for ($i = 0, $n = count($this->_metadata); $i < $n; $i++)
@@ -97,12 +97,12 @@ class JArchiveTar implements JArchiveExtractable
 				if (!JFolder::create(dirname($path)))
 				{
 					$this->set('error.message', 'Unable to create destination');
-					return JError::raiseWarning(100, $this->get('error.message'));
+					return JLog::add($this->get('error.message'), JLog::WARNING, 'jerror');
 				}
 				if (JFile::write($path, $buffer) === false)
 				{
 					$this->set('error.message', 'Unable to write entry');
-					return JError::raiseWarning(100, $this->get('error.message'));
+					return JLog::add($this->get('error.message'), JLog::WARNING, 'jerror');
 				}
 			}
 		}
