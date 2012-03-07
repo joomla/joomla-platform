@@ -67,7 +67,7 @@ class JMail extends PHPMailer
 	/**
 	 * Send the mail
 	 *
-	 * @return  mixed  True if successful, a JError object otherwise
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
@@ -75,15 +75,14 @@ class JMail extends PHPMailer
 	{
 		if (($this->Mailer == 'mail') && !function_exists('mail'))
 		{
-			return JError::raiseNotice(500, JText::_('JLIB_MAIL_FUNCTION_DISABLED'));
+            throw new Exception(JText::_('JLIB_MAIL_FUNCTION_DISABLED'), 500);
 		}
 
 		@$result = parent::Send();
 
 		if ($result == false)
 		{
-			// TODO: Set an appropriate error number
-			$result = JError::raiseNotice(500, JText::_($this->ErrorInfo));
+            throw new Exception($this->ErrorInfo, 500);
 		}
 
 		return $result;
@@ -122,7 +121,7 @@ class JMail extends PHPMailer
 		else
 		{
 			// If it is neither, we throw a warning
-			JError::raiseWarning(0, JText::sprintf('JLIB_MAIL_INVALID_EMAIL_SENDER', $from));
+            JLog::add(JText::sprintf('JLIB_MAIL_INVALID_EMAIL_SENDER', $from), JLog::WARNING, 'jerror');
 		}
 
 		return $this;

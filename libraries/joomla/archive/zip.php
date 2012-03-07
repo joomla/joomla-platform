@@ -133,11 +133,11 @@ class JArchiveZip implements JArchiveExtractable
 
 		if ($this->hasNativeSupport())
 		{
-			return ($this->_extractNative($archive, $destination, $options)) ? true : JError::raiseWarning(100, $this->get('error.message'));
+			return ($this->_extractNative($archive, $destination, $options)) ? true : JLog::add($this->get('error.message'), JLog::WARNING, 'jerror');
 		}
 		else
 		{
-			return ($this->_extract($archive, $destination, $options)) ? true : JError::raiseWarning(100, $this->get('error.message'));
+			return ($this->_extract($archive, $destination, $options)) ? true : JLog::add($this->get('error.message'), JLog::WARNING, 'jerror');
 		}
 	}
 

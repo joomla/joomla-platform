@@ -59,7 +59,7 @@ abstract class JHtmlAccess
 		// Check for a database error.
 		if ($db->getErrorNum())
 		{
-			JError::raiseWarning(500, $db->getErrorMsg());
+			JLog::add($db->getErrorMsg(), JLog::WARNING, 'jerror');
 			return null;
 		}
 
@@ -115,8 +115,7 @@ abstract class JHtmlAccess
 		// Check for a database error.
 		if ($db->getErrorNum())
 		{
-			JError::raiseNotice(500, $db->getErrorMsg());
-			return null;
+			throw new Exception($db->getErrorMsg(), 500);
 		}
 
 		for ($i = 0, $n = count($options); $i < $n; $i++)
@@ -165,7 +164,7 @@ abstract class JHtmlAccess
 		// Check for a database error.
 		if ($db->getErrorNum())
 		{
-			JError::raiseNotice(500, $db->getErrorMsg());
+			throw new Exception($db->getErrorMsg(), 500);
 			return null;
 		}
 
@@ -277,7 +276,7 @@ abstract class JHtmlAccess
 			// Check for a database error.
 			if ($db->getErrorNum())
 			{
-				JError::raiseNotice(500, $db->getErrorMsg());
+				throw new Exception($db->getErrorMsg(), 500);
 				return false;
 			}
 		}

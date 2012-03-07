@@ -29,7 +29,7 @@ abstract class JFolder
 	 * @param   string   $force        Force copy.
 	 * @param   boolean  $use_streams  Optionally force folder/file overwrites.
 	 *
-	 * @return  mixed  JError object on failure or boolean True on success.
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 * @throws  Exception
@@ -179,7 +179,7 @@ abstract class JFolder
 			$nested++;
 			if (($nested > 20) || ($parent == $path))
 			{
-				JError::raiseWarning('SOME_ERROR_CODE', __METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_LOOP'));
+                JLog::add(JText::_('SOME_ERROR_CODE', __METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_LOOP')), JLog::WARNING, 'jerror');
 				$nested--;
 				return false;
 			}
@@ -246,7 +246,7 @@ abstract class JFolder
 				if ($inBaseDir == false)
 				{
 					// Return false for JFolder::create because the path to be created is not in open_basedir
-					JError::raiseWarning('SOME_ERROR_CODE', __METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_PATH'));
+                    JLog::add(JText::_('SOME_ERROR_CODE', __METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_PATH')), JLog::WARNING, 'jerror');
 					return false;
 				}
 			}
@@ -258,10 +258,7 @@ abstract class JFolder
 			if (!$ret = @mkdir($path, $mode))
 			{
 				@umask($origmask);
-				JError::raiseWarning(
-					'SOME_ERROR_CODE', __METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_COULD_NOT_CREATE_DIRECTORY'),
-					'Path: ' . $path
-				);
+                JLog::add( __METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_COULD_NOT_CREATE_DIRECTORY'), JLog::WARNING, 'jerror');
 				return false;
 			}
 
@@ -287,8 +284,7 @@ abstract class JFolder
 		// Sanity check
 		if (!$path)
 		{
-			// Bad programmer! Bad Bad programmer!
-			JError::raiseWarning(500, __METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_DELETE_BASE_DIRECTORY'));
+            JLog::add( __METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_DELETE_BASE_DIRECTORY'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
@@ -301,7 +297,7 @@ abstract class JFolder
 		// Is this really a folder?
 		if (!is_dir($path))
 		{
-			JError::raiseWarning(21, JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path));
+            JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), JLog::WARNING, 'jerror');
 			return false;
 		}
 
@@ -360,7 +356,7 @@ abstract class JFolder
 		}
 		else
 		{
-			JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_DELETE', $path));
+            JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_DELETE', $path), JLog::WARNING, 'jerror');
 			$ret = false;
 		}
 		return $ret;
@@ -473,7 +469,7 @@ abstract class JFolder
 		// Is the path a folder?
 		if (!is_dir($path))
 		{
-			JError::raiseWarning(21, JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER_FILES', $path));
+            JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER_FILES', $path), JLog::WARNING, 'jerror');
 			return false;
 		}
 
@@ -518,7 +514,7 @@ abstract class JFolder
 		// Is the path a folder?
 		if (!is_dir($path))
 		{
-			JError::raiseWarning(21, JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER_FOLDER', $path));
+            JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER_FOLDER', $path), JLog::WARNING, 'jerror');
 			return false;
 		}
 
