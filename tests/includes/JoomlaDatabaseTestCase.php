@@ -176,7 +176,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 		// Load the config if available.
 		if (class_exists('JTestConfig'))
 		{
-			$config = new JTestConfig();
+			$config = new JTestConfig;
 		}
 
 		if (!is_object(self::$dbo))
@@ -189,6 +189,9 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 				'database' => isset($config) ? $config->db : 'joomla_ut',
 				'prefix' => isset($config) ? $config->dbprefix : 'jos_');
 
+			// Load real class driver
+			jimport('joomla.database.driver.' . $options['driver']);
+
 			try
 			{
 				self::$dbo = JDatabase::getInstance($options);
@@ -199,7 +202,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 
 			if (self::$dbo instanceof Exception)
 			{
-				//ignore errors
+				// Ignore errors
 				define('DB_NOT_AVAILABLE', true);
 			}
 		}
@@ -351,7 +354,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 		// Load the config if available.
 		if (class_exists('JTestConfig'))
 		{
-			$config = new JTestConfig();
+			$config = new JTestConfig;
 		}
 
 		$options = array(
@@ -362,6 +365,12 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 			'database' => isset($config) ? $config->db : 'joomla_ut',
 			'prefix' => isset($config) ? $config->dbprefix : 'jos_'
 		);
+
+		// PostgreSQL's PDO driver is called 'pgsql' and not 'postgresql', as found in configuration class
+		if ($config->dbtype == 'postgresql')
+		{
+			$options['driver'] = 'pgsql';
+		}
 
 		$pdo = new PDO($options['driver'] . ':host=' . $options['host'] . ';dbname=' . $options['database'], $options['user'], $options['password']);
 
@@ -425,10 +434,16 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 		// Load the real class first otherwise the mock will be used if jimport is called again.
 		require_once JPATH_PLATFORM . '/joomla/database/database.php';
 
-		// Load the mock class builder.
-		require_once JPATH_TESTS . '/includes/mocks/JDatabaseMock.php';
+		// Load platform database driver
+		require_once JPATH_PLATFORM . '/joomla/database/driver/' . self::$dbo->name . '.php';
 
-		return JDatabaseGlobalMock::create($this);
+		// Load the mock class builder.
+		$databaseMockName = 'JDatabase' . ucfirst(strtolower(self::$dbo->name)) . 'Mock.php';
+
+		// Load the mock class builder for choosed driver, it loads its superclass.
+		require_once JPATH_TESTS . '/includes/mocks/' . $databaseMockName;
+
+		return $databaseMockName::create($this);
 	}
 
 	/**
