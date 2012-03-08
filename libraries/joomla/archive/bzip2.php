@@ -58,7 +58,7 @@ class JArchiveBzip2 implements JArchiveExtractable
 		{
 			$this->set('error.message', JText::_('JLIB_FILESYSTEM_BZIP_NOT_SUPPORTED'));
 
-			return JError::raiseWarning(100, $this->get('error.message'));
+			return JLog::add($this->get('error.message'), JLog::WARNING, 'jerror');
 		}
 
 		if (!isset($options['use_streams']) || $options['use_streams'] == false)
@@ -67,7 +67,7 @@ class JArchiveBzip2 implements JArchiveExtractable
 			if (!$this->_data = JFile::read($archive))
 			{
 				$this->set('error.message', 'Unable to read archive');
-				return JError::raiseWarning(100, $this->get('error.message'));
+				return JLog::add($this->get('error.message'), JLog::WARNING, 'jerror');
 			}
 
 			$buffer = bzdecompress($this->_data);
@@ -75,13 +75,13 @@ class JArchiveBzip2 implements JArchiveExtractable
 			if (empty($buffer))
 			{
 				$this->set('error.message', 'Unable to decompress data');
-				return JError::raiseWarning(100, $this->get('error.message'));
+				return JLog::add($this->get('error.message'), JLog::WARNING, 'jerror');
 			}
 
 			if (JFile::write($destination, $buffer) === false)
 			{
 				$this->set('error.message', 'Unable to write archive');
-				return JError::raiseWarning(100, $this->get('error.message'));
+				return JLog::add($this->get('error.message'), JLog::WARNING, 'jerror');
 			}
 
 		}
@@ -97,7 +97,7 @@ class JArchiveBzip2 implements JArchiveExtractable
 			{
 				$this->set('error.message', JText::_('JLIB_FILESYSTEM_BZIP_UNABLE_TO_READ'));
 
-				return JError::raiseWarning(100, $this->get('error.message'));
+				return JLog::add($this->get('error.message'), JLog::WARNING, 'jerror');
 			}
 
 			$output = JFactory::getStream();
@@ -109,7 +109,7 @@ class JArchiveBzip2 implements JArchiveExtractable
 				// Close the previous file
 				$input->close();
 
-				return JError::raiseWarning(100, $this->get('error.message'));
+				return JLog::add($this->get('error.message'), JLog::WARNING, 'jerror');
 			}
 
 			do
@@ -121,7 +121,7 @@ class JArchiveBzip2 implements JArchiveExtractable
 					{
 						$this->set('error.message', JText::_('JLIB_FILESYSTEM_BZIP_UNABLE_TO_WRITE_FILE'));
 
-						return JError::raiseWarning(100, $this->get('error.message'));
+						return JLog::add($this->get('error.message'), JLog::WARNING, 'jerror');
 					}
 				}
 			}

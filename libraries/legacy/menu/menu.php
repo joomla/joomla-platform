@@ -134,7 +134,6 @@ class JMenu extends JObject
 			}
 			else
 			{
-				// $error = JError::raiseError(500, 'Unable to load menu: '.$client);
 				// TODO: Solve this
 				$error = null;
 				return $error;
