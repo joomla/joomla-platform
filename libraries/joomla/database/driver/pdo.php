@@ -348,7 +348,6 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 		if (!is_object($this->connection))
 		{
-			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
 			throw new RuntimeException($this->errorMsg, $this->errorNum);
 		}
 
