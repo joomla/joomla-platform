@@ -1,9 +1,0 @@
-.idea
-.DS_Store
-.sass-cache
-/sites/1/configuration.php
-/sites/sites.xml
-text.txt
-extensions/themes/bootstrap/
-extensions/themes/foundation/
-extensions/themes/kendoui/
