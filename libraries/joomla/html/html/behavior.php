@@ -58,10 +58,31 @@ abstract class JHtmlBehavior
 		}
 
 		JHtml::_('script', 'system/mootools-' . $type . '.js', false, true, false, false, $debug);
-		JHtml::_('script', 'system/core.js', false, true);
 		self::$loaded[__METHOD__][$type] = true;
 
 		return;
+	}
+
+	/**
+	 * Method to load the Joomla core behavior
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public static function core()
+	{
+		// Only load once
+		if (isset(self::$loaded[__METHOD__]))
+		{
+			return;
+		}
+
+		// Include MooTools framework
+		self::framework();
+
+		JHtml::_('script', 'system/core.js', true, true);
+		self::$loaded[__METHOD__] = true;
 	}
 
 	/**
