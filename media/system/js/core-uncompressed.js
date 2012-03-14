@@ -124,35 +124,41 @@ Joomla.checkAll = function(checkbox, stub) {
  * @return	void
  */
 Joomla.renderMessages = function(messages) {
-	Joomla.removeMessages();
-	var container = document.id('system-message-container');
+    Joomla.removeMessages();
+    var container = document.getElementById('system-message-container');
 
-	var dl = new Element('dl', {
-		id: 'system-message',
-		role: 'alert'
-	});
-	Object.each(messages, function (item, type) {
-		var dt = new Element('dt', {
-			'class': type,
-			html: type
-		});
-		dt.inject(dl);
-		var dd = new Element('dd', {
-			'class': type
-		});
-		dd.addClass('message');
-		var list = new Element('ul');
+    var dl = document.createElement('dl');
+    dl.id = 'system-message';
+    dl.role = 'alert';
 
-		Array.each(item, function (item, index, object) {
-			var li = new Element('li', {
-				html: item
-			});
-			li.inject(list);
-		}, this);
-		list.inject(dd);
-		dd.inject(dl);
-	}, this);
-	dl.inject(container);
+    var type, item, dt, dd, list, li;
+    for ( type in messages ) {
+        if ( Object.prototype.hasOwnProperty.call ( messages, type ) ) {
+            item = messages[ type ];
+            dt = document.createElement('dt');
+            dt.className = type;
+            dt.innerHTML = type;
+            dl.appendChild( dt );
+
+            dd = document.createElement('dd');
+            dd.className = type + ' message';
+            
+            list = document.createElement('ul');
+            
+            for ( var i = 0, len = item.length; i < len; i++ ) {
+                li = document.createElement('li');
+                li.innerHTML = item[ i ];
+                list.appendChild( li );
+            }
+            
+            dd.appendChild( list );
+            dl.appendChild( dd );
+            
+        }
+    }
+    dt = dd = list = li = null;
+    
+    container.appendChild(dl);
 };
 
 
@@ -162,8 +168,8 @@ Joomla.renderMessages = function(messages) {
  * @return	void
  */
 Joomla.removeMessages = function() {
-	var children = $$('#system-message-container > *');
-	children.destroy();
+    var container = document.getElementById('system-message-container'), child;
+    while ( (child = container.firstChild)  ) container.removeChild( child );
 }
 
 /**
