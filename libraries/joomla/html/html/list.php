@@ -193,7 +193,7 @@ abstract class JHtmlList
 		$query->join('LEFT', '#__user_usergroup_map AS m ON m.user_id = u.id');
 		$query->where('u.block = 0');
 		$query->order($order);
-		$query->group('u.id');
+		$query->group(array('u.id', 'u.name'));
 		$db->setQuery($query);
 
 		if ($nouser)
