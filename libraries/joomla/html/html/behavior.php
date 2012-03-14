@@ -58,6 +58,8 @@ abstract class JHtmlBehavior
 		}
 
 		JHtml::_('script', 'system/mootools-' . $type . '.js', false, true, false, false, $debug);
+		// Backward compatibility: please call JHtml::_('behavior.core') directly when you need Joomla object
+		JHtml::_('behavior.core');
 		self::$loaded[__METHOD__][$type] = true;
 
 		return;
@@ -78,10 +80,7 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include MooTools framework
-		self::framework();
-
-		JHtml::_('script', 'system/core.js', true, true);
+		JHtml::_('script', 'system/core.js', false, true);
 		self::$loaded[__METHOD__] = true;
 	}
 
@@ -103,7 +102,7 @@ abstract class JHtmlBehavior
 		}
 
 		// Include MooTools framework
-		self::framework();
+		JHtml::_('behavior.framework');
 
 		JHtml::_('script', 'system/caption.js', true, true);
 
@@ -139,7 +138,7 @@ abstract class JHtmlBehavior
 		}
 
 		// Include MooTools framework
-		self::framework();
+		JHtml::_('behavior.framework');
 
 		JHtml::_('script', 'system/validate.js', true, true);
 		self::$loaded[__METHOD__] = true;
@@ -162,7 +161,7 @@ abstract class JHtmlBehavior
 		}
 
 		// Include MooTools framework
-		self::framework();
+		JHtml::_('behavior.framework');
 
 		JHtml::_('script', 'system/switcher.js', true, true);
 
@@ -197,7 +196,7 @@ abstract class JHtmlBehavior
 			return;
 		}
 		// Include MooTools framework
-		self::framework();
+		JHtml::_('behavior.framework');
 
 		JHtml::_('script', 'system/combobox.js', true, true);
 		self::$loaded[__METHOD__] = true;
@@ -239,7 +238,7 @@ abstract class JHtmlBehavior
 		}
 
 		// Include MooTools framework
-		self::framework(true);
+		JHtml::_('behavior.framework', true);
 
 		// Setup options object
 		$opt['maxTitleChars']	= (isset($params['maxTitleChars']) && ($params['maxTitleChars'])) ? (int) $params['maxTitleChars'] : 50;
@@ -305,7 +304,7 @@ abstract class JHtmlBehavior
 		if (!isset(self::$loaded[__METHOD__]))
 		{
 			// Include MooTools framework
-			self::framework(true);
+			JHtml::_('behavior.framework', true);
 
 			// Load the javascript and css
 			JHtml::_('script', 'system/modal.js', true, true);
@@ -377,7 +376,7 @@ abstract class JHtmlBehavior
 		}
 
 		// Include MooTools framework
-		self::framework();
+		JHtml::_('behavior.framework');
 
 		JHtml::_('script', 'system/multiselect.js', true, true);
 
@@ -407,7 +406,7 @@ abstract class JHtmlBehavior
 	public static function uploader($id = 'file-upload', $params = array(), $upload_queue = 'upload-queue')
 	{
 		// Include MooTools framework
-		self::framework();
+		JHtml::_('behavior.framework');
 
 		JHtml::_('script', 'system/swf.js', true, true);
 		JHtml::_('script', 'system/progressbar.js', true, true);
@@ -573,7 +572,7 @@ abstract class JHtmlBehavior
 	public static function tree($id, $params = array(), $root = array())
 	{
 		// Include MooTools framework
-		self::framework();
+		JHtml::_('behavior.framework');
 
 		JHtml::_('script', 'system/mootree.js', true, true, false, false);
 		JHtml::_('stylesheet', 'system/mootree.css', array(), true);
@@ -669,7 +668,7 @@ abstract class JHtmlBehavior
 		}
 
 		// Include MooTools framework
-		self::framework(true);
+		JHtml::_('behavior.framework', true);
 
 		JHtml::_('stylesheet', 'system/mooRainbow.css', array('media' => 'all'), true);
 		JHtml::_('script', 'system/mooRainbow.js', false, true);
@@ -720,7 +719,7 @@ abstract class JHtmlBehavior
 		}
 
 		// Include MooTools framework
-		self::framework();
+		JHtml::_('behavior.framework');
 
 		$config = JFactory::getConfig();
 		$lifetime = ($config->get('lifetime') * 60000);
@@ -772,6 +771,9 @@ abstract class JHtmlBehavior
 			return;
 		}
 
+		// Include MooTools framework
+		JHtml::_('behavior.framework');
+
 		JHtml::_('script', 'system/highlighter.js', true, true);
 
 		$terms = str_replace('"', '\"', $terms);
@@ -817,7 +819,7 @@ abstract class JHtmlBehavior
 		}
 
 		// Include MooTools framework
-		self::framework();
+		JHtml::_('behavior.framework');
 
 		$js = "window.addEvent('domready', function () {if (top == self) {document.documentElement.style.display = 'block'; }" .
 			" else {top.location = self.location; }});";
