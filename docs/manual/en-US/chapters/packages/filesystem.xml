@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../../Developer_Manual.ent">
+%BOOK_ENTITIES;
+]>
+<section id="chap-Joomla_Platform_Manual-Filesystem">
+  <title>The Filesystem Package</title>
+
+  <para>
+    The Filesystem package provides a number of classes that can be used to access the local file system or remote file systems.
+  </para>
+  <section>
+    <title>Using the <classname>JFilesystem</classname> class</title>
+    <para>
+      The first thing to do is to get an instance of the <classname>JFilesystem</classname> class. An instance of this class is composed of two essential elements:
+      <variablelist>
+        <varlistentry>
+          <term>a <firstterm>prefix</firstterm></term>
+          <listitem>
+            <para>
+              The prefix is used by the underlying <acronym>PHP</acronym> file functions to differentiate between <command>http://</command>, <command>ftp://</command> and so on.
+            </para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>a <firstterm>stream context</firstterm></term>
+          <listitem>
+            <para>
+              This is defined from a set of parameters and wrapper specific options modifying the stream behavior.
+            </para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+      This is achieved by requesting a new instance by specifying the prefix used, the wrappers specific options and the parameters:
+      <programlisting language="PHP (HTML)">
+$ftp = JFilesystem::getInstance('ftp://user:password@example.com', array('ftp' => array('overwrite' => true)));
+$filesystem = JFilesystem::getInstance();
+</programlisting>
+    </para>
+    <para>
+      When a file system instance is available, file and directory objects are created using the <methodname>getFile</methodname> and the <methodname>getDirectory</methodname> methods:
+      <programlisting language="PHP (HTML)">
+$file = $filesystem->getFile('/path/to/file');
+$directory = $filesystem->getDirectory('/path/to/directory');
+</programlisting>
+    </para>
+    <para>
+      Two read-only properties are available from a file system:
+      <variablelist>
+        <varlistentry>
+          <term><varname>prefix</varname></term>
+          <listitem>
+            <para>
+              This is the prefix used during the file system object creation.
+              <programlisting language="PHP (HTML)">
+$prefix = $filesystem->prefix;
+</programlisting>
+            </para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term><varname>context</varname></term>
+          <listitem>
+            <para>
+              This is the stream context created during the file system object creation.
+              <programlisting language="PHP (HTML)">
+$context = $filesystem->context;
+</programlisting>
+            </para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </para>
+  </section>
+  <section>
+    <title>Working with files</title>
+    <para>
+      Files are instances of class <classname>JFilesystemElementFile</classname> and are generally created using the <methodname>getFile</methodname> method of class <classname>JFilesystem</classname>.
+      <programlisting language="PHP (HTML)">
+$file = $filesystem->getFile('/path/to/file');
+</programlisting>
+    </para>
+    <section>
+      <title>Accessing properties</title>
+      <para>
+        A lot of properties can be accessed from a <classname>JFilesystemElementFile</classname> object. Some throws an exception if the file does not exist or when using some specific streams. See <ulink url="chap-Joomla_Platform_Manual-Filesystem-Common-Properties.html">Common properties</ulink>
+        <variablelist>
+          <varlistentry>
+            <term><varname>mode</varname> (<type>string|null</type> property)</term>
+            <listitem>
+              <para>
+                The file opening mode.
+                <programlisting language="PHP (HTML)">
+// Getting the file opening mode
+$mode = $file->mode;
+
+// Open the file for reading
+$file->mode = 'r';
+
+// Open the file for reading
+$file->mode = 'w';
+
+// Close the file
+$file->mode = null;
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><varname>position</varname> (<type>integer</type> property)</term>
+            <listitem>
+              <para>
+                The file current position.
+                <programlisting language="PHP (HTML)">
+// Getting the file current position
+$position = $file->position;
+
+// Rewind the file
+$file->position = 0;
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><varname>use_include_path</varname> (read-only <type>boolean</type> property)</term>
+            <listitem>
+              <para>
+                Tells if the file use the include path search behavior.
+                <programlisting language="PHP (HTML)">
+// Getting the information
+$use_include_path = $file->use_include_path;
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><varname>opened</varname> (read-only <type>boolean</type> property)</term>
+            <listitem>
+              <para>
+                Tells if the file is opened.
+                <programlisting language="PHP (HTML)">
+// Getting the information
+$opened = $file->opened;
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><varname>eof</varname> (read-only <type>boolean</type> property)</term>
+            <listitem>
+              <para>
+                Tells if the file is at end of file.
+                <programlisting language="PHP (HTML)">
+// Getting the enf-of-file state
+$eof = $file->eof;
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><varname>valid</varname> (<type>boolean</type> property)</term>
+            <listitem>
+              <para>
+                Tells if the last read was valid (use by iterators on files).
+                <programlisting language="PHP (HTML)">
+// Getting the valid state
+$valid = $file->valid;
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><varname>contents</varname> (<type>string|array|null</type> property)</term>
+            <listitem>
+              <para>
+                The file contents. Setting this property will open the file in write mode, set the contents and close the file.
+                <programlisting language="PHP (HTML)">
+// Getting the contents as a string
+$contents = $file->contents;
+
+// Setting the contents
+$file->contents = 'Hello World!';
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><varname>handle</varname> (read-only <type>ressource</type> property)</term>
+            <listitem>
+              <para>
+                The file pointer resource.
+                <programlisting language="PHP (HTML)">
+// Getting the handle
+$handle = $file->handle;
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><varname>directory</varname> (read-only <classname>JFilesystemElementDirectory</classname> property)</term>
+            <listitem>
+              <para>
+                The file directory object.
+                <programlisting language="PHP (HTML)">
+// Getting the directory
+$directory = $file->directory;
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </para>
+    </section>
+  </section>
+  <section>
+    <title>Working with directories</title>
+    <para>
+      
+    </para>
+  </section>
+  <section id="chap-Joomla_Platform_Manual-Filesystem-Common-Properties">
+    <title>Accessing files and directories common properties</title>
+    <para>
+        <variablelist>
+          <varlistentry>
+            <term><varname>system</varname> (read-only <classname>JFilesystem</classname> property)</term>
+            <listitem>
+              <para>
+                The underlying file system.
+                <programlisting language="PHP (HTML)">
+// Getting the file system
+$system = $element->system;
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><varname>exists</varname> (read-only <type>boolean</type> property)</term>
+            <listitem>
+              <para>
+                Tells if the element exists.
+                <programlisting language="PHP (HTML)">
+if ($element->exists)
+{
+  // Some code
+}
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><varname>size</varname> (read-only <type>integer</type> property)</term>
+            <listitem>
+              <para>
+                The size in bytes of the element.
+                <programlisting language="PHP (HTML)">
+// Getting the size
+$size = $element->size;
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><varname>is_file</varname> (read-only <type>boolean</type> property)</term>
+            <listitem>
+              <para>
+                Tells if the element is really a file.
+                <programlisting language="PHP (HTML)">
+if ($element->is_file)
+{
+  // Some code
+}
+</programlisting>
+              </para>
+            </listitem>
+	          </varlistentry>
+          <varlistentry>
+            <term><varname>is_dir</varname> (read-only <type>boolean</type> property)</term>
+            <listitem>
+              <para>
+                Tells if the element is really a directory.
+                <programlisting language="PHP (HTML)">
+if ($element->is_dir)
+{
+  // Some code
+}
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><varname>is_readable</varname> (read-only <type>boolean</type> property)</term>
+            <listitem>
+              <para>
+                Tells if the element is a readable.
+                <programlisting language="PHP (HTML)">
+if ($element->is_readable)
+{
+  // Some code
+}
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><varname>is_writable</varname> (read-only <type>boolean</type> property)</term>
+            <listitem>
+              <para>
+                Tells if the element is writable.
+                <programlisting language="PHP (HTML)">
+if ($element->is_writable)
+{
+  // Some code
+}
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><varname>is_link</varname> (read-only <type>boolean</type> property)</term>
+            <listitem>
+              <para>
+                Tells if the element is a link.
+                <programlisting language="PHP (HTML)">
+if ($element->is_link)
+{
+  // Some code
+}
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><varname>group</varname> (<type>integer</type> property)</term>
+            <listitem>
+              <para>
+                This is the group id of the element.
+                <programlisting language="PHP (HTML)">
+// Getting the group id
+$group = $element->group;
+
+// Setting the group id
+$element->group = $new_group;
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><varname>owner</varname> (<type>integer</type> property)</term>
+            <listitem>
+              <para>
+                This is the owner id of the element.
+                <programlisting language="PHP (HTML)">
+// Getting the owner id
+$owner = $element->owner;
+
+// Setting the group id
+$element->owner = $new_owner;
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><varname>permissions</varname> (<type>integer</type> property)</term>
+            <listitem>
+              <para>
+                This is the <type>integer</type> representation of the permissions.
+                <programlisting language="PHP (HTML)">
+// Getting the permissions
+$permissions = $element->permissions;
+
+// Setting the permissions using octal number
+$element->permissions = 0755;
+$element->permissions = 0000;
+
+// Setting the permissions using string representation (0640)
+$element->permissions = 'u+rw,g=r,o=-';
+
+// Setting the permissions using string representation (0600)
+$element->permissions = 'g=o';
+
+// Setting the permissions using string representation (0400)
+$element->permissions = 'u-w';
+
+// Setting the permissions using string representation (0666)
+$element->permissions = 'a=rw';
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><varname>access_time</varname> (read-only <type>integer</type> property)</term>
+            <listitem>
+              <para>
+                This is the last access time of the element.
+                <programlisting language="PHP (HTML)">
+// Getting the access time
+$access_time = $element->access_time;
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><varname>change_time</varname> (read-only <type>integer</type> property)</term>
+            <listitem>
+              <para>
+                This is the last change time of the element.
+                <programlisting language="PHP (HTML)">
+// Getting the change time
+$change_time = $element->change_time;
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><varname>modification_time</varname> (read-only <type>integer</type> property)</term>
+            <listitem>
+              <para>
+                This is the last modification time of the element.
+                <programlisting language="PHP (HTML)">
+// Getting the modification time
+$modification_time = $element->modification_time;
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><varname>path</varname> (<type>string</type> property)</term>
+            <listitem>
+              <para>
+                This is the absolute path of the element.
+                <programlisting language="PHP (HTML)">
+// Getting the path
+$path = $element->path;
+
+// Setting the path
+$element->path = '/new/path/to';
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><varname>name</varname> (<type>string</type> property)</term>
+            <listitem>
+              <para>
+                This is the name of the element.
+                <programlisting language="PHP (HTML)">
+$element->path = '/path/to/element.txt';
+
+// Getting the name ($name will contains 'element.txt')
+$name = $element->name;
+
+// Setting the name ($element->path will contain '/path/to/newelement.txt')
+$element->name = 'newelement.txt';
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><varname>dirpath</varname> (<type>string</type> property)</term>
+            <listitem>
+              <para>
+                This is the directory path of the element.
+                <programlisting language="PHP (HTML)">
+$element->path = '/path/to/element.txt';
+
+// Getting the dirpath ($dirpath will contains '/path/to')
+$dirpath = $element->dirpath;
+
+// Setting the dirpath ($element->path will contain '/newpath/to/element.txt')
+$element->dirpath = '/newpath/to';
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><varname>basename</varname> (<type>string</type> property)</term>
+            <listitem>
+              <para>
+                This is the base name of the element.
+                <programlisting language="PHP (HTML)">
+$element->path = '/path/to/element.txt';
+
+// Getting the basename ($basename will contains 'element')
+$basename = $element->basename;
+
+// Setting the basename ($element->path will contain '/path/to/newelement.txt')
+$element->basename = 'newelement';
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><varname>extension</varname> (<type>string</type> property)</term>
+            <listitem>
+              <para>
+                This is the extension of the element.
+                <programlisting language="PHP (HTML)">
+$element->path = '/path/to/element.txt';
+
+// Getting the extension ($extension will contains 'txt')
+$extension = $element->extension;
+
+// Setting the extension ($element->path will contain '/path/to/element.msg')
+$element->extension = 'msg';
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><varname>link</varname> (<type>string</type> property)</term>
+            <listitem>
+              <para>
+                This is the symbolic link of the element.
+                <programlisting language="PHP (HTML)">
+// Setting the link
+$element->link = '/path/to/link';
+
+// Getting the link
+$link = $element->link;
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><varname>fullpath</varname> (read-only <type>string</type> property)</term>
+            <listitem>
+              <para>
+                This is the full path of the element (concatenation of the file system prefix and the path).
+                <programlisting language="PHP (HTML)">
+// Getting the fullpath
+$fullpath = $element->fullpath;
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+    </para>
+  </section>
+</section>
