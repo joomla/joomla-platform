@@ -975,7 +975,7 @@ abstract class JString
 		// Now, decode each value of the resulting array
 		foreach ($encodedParts as $key => $value)
 		{
-			$result[$key] = urldecode($value);
+			$result[$key] = $value;
 		}
 		return $result;
 	}
