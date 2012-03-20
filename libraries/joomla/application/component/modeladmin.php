@@ -1063,7 +1063,7 @@ abstract class JModelAdmin extends JModelForm
 
 		if (empty($pks))
 		{
-			JLog::add(JText::_($this->text_prefix . '_ERROR_NO_ITEMS_SELECTED'), JLog::WARNING, 'jerror');
+            return JError::raiseWarning(500, JText::_($this->text_prefix . '_ERROR_NO_ITEMS_SELECTED'));
 		}
 
 		// Update ordering values
