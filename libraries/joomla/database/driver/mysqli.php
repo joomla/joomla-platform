@@ -94,19 +94,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriverMysql
 		// Make sure the MySQLi extension for PHP is installed and enabled.
 		if (!function_exists('mysqli_connect'))
 		{
-
-			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  12.1
-			if (JError::$legacy)
-			{
-				$this->errorNum = 1;
-				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_ADAPTER_MYSQLI');
-				return;
-			}
-			else
-			{
-				throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_ADAPTER_MYSQLI'));
-			}
+			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_ADAPTER_MYSQLI'));
 		}
 
 		$this->connection = @mysqli_connect(
@@ -268,7 +256,6 @@ class JDatabaseDriverMysqli extends JDatabaseDriverMysql
 
 		if (!is_object($this->connection))
 		{
-			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
 			throw new RuntimeException($this->errorMsg, $this->errorNum);
 		}
 

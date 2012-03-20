@@ -334,7 +334,7 @@ abstract class JModuleHelper
 
 		if ($db->getErrorNum())
 		{
-			JError::raiseWarning(500, JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $db->getErrorMsg()));
+			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $db->getErrorMsg()), JLog::WARNING, 'jerror');
 			return $clean;
 		}
 
@@ -427,6 +427,7 @@ abstract class JModuleHelper
 		$wrkaroundoptions = array('nopathway' => 1, 'nohead' => 0, 'nomodules' => 1, 'modulemode' => 1, 'mergehead' => 1);
 
 		$wrkarounds = true;
+		$secureid = null;
 		$view_levels = md5(serialize($user->getAuthorisedViewLevels()));
 
 		switch ($cacheparams->cachemode)
@@ -442,7 +443,6 @@ abstract class JModuleHelper
 				break;
 
 			case 'safeuri':
-				$secureid = null;
 				if (is_array($cacheparams->modeparams))
 				{
 					$uri = JRequest::get();

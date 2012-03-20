@@ -216,7 +216,7 @@ class JClientHelper
 			}
 			else
 			{
-				$return = JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_CLIENT_ERROR_HELPER_SETCREDENTIALSFROMREQUEST_FAILED'));
+				JLog::add(JText::_('JLIB_CLIENT_ERROR_HELPER_SETCREDENTIALSFROMREQUEST_FAILED'), JLog::WARNING, 'jerror');
 			}
 		}
 		else

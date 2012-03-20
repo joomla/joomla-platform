@@ -219,7 +219,7 @@ class JToolbar
 
 		if (!class_exists('JToolbarButton'))
 		{
-			JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_HTML_BUTTON_BASE_CLASS'));
+			JLog::add(JText::_('JLIB_HTML_BUTTON_BASE_CLASS'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
@@ -249,7 +249,7 @@ class JToolbar
 				}
 				else
 				{
-					JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('JLIB_HTML_BUTTON_NO_LOAD', $buttonClass, $buttonFile));
+					JLog::add(JText::sprintf('JLIB_HTML_BUTTON_NO_LOAD', $buttonClass, $buttonFile), JLog::WARNING, 'jerror');
 					return false;
 				}
 			}
@@ -257,7 +257,6 @@ class JToolbar
 
 		if (!class_exists($buttonClass) && !class_exists($buttonClassOld))
 		{
-			// @todo remove code: return	JError::raiseError('SOME_ERROR_CODE', "Module file $buttonFile does not contain class $buttonClass.");
 			return false;
 		}
 		$this->_buttons[$signature] = new $buttonClass($this);
