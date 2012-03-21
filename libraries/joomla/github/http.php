@@ -46,8 +46,8 @@ class JGithubHttp extends JHttp
 	 */
 	public function __construct(JRegistry $options = null, JHttpTransport $transport = null)
 	{
-		// Call the JHttp constructor to setup the object.
-		parent::__construct($options, $transport);
+        $this->options   = isset($options) ? $options : new JRegistry;
+        $this->transport = isset($transport) ? $transport : new JHttpTransportStream($this->options);
 
 		// Make sure the user agent string is defined.
 		$this->options->def('userAgent', 'JGitHub/2.0');
