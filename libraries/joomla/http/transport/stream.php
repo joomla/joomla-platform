@@ -124,6 +124,12 @@ class JHttpTransportStream implements JHttpTransport
 		// Open the stream for reading.
 		$stream = fopen((string) $uri, 'r', false, $context);
 
+		// fopen($uri) returns false
+		if ($stream === false)
+		{
+			throw new RuntimeException('HTTP request failed');
+		}
+
 		// Get the metadata for the stream, including response headers.
 		$metadata = stream_get_meta_data($stream);
 
