@@ -134,6 +134,12 @@ class JHttpTransportCurl implements JHttpTransport
 		$content = curl_exec($ch);
 		curl_close($ch);
 
+		// Received empty response (invalid uri, connection reached timeout);
+		if ($content === false)
+		{
+			throw new RuntimeException('HTTP request failed');
+		}
+
 		return $this->getResponse($content);
 	}
 
