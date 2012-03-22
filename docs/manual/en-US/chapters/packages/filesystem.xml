@@ -212,6 +212,252 @@ $directory = $file->directory;
         </variablelist>
       </para>
     </section>
+    <section>
+      <title>Calling methods</title>
+      <para>
+        <variablelist>
+          <varlistentry>
+            <term><methodname>open</methodname> method</term>
+            <listitem>
+              <para>
+                Open the file for reading or writing.
+                <programlisting language="PHP (HTML)">
+// Open the file for reading
+$file->open('r');
+
+// Open the file for writing
+$file->open('w');
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><methodname>close</methodname> method</term>
+            <listitem>
+              <para>
+                Close the file.
+                <programlisting language="PHP (HTML)">
+// Open the file for reading
+$file->open('r');
+
+// Read the file ...
+
+// Close the file
+$file->close();
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><methodname>readXXX</methodname> method</term>
+            <listitem>
+              <para>
+                Read from the file. The <methodname>XXX</methodname> suffix denotes the accessor used (See Accessors).
+                <programlisting language="PHP (HTML)">
+// Open the file for reading
+$file->open('r');
+
+// Read from the file
+$line1 = $file->readLine();
+$line2 = $file->readLine();
+
+// Close the file
+$file->close();
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><methodname>writeXXX</methodname> method</term>
+            <listitem>
+              <para>
+                Write to the file. The <methodname>XXX</methodname> suffix denotes the accessor used (See Accessors).
+                <programlisting language="PHP (HTML)">
+// Open the file for writing
+$file->open('w');
+
+// Write to the file
+$file->writeLine('Line 1');
+$file->writeLine('Line 2');
+
+// Close the file
+$file->close();
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><methodname>flush</methodname> method</term>
+            <listitem>
+              <para>
+                Flush the file.
+                <programlisting language="PHP (HTML)">
+// Open the file for writing
+$file->open('w');
+
+// Write to the file
+$file->writeLine('Line 1');
+$file->writeLine('Line 2');
+
+// Flush the file
+$file->flush();
+
+// Close the file
+$file->close();
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><methodname>truncate</methodname> method</term>
+            <listitem>
+              <para>
+                Truncate the file.
+                <programlisting language="PHP (HTML)">
+// Open the file for writing
+$file->open('w');
+
+// Write to the file
+$file->writeLine('Line 1');
+$file->writeLine('Line 2');
+
+// Truncate the file
+$file->truncate(10);
+
+// Close the file
+$file->close();
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><methodname>create</methodname> method</term>
+            <listitem>
+              <para>
+                Create the file.
+                <programlisting language="PHP (HTML)">
+// Create the file on disk
+$file->create();
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><methodname>delete</methodname> method</term>
+            <listitem>
+              <para>
+                Delete the file.
+                <programlisting language="PHP (HTML)">
+// Delete the file on disk
+$file->delete();
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><methodname>copy</methodname> method</term>
+            <listitem>
+              <para>
+                Copy the file.
+                <programlisting language="PHP (HTML)">
+// Copy the file on another file
+$file->copy($file2);
+
+// Copy the file on a directory
+$file->copy($directory);
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><methodname>copyFromFile</methodname> method</term>
+            <listitem>
+              <para>
+                Copy from a file.
+                <programlisting language="PHP (HTML)">
+// Copy the file from another file
+$file->copyFromFile($src);
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><methodname>pullXXX</methodname> method</term>
+            <listitem>
+              <para>
+                Pull the entire contents from a file. The <methodname>XXX</methodname> suffix denotes the accessor used (See Accessors).
+                <programlisting language="PHP (HTML)">
+// Get the ini strings
+$ini = $file->pullIni();
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><methodname>pullXXX</methodname> method</term>
+            <listitem>
+              <para>
+                Push data to a file. The <methodname>XXX</methodname> suffix denotes the accessor used (See Accessors).
+                <programlisting language="PHP (HTML)">
+// Write an xml object to file
+$file->pushXml($xml);
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><methodname>iterateXXX</methodname> method</term>
+            <listitem>
+              <para>
+                Iterate from a file. The <methodname>XXX</methodname> suffix denotes the accessor used (See Accessors).
+                <programlisting language="PHP (HTML)">
+// Read lines from a file
+foreach ($file->iterateLine() as $line)
+{
+	// Deal with $line
+}
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><methodname>prependFilter</methodname> method</term>
+            <listitem>
+              <para>
+                Prepend a filter to a file.
+                <programlisting language="PHP (HTML)">
+$file->open('r')->prependFilter('string.toupper');
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><methodname>appendFilter</methodname> method</term>
+            <listitem>
+              <para>
+                Append a filter to a file.
+                <programlisting language="PHP (HTML)">
+$file->open('r')->appendFilter('string.toupper');
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term><methodname>removeFilter</methodname> method</term>
+            <listitem>
+              <para>
+                Remote a filter from a file.
+                <programlisting language="PHP (HTML)">
+$file->open('r')->appendFilter('string.toupper');
+$filter = $file->appendFilter('string.tolower');
+$file->removeFilter($filter);
+</programlisting>
+              </para>
+            </listitem>
+          </varlistentry>
+        </variablelist>        
+      </para>
+    </section>
   </section>
   <section>
     <title>Working with directories</title>

@@ -338,7 +338,7 @@ abstract class JFilesystemElement
 	 *
 	 * @since   12.1
 	 */
-	public function getName()
+	protected function getName()
 	{
 		return basename($this->_path);
 	}
@@ -352,7 +352,7 @@ abstract class JFilesystemElement
 	 *
 	 * @since   12.1
 	 */
-	public function getBasename()
+	protected function getBasename()
 	{
 		$extension = $this->extension;
 		if (empty($extension))
@@ -374,7 +374,7 @@ abstract class JFilesystemElement
 	 *
 	 * @since   12.1
 	 */
-	public function getDirpath()
+	protected function getDirpath()
 	{
 		return dirname($this->_path);
 	}
@@ -388,7 +388,7 @@ abstract class JFilesystemElement
 	 *
 	 * @since   12.1
 	 */
-	public function getExtension()
+	protected function getExtension()
 	{
 		return pathinfo($this->_path, PATHINFO_EXTENSION);
 	}
@@ -402,7 +402,7 @@ abstract class JFilesystemElement
 	 *
 	 * @since   12.1
 	 */
-	public function getRealpath()
+	protected function getRealpath()
 	{
 		return realpath($this->_fullpath);
 	}

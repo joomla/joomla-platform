@@ -27,18 +27,21 @@ defined('JPATH_PLATFORM') or die;
  *
  * @method          JFilesystemElementFile open(string $mode)                         open the file
  * @method          JFilesystemElementFile close()                                    close the file
- * @method                            bool create()                                   create the file
- * @method                       int|FALSE copy(JFilesystemElement $dest)             copy the file
- * @method                       int|FALSE copyFromFile(JFilesystemElementFile $src)  copy from a file
- * @method                            bool delete()                                   delete the file
- * @method                            bool flush()                                    flush the file
- * @method                            bool truncate(int $size)                        truncate the file
- * @method                       int|FALSE setPosition(int $offset, int $whence)      set the position
  * @method                           mixed readXXX(...)                               read content using accessor
  * @method                       int|FALSE writeXXX(...)                              write content using accessor
+ * @method                            bool flush()                                    flush the file
+ * @method                            bool truncate(int $size)                        truncate the file
+ *
+ * @method                            bool create()                                   create the file
+ * @method                            bool delete()                                   delete the file
+ *
+ * @method                       int|FALSE copy(JFilesystemElement $dest)             copy the file
+ * @method                       int|FALSE copyFromFile(JFilesystemElementFile $src)  copy from a file
+ *
  * @method                           mixed pullXXX(...)                               pull content using accessor
  * @method                       int|FALSE pushXXX(...)                               push content using accessor
  * @method  JFilesystemElementFileIterator iterateXXX(...)                            iterate content using accessor
+ *
  * @method                        resource prependFilter(string, int, mixed)          prepend a filter
  * @method                        resource appendFilter(string, int, mixed)           prepend a filter
  * @method                            bool removeFilter(resource)                     remove a filter
@@ -196,7 +199,6 @@ class JFilesystemElementFile extends JFilesystemElement
 			case 'close':
 			case 'flush':
 			case 'truncate':
-			case 'setPosition':
 			case 'copy':
 			case 'copyFromFile':
 			case 'delete':
