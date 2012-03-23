@@ -12,19 +12,19 @@ defined('JPATH_PLATFORM') or die;
 class JMediawiki {
     /**
      * @var    JRegistry  Options for the MediaWiki object.
-     * @since  11.3
+     * @since  12.1
      */
     protected $options;
 
     /**
      * @var    JMediawikiHttp  The HTTP client object to use in sending HTTP requests.
-     * @since  11.3
+     * @since  12.1
      */
     protected $client;
 
     /**
      * @var    JMediawikiTest  MediaWiki API object for test.
-     * @since  11.3
+     * @since  12.1
      */
     protected $test;
 
@@ -49,9 +49,9 @@ class JMediawiki {
      *
      * @param   string  $name  Name of property to retrieve
      *
-     * @return  JGithubObject  GitHub API object (gists, issues, pulls, etc).
+     * @return  JGithubObject  MediaWiki API object.
      *
-     * @since   11.3
+     * @since   12.1
      */
     public function __get($name)
     {
