@@ -19,7 +19,15 @@ defined('JPATH_PLATFORM') or die;
 class JMediawikiTest extends JMediawikiObject {
 
     public function firstfunction() {
-        
+
+        $url = '';
+        $data = array();
+
+        // send the request
+        $response = $this->client->post($url, $data);
+
+        return json_decode($response->body);
+
     }
 
 }
