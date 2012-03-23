@@ -18,4 +18,8 @@ defined('JPATH_PLATFORM') or die;
  */
 class JMediawikiTest extends JMediawikiObject {
 
+    public function firstfunction() {
+        
+    }
+
 }
