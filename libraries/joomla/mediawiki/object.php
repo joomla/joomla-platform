@@ -7,6 +7,15 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+defined('JPATH_PLATFORM') or die;
 
-
-?>
+/**
+ * MediaWiki API object class for the Joomla Platform.
+ *
+ * @package     Joomla.Platform
+ * @subpackage  GitHub
+ * @since       12.1
+ */
+abstract class JMediawikiObject {
+    
+}
