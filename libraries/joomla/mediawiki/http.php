@@ -18,4 +18,20 @@ defined('JPATH_PLATFORM') or die;
  */
 class JMediawikiHttp extends JHttp {
 
+    /**
+     * Constructor.
+     *
+     * @param   JRegistry       $options    Client options object.
+     * @param   JHttpTransport  $transport  The HTTP transport object.
+     *
+     * @since   12.1
+     */
+    public function __construct(JRegistry $options = null, JHttpTransport $transport = null)
+    {
+        // Override the JHttp contructor to use JHttpTransportStream.
+        $this->options   = isset($options) ? $options : new JRegistry;
+        $this->transport = isset($transport) ? $transport : new JHttpTransportStream($this->options);
+
+    }
+
 }
