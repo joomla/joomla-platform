@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform class for interacting with a GitHub server instance.
  *
- * @property-read  JMediawikiTest   $test    MediaWiki API object for test.
- *
  * @package     Joomla.Platform
  * @subpackage  MediaWiki
  * @since       12.1
@@ -30,12 +28,6 @@ class JMediawiki {
      * @since  12.1
      */
     protected $client;
-
-    /**
-     * @var    JMediawikiTest  MediaWiki API object for test.
-     * @since  12.1
-     */
-    protected $test;
 
     /**
      * Constructor.
@@ -64,15 +56,6 @@ class JMediawiki {
      */
     public function __get($name)
     {
-        if ($name == 'test')
-        {
-            if ($this->test == null)
-            {
-                $this->test
-                    = new JMediawikiTest($this->options, $this->client);
-            }
-            return $this->test;
-        }
 
     }
 }
