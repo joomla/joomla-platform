@@ -17,5 +17,31 @@ defined('JPATH_PLATFORM') or die;
  * @since       12.1
  */
 abstract class JMediawikiObject {
-    
+
+    /**
+     * @var    JRegistry  Options for the MediaWiki object.
+     * @since  12.1
+     */
+    protected $options;
+
+    /**
+     * @var    JMediawikiHttp  The HTTP client object to use in sending HTTP requests.
+     * @since  12.1
+     */
+    protected $client;
+
+    /**
+     * Constructor.
+     *
+     * @param   JRegistry    $options  GitHub options object.
+     * @param   JMediawikiHttp  $client   The HTTP client object.
+     *
+     * @since   11.3
+     */
+    public function __construct(JRegistry $options = null, JMediawikiHttp $client = null)
+    {
+        $this->options = isset($options) ? $options : new JRegistry;
+        $this->client = isset($client) ? $client : new JMediawikiHttp($this->options);
+    }
+
 }
