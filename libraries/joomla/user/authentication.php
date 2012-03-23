@@ -3,31 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.event.dispatcher');
-
-/**
- * This is the status code returned when the authentication is success (permit login)
- * @deprecated Use JAuthentication::STATUS_SUCCESS
- */
-define('JAUTHENTICATE_STATUS_SUCCESS', 1);
-
-/**
- * Status to indicate cancellation of authentication (unused)
- * @deprecated
- */
-define('JAUTHENTICATE_STATUS_CANCEL', 2);
-
-/**
- * This is the status code returned when the authentication failed (prevent login if no success)
- * @deprecated Use JAuthentication::STATUS_FAILURE
- */
-define('JAUTHENTICATE_STATUS_FAILURE', 4);
 
 /**
  * Authentication class, provides an interface for the Joomla authentication system
@@ -124,7 +106,7 @@ class JAuthentication extends JObject
 
 		if (!$isLoaded)
 		{
-			JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_USER_ERROR_AUTHENTICATION_LIBRARIES'));
+			JLog::add(JText::_('JLIB_USER_ERROR_AUTHENTICATION_LIBRARIES'), JLog::WARNING, 'jerror');
 		}
 	}
 
@@ -298,7 +280,7 @@ class JAuthentication extends JObject
 			else
 			{
 				// Bail here if the plugin can't be created
-				JError::raiseWarning(50, JText::sprintf('JLIB_USER_ERROR_AUTHENTICATION_FAILED_LOAD_PLUGIN', $className));
+				JLog::add(JText::sprintf('JLIB_USER_ERROR_AUTHENTICATION_FAILED_LOAD_PLUGIN', $className), JLog::WARNING, 'jerror');
 				continue;
 			}
 
@@ -306,7 +288,7 @@ class JAuthentication extends JObject
 			$plugin->onUserAuthenticate($credentials, $options, $response);
 
 			// If authentication is successful break out of the loop
-			if ($response->status === JAuthentication::STATUS_SUCCESS)
+			if ($response->status === self::STATUS_SUCCESS)
 			{
 				if (empty($response->type))
 				{
@@ -438,7 +420,7 @@ class JAuthenticationResponse extends JObject
 	/**
 	 * The End User's gender, "M" for male, "F" for female.
 	 *
-	 * @var  string
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $gender = '';
@@ -446,7 +428,7 @@ class JAuthenticationResponse extends JObject
 	/**
 	 * UTF-8 string free text that SHOULD conform to the End User's country's postal system.
 	 *
-	 * @var postcode string
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $postcode = '';
@@ -454,7 +436,7 @@ class JAuthenticationResponse extends JObject
 	/**
 	 * The End User's country of residence as specified by ISO3166.
 	 *
-	 * @var string
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $country = '';

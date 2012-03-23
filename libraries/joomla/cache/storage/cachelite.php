@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -301,7 +301,7 @@ class JCacheStorageCachelite extends JCacheStorage
 
 				if (is_dir($file2))
 				{
-					$result = ($result and (self::$CacheLiteInstance->_cleanDir($file2 . '/', false, 'old')));
+					$result = ($result && (self::$CacheLiteInstance->_cleanDir($file2 . '/', false, 'old')));
 				}
 			}
 		}
@@ -316,9 +316,9 @@ class JCacheStorageCachelite extends JCacheStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	public static function test()
+	public static function isSupported()
 	{
 		@include_once 'Cache/Lite.php';
 

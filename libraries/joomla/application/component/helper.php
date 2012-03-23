@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -104,14 +104,14 @@ class JComponentHelper
 	}
 
 	/**
-	* Applies the global text filters to arbitrary text as per settings for current user groups
-	*
-	* @param   text  $text  The string to filter
-	*
-	* @return  string  The filtered string
-	*
-	* @since   11.4
-	*/
+	 * Applies the global text filters to arbitrary text as per settings for current user groups
+	 *
+	 * @param   string  $text  The string to filter
+	 *
+	 * @return  string  The filtered string
+	 *
+	 * @since   11.4
+	 */
 	public static function filterText($text)
 	{
 		// Filter settings
@@ -269,7 +269,8 @@ class JComponentHelper
 			// White lists take third precedence.
 			elseif ($whiteList)
 			{
-				$filter	= JFilterInput::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);  // turn off xss auto clean
+				// Turn off XSS auto clean
+				$filter	= JFilterInput::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);
 			}
 			// No HTML takes last place.
 			else
@@ -292,6 +293,7 @@ class JComponentHelper
 	 * @return  object
 	 *
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public static function renderComponent($option, $params = array())
 	{
@@ -308,13 +310,12 @@ class JComponentHelper
 
 		if (empty($option))
 		{
-			// Throw 404 if no component
-			JError::raiseError(404, JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'));
-			return;
+			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
 		// Record the scope
 		$scope = $app->scope;
+
 		// Set scope to component name
 		$app->scope = $option;
 
@@ -327,20 +328,12 @@ class JComponentHelper
 		define('JPATH_COMPONENT_SITE', JPATH_SITE . '/components/' . $option);
 		define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/' . $option);
 
-		// Get component path
-		if ($app->isAdmin() && file_exists(JPATH_COMPONENT . '/admin.' . $file . '.php'))
-		{
-			$path = JPATH_COMPONENT . '/admin.' . $file . '.php';
-		}
-		else
-		{
-			$path = JPATH_COMPONENT . '/' . $file . '.php';
-		}
+		$path = JPATH_COMPONENT . '/' . $file . '.php';
 
 		// If component is disabled throw error
 		if (!self::isEnabled($option) || !file_exists($path))
 		{
-			JError::raiseError(404, JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'));
+			throw new Exception(404, JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
 		$task = JRequest::getString('task');
@@ -355,16 +348,6 @@ class JComponentHelper
 
 		// Execute the component.
 		$contents = self::executeComponent($path);
-
-		// Build the component toolbar
-		if ($path = JApplicationHelper::getPath('toolbar'))
-		{
-			// Get the task again, in case it has changed
-			$task = JRequest::getString('task');
-
-			// Make the toolbar
-			include_once $path;
-		}
 
 		// Revert the scope
 		$app->scope = $scope;
@@ -403,7 +386,7 @@ class JComponentHelper
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
-		$query->select('extension_id AS "id", element AS "option", params, enabled');
+		$query->select('extension_id AS id, element AS "option", params, enabled');
 		$query->from('#__extensions');
 		$query->where($query->qn('type') . ' = ' . $db->quote('component'));
 		$query->where($query->qn('element') . ' = ' . $db->quote($option));
@@ -416,7 +399,7 @@ class JComponentHelper
 		if ($error = $db->getErrorMsg() || empty(self::$components[$option]))
 		{
 			// Fatal error.
-			JError::raiseWarning(500, JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $error));
+			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $error), JLog::WARNING, 'jerror');
 			return false;
 		}
 

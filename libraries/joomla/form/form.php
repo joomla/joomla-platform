@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -526,6 +526,11 @@ class JForm
 		// Build the result array from the found field elements.
 		foreach ($elements as $element)
 		{
+			// Get the field groups for the element.
+			$attrs	= $element->xpath('ancestor::fields[@name]/@name');
+			$groups	= array_map('strval', $attrs ? $attrs : array());
+			$group	= implode('.', $groups);
+
 			// If the field is successfully loaded add it to the result array.
 			if ($field = $this->loadField($element, $group))
 			{
@@ -628,7 +633,7 @@ class JForm
 	 *
 	 * @param   string  $data     The name of an XML string or object.
 	 * @param   string  $replace  Flag to toggle whether form fields should be replaced if a field
-	 * already exists with the same group/name.
+	 *                            already exists with the same group/name.
 	 * @param   string  $xpath    An optional xpath to search for the fields.
 	 *
 	 * @return  boolean  True on success, false otherwise.
@@ -857,26 +862,18 @@ class JForm
 	 * the field will be set whether it already exists or not.  If it isn't set, then the field
 	 * will not be replaced if it already exists.
 	 *
-	 * @param   object   &$element  The XML element object representation of the form field.
-	 * @param   string   $group     The optional dot-separated form group path on which to set the field.
-	 * @param   boolean  $replace   True to replace an existing field if one already exists.
+	 * @param   JXMLElement  $element  The XML element object representation of the form field.
+	 * @param   string       $group    The optional dot-separated form group path on which to set the field.
+	 * @param   boolean      $replace  True to replace an existing field if one already exists.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 */
-	public function setField(&$element, $group = null, $replace = true)
+	public function setField(JXMLElement $element, $group = null, $replace = true)
 	{
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof JXMLElement))
-		{
-			// TODO: throw exception.
-
-			return false;
-		}
-
-		// Make sure the element to set is valid.
-		if (!($element instanceof JXMLElement))
 		{
 			// TODO: throw exception.
 
@@ -973,7 +970,7 @@ class JForm
 	 * the fields will be set whether they already exists or not.  If it isn't set, then the fields
 	 * will not be replaced if they already exist.
 	 *
-	 * @param   object   &$elements  The array of XML element object representations of the form fields.
+	 * @param   array    &$elements  The array of XML element object representations of the form fields.
 	 * @param   string   $group      The optional dot-separated form group path on which to set the fields.
 	 * @param   boolean  $replace    True to replace existing fields if they already exist.
 	 *
@@ -1119,7 +1116,7 @@ class JForm
 				switch ($valid->get('level'))
 				{
 					case E_ERROR:
-						JError::raiseWarning(0, $valid->getMessage());
+						JLog::add($valid->getMessage(), JLog::WARNING, 'jerror');
 						return false;
 						break;
 
@@ -1256,6 +1253,7 @@ class JForm
 					|| (!$element['type'] == 'url' && !$protocol))
 				{
 					$protocol = 'http';
+
 					// If it looks like an internal link, then add the root.
 					if (substr($value, 0) == 'index.php')
 					{
@@ -1264,7 +1262,7 @@ class JForm
 
 					// Otherwise we treat it is an external link.
 					// Put the url back together.
-					$value = $protocol . '://' . ltrim($value, $protocol);
+					$value = $protocol . '://' . $value;
 				}
 
 				// If relative URLS are allowed we assume that URLs without protocols are internal.
@@ -1289,6 +1287,7 @@ class JForm
 
 			case 'TEL':
 				$value = trim($value);
+
 				// Does it match the NANP pattern?
 				if (preg_match('/^(?:\+?1[-. ]?)?\(?([2-9][0-8][0-9])\)?[-. ]?([2-9][0-9]{2})[-. ]?([0-9]{4})$/', $value) == 1)
 				{
@@ -1335,7 +1334,8 @@ class JForm
 					if ($value != null && strlen($value) <= 15)
 					{
 						$length = strlen($value);
-						// if it is fewer than 13 digits assume it is a local number
+
+						// If it is fewer than 13 digits assume it is a local number
 						if ($length <= 12)
 						{
 							$result = '.' . $value;
@@ -1695,10 +1695,12 @@ class JForm
 			$field = $this->loadFieldType('text');
 		}
 
-		// Get the value for the form field if not set.
-		// Default to the translated version of the 'default' attribute
-		// if 'translate_default' attribute if set to 'true' or '1'
-		// else the value of the 'default' attribute for the field.
+		/*
+		 * Get the value for the form field if not set.
+		 * Default to the translated version of the 'default' attribute
+		 * if 'translate_default' attribute if set to 'true' or '1'
+		 * else the value of the 'default' attribute for the field.
+		 */
 		if ($value === null)
 		{
 			$default = (string) $element['default'];
@@ -1818,10 +1820,10 @@ class JForm
 	/**
 	 * Method to validate a JFormField object based on field data.
 	 *
-	 * @param   string  $element  The XML element object representation of the form field.
-	 * @param   string  $group    The optional dot-separated form group path on which to find the field.
-	 * @param   mixed   $value    The optional value to use as the default for the field.
-	 * @param   object  $input    An optional JRegistry object with the entire data set to validate
+	 * @param   string     $element  The XML element object representation of the form field.
+	 * @param   string     $group    The optional dot-separated form group path on which to find the field.
+	 * @param   mixed      $value    The optional value to use as the default for the field.
+	 * @param   JRegistry  $input    An optional JRegistry object with the entire data set to validate
 	 * against the entire form.
 	 *
 	 * @return  mixed  Boolean true if field value is valid, JException on failure.
@@ -1968,7 +1970,8 @@ class JForm
 	 * @return  object  JForm instance.
 	 *
 	 * @since   11.1
-	 * @throws  Exception if an error occurs.
+	 * @throws  InvalidArgumentException if no data provided.
+	 * @throws  RuntimeException if the form could not be loaded.
 	 */
 	public static function getInstance($name, $data = null, $options = array(), $replace = true, $xpath = false)
 	{
@@ -1978,12 +1981,11 @@ class JForm
 		// Only instantiate the form if it does not already exist.
 		if (!isset($forms[$name]))
 		{
-
 			$data = trim($data);
 
 			if (empty($data))
 			{
-				throw new Exception(JText::_('JLIB_FORM_ERROR_NO_DATA'));
+				throw new InvalidArgumentException('No data passed to JForm::getInstance.');
 			}
 
 			// Instantiate the form.
@@ -1994,18 +1996,14 @@ class JForm
 			{
 				if ($forms[$name]->load($data, $replace, $xpath) == false)
 				{
-					throw new Exception(JText::_('JLIB_FORM_ERROR_XML_FILE_DID_NOT_LOAD'));
-
-					return false;
+					throw new RuntimeException('JForm::getInstance could not load form.');
 				}
 			}
 			else
 			{
 				if ($forms[$name]->loadFile($data, $replace, $xpath) == false)
 				{
-					throw new Exception(JText::_('JLIB_FORM_ERROR_XML_FILE_DID_NOT_LOAD'));
-
-					return false;
+					throw new RuntimeException('JForm::getInstance could not load file.');
 				}
 			}
 		}

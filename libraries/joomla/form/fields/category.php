@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -69,9 +69,11 @@ class JFormFieldCategory extends JFormFieldList
 
 				foreach ($options as $i => $option)
 				{
-					// To take save or create in a category you need to have create rights for that category
-					// unless the item is already in that category.
-					// Unset the option if the user isn't authorised for it. In this field assets are always categories.
+					/*
+					 * To take save or create in a category you need to have create rights for that category
+					 * unless the item is already in that category.
+					 * Unset the option if the user isn't authorised for it. In this field assets are always categories.
+					 */
 					if ($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
 					{
 						unset($options[$i]);
@@ -87,7 +89,7 @@ class JFormFieldCategory extends JFormFieldList
 		}
 		else
 		{
-			JError::raiseWarning(500, JText::_('JLIB_FORM_ERROR_FIELDS_CATEGORY_ERROR_EXTENSION_EMPTY'));
+			JLog::add(JText::_('JLIB_FORM_ERROR_FIELDS_CATEGORY_ERROR_EXTENSION_EMPTY'), JLog::WARNING, 'jerror');
 		}
 
 		// Merge any additional options in the XML definition.

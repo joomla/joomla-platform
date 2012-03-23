@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -356,7 +356,7 @@ abstract class JModelAdmin extends JModelForm
 			$table->catid = $categoryId;
 
 			// TODO: Deal with ordering?
-			//$table->ordering	= 1;
+			// $table->ordering	= 1;
 
 			// Check the row.
 			if (!$table->check())
@@ -683,12 +683,12 @@ abstract class JModelAdmin extends JModelForm
 					$error = $this->getError();
 					if ($error)
 					{
-						JError::raiseWarning(500, $error);
+						JLog::add($error, JLog::WARNING, 'jerror');
 						return false;
 					}
 					else
 					{
-						JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
+						JLog::add(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
 						return false;
 					}
 				}
@@ -776,7 +776,7 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param   object  $table  A JTable object.
+	 * @param   JTable  $table  A JTable object.
 	 *
 	 * @return  array  An array of conditions to add to ordering queries.
 	 *
@@ -812,13 +812,13 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Prepare and sanitise the table data prior to saving.
 	 *
-	 * @param   JTable  &$table  A reference to a JTable object.
+	 * @param   JTable  $table  A reference to a JTable object.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	protected function prepareTable(&$table)
+	protected function prepareTable($table)
 	{
 		// Derived class will provide its own implementation if required.
 	}
@@ -855,7 +855,7 @@ abstract class JModelAdmin extends JModelForm
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+					JLog::add(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
 					return false;
 				}
 			}
@@ -919,7 +919,7 @@ abstract class JModelAdmin extends JModelForm
 					// Prune items that you can't change.
 					unset($pks[$i]);
 					$this->checkin($pk);
-					JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+					JLog::add(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
 					$allowed = false;
 					continue;
 				}
@@ -1007,7 +1007,7 @@ abstract class JModelAdmin extends JModelForm
 			}
 
 			// Trigger the onContentBeforeSave event.
-			$result = $dispatcher->trigger($this->event_before_save, array($this->option . '.' . $this->name, &$table, $isNew));
+			$result = $dispatcher->trigger($this->event_before_save, array($this->option . '.' . $this->name, $table, $isNew));
 			if (in_array(false, $result, true))
 			{
 				$this->setError($table->getError());
@@ -1025,7 +1025,7 @@ abstract class JModelAdmin extends JModelForm
 			$this->cleanCache();
 
 			// Trigger the onContentAfterSave event.
-			$dispatcher->trigger($this->event_after_save, array($this->option . '.' . $this->name, &$table, $isNew));
+			$dispatcher->trigger($this->event_after_save, array($this->option . '.' . $this->name, $table, $isNew));
 		}
 		catch (Exception $e)
 		{
@@ -1066,7 +1066,7 @@ abstract class JModelAdmin extends JModelForm
 			return JError::raiseWarning(500, JText::_($this->text_prefix . '_ERROR_NO_ITEMS_SELECTED'));
 		}
 
-		// update ordering values
+		// Update ordering values
 		foreach ($pks as $i => $pk)
 		{
 			$table->load((int) $pk);
@@ -1076,7 +1076,7 @@ abstract class JModelAdmin extends JModelForm
 			{
 				// Prune items that you can't change.
 				unset($pks[$i]);
-				JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+				JLog::add(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
 			}
 			elseif ($table->ordering != $order[$i])
 			{

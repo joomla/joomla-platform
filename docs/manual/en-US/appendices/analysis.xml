@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <!DOCTYPE preface PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
-<!ENTITY % BOOK_ENTITIES SYSTEM "Joomla_Platform_Manual.ent">
+<!ENTITY % BOOK_ENTITIES SYSTEM "../Developer_Manual.ent">
 %BOOK_ENTITIES;
 ]>
 <appendix id="appe-Joomla_Platform_Manual-Analysis">
@@ -13,8 +13,8 @@
     do not leave trunk in an unstable state (i.e. all tests should pass at all times). In order to make the process of getting
     your code accepted it is helpful to run these tests locally to prevent any unexpected surprises.</para>
 
-    <para>The Joomla Platform unit tests are developed for use with PHPUnit 3.5, which is the latest stable version as of August
-    2011. Please see the <ulink url="http://www.phpunit.de/manual/3.5/en/installation.html">PHPUnit Manual</ulink> for information
+    <para>The Joomla Platform unit tests are developed for use with PHPUnit 3.6, which is the latest stable version as of August
+    2011. Please see the <ulink url="http://www.phpunit.de/manual/3.6/en/installation.html">PHPUnit Manual</ulink> for information
     on installing PHPUnit on your system.</para>
 
     <section>

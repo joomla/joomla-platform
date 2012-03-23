@@ -7,7 +7,7 @@
  *
  * @package     Joomla.UnitTest
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  * @link        http://www.phpunit.de/manual/current/en/installation.html
  */
@@ -63,20 +63,8 @@ if (!defined('JPATH_THEMES'))
 	define('JPATH_THEMES', JPATH_BASE . '/themes');
 }
 
-// Load a configuration file for the tests.
-if (file_exists(JPATH_TESTS . '/config.php'))
-{
-	include_once JPATH_TESTS . '/config.php';
-}
-else
-{
-	require_once JPATH_TESTS . '/config.dist.php';
-}
-
 // Import the platform.
-require_once JPATH_PLATFORM . '/import.php';
+require_once JPATH_PLATFORM . '/import.legacy.php';
 
-// Include the base test cases.
-require_once JPATH_TESTS . '/includes/JoomlaTestCase.php';
-require_once JPATH_TESTS . '/includes/JoomlaDatabaseTestCase.php';
-require_once JPATH_TESTS . '/includes/ReflectionHelper.php';
+// Register the core Joomla test classes.
+JLoader::registerPrefix('Test', __DIR__ . '/core');

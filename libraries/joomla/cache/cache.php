@@ -3,17 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
-
-//Register the storage class with the loader
-JLoader::register('JCacheStorage', dirname(__FILE__) . '/storage.php');
-
-//Register the controller class with the loader
-JLoader::register('JCacheController', dirname(__FILE__) . '/controller.php');
 
 // Almost everything must be public here to allow overloading.
 
@@ -100,22 +94,21 @@ class JCache extends JObject
 	public static function getStores()
 	{
 		jimport('joomla.filesystem.folder');
-		$handlers = JFolder::files(dirname(__FILE__) . '/storage', '.php');
+		$handlers = JFolder::files(__DIR__ . '/storage', '.php', false, false, array('helper.php'));
 
 		$names = array();
 		foreach ($handlers as $handler)
 		{
 			$name = substr($handler, 0, strrpos($handler, '.'));
-			$class = 'JCacheStorage' . $name;
+			$class = 'JCacheStorage' . ucfirst(trim($name));
 
-			if (!class_exists($class))
+			if (class_exists($class))
 			{
-				include_once dirname(__FILE__) . '/storage/' . $name . '.php';
-			}
-
-			if (call_user_func_array(array(trim($class), 'test'), array()))
-			{
-				$names[] = $name;
+				// @deprecated 12.3 Stop checking with test()
+				if ($class::isSupported() || $class::test())
+				{
+					$names[] = $name;
+				}
 			}
 		}
 
@@ -314,6 +307,7 @@ class JCache extends JObject
 	{
 		$returning = new stdClass;
 		$returning->locklooped = false;
+
 		// Get the default group
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
 
@@ -332,9 +326,10 @@ class JCache extends JObject
 			}
 		}
 
-		// fallback
+		// Fallback
 		$curentlifetime = $this->_options['lifetime'];
-		// set lifetime to locktime for storing in children
+
+		// Set lifetime to locktime for storing in children
 		$this->_options['lifetime'] = $locktime;
 
 		$looptime = $locktime * 10;
@@ -355,7 +350,8 @@ class JCache extends JObject
 		{
 			$lock_counter = 0;
 
-			// loop until you find that the lock has been released.  that implies that data get from other thread has finished
+			// Loop until you find that the lock has been released.
+			// That implies that data get from other thread has finished
 			while ($data_lock !== false)
 			{
 
@@ -377,7 +373,7 @@ class JCache extends JObject
 			$returning->locked = $this->store(1, $id2, $group);
 		}
 
-		// revert lifetime to previous one
+		// Revert lifetime to previous one
 		$this->_options['lifetime'] = $curentlifetime;
 
 		return $returning;
@@ -396,10 +392,11 @@ class JCache extends JObject
 	public function unlock($id, $group = null)
 	{
 		$unlock = false;
+
 		// Get the default group
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
 
-		//allow handlers to perform unlocking on their own
+		// Allow handlers to perform unlocking on their own
 		$handler = $this->_getStorage();
 		if (!($handler instanceof Exception) && $this->_options['caching'])
 		{
@@ -410,7 +407,7 @@ class JCache extends JObject
 			}
 		}
 
-		// fallback
+		// Fallback
 		if ($this->_options['caching'])
 		{
 			$unlock = $this->remove($id . '_lock', $group);
@@ -545,6 +542,10 @@ class JCache extends JObject
 
 		// Get the modules buffer before component execution.
 		$buffer1 = $document->getBuffer();
+		if (!is_array($buffer1))
+		{
+			$buffer1 = array();
+		}
 
 		// Make sure the module buffer is an array.
 		if (!isset($buffer1['module']) || !is_array($buffer1['module']))
@@ -572,7 +573,7 @@ class JCache extends JObject
 
 				$cached['head'] = array();
 
-				// only store what this module has added
+				// Only store what this module has added
 				foreach ($headnow as $now => $value)
 				{
 					$newvalue = array_diff_assoc($headnow[$now], isset($options['headerbefore'][$now]) ? $options['headerbefore'][$now] : array());
@@ -601,6 +602,10 @@ class JCache extends JObject
 			// @todo Check if the following is needed, seems like it should be in page cache
 			// Get the module buffer after component execution.
 			$buffer2 = $document->getBuffer();
+			if (!is_array($buffer2))
+			{
+				$buffer2 = array();
+			}
 
 			// Make sure the module buffer is an array.
 			if (!isset($buffer2['module']) || !is_array($buffer2['module']))
@@ -625,20 +630,10 @@ class JCache extends JObject
 	public static function makeId()
 	{
 		$app = JFactory::getApplication();
+
 		// Get url parameters set by plugins
 		$registeredurlparams = $app->get('registeredurlparams');
 
-		if (empty($registeredurlparams))
-		{
-			/*
-			$registeredurlparams = new stdClass;
-			$registeredurlparams->Itemid 	= 'INT';
-			$registeredurlparams->catid 	= 'INT';
-			$registeredurlparams->id 		= 'INT';
-			*/
-
-			return md5(serialize(JRequest::getURI())); // provided for backwards compatibility - THIS IS NOT SAFE!!!!
-		}
 		// Platform defaults
 		$registeredurlparams->format = 'WORD';
 		$registeredurlparams->option = 'WORD';

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -168,7 +168,7 @@ abstract class JUserHelper
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('id') . ', ' . $db->quoteName('title'));
 		$query->from($db->quoteName('#__usergroups'));
-		$query->where($db->quoteName('id') . ' = ' . implode(' OR `id` = ', $user->groups));
+		$query->where($db->quoteName('id') . ' = ' . implode(' OR ' . $db->quoteName('id') . ' = ', $user->groups));
 		$db->setQuery($query);
 		$results = $db->loadObjectList();
 
@@ -269,13 +269,13 @@ abstract class JUserHelper
 			// Time to take care of business.... store the user.
 			if (!$user->save())
 			{
-				JError::raiseWarning("SOME_ERROR_CODE", $user->getError());
+				JLog::add($user->getError(), JLog::WARNING, 'jerror');
 				return false;
 			}
 		}
 		else
 		{
-			JError::raiseWarning("SOME_ERROR_CODE", JText::_('JLIB_USER_ERROR_UNABLE_TO_FIND_USER'));
+			JLog::add(JText::_('JLIB_USER_ERROR_UNABLE_TO_FIND_USER'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
@@ -323,7 +323,7 @@ abstract class JUserHelper
 	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $show_encrypt = false)
 	{
 		// Get the salt to use.
-		$salt = JUserHelper::getSalt($encryption, $salt, $plaintext);
+		$salt = self::getSalt($encryption, $salt, $plaintext);
 
 		// Encrypt the password.
 		switch ($encryption)
@@ -356,7 +356,7 @@ abstract class JUserHelper
 			case 'aprmd5':
 				$length = strlen($plaintext);
 				$context = $plaintext . '$apr1$' . $salt;
-				$binary = JUserHelper::_bin(md5($plaintext . $salt . $plaintext));
+				$binary = self::_bin(md5($plaintext . $salt . $plaintext));
 
 				for ($i = $length; $i > 0; $i -= 16)
 				{
@@ -367,7 +367,7 @@ abstract class JUserHelper
 					$context .= ($i & 1) ? chr(0) : $plaintext[0];
 				}
 
-				$binary = JUserHelper::_bin(md5($context));
+				$binary = self::_bin(md5($context));
 
 				for ($i = 0; $i < 1000; $i++)
 				{
@@ -381,7 +381,7 @@ abstract class JUserHelper
 						$new .= $plaintext;
 					}
 					$new .= ($i & 1) ? substr($binary, 0, 16) : $plaintext;
-					$binary = JUserHelper::_bin(md5($new));
+					$binary = self::_bin(md5($new));
 				}
 
 				$p = array();
@@ -393,10 +393,10 @@ abstract class JUserHelper
 					{
 						$j = 5;
 					}
-					$p[] = JUserHelper::_toAPRMD5((ord($binary[$i]) << 16) | (ord($binary[$k]) << 8) | (ord($binary[$j])), 5);
+					$p[] = self::_toAPRMD5((ord($binary[$i]) << 16) | (ord($binary[$k]) << 8) | (ord($binary[$j])), 5);
 				}
 
-				return '$apr1$' . $salt . '$' . implode('', $p) . JUserHelper::_toAPRMD5(ord($binary[11]), 3);
+				return '$apr1$' . $salt . '$' . implode('', $p) . self::_toAPRMD5(ord($binary[11]), 3);
 
 			case 'md5-hex':
 			default:

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -291,7 +291,7 @@ class JView extends JObject
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a JError object.
+	 * @return  mixed  A string if successful, otherwise a Error object.
 	 *
 	 * @see     fetch()
 	 * @since   11.1
@@ -538,6 +538,7 @@ class JView extends JObject
 	 * @return  string  The name of the model
 	 *
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public function getName()
 	{
@@ -546,11 +547,11 @@ class JView extends JObject
 			$r = null;
 			if (!preg_match('/View((view)*(.*(view)?.*))$/i', get_class($this), $r))
 			{
-				JError::raiseError(500, JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME'));
+				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME'), 500);
 			}
 			if (strpos($r[3], "view"))
 			{
-				JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME_SUBSTRING'));
+				JLog::add(JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME_SUBSTRING'), JLog::WARNING, 'jerror');
 			}
 			$this->name = strtolower($r[3]);
 		}
@@ -565,17 +566,17 @@ class JView extends JObject
 	 * referenced by the name without JModel, eg. JModelCategory is just
 	 * Category.
 	 *
-	 * @param   object   &$model   The model to add to the view.
+	 * @param   JModel   $model    The model to add to the view.
 	 * @param   boolean  $default  Is this the default model?
 	 *
 	 * @return  object   The added model.
 	 *
 	 * @since   11.1
 	 */
-	public function setModel(&$model, $default = false)
+	public function setModel($model, $default = false)
 	{
 		$name = strtolower($model->getName());
-		$this->_models[$name] = &$model;
+		$this->_models[$name] = $model;
 
 		if ($default)
 		{
@@ -605,6 +606,7 @@ class JView extends JObject
 			// Convert parameter to array based on :
 			$temp = explode(':', $layout);
 			$this->_layout = $temp[1];
+
 			// Set layout template
 			$this->_layoutTemplate = $temp[0];
 		}
@@ -682,10 +684,11 @@ class JView extends JObject
 	 * @return  string  The output of the the template script.
 	 *
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public function loadTemplate($tpl = null)
 	{
-		// clear prior output
+		// Clear prior output
 		$this->_output = null;
 
 		$template = JFactory::getApplication()->getTemplate();
@@ -694,6 +697,7 @@ class JView extends JObject
 
 		// Create the template file name based on the layout
 		$file = isset($tpl) ? $layout . '_' . $tpl : $layout;
+
 		// Clean the file name
 		$file = preg_replace('/[^A-Z0-9_\.-]/i', '', $file);
 		$tpl = isset($tpl) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $tpl) : $tpl;
@@ -737,6 +741,7 @@ class JView extends JObject
 
 			// Start capturing output into a buffer
 			ob_start();
+
 			// Include the requested template filename in the local scope
 			// (this will execute the view logic).
 			include $this->_template;
@@ -750,7 +755,7 @@ class JView extends JObject
 		}
 		else
 		{
-			return JError::raiseError(500, JText::sprintf('JLIB_APPLICATION_ERROR_LAYOUTFILE_NOT_FOUND', $file));
+			throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_LAYOUTFILE_NOT_FOUND', $file), 500);
 		}
 	}
 
@@ -765,10 +770,10 @@ class JView extends JObject
 	 */
 	public function loadHelper($hlp = null)
 	{
-		// clean the file name
+		// Clean the file name
 		$file = preg_replace('/[^A-Z0-9_\.-]/i', '', $hlp);
 
-		// load the template script
+		// Load the template script
 		jimport('joomla.filesystem.path');
 		$helper = JPath::find($this->_path['helper'], $this->_createFileName('helper', array('name' => $file)));
 
@@ -827,19 +832,19 @@ class JView extends JObject
 	 */
 	protected function _addPath($type, $path)
 	{
-		// just force to array
+		// Just force to array
 		settype($path, 'array');
 
-		// loop through the path directories
+		// Loop through the path directories
 		foreach ($path as $dir)
 		{
-			// no surrounding spaces allowed!
+			// No surrounding spaces allowed!
 			$dir = trim($dir);
 
-			// add trailing separators as needed
+			// Add trailing separators as needed
 			if (substr($dir, -1) != DIRECTORY_SEPARATOR)
 			{
-				// directory
+				// Directory
 				$dir .= DIRECTORY_SEPARATOR;
 			}
 

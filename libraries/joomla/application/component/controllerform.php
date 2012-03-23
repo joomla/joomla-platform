@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -68,6 +68,7 @@ class JControllerForm extends JController
 	 *
 	 * @see     JController
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public function __construct($config = array())
 	{
@@ -91,7 +92,7 @@ class JControllerForm extends JController
 			$r = null;
 			if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r))
 			{
-				JError::raiseError(500, JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'));
+				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}
 			$this->context = strtolower($r[2]);
 		}
@@ -118,7 +119,7 @@ class JControllerForm extends JController
 				array('/s$/i', "s"),
 				array('/$/', "s"));
 
-			// check for matches using regular expressions
+			// Check for matches using regular expressions
 			foreach ($plural as $pattern)
 			{
 				if (preg_match($pattern[0], $this->view_item))
@@ -138,7 +139,7 @@ class JControllerForm extends JController
 	/**
 	 * Method to add a new record.
 	 *
-	 * @return  mixed  True if the record can be added, a JError object if not.
+	 * @return  mixed  True if the record can be added, a error object if not.
 	 *
 	 * @since   11.1
 	 */
@@ -243,7 +244,7 @@ class JControllerForm extends JController
 	/**
 	 * Method to run batch operations.
 	 *
-	 * @param   object  $model  The model of the component being processed.
+	 * @param   JModel  $model  The model of the component being processed.
 	 *
 	 * @return	boolean	 True if successful, false otherwise and internal error is set.
 	 *
@@ -297,7 +298,7 @@ class JControllerForm extends JController
 	 */
 	public function cancel($key = null)
 	{
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$app = JFactory::getApplication();
@@ -533,14 +534,14 @@ class JControllerForm extends JController
 	 * Function that allows child controller access to model data
 	 * after the data has been saved.
 	 *
-	 * @param   JModel  &$model     The data model object.
+	 * @param   JModel  $model      The data model object.
 	 * @param   array   $validData  The validated data.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	protected function postSaveHook(JModel &$model, $validData = array())
+	protected function postSaveHook(JModel $model, $validData = array())
 	{
 	}
 
@@ -557,7 +558,7 @@ class JControllerForm extends JController
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$app = JFactory::getApplication();

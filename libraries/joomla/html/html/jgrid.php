@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -221,7 +221,7 @@ abstract class JHtmlJGrid
 	 * @param   boolean       $enabled   An optional setting for access control on the action.
 	 * @param   string        $checkbox  An optional prefix for checkboxes.
 	 *
-	 * @return  The Html code
+	 * @return  string  The HTML code
 	 *
 	 * @see     JHtmlJGrid::state
 	 * @since   11.1

@@ -3,24 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  String
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
-
-/**
- * Joomla Platform String Normalize Class
- *
- * @package     Joomla.Platform
- * @subpackage  String
- * @since       11.3
- * @deprecated  12.1
- */
-abstract class JStringNormalize extends JStringNormalise
-{
-
-}
 
 /**
  * Joomla Platform String Normalise Class
@@ -31,6 +18,20 @@ abstract class JStringNormalize extends JStringNormalise
  */
 abstract class JStringNormalise
 {
+	/**
+	 * Method to convert a string from camel case.
+	 *
+	 * @param   string  $input  The string input.
+	 *
+	 * @return  string  The space separated string.
+	 *
+	 * @since   12.1
+	 */
+	public static function fromCamelCase($input)
+	{
+		return JString::trim(preg_replace('#([A-Z])#', ' $1', $input));
+	}
+
 	/**
 	 * Method to convert a string into camel case.
 	 *

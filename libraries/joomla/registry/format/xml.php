@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Registry
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -55,7 +55,7 @@ class JRegistryFormatXML extends JRegistryFormat
 	 *
 	 * @since   11.1
 	 */
-	public function stringToObject($data, $options = array())
+	public function stringToObject($data, array $options = array())
 	{
 		// Initialize variables.
 		$obj = new stdClass;
@@ -121,7 +121,7 @@ class JRegistryFormatXML extends JRegistryFormat
 	/**
 	 * Method to build a level of the XML string -- called recursively
 	 *
-	 * @param   SimpleXMLElement  &$node     SimpleXMLElement object to attach children.
+	 * @param   SimpleXMLElement  $node      SimpleXMLElement object to attach children.
 	 * @param   object            $var       Object that represents a node of the XML document.
 	 * @param   string            $nodeName  The name to use for node elements.
 	 *
@@ -129,7 +129,7 @@ class JRegistryFormatXML extends JRegistryFormat
 	 *
 	 * @since   11.1
 	 */
-	protected function getXmlChildren(&$node, $var, $nodeName)
+	protected function getXmlChildren(SimpleXMLElement $node, $var, $nodeName)
 	{
 		// Iterate over the object members.
 		foreach ((array) $var as $k => $v)

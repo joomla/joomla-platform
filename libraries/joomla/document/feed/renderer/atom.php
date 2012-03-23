@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -52,7 +52,7 @@ class JDocumentRendererAtom extends JDocumentRenderer
 		$now = JFactory::getDate();
 		$now->setTimeZone($tz);
 
-		$data = &$this->_doc;
+		$data = $this->_doc;
 
 		$uri = JFactory::getURI();
 		$url = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
