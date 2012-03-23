@@ -9,6 +9,15 @@
 
 defined('JPATH_PLATFORM') or die;
 
+/**
+ * Joomla Platform class for interacting with a GitHub server instance.
+ *
+ * @property-read  JMediawikiTest   $test    MediaWiki API object for test.
+ *
+ * @package     Joomla.Platform
+ * @subpackage  MediaWiki
+ * @since       12.1
+ */
 class JMediawiki {
     /**
      * @var    JRegistry  Options for the MediaWiki object.
