@@ -10,8 +10,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.utilities.xmlelement');
-
 /**
  * A File system accessor for reading/writing XML contents
  *
@@ -36,16 +34,16 @@ abstract class JFilesystemAccessorXml
 	 *
 	 * @since   12.1
 	 */
-	public static function pull(JFilesystemElementFile $file, $options = 0, $ns = "", $is_prefix = false)
+	public static function pull(JFilesystemElementFile $file, $class_name = 'SimpleXMLElement', $options = 0, $ns = '', $is_prefix = false)
 	{
-		return simplexml_load_file($file->fullpath, 'JXMLElement', $options, $ns, $is_prefix);
+		return simplexml_load_file($file->fullpath, $class_name, $options, $ns, $is_prefix);
 	}
 
 	/**
 	 * Push an xml data to a file
 	 *
 	 * @param   JFilesystemElementFile  $file  The file to be written.
-	 * @param   JXMLElement             $xml   The xml to write.
+	 * @param   SimpleXMLElement        $xml   The xml to write.
 	 *
 	 * @return  int|FALSE  The number of bytes that were written to the file, or FALSE on failure.
 	 *
@@ -54,7 +52,7 @@ abstract class JFilesystemAccessorXml
 	 *
 	 * @since   12.1
 	 */
-	public static function push(JFilesystemElementFile $file, JXMLElement $xml)
+	public static function push(JFilesystemElementFile $file, SimpleXMLElement $xml)
 	{
 		return file_put_contents($file->fullpath, $xml->asXml());
 	}

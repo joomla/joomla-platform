@@ -35,7 +35,7 @@ abstract class TestCaseFilesystemAccessorXml extends TestCaseFilesystem
 </extension>';
 		$this->assertThat(
 			$file->pullXml(),
-			$this->isInstanceOf('JXMLElement'),
+			$this->isInstanceOf('SimpleXMLElement'),
 			'The xml content is not corrrect'
 		);
 	}
