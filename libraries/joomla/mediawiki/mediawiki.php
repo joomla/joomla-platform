@@ -23,10 +23,26 @@ class JMediawiki {
     protected $client;
 
     /**
-     * @var    JGithubTest  MediaWiki API object for gists.
+     * @var    JMediawikiTest  MediaWiki API object for test.
      * @since  11.3
      */
     protected $test;
+
+    /**
+     * Constructor.
+     *
+     * @param   JRegistry    $options  MediaWiki options object.
+     * @param   JMediawikiHttp  $client   The HTTP client object.
+     *
+     * @since   12.1
+     */
+    public function __construct(JRegistry $options = null, JMediawikiHttp $client = null)
+    {
+        $this->options = isset($options) ? $options : new JRegistry;
+        $this->client  = isset($client) ? $client : new JMediawikiHttp($this->options);
+
+        //@TODO define mediawiki API URL here
+    }
 
     /**
      * Magic method to lazily create API objects
