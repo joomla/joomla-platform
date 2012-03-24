@@ -8,3 +8,11 @@
  */
 
 defined('JPATH_PLATFORM') or die;
+
+/**
+ * MediaWiki API Search class for the Joomla Platform.
+ *
+ * @package     Joomla.Platform
+ * @subpackage  MediaWiki
+ * @since       12.1
+ */
