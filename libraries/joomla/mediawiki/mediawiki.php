@@ -114,7 +114,7 @@ class JMediawiki {
      *
      * @param   string  $name  Name of property to retrieve
      *
-     * @return  JGithubObject  MediaWiki API object.
+     * @return  JMediaWikiObject  MediaWiki API object (users, reviews, etc).
      *
      * @since   12.1
      */
