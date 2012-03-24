@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform class for interacting with a GitHub server instance.
  *
- * @property-read  JMediawikiSite           $sites          MediaWiki API object for sites.
+ * @property-read  JMediawikiSites          $sites          MediaWiki API object for sites.
  * @property-read  JMediawikiPages          $pages          MediaWiki API object for pages.
  * @property-read  JMediawikiUsers          $users          MediaWiki API object for users.
  * @property-read  JMediawikiLinks          $links          MediaWiki API object for links.
@@ -40,7 +40,7 @@ class JMediawiki {
     protected $client;
 
     /**
-   	 * @var    JMediawikiSite  MediaWiki API object for Site.
+   	 * @var    JMediawikiSites  MediaWiki API object for Site.
    	 * @since  12.1
    	 */
    	protected $sites;
@@ -106,6 +106,9 @@ class JMediawiki {
         $this->options = isset($options) ? $options : new JRegistry;
         $this->client  = isset($client) ? $client : new JMediawikiHttp($this->options);
 
+        // Setup the default User-Agent if not already set.
+        $this->options->def('api.useragent', 'Joomla-Wiki-Bot');
+
         //@TODO define mediawiki API URL here
     }
 
@@ -124,7 +127,7 @@ class JMediawiki {
    		{
    			if ($this->sites == null)
    			{
-   				$this->sites = new JMediawikiSite($this->options, $this->client);
+   				$this->sites = new JMediawikiSites($this->options, $this->client);
    			}
    			return $this->sites;
    		}
