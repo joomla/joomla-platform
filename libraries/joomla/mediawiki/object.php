@@ -44,4 +44,9 @@ abstract class JMediawikiObject {
         $this->client = isset($client) ? $client : new JMediawikiHttp($this->options);
     }
 
+    protected function fetchUrl($params)
+    {
+
+    }
+
 }
