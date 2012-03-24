@@ -34,4 +34,9 @@ class JMediawikiHttp extends JHttp {
 
     }
 
+    public function get($url, array $headers = null)
+    {
+        return $this->transport->request('GET', new JUri($url), null, $headers, null, 'Joomla-Bot');
+    }
+
 }
