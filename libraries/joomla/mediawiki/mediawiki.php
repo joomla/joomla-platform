@@ -119,7 +119,87 @@ class JMediawiki {
      * @since   12.1
      */
     public function __get($name)
-    {
+   	{
+   		if ($name == 'site')
+   		{
+   			if ($this->site == null)
+   			{
+   				$this->site = new JMediawikiSite($this->options, $this->client);
+   			}
+   			return $this->site;
+   		}
 
-    }
+   		if ($name == 'pages')
+   		{
+   			if ($this->pages == null)
+   			{
+   				$this->pages = new JMediawikiPages($this->options, $this->client);
+   			}
+   			return $this->pages;
+   		}
+
+   		if ($name == 'users')
+   		{
+   			if ($this->users == null)
+   			{
+   				$this->users = new JMediawikiUsers($this->options, $this->client);
+   			}
+   			return $this->users;
+   		}
+
+   		if ($name == 'links')
+   		{
+   			if ($this->links == null)
+   			{
+   				$this->links = new JMediawikiLinks($this->options, $this->client);
+   			}
+   			return $this->links;
+   		}
+
+   		if ($name == 'categories')
+   		{
+   			if ($this->categories == null)
+   			{
+   				$this->categories = new JMediawikiCategories($this->options, $this->client);
+   			}
+   			return $this->categories;
+   		}
+
+   		if ($name == 'reviews')
+   		{
+   			if ($this->reviews == null)
+   			{
+   				$this->reviews = new JMediawikiReviews($this->options, $this->client);
+   			}
+   			return $this->reviews;
+   		}
+
+        if ($name == 'images')
+        {
+            if ($this->images == null)
+            {
+                $this->images = new JMediawikiImages($this->options, $this->client);
+            }
+            return $this->images;
+        }
+
+        if ($name == 'files')
+        {
+            if ($this->files == null)
+            {
+                $this->files = new JMediawikiFiles($this->options, $this->client);
+            }
+            return $this->files;
+        }
+
+        if ($name == 'search')
+        {
+           if ($this->search == null)
+           {
+               $this->search = new JMediawikiSearch($this->options, $this->client);
+           }
+           return $this->search;
+        }
+
+   	}
 }
