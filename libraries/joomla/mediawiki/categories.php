@@ -16,3 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  MediaWiki
  * @since       12.1
  */
+class JMediawikiCategories extends JMediawikiObject
+{
+
+}
