@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  MediaWiki
  * @since       12.1
  */
-class JMediawikiSite extends JMediawikiObject
+class JMediawikiSites extends JMediawikiObject
 {
 
 }
