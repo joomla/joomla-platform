@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform class for interacting with a GitHub server instance.
  *
- * @property-read  JMediawikiSite           $site           MediaWiki API object for site.
+ * @property-read  JMediawikiSite           $sites          MediaWiki API object for sites.
  * @property-read  JMediawikiPages          $pages          MediaWiki API object for pages.
  * @property-read  JMediawikiUsers          $users          MediaWiki API object for users.
  * @property-read  JMediawikiLinks          $links          MediaWiki API object for links.
@@ -43,7 +43,7 @@ class JMediawiki {
    	 * @var    JMediawikiSite  MediaWiki API object for Site.
    	 * @since  12.1
    	 */
-   	protected $site;
+   	protected $sites;
 
     /**
    	 * @var    JMediawikiPages  MediaWiki API object for pages.
@@ -120,13 +120,13 @@ class JMediawiki {
      */
     public function __get($name)
    	{
-   		if ($name == 'site')
+   		if ($name == 'sites')
    		{
-   			if ($this->site == null)
+   			if ($this->sites == null)
    			{
-   				$this->site = new JMediawikiSite($this->options, $this->client);
+   				$this->sites = new JMediawikiSite($this->options, $this->client);
    			}
-   			return $this->site;
+   			return $this->sites;
    		}
 
    		if ($name == 'pages')
