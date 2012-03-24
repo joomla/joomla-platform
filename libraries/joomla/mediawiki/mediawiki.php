@@ -12,6 +12,16 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform class for interacting with a GitHub server instance.
  *
+ * @property-read  JMediawikiSite           $site           MediaWiki API object for site.
+ * @property-read  JMediawikiPages          $pages          MediaWiki API object for pages.
+ * @property-read  JMediawikiUsers          $users          MediaWiki API object for users.
+ * @property-read  JMediawikiLinks          $links          MediaWiki API object for links.
+ * @property-read  JMediawikiCategories     $categories     MediaWiki API object for categories.
+ * @property-read  JMediawikiReviews        $reviews        MediaWiki API object for reviews.
+ * @property-read  JMediawikiImages         $images         MediaWiki API object for images.
+ * @property-read  JMediawikiFiles          $files          MediaWiki API object for files.
+ * @property-read  JMediawikiSearch         $search         MediaWiki API object for search.
+ *
  * @package     Joomla.Platform
  * @subpackage  MediaWiki
  * @since       12.1
@@ -28,6 +38,60 @@ class JMediawiki {
      * @since  12.1
      */
     protected $client;
+
+    /**
+   	 * @var    JMediawikiSite  MediaWiki API object for Site.
+   	 * @since  12.1
+   	 */
+   	protected $site;
+
+    /**
+   	 * @var    JMediawikiPages  MediaWiki API object for pages.
+   	 * @since  12.1
+   	 */
+   	protected $pages;
+
+    /**
+     * @var    JMediawikiUsers  MediaWiki API object for users.
+     * @since  12.1
+     */
+    protected $users;
+
+    /**
+     * @var    JMediawikiLinks  MediaWiki API object for links.
+     * @since  12.1
+     */
+    protected $links;
+
+    /**
+     * @var    JMediawikiCategories  MediaWiki API object for categories.
+     * @since  12.1
+     */
+    protected $categories;
+
+    /**
+     * @var    JMediawikiReviews  MediaWiki API object for reviews.
+     * @since  12.1
+     */
+    protected $reviews;
+
+    /**
+     * @var    JMediawikiImages  MediaWiki API object for images.
+     * @since  12.1
+     */
+    protected $images;
+
+    /**
+     * @var    JMediawikiFiles  MediaWiki API object for files.
+     * @since  12.1
+     */
+    protected $files;
+
+    /**
+     * @var    JMediawikiSearch  MediaWiki API object for search.
+     * @since  12.1
+     */
+    protected $search;
 
     /**
      * Constructor.
