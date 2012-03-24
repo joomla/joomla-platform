@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * MediaWiki API Images class for the Joomla Platform.
+ * MediaWiki API Links class for the Joomla Platform.
  *
  * @package     Joomla.Platform
  * @subpackage  MediaWiki
