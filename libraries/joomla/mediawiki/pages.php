@@ -19,4 +19,15 @@ defined('JPATH_PLATFORM') or die;
 class JMediawikiPages extends JMediawikiObject
 {
 
+    public function getPageInfo($titles)
+    {
+        // build the request parameters
+        $params = 'titles='.$titles;
+
+        $response = $this->client->get($this->fetchUrl($params));
+
+        // @TODO need to check this
+        return json_decode($response->body);
+    }
+
 }
