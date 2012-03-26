@@ -21,6 +21,7 @@ defined('JPATH_PLATFORM') or die;
  * @property-read  JMediawikiImages         $images         MediaWiki API object for images.
  * @property-read  JMediawikiFiles          $files          MediaWiki API object for files.
  * @property-read  JMediawikiSearch         $search         MediaWiki API object for search.
+ * @property-read  JMediawikiExtensions     $extensions     MediaWiki API object for extensions.
  *
  * @package     Joomla.Platform
  * @subpackage  MediaWiki
@@ -92,6 +93,12 @@ class JMediawiki {
      * @since  12.1
      */
     protected $search;
+
+    /**
+     * @var    JMediawikiExtensions  MediaWiki API object for Extensions.
+     * @since  12.1
+     */
+    protected $extensions;
 
     /**
      * Constructor.
@@ -204,6 +211,15 @@ class JMediawiki {
            }
            return $this->search;
         }
+
+           if ($name == 'extensions')
+           {
+              if ($this->extensions == null)
+              {
+                  $this->extensions = new JMediawikiExtensions($this->options, $this->client);
+              }
+              return $this->extensions;
+           }
 
    	}
 }
