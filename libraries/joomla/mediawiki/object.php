@@ -47,6 +47,17 @@ abstract class JMediawikiObject {
     protected function fetchUrl($path)
     {
         $uri = new JUri($this->options->get('api.url') .'/api.php' .$path);
+
+        if ($this->options->get('api.username', false))
+        {
+            $uri->setUser($this->options->get('api.username'));
+        }
+
+        if ($this->options->get('api.password', false))
+        {
+            $uri->setPass($this->options->get('api.password'));
+        }
+
         return (string) $uri;
     }
 
