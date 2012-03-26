@@ -959,24 +959,34 @@ abstract class JString
 	public static function parse_url($url)
 	{
 
-		$keys = array('scheme' => 0, 'user' => 0, 'pass' => 0, 'host' => 0, 'port' => 0, 'path' => 0, 'query' => 0, 'fragment' => 0);
+		$result = array();
 
-		// The u parameter is the key to determine UTF-8 characters
-		$expression = '~^((?P<scheme>[^:/?#]+):(//))?((\3|//)?(?:(?P<user>[^:]+):(?P<pass>[^@]+)@)?(?P<host>[^/?:#]*))(:(?P<port>\d+))?' .
-				'(?P<path>[^?#]*)(\?(?P<query>[^#]*))?(#(?P<fragment>.*))?~u';
+		// Build arrays of values we need to decode before parsing
+		$entities = array('%21', '%2A', '%27', '%28', '%29', '%3B', '%3A', '%40', '%26', '%3D', '%24', '%2C', '%2F', '%3F', '%25', '%23', '%5B',
+				'%5D');
+		$replacements = array('!', '*', "'", "(", ")", ";", ":", "@", "&", "=", "$", ",", "/", "?", "%", "#", "[", "]");
 
-		if (preg_match($expression, $url, $matches))
+		// Create encoded URL with special URL characters decoded so it can be parsed
+		// All other characters will be encoded
+		$encodedURL = str_replace($entities, $replacements, urlencode($url));
+
+		// Parse the encoded URL
+		$encodedParts = parse_url($encodedURL);
+
+		// Now, decode each value of the resulting array
+		foreach ($encodedParts as $key => $value)
 		{
-			foreach ($matches as $key => $value)
+			if ($key == 'path' || $key == 'fragment')
 			{
-				if (!isset($keys[$key]) || empty($value))
-				{
-					unset($matches[$key]);
-				}
+				$result[$key] = urldecode($value);
 			}
-			return $matches;
+			else
+			{
+				$result[$key] = $value;
+			}
 		}
 
-		false;
+		return $result;
+
 	}
 }
