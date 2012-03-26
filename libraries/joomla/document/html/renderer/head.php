@@ -52,9 +52,11 @@ class JDocumentRendererHead extends JDocumentRenderer
 	 */
 	public function fetchHead($document)
 	{
-		// Trigger the onBeforeCompileHead event (skip for installation, since it causes an error)
+		// Trigger the onBeforeCompileHead event
 		$app = JFactory::getApplication();
 		$app->triggerEvent('onBeforeCompileHead');
+
+		$scripts = array_merge($document->_scripts, $document->libraries);
 
 		// Get line endings
 		$lnEnd = $document->_getLineEnd();
@@ -155,18 +157,18 @@ class JDocumentRendererHead extends JDocumentRenderer
 		}
 
 		// Generate script file links
-		foreach ($document->_scripts as $strSrc => $strAttr)
+		foreach ($scripts as $script)
 		{
-			$buffer .= $tab . '<script src="' . $strSrc . '"';
-			if (!is_null($strAttr['mime']))
+			$buffer .= $tab . '<script src="' . $script['url'] . '"';
+			if (!is_null($script['mime']))
 			{
-				$buffer .= ' type="' . $strAttr['mime'] . '"';
+				$buffer .= ' type="' . $script['mime'] . '"';
 			}
-			if ($strAttr['defer'])
+			if ($script['defer'])
 			{
 				$buffer .= ' defer="defer"';
 			}
-			if ($strAttr['async'])
+			if ($script['async'])
 			{
 				$buffer .= ' async="async"';
 			}
