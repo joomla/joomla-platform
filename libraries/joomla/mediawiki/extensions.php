@@ -23,9 +23,11 @@ class JMediawikiExtensions extends JMediawikiObject
         // build the request parameters
         $path = '?action=sitematrix';
 
+        // @TODO method to extract paramters and append the path
+
         $response = $this->client->get($this->fetchUrl($path));
 
         // @TODO need to check this
-        return json_decode($response->body);
+        return new SimpleXMLElement($response->body);
     }
 }
