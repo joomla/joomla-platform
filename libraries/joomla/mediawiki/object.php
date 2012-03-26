@@ -47,7 +47,7 @@ abstract class JMediawikiObject {
     protected function fetchUrl($path)
     {
         // append the path with output format
-        $path .= '&format=json';
+        $path .= '&format=xml';
 
         $uri = new JUri($this->options->get('api.url') .'/api.php' .$path);
 

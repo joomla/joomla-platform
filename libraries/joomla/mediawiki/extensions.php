@@ -28,6 +28,7 @@ class JMediawikiExtensions extends JMediawikiObject
         $response = $this->client->get($this->fetchUrl($path));
 
         // @TODO need to check this
+        return $response->body;
         return new SimpleXMLElement($response->body);
     }
 }
