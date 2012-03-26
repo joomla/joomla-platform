@@ -18,5 +18,14 @@ defined('JPATH_PLATFORM') or die;
  */
 class JMediawikiExtensions extends JMediawikiObject
 {
+    public function getSiteMatrix(array $params = null)
+    {
+        // build the request parameters
+        $params = 'titles='.$titles;
 
+        $response = $this->client->get($this->fetchUrl($params));
+
+        // @TODO need to check this
+        return json_decode($response->body);
+    }
 }
