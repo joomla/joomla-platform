@@ -21,13 +21,18 @@ class JMediawikiExtensions extends JMediawikiObject
     public function getSiteMatrix(array $params = null)
     {
         // build the request parameters
-        $path = '?action=sitematrix';
-
-        // @TODO method to extract paramters and append the path
+        $path = '?action=sitematrissx';
 
         $response = $this->client->get($this->fetchUrl($path));
 
-        // @TODO need to check this
-        return new SimpleXMLElement($response->body);
+        $output = JFactory::getXML($response->body, false);
+
+        // Validate the response code.
+		if ($output->error)
+		{
+			throw new DomainException($output->error['info'], $output->error['code']);
+		}
+
+        return $output;
     }
 }
