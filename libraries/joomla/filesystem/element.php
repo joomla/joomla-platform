@@ -99,6 +99,7 @@ abstract class JFilesystemElement
 	 * Constructor
 	 *
 	 * @param   string       $path       Element path.
+	 * @param   string       $fullpath   Element full path.
 	 * @param   JFilesystem  $system     Element file system
 	 * @param   string       $signature  Signature
 	 *

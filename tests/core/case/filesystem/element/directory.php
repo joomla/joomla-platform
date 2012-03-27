@@ -107,7 +107,7 @@ abstract class TestCaseFilesystemElementDirectory extends TestCaseFilesystem
 
 		$this->assertThat(
 			array_keys(iterator_to_array(JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test', static::$system)->files)),
-			$this->equalTo(array('/test.json', '/test2.json')),
+			$this->equalTo(array('test.json', 'test2.json')),
 			'The files are not correct.'
 		);
 	}
@@ -129,7 +129,7 @@ abstract class TestCaseFilesystemElementDirectory extends TestCaseFilesystem
 
 		$this->assertThat(
 			array_keys(iterator_to_array(JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test', static::$system)->directories)),
-			$this->equalTo(array('/sub2', '/subtest')),
+			$this->equalTo(array('sub2', 'subtest')),
 			'The directories are not correct.'
 		);
 	}
@@ -188,8 +188,8 @@ abstract class TestCaseFilesystemElementDirectory extends TestCaseFilesystem
 			array(
 				array(),
 				array(
-					'/test.json',
-					'/test2.json'
+					'test.json',
+					'test2.json'
 				)
 			),
 			array(
@@ -197,10 +197,10 @@ abstract class TestCaseFilesystemElementDirectory extends TestCaseFilesystem
 					'recurse' => true
 				),
 				array(
-					'/test.json',
-					'/test2.json',
-					'/subtest/test.csv',
-					'/subtest/subsubtest/test.txt'
+					'test.json',
+					'test2.json',
+					'subtest/test.csv',
+					'subtest/subsubtest/test.txt'
 				)
 			),
 			array(
@@ -209,10 +209,10 @@ abstract class TestCaseFilesystemElementDirectory extends TestCaseFilesystem
 					'mode' => JFilesystemElementDirectoryContents::DEPTH_FIRST
 				),
 				array(
-					'/subtest/subsubtest/test.txt',
-					'/subtest/test.csv',
-					'/test.json',
-					'/test2.json'
+					'subtest/subsubtest/test.txt',
+					'subtest/test.csv',
+					'test.json',
+					'test2.json'
 				)
 			),
 			array(
@@ -220,9 +220,9 @@ abstract class TestCaseFilesystemElementDirectory extends TestCaseFilesystem
 					'recurse' => 1,
 				),
 				array(
-					'/test.json',
-					'/test2.json',
-					'/subtest/test.csv',
+					'test.json',
+					'test2.json',
+					'subtest/test.csv',
 				)
 			),
 			array(
@@ -231,7 +231,7 @@ abstract class TestCaseFilesystemElementDirectory extends TestCaseFilesystem
 					'filter' => '#\.csv$#'
 				),
 				array(
-					'/subtest/test.csv',
+					'subtest/test.csv',
 				)
 			),
 			array(
@@ -240,9 +240,9 @@ abstract class TestCaseFilesystemElementDirectory extends TestCaseFilesystem
 					'exclude' => '#\.csv$#'
 				),
 				array(
-					'/test.json',
-					'/test2.json',
-					'/subtest/subsubtest/test.txt'
+					'test.json',
+					'test2.json',
+					'subtest/subsubtest/test.txt'
 				)
 			),
 			array(
@@ -251,9 +251,9 @@ abstract class TestCaseFilesystemElementDirectory extends TestCaseFilesystem
 					'filter_directory' => '#^subtest#'
 				),
 				array(
-					'/test.json',
-					'/test2.json',
-					'/subtest/test.csv'
+					'test.json',
+					'test2.json',
+					'subtest/test.csv'
 				)
 			),
 			array(
@@ -262,18 +262,18 @@ abstract class TestCaseFilesystemElementDirectory extends TestCaseFilesystem
 					'exclude_directory' => '#^subtest#'
 				),
 				array(
-					'/test.json',
-					'/test2.json',
+					'test.json',
+					'test2.json',
 				)
 			),
 			array(
 				array(
 					'recurse' => true,
-					'accept' => function ($path, $relative, $system) {return $system->getFile($path . $relative)->contents == '{}';}
+					'accept' => function ($path, $relative, $system) {return $system->getFile($path . '/' . $relative)->contents == '{}';}
 				),
 				array(
-					'/test.json',
-					'/test2.json',
+					'test.json',
+					'test2.json',
 				)
 			),
 			array(
@@ -282,10 +282,10 @@ abstract class TestCaseFilesystemElementDirectory extends TestCaseFilesystem
 					'compare' => function($path, $a, $b, $system) {return -strcmp($a, $b);}
 				),
 				array(
-					'/test2.json',
-					'/test.json',
-					'/subtest/test.csv',
-					'/subtest/subsubtest/test.txt'
+					'test2.json',
+					'test.json',
+					'subtest/test.csv',
+					'subtest/subsubtest/test.txt'
 				)
 			),
 		);
@@ -328,8 +328,8 @@ abstract class TestCaseFilesystemElementDirectory extends TestCaseFilesystem
 				array(
 				),
 				array(
-					'/sub2',
-					'/subtest',
+					'sub2',
+					'subtest',
 				)
 			),
 			array(
@@ -337,13 +337,13 @@ abstract class TestCaseFilesystemElementDirectory extends TestCaseFilesystem
 					'recurse' => true
 				),
 				array(
-					'/sub2',
-					'/sub2/subsub2',
-					'/sub2/subsubtest',
-					'/subtest',
-					'/subtest/subsub2',
-					'/subtest/subsubtest',
-					'/subtest/subsubtest/last',
+					'sub2',
+					'sub2/subsub2',
+					'sub2/subsubtest',
+					'subtest',
+					'subtest/subsub2',
+					'subtest/subsubtest',
+					'subtest/subsubtest/last',
 				)
 			),
 			array(
@@ -351,12 +351,12 @@ abstract class TestCaseFilesystemElementDirectory extends TestCaseFilesystem
 					'recurse' => 1
 				),
 				array(
-					'/sub2',
-					'/sub2/subsub2',
-					'/sub2/subsubtest',
-					'/subtest',
-					'/subtest/subsub2',
-					'/subtest/subsubtest',
+					'sub2',
+					'sub2/subsub2',
+					'sub2/subsubtest',
+					'subtest',
+					'subtest/subsub2',
+					'subtest/subsubtest',
 				)
 			),
 			array(
@@ -365,8 +365,8 @@ abstract class TestCaseFilesystemElementDirectory extends TestCaseFilesystem
 					'filter' => '#sub2$#'
 				),
 				array(
-					'/sub2',
-					'/sub2/subsub2',
+					'sub2',
+					'sub2/subsub2',
 				)
 			),
 			array(
@@ -375,12 +375,12 @@ abstract class TestCaseFilesystemElementDirectory extends TestCaseFilesystem
 					'exclude' => '#a#'
 				),
 				array(
-					'/sub2',
-					'/sub2/subsub2',
-					'/sub2/subsubtest',
-					'/subtest',
-					'/subtest/subsub2',
-					'/subtest/subsubtest',
+					'sub2',
+					'sub2/subsub2',
+					'sub2/subsubtest',
+					'subtest',
+					'subtest/subsub2',
+					'subtest/subsubtest',
 				)
 			),
 			array(
@@ -389,9 +389,9 @@ abstract class TestCaseFilesystemElementDirectory extends TestCaseFilesystem
 					'accept' => function($path, $relative, $system) {return strpos($relative, '2') !== false;}
 				),
 				array(
-					'/sub2',
-					'/sub2/subsub2',
-					'/sub2/subsubtest',
+					'sub2',
+					'sub2/subsub2',
+					'sub2/subsubtest',
 				)
 			),
 			array(
@@ -400,13 +400,13 @@ abstract class TestCaseFilesystemElementDirectory extends TestCaseFilesystem
 					'mode' => JFilesystemElementDirectoryContents::DEPTH_FIRST
 				),
 				array(
-					'/sub2/subsub2',
-					'/sub2/subsubtest',
-					'/sub2',
-					'/subtest/subsub2',
-					'/subtest/subsubtest/last',
-					'/subtest/subsubtest',
-					'/subtest',
+					'sub2/subsub2',
+					'sub2/subsubtest',
+					'sub2',
+					'subtest/subsub2',
+					'subtest/subsubtest/last',
+					'subtest/subsubtest',
+					'subtest',
 				)
 			),
 			array(
@@ -415,13 +415,13 @@ abstract class TestCaseFilesystemElementDirectory extends TestCaseFilesystem
 					'mode' => JFilesystemElementDirectoryContents::BREADTH_FIRST
 				),
 				array(
-					'/sub2',
-					'/sub2/subsub2',
-					'/sub2/subsubtest',
-					'/subtest',
-					'/subtest/subsub2',
-					'/subtest/subsubtest',
-					'/subtest/subsubtest/last',
+					'sub2',
+					'sub2/subsub2',
+					'sub2/subsubtest',
+					'subtest',
+					'subtest/subsub2',
+					'subtest/subsubtest',
+					'subtest/subsubtest/last',
 				)
 			),
 			array(
@@ -430,13 +430,13 @@ abstract class TestCaseFilesystemElementDirectory extends TestCaseFilesystem
 					'compare' => function($path, $a, $b, $system) {return -strcmp($a, $b);}
 				),
 				array(
-					'/subtest',
-					'/subtest/subsubtest',
-					'/subtest/subsubtest/last',
-					'/subtest/subsub2',
-					'/sub2',
-					'/sub2/subsubtest',
-					'/sub2/subsub2',
+					'subtest',
+					'subtest/subsubtest',
+					'subtest/subsubtest/last',
+					'subtest/subsub2',
+					'sub2',
+					'sub2/subsubtest',
+					'sub2/subsub2',
 				)
 			),
 		);

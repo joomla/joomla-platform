@@ -105,7 +105,7 @@ class JFilesystemTest extends TestCase
 
 		// Test Exception
 		touch(JPATH_TESTS . '/tmp/filesystem/test');
-        $this->setExpectedException('RuntimeException');
+		$this->setExpectedException('RuntimeException');
 		$this->assertThat(
 			JFilesystem::getInstance()->getDirectory(JPATH_TESTS . '/tmp/filesystem/test'),
 			$this->isInstanceOf('JFilesystemElementFolder'),
@@ -150,7 +150,7 @@ class JFilesystemTest extends TestCase
 	public function test__Get()
 	{
 		$filesystem = JFilesystem::getInstance('myprotocol://');
-		
+
 		// Test *prefix* property
 		$this->assertThat(
 			$filesystem->prefix,

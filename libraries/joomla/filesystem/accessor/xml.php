@@ -23,10 +23,11 @@ abstract class JFilesystemAccessorXml
 	/**
 	 * Pull entire file into a n XML object
 	 *
-	 * @param   JFilesystemElementFile  $file       The file to be read.
-	 * @param   int                     $options    Additional Libxml parameters. .
-	 * @param   string                  $ns         Namespace prefix or URI.
-	 * @param   bool                    $is_prefix  TRUE if ns is a prefix, FALSE if it's a URI.
+	 * @param   JFilesystemElementFile  $file        The file to be read.
+	 * @param   string                  $class_name  Object class.
+	 * @param   int                     $options     Additional Libxml parameters. .
+	 * @param   string                  $ns          Namespace prefix or URI.
+	 * @param   bool                    $is_prefix   TRUE if ns is a prefix, FALSE if it's a URI.
 	 *
 	 * @return  JXMLElement|FALSE  The xml or FALSE on failure.
 	 *

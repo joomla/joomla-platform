@@ -102,12 +102,12 @@ class JFilesystemElementDirectoryContents implements RecursiveIterator
 
 		$this->_system = $system;
 
-		$handle = opendir($system->prefix . $path . $relative, $system->context);
+		$handle = opendir($system->prefix . $path . (empty($relative) ? '' : ('/' . $relative)), $system->context);
 		while (false !== ($entry = readdir($handle)))
 		{
 			if ($entry != '.' && $entry != '..')
 			{
-				$this->_entries[$relative . '/' . $entry] = $entry;
+				$this->_entries[(empty($relative) ? '' : ($relative . '/')) . $entry] = $entry;
 			}
 		}
 		closedir($handle);
@@ -126,9 +126,9 @@ class JFilesystemElementDirectoryContents implements RecursiveIterator
 	 */
 	private function _compare($a, $b)
 	{
-		if (is_dir($this->_system->prefix . $this->_path . $a))
+		if (is_dir($this->_system->prefix . $this->_path . '/' . $a))
 		{
-			if (is_dir($this->_system->prefix . $this->_path . $b))
+			if (is_dir($this->_system->prefix . $this->_path . '/' . $b))
 			{
 				if (isset($this->_compare))
 				{
@@ -147,7 +147,7 @@ class JFilesystemElementDirectoryContents implements RecursiveIterator
 		}
 		else
 		{
-			if (is_dir($this->_system->prefix . $this->_path . $b))
+			if (is_dir($this->_system->prefix . $this->_path . '/' . $b))
 			{
 				return -$this->_mode;
 			}
@@ -268,7 +268,7 @@ class JFilesystemElementDirectoryContents implements RecursiveIterator
 	 */
 	public function hasChildren()
 	{
-		return is_dir($this->_system->prefix . $this->_path . $this->key());
+		return is_dir($this->_system->prefix . $this->_path . '/' . $this->key());
 	}
 
 	/**

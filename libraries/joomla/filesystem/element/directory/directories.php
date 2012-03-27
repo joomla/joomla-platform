@@ -92,7 +92,7 @@ class JFilesystemElementDirectoryDirectories extends RecursiveFilterIterator
 	 */
 	public function current()
 	{
-		return $this->getInnerIterator()->system->getDirectory($this->getInnerIterator()->path . parent::key());
+		return $this->getInnerIterator()->system->getDirectory($this->getInnerIterator()->path . '/' . parent::key());
 	}
 
 	/**

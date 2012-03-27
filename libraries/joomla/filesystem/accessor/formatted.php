@@ -34,7 +34,16 @@ abstract class JFilesystemAccessorFormatted
 	 */
 	public static function read(JFilesystemElementFile $file, $format)
 	{
-		return fscanf($file->handle, $format);
+		$v = fscanf($file->handle, $format);
+		if (!is_array($v))
+		{
+			$file->valid = false;
+			return false;
+		}
+		else
+		{
+			return $v;
+		}
 	}
 
 	/**

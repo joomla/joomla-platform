@@ -189,7 +189,7 @@ class JFilesystemElementFilePhpTest extends TestCaseFilesystemElementFile
 	public function test__Get_link()
 	{
 		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system);
-		symlink(JPATH_TESTS . '/tmp/filesystem/to.txt', (string)$file);
+		symlink(JPATH_TESTS . '/tmp/filesystem/to.txt', (string) $file);
 		$this->assertThat(
 			$file->link,
 			$this->equalTo(JPATH_TESTS . '/tmp/filesystem/to.txt'),
@@ -240,6 +240,74 @@ class JFilesystemElementFilePhpTest extends TestCaseFilesystemElementFile
 
 		$file->open('r');
 		$file->position = 6;
+		$this->assertThat(
+			$file->readContents(20),
+			$this->equalTo('world!'),
+			'The file position is not correct'
+		);
+		$file->close();
+
+		$file->open('r');
+		$file->position = true;
+		$this->assertThat(
+			$file->readContents(20),
+			$this->equalTo(''),
+			'The file position is not correct'
+		);
+		$file->close();
+
+		$file->open('r');
+		$file->position = -3;
+		$this->assertThat(
+			$file->readContents(20),
+			$this->equalTo('ld!'),
+			'The file position is not correct'
+		);
+		$file->close();
+
+		$file->open('r');
+		$file->position = false;
+		$this->assertThat(
+			$file->readContents(20),
+			$this->equalTo('Hello world!'),
+			'The file position is not correct'
+		);
+		$file->close();
+
+		$file->open('r');
+		$file->position = 7;
+		$file->position = 'C-1';
+		$this->assertThat(
+			$file->readContents(20),
+			$this->equalTo('world!'),
+			'The file position is not correct'
+		);
+		$file->close();
+
+		$file->open('r');
+		$file->position = 5;
+		$file->position = 'C+1';
+		$this->assertThat(
+			$file->readContents(20),
+			$this->equalTo('world!'),
+			'The file position is not correct'
+		);
+		$file->close();
+
+		$file->open('r');
+		$file->position = 5;
+		$file->position = 'C1';
+		$this->assertThat(
+			$file->readContents(20),
+			$this->equalTo('world!'),
+			'The file position is not correct'
+		);
+		$file->close();
+
+		$this->setExpectedException('InvalidArgumentException');
+		$file->open('r');
+		$file->position = 5;
+		$file->position = 'S+1';
 		$this->assertThat(
 			$file->readContents(20),
 			$this->equalTo('world!'),

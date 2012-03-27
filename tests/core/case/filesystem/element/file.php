@@ -901,6 +901,20 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 			}
 		}
 		$file->close();
+
+		$file->contents = "1 2\n3 4\n5\n\nlast line";
+		$file->open('r');
+		$this->assertThat(
+			iterator_to_array($file->iterateFormatted('%d %d')),
+			$this->equalTo(array(array(1, 2), array(3, 4), array(5, null))),
+			'The lines are not correct'
+		);
+		$this->assertThat(
+			iterator_to_array($file->iterateLine()),
+			$this->equalTo(array('last line')),
+			'The lines are not correct'
+		);
+		$file->close();
 	}
 
 	/**

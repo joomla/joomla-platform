@@ -5,93 +5,112 @@
 %BOOK_ENTITIES;
 ]>
 <section id="chap-Joomla_Platform_Manual-Filesystem">
-  <title>The Filesystem Package</title>
+	<title>The Filesystem Package</title>
 
-  <para>
-    The Filesystem package provides a number of classes that can be used to access the local file system or remote file systems.
-  </para>
-  <section>
-    <title>Using the <classname>JFilesystem</classname> class</title>
-    <para>
-      The first thing to do is to get an instance of the <classname>JFilesystem</classname> class. An instance of this class is composed of two essential elements:
-      <variablelist>
-        <varlistentry>
-          <term>a <firstterm>prefix</firstterm></term>
-          <listitem>
-            <para>
-              The prefix is used by the underlying <acronym>PHP</acronym> file functions to differentiate between <command>http://</command>, <command>ftp://</command> and so on.
-            </para>
-          </listitem>
-        </varlistentry>
-        <varlistentry>
-          <term>a <firstterm>stream context</firstterm></term>
-          <listitem>
-            <para>
-              This is defined from a set of parameters and wrapper specific options modifying the stream behavior.
-            </para>
-          </listitem>
-        </varlistentry>
-      </variablelist>
-      This is achieved by requesting a new instance by specifying the prefix used, the wrappers specific options and the parameters:
-      <programlisting language="PHP (HTML)">
+	<para>
+		The Filesystem package provides a number of classes that can be used to access the local file system or remote file systems.
+	</para>
+	<section>
+		<title>Using the <classname>JFilesystem</classname> class</title>
+		<para>
+			The first thing to do is to get an instance of the <classname>JFilesystem</classname> class. An instance of this class is composed of two essential elements:
+			<variablelist>
+				<varlistentry>
+					<term>a <firstterm>prefix</firstterm></term>
+					<listitem>
+						<para>
+							The prefix is used by the underlying <acronym>PHP</acronym> file functions to differentiate between <command>http://</command>, <command>ftp://</command> and so on.
+						</para>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
+					<term>a <firstterm>stream context</firstterm></term>
+					<listitem>
+						<para>
+							This is defined from a set of parameters and wrapper specific options modifying the stream behavior.
+						</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+			This is achieved by requesting a new instance by specifying the prefix used, the wrappers specific options and the parameters:
+			<example>
+				<title>Getting a ftp file system and the local file system</title>
+				<para>
+					<programlisting language="PHP (HTML)">
 $ftp = JFilesystem::getInstance('ftp://user:password@example.com', array('ftp' => array('overwrite' => true)));
 $filesystem = JFilesystem::getInstance();
 </programlisting>
-    </para>
-    <para>
-      When a file system instance is available, file and directory objects are created using the <methodname>getFile</methodname> and the <methodname>getDirectory</methodname> methods:
-      <programlisting language="PHP (HTML)">
+				</para>
+			</example>
+		</para>
+		<para>
+			When a file system instance is available, file and directory objects are created using the <methodname>getFile</methodname> and the <methodname>getDirectory</methodname> methods:
+			<example>
+				<title id="chap-Joomla_Platform_Manual-Filesystem-Getting-Elements">Getting a file and a directory object</title>
+				<para>
+					<programlisting language="PHP (HTML)">
 $file = $filesystem->getFile('/path/to/file');
 $directory = $filesystem->getDirectory('/path/to/directory');
 </programlisting>
-    </para>
-    <para>
-      Two read-only properties are available from a file system:
-      <variablelist>
-        <varlistentry>
-          <term><varname>prefix</varname></term>
-          <listitem>
-            <para>
-              This is the prefix used during the file system object creation.
-              <programlisting language="PHP (HTML)">
+				</para>
+			</example>
+		</para>
+		<para>
+			Two read-only properties are available from a file system:
+			<variablelist>
+				<varlistentry>
+					<term><varname>prefix</varname></term>
+					<listitem>
+						<para>
+							This is the prefix used during the file system object creation.
+							<example>
+								<title>Getting a file system prefix</title>
+								<para>
+									<programlisting language="PHP (HTML)">
 $prefix = $filesystem->prefix;
 </programlisting>
-            </para>
-          </listitem>
-        </varlistentry>
-        <varlistentry>
-          <term><varname>context</varname></term>
-          <listitem>
-            <para>
-              This is the stream context created during the file system object creation.
-              <programlisting language="PHP (HTML)">
+								</para>
+							</example>
+						</para>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
+					<term><varname>context</varname></term>
+					<listitem>
+						<para>
+							This is the stream context created during the file system object creation.
+							<example>
+								<title>Getting a file system context</title>
+								<para>
+									<programlisting language="PHP (HTML)">
 $context = $filesystem->context;
 </programlisting>
-            </para>
-          </listitem>
-        </varlistentry>
-      </variablelist>
-    </para>
-  </section>
-  <section>
-    <title>Working with files</title>
-    <para>
-      Files are instances of class <classname>JFilesystemElementFile</classname> and are generally created using the <methodname>getFile</methodname> method of class <classname>JFilesystem</classname>.
-      <programlisting language="PHP (HTML)">
-$file = $filesystem->getFile('/path/to/file');
-</programlisting>
-    </para>
-    <section>
-      <title>Accessing properties</title>
-      <para>
-        A lot of properties can be accessed from a <classname>JFilesystemElementFile</classname> object. Some throws an exception if the file does not exist or when using some specific streams. See <ulink url="chap-Joomla_Platform_Manual-Filesystem-Common-Properties.html">Common properties</ulink>
-        <variablelist>
-          <varlistentry>
-            <term><varname>mode</varname> (<type>string|null</type> property)</term>
-            <listitem>
-              <para>
-                The file opening mode.
-                <programlisting language="PHP (HTML)">
+								</para>
+							</example>
+						</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+		</para>
+	</section>
+	<section>
+		<title>Working with files</title>
+		<para>
+			Files are instances of class <classname>JFilesystemElementFile</classname> and are generally created using the <methodname>getFile</methodname> method of class <classname>JFilesystem</classname> (see <xref linkend="chap-Joomla_Platform_Manual-Filesystem-Getting-Elements" />).
+		</para>
+		<section>
+			<title>Accessing properties</title>
+			<para>
+				A lot of properties can be accessed from a <classname>JFilesystemElementFile</classname> object. Some throws an exception if the file does not exist or when using some specific streams. See <xref linkend="chap-Joomla_Platform_Manual-Filesystem-Common-Properties" />.
+				<variablelist>
+					<varlistentry>
+						<term><varname>mode</varname> (<type>string|null</type> property)</term>
+						<listitem>
+							<para>
+								<example>
+									<title>Using the file opening mode</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 // Getting the file opening mode
 $mode = $file->mode;
 
@@ -104,139 +123,194 @@ $file->mode = 'w';
 // Close the file
 $file->mode = null;
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><varname>position</varname> (<type>integer</type> property)</term>
-            <listitem>
-              <para>
-                The file current position.
-                <programlisting language="PHP (HTML)">
-// Getting the file current position
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><varname>position</varname> (<type>integer</type> property)</term>
+						<listitem>
+							<para>
+								<example>
+									<title>Using the current file position</title>
+									<para>
+										<programlisting language="PHP (HTML)">
+// Getting the current file position
 $position = $file->position;
 
 // Rewind the file
 $file->position = 0;
+
+// Go to end of file
+$file->position = TRUE;
+
+// Go backward 6 characters from end of file
+$file->position = -6;
+
+// Go forward 6 characters from current position
+$file->position = 'C+6';
+
+// Go backward 6 characters from current position
+$file->position = 'C-6';
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><varname>use_include_path</varname> (read-only <type>boolean</type> property)</term>
-            <listitem>
-              <para>
-                Tells if the file use the include path search behavior.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><varname>use_include_path</varname> (read-only <type>boolean</type> property)</term>
+						<listitem>
+							<para>
+								<example>
+									<title>Tells if the file use the include path search behavior</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 // Getting the information
 $use_include_path = $file->use_include_path;
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><varname>opened</varname> (read-only <type>boolean</type> property)</term>
-            <listitem>
-              <para>
-                Tells if the file is opened.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><varname>opened</varname> (read-only <type>boolean</type> property)</term>
+						<listitem>
+							<para>
+								<example>
+									<title>Tells if the file is opened</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 // Getting the information
 $opened = $file->opened;
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><varname>eof</varname> (read-only <type>boolean</type> property)</term>
-            <listitem>
-              <para>
-                Tells if the file is at end of file.
-                <programlisting language="PHP (HTML)">
-// Getting the enf-of-file state
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><varname>eof</varname> (read-only <type>boolean</type> property)</term>
+						<listitem>
+							<para>
+								<example>
+									<title>Tells if the file is at end of file</title>
+									<para>
+										<programlisting language="PHP (HTML)">
+// Getting the end-of-file state
 $eof = $file->eof;
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><varname>valid</varname> (<type>boolean</type> property)</term>
-            <listitem>
-              <para>
-                Tells if the last read was valid (use by iterators on files).
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><varname>valid</varname> (<type>boolean</type> property)</term>
+						<listitem>
+							<para>
+								<example>
+									<title>Tells if the last read was valid (used by iterators on files)</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 // Getting the valid state
 $valid = $file->valid;
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><varname>contents</varname> (<type>string|array|null</type> property)</term>
-            <listitem>
-              <para>
-                The file contents. Setting this property will open the file in write mode, set the contents and close the file.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><varname>contents</varname> (<type>string|array|null</type> property)</term>
+						<listitem>
+							<para>
+								The file contents. Setting this property will open the file in write mode, set the contents and close the file.
+								<example>
+									<title>Using the file contents</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 // Getting the contents as a string
 $contents = $file->contents;
 
 // Setting the contents
 $file->contents = 'Hello World!';
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><varname>handle</varname> (read-only <type>ressource</type> property)</term>
-            <listitem>
-              <para>
-                The file pointer resource.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><varname>handle</varname> (read-only <type>ressource</type> property)</term>
+						<listitem>
+							<para>
+								<example>
+									<title>The file pointer resource</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 // Getting the handle
 $handle = $file->handle;
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><varname>directory</varname> (read-only <classname>JFilesystemElementDirectory</classname> property)</term>
-            <listitem>
-              <para>
-                The file directory object.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><varname>directory</varname> (read-only <classname>JFilesystemElementDirectory</classname> property)</term>
+						<listitem>
+							<para>
+								<example>
+									<title>The file directory object</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 // Getting the directory
 $directory = $file->directory;
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-        </variablelist>
-      </para>
-    </section>
-    <section>
-      <title>Calling methods</title>
-      <para>
-        <variablelist>
-          <varlistentry>
-            <term><methodname>open</methodname> method</term>
-            <listitem>
-              <para>
-                Open the file for reading or writing.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+				</variablelist>
+			</para>
+		</section>
+		<section>
+			<title>Calling methods</title>
+			<para>
+				<variablelist>
+					<varlistentry>
+						<term><methodname>open</methodname> method</term>
+						<listitem>
+							<para>
+								Open the file for reading or writing.
+								<example>
+									<title>Using the <methodname>open</methodname> method</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 // Open the file for reading
 $file->open('r');
 
 // Open the file for writing
 $file->open('w');
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><methodname>close</methodname> method</term>
-            <listitem>
-              <para>
-                Close the file.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><methodname>close</methodname> method</term>
+						<listitem>
+							<para>
+								Close the file.
+								<example>
+									<title>Using the <methodname>close</methodname> method</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 // Open the file for reading
 $file->open('r');
 
@@ -245,15 +319,20 @@ $file->open('r');
 // Close the file
 $file->close();
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><methodname>readXXX</methodname> method</term>
-            <listitem>
-              <para>
-                Read from the file. The <methodname>XXX</methodname> suffix denotes the accessor used (See Accessors).
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><methodname>readSuffix</methodname> method</term>
+						<listitem>
+							<para>
+								Read from the file. The <methodname>Suffix</methodname> denotes the accessor used (See <xref linkend="chap-Joomla_Platform_Manual-Filesystem-Accessors" />).
+								<example>
+									<title>Using the <methodname>readSuffix</methodname> method</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 // Open the file for reading
 $file->open('r');
 
@@ -264,15 +343,20 @@ $line2 = $file->readLine();
 // Close the file
 $file->close();
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><methodname>writeXXX</methodname> method</term>
-            <listitem>
-              <para>
-                Write to the file. The <methodname>XXX</methodname> suffix denotes the accessor used (See Accessors).
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><methodname>writeSuffix</methodname> method</term>
+						<listitem>
+							<para>
+								Write to the file. The <methodname>Suffix</methodname> denotes the accessor used (See <xref linkend="chap-Joomla_Platform_Manual-Filesystem-Accessors" />).
+								<example>
+									<title>Using the <methodname>writeSuffix</methodname> method</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 // Open the file for writing
 $file->open('w');
 
@@ -283,15 +367,20 @@ $file->writeLine('Line 2');
 // Close the file
 $file->close();
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><methodname>flush</methodname> method</term>
-            <listitem>
-              <para>
-                Flush the file.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><methodname>flush</methodname> method</term>
+						<listitem>
+							<para>
+								Flush the file.
+								<example>
+									<title>Using the <methodname>flush</methodname> method</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 // Open the file for writing
 $file->open('w');
 
@@ -305,15 +394,20 @@ $file->flush();
 // Close the file
 $file->close();
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><methodname>truncate</methodname> method</term>
-            <listitem>
-              <para>
-                Truncate the file.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><methodname>truncate</methodname> method</term>
+						<listitem>
+							<para>
+								Truncate the file.
+								<example>
+									<title>Using the <methodname>flush</methodname> method</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 // Open the file for writing
 $file->open('w');
 
@@ -327,292 +421,1385 @@ $file->truncate(10);
 // Close the file
 $file->close();
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><methodname>create</methodname> method</term>
-            <listitem>
-              <para>
-                Create the file.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><methodname>create</methodname> method</term>
+						<listitem>
+							<para>
+								Create the file.
+								<example>
+									<title>Using the <methodname>create</methodname> method</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 // Create the file on disk
 $file->create();
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><methodname>delete</methodname> method</term>
-            <listitem>
-              <para>
-                Delete the file.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><methodname>delete</methodname> method</term>
+						<listitem>
+							<para>
+								Delete the file.
+								<example>
+									<title>Using the <methodname>delete</methodname> method</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 // Delete the file on disk
 $file->delete();
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><methodname>copy</methodname> method</term>
-            <listitem>
-              <para>
-                Copy the file.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><methodname>copy</methodname> method</term>
+						<listitem>
+							<para>
+								Copy the file.
+								<example>
+									<title>Using the <methodname>copy</methodname> method</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 // Copy the file on another file
 $file->copy($file2);
 
 // Copy the file on a directory
 $file->copy($directory);
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><methodname>copyFromFile</methodname> method</term>
-            <listitem>
-              <para>
-                Copy from a file.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><methodname>copyFromFile</methodname> method</term>
+						<listitem>
+							<para>
+								Copy from a file.
+								<example>
+									<title>Using the <methodname>copyFromFile</methodname> method</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 // Copy the file from another file
 $file->copyFromFile($src);
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><methodname>pullXXX</methodname> method</term>
-            <listitem>
-              <para>
-                Pull the entire contents from a file. The <methodname>XXX</methodname> suffix denotes the accessor used (See Accessors).
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><methodname>pullSuffix</methodname> method</term>
+						<listitem>
+							<para>
+								Pull the entire contents from a file. The <methodname>Suffix</methodname> denotes the accessor used (See <xref linkend="chap-Joomla_Platform_Manual-Filesystem-Accessors" />).
+								<example>
+									<title>Using the <methodname>pullSuffix</methodname> method</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 // Get the ini strings
 $ini = $file->pullIni();
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><methodname>pullXXX</methodname> method</term>
-            <listitem>
-              <para>
-                Push data to a file. The <methodname>XXX</methodname> suffix denotes the accessor used (See Accessors).
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><methodname>pushSuffix</methodname> method</term>
+						<listitem>
+							<para>
+								Push data to a file. The <methodname>Suffix</methodname> denotes the accessor used (See <xref linkend="chap-Joomla_Platform_Manual-Filesystem-Accessors" />).
+								<example>
+									<title>Using the <methodname>pushSuffix</methodname> method</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 // Write an xml object to file
 $file->pushXml($xml);
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><methodname>iterateXXX</methodname> method</term>
-            <listitem>
-              <para>
-                Iterate from a file. The <methodname>XXX</methodname> suffix denotes the accessor used (See Accessors).
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><methodname>iterateSuffix</methodname> method</term>
+						<listitem>
+							<para>
+								Iterate from a file. The <methodname>Suffix</methodname> denotes the accessor used (See <xref linkend="chap-Joomla_Platform_Manual-Filesystem-Accessors" />).
+								<example>
+									<title>Using the <methodname>iterateSuffix</methodname> method</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 // Read lines from a file
 foreach ($file->iterateLine() as $line)
 {
 	// Deal with $line
 }
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><methodname>prependFilter</methodname> method</term>
-            <listitem>
-              <para>
-                Prepend a filter to a file.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><methodname>prependFilter</methodname> method</term>
+						<listitem>
+							<para>
+								Prepend a filter to a file.
+								<example>
+									<title>Using the <methodname>prependFilter</methodname> method</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 $file->open('r')->prependFilter('string.toupper');
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><methodname>appendFilter</methodname> method</term>
-            <listitem>
-              <para>
-                Append a filter to a file.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><methodname>appendFilter</methodname> method</term>
+						<listitem>
+							<para>
+								Append a filter to a file.
+								<example>
+									<title>Using the <methodname>appendFilter</methodname> method</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 $file->open('r')->appendFilter('string.toupper');
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><methodname>removeFilter</methodname> method</term>
-            <listitem>
-              <para>
-                Remote a filter from a file.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><methodname>removeFilter</methodname> method</term>
+						<listitem>
+							<para>
+								Remote a filter from a file.
+								<example>
+									<title>Using the <methodname>removeFilter</methodname> method</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 $file->open('r')->appendFilter('string.toupper');
 $filter = $file->appendFilter('string.tolower');
 $file->removeFilter($filter);
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-        </variablelist>        
-      </para>
-    </section>
-  </section>
-  <section>
-    <title>Working with directories</title>
-    <para>
-      
-    </para>
-  </section>
-  <section id="chap-Joomla_Platform_Manual-Filesystem-Common-Properties">
-    <title>Accessing files and directories common properties</title>
-    <para>
-        <variablelist>
-          <varlistentry>
-            <term><varname>system</varname> (read-only <classname>JFilesystem</classname> property)</term>
-            <listitem>
-              <para>
-                The underlying file system.
-                <programlisting language="PHP (HTML)">
-// Getting the file system
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+				</variablelist>
+			</para>
+		</section>
+		<section id="chap-Joomla_Platform_Manual-Filesystem-Accessors">
+			<title>Working with accessors</title>
+			<para>
+				The <classname>JFilesystemAccessor</classname> is used to abstract basic operations on files:
+				<variablelist>
+					<varlistentry>
+						<term><methodname>read</methodname></term>
+						<listitem>
+							<para>
+								Reading a file
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><methodname>write</methodname></term>
+						<listitem>
+							<para>
+								Writing a file
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><methodname>push</methodname></term>
+						<listitem>
+							<para>
+								Pushing a file
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><methodname>pull</methodname></term>
+						<listitem>
+							<para>
+								Pulling a file
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><methodname>iterate</methodname></term>
+						<listitem>
+							<para>
+								Iterating a file (using the read operation)
+							</para>
+						</listitem>
+					</varlistentry>
+				</variablelist>
+			</para>
+			<section>
+				<title>Using the default behavior</title>
+				<para>
+					<variablelist>
+						<varlistentry>
+							<term><methodname>read</methodname> method</term>
+							<listitem>
+								<para>
+									Read specific data from a file.
+									<example>
+										<title>Reading an <filename role="extension">ini</filename> file</title>
+										<para>
+											<programlisting language="PHP (HTML)">
+$file->open('r');
+$ini = $file->readIni();
+$file->close();
+</programlisting>
+	is equivalent to
+											<programlisting language="PHP (HTML)">
+$file->open('r');
+$ini = JFilesystemAccessor::read('Ini', array($file));
+$file->close();
+</programlisting>
+	This is by default equivalent to
+											<programlisting language="PHP (HTML)">
+$file->open('r');
+$ini = JFilesystemAccessorIni::read($file);
+$file->close();
+</programlisting>
+										</para>
+									</example>
+									<example>
+										<title>Reading a specific file</title>
+										<para>
+											<programlisting language="PHP (HTML)">
+$file->open('r');
+$integers = $file->readComponentList('%d');
+$file->close();
+</programlisting>
+	is equivalent to
+											<programlisting language="PHP (HTML)">
+$file->open('r');
+$integers = JFilesystemAccessor::read('ComponentList', array($file, '%d'));
+$file->close();
+</programlisting>
+	This is by default equivalent to
+											<programlisting language="PHP (HTML)">
+$file->open('r');
+$integers = ComponentFilesystemAccessorList::read($file, '%d');
+$file->close();
+</programlisting>
+										</para>
+									</example>
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term><methodname>write</methodname> method</term>
+							<listitem>
+								<para>
+									Write specific data to a file.
+									<example>
+										<title>Writing an <filename role="extension">ini</filename> file</title>
+										<para>
+											<programlisting language="PHP (HTML)">
+$file->open('w');
+$file->writeIni($ini);
+$file->close();
+</programlisting>
+	is equivalent to
+											<programlisting language="PHP (HTML)">
+$file->open('w');
+JFilesystemAccessor::write('Ini', array($file, $ini));
+$file->close();
+</programlisting>
+	This is by default equivalent to
+											<programlisting language="PHP (HTML)">
+$file->open('w');
+JFilesystemAccessorIni::write($file, $ini);
+$file->close();
+</programlisting>
+										</para>
+									</example>
+									<example>
+										<title>Writing a specific file</title>
+										<para>
+											<programlisting language="PHP (HTML)">
+$file->open('w');
+$file->writeComponentList('%d', $integers);
+$file->close();
+</programlisting>
+	is equivalent to
+											<programlisting language="PHP (HTML)">
+$file->open('w');
+JFilesystemAccessor::read('ComponentList', array($file, '%d', $integers));
+$file->close();
+</programlisting>
+	This is by default equivalent to
+											<programlisting language="PHP (HTML)">
+$file->open('w');
+ComponentFilesystemAccessorList::write($file, '%d', $integers);
+$file->close();
+</programlisting>
+										</para>
+									</example>
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term><methodname>pull</methodname> method</term>
+							<listitem>
+								<para>
+									Pull specific data from a file.
+									<example>
+										<title>Pulling from an <filename role="extension">ini</filename> file</title>
+										<para>
+											<programlisting language="PHP (HTML)">
+$ini = $file->pullIni();
+</programlisting>
+	is equivalent to
+											<programlisting language="PHP (HTML)">
+$ini = JFilesystemAccessor::pull('Ini', array($file));
+</programlisting>
+	This is by default equivalent to
+											<programlisting language="PHP (HTML)">
+$ini = JFilesystemAccessorIni::pull($file);
+</programlisting>
+										</para>
+									</example>
+									<example>
+										<title>Pulling from a specific file</title>
+										<para>
+											<programlisting language="PHP (HTML)">
+$integers = $file->pullComponentList('%d');
+</programlisting>
+	is equivalent to
+											<programlisting language="PHP (HTML)">
+$integers = JFilesystemAccessor::pull('ComponentList', array($file, '%d'));
+</programlisting>
+	This is by default equivalent to
+											<programlisting language="PHP (HTML)">
+$integers = ComponentFilesystemAccessorList::write($file, '%d');
+</programlisting>
+										</para>
+									</example>
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term><methodname>push</methodname> method</term>
+							<listitem>
+								<para>
+									Push specific data to a file.
+									<example>
+										<title>Pushing to an <filename role="extension">ini</filename> file</title>
+										<para>
+											<programlisting language="PHP (HTML)">
+$file->pushIni($ini);
+</programlisting>
+	is equivalent to
+											<programlisting language="PHP (HTML)">
+JFilesystemAccessor::push('Ini', array($file, $ini));
+</programlisting>
+	This is by default equivalent to
+											<programlisting language="PHP (HTML)">
+JFilesystemAccessorIni::push($file, $ini);
+</programlisting>
+										</para>
+									</example>
+									<example>
+										<title>Pushing to a specific file</title>
+										<para>
+											<programlisting language="PHP (HTML)">
+$file->pushComponentList('%d', $integers);
+</programlisting>
+	is equivalent to
+											<programlisting language="PHP (HTML)">
+JFilesystemAccessor::push('Componentlist', array($file, '%d', $integers));
+</programlisting>
+	This is by default equivalent to
+											<programlisting language="PHP (HTML)">
+ComponentFilesystemAccessorList::push($file, '%d', $integers);
+</programlisting>
+										</para>
+									</example>
+								</para>
+							</listitem>
+						</varlistentry>
+					</variablelist>
+				</para>
+			</section>
+			<section>
+				<title>Changing default behavior</title>
+				<para>
+					The default behavior of <methodname>read</methodname>, <methodname>write</methodname>, <methodname>pull</methodname>, <methodname>push</methodname> and <methodname>iterate</methodname> in <classname>JFilesystemElementFile</classname> consists in calling static methods of classes named:
+					<itemizedlist>
+						<listitem>
+							<para>
+								<classname>JFilesystemAccessorSuffix</classname> when the method called on the file object is named <methodname>readSuffix</methodname>, <methodname>writeSuffix</methodname>, <methodname>pullSuffix</methodname>, <methodname>pushSuffix</methodname> or <methodname>iterateSuffix</methodname>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<classname>PrefixFilesystemAccessorSuffix</classname> when the method called on the file object is named <methodname>readPrefixSuffix</methodname>, <methodname>writePrefixSuffix</methodname>, <methodname>pullPrefixSuffix</methodname>, <methodname>pushPrefixSuffix</methodname> or <methodname>iteratePrefixSuffix</methodname>
+							</para>
+						</listitem>
+					</itemizedlist>
+					This behavior can be changed in registering specific methods into the <classname>JFilsystemAccessor</classname> class.
+					<variablelist>
+						<varlistentry>
+							<term><methodname>registerAccessor</methodname> method</term>
+							<listitem>
+								<para>
+									Register an accessor.
+									<example>
+										<title>Registering an accessor</title>
+										<para>
+											<programlisting language="PHP (HTML)">
+JFilesystemAccessor::registerAccessor('MyContents', 'TestFilesystemAccessorContents');
+</programlisting>
+											Subsequent calls to <methodname>readMyContents</methodname>, <methodname>writeMyContents</methodname>, <methodname>pullMyContents</methodname>, <methodname>pushMyContents</methodname> and <methodname>iterateMyContents</methodname> will use the <classname>TestFilesystemAccessorContents</classname> class.
+										</para>
+									</example>
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term><methodname>isAccessor</methodname> method</term>
+							<listitem>
+								<para>
+									Tells if an accessor exists.
+									<example>
+										<title>Using the <methodname>isAccessor</methodname> method</title>
+										<para>
+											<programlisting language="PHP (HTML)">
+if (JFilesystemAccessor::isAccessor('MyContents'))
+{
+	// Do some code
+}
+</programlisting>
+										</para>
+									</example>
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term><methodname>getAccessor</methodname> method</term>
+							<listitem>
+								<para>
+									Get an accessor.
+									<example>
+										<title>Getting an accessor</title>
+										<para>
+											<programlisting language="PHP (HTML)">
+$accessor = JFilesystemAccessor::getAccessor('MyContents');
+</programlisting>
+											<varname>$accessor</varname> will contain <code>TestFilesystemAccessorContents</code>.
+										</para>
+									</example>
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term><methodname>unregisterAccessor</methodname> method</term>
+							<listitem>
+								<para>
+									Unregister an accessor.
+									<example>
+										<title>Unregistering an accessor</title>
+										<para>
+											<programlisting language="PHP (HTML)">
+JFilesystemAccessor::unregisterAccessor('MyContents');
+</programlisting>
+											Subsequent calls to <methodname>readMyContents</methodname>, <methodname>writeMyContents</methodname>, <methodname>pullMyContents</methodname>, <methodname>pushMyContents</methodname> and <methodname>iterateMyContents</methodname> will use the <classname>MyFilesystemAccessorContents</classname> class.
+										</para>
+									</example>
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term><methodname>registerReader</methodname> method</term>
+							<listitem>
+								<para>
+									Register a reader.
+									<example>
+										<title>Registering a reader</title>
+										<para>
+											<programlisting language="PHP (HTML)">
+JFilesystemAccessor::registerReader('MyContents', 'my_func');
+</programlisting>
+											Subsequent calls to <methodname>readMyContents</methodname> will use the <function>my_func</function> function.
+										</para>
+									</example>
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term><methodname>isReader</methodname> method</term>
+							<listitem>
+								<para>
+									Tells if an reader exists.
+									<example>
+										<title>Using the <methodname>isReader</methodname> method</title>
+										<para>
+											<programlisting language="PHP (HTML)">
+if (JFilesystemAccessor::isReader('MyContents'))
+{
+	// Do some code
+}
+</programlisting>
+										</para>
+									</example>
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term><methodname>getReader</methodname> method</term>
+							<listitem>
+								<para>
+									Get a reader.
+									<example>
+										<title>Getting a reader</title>
+										<para>
+											<programlisting language="PHP (HTML)">
+$reader = JFilesystemAccessor::getReader('MyContents');
+</programlisting>
+											<varname>$reader</varname> will contain <code>my_func</code>.
+										</para>
+									</example>
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term><methodname>unregisterReader</methodname> method</term>
+							<listitem>
+								<para>
+									Unregister a reader.
+									<example>
+										<title>Unregistering a reader</title>
+										<para>
+											<programlisting language="PHP (HTML)">
+JFilesystemAccessor::unregisterReader('MyContents');
+</programlisting>
+											Subsequent calls to <methodname>readMyContents</methodname> will use the <classname>MyFilesystemAccessorContents</classname> class.
+										</para>
+									</example>
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term><methodname>registerWriter</methodname> method</term>
+							<listitem>
+								<para>
+									Register a writer.
+									<example>
+										<title>Registering a writer</title>
+										<para>
+											<programlisting language="PHP (HTML)">
+JFilesystemAccessor::registerWriter('MyContents', 'my_func');
+</programlisting>
+											Subsequent calls to <methodname>writeMyContents</methodname> will use the <function>my_func</function> function.
+										</para>
+									</example>
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term><methodname>isWriter</methodname> method</term>
+							<listitem>
+								<para>
+									Tells if an writer exists.
+									<example>
+										<title>Using the <methodname>isWriter</methodname> method</title>
+										<para>
+											<programlisting language="PHP (HTML)">
+if (JFilesystemAccessor::isWriter('MyContents'))
+{
+	// Do some code
+}
+</programlisting>
+										</para>
+									</example>
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term><methodname>getWriter</methodname> method</term>
+							<listitem>
+								<para>
+									Get a writer.
+									<example>
+										<title>Getting a writer</title>
+										<para>
+											<programlisting language="PHP (HTML)">
+$writer = JFilesystemAccessor::getWriter('MyContents');
+</programlisting>
+											<varname>$writer</varname> will contain <code>my_func</code>.
+										</para>
+									</example>
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term><methodname>unregisterWriter</methodname> method</term>
+							<listitem>
+								<para>
+									Unregister a writer.
+									<example>
+										<title>Unregistering a writer</title>
+										<para>
+											<programlisting language="PHP (HTML)">
+JFilesystemAccessor::unregisterWriter('MyContents');
+</programlisting>
+											Subsequent calls to <methodname>writeMyContents</methodname> will use the <classname>MyFilesystemAccessorContents</classname> class.
+										</para>
+									</example>
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term><methodname>registerPuller</methodname> method</term>
+							<listitem>
+								<para>
+									Register a puller.
+									<example>
+										<title>Registering a puller</title>
+										<para>
+											<programlisting language="PHP (HTML)">
+JFilesystemAccessor::registerPuller('MyContents', 'my_func');
+</programlisting>
+											Subsequent calls to <methodname>writeMyContents</methodname> will use the <function>my_func</function> function.
+										</para>
+									</example>
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term><methodname>isPuller</methodname> method</term>
+							<listitem>
+								<para>
+									Tells if an puller exists.
+									<example>
+										<title>Using the <methodname>isPuller</methodname> method</title>
+										<para>
+											<programlisting language="PHP (HTML)">
+if (JFilesystemAccessor::isPuller('MyContents'))
+{
+	// Do some code
+}
+</programlisting>
+										</para>
+									</example>
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term><methodname>getPuller</methodname> method</term>
+							<listitem>
+								<para>
+									Get a puller.
+									<example>
+										<title>Getting a puller</title>
+										<para>
+											<programlisting language="PHP (HTML)">
+$puller = JFilesystemAccessor::getPuller('MyContents');
+</programlisting>
+											<varname>$puller</varname> will contain <code>my_func</code>.
+										</para>
+									</example>
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term><methodname>unregisterPuller</methodname> method</term>
+							<listitem>
+								<para>
+									Unregister a puller.
+									<example>
+										<title>Unregistering a puller</title>
+										<para>
+											<programlisting language="PHP (HTML)">
+JFilesystemAccessor::unregisterPuller('MyContents');
+</programlisting>
+											Subsequent calls to <methodname>pullMyContents</methodname> will use the <classname>MyFilesystemAccessorContents</classname> class.
+										</para>
+									</example>
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term><methodname>registerPusher</methodname> method</term>
+							<listitem>
+								<para>
+									Register a pusher.
+									<example>
+										<title>Registering a pusher</title>
+										<para>
+											<programlisting language="PHP (HTML)">
+JFilesystemAccessor::registerPusher('MyContents', 'my_func');
+</programlisting>
+											Subsequent calls to <methodname>writeMyContents</methodname> will use the <function>my_func</function> function.
+										</para>
+									</example>
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term><methodname>isPusher</methodname> method</term>
+							<listitem>
+								<para>
+									Tells if an pusher exists.
+									<example>
+										<title>Using the <methodname>isPusher</methodname> method</title>
+										<para>
+											<programlisting language="PHP (HTML)">
+if (JFilesystemAccessor::isPusher('MyContents'))
+{
+	// Do some code
+}
+</programlisting>
+										</para>
+									</example>
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term><methodname>getPusher</methodname> method</term>
+							<listitem>
+								<para>
+									Get a pusher.
+									<example>
+										<title>Getting a pusher</title>
+										<para>
+											<programlisting language="PHP (HTML)">
+$pusher = JFilesystemAccessor::getPusher('MyContents');
+</programlisting>
+											<varname>$pusher</varname> will contain <code>my_func</code>.
+										</para>
+									</example>
+								</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term><methodname>unregisterPusher</methodname> method</term>
+							<listitem>
+								<para>
+									Unregister a pusher.
+									<example>
+										<title>Unregistering a pusher</title>
+										<para>
+											<programlisting language="PHP (HTML)">
+JFilesystemAccessor::unregisterPusher('MyContents');
+</programlisting>
+											Subsequent calls to <methodname>pushMyContents</methodname> will use the <classname>MyFilesystemAccessorContents</classname> class.
+										</para>
+									</example>
+								</para>
+							</listitem>
+						</varlistentry>
+					</variablelist>
+				</para>
+			</section>
+		</section>
+	</section>
+	<section>
+		<title>Working with directories</title>
+		<para>
+			Directories are instances of class <classname>JFilesystemElementDirectory</classname> and are generally created using the <methodname>getDirectory</methodname> method of class <classname>JFilesystem</classname>.
+			<programlisting language="PHP (HTML)">
+$directory = $filesystem->getDirectory('/path/to/directory');
+</programlisting>
+		</para>
+		<section>
+			<title>Accessing properties</title>
+			<para>
+				A lot of properties can be accessed from a <classname>JFilesystemElementDirectory</classname> object. Some throws an exception if the directory does not exist or when using some specific streams. See <xref linkend="chap-Joomla_Platform_Manual-Filesystem-Common-Properties" />.
+				<variablelist>
+					<varlistentry>
+						<term><varname>files</varname> (read-only <type>RecursiveIteratorIterator</type> property)</term>
+						<listitem>
+							<para>
+								<example>
+									<title>Get the files from a directory (without recursing in sub-directories). It's a shortcut of calling the <methodname>files</methodname> method with an empty array.</title>
+									<para>
+										<programlisting language="PHP (HTML)">
+foreach ($directories->files as $name => $file)
+{
+	// Deal with $file (JFilesystemElementFile object) or $name (name of the file)
+}
+</programlisting>
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><varname>directories</varname> (read-only <type>RecursiveIteratorIterator</type> property)</term>
+						<listitem>
+							<para>
+								<example>
+									<title>Get the direct sub-directories from a directory (without recursing in sub-directories). It's a shortcut of calling the <methodname>directories</methodname> method with an empty array.</title>
+									<para>
+								<programlisting language="PHP (HTML)">
+foreach ($directories->directories as $name => $directory)
+{
+	// Deal with $directory (JFilesystemElementDirectory object) or $name (name of the directory)
+}
+</programlisting>
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><varname>permissions</varname> (<type>integer</type> property)</term>
+						<listitem>
+							<para>
+								This is the <type>integer</type> representation of the permissions. The string format is extended for directories (see <xref linkend="chap-Joomla_Platform_Manual-Filesystem-Common-Properties" />)
+								<example>
+									<title>Using the <varname>permissions</varname> field</title>
+									<para>
+										<programlisting language="PHP (HTML)">
+// Setting the permissions for all files in the directory using string representation (0666)
+$directory->permissions = 'f:a=rw';
+
+// Setting the permissions for all sub-directories in the directory using string representation (0777)
+$directory->permissions = 'd:a=rwx';
+
+// Setting the permissions for all files until depth 2 in the directory using string representation (0666)
+$directory->permissions = 'f[2]:a=rw';
+
+// Setting the permissions for all sub-directories until depth 2 in the directory using string representation (0777)
+$directory->permissions = 'd[2]:a=rwx';
+</programlisting>
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+				</variablelist>
+			</para>
+		</section>
+		<section>
+			<title>Calling methods</title>
+			<para>
+				<variablelist>
+					<varlistentry>
+						<term><methodname>create</methodname> method</term>
+						<listitem>
+							<para>
+								Create a directory on disk.
+								<example>
+									<title>Using the <methodname>create</methodname> method</title>
+									<para>
+										<programlisting language="PHP (HTML)">
+// Create the directory
+$directory->create();
+</programlisting>
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><methodname>delete</methodname> method</term>
+						<listitem>
+							<para>
+								Delete a directory on disk.
+								<example>
+									<title>Using the <methodname>delete</methodname> method</title>
+									<para>
+										<programlisting language="PHP (HTML)">
+// Delete the directory
+$directory->delete();
+</programlisting>
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><methodname>copy</methodname> method</term>
+						<listitem>
+							<para>
+								Copy a directory to another directory.
+								<example>
+									<title>Using the <methodname>copy</methodname> method</title>
+									<para>
+										<programlisting language="PHP (HTML)">
+// Copy the directory ($directory and $dest are JFilesystemElementDirectory object)
+$directory->copy($dest);
+</programlisting>
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><methodname>copyFromFile</methodname> method</term>
+						<listitem>
+							<para>
+								Copy a file to a directory.
+								<example>
+									<title>Using the <methodname>copyFromFile</methodname> method</title>
+									<para>
+										<programlisting language="PHP (HTML)">
+// Copy the file ($directory is a JFilesystemElementDirectory object and $src is a JFilesystemElementFile object)
+$directory->copyFromFile($src);
+</programlisting>
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><methodname>files</methodname> method</term>
+						<listitem>
+							<para>
+								Iterate on files. There is an argument which is an array of options.
+								<example>
+									<title>Iterate on files (without recursing in sub-directories)</title>
+									<para>
+										<programlisting language="PHP (HTML)">
+$options = array();
+foreach ($directory->files($options) as $relative => $file)
+{
+	// Deal with $file (JFilesystemElementFile object) or $relative (relative path of the file)
+}
+</programlisting>
+									</para>
+								</example>
+								<example>
+									<title>Iterate on files (with recursing in sub-directories)</title>
+									<para>
+										<programlisting language="PHP (HTML)">
+$options = array('recurse' => true);
+foreach ($directory->files($options) as $relative => $file)
+{
+	// Deal with $file (JFilesystemElementFile object) or $relative (relative path of the file)
+}
+</programlisting>
+									</para>
+								</example>
+								<example>
+									<title>Iterate on files (with recursing in sub-directories and using depth-first strategy)</title>
+									<para>
+										<programlisting language="PHP (HTML)">
+$options = array('recurse' => true,	'mode' => JFilesystemElementDirectoryContents::DEPTH_FIRST);
+foreach ($directory->files($options) as $relative => $file)
+{
+	// Deal with $file (JFilesystemElementFile object) or $relative (relative path of the file)
+}
+</programlisting>
+									</para>
+								</example>
+								<example>
+									<title>Iterate on files (with recursing in sub-directories to depth 2)</title>
+									<para>
+										<programlisting language="PHP (HTML)">
+$options = array('recurse' => 2);
+foreach ($directory->files($options) as $relative => $file)
+{
+	// Deal with $file (JFilesystemElementFile object) or $relative (relative path of the file)
+}
+</programlisting>
+									</para>
+								</example>
+								<example>
+									<title>Iterate on files (with filtering on '.csv' files)</title>
+									<para>
+										<programlisting language="PHP (HTML)">
+$options = array('filter' => '#\.csv$#');
+foreach ($directory->files($options) as $relative => $file)
+{
+	// Deal with $file (JFilesystemElementFile object) or $relative (relative path of the file)
+}
+</programlisting>
+									</para>
+								</example>
+								<example>
+									<title>Iterate on files (with excluding '.csv' files)</title>
+									<para>
+										<programlisting language="PHP (HTML)">
+$options = array('exclude' => '#\.csv$#');
+foreach ($directory->files($options) as $relative => $file)
+{
+	// Deal with $file (JFilesystemElementFile object) or $relative (relative path of the file)
+}
+</programlisting>
+									</para>
+								</example>
+								<example>
+									<title>Iterate on files (with filtering on 'subtest' directories)</title>
+									<para>
+										<programlisting language="PHP (HTML)">
+$options = array('filter_directory' => '#^subtest$#');
+foreach ($directory->files($options) as $relative => $file)
+{
+	// Deal with $file (JFilesystemElementFile object) or $relative (relative path of the file)
+}
+</programlisting>
+									</para>
+								</example>
+								<example>
+									<title>Iterate on files (with excluding 'subtest' directories)</title>
+									<para>
+										<programlisting language="PHP (HTML)">
+$options = array('exclude_directory' => '#^subtest$#');
+foreach ($directory->files($options) as $relative => $file)
+{
+	// Deal with $file (JFilesystemElementFile object) or $relative (relative path of the file)
+}
+</programlisting>
+									</para>
+								</example>
+								<example>
+									<title>Iterate on files (with filtering on files where content is equal to '{}')</title>
+									<para>
+										<programlisting language="PHP (HTML)">
+$options = array('accept' => function ($path, $relative, $system) {return $system->getFile($path . '/' . $relative)->contents == '{}';});
+foreach ($directory->files($options) as $relative => $file)
+{
+	// Deal with $file (JFilesystemElementFile object) or $relative (relative path of the file)
+}
+</programlisting>
+									</para>
+								</example>
+								<example>
+									<title>Iterate on files (with sorting by reverse alphabetical order)</title>
+									<para>
+										<programlisting language="PHP (HTML)">
+$options = array('compare' => function($path, $a, $b, $system) {return -strcmp($a, $b);});
+foreach ($directory->files($options) as $relative => $file)
+{
+	// Deal with $file (JFilesystemElementFile object) or $relative (relative path of the file)
+}
+</programlisting>
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><methodname>directories</methodname> method</term>
+						<listitem>
+							<para>
+								Iterate on directories. There is an argument which is an array of options.
+								<example>
+									<title>Iterate on directories (without recursing in sub-directories)</title>
+									<para>
+										<programlisting language="PHP (HTML)">
+$options = array();
+foreach ($directory->directories($options) as $relative => $directory)
+{
+	// Deal with $directory (JFilesystemElementDirectory object) or $relative (relative path of the directory)
+}
+</programlisting>
+									</para>
+								</example>
+								<example>
+									<title>Iterate on directories (with recursing in sub-directories)</title>
+									<para>
+										<programlisting language="PHP (HTML)">
+$options = array('recurse' => true);
+foreach ($directory->directories($options) as $relative => $directory)
+{
+	// Deal with $directory (JFilesystemElementDirectory object) or $relative (relative path of the directory)
+}
+</programlisting>
+									</para>
+								</example>
+								<example>
+									<title>Iterate on directories (with recursing in sub-directories and using depth-first strategy)</title>
+									<para>
+										<programlisting language="PHP (HTML)"> 
+$options = array('recurse' => true,	'mode' => JFilesystemElementDirectoryContents::DEPTH_FIRST);
+foreach ($directory->directories($options) as $relative => $directory)
+{
+	// Deal with $directory (JFilesystemElementDirectory object) or $relative (relative path of the directory)
+}
+</programlisting>
+									</para>
+								</example>
+								<example>
+									<title>Iterate on directories (with recursing in sub-directories to depth 2)</title>
+									<para>
+										<programlisting language="PHP (HTML)">
+$options = array('recurse' => 2);
+foreach ($directory->directories($options) as $relative => $directory)
+{
+	// Deal with $directory (JFilesystemElementDirectory object) or $relative (relative path of the directory)
+}
+</programlisting>
+									</para>
+								</example>
+								<example>
+									<title>Iterate on directories (with filtering on 'subdir' directories)</title>
+									<para>
+										<programlisting language="PHP (HTML)">
+$options = array('filter' => '#^subdir$#');
+foreach ($directory->directories($options) as $relative => $directory)
+{
+	// Deal with $directory (JFilesystemElementDirectory object) or $relative (relative path of the directory)
+}
+</programlisting>
+									</para>
+								</example>
+								<example>
+									<title>Iterate on directories (with excluding 'subdir' directories)</title>
+									<para>
+										<programlisting language="PHP (HTML)">
+$options = array('exclude' => '#^subdir$#');
+foreach ($directory->directories($options) as $relative => $directory)
+{
+	// Deal with $directory (JFilesystemElementDirectory object) or $relative (relative path of the directory)
+}
+</programlisting>
+									</para>
+								</example>
+								<example>
+									<title>Iterate on directories (with filtering on directories that contain an index.html file)</title>
+									<para>
+										<programlisting language="PHP (HTML)">
+$options = array('accept' => function ($path, $relative, $system) {return $system->getFile($path . '/' . $relative . '/index.html')->exists;});
+foreach ($directory->directories($options) as $relative => $directory)
+{
+	// Deal with $directory (JFilesystemElementDirectory object) or $relative (relative path of the directory)
+}
+</programlisting>
+									</para>
+								</example>
+								<example>
+									<title>Iterate on directories (with sorting by reverse alphabetical order)</title>
+									<para>
+										<programlisting language="PHP (HTML)">
+$options = array('compare' => function($path, $a, $b, $system) {return -strcmp($a, $b);});
+foreach ($directory->directories($options) as $relative => $directory)
+{
+	// Deal with $directory (JFilesystemElementDirectory object) or $relative (relative path of the directory)
+}
+</programlisting>
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+				</variablelist>
+			</para>
+		</section>
+	</section>
+	<section id="chap-Joomla_Platform_Manual-Filesystem-Common-Properties">
+		<title>Accessing files and directories common properties</title>
+		<para>
+				<variablelist>
+					<varlistentry>
+						<term><varname>system</varname> (read-only <classname>JFilesystem</classname> property)</term>
+						<listitem>
+							<para>
+								The underlying file system.
+								<example>
+									<title>Getting the file system</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 $system = $element->system;
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><varname>exists</varname> (read-only <type>boolean</type> property)</term>
-            <listitem>
-              <para>
-                Tells if the element exists.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><varname>exists</varname> (read-only <type>boolean</type> property)</term>
+						<listitem>
+							<para>
+								Tells if the element exists.
+								<example>
+									<title>Using the <varname>exists</varname> property</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 if ($element->exists)
 {
-  // Some code
+	// Some code
 }
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><varname>size</varname> (read-only <type>integer</type> property)</term>
-            <listitem>
-              <para>
-                The size in bytes of the element.
-                <programlisting language="PHP (HTML)">
-// Getting the size
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><varname>size</varname> (read-only <type>integer</type> property)</term>
+						<listitem>
+							<para>
+								The size in bytes of the element.
+								<example>
+									<title>Getting the size</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 $size = $element->size;
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><varname>is_file</varname> (read-only <type>boolean</type> property)</term>
-            <listitem>
-              <para>
-                Tells if the element is really a file.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><varname>is_file</varname> (read-only <type>boolean</type> property)</term>
+						<listitem>
+							<para>
+								Tells if the element is really a file.
+								<example>
+									<title>Using the <varname>is_file</varname> property</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 if ($element->is_file)
 {
-  // Some code
+	// Some code
 }
 </programlisting>
-              </para>
-            </listitem>
-	          </varlistentry>
-          <varlistentry>
-            <term><varname>is_dir</varname> (read-only <type>boolean</type> property)</term>
-            <listitem>
-              <para>
-                Tells if the element is really a directory.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+						</varlistentry>
+					<varlistentry>
+						<term><varname>is_dir</varname> (read-only <type>boolean</type> property)</term>
+						<listitem>
+							<para>
+								Tells if the element is really a directory.
+								<example>
+									<title>Using the <varname>is_dir</varname> property</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 if ($element->is_dir)
 {
-  // Some code
+	// Some code
 }
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><varname>is_readable</varname> (read-only <type>boolean</type> property)</term>
-            <listitem>
-              <para>
-                Tells if the element is a readable.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><varname>is_readable</varname> (read-only <type>boolean</type> property)</term>
+						<listitem>
+							<para>
+								Tells if the element is a readable.
+								<example>
+									<title>Using the <varname>is_readable</varname> property</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 if ($element->is_readable)
 {
-  // Some code
+	// Some code
 }
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><varname>is_writable</varname> (read-only <type>boolean</type> property)</term>
-            <listitem>
-              <para>
-                Tells if the element is writable.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><varname>is_writable</varname> (read-only <type>boolean</type> property)</term>
+						<listitem>
+							<para>
+								Tells if the element is writable.
+								<example>
+									<title>Using the <varname>is_writable</varname> property</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 if ($element->is_writable)
 {
-  // Some code
+	// Some code
 }
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><varname>is_link</varname> (read-only <type>boolean</type> property)</term>
-            <listitem>
-              <para>
-                Tells if the element is a link.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><varname>is_link</varname> (read-only <type>boolean</type> property)</term>
+						<listitem>
+							<para>
+								Tells if the element is a link.
+								<example>
+									<title>Using the <varname>is_link</varname> property</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 if ($element->is_link)
 {
-  // Some code
+	// Some code
 }
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><varname>group</varname> (<type>integer</type> property)</term>
-            <listitem>
-              <para>
-                This is the group id of the element.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><varname>group</varname> (<type>integer</type> property)</term>
+						<listitem>
+							<para>
+								This is the group id of the element.
+								<example>
+									<title>Using the <varname>group</varname> property</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 // Getting the group id
 $group = $element->group;
 
 // Setting the group id
 $element->group = $new_group;
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><varname>owner</varname> (<type>integer</type> property)</term>
-            <listitem>
-              <para>
-                This is the owner id of the element.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><varname>owner</varname> (<type>integer</type> property)</term>
+						<listitem>
+							<para>
+								This is the owner id of the element.
+								<example>
+									<title>Using the <varname>owner</varname> property</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 // Getting the owner id
 $owner = $element->owner;
 
-// Setting the group id
+// Setting the owner id
 $element->owner = $new_owner;
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><varname>permissions</varname> (<type>integer</type> property)</term>
-            <listitem>
-              <para>
-                This is the <type>integer</type> representation of the permissions.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><varname>permissions</varname> (<type>integer</type> property)</term>
+						<listitem>
+							<para>
+								This is the <type>integer</type> representation of the permissions.
+								<example>
+									<title>Using the <varname>permissions</varname> property</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 // Getting the permissions
 $permissions = $element->permissions;
 
@@ -632,66 +1819,91 @@ $element->permissions = 'u-w';
 // Setting the permissions using string representation (0666)
 $element->permissions = 'a=rw';
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><varname>access_time</varname> (read-only <type>integer</type> property)</term>
-            <listitem>
-              <para>
-                This is the last access time of the element.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><varname>access_time</varname> (read-only <type>integer</type> property)</term>
+						<listitem>
+							<para>
+								This is the last access time of the element.
+								<example>
+									<title>Using the <varname>access_time</varname> property</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 // Getting the access time
 $access_time = $element->access_time;
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><varname>change_time</varname> (read-only <type>integer</type> property)</term>
-            <listitem>
-              <para>
-                This is the last change time of the element.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><varname>change_time</varname> (read-only <type>integer</type> property)</term>
+						<listitem>
+							<para>
+								This is the last change time of the element.
+								<example>
+									<title>Using the <varname>change_time</varname> property</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 // Getting the change time
 $change_time = $element->change_time;
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><varname>modification_time</varname> (read-only <type>integer</type> property)</term>
-            <listitem>
-              <para>
-                This is the last modification time of the element.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><varname>modification_time</varname> (read-only <type>integer</type> property)</term>
+						<listitem>
+							<para>
+								This is the last modification time of the element.
+								<example>
+									<title>Using the <varname>modification_time</varname> property</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 // Getting the modification time
 $modification_time = $element->modification_time;
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><varname>path</varname> (<type>string</type> property)</term>
-            <listitem>
-              <para>
-                This is the absolute path of the element.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><varname>path</varname> (<type>string</type> property)</term>
+						<listitem>
+							<para>
+								This is the absolute path of the element.
+								<example>
+									<title>Using the <varname>path</varname> property</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 // Getting the path
 $path = $element->path;
 
 // Setting the path
 $element->path = '/new/path/to';
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><varname>name</varname> (<type>string</type> property)</term>
-            <listitem>
-              <para>
-                This is the name of the element.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><varname>name</varname> (<type>string</type> property)</term>
+						<listitem>
+							<para>
+								This is the name of the element.
+								<example>
+									<title>Using the <varname>name</varname> property</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 $element->path = '/path/to/element.txt';
 
 // Getting the name ($name will contains 'element.txt')
@@ -700,15 +1912,20 @@ $name = $element->name;
 // Setting the name ($element->path will contain '/path/to/newelement.txt')
 $element->name = 'newelement.txt';
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><varname>dirpath</varname> (<type>string</type> property)</term>
-            <listitem>
-              <para>
-                This is the directory path of the element.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><varname>dirpath</varname> (<type>string</type> property)</term>
+						<listitem>
+							<para>
+								This is the directory path of the element.
+								<example>
+									<title>Using the <varname>dirpath</varname> property</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 $element->path = '/path/to/element.txt';
 
 // Getting the dirpath ($dirpath will contains '/path/to')
@@ -717,15 +1934,20 @@ $dirpath = $element->dirpath;
 // Setting the dirpath ($element->path will contain '/newpath/to/element.txt')
 $element->dirpath = '/newpath/to';
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><varname>basename</varname> (<type>string</type> property)</term>
-            <listitem>
-              <para>
-                This is the base name of the element.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><varname>basename</varname> (<type>string</type> property)</term>
+						<listitem>
+							<para>
+								This is the base name of the element.
+								<example>
+									<title>Using the <varname>basename</varname> property</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 $element->path = '/path/to/element.txt';
 
 // Getting the basename ($basename will contains 'element')
@@ -734,15 +1956,20 @@ $basename = $element->basename;
 // Setting the basename ($element->path will contain '/path/to/newelement.txt')
 $element->basename = 'newelement';
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><varname>extension</varname> (<type>string</type> property)</term>
-            <listitem>
-              <para>
-                This is the extension of the element.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><varname>extension</varname> (<type>string</type> property)</term>
+						<listitem>
+							<para>
+								This is the extension of the element.
+								<example>
+									<title>Using the <varname>extension</varname> property</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 $element->path = '/path/to/element.txt';
 
 // Getting the extension ($extension will contains 'txt')
@@ -751,37 +1978,49 @@ $extension = $element->extension;
 // Setting the extension ($element->path will contain '/path/to/element.msg')
 $element->extension = 'msg';
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><varname>link</varname> (<type>string</type> property)</term>
-            <listitem>
-              <para>
-                This is the symbolic link of the element.
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><varname>link</varname> (<type>string</type> property)</term>
+						<listitem>
+							<para>
+								This is the symbolic link of the element.
+								<example>
+									<title>Using the <varname>link</varname> property</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 // Setting the link
 $element->link = '/path/to/link';
 
 // Getting the link
 $link = $element->link;
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-          <varlistentry>
-            <term><varname>fullpath</varname> (read-only <type>string</type> property)</term>
-            <listitem>
-              <para>
-                This is the full path of the element (concatenation of the file system prefix and the path).
-                <programlisting language="PHP (HTML)">
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term><varname>fullpath</varname> (read-only <type>string</type> property)</term>
+						<listitem>
+							<para>
+								This is the full path of the element (concatenation of the file system prefix and the path).
+								<example>
+									<title>Using the <varname>fullpath</varname> property</title>
+									<para>
+										<programlisting language="PHP (HTML)">
 // Getting the fullpath
 $fullpath = $element->fullpath;
 </programlisting>
-              </para>
-            </listitem>
-          </varlistentry>
-        </variablelist>
-    </para>
-  </section>
+									</para>
+								</example>
+							</para>
+						</listitem>
+					</varlistentry>
+				</variablelist>
+		</para>
+	</section>
 </section>

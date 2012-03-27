@@ -12,6 +12,16 @@ defined('JPATH_PLATFORM') or die;
 /**
  * A Directory handling class
  *
+ * @property-read  RecursiveIteratorIterator  $files        Iterator on files.
+ * @property-read  RecursiveIteratorIterator  $directories  Iterator on directories.
+ *
+ * @method                            bool create(int $permissions)                   create the directory
+ * @method                            bool delete()                                   delete the directory
+ * @method                       int|FALSE copy(JFilesystemElementDirectory $dest)    copy the directory
+ * @method                       int|FALSE copyFromFile(JFilesystemElementFile $src)  copy from a file
+ * @method       RecursiveIteratorIterator files(array $options)                      iterate on files
+ * @method       RecursiveIteratorIterator directories(array $options)                iterate on directories
+ *
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  * @since       12.1
@@ -192,9 +202,9 @@ class JFilesystemElementDirectory extends JFilesystemElement
 			new JFilesystemElementDirectoryContents($this->path, '', $this->system),
 			RecursiveIteratorIterator::CHILD_FIRST
 		);
-		foreach ($iterator as $path => $basename)
+		foreach ($iterator as $relative => $basename)
 		{
-			$fullpath = $this->system->prefix . $this->path . $path;
+			$fullpath = $this->fullpath . '/' . $relative;
 			if (is_dir($fullpath))
 			{
 				rmdir($fullpath);
@@ -317,11 +327,11 @@ class JFilesystemElementDirectory extends JFilesystemElement
 		$return = 0;
 		foreach ($this->directories(array('recurse' => true)) as $relative => $directory)
 		{
-			$this->system->getDirectory($dest->path . $relative)->create($directory->permissions);
+			$this->system->getDirectory($dest->path . '/' . $relative)->create($directory->permissions);
 		}
 		foreach ($this->files(array('recurse' => true)) as $relative => $file)
 		{
-			$copy = $this->system->getFile($dest->path . $relative);
+			$copy = $this->system->getFile($dest->path . '/' . $relative);
 			$return = $return + $file->copy($copy);
 		}
 		return $return;

@@ -461,11 +461,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	/**
 	 * Sets the current position of the file read/write pointer
 	 *
-	 * @param   int  $offset  The offset.
-	 * @param   int  $whence  Whence values are:
-	 *                        SEEK_SET - Set position equal to offset bytes.
-	 *                        SEEK_CUR - Set position to current location plus offset.
-	 *                        SEEK_END - Set position to end-of-file plus offset.
+	 * @param   int|string  $offset  The offset.
 	 *
 	 * @return  int|FALSE  The current position, or FALSE on failure.
 	 *
@@ -473,9 +469,36 @@ class JFilesystemElementFile extends JFilesystemElement
 	 *
 	 * @since   12.1
 	 */
-	protected function setPosition($offset, $whence = SEEK_SET)
+	protected function setPosition($offset)
 	{
-		return fseek($this->_handle, $offset, $whence);
+		if ($offset === true)
+		{
+			return fseek($this->_handle, 0, SEEK_END);
+		}
+		elseif (is_string($offset))
+		{
+			list($value) = sscanf($offset, 'C%d');
+			if ($value !== null)
+			{
+				return fseek($this->_handle, $value, SEEK_CUR);
+			}
+			else
+			{
+				throw new InvalidArgumentException(sprintf(__METHOD__ . ': %s', $offset));
+			}
+		}
+		else
+		{
+			$offset = (int) $offset;
+			if ($offset >= 0)
+			{
+				return fseek($this->_handle, $offset, SEEK_SET);
+			}
+			else
+			{
+				return fseek($this->_handle, $offset, SEEK_END);
+			}
+		}
 	}
 
 	/**
