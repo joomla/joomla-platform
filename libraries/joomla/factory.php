@@ -210,25 +210,18 @@ abstract class JFactory
 	 */
 	public static function getUser($id = null)
 	{
+		$instance = self::getSession()->get('user');
+
 		if (is_null($id))
 		{
-			$instance = self::getSession()->get('user');
 			if (!($instance instanceof JUser))
 			{
 				$instance = JUser::getInstance();
 			}
 		}
-		else
+		elseif ($instance->id != $id)
 		{
-			$current = self::getSession()->get('user');
-			if ($current->id != $id)
-			{
-				$instance = JUser::getInstance($id);
-			}
-			else
-			{
-				$instance = self::getSession()->get('user');
-			}
+			$instance = JUser::getInstance($id);
 		}
 
 		return $instance;
@@ -243,7 +236,7 @@ abstract class JFactory
 	 * @param   string  $handler  The handler to use
 	 * @param   string  $storage  The storage method
 	 *
-	 * @return  JCache object
+	 * @return  JCacheController object
 	 *
 	 * @see     JCache
 	 */
