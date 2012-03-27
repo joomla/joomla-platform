@@ -21,7 +21,7 @@ class JMediawikiExtensions extends JMediawikiObject
     public function getSiteMatrix(array $params = null)
     {
         // build the request parameters
-        $path = '?action=sitematrissx';
+        $path = '?action=sitematrix';
 
         $response = $this->client->get($this->fetchUrl($path));
 
