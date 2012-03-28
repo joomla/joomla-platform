@@ -18,5 +18,7 @@ defined('JPATH_PLATFORM') or die;
  */
 class JMediawikiSites extends JMediawikiObject
 {
-
+    public function getSiteInfo() {
+        
+    }
 }
