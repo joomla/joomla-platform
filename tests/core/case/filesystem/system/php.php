@@ -22,4 +22,9 @@ abstract class TestCaseFilesystemSystemPhp
 	{
 		return JFilesystem::getInstance();
 	}
+
+	public static function getPath()
+	{
+		return JPATH_TESTS . '/tmp/filesystem';
+	}
 }

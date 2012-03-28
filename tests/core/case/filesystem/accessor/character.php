@@ -29,7 +29,7 @@ abstract class TestCaseFilesystemAccessorCharacter extends TestCaseFilesystem
 	{
 		$message = 'H';
 
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system);
 		$file->contents = $message;
 
 		$file->open('r');
@@ -52,7 +52,7 @@ abstract class TestCaseFilesystemAccessorCharacter extends TestCaseFilesystem
 	{
 		$message = 'H';
 
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system)->open('w');
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system)->open('w');
 		JFilesystemAccessorCharacter::write($file, $message);
 		$file->close();
 

@@ -27,7 +27,7 @@ abstract class TestCaseFilesystemElementDirectory extends TestCaseFilesystem
 	 */
 	public function testGetInstance()
 	{
-		$directory = JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test', static::$system);
+		$directory = JFilesystemElementDirectory::getInstance(static::$path . '/test', static::$system);
 
 		// Test first time
 		$this->assertThat(
@@ -46,7 +46,7 @@ abstract class TestCaseFilesystemElementDirectory extends TestCaseFilesystem
 	 */
 	public function test__Get_is_dir()
 	{
-		$directory = JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test/subtest', static::$system)->create();
+		$directory = JFilesystemElementDirectory::getInstance(static::$path . '/test/subtest', static::$system)->create();
 
 		$this->assertThat(
 			$directory->is_dir,
@@ -64,7 +64,7 @@ abstract class TestCaseFilesystemElementDirectory extends TestCaseFilesystem
 	 */
 	public function test__Get_is_file()
 	{
-		$directory = JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test', static::$system)->create();
+		$directory = JFilesystemElementDirectory::getInstance(static::$path . '/test', static::$system)->create();
 
 		$this->assertThat(
 			$directory->is_file,
@@ -82,7 +82,7 @@ abstract class TestCaseFilesystemElementDirectory extends TestCaseFilesystem
 	 */
 	public function test__Get_is_link()
 	{
-		$directory = JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test', static::$system)->create();
+		$directory = JFilesystemElementDirectory::getInstance(static::$path . '/test', static::$system)->create();
 
 		$this->assertThat(
 			$directory->is_link,
@@ -100,13 +100,13 @@ abstract class TestCaseFilesystemElementDirectory extends TestCaseFilesystem
 	 */
 	public function test__Get_files()
 	{
-		JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test/subtest/subsubtest/test.txt', static::$system)->contents = 'Hello world!';
-		JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test/subtest/test.csv', static::$system)->contents = 'a,b,c';
-		JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test/test2.json', static::$system)->contents = '{}';
-		JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test/test.json', static::$system)->contents = '{}';
+		JFilesystemElementFile::getInstance(static::$path . '/test/subtest/subsubtest/test.txt', static::$system)->contents = 'Hello world!';
+		JFilesystemElementFile::getInstance(static::$path . '/test/subtest/test.csv', static::$system)->contents = 'a,b,c';
+		JFilesystemElementFile::getInstance(static::$path . '/test/test2.json', static::$system)->contents = '{}';
+		JFilesystemElementFile::getInstance(static::$path . '/test/test.json', static::$system)->contents = '{}';
 
 		$this->assertThat(
-			array_keys(iterator_to_array(JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test', static::$system)->files)),
+			array_keys(iterator_to_array(JFilesystemElementDirectory::getInstance(static::$path . '/test', static::$system)->files)),
 			$this->equalTo(array('test.json', 'test2.json')),
 			'The files are not correct.'
 		);
@@ -121,14 +121,14 @@ abstract class TestCaseFilesystemElementDirectory extends TestCaseFilesystem
 	 */
 	public function test__Get_directories()
 	{
-		JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test/subtest/subsubtest', static::$system)->create();
-		JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test/subtest/subsubtest/last', static::$system)->create();
-		JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test/subtest/subsub2', static::$system)->create();
-		JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test/sub2/subsubtest', static::$system)->create();
-		JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test/sub2/subsub2', static::$system)->create();
+		JFilesystemElementDirectory::getInstance(static::$path . '/test/subtest/subsubtest', static::$system)->create();
+		JFilesystemElementDirectory::getInstance(static::$path . '/test/subtest/subsubtest/last', static::$system)->create();
+		JFilesystemElementDirectory::getInstance(static::$path . '/test/subtest/subsub2', static::$system)->create();
+		JFilesystemElementDirectory::getInstance(static::$path . '/test/sub2/subsubtest', static::$system)->create();
+		JFilesystemElementDirectory::getInstance(static::$path . '/test/sub2/subsub2', static::$system)->create();
 
 		$this->assertThat(
-			array_keys(iterator_to_array(JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test', static::$system)->directories)),
+			array_keys(iterator_to_array(JFilesystemElementDirectory::getInstance(static::$path . '/test', static::$system)->directories)),
 			$this->equalTo(array('sub2', 'subtest')),
 			'The directories are not correct.'
 		);
@@ -143,7 +143,7 @@ abstract class TestCaseFilesystemElementDirectory extends TestCaseFilesystem
 	 */
 	public function test__Call_create()
 	{
-		$directory = JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test/subtest/subsubtest', static::$system)->create();
+		$directory = JFilesystemElementDirectory::getInstance(static::$path . '/test/subtest/subsubtest', static::$system)->create();
 		$this->assertThat(
 			$directory->exists,
 			$this->equalTo(true),
@@ -160,9 +160,9 @@ abstract class TestCaseFilesystemElementDirectory extends TestCaseFilesystem
 	 */
 	public function test__Call_delete()
 	{
-		$directory = JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test/subtest/subsubtest', static::$system)->create();
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test/subtest/subsubtest/test.txt', static::$system)->create();
-		JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test', static::$system)->delete();
+		$directory = JFilesystemElementDirectory::getInstance(static::$path . '/test/subtest/subsubtest', static::$system)->create();
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test/subtest/subsubtest/test.txt', static::$system)->create();
+		JFilesystemElementDirectory::getInstance(static::$path . '/test', static::$system)->delete();
 		$this->assertThat(
 			$directory->exists,
 			$this->equalTo(false),
@@ -302,13 +302,13 @@ abstract class TestCaseFilesystemElementDirectory extends TestCaseFilesystem
 	 */
 	public function test__Call_files($options, $results)
 	{
-		JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test/subtest/subsubtest/test.txt', static::$system)->contents = 'Hello world!';
-		JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test/subtest/test.csv', static::$system)->contents = 'a,b,c';
-		JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test/test2.json', static::$system)->contents = '{}';
-		JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test/test.json', static::$system)->contents = '{}';
+		JFilesystemElementFile::getInstance(static::$path . '/test/subtest/subsubtest/test.txt', static::$system)->contents = 'Hello world!';
+		JFilesystemElementFile::getInstance(static::$path . '/test/subtest/test.csv', static::$system)->contents = 'a,b,c';
+		JFilesystemElementFile::getInstance(static::$path . '/test/test2.json', static::$system)->contents = '{}';
+		JFilesystemElementFile::getInstance(static::$path . '/test/test.json', static::$system)->contents = '{}';
 
 		$this->assertThat(
-			array_keys(iterator_to_array(JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test', static::$system)->files($options))),
+			array_keys(iterator_to_array(JFilesystemElementDirectory::getInstance(static::$path . '/test', static::$system)->files($options))),
 			$this->equalTo($results),
 			'The files are not correct'
 		);
@@ -453,15 +453,15 @@ abstract class TestCaseFilesystemElementDirectory extends TestCaseFilesystem
 	 */
 	public function test__Call_directories($options, $results)
 	{
-		JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test/subtest/subsubtest/test.txt', static::$system)->create();
-		JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test/subtest/subsubtest', static::$system)->create();
-		JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test/subtest/subsubtest/last', static::$system)->create();
-		JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test/subtest/subsub2', static::$system)->create();
-		JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test/sub2/subsubtest', static::$system)->create();
-		JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test/sub2/subsub2', static::$system)->create();
+		JFilesystemElementFile::getInstance(static::$path . '/test/subtest/subsubtest/test.txt', static::$system)->create();
+		JFilesystemElementDirectory::getInstance(static::$path . '/test/subtest/subsubtest', static::$system)->create();
+		JFilesystemElementDirectory::getInstance(static::$path . '/test/subtest/subsubtest/last', static::$system)->create();
+		JFilesystemElementDirectory::getInstance(static::$path . '/test/subtest/subsub2', static::$system)->create();
+		JFilesystemElementDirectory::getInstance(static::$path . '/test/sub2/subsubtest', static::$system)->create();
+		JFilesystemElementDirectory::getInstance(static::$path . '/test/sub2/subsub2', static::$system)->create();
 
 		$this->assertThat(
-			array_keys(iterator_to_array(JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test', static::$system)->directories($options))),
+			array_keys(iterator_to_array(JFilesystemElementDirectory::getInstance(static::$path . '/test', static::$system)->directories($options))),
 			$this->equalTo($results),
 			'The directories are not correct'
 		);
@@ -476,55 +476,55 @@ abstract class TestCaseFilesystemElementDirectory extends TestCaseFilesystem
 	 */
 	public function test__Call_copy()
 	{
-		JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test/subtest/subsubtest/test.txt', static::$system)->contents = 'Hello world';
-		JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test/subtest/subsubtest', static::$system)->create();
-		JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test/subtest/subsubtest/last', static::$system)->create();
-		JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test/subtest/subsub2', static::$system)->create();
-		JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test/sub2/subsubtest', static::$system)->create();
-		JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test/sub2/subsub2', static::$system)->create();
+		JFilesystemElementFile::getInstance(static::$path . '/test/subtest/subsubtest/test.txt', static::$system)->contents = 'Hello world';
+		JFilesystemElementDirectory::getInstance(static::$path . '/test/subtest/subsubtest', static::$system)->create();
+		JFilesystemElementDirectory::getInstance(static::$path . '/test/subtest/subsubtest/last', static::$system)->create();
+		JFilesystemElementDirectory::getInstance(static::$path . '/test/subtest/subsub2', static::$system)->create();
+		JFilesystemElementDirectory::getInstance(static::$path . '/test/sub2/subsubtest', static::$system)->create();
+		JFilesystemElementDirectory::getInstance(static::$path . '/test/sub2/subsub2', static::$system)->create();
 
-		$dir = JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test', static::$system);
-		$copy = JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/copy', static::$system);
+		$dir = JFilesystemElementDirectory::getInstance(static::$path . '/test', static::$system);
+		$copy = JFilesystemElementDirectory::getInstance(static::$path . '/copy', static::$system);
 		
 		$this->assertThat(
 			$dir->copy($copy),
-			$this->equalTo(strlen(JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test/subtest/subsubtest/test.txt', static::$system)->contents)),
+			$this->equalTo(strlen(JFilesystemElementFile::getInstance(static::$path . '/test/subtest/subsubtest/test.txt', static::$system)->contents)),
 			'The number of bytes is not correct'
 		);
 
 		$this->assertThat(
-			JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/copy/subtest/subsubtest/test.txt', static::$system)->contents,
-			$this->equalTo(JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test/subtest/subsubtest/test.txt', static::$system)->contents),
+			JFilesystemElementFile::getInstance(static::$path . '/copy/subtest/subsubtest/test.txt', static::$system)->contents,
+			$this->equalTo(JFilesystemElementFile::getInstance(static::$path . '/test/subtest/subsubtest/test.txt', static::$system)->contents),
 			'The file content is not correct'
 		);
 
 		$this->assertThat(
-			JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/copy/subtest', static::$system)->exists,
+			JFilesystemElementDirectory::getInstance(static::$path . '/copy/subtest', static::$system)->exists,
 			$this->equalTo(true),
 			'The directory does not exist'
 		);
 		$this->assertThat(
-			JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/copy/subtest/subsubtest', static::$system)->exists,
+			JFilesystemElementDirectory::getInstance(static::$path . '/copy/subtest/subsubtest', static::$system)->exists,
 			$this->equalTo(true),
 			'The directory does not exist'
 		);
 		$this->assertThat(
-			JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/copy/subtest/subsubtest/last', static::$system)->exists,
+			JFilesystemElementDirectory::getInstance(static::$path . '/copy/subtest/subsubtest/last', static::$system)->exists,
 			$this->equalTo(true),
 			'The directory does not exist'
 		);
 		$this->assertThat(
-			JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/copy/subtest/subsub2', static::$system)->exists,
+			JFilesystemElementDirectory::getInstance(static::$path . '/copy/subtest/subsub2', static::$system)->exists,
 			$this->equalTo(true),
 			'The directory does not exist'
 		);
 		$this->assertThat(
-			JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/copy/sub2/subsubtest', static::$system)->exists,
+			JFilesystemElementDirectory::getInstance(static::$path . '/copy/sub2/subsubtest', static::$system)->exists,
 			$this->equalTo(true),
 			'The directory does not exist'
 		);
 		$this->assertThat(
-			JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/copy/sub2/subsub2', static::$system)->exists,
+			JFilesystemElementDirectory::getInstance(static::$path . '/copy/sub2/subsub2', static::$system)->exists,
 			$this->equalTo(true),
 			'The directory does not exist'
 		);
@@ -539,7 +539,7 @@ abstract class TestCaseFilesystemElementDirectory extends TestCaseFilesystem
 	 */
 	public function test__Call_unknown()
 	{
-		$directory = JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test', static::$system);
+		$directory = JFilesystemElementDirectory::getInstance(static::$path . '/test', static::$system);
 		$this->setExpectedException('InvalidArgumentException');
 		$directory->unknown();
 	}

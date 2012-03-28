@@ -27,7 +27,7 @@ class JFilesystemElementDirectoryPhpTest extends TestCaseFilesystemElementDirect
 	 */
 	public function test__Set_permissions()
 	{
-		$directory = JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test')->create();
+		$directory = JFilesystemElementDirectory::getInstance(static::$path . '/test')->create();
 
 		$directory->permissions = 0444;
 		$this->assertThat(
@@ -92,7 +92,7 @@ class JFilesystemElementDirectoryPhpTest extends TestCaseFilesystemElementDirect
 			'The permissions are not correct.'
 		);
 
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test/test.txt')->create();
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test/test.txt')->create();
 		$directory->permissions = 'f:g=rwx,f:u=rw,f:o=r';
 		$this->assertThat(
 			$directory->permissions,
@@ -105,8 +105,8 @@ class JFilesystemElementDirectoryPhpTest extends TestCaseFilesystemElementDirect
 			'The permissions are not correct.'
 		);
 
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test/test.txt')->create();
-		$subfile = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test/subtest/test.txt')->create();
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test/test.txt')->create();
+		$subfile = JFilesystemElementFile::getInstance(static::$path . '/test/subtest/test.txt')->create();
 		$directory->permissions = 'f:u=rw,f:g=rw,f:o=rw,f[0]:g=-,f[0]:u=rw,f[0]:o=-';
 		$this->assertThat(
 			$file->permissions,
@@ -119,8 +119,8 @@ class JFilesystemElementDirectoryPhpTest extends TestCaseFilesystemElementDirect
 			'The permissions are not correct.'
 		);
 
-		$subtest = JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test/subtest')->create();
-		$subsubtest = JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test/subtest/subsubtest')->create();
+		$subtest = JFilesystemElementDirectory::getInstance(static::$path . '/test/subtest')->create();
+		$subsubtest = JFilesystemElementDirectory::getInstance(static::$path . '/test/subtest/subsubtest')->create();
 		$directory->permissions = 'd:g=rwx,d:u=rx,d:o=x';
 		$this->assertThat(
 			$directory->permissions,
@@ -138,8 +138,8 @@ class JFilesystemElementDirectoryPhpTest extends TestCaseFilesystemElementDirect
 			'The permissions are not correct.'
 		);
 
-		$subtest = JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test/subtest')->create();
-		$subsubtest = JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test/subtest/subsubtest')->create();
+		$subtest = JFilesystemElementDirectory::getInstance(static::$path . '/test/subtest')->create();
+		$subsubtest = JFilesystemElementDirectory::getInstance(static::$path . '/test/subtest/subsubtest')->create();
 		$directory->permissions = 'd:u=rwx,d[0]:g=rw';
 		$this->assertThat(
 			$directory->permissions,

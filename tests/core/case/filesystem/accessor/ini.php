@@ -27,7 +27,7 @@ abstract class TestCaseFilesystemAccessorIni extends TestCaseFilesystem
 	 */
 	public function testPull()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.ini', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.ini', static::$system);
 		$file->contents =
 'KEY1=yes
 KEY2="yes"
@@ -65,7 +65,7 @@ KEY5="My long \\
 	 */
 	public function testPush()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.ini', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.ini', static::$system);
 		$file->pushIni(array(
 				'KEY1' => true,
 				'KEY12' => false,

@@ -27,7 +27,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function testGetInstance()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system);
 
 		// Test first time
 		$this->assertThat(
@@ -39,31 +39,31 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 		// Test singleton
 		$this->assertThat(
 			$file,
-			$this->identicalTo(JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system)),
+			$this->identicalTo(JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system)),
 			'The object is not the same.'
 		);
 		$this->assertThat(
 			$file,
-			$this->identicalTo(JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp\\filesystem\\..//filesystem/\\./test.txt', static::$system)),
+			$this->identicalTo(JFilesystemElementFile::getInstance(static::$path . '\\..//filesystem/\\./test.txt', static::$system)),
 			'The object is not the same.'
 		);
 
 		// Test opening file for writing
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w');
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w');
 		$this->assertTrue(
-			file_exists(JPATH_TESTS . '/tmp/filesystem/test.txt'),
+			file_exists(static::$path . '/test.txt'),
 			'The file does not exist.'
 		);
 
 		// Test reopening file for writing
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w');
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w');
 		$this->assertTrue(
-			file_exists(JPATH_TESTS . '/tmp/filesystem/test.txt'),
+			file_exists(static::$path . '/test.txt'),
 			'The file does not exist.'
 		);
 
 		// Test opening file for reading
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'r');
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'r');
 		$this->assertThat(
 			$file->mode,
 			$this->equalTo('r'),
@@ -78,8 +78,8 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 
 		try
 		{
-			mkdir(static::$system->prefix . JPATH_TESTS . '/tmp/filesystem/dir');
-			$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/dir', static::$system);
+			mkdir(static::$system->prefix . static::$path . '/dir');
+			$file = JFilesystemElementFile::getInstance(static::$path . '/dir', static::$system);
 			$this->fail('Runtime exception has not been thrown');
 		}
 		catch (RuntimeException $e)
@@ -88,7 +88,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 
 		try
 		{
-			$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/unexisting', static::$system, 'r');
+			$file = JFilesystemElementFile::getInstance(static::$path . '/unexisting', static::$system, 'r');
 			$file->close();
 			$this->fail('Runtime exception has not been thrown');
 		}
@@ -106,7 +106,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function test__Get_mode()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w')->close();
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w')->close();
 
 		$this->assertThat(
 			$file->mode,
@@ -124,7 +124,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function test__Get_use_include_path()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w')->close();
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w')->close();
 
 		$this->assertThat(
 			$file->use_include_path,
@@ -142,7 +142,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function test__Get_exists()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w')->close();
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w')->close();
 
 		$this->assertThat(
 			$file->exists,
@@ -160,7 +160,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function test__Get_name()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w')->close();
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w')->close();
 
 		$this->assertThat(
 			$file->name,
@@ -178,7 +178,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function test__Get_basename()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w')->close();
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w')->close();
 
 		$this->assertThat(
 			$file->basename,
@@ -186,7 +186,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 			'The basename is not correct.'
 		);
 
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test', static::$system, 'w')->close();
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test', static::$system, 'w')->close();
 
 		$this->assertThat(
 			$file->basename,
@@ -204,11 +204,11 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function test__Get_dirpath()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w')->close();
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w')->close();
 
 		$this->assertThat(
 			$file->dirpath,
-			$this->equalTo(JPATH_TESTS . '/tmp/filesystem'),
+			$this->equalTo(static::$path . ''),
 			'The dirname is not correct.'
 		);
 	}
@@ -222,7 +222,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function test__Get_extension()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w')->close();
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w')->close();
 
 		$this->assertThat(
 			$file->extension,
@@ -240,7 +240,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function test__Get_access_time()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w')->close();
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w')->close();
 
 		$this->assertTrue(
 			is_int($file->access_time),
@@ -257,7 +257,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function test__Get_change_time()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w')->close();
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w')->close();
 
 		$this->assertTrue(
 			is_int($file->change_time),
@@ -274,7 +274,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function test__Get_modification_time()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w')->close();
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w')->close();
 
 		$this->assertTrue(
 			is_int($file->modification_time),
@@ -291,7 +291,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function test__Get_group()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w')->close();
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w')->close();
 
 		$this->assertTrue(
 			is_int($file->group),
@@ -308,7 +308,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function test__Get_owner()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w')->close();
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w')->close();
 
 		$this->assertTrue(
 			is_int($file->owner),
@@ -325,7 +325,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function test__Get_permissions()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w')->close();
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w')->close();
 
 		$this->assertTrue(
 			is_int($file->permissions),
@@ -342,7 +342,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function test__Get_size()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w')->close();
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w')->close();
 
 		$this->assertThat(
 			$file->size,
@@ -360,7 +360,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function test__Get_is_dir()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w')->close();
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w')->close();
 
 		$this->assertThat(
 			$file->is_dir,
@@ -378,7 +378,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function test__Get_is_file()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w')->close();
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w')->close();
 
 		$this->assertThat(
 			$file->is_file,
@@ -396,7 +396,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function test__Get_is_link()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w')->close();
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w')->close();
 
 		$this->assertThat(
 			$file->is_link,
@@ -414,7 +414,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function test__Get_is_readable()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w')->close();
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w')->close();
 
 		$this->assertThat(
 			$file->is_readable,
@@ -432,7 +432,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function test__Get_opened()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w');
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w');
 
 		$this->assertThat(
 			$file->opened,
@@ -458,7 +458,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function test__Get_eof()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w')->close()->open('r');
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w')->close()->open('r');
 		$data = $file->readContents(20);
 
 		$this->assertThat(
@@ -479,7 +479,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function test__Get_contents()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w');
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w');
 		$message = 'Hello World!';
 		$file->writeContents($message);
 		$file->close();
@@ -500,7 +500,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function test__Get_unknown()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w')->close();
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w')->close();
 
 		$this->setExpectedException('InvalidArgumentException');
 		$file->unknown;
@@ -515,7 +515,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function test__Set_mode()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w')->close();
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w')->close();
 
 		$file->mode = 'r';
 		$this->assertThat(
@@ -541,7 +541,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function test__Set_contents()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system);
 		$message = 'Hello world!';
 		$file->contents = $message;
 
@@ -564,12 +564,12 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	public function test__Set_path()
 	{
 		$message = 'Hello world';
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system);
 		$file->contents = $message;
-		$file->path = JPATH_TESTS . '/tmp/filesystem/test2.txt';
+		$file->path = static::$path . '/test2.txt';
 		$this->assertThat(
 			(string) $file,
-			$this->equalTo(JPATH_TESTS . '/tmp/filesystem/test2.txt'),
+			$this->equalTo(static::$path . '/test2.txt'),
 			'The path name is not correct'
 		);
 		$this->assertThat(
@@ -578,7 +578,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 			'The content is not correct'
 		);
 		$this->assertThat(
-			JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system)->exists,
+			JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system)->exists,
 			$this->equalTo(false),
 			'The file exists'
 		);
@@ -594,13 +594,13 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	public function test__Set_dirpath()
 	{
 		$message = 'Hello world';
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/from/test.txt', static::$system);
-		JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/to', static::$system)->create();
+		$file = JFilesystemElementFile::getInstance(static::$path . '/from/test.txt', static::$system);
+		JFilesystemElementDirectory::getInstance(static::$path . '/to', static::$system)->create();
 		$file->contents = $message;
-		$file->dirpath = JPATH_TESTS . '/tmp/filesystem/to';
+		$file->dirpath = static::$path . '/to';
 		$this->assertThat(
 			(string) $file,
-			$this->equalTo(JPATH_TESTS . '/tmp/filesystem/to/test.txt'),
+			$this->equalTo(static::$path . '/to/test.txt'),
 			'The path name is not correct'
 		);
 		$this->assertThat(
@@ -609,7 +609,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 			'The content is not correct'
 		);
 		$this->assertThat(
-			JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/from/test.txt', static::$system)->exists,
+			JFilesystemElementFile::getInstance(static::$path . '/from/test.txt', static::$system)->exists,
 			$this->equalTo(false),
 			'The file exists'
 		);
@@ -625,12 +625,12 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	public function test__Set_name()
 	{
 		$message = 'Hello world';
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system);
 		$file->contents = $message;
 		$file->name = 'test2.txt';
 		$this->assertThat(
 			(string) $file,
-			$this->equalTo(JPATH_TESTS . '/tmp/filesystem/test2.txt'),
+			$this->equalTo(static::$path . '/test2.txt'),
 			'The path name is not correct'
 		);
 		$this->assertThat(
@@ -639,7 +639,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 			'The content is not correct'
 		);
 		$this->assertThat(
-			JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system)->exists,
+			JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system)->exists,
 			$this->equalTo(false),
 			'The file exists'
 		);
@@ -655,12 +655,12 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	public function test__Set_basename()
 	{
 		$message = 'Hello world';
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system);
 		$file->contents = $message;
 		$file->basename = 'test2';
 		$this->assertThat(
 			(string) $file,
-			$this->equalTo(JPATH_TESTS . '/tmp/filesystem/test2.txt'),
+			$this->equalTo(static::$path . '/test2.txt'),
 			'The path name is not correct'
 		);
 		$this->assertThat(
@@ -669,17 +669,17 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 			'The content is not correct'
 		);
 		$this->assertThat(
-			JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system)->exists,
+			JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system)->exists,
 			$this->equalTo(false),
 			'The file exists'
 		);
 
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test', static::$system);
 		$file->contents = $message;
 		$file->basename = 'test2';
 		$this->assertThat(
 			(string) $file,
-			$this->equalTo(JPATH_TESTS . '/tmp/filesystem/test2'),
+			$this->equalTo(static::$path . '/test2'),
 			'The path name is not correct'
 		);
 		$this->assertThat(
@@ -688,7 +688,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 			'The content is not correct'
 		);
 		$this->assertThat(
-			JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test', static::$system)->exists,
+			JFilesystemElementFile::getInstance(static::$path . '/test', static::$system)->exists,
 			$this->equalTo(false),
 			'The file exists'
 		);
@@ -704,12 +704,12 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	public function test__Set_extension()
 	{
 		$message = 'Hello world';
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system);
 		$file->contents = $message;
 		$file->extension = 'msg';
 		$this->assertThat(
 			(string) $file,
-			$this->equalTo(JPATH_TESTS . '/tmp/filesystem/test.msg'),
+			$this->equalTo(static::$path . '/test.msg'),
 			'The path name is not correct'
 		);
 		$this->assertThat(
@@ -718,7 +718,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 			'The content is not correct'
 		);
 		$this->assertThat(
-			JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system)->exists,
+			JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system)->exists,
 			$this->equalTo(false),
 			'The file exists'
 		);
@@ -726,7 +726,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 		$file->extension = '';
 		$this->assertThat(
 			(string) $file,
-			$this->equalTo(JPATH_TESTS . '/tmp/filesystem/test'),
+			$this->equalTo(static::$path . '/test'),
 			'The path name is not correct'
 		);
 		$this->assertThat(
@@ -735,7 +735,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 			'The content is not correct'
 		);
 		$this->assertThat(
-			JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.msg', static::$system)->exists,
+			JFilesystemElementFile::getInstance(static::$path . '/test.msg', static::$system)->exists,
 			$this->equalTo(false),
 			'The file exists'
 		);
@@ -750,7 +750,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function test__Set_unknown()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w')->close();
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w')->close();
 
 		$this->setExpectedException('InvalidArgumentException');
 		$file->unknown = true;
@@ -765,7 +765,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function test__Call_open_close()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system);
 
 		$file->open('w');
 		$this->assertThat(
@@ -786,21 +786,21 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function test__Call_copy()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system);
 		$message = 'Hello world!';
 
 		$file->contents = $message;
 
-		$file->copy($file2 = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test2.txt', static::$system));
+		$file->copy($file2 = JFilesystemElementFile::getInstance(static::$path . '/test2.txt', static::$system));
 		$this->assertThat(
 			$file2->contents,
 			$this->equalTo($message),
 			'The content is not correct.'
 		);
 
-		$file->copy($directory = JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem/test', static::$system));
+		$file->copy($directory = JFilesystemElementDirectory::getInstance(static::$path . '/test', static::$system));
 		$this->assertThat(
-			JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test/test.txt', static::$system)->contents,
+			JFilesystemElementFile::getInstance(static::$path . '/test/test.txt', static::$system)->contents,
 			$this->equalTo($message),
 			'The content is not correct.'
 		);
@@ -816,7 +816,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function test__Call_delete()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system);
 		$message = 'Hello world!';
 
 		$file->open('w');
@@ -840,7 +840,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function test__Call_flush()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system);
 		$message = 'Hello world!';
 
 		$file->open('w');
@@ -865,7 +865,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function test__Call_iterate()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system);
 
 		$message = 'Hello world!';
 
@@ -927,7 +927,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	public function test__Call_filters()
 	{
 		$message = 'Hello world!';
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system);
 		$file->contents = $message;
 		$file->open('r')->prependFilter('string.toupper');
 		$this->assertThat(
@@ -964,7 +964,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function test__Call_unknown()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system);
 		$this->setExpectedException('InvalidArgumentException');
 		$file->unknown();
 	}
@@ -978,10 +978,10 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 	 */
 	public function test__Call_toString()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system);
 		$this->assertThat(
 			(string)$file,
-			$this->equalTo(JPATH_TESTS . '/tmp/filesystem/test.txt'),
+			$this->equalTo(static::$path . '/test.txt'),
 			'The string representation is not correct'
 		);
 	}

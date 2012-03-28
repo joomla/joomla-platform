@@ -29,7 +29,7 @@ abstract class TestCaseFilesystemAccessorJson extends TestCaseFilesystem
 	{
 		$message = '{"cms":"Joomla!"}' . "\n";
 
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.json', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.json', static::$system);
 		$file->contents = $message;
 
 		$file->open('r');
@@ -50,7 +50,7 @@ abstract class TestCaseFilesystemAccessorJson extends TestCaseFilesystem
 	 */
 	public function testWrite()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.json', static::$system)->open('w');
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.json', static::$system)->open('w');
 		JFilesystemAccessorJson::write($file, (object) array('cms' => 'Joomla!'));
 		$file->close();
 
@@ -70,7 +70,7 @@ abstract class TestCaseFilesystemAccessorJson extends TestCaseFilesystem
 	 */
 	public function testPull()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.json', static::$system)->open('w');
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.json', static::$system)->open('w');
 		JFilesystemAccessorJson::write($file, (object) array('cms' => 'Joomla!'));
 		$file->close();
 
@@ -90,7 +90,7 @@ abstract class TestCaseFilesystemAccessorJson extends TestCaseFilesystem
 	 */
 	public function testPush()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.json', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.json', static::$system);
 		JFilesystemAccessorJson::push($file, array((object) array('cms' => 'Joomla!')));
 
 		$this->assertThat(

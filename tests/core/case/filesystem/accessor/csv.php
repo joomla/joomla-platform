@@ -29,7 +29,7 @@ abstract class TestCaseFilesystemAccessorCsv extends TestCaseFilesystem
 	{
 		$line = 'Joomla!,"Content Management System"' . "\n";
 
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.csv', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.csv', static::$system);
 		$file->contents = $line;
 
 		$file->open('r');
@@ -50,7 +50,7 @@ abstract class TestCaseFilesystemAccessorCsv extends TestCaseFilesystem
 	 */
 	public function testWrite()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.csv', static::$system)->open('w');
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.csv', static::$system)->open('w');
 		JFilesystemAccessorCsv::write($file, array('Joomla!', 'Content Management System'));
 		$file->close();
 
@@ -73,7 +73,7 @@ abstract class TestCaseFilesystemAccessorCsv extends TestCaseFilesystem
 		$lines[] = 'Joomla!,"Content Management System"' . "\n";
 		$lines[] = 'PHP,"Web programming language"' . "\n";
 
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.csv', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.csv', static::$system);
 		$file->contents = $lines;
 
 		$results = array(
@@ -99,7 +99,7 @@ abstract class TestCaseFilesystemAccessorCsv extends TestCaseFilesystem
 	 */
 	public function testPush()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.csv', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.csv', static::$system);
 		$csv = array(
 			array('Joomla!', 'Content Management System'),
 			array('PHP', 'Web programming language')

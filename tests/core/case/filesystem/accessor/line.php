@@ -29,7 +29,7 @@ abstract class TestCaseFilesystemAccessorLine extends TestCaseFilesystem
 	{
 		$message = 'Hello world!';
 
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system);
 		$file->contents = $message;
 
 		$file->open('r');
@@ -60,7 +60,7 @@ abstract class TestCaseFilesystemAccessorLine extends TestCaseFilesystem
 	{
 		$message = 'Hello world!';
 
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system)->open('w');
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system)->open('w');
 		JFilesystemAccessorLine::write($file, $message);
 		$file->close();
 
@@ -70,7 +70,7 @@ abstract class TestCaseFilesystemAccessorLine extends TestCaseFilesystem
 			'The content is not correct.'
 		);
 
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system)->open('w');
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system)->open('w');
 		JFilesystemAccessorLine::write($file, $message, 5);
 		$file->close();
 
@@ -92,7 +92,7 @@ abstract class TestCaseFilesystemAccessorLine extends TestCaseFilesystem
 	{
 		$messages = 'Hello world!' . "\n" . 'Welcome to Joomla!' . "\n";
 
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system);
 		$file->contents = $messages;
 
 		$this->assertThat(
@@ -114,7 +114,7 @@ abstract class TestCaseFilesystemAccessorLine extends TestCaseFilesystem
 		$messages = array('Hello world!', 'Welcome to Joomla!');
 		'Hello world!' . "\n" . 'Welcome to Joomla!' . "\n";
 
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system);
 		JFilesystemAccessorLine::push($file, $messages);
 
 		$this->assertThat(

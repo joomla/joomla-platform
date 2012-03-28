@@ -29,7 +29,7 @@ class JFilesystemAccessorContentsPhpTest extends TestCaseFilesystemAccessorConte
 	{
 		$message = 'Hello world!';
 
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system);
 		$file->contents = $message;
 
 		$this->assertThat(

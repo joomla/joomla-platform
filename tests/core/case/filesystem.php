@@ -17,12 +17,14 @@
 abstract class TestCaseFilesystem extends TestCase
 {
 	protected static $system = null;
+	protected static $path = null;
 
 	public static function setupBeforeClass()
 	{
 		$parts = JString::splitCamelCase(get_called_class());
 		$class = 'TestCaseFilesystemSystem' . $parts[count($parts) - 2];
 		static::$system = $class::getSystem();
+		static::$path = $class::getPath();
 	}
 
 	/**
@@ -36,13 +38,13 @@ abstract class TestCaseFilesystem extends TestCase
 	 */
 	protected function setUp()
 	{
-		if (empty(static::$system))
+		if (empty(static::$system) || empty(static::$path))
 		{
 			$this->markTestSkipped('There is no file system.');
 		}
 		
 		// Create a temporary directory
-		JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem', static::$system)->create();
+		JFilesystemElementDirectory::getInstance(static::$path, static::$system)->create();
 
 		parent::setUp();
 	}
@@ -58,10 +60,10 @@ abstract class TestCaseFilesystem extends TestCase
 	 */
 	protected function tearDown()
 	{
-		if (!empty(static::$system))
+		if (!empty(static::$system) && !empty(static::$path))
 		{
 			// Make sure previous test files are cleaned up
-			$directory = JFilesystemElementDirectory::getInstance(JPATH_TESTS . '/tmp/filesystem', static::$system);
+			$directory = JFilesystemElementDirectory::getInstance(static::$path, static::$system);
 			if ($directory->exists)
 			{
 				$directory->delete();

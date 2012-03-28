@@ -29,7 +29,7 @@ abstract class TestCaseFilesystemAccessorSerializable extends TestCaseFilesystem
 	{
 		$message = 'a:2:{i:0;s:7:"Joomla!";i:1;s:35:"Content Management System:\nThe best";}' . "\n";
 
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system);
 		$file->contents = $message;
 
 		$file->open('r');
@@ -50,7 +50,7 @@ abstract class TestCaseFilesystemAccessorSerializable extends TestCaseFilesystem
 	 */
 	public function testWrite()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system)->open('w');
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system)->open('w');
 		JFilesystemAccessorSerializable::write($file, array('Joomla!', 'Content Management System:' . "\n" . 'The best'));
 		$file->close();
 
@@ -73,7 +73,7 @@ abstract class TestCaseFilesystemAccessorSerializable extends TestCaseFilesystem
 		$messages[] = 'a:2:{i:0;s:7:"Joomla!";i:1;s:35:"Content Management System:\nThe best";}' . "\n";
 		$messages[] = 'a:2:{i:0;s:3:"PHP";i:1;s:24:"Web programming language";}' . "\n";
 
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system);
 		$file->contents = $messages;
 
 		$this->assertThat(
@@ -97,7 +97,7 @@ abstract class TestCaseFilesystemAccessorSerializable extends TestCaseFilesystem
 	 */
 	public function testPush()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system);
 		JFilesystemAccessorSerializable::push(
 			$file,
 			array(

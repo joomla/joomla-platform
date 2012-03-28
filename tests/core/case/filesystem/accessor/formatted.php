@@ -29,7 +29,7 @@ abstract class TestCaseFilesystemAccessorFormatted extends TestCaseFilesystem
 	{
 		$message = '3.14159';
 
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system);
 		$file->contents = $message;
 
 		$file->open('r');
@@ -50,7 +50,7 @@ abstract class TestCaseFilesystemAccessorFormatted extends TestCaseFilesystem
 	 */
 	public function testWrite()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system)->open('w');
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system)->open('w');
 		JFilesystemAccessorFormatted::write($file, "%f", 3.14159);
 		$file->close();
 

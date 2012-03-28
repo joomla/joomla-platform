@@ -31,11 +31,11 @@ abstract class TestCaseFilesystemAccessor extends TestCaseFilesystem
 	{
 		$message = 'Hello world!';
 
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system)->open('w');
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system)->open('w');
 		JFilesystemAccessor::write('Contents', array($file, $message));
 		$file->close();
 
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system)->open('r');
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system)->open('r');
 		$this->assertThat(
 			JFilesystemAccessor::read('Contents', array($file, 20)),
 			$this->equalTo($message),
@@ -55,7 +55,7 @@ abstract class TestCaseFilesystemAccessor extends TestCaseFilesystem
 	{
 		$message = 'Hello world!';
 
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system)->open('w');
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system)->open('w');
 		JFilesystemAccessor::write('Contents', array($file, $message));
 		$file->close();
 
@@ -77,7 +77,7 @@ abstract class TestCaseFilesystemAccessor extends TestCaseFilesystem
 	{
 		$message = 'Hello world!';
 
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system)->open('w');
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system)->open('w');
 		JFilesystemAccessor::write('Contents', array($file, $message));
 		$file->close();
 
@@ -99,7 +99,7 @@ abstract class TestCaseFilesystemAccessor extends TestCaseFilesystem
 	{
 		$message = 'Hello world!';
 
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system);
 		JFilesystemAccessor::push('Contents', array($file, $message));
 
 		$this->assertThat(
@@ -134,7 +134,7 @@ abstract class TestCaseFilesystemAccessor extends TestCaseFilesystem
 
 		$message = 'Hello world!';
 
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system)->open('w');
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system)->open('w');
 		$this->assertThat(
 			JFilesystemAccessor::write('TestContents', array($file, $message)),
 			$this->equalTo(strlen($message)),
@@ -142,7 +142,7 @@ abstract class TestCaseFilesystemAccessor extends TestCaseFilesystem
 		);
 		$file->close();
 
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system)->open('r');
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system)->open('r');
 		$this->assertThat(
 			JFilesystemAccessor::read('TestContents', array($file, $message)),
 			$this->equalTo($message),
@@ -160,7 +160,7 @@ abstract class TestCaseFilesystemAccessor extends TestCaseFilesystem
 
 		try
 		{
-			$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system)->open('w');
+			$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system)->open('w');
 			JFilesystemAccessor::write('Unknown', array($file, $message));
 			$this->fail('An expected exception has not been raised.');
 		}
@@ -171,7 +171,7 @@ abstract class TestCaseFilesystemAccessor extends TestCaseFilesystem
 		try
 		{
 			JFilesystemAccessor::registerWriter('Unknown', 'unknown_writer');
-			$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system)->open('w');
+			$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system)->open('w');
 			JFilesystemAccessor::write('Unknown', array($file, $message));
 			$this->fail('An expected exception has not been raised.');
 		}
@@ -182,7 +182,7 @@ abstract class TestCaseFilesystemAccessor extends TestCaseFilesystem
 		try
 		{
 			JFilesystemAccessor::registerWriter('Unknown', array(new TestFilesystemAccessorContents, 'unknown_writer'));
-			$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system)->open('w');
+			$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system)->open('w');
 			JFilesystemAccessor::write('Unknown', array($file, $message));
 			$this->fail('An expected exception has not been raised.');
 		}
@@ -214,7 +214,7 @@ abstract class TestCaseFilesystemAccessor extends TestCaseFilesystem
 			'TestContents is not the reader test_reader_contents.'
 		);
 
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system)->open('w')->open('r');
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system)->open('w')->open('r');
 		$this->assertThat(
 			JFilesystemAccessor::read('TestContents', array($file)),
 			$this->equalTo('Hello'),
@@ -256,7 +256,7 @@ abstract class TestCaseFilesystemAccessor extends TestCaseFilesystem
 
 		$message = 'Hello world!';
 
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system)->open('w');
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system)->open('w');
 		$this->assertThat(
 			JFilesystemAccessor::write('TestContents', array($file, $message)),
 			$this->equalTo(strlen($message)),
@@ -296,7 +296,7 @@ abstract class TestCaseFilesystemAccessor extends TestCaseFilesystem
 			'TestContents is not the puller test_puller_contents.'
 		);
 
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system)->open('w')->open('r');
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system)->open('w')->open('r');
 		$this->assertThat(
 			JFilesystemAccessor::pull('TestContents', array($file)),
 			$this->equalTo('Hello'),
@@ -338,7 +338,7 @@ abstract class TestCaseFilesystemAccessor extends TestCaseFilesystem
 
 		$message = 'Hello world!';
 
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system)->open('w');
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system)->open('w');
 		$this->assertThat(
 			JFilesystemAccessor::write('TestContents', array($file, $message)),
 			$this->equalTo(strlen($message)),
@@ -366,7 +366,7 @@ abstract class TestCaseFilesystemAccessor extends TestCaseFilesystem
 	{
 		$message = 'Hello world!';
 
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system)->open('w');
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system)->open('w');
 		$this->assertThat(
 			JFilesystemAccessor::write('TestContents', array($file, $message)),
 			$this->equalTo(strlen($message)),
@@ -374,7 +374,7 @@ abstract class TestCaseFilesystemAccessor extends TestCaseFilesystem
 		);
 		$file->close();
 
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system)->open('r');
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system)->open('r');
 		$this->assertThat(
 			JFilesystemAccessor::read('TestContents', array($file, $message)),
 			$this->equalTo($message),

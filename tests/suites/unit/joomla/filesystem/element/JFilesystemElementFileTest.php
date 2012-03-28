@@ -27,10 +27,10 @@ class JFilesystemElementFilePhpTest extends TestCaseFilesystemElementFile
 	 */
 	public function testGetInstance()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system);
 		$this->assertThat(
 			$file,
-			$this->logicalNot($this->identicalTo(JFilesystemElementFile::getInstance('..' . JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system))),
+			$this->logicalNot($this->identicalTo(JFilesystemElementFile::getInstance('..' . static::$path . '/test.txt', static::$system))),
 			'The object is not the same.'
 		);
 		parent::testGetInstance();
@@ -45,7 +45,7 @@ class JFilesystemElementFilePhpTest extends TestCaseFilesystemElementFile
 	 */
 	public function test__Set_permissions()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w')->close();
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w')->close();
 
 		$file->permissions = 0444;
 		$this->assertThat(
@@ -123,11 +123,11 @@ class JFilesystemElementFilePhpTest extends TestCaseFilesystemElementFile
 	 */
 	public function test__Get_realpath()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w')->close();
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w')->close();
 
 		$this->assertThat(
 			$file->realpath,
-			$this->equalTo(JPATH_TESTS . '/tmp/filesystem/test.txt'),
+			$this->equalTo(static::$path . '/test.txt'),
 			'The realpath is not correct.'
 		);
 	}
@@ -141,7 +141,7 @@ class JFilesystemElementFilePhpTest extends TestCaseFilesystemElementFile
 	 */
 	public function test__Get_is_writable()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w')->close();
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w')->close();
 
 		$this->assertThat(
 			$file->is_writable,
@@ -159,7 +159,7 @@ class JFilesystemElementFilePhpTest extends TestCaseFilesystemElementFile
 	 */
 	public function test__Get_position()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w');
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w');
 		$message = 'Hello World!';
 
 		$this->assertThat(
@@ -188,11 +188,11 @@ class JFilesystemElementFilePhpTest extends TestCaseFilesystemElementFile
 	 */
 	public function test__Get_link()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system);
-		symlink(JPATH_TESTS . '/tmp/filesystem/to.txt', (string) $file);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system);
+		symlink(static::$path . '/to.txt', (string) $file);
 		$this->assertThat(
 			$file->link,
-			$this->equalTo(JPATH_TESTS . '/tmp/filesystem/to.txt'),
+			$this->equalTo(static::$path . '/to.txt'),
 			'The link is not correct'
 		);
 	}
@@ -206,7 +206,7 @@ class JFilesystemElementFilePhpTest extends TestCaseFilesystemElementFile
 	 */
 	public function test__Set_owner()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w')->close();
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w')->close();
 
 		$file->owner = $file->owner;
 	}
@@ -220,7 +220,7 @@ class JFilesystemElementFilePhpTest extends TestCaseFilesystemElementFile
 	 */
 	public function test__Set_group()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w')->close();
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w')->close();
 
 		$file->group = $file->group;
 	}
@@ -234,7 +234,7 @@ class JFilesystemElementFilePhpTest extends TestCaseFilesystemElementFile
 	 */
 	public function test__Set_position()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system, 'w');
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system, 'w');
 		$file->writeContents('Hello world!');
 		$file->close();
 
@@ -325,11 +325,11 @@ class JFilesystemElementFilePhpTest extends TestCaseFilesystemElementFile
 	 */
 	public function test__Set_link()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system);
-		$file->link = JPATH_TESTS . '/tmp/filesystem/to.txt';
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system);
+		$file->link = static::$path . '/to.txt';
 		$this->assertThat(
-			readlink(JPATH_TESTS . '/tmp/filesystem/test.txt'),
-			$this->equalTo(JPATH_TESTS . '/tmp/filesystem/to.txt'),
+			readlink(static::$path . '/test.txt'),
+			$this->equalTo(static::$path . '/to.txt'),
 			'The link is not correct'
 		);
 	}
@@ -343,7 +343,7 @@ class JFilesystemElementFilePhpTest extends TestCaseFilesystemElementFile
 	 */
 	public function test__Call_truncate()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system);
 		$message = 'Hello world!';
 		$truncate = 5;
 
@@ -371,7 +371,7 @@ class JFilesystemElementFilePhpTest extends TestCaseFilesystemElementFile
 	{
 		parent::test__Call_filters();
 		$message = 'Hello world!';
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.txt', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system);
 		$file->contents = $message;
 
 		$file->open('r')->appendFilter('string.toupper');

@@ -27,7 +27,7 @@ abstract class TestCaseFilesystemAccessorXml extends TestCaseFilesystem
 	 */
 	public function testPull()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.xml', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.xml', static::$system);
 		$file->contents =
 '<?xml version="1.0" encoding="utf-8"?>
 	<extension type="component" version="2.5" method="upgrade">
@@ -49,7 +49,7 @@ abstract class TestCaseFilesystemAccessorXml extends TestCaseFilesystem
 	 */
 	public function testPush()
 	{
-		$file = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test.xml', static::$system);
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.xml', static::$system);
 		$file->contents =
 '<?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="2.5" method="upgrade">
@@ -57,7 +57,7 @@ abstract class TestCaseFilesystemAccessorXml extends TestCaseFilesystem
 </extension>
 ';
 
-		$file2 = JFilesystemElementFile::getInstance(JPATH_TESTS . '/tmp/filesystem/test2.xml', static::$system);
+		$file2 = JFilesystemElementFile::getInstance(static::$path . '/test2.xml', static::$system);
 		$file2->pushXml($file->pullXml());
 		$this->assertThat(
 			$file2->contents,
