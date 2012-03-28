@@ -52,6 +52,13 @@ class JMediawiki {
    	protected $pages;
 
     /**
+     * @var    JMediawikiRevisions  MediaWiki API object for revisions.
+     * @since  12.1
+     */
+
+    protected $revisions;
+
+    /**
      * @var    JMediawikiUsers  MediaWiki API object for users.
      * @since  12.1
      */
@@ -68,12 +75,6 @@ class JMediawiki {
      * @since  12.1
      */
     protected $categories;
-
-    /**
-     * @var    JMediawikiReviews  MediaWiki API object for reviews.
-     * @since  12.1
-     */
-    protected $reviews;
 
     /**
      * @var    JMediawikiImages  MediaWiki API object for images.
