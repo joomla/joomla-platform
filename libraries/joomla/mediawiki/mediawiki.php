@@ -103,8 +103,6 @@ class JMediawiki {
         // Setup the default User-Agent if not already set.
         $this->options->def('api.useragent', 'Joomla-Wiki-Bot');
 
-        // @TODO set a default timeout here
-        // @TODO define mediawiki API URL here
     }
 
     /**
