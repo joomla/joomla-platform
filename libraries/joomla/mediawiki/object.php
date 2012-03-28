@@ -44,6 +44,15 @@ abstract class JMediawikiObject {
         $this->client = isset($client) ? $client : new JMediawikiHttp($this->options);
     }
 
+    /**
+     * Method to build and return a full request URL for the request.
+     *
+     * @param   string   $path   URL to inflect
+     *
+     * @return  string   The request URL.
+     *
+     * @since   12.1
+     */
     protected function fetchUrl($path)
     {
         // append the path with output format
