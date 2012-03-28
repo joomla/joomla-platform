@@ -19,6 +19,14 @@ defined('JPATH_PLATFORM') or die;
 class JMediawikiSites extends JMediawikiObject
 {
     public function getSiteInfo() {
-        
+        // build the request
+        $path = '?action=query&meta=siteinfo';
+
+        // Send the request.
+		$response = $this->client->get($this->fetchUrl($path));
+
+        $xml = JFactory::getXML($response, false);
+
+        return $response;
     }
 }
