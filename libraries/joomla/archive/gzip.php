@@ -58,31 +58,26 @@ class JArchiveGzip implements JArchiveExtractable
 
 		if (!extension_loaded('zlib'))
 		{
-			$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_NOT_SUPPORTED'));
-
-			return JError::raiseWarning(100, $this->get('error.message'));
+			throw new RuntimeException('The zlib extension is not available.');
 		}
 
 		if (!isset($options['use_streams']) || $options['use_streams'] == false)
 		{
 			if (!$this->_data = JFile::read($archive))
 			{
-				$this->set('error.message', 'Unable to read archive');
-				return JError::raiseWarning(100, $this->get('error.message'));
+				throw new RuntimeException('Unable to read archive');
 			}
 
 			$position = $this->_getFilePosition();
 			$buffer = gzinflate(substr($this->_data, $position, strlen($this->_data) - $position));
 			if (empty($buffer))
 			{
-				$this->set('error.message', 'Unable to decompress data');
-				return JError::raiseWarning(100, $this->get('error.message'));
+				throw new RuntimeException('Unable to decompress data');
 			}
 
 			if (JFile::write($destination, $buffer) === false)
 			{
-				$this->set('error.message', 'Unable to write archive');
-				return JError::raiseWarning(100, $this->get('error.message'));
+				throw new RuntimeException('Unable to write archive');
 			}
 		}
 		else
@@ -95,21 +90,15 @@ class JArchiveGzip implements JArchiveExtractable
 
 			if (!$input->open($archive))
 			{
-				$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_UNABLE_TO_READ'));
-
-				return JError::raiseWarning(100, $this->get('error.message'));
+				throw new RuntimeException('Unable to read archive (gz)');
 			}
 
 			$output = JFactory::getStream();
 
 			if (!$output->open($destination, 'w'))
 			{
-				$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_UNABLE_TO_WRITE'));
-
-				// Close the previous file
 				$input->close();
-
-				return JError::raiseWarning(100, $this->get('error.message'));
+				throw new RuntimeException('Unable to write archive (gz)');
 			}
 
 			do
@@ -119,9 +108,8 @@ class JArchiveGzip implements JArchiveExtractable
 				{
 					if (!$output->write($this->_data))
 					{
-						$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_UNABLE_TO_WRITE_FILE'));
-
-						return JError::raiseWarning(100, $this->get('error.message'));
+						$input->close();
+						throw new RuntimeException('Unable to write file (gz)');
 					}
 				}
 			}
@@ -160,8 +148,7 @@ class JArchiveGzip implements JArchiveExtractable
 
 		if (!$info)
 		{
-			$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_UNABLE_TO_DECOMPRESS'));
-			return false;
+			throw new RuntimeException('Unable to decompress data.');
 		}
 
 		$position += 10;

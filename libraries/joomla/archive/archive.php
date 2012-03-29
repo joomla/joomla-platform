@@ -149,9 +149,7 @@ class JArchive
 				break;
 
 			default:
-				JLog::add(JText::_('JLIB_FILESYSTEM_UNKNOWNARCHIVETYPE'), JLog::WARNING, 'jerror');
-				return false;
-				break;
+				throw new InvalidArgumentException('Unknown Archive Type');
 		}
 
 		if (!$result || $result instanceof Exception)
@@ -188,7 +186,7 @@ class JArchive
 
 			if (!class_exists($class))
 			{
-				throw new Exception(JText::_('JLIB_FILESYSTEM_UNABLE_TO_LOAD_ARCHIVE'), 500);
+				throw new BadMethodCallException('Unable to load archive', 500);
 			}
 
 			$adapters[$type] = new $class;
