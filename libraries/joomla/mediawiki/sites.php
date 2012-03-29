@@ -20,7 +20,7 @@ class JMediawikiSites extends JMediawikiObject
 {
     public function getSiteInfo() {
         // build the request
-        $path = '?action=query&meta=sitesinfo';
+        $path = '?action=query&meta=siteinfo';
 
         // Send the request.
 		$response = $this->client->get($this->fetchUrl($path));
@@ -39,6 +39,6 @@ class JMediawikiSites extends JMediawikiObject
             throw new DomainException($xml->warnings->query);
         }
 
-        return $xml->query;
+        return $xml;
     }
 }
