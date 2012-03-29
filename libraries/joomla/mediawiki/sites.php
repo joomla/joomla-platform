@@ -20,13 +20,25 @@ class JMediawikiSites extends JMediawikiObject
 {
     public function getSiteInfo() {
         // build the request
-        $path = '?action=query&meta=siteinfo';
+        $path = '?action=query&meta=sitesinfo';
 
         // Send the request.
 		$response = $this->client->get($this->fetchUrl($path));
 
-        $xml = JFactory::getXML($response, false);
+        // convert xml string to an object
+        $xml = simplexml_load_string($response->body);
 
-        return $response;
+        // Validate the response code.
+        if($xml->error)
+        {
+            throw new DomainException($xml->error['info']);
+        }
+
+        if($xml->warnings)
+        {
+            throw new DomainException($xml->warnings->query);
+        }
+
+        return $xml->query;
     }
 }
