@@ -97,7 +97,8 @@ class JAdapter extends JObject
 	 * @param   object  &$adapter  Adapter object
 	 * @param   array   $options   Adapter options
 	 *
-	 * @return  boolean  True if successful
+	 * @return  mixed   True if successful or Exception
+	 * @throws  InvalidArgumentException
 	 *
 	 * @since   11.1
 	 */
@@ -109,7 +110,7 @@ class JAdapter extends JObject
 
 			if (!file_exists($fullpath))
 			{
-				return false;
+				throw new InvalidArgumentException('Unknown Adapter');
 			}
 
 			// Try to load the adapter object
@@ -135,7 +136,8 @@ class JAdapter extends JObject
 	 * @param   string  $name     Name of adapter to return
 	 * @param   array   $options  Adapter options
 	 *
-	 * @return  object  Adapter of type 'name' or false
+	 * @return  mixed  Adapter of type 'name' or Exception
+	 * @throws  InvalidArgumentException
 	 *
 	 * @since   11.1
 	 */
@@ -145,9 +147,7 @@ class JAdapter extends JObject
 		{
 			if (!$this->setAdapter($name, $options))
 			{
-				$false = false;
-
-				return $false;
+				throw new InvalidArgumentException('Unknown Adapter');
 			}
 		}
 

@@ -85,15 +85,17 @@ class JAdapterTest extends TestCase
 			$this->isInstanceOf('TestTestadapter')
 		);
 
-		$this->assertThat(
-			$this->object->setAdapter('NoAdapterHere'),
-			$this->isFalse()
-		);
+		try {
+			$this->object->setAdapter('NoAdapterHere');
+		} catch(Exception $e) {
+			$this->assertIsA('Exception', $e);
+		}
 
-		$this->assertThat(
-			$this->object->setAdapter('Testadapter2'),
-			$this->isFalse()
-		);
+		try {
+			$this->object->setAdapter('Testadapter2');
+		} catch(Exception $e) {
+			$this->assertIsA('Exception', $e);
+		}
 	}
 
 	/**
