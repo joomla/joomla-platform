@@ -651,5 +651,17 @@ class JStringTest extends PHPUnit_Framework_TestCase
 		$expected = parse_url($url);
 		$actual = JString::parse_url($url);
 		$this->assertEquals($expected, $actual, 'Line: ' . __LINE__ . ' Results should be equal');
+
+		// Test wrong url
+		$url = 'http://a.com/?a=é';
+		$expected = parse_url($url);
+		$actual = JString::parse_url($url);
+		$this->assertEquals($expected, $actual, 'Line: ' . __LINE__ . ' Results should be equal');
+
+		// Test wrong url
+		$url = 'ftp://user:abcé@example.com/';
+		$expected = parse_url($url);
+		$actual = JString::parse_url($url);
+		$this->assertEquals($expected, $actual, 'Line: ' . __LINE__ . ' Results should be equal');
 	}
 }
