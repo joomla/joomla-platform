@@ -39,6 +39,6 @@ class JMediawikiSites extends JMediawikiObject
             throw new DomainException($xml->warnings->query);
         }
 
-        return $xml;
+        return $xml->query;
     }
 }
