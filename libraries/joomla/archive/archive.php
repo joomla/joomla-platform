@@ -21,11 +21,12 @@ class JArchive
 	/**
 	 * Extract an archive file to a directory.
 	 *
+	 * @static
 	 * @param   string  $archivename  The name of the archive file
 	 * @param   string  $extractdir   Directory to unpack into
 	 *
-	 * @return  boolean  True for success
-	 *
+	 * @return  mixed  Boolean or Exception
+	 * @throws  InvalidArgumentException
 	 * @since   11.1
 	 */
 	public static function extract($archivename, $extractdir)
@@ -165,10 +166,10 @@ class JArchive
 	 *
 	 * @param   string  $type  The type of adapter (bzip2|gzip|tar|zip).
 	 *
-	 * @return  object  JArchiveExtractable
+	 * @return  mixed object JArchiveExtractable or BadMethodCallException
 	 *
+	 * @throws  BadMethodCallException
 	 * @since   11.1
-	 * @throws  Exception
 	 */
 	public static function getAdapter($type)
 	{

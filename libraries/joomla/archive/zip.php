@@ -191,8 +191,8 @@ class JArchiveZip implements JArchiveExtractable
 	 * @param   string  $destination  Path to extract archive into.
 	 * @param   array   $options      Extraction options [unused].
 	 *
-	 * @return  boolean  True if successful
-	 *
+	 * @return  mixed   True if successful or Exception
+	 * @throws  RuntimeException
 	 * @since   11.1
 	 */
 	private function _extract($archive, $destination, array $options)
@@ -244,12 +244,12 @@ class JArchiveZip implements JArchiveExtractable
 	/**
 	 * Extract a ZIP compressed file to a given path using native php api calls for speed
 	 *
-	 * @param   string  $archive      Path to ZIP archive to extract
-	 * @param   string  $destination  Path to extract archive into
-	 * @param   array   $options      Extraction options [unused]
+	 * @param   string   $archive      Path to ZIP archive to extract
+	 * @param   string   $destination  Path to extract archive into
+	 * @param   array    $options      Extraction options [unused]
 	 *
-	 * @return  boolean  True if successful
-	 *
+	 * @return  boolean  mixed True if successful or RuntimeException
+	 * @throws  RuntimeException
 	 * @since   11.1
 	 */
 	private function _extractNative($archive, $destination, array $options)
@@ -313,7 +313,8 @@ class JArchiveZip implements JArchiveExtractable
 	 *
 	 * @param   string  &$data  The ZIP archive buffer.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  mixed   True on success or Exception
+	 * @throws  RuntimeException
 	 *
 	 * @since   11.1
 	 */
@@ -382,7 +383,7 @@ class JArchiveZip implements JArchiveExtractable
 
 			if ($dataLength < $fhStart + 43)
 			{
-				throw new LengthException('Invalid ZIP data');
+				throw new RuntimeException('Invalid ZIP data');
 			}
 
 			$info = unpack('vInternal/VExternal/VOffset', substr($data, $fhStart + 36, 10));
@@ -397,7 +398,7 @@ class JArchiveZip implements JArchiveExtractable
 
 			if ($dataLength < $lfhStart + 34)
 			{
-				throw new LengthException('Invalid Zip Data');
+				throw new RuntimeException('Invalid Zip Data');
 			}
 
 			$info = unpack('vMethod/VTime/VCRC32/VCompressed/VUncompressed/vLength/vExtraLength', substr($data, $lfhStart + 8, 25));
