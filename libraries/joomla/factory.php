@@ -511,22 +511,6 @@ abstract class JFactory
 	}
 
 	/**
-	 * Return a JFilesystem object
-	 *
-	 * @param   string  $prefix   The file system prefix.
-	 * @param   array   $options  The stream context options.
-	 * @param   array   $params   The stream context params.
-	 *
-	 * @return  JFilesystem  The file system instance.
-	 *
-	 * @since   12.1
-	 */
-	public static function getFilesystem($prefix = '', array $options = array(), array $params = array())
-	{
-		return JFilesystem::getInstance($prefix, $options, $params);
-	}
-
-	/**
 	 * Create a configuration object
 	 *
 	 * @param   string  $file       The path to the configuration file.
