@@ -64,7 +64,8 @@ class JArchiveTar implements JArchiveExtractable
 	 * @param   string  $destination  Path to extract archive into
 	 * @param   array   $options      Extraction options [unused]
 	 *
-	 * @return  mixed   True if successful or Exception
+	 * @return  boolean True if successful
+	 *
 	 * @throws  RuntimeException
 	 * @since   11.1
 	 */

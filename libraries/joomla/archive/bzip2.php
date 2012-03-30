@@ -45,9 +45,10 @@ class JArchiveBzip2 implements JArchiveExtractable
 	 * @param   string  $destination  Path to extract archive to
 	 * @param   array   $options      Extraction options [unused]
 	 *
-	 * @return  mixed  True if successful or exception
-	 * @throws  RuntimeException
+	 * @return  boolean True if successful
+	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
 	public function extract($archive, $destination, array $options = array ())
 	{

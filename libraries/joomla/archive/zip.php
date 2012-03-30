@@ -191,9 +191,10 @@ class JArchiveZip implements JArchiveExtractable
 	 * @param   string  $destination  Path to extract archive into.
 	 * @param   array   $options      Extraction options [unused].
 	 *
-	 * @return  mixed   True if successful or Exception
-	 * @throws  RuntimeException
+	 * @return  mixed   True if successful
+	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
 	private function _extract($archive, $destination, array $options)
 	{
@@ -248,9 +249,10 @@ class JArchiveZip implements JArchiveExtractable
 	 * @param   string   $destination  Path to extract archive into
 	 * @param   array    $options      Extraction options [unused]
 	 *
-	 * @return  boolean  mixed True if successful or RuntimeException
-	 * @throws  RuntimeException
+	 * @return  boolean  True on success
+	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
 	private function _extractNative($archive, $destination, array $options)
 	{
@@ -311,12 +313,12 @@ class JArchiveZip implements JArchiveExtractable
 	 * 'type'  --  File type
 	 * </pre>
 	 *
-	 * @param   string  &$data  The ZIP archive buffer.
+	 * @param   string  &$data The ZIP archive buffer.
 	 *
-	 * @return  mixed   True on success or Exception
-	 * @throws  RuntimeException
+	 * @return  boolean True on success
 	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
 	private function _readZipInfo(&$data)
 	{
