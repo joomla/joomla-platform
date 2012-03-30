@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 JLog::add('JDaemon has been renamed to JApplicationDaemon.', JLog::WARNING, 'deprecated');
 
 /**
- * Backward Compatability Stub for JApplicationDaemon
+ * Backward Compatibility Stub for JApplicationDaemon
  *
  * @package     Joomla.Platform
  * @subpackage  Application

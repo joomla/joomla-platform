@@ -332,12 +332,6 @@ abstract class JModuleHelper
 		$modules = $db->loadObjectList();
 		$clean = array();
 
-		if ($db->getErrorNum())
-		{
-			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $db->getErrorMsg()), JLog::WARNING, 'jerror');
-			return $clean;
-		}
-
 		// Apply negative selections and eliminate duplicates
 		$negId = $Itemid ? -(int) $Itemid : false;
 		$dupes = array();

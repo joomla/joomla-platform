@@ -127,13 +127,6 @@ class JModelList extends JModel
 		$query = $this->_getListQuery();
 		$items = $this->_getList($query, $this->getStart(), $this->getState('list.limit'));
 
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
-		{
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
-
 		// Add the items to the internal cache.
 		$this->cache[$store] = $items;
 
@@ -229,13 +222,6 @@ class JModelList extends JModel
 		// Load the total.
 		$query = $this->_getListQuery();
 		$total = (int) $this->_getListCount($query);
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
-		{
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
 
 		// Add the total to the internal cache.
 		$this->cache[$store] = $total;

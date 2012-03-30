@@ -243,6 +243,7 @@ class JApplicationCli extends JApplicationBase
 	 * @return  mixed   Either an array or object to be loaded into the configuration object.
 	 *
 	 * @since   11.1
+	 * @throws RuntimeException
 	 */
 	protected function fetchConfigurationData($file = '', $class = 'JConfig')
 	{

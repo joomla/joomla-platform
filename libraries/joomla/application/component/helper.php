@@ -293,7 +293,7 @@ class JComponentHelper
 	 * @return  object
 	 *
 	 * @since   11.1
-	 * @throws  Exception
+	 * @throws  RuntimeException
 	 */
 	public static function renderComponent($option, $params = array())
 	{
@@ -310,7 +310,7 @@ class JComponentHelper
 
 		if (empty($option))
 		{
-			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+			throw new RuntimeException('Component not found', 404);
 		}
 
 		// Record the scope
@@ -333,7 +333,7 @@ class JComponentHelper
 		// If component is disabled throw error
 		if (!self::isEnabled($option) || !file_exists($path))
 		{
-			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+			throw new RuntimeException('Component not found', 404);
 		}
 
 		$task = JRequest::getString('task');
@@ -396,10 +396,10 @@ class JComponentHelper
 
 		self::$components[$option] = $cache->get(array($db, 'loadObject'), null, $option, false);
 
-		if ($error = $db->getErrorMsg() || empty(self::$components[$option]))
+		if ( empty(self::$components[$option]))
 		{
 			// Fatal error.
-			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $error), JLog::WARNING, 'jerror');
+			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, ''), JLog::WARNING, 'jerror');
 			return false;
 		}
 
