@@ -172,7 +172,7 @@ class JLog
 	}
 
 	/**
-	 * Method to set the way the JError will handle different error levels.
+	 * Method to set logger
 	 * Use this if you want to override the default settings.
 	 *
 	 * @param   array    $options     The object configuration array.
