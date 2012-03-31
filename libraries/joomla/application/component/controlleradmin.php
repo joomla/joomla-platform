@@ -3,11 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.application.component.controller');
 
@@ -54,16 +54,25 @@ class JControllerAdmin extends JController
 	 *
 	 * @see     JController
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public function __construct($config = array())
 	{
 		parent::__construct($config);
 
 		// Define standard task mappings.
-		$this->registerTask('unpublish', 'publish'); // value = 0
-		$this->registerTask('archive', 'publish'); // value = 2
-		$this->registerTask('trash', 'publish'); // value = -2
-		$this->registerTask('report', 'publish'); // value = -3
+
+		// Value = 0
+		$this->registerTask('unpublish', 'publish');
+
+		// Value = 2
+		$this->registerTask('archive', 'publish');
+
+		// Value = -2
+		$this->registerTask('trash', 'publish');
+
+		// Value = -3
+		$this->registerTask('report', 'publish');
 		$this->registerTask('orderup', 'reorder');
 		$this->registerTask('orderdown', 'reorder');
 
@@ -85,7 +94,7 @@ class JControllerAdmin extends JController
 			$r = null;
 			if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r))
 			{
-				JError::raiseError(500, JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'));
+				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}
 			$this->view_list = strtolower($r[2]);
 		}
@@ -98,17 +107,17 @@ class JControllerAdmin extends JController
 	 *
 	 * @since   11.1
 	 */
-	function delete()
+	public function delete()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Get items to remove from the request.
 		$cid = JRequest::getVar('cid', array(), '', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseWarning(500, JText::_($this->text_prefix . '_NO_ITEM_SELECTED'));
+			JLog::add(JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), JLog::WARNING, 'jerror');
 		}
 		else
 		{
@@ -143,7 +152,7 @@ class JControllerAdmin extends JController
 	 *
 	 * @since   11.1
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cachable = false, $urlparams = array())
 	{
 		return $this;
 	}
@@ -155,13 +164,10 @@ class JControllerAdmin extends JController
 	 *
 	 * @since   11.1
 	 */
-	function publish()
+	public function publish()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die(JText::_('JINVALID_TOKEN'));
-
-		$session = JFactory::getSession();
-		$registry = $session->get('registry');
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
 		$cid = JRequest::getVar('cid', array(), '', 'array');
@@ -171,7 +177,7 @@ class JControllerAdmin extends JController
 
 		if (empty($cid))
 		{
-			JError::raiseWarning(500, JText::_($this->text_prefix . '_NO_ITEM_SELECTED'));
+			JLog::add(JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), JLog::WARNING, 'jerror');
 		}
 		else
 		{
@@ -184,7 +190,7 @@ class JControllerAdmin extends JController
 			// Publish the items.
 			if (!$model->publish($cid, $value))
 			{
-				JError::raiseWarning(500, $model->getError());
+				JLog::add($model->getError(), JLog::WARNING, 'jerror');
 			}
 			else
 			{
@@ -222,10 +228,9 @@ class JControllerAdmin extends JController
 	public function reorder()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
-		$user = JFactory::getUser();
 		$ids = JRequest::getVar('cid', null, 'post', 'array');
 		$inc = ($this->getTask() == 'orderup') ? -1 : +1;
 
@@ -257,7 +262,7 @@ class JControllerAdmin extends JController
 	public function saveorder()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the input
 		$pks = JRequest::getVar('cid', null, 'post', 'array');
@@ -299,10 +304,9 @@ class JControllerAdmin extends JController
 	public function checkin()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
-		$user = JFactory::getUser();
 		$ids = JRequest::getVar('cid', null, 'post', 'array');
 
 		$model = $this->getModel();

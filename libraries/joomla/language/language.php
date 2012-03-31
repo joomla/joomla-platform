@@ -3,18 +3,18 @@
  * @package     Joomla.Platform
  * @subpackage  Language
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Allows for quoting in language .ini files.
  */
 define('_QQ_', '"');
 
-// import some libraries
+// Import some libraries
 jimport('joomla.filesystem.stream');
 
 /**
@@ -189,7 +189,6 @@ class JLanguage extends JObject
 		$class = str_replace('-', '_', $lang . 'Localise');
 		if (!class_exists($class) && defined('JPATH_SITE'))
 		{
-
 			// Class does not exist. Try to find it in the Site Language Folder
 			$localise = JPATH_SITE . "/language/$lang/$lang.localise.php";
 			if (file_exists($localise))
@@ -200,7 +199,6 @@ class JLanguage extends JObject
 
 		if (!class_exists($class) && defined('JPATH_ADMINISTRATOR'))
 		{
-
 			// Class does not exist. Try to find it in the Administrator Language Folder
 			$localise = JPATH_ADMINISTRATOR . "/language/$lang/$lang.localise.php";
 			if (file_exists($localise))
@@ -359,8 +357,6 @@ class JLanguage extends JObject
 	 */
 	public function transliterate($string)
 	{
-		include_once dirname(__FILE__) . '/latin_transliterate.php';
-
 		if ($this->transliterator !== null)
 		{
 			return call_user_func($this->transliterator, $string);
@@ -420,24 +416,6 @@ class JLanguage extends JObject
 		{
 			return array((string) $count);
 		}
-	}
-
-	/**
-	 * Getter for pluralSuffixesCallback function.
-	 *
-	 * @return  mixed  Function name (string) or the actual function for PHP 5.3 (function).
-	 *
-	 * @since   11.1
-	 *
-	 * @deprecated    12.1
-	 * @note    Use JLanguage::getPluralSuffixesCallback method instead
-	 */
-	public function getPluralSufficesCallback()
-	{
-		// Deprecation warning.
-		JLog::add('JLanguage::_getPluralSufficesCallback() is deprecated.', JLog::WARNING, 'deprecated');
-
-		return $this->getPluralSuffixesCallback();
 	}
 
 	/**
@@ -729,8 +707,8 @@ class JLanguage extends JObject
 
 		if (isset($this->paths[$extension][$filename]) && !$reload)
 		{
-			// Strings for this file have already been loaded.
-			$result = true;
+			// This file has already been tested for loading.
+			$result = $this->paths[$extension][$filename];
 		}
 		else
 		{
@@ -764,16 +742,15 @@ class JLanguage extends JObject
 	 *
 	 * This method will not note the successful loading of a file - use load() instead.
 	 *
-	 * @param   string   $filename   The name of the file.
-	 * @param   string   $extension  The name of the extension.
-	 * @param   boolean  $overwrite  Not used??
+	 * @param   string  $filename   The name of the file.
+	 * @param   string  $extension  The name of the extension.
 	 *
 	 * @return  boolean  True if new strings have been added to the language
 	 *
 	 * @see     JLanguage::load()
 	 * @since   11.1
 	 */
-	protected function loadLanguage($filename, $extension = 'unknown', $overwrite = true)
+	protected function loadLanguage($filename, $extension = 'unknown')
 	{
 		$this->counter++;
 
@@ -821,31 +798,14 @@ class JLanguage extends JObject
 	 */
 	protected function parse($filename)
 	{
-		$version = phpversion();
-
 		// Capture hidden PHP errors from the parsing.
 		$php_errormsg = null;
 		$track_errors = ini_get('track_errors');
 		ini_set('track_errors', true);
 
-		if ($version >= '5.3.1')
-		{
-			$contents = file_get_contents($filename);
-			$contents = str_replace('_QQ_', '"\""', $contents);
-			$strings = @parse_ini_string($contents);
-		}
-		else
-		{
-			$strings = @parse_ini_file($filename);
-
-			if ($version == '5.3.0' && is_array($strings))
-			{
-				foreach ($strings as $key => $string)
-				{
-					$strings[$key] = str_replace('_QQ_', '"', $string);
-				}
-			}
-		}
+		$contents = file_get_contents($filename);
+		$contents = str_replace('_QQ_', '"\""', $contents);
+		$strings = @parse_ini_string($contents);
 
 		// Restore error tracking to what it was before.
 		ini_set('track_errors', $track_errors);
@@ -871,6 +831,12 @@ class JLanguage extends JObject
 			while (!$stream->eof())
 			{
 				$line = $stream->gets();
+
+				// Avoid BOM error as BOM is OK when using parse_ini
+				if ($lineNumber == 0)
+				{
+					$line = str_replace("\xEF\xBB\xBF", '', $line);
+				}
 				$lineNumber++;
 
 				// Check that the key is not in the blacklist and that the line format passes the regex.
@@ -1057,7 +1023,7 @@ class JLanguage extends JObject
 	public function setDebug($debug)
 	{
 		$previous = $this->debug;
-		$this->debug = $debug;
+		$this->debug = (boolean) $debug;
 
 		return $previous;
 	}
@@ -1138,7 +1104,7 @@ class JLanguage extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function hasKey($string)
+	public function hasKey($string)
 	{
 		$key = strtoupper($string);
 
@@ -1269,25 +1235,6 @@ class JLanguage extends JObject
 	/**
 	 * Searches for language directories within a certain base dir.
 	 *
-	 * @param   string  $dir  Directory of files.
-	 *
-	 * @return  array  Array holding the found languages as filename => real name pairs.
-	 *
-	 * @deprecated    12.1
-	 * @note    Use parseLanguageFiles instead.
-	 * @since   11.1
-	 */
-	public static function _parseLanguageFiles($dir = null)
-	{
-		// Deprecation warning.
-		JLog::add('JLanguage::_parseLanguageFiles() is deprecated.', JLog::WARNING, 'deprecated');
-
-		return self::parseLanguageFiles($dir);
-	}
-
-	/**
-	 * Searches for language directories within a certain base dir.
-	 *
 	 * @param   string  $dir  directory of files.
 	 *
 	 * @return  array  Array holding the found languages as filename => real name pairs.
@@ -1309,26 +1256,6 @@ class JLanguage extends JObject
 		}
 
 		return $languages;
-	}
-
-	/**
-	 * Parses XML files for language information.
-	 *
-	 * @param   string  $dir  Directory of files.
-	 *
-	 * @return  array  Array holding the found languages as filename => metadata array.
-	 *
-	 * @note    Use parseXMLLanguageFiles instead.
-	 * @since   11.1
-	 *
-	 * @deprecated  12.1
-	 */
-	public static function _parseXMLLanguageFiles($dir = null)
-	{
-		// Deprecation warning.
-		JLog::add('JLanguage::_parseXMLLanguageFiles() is deprecated.', JLog::WARNING, 'deprecated');
-
-		return self::parseXMLLanguageFiles($dir);
 	}
 
 	/**
@@ -1364,22 +1291,6 @@ class JLanguage extends JObject
 		}
 
 		return $languages;
-	}
-
-	/**
-	 * Parse XML file for language information.
-	 *
-	 * @param   string  $path  Path to the XML files.
-	 *
-	 * @return  array  Array holding the found metadata as a key => value pair.
-	 *
-	 * @deprecated    12.1
-	 * @note    Use parseXMLLanguageFile instead.
-	 * @since   11.1
-	 */
-	public static function _parseXMLLanguageFile($path)
-	{
-		return self::parseXMLLanguageFile($path);
 	}
 
 	/**

@@ -3,13 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Environment
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
-
-jimport('joomla.string.string');
+defined('JPATH_PLATFORM') or die;
 
 /**
  * JURI Class
@@ -22,67 +20,67 @@ jimport('joomla.string.string');
  * @subpackage  Environment
  * @since       11.1
  */
-class JURI extends JObject
+class JURI
 {
 	/**
 	 * @var    string Original URI
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_uri = null;
+	protected $uri = null;
 
 	/**
 	 * @var    string  Protocol
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_scheme = null;
+	protected $scheme = null;
 
 	/**
 	 * @var    string  Host
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_host = null;
+	protected $host = null;
 
 	/**
 	 * @var    integer  Port
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_port = null;
+	protected $port = null;
 
 	/**
 	 * @var    string  Username
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_user = null;
+	protected $user = null;
 
 	/**
 	 * @var    string  Password
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_pass = null;
+	protected $pass = null;
 
 	/**
 	 * @var    string  Path
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_path = null;
+	protected $path = null;
 
 	/**
 	 * @var    string  Query
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_query = null;
+	protected $query = null;
 
 	/**
 	 * @var    string  Anchor
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_fragment = null;
+	protected $fragment = null;
 
 	/**
 	 * @var    array  Query variable hash
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_vars = array();
+	protected $vars = array();
 
 	/**
 	 * @var    array  An array of JURI instances.
@@ -164,9 +162,11 @@ class JURI extends JObject
 					$https = '://';
 				}
 
-				// Since we are assigning the URI from the server variables, we first need
-				// to determine if we are running on apache or IIS.  If PHP_SELF and REQUEST_URI
-				// are present, we will assume we are running on apache.
+				/*
+				 * Since we are assigning the URI from the server variables, we first need
+				 * to determine if we are running on apache or IIS.  If PHP_SELF and REQUEST_URI
+				 * are present, we will assume we are running on apache.
+				 */
 
 				if (!empty($_SERVER['PHP_SELF']) && !empty($_SERVER['REQUEST_URI']))
 				{
@@ -176,11 +176,13 @@ class JURI extends JObject
 				}
 				else
 				{
-					// Since we do not have REQUEST_URI to work with, we will assume we are
-					// running on IIS and will therefore need to work some magic with the SCRIPT_NAME and
-					// QUERY_STRING environment variables.
-
-					// IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable... thanks, MS
+					/*
+					 * Since we do not have REQUEST_URI to work with, we will assume we are
+					 * running on IIS and will therefore need to work some magic with the SCRIPT_NAME and
+					 * QUERY_STRING environment variables.
+					 *
+					 * IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable... thanks, MS
+					 */
 					$theURI = 'http' . $https . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
 
 					// If the query string exists append it to the URI string
@@ -329,41 +331,38 @@ class JURI extends JObject
 	 */
 	public function parse($uri)
 	{
-		// Initialise variables
-		$retval = false;
-
 		// Set the original URI to fall back on
-		$this->_uri = $uri;
+		$this->uri = $uri;
 
-		// Parse the URI and populate the object fields.  If URI is parsed properly,
+		// Parse the URI and populate the object fields. If URI is parsed properly,
 		// set method return value to true.
 
-		if ($_parts = JString::parse_url($uri))
-		{
-			$retval = true;
-		}
+		$parts = JString::parse_url($uri);
+
+		$retval = ($parts) ? true : false;
 
 		// We need to replace &amp; with & for parse_str to work right...
-		if (isset($_parts['query']) && strpos($_parts['query'], '&amp;'))
+		if (isset($parts['query']) && strpos($parts['query'], '&amp;'))
 		{
-			$_parts['query'] = str_replace('&amp;', '&', $_parts['query']);
+			$parts['query'] = str_replace('&amp;', '&', $parts['query']);
 		}
 
-		$this->_scheme = isset($_parts['scheme']) ? $_parts['scheme'] : null;
-		$this->_user = isset($_parts['user']) ? $_parts['user'] : null;
-		$this->_pass = isset($_parts['pass']) ? $_parts['pass'] : null;
-		$this->_host = isset($_parts['host']) ? $_parts['host'] : null;
-		$this->_port = isset($_parts['port']) ? $_parts['port'] : null;
-		$this->_path = isset($_parts['path']) ? $_parts['path'] : null;
-		$this->_query = isset($_parts['query']) ? $_parts['query'] : null;
-		$this->_fragment = isset($_parts['fragment']) ? $_parts['fragment'] : null;
+		$this->scheme = isset($parts['scheme']) ? $parts['scheme'] : null;
+		$this->user = isset($parts['user']) ? $parts['user'] : null;
+		$this->pass = isset($parts['pass']) ? $parts['pass'] : null;
+		$this->host = isset($parts['host']) ? $parts['host'] : null;
+		$this->port = isset($parts['port']) ? $parts['port'] : null;
+		$this->path = isset($parts['path']) ? $parts['path'] : null;
+		$this->query = isset($parts['query']) ? $parts['query'] : null;
+		$this->fragment = isset($parts['fragment']) ? $parts['fragment'] : null;
 
 		// Parse the query
 
-		if (isset($_parts['query']))
+		if (isset($parts['query']))
 		{
-			parse_str($_parts['query'], $this->_vars);
+			parse_str($parts['query'], $this->vars);
 		}
+
 		return $retval;
 	}
 
@@ -376,20 +375,20 @@ class JURI extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function toString($parts = array('scheme', 'user', 'pass', 'host', 'port', 'path', 'query', 'fragment'))
+	public function toString(array $parts = array('scheme', 'user', 'pass', 'host', 'port', 'path', 'query', 'fragment'))
 	{
 		// Make sure the query is created
 		$query = $this->getQuery();
 
 		$uri = '';
-		$uri .= in_array('scheme', $parts) ? (!empty($this->_scheme) ? $this->_scheme . '://' : '') : '';
-		$uri .= in_array('user', $parts) ? $this->_user : '';
-		$uri .= in_array('pass', $parts) ? (!empty($this->_pass) ? ':' : '') . $this->_pass . (!empty($this->_user) ? '@' : '') : '';
-		$uri .= in_array('host', $parts) ? $this->_host : '';
-		$uri .= in_array('port', $parts) ? (!empty($this->_port) ? ':' : '') . $this->_port : '';
-		$uri .= in_array('path', $parts) ? $this->_path : '';
+		$uri .= in_array('scheme', $parts) ? (!empty($this->scheme) ? $this->scheme . '://' : '') : '';
+		$uri .= in_array('user', $parts) ? $this->user : '';
+		$uri .= in_array('pass', $parts) ? (!empty($this->pass) ? ':' : '') . $this->pass . (!empty($this->user) ? '@' : '') : '';
+		$uri .= in_array('host', $parts) ? $this->host : '';
+		$uri .= in_array('port', $parts) ? (!empty($this->port) ? ':' : '') . $this->port : '';
+		$uri .= in_array('path', $parts) ? $this->path : '';
 		$uri .= in_array('query', $parts) ? (!empty($query) ? '?' . $query : '') : '';
-		$uri .= in_array('fragment', $parts) ? (!empty($this->_fragment) ? '#' . $this->_fragment : '') : '';
+		$uri .= in_array('fragment', $parts) ? (!empty($this->fragment) ? '#' . $this->fragment : '') : '';
 
 		return $uri;
 	}
@@ -407,11 +406,12 @@ class JURI extends JObject
 	 */
 	public function setVar($name, $value)
 	{
-		$tmp = @$this->_vars[$name];
-		$this->_vars[$name] = $value;
+		$tmp = isset($this->vars[$name]) ? $this->vars[$name] : null;
+
+		$this->vars[$name] = $value;
 
 		// Empty the query
-		$this->_query = null;
+		$this->query = null;
 
 		return $tmp;
 	}
@@ -427,7 +427,7 @@ class JURI extends JObject
 	 */
 	public function hasVar($name)
 	{
-		return array_key_exists($name, $this->_vars);
+		return array_key_exists($name, $this->vars);
 	}
 
 	/**
@@ -442,9 +442,9 @@ class JURI extends JObject
 	 */
 	public function getVar($name, $default = null)
 	{
-		if (array_key_exists($name, $this->_vars))
+		if (array_key_exists($name, $this->vars))
 		{
-			return $this->_vars[$name];
+			return $this->vars[$name];
 		}
 		return $default;
 	}
@@ -460,12 +460,12 @@ class JURI extends JObject
 	 */
 	public function delVar($name)
 	{
-		if (array_key_exists($name, $this->_vars))
+		if (array_key_exists($name, $this->vars))
 		{
-			unset($this->_vars[$name]);
+			unset($this->vars[$name]);
 
-			//empty the query
-			$this->_query = null;
+			// Empty the query
+			$this->query = null;
 		}
 	}
 
@@ -483,7 +483,7 @@ class JURI extends JObject
 	{
 		if (is_array($query))
 		{
-			$this->_vars = $query;
+			$this->vars = $query;
 		}
 		else
 		{
@@ -491,11 +491,11 @@ class JURI extends JObject
 			{
 				$query = str_replace('&amp;', '&', $query);
 			}
-			parse_str($query, $this->_vars);
+			parse_str($query, $this->vars);
 		}
 
 		// Empty the query
-		$this->_query = null;
+		$this->query = null;
 	}
 
 	/**
@@ -511,16 +511,16 @@ class JURI extends JObject
 	{
 		if ($toArray)
 		{
-			return $this->_vars;
+			return $this->vars;
 		}
 
 		// If the query is empty build it first
-		if (is_null($this->_query))
+		if (is_null($this->query))
 		{
-			$this->_query = self::buildQuery($this->_vars);
+			$this->query = self::buildQuery($this->vars);
 		}
 
-		return $this->_query;
+		return $this->query;
 	}
 
 	/**
@@ -533,9 +533,9 @@ class JURI extends JObject
 	 * @see     parse_str()
 	 * @since   11.1
 	 */
-	public static function buildQuery($params)
+	public static function buildQuery(array $params)
 	{
-		if (!is_array($params) || count($params) == 0)
+		if (count($params) == 0)
 		{
 			return false;
 		}
@@ -553,7 +553,7 @@ class JURI extends JObject
 	 */
 	public function getScheme()
 	{
-		return $this->_scheme;
+		return $this->scheme;
 	}
 
 	/**
@@ -568,7 +568,7 @@ class JURI extends JObject
 	 */
 	public function setScheme($scheme)
 	{
-		$this->_scheme = $scheme;
+		$this->scheme = $scheme;
 	}
 
 	/**
@@ -581,7 +581,7 @@ class JURI extends JObject
 	 */
 	public function getUser()
 	{
-		return $this->_user;
+		return $this->user;
 	}
 
 	/**
@@ -595,7 +595,7 @@ class JURI extends JObject
 	 */
 	public function setUser($user)
 	{
-		$this->_user = $user;
+		$this->user = $user;
 	}
 
 	/**
@@ -608,7 +608,7 @@ class JURI extends JObject
 	 */
 	public function getPass()
 	{
-		return $this->_pass;
+		return $this->pass;
 	}
 
 	/**
@@ -622,7 +622,7 @@ class JURI extends JObject
 	 */
 	public function setPass($pass)
 	{
-		$this->_pass = $pass;
+		$this->pass = $pass;
 	}
 
 	/**
@@ -635,7 +635,7 @@ class JURI extends JObject
 	 */
 	public function getHost()
 	{
-		return $this->_host;
+		return $this->host;
 	}
 
 	/**
@@ -649,7 +649,7 @@ class JURI extends JObject
 	 */
 	public function setHost($host)
 	{
-		$this->_host = $host;
+		$this->host = $host;
 	}
 
 	/**
@@ -662,7 +662,7 @@ class JURI extends JObject
 	 */
 	public function getPort()
 	{
-		return (isset($this->_port)) ? $this->_port : null;
+		return (isset($this->port)) ? $this->port : null;
 	}
 
 	/**
@@ -676,7 +676,7 @@ class JURI extends JObject
 	 */
 	public function setPort($port)
 	{
-		$this->_port = $port;
+		$this->port = $port;
 	}
 
 	/**
@@ -688,7 +688,7 @@ class JURI extends JObject
 	 */
 	public function getPath()
 	{
-		return $this->_path;
+		return $this->path;
 	}
 
 	/**
@@ -702,7 +702,7 @@ class JURI extends JObject
 	 */
 	public function setPath($path)
 	{
-		$this->_path = $this->_cleanPath($path);
+		$this->path = $this->_cleanPath($path);
 	}
 
 	/**
@@ -715,7 +715,7 @@ class JURI extends JObject
 	 */
 	public function getFragment()
 	{
-		return $this->_fragment;
+		return $this->fragment;
 	}
 
 	/**
@@ -730,7 +730,7 @@ class JURI extends JObject
 	 */
 	public function setFragment($anchor)
 	{
-		$this->_fragment = $anchor;
+		$this->fragment = $anchor;
 	}
 
 	/**
@@ -786,16 +786,16 @@ class JURI extends JObject
 
 		for ($i = 0, $n = count($path); $i < $n; $i++)
 		{
-			if ($path[$i] == '.' or $path[$i] == '..')
+			if ($path[$i] == '.' || $path[$i] == '..')
 			{
-				if (($path[$i] == '.') or ($path[$i] == '..' and $i == 1 and $path[0] == ''))
+				if (($path[$i] == '.') || ($path[$i] == '..' && $i == 1 && $path[0] == ''))
 				{
 					unset($path[$i]);
 					$path = array_values($path);
 					$i--;
 					$n--;
 				}
-				elseif ($path[$i] == '..' and ($i > 1 or ($i == 1 and $path[0] != '')))
+				elseif ($path[$i] == '..' && ($i > 1 || ($i == 1 && $path[0] != '')))
 				{
 					unset($path[$i]);
 					unset($path[$i - 1]);

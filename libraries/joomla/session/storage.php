@@ -3,11 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Custom session storage handler for PHP
@@ -19,6 +19,12 @@ defined('JPATH_PLATFORM') or die();
  */
 abstract class JSessionStorage extends JObject
 {
+	/**
+	 * @var    array  JSessionStorage instances container.
+	 * @since  11.3
+	 */
+	protected static $instances = array();
+
 	/**
 	 * Constructor
 	 *
@@ -43,22 +49,15 @@ abstract class JSessionStorage extends JObject
 	 */
 	public static function getInstance($name = 'none', $options = array())
 	{
-		static $instances;
-
-		if (!isset($instances))
-		{
-			$instances = array();
-		}
-
 		$name = strtolower(JFilterInput::getInstance()->clean($name, 'word'));
 
-		if (empty($instances[$name]))
+		if (empty(self::$instances[$name]))
 		{
 			$class = 'JSessionStorage' . ucfirst($name);
 
 			if (!class_exists($class))
 			{
-				$path = dirname(__FILE__) . '/storage/' . $name . '.php';
+				$path = __DIR__ . '/storage/' . $name . '.php';
 
 				if (file_exists($path))
 				{
@@ -71,10 +70,10 @@ abstract class JSessionStorage extends JObject
 				}
 			}
 
-			$instances[$name] = new $class($options);
+			self::$instances[$name] = new $class($options);
 		}
 
-		return $instances[$name];
+		return self::$instances[$name];
 	}
 
 	/**
@@ -88,7 +87,7 @@ abstract class JSessionStorage extends JObject
 	 */
 	public function register($options = array())
 	{
-		// use this object as the session handler
+		// Use this object as the session handler
 		session_set_save_handler(
 			array($this, 'open'), array($this, 'close'), array($this, 'read'), array($this, 'write'),
 			array($this, 'destroy'), array($this, 'gc')
@@ -186,10 +185,25 @@ abstract class JSessionStorage extends JObject
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
+	 * @since   12.1
+	 */
+	public static function isSupported()
+	{
+		return true;
+	}
+
+	/**
+	 * Test to see if the SessionHandler is available.
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
 	 * @since   11.1
+	 * @deprecated  12.3 Use JSessionStorage::isSupported() instead.
 	 */
 	public static function test()
 	{
-		return true;
+		JLog::add('JSessionStorage::test() is deprecated. Use JSessionStorage::isSupported() instead.', JLog::WARNING, 'deprecated');
+
+		return static::isSupported();
 	}
 }

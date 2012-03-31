@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -166,6 +166,7 @@ class JUpdate extends JObject
 	{
 		array_push($this->_stack, $name);
 		$tag = $this->_getStackLocation();
+
 		// Reset the data
 		eval('$this->' . $tag . '->_data = "";');
 
@@ -175,9 +176,11 @@ class JUpdate extends JObject
 			case 'UPDATE':
 				$this->_current_update = new stdClass;
 				break;
+
 			// Don't do anything
 			case 'UPDATES':
 				break;
+
 			// For everything else there's...the default!
 			default:
 				$name = strtolower($name);
@@ -228,7 +231,7 @@ class JUpdate extends JObject
 				}
 				break;
 			case 'UPDATES':
-			// If the latest item is set then we transfer it to where we want to
+				// If the latest item is set then we transfer it to where we want to
 				if (isset($this->_latest))
 				{
 					foreach (get_object_vars($this->_latest) as $key => $val)
@@ -261,8 +264,10 @@ class JUpdate extends JObject
 	public function _characterData($parser, $data)
 	{
 		$tag = $this->_getLastTag();
-		//if(!isset($this->$tag->_data)) $this->$tag->_data = '';
-		//$this->$tag->_data .= $data;
+
+		// @todo remove code: if(!isset($this->$tag->_data)) $this->$tag->_data = '';
+		// @todo remove code: $this->$tag->_data .= $data;
+
 		// Throw the data for this item together
 		$tag = strtolower($tag);
 		$this->_current_update->$tag->_data .= $data;
@@ -279,10 +284,12 @@ class JUpdate extends JObject
 	 */
 	public function loadFromXML($url)
 	{
-		if (!($fp = @fopen($url, 'r')))
+		$http = JHttpFactory::getHttp();
+		$response = $http->get($url);
+		if (200 != $response->code)
 		{
 			// TODO: Add a 'mark bad' setting here somehow
-			JError::raiseWarning('101', JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url));
+			JLog::add(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), JLog::WARNING, 'jerror');
 			return false;
 		}
 
@@ -291,17 +298,14 @@ class JUpdate extends JObject
 		xml_set_element_handler($this->xml_parser, '_startElement', '_endElement');
 		xml_set_character_data_handler($this->xml_parser, '_characterData');
 
-		while ($data = fread($fp, 8192))
+		if (!xml_parse($this->xml_parser, $response->data))
 		{
-			if (!xml_parse($this->xml_parser, $data, feof($fp)))
-			{
-				die(
-					sprintf(
-						"XML error: %s at line %d", xml_error_string(xml_get_error_code($this->xml_parser)),
-						xml_get_current_line_number($this->xml_parser)
-					)
-				);
-			}
+			die(
+				sprintf(
+					"XML error: %s at line %d", xml_error_string(xml_get_error_code($this->xml_parser)),
+					xml_get_current_line_number($this->xml_parser)
+				)
+			);
 		}
 		xml_parser_free($this->xml_parser);
 		return true;

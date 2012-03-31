@@ -3,11 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * WINCACHE cache storage handler
@@ -166,7 +166,6 @@ class JCacheStorageWincache extends JCacheStorage
 	 */
 	public function gc()
 	{
-		$lifetime = $this->_lifetime;
 		$allinfo = wincache_ucache_info();
 		$keys = $allinfo['cache_entries'];
 		$secret = $this->_hash;
@@ -184,8 +183,10 @@ class JCacheStorageWincache extends JCacheStorage
 	 * Test to see if the cache storage is available.
 	 *
 	 * @return boolean  True on success, false otherwise.
+	 *
+	 * @since   12.1
 	 */
-	public static function test()
+	public static function isSupported()
 	{
 		$test = extension_loaded('wincache') && function_exists('wincache_ucache_get') && !strcmp(ini_get('wincache.ucenabled'), '1');
 		return $test;

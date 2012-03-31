@@ -3,33 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.base.observable');
-jimport('joomla.plugin.helper');
 jimport('joomla.event.dispatcher');
-
-/**
- * This is the status code returned when the authentication is success (permit login)
- * @deprecated Use JAuthentication::STATUS_SUCCESS
- */
-define('JAUTHENTICATE_STATUS_SUCCESS', 1);
-
-/**
- * Status to indicate cancellation of authentication (unused)
- * @deprecated
- */
-define('JAUTHENTICATE_STATUS_CANCEL', 2);
-
-/**
- * This is the status code returned when the authentication failed (prevent login if no success)
- * @deprecated Use JAuthentication::STATUS_FAILURE
- */
-define('JAUTHENTICATE_STATUS_FAILURE', 4);
 
 /**
  * Authentication class, provides an interface for the Joomla authentication system
@@ -38,7 +18,7 @@ define('JAUTHENTICATE_STATUS_FAILURE', 4);
  * @subpackage  User
  * @since       11.1
  */
-class JAuthentication extends JObservable
+class JAuthentication extends JObject
 {
 	// Shared success status
 	/**
@@ -86,6 +66,36 @@ class JAuthentication extends JObservable
 	const STATUS_UNKNOWN = 32;
 
 	/**
+	 * An array of Observer objects to notify
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
+	protected $_observers = array();
+
+	/**
+	 * The state of the observable object
+	 *
+	 * @var    mixed
+	 * @since  11.1
+	 */
+	protected $_state = null;
+
+	/**
+	 * A multi dimensional array of [function][] = key for observers
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
+	protected $_methods = array();
+
+	/**
+	 * @var    JAuthentication  JAuthentication instances container.
+	 * @since  11.3
+	 */
+	protected static $instance;
+
+	/**
 	 * Constructor
 	 *
 	 * @since   11.1
@@ -96,7 +106,7 @@ class JAuthentication extends JObservable
 
 		if (!$isLoaded)
 		{
-			JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_USER_ERROR_AUTHENTICATION_LIBRARIES'));
+			JLog::add(JText::_('JLIB_USER_ERROR_AUTHENTICATION_LIBRARIES'), JLog::WARNING, 'jerror');
 		}
 	}
 
@@ -110,19 +120,127 @@ class JAuthentication extends JObservable
 	 */
 	public static function getInstance()
 	{
-		static $instances;
-
-		if (!isset($instances))
+		if (empty(self::$instance))
 		{
-			$instances = array();
+			self::$instance = new JAuthentication;
 		}
 
-		if (empty($instances[0]))
+		return self::$instance;
+	}
+
+	/**
+	 * Get the state of the JAuthentication object
+	 *
+	 * @return  mixed    The state of the object.
+	 *
+	 * @since   11.1
+	 */
+	public function getState()
+	{
+		return $this->_state;
+	}
+
+	/**
+	 * Attach an observer object
+	 *
+	 * @param   object  $observer  An observer object to attach
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function attach($observer)
+	{
+		if (is_array($observer))
 		{
-			$instances[0] = new JAuthentication;
+			if (!isset($observer['handler']) || !isset($observer['event']) || !is_callable($observer['handler']))
+			{
+				return;
+			}
+
+			// Make sure we haven't already attached this array as an observer
+			foreach ($this->_observers as $check)
+			{
+				if (is_array($check) && $check['event'] == $observer['event'] && $check['handler'] == $observer['handler'])
+				{
+					return;
+				}
+			}
+
+			$this->_observers[] = $observer;
+			end($this->_observers);
+			$methods = array($observer['event']);
+		}
+		else
+		{
+			if (!($observer instanceof JAuthentication))
+			{
+				return;
+			}
+
+			// Make sure we haven't already attached this object as an observer
+			$class = get_class($observer);
+
+			foreach ($this->_observers as $check)
+			{
+				if ($check instanceof $class)
+				{
+					return;
+				}
+			}
+
+			$this->_observers[] = $observer;
+			$methods = array_diff(get_class_methods($observer), get_class_methods('JPlugin'));
 		}
 
-		return $instances[0];
+		$key = key($this->_observers);
+
+		foreach ($methods as $method)
+		{
+			$method = strtolower($method);
+
+			if (!isset($this->_methods[$method]))
+			{
+				$this->_methods[$method] = array();
+			}
+
+			$this->_methods[$method][] = $key;
+		}
+	}
+
+	/**
+	 * Detach an observer object
+	 *
+	 * @param   object  $observer  An observer object to detach.
+	 *
+	 * @return  boolean  True if the observer object was detached.
+	 *
+	 * @since   11.1
+	 */
+	public function detach($observer)
+	{
+		// Initialise variables.
+		$retval = false;
+
+		$key = array_search($observer, $this->_observers);
+
+		if ($key !== false)
+		{
+			unset($this->_observers[$key]);
+			$retval = true;
+
+			foreach ($this->_methods as &$method)
+			{
+				$k = array_search($key, $method);
+
+				if ($k !== false)
+				{
+					unset($method[$k]);
+				}
+			}
+		}
+
+		return $retval;
 	}
 
 	/**
@@ -139,9 +257,6 @@ class JAuthentication extends JObservable
 	 */
 	public function authenticate($credentials, $options = array())
 	{
-		// Initialise variables.
-		$auth = false;
-
 		// Get plugins
 		$plugins = JPluginHelper::getPlugin('authentication');
 
@@ -165,7 +280,7 @@ class JAuthentication extends JObservable
 			else
 			{
 				// Bail here if the plugin can't be created
-				JError::raiseWarning(50, JText::sprintf('JLIB_USER_ERROR_AUTHENTICATION_FAILED_LOAD_PLUGIN', $className));
+				JLog::add(JText::sprintf('JLIB_USER_ERROR_AUTHENTICATION_FAILED_LOAD_PLUGIN', $className), JLog::WARNING, 'jerror');
 				continue;
 			}
 
@@ -173,7 +288,7 @@ class JAuthentication extends JObservable
 			$plugin->onUserAuthenticate($credentials, $options, $response);
 
 			// If authentication is successful break out of the loop
-			if ($response->status === JAuthentication::STATUS_SUCCESS)
+			if ($response->status === self::STATUS_SUCCESS)
 			{
 				if (empty($response->type))
 				{
@@ -305,7 +420,7 @@ class JAuthenticationResponse extends JObject
 	/**
 	 * The End User's gender, "M" for male, "F" for female.
 	 *
-	 * @var  string
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $gender = '';
@@ -313,7 +428,7 @@ class JAuthenticationResponse extends JObject
 	/**
 	 * UTF-8 string free text that SHOULD conform to the End User's country's postal system.
 	 *
-	 * @var postcode string
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $postcode = '';
@@ -321,7 +436,7 @@ class JAuthenticationResponse extends JObject
 	/**
 	 * The End User's country of residence as specified by ISO3166.
 	 *
-	 * @var string
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $country = '';
@@ -347,7 +462,7 @@ class JAuthenticationResponse extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function __construct()
+	public function __construct()
 	{
 	}
 }

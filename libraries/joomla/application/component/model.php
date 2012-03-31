@@ -3,11 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Base class for a Joomla Model
@@ -27,6 +27,15 @@ abstract class JModel extends JObject
 	 * @var    boolean
 	 * @since  11.1
 	 */
+	protected $stateSet = null;
+
+	/**
+	 * Indicates if the internal state has been set
+	 *
+	 * @var    boolean
+	 * @since  11.1
+	 * @deprecated use $stateSet declare as private
+	 */
 	protected $__state_set = null;
 
 	/**
@@ -34,6 +43,15 @@ abstract class JModel extends JObject
 	 *
 	 * @var    object
 	 * @since  11.1
+	 */
+	protected $db;
+
+	/**
+	 * Database Connector
+	 *
+	 * @var    object
+	 * @since  11.1
+	 * @deprecated use $db declare as private
 	 */
 	protected $_db;
 
@@ -130,7 +148,6 @@ abstract class JModel extends JObject
 	 */
 	public static function addTablePath($path)
 	{
-		jimport('joomla.database.table');
 		JTable::addIncludePath($path);
 	}
 
@@ -177,10 +194,10 @@ abstract class JModel extends JObject
 		if (!class_exists($modelClass))
 		{
 			jimport('joomla.filesystem.path');
-			$path = JPath::find(JModel::addIncludePath(null, $prefix), JModel::_createFileName('model', array('name' => $type)));
+			$path = JPath::find(self::addIncludePath(null, $prefix), self::_createFileName('model', array('name' => $type)));
 			if (!$path)
 			{
-				$path = JPath::find(JModel::addIncludePath(null, ''), JModel::_createFileName('model', array('name' => $type)));
+				$path = JPath::find(self::addIncludePath(null, ''), self::_createFileName('model', array('name' => $type)));
 			}
 			if ($path)
 			{
@@ -188,7 +205,7 @@ abstract class JModel extends JObject
 
 				if (!class_exists($modelClass))
 				{
-					JError::raiseWarning(0, JText::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $modelClass));
+					JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $modelClass), JLog::WARNING, 'jerror');
 					return false;
 				}
 			}
@@ -207,6 +224,7 @@ abstract class JModel extends JObject
 	 * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
 	 *
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public function __construct($config = array())
 	{
@@ -217,7 +235,7 @@ abstract class JModel extends JObject
 
 			if (!preg_match('/(.*)Model/i', get_class($this), $r))
 			{
-				JError::raiseError(500, JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'));
+				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 
 			$this->option = 'com_' . strtolower($r[1]);
@@ -315,7 +333,7 @@ abstract class JModel extends JObject
 	protected function _getListCount($query)
 	{
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 
 		return $this->_db->getNumRows();
 	}
@@ -348,9 +366,9 @@ abstract class JModel extends JObject
 	}
 
 	/**
-	 * Method to get the database connector object
+	 * Method to get the database driver object
 	 *
-	 * @return  JDatabase  JDatabase connector object
+	 * @return  JDatabaseDriver
 	 */
 	public function getDbo()
 	{
@@ -366,22 +384,21 @@ abstract class JModel extends JObject
 	 * @return  string  The name of the model
 	 *
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public function getName()
 	{
-		$name = $this->name;
-
-		if (empty($name))
+		if (empty($this->name))
 		{
 			$r = null;
 			if (!preg_match('/Model(.*)/i', get_class($this), $r))
 			{
-				JError::raiseError(500, 'JLIB_APPLICATION_ERROR_MODEL_GET_NAME');
+				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
-			$name = strtolower($r[1]);
+			$this->name = strtolower($r[1]);
 		}
 
-		return $name;
+		return $this->name;
 	}
 
 	/**
@@ -418,17 +435,13 @@ abstract class JModel extends JObject
 	 * @return  JTable  A JTable object
 	 *
 	 * @since   11.1
+	 * @throws  Exception
 	 */
-	public function getTable($name = '', $prefix = '', $options = array())
+	public function getTable($name = '', $prefix = 'Table', $options = array())
 	{
 		if (empty($name))
 		{
 			$name = $this->getName();
-		}
-
-		if (empty($prefix))
-		{
-			$prefix = $this->getName() . 'Table';
 		}
 
 		if ($table = $this->_createTable($name, $prefix, $options))
@@ -436,14 +449,7 @@ abstract class JModel extends JObject
 			return $table;
 		}
 
-		if ($table = $this->_createTable($name, 'Table', $options))
-		{
-			return $table;
-		}
-
-		JError::raiseError(0, JText::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name));
-
-		return null;
+		throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name), 0);
 	}
 
 	/**
@@ -463,17 +469,17 @@ abstract class JModel extends JObject
 	}
 
 	/**
-	 * Method to set the database connector object
+	 * Method to set the database driver object
 	 *
-	 * @param   object  &$db  A JDatabase based object
+	 * @param   JDatabaseDriver  $db  A JDatabaseDriver based object
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	public function setDbo(&$db)
+	public function setDbo($db)
 	{
-		$this->_db = &$db;
+		$this->_db = $db;
 	}
 
 	/**
@@ -511,7 +517,6 @@ abstract class JModel extends JObject
 			'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : JRequest::getCmd('option')),
 			'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'));
 
-		jimport('joomla.cache.cache');
 		$cache = JCache::getInstance('callback', $options);
 		$cache->clean();
 

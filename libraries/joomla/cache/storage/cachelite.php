@@ -3,11 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Cache lite storage handler
@@ -240,7 +240,7 @@ class JCacheStorageCachelite extends JCacheStorage
 					$clmode = $group;
 					self::$CacheLiteInstance->setOption('cacheDir', $this->_root . '/' . $group . '/');
 					$success = self::$CacheLiteInstance->clean($group, $clmode);
-					$return = JFolder::delete($this->_root . '/' . $group);
+					JFolder::delete($this->_root . '/' . $group);
 				}
 				else
 				{
@@ -286,7 +286,6 @@ class JCacheStorageCachelite extends JCacheStorage
 		$result = true;
 		self::$CacheLiteInstance->setOption('automaticCleaningFactor', 1);
 		self::$CacheLiteInstance->setOption('hashedDirectoryLevel', 1);
-		$test = self::$CacheLiteInstance;
 		$success1 = self::$CacheLiteInstance->_cleanDir($this->_root . '/', false, 'old');
 
 		if (!($dh = opendir($this->_root . '/')))
@@ -302,7 +301,7 @@ class JCacheStorageCachelite extends JCacheStorage
 
 				if (is_dir($file2))
 				{
-					$result = ($result and (self::$CacheLiteInstance->_cleanDir($file2 . '/', false, 'old')));
+					$result = ($result && (self::$CacheLiteInstance->_cleanDir($file2 . '/', false, 'old')));
 				}
 			}
 		}
@@ -317,9 +316,9 @@ class JCacheStorageCachelite extends JCacheStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	public static function test()
+	public static function isSupported()
 	{
 		@include_once 'Cache/Lite.php';
 

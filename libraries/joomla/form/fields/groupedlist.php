@@ -3,14 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
-
-jimport('joomla.html.html');
-jimport('joomla.form.formfield');
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Form Field class for the Joomla Platform.
@@ -36,6 +33,7 @@ class JFormFieldGroupedList extends JFormField
 	 * @return  array  The field option objects as a nested array in groups.
 	 *
 	 * @since   11.1
+	 * @throws  UnexpectedValueException
 	 */
 	protected function getGroups()
 	{
@@ -49,7 +47,7 @@ class JFormFieldGroupedList extends JFormField
 			{
 				// The element is an <option />
 				case 'option':
-				// Initialize the group if necessary.
+					// Initialize the group if necessary.
 					if (!isset($groups[$label]))
 					{
 						$groups[$label] = array();
@@ -74,7 +72,7 @@ class JFormFieldGroupedList extends JFormField
 
 				// The element is a <group />
 				case 'group':
-				// Get the group label.
+					// Get the group label.
 					if ($groupLabel = (string) $element['label'])
 					{
 						$label = JText::_($groupLabel);
@@ -119,8 +117,7 @@ class JFormFieldGroupedList extends JFormField
 
 				// Unknown element type.
 				default:
-					JError::raiseError(500, JText::sprintf('JLIB_FORM_ERROR_FIELDS_GROUPEDLIST_ELEMENT_NAME', $element->getName()));
-					break;
+					throw new UnexpectedValueException(sprintf('Unsupported element %s in JFormFieldGroupedList', $element->getName()), 500);
 			}
 		}
 

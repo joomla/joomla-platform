@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,6 +14,7 @@ JHtml::addIncludePath(JPATH_PLATFORM . '/joomla/html/html');
 jimport('joomla.environment.uri');
 jimport('joomla.environment.browser');
 jimport('joomla.filesystem.file');
+jimport('joomla.filesystem.path');
 
 /**
  * Utility class for all HTML drawing classes
@@ -35,7 +36,7 @@ abstract class JHtml
 	 * @var    array
 	 * @since  11.1
 	 */
-	static $formatOptions = array('format.depth' => 0, 'format.eol' => "\n", 'format.indent' => "\t");
+	public static $formatOptions = array('format.depth' => 0, 'format.eol' => "\n", 'format.indent' => "\t");
 
 	/**
 	 * An array to hold included paths
@@ -90,6 +91,7 @@ abstract class JHtml
 	 * @return  mixed  JHtml::call($function, $args) or False on error
 	 *
 	 * @since   11.1
+	 * @throws  InvalidArgumentException
 	 */
 	public static function _($key)
 	{
@@ -98,46 +100,45 @@ abstract class JHtml
 		{
 			$function = self::$registry[$key];
 			$args = func_get_args();
+
 			// Remove function name from arguments
 			array_shift($args);
-			return JHtml::call($function, $args);
+			return self::call($function, $args);
 		}
 
 		$className = $prefix . ucfirst($file);
 
 		if (!class_exists($className))
 		{
-			jimport('joomla.filesystem.path');
-			if ($path = JPath::find(JHtml::$includePaths, strtolower($file) . '.php'))
+			$path = JPath::find(self::$includePaths, strtolower($file) . '.php');
+			if ($path)
 			{
 				require_once $path;
 
 				if (!class_exists($className))
 				{
-					JError::raiseError(500, JText::sprintf('JLIB_HTML_ERROR_NOTFOUNDINFILE', $className, $func));
-					return false;
+					throw new InvalidArgumentException(sprintf('%s not found.', $className), 500);
 				}
 			}
 			else
 			{
-				JError::raiseError(500, JText::sprintf('JLIB_HTML_ERROR_NOTSUPPORTED_NOFILE', $prefix, $file));
-				return false;
+				throw new InvalidArgumentException(sprintf('%s %s not found.', $prefix, $file), 500);
 			}
 		}
 
 		$toCall = array($className, $func);
 		if (is_callable($toCall))
 		{
-			JHtml::register($key, $toCall);
+			self::register($key, $toCall);
 			$args = func_get_args();
+
 			// Remove function name from arguments
 			array_shift($args);
-			return JHtml::call($toCall, $args);
+			return self::call($toCall, $args);
 		}
 		else
 		{
-			JError::raiseError(500, JText::sprintf('JLIB_HTML_ERROR_NOTSUPPORTED', $className, $func));
-			return false;
+			throw new InvalidArgumentException(sprintf('%s::%s not found.', $className, $func), 500);
 		}
 	}
 
@@ -208,6 +209,7 @@ abstract class JHtml
 	 *
 	 * @see     http://php.net/manual/en/function.call-user-func-array.php
 	 * @since   11.1
+	 * @throws  InvalidArgumentException
 	 */
 	protected static function call($function, $args)
 	{
@@ -223,8 +225,7 @@ abstract class JHtml
 		}
 		else
 		{
-			JError::raiseError(500, JText::_('JLIB_HTML_ERROR_FUNCTION_NOT_SUPPORTED'));
-			return false;
+			throw new InvalidArgumentException('Function not supported', 500);
 		}
 	}
 
@@ -272,19 +273,20 @@ abstract class JHtml
 	}
 
 	/**
-	 * Compute the files to be include
+	 * Compute the files to be included
 	 *
+	 * @param   string   $folder          folder name to search into (images, css, js, ...)
 	 * @param   string   $file            path to file
 	 * @param   boolean  $relative        path to file is relative to /media folder
-	 * @param   boolean  $detect_browser  detect browser to include specific browser js files
-	 * @param   string   $folder          folder name to search into (images, css, js, ...)
+	 * @param   boolean  $detect_browser  detect browser to include specific browser files
+	 * @param   boolean  $detect_debug    detect debug to include compressed files if debug is on
 	 *
 	 * @return  array    files to be included
 	 *
 	 * @see     JBrowser
 	 * @since   11.1
 	 */
-	protected static function _includeRelativeFiles($file, $relative, $detect_browser, $folder)
+	protected static function includeRelativeFiles($folder, $file, $relative, $detect_browser, $detect_debug)
 	{
 		// If http is present in filename
 		if (strpos($file, 'http') === 0)
@@ -293,6 +295,10 @@ abstract class JHtml
 		}
 		else
 		{
+			// Extract extension and strip the file
+			$strip		= JFile::stripExt($file);
+			$ext		= JFile::getExt($file);
+
 			// Detect browser and compute potential files
 			if ($detect_browser)
 			{
@@ -300,17 +306,15 @@ abstract class JHtml
 				$browser = $navigator->getBrowser();
 				$major = $navigator->getMajor();
 				$minor = $navigator->getMinor();
-				$ext = JFile::getExt($file);
-				$strip = JFile::stripExt($file);
 
 				// Try to include files named filename.ext, filename_browser.ext, filename_browser_major.ext, filename_browser_major_minor.ext
 				// where major and minor are the browser version names
-				$potential = array($file, $strip . '_' . $browser . '.' . $ext, $strip . '_' . $browser . '_' . $major . '.' . $ext,
-					$strip . '_' . $browser . '_' . $major . '_' . $minor . '.' . $ext);
+				$potential = array($strip, $strip . '_' . $browser,  $strip . '_' . $browser . '_' . $major,
+					$strip . '_' . $browser . '_' . $major . '_' . $minor);
 			}
 			else
 			{
-				$potential = array($file);
+				$potential = array($strip);
 			}
 
 			// If relative search in template directory or media directory
@@ -325,68 +329,90 @@ abstract class JHtml
 				$includes = array();
 
 				// For each potential files
-				foreach ($potential as $file)
+				foreach ($potential as $strip)
 				{
-					// If the file is in the template folder
-					if (file_exists(JPATH_THEMES . "/$template/$folder/$file"))
-					{
-						$includes[] = JURI::base(true) . "/templates/$template/$folder/$file";
-					}
-					else
-					{
-						// If the file contains any /: it can be in an media extension subfolder
-						if (strpos($file, '/'))
-						{
-							// Divide the file extracting the extension as the first part before /
-							list($extension, $file) = explode('/', $file, 2);
+					$files = array();
 
-							// If the file yet contains any /: it can be a plugin
+					// Detect debug mode
+					if ($detect_debug && JFactory::getConfig()->get('debug'))
+					{
+						$files[] = $strip . '-uncompressed.' . $ext;
+					}
+					$files[] = $strip . '.' . $ext;
+
+					// Loop on 1 or 2 files and break on first found
+					foreach ($files as $file)
+					{
+						// If the file is in the template folder
+						if (file_exists(JPATH_THEMES . "/$template/$folder/$file"))
+						{
+							$includes[] = JURI::base(true) . "/templates/$template/$folder/$file";
+							break;
+						}
+						else
+						{
+							// If the file contains any /: it can be in an media extension subfolder
 							if (strpos($file, '/'))
 							{
-								// Divide the file extracting the element as the first part before /
-								list($element, $file) = explode('/', $file, 2);
+								// Divide the file extracting the extension as the first part before /
+								list($extension, $file) = explode('/', $file, 2);
 
-								// Try to deal with plugins group in the media folder
-								if (file_exists(JPATH_ROOT . "/media/$extension/$element/$folder/$file"))
+								// If the file yet contains any /: it can be a plugin
+								if (strpos($file, '/'))
 								{
-									$includes[] = JURI::root(true) . "/media/$extension/$element/$folder/$file";
+									// Divide the file extracting the element as the first part before /
+									list($element, $file) = explode('/', $file, 2);
+
+									// Try to deal with plugins group in the media folder
+									if (file_exists(JPATH_ROOT . "/media/$extension/$element/$folder/$file"))
+									{
+										$includes[] = JURI::root(true) . "/media/$extension/$element/$folder/$file";
+										break;
+									}
+									// Try to deal with classical file in a a media subfolder called element
+									elseif (file_exists(JPATH_ROOT . "/media/$extension/$folder/$element/$file"))
+									{
+										$includes[] = JURI::root(true) . "/media/$extension/$folder/$element/$file";
+										break;
+									}
+									// Try to deal with system files in the template folder
+									elseif (file_exists(JPATH_THEMES . "/$template/$folder/system/$element/$file"))
+									{
+										$includes[] = JURI::root(true) . "/templates/$template/$folder/system/$element/$file";
+										break;
+									}
+									// Try to deal with system files in the media folder
+									elseif (file_exists(JPATH_ROOT . "/media/system/$folder/$element/$file"))
+									{
+										$includes[] = JURI::root(true) . "/media/system/$folder/$element/$file";
+										break;
+									}
 								}
-								// Try to deal with classical file in a a media subfolder called element
-								elseif (file_exists(JPATH_ROOT . "/media/$extension/$folder/$element/$file"))
+								// Try to deals in the extension media folder
+								elseif (file_exists(JPATH_ROOT . "/media/$extension/$folder/$file"))
 								{
-									$includes[] = JURI::root(true) . "/media/$extension/$folder/$element/$file";
+									$includes[] = JURI::root(true) . "/media/$extension/$folder/$file";
+									break;
 								}
 								// Try to deal with system files in the template folder
-								elseif (file_exists(JPATH_THEMES . "/$template/$folder/system/$element/$file"))
+								elseif (file_exists(JPATH_THEMES . "/$template/$folder/system/$file"))
 								{
-									$includes[] = JURI::root(true) . "/templates/$template/$folder/system/$element/$file";
+									$includes[] = JURI::root(true) . "/templates/$template/$folder/system/$file";
+									break;
 								}
 								// Try to deal with system files in the media folder
-								elseif (file_exists(JPATH_ROOT . "/media/system/$folder/$element/$file"))
+								elseif (file_exists(JPATH_ROOT . "/media/system/$folder/$file"))
 								{
-									$includes[] = JURI::root(true) . "/media/system/$folder/$element/$file";
+									$includes[] = JURI::root(true) . "/media/system/$folder/$file";
+									break;
 								}
-							}
-							// Try to deals in the extension media folder
-							elseif (file_exists(JPATH_ROOT . "/media/$extension/$folder/$file"))
-							{
-								$includes[] = JURI::root(true) . "/media/$extension/$folder/$file";
-							}
-							// Try to deal with system files in the template folder
-							elseif (file_exists(JPATH_THEMES . "/$template/$folder/system/$file"))
-							{
-								$includes[] = JURI::root(true) . "/templates/$template/$folder/system/$file";
 							}
 							// Try to deal with system files in the media folder
 							elseif (file_exists(JPATH_ROOT . "/media/system/$folder/$file"))
 							{
 								$includes[] = JURI::root(true) . "/media/system/$folder/$file";
+								break;
 							}
-						}
-						// Try to deal with system files in the media folder
-						elseif (file_exists(JPATH_ROOT . "/media/system/$folder/$file"))
-						{
-							$includes[] = JURI::root(true) . "/media/system/$folder/$file";
 						}
 					}
 				}
@@ -395,11 +421,16 @@ abstract class JHtml
 			else
 			{
 				$includes = array();
-				foreach ($potential as $file)
+				foreach ($potential as $strip)
 				{
-					if (file_exists(JPATH_ROOT . "/$file"))
+					// Detect debug mode
+					if ($detect_debug && JFactory::getConfig()->get('debug') && file_exists(JPATH_ROOT . "/$strip-uncompressed.$ext"))
 					{
-						$includes[] = JURI::root(true) . "/$file";
+						$includes[] = JURI::root(true) . "/$strip-uncompressed.$ext";
+					}
+					elseif (file_exists(JPATH_ROOT . "/$strip.$ext"))
+					{
+						$includes[] = JURI::root(true) . "/$strip.$ext";
 					}
 				}
 			}
@@ -427,7 +458,7 @@ abstract class JHtml
 			$attribs = JArrayHelper::toString($attribs);
 		}
 
-		$includes = self::_includeRelativeFiles($file, $relative, false, 'images');
+		$includes = self::includeRelativeFiles('images', $file, $relative, false, false);
 
 		// If only path is required
 		if ($path_only)
@@ -479,30 +510,16 @@ abstract class JHtml
 	 *                                       <tr><td>Firefox</td>                    <td>mozilla</td>	<td>5.0</td></tr>
 	 *                                    </table>
 	 *                                    a lot of others
+	 * @param   boolean  $detect_debug    detect debug to search for compressed files if debug is on
 	 *
 	 * @return  mixed  nothing if $path_only is false, null, path or array of path if specific css browser files were detected
 	 *
 	 * @see     JBrowser
 	 * @since   11.1
 	 */
-	public static function stylesheet($file, $attribs = array(), $relative = false, $path_only = false, $detect_browser = true)
+	public static function stylesheet($file, $attribs = array(), $relative = false, $path_only = false, $detect_browser = true, $detect_debug = true)
 	{
-		// Need to adjust for the change in API from 1.5 to 1.6.
-		// Function stylesheet($filename, $path = 'media/system/css/', $attribs = array())
-		if (is_string($attribs))
-		{
-			// Assume this was the old $path variable.
-			$file = $attribs . $file;
-		}
-
-		if (is_array($relative))
-		{
-			// Assume this was the old $attribs variable.
-			$attribs = $relative;
-			$relative = false;
-		}
-
-		$includes = self::_includeRelativeFiles($file, $relative, $detect_browser, 'css');
+		$includes = self::includeRelativeFiles('css', $file, $relative, $detect_browser, $detect_debug);
 
 		// If only path is required
 		if ($path_only)
@@ -539,32 +556,22 @@ abstract class JHtml
 	 * @param   boolean  $relative        path to file is relative to /media folder
 	 * @param   boolean  $path_only       return the path to the file only
 	 * @param   boolean  $detect_browser  detect browser to include specific browser js files
+	 * @param   boolean  $detect_debug    detect debug to search for compressed files if debug is on
 	 *
 	 * @return  mixed  nothing if $path_only is false, null, path or array of path if specific js browser files were detected
 	 *
 	 * @see     JHtml::stylesheet
 	 * @since   11.1
 	 */
-	public static function script($file, $framework = false, $relative = false, $path_only = false, $detect_browser = true)
+	public static function script($file, $framework = false, $relative = false, $path_only = false, $detect_browser = true, $detect_debug = true)
 	{
-		JHtml::core();
-
-		// Need to adjust for the change in API from 1.5 to 1.6.
-		// function script($filename, $path = 'media/system/js/', $mootools = true)
-		if (is_string($framework))
-		{
-			// Assume this was the old $path variable.
-			$file = $framework . $file;
-			$framework = $relative;
-		}
-
 		// Include MooTools framework
 		if ($framework)
 		{
-			JHtml::_('behavior.framework');
+			self::_('behavior.framework');
 		}
 
-		$includes = self::_includeRelativeFiles($file, $relative, $detect_browser, 'js');
+		$includes = self::includeRelativeFiles('js', $file, $relative, $detect_browser, $detect_debug);
 
 		// If only path is required
 		if ($path_only)
@@ -591,29 +598,6 @@ abstract class JHtml
 				$document->addScript($include);
 			}
 		}
-	}
-
-	/**
-	 * Add the /media/system/js/core Javascript file.
-	 *
-	 * @param   boolean  $debug  True if debugging is enabled.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	public static function core($debug = null)
-	{
-		// If no debugging value is set, use the configuration setting
-		if ($debug === null)
-		{
-			$debug = JFactory::getConfig()->get('debug');
-		}
-
-		$uncompressed = $debug ? '-uncompressed' : '';
-
-		$document = JFactory::getDocument();
-		$document->addScript(JURI::root(true) . '/media/system/js/core' . $uncompressed . '.js');
 	}
 
 	/**
@@ -697,7 +681,7 @@ abstract class JHtml
 		{
 			$format = JText::_('DATE_FORMAT_LC1');
 		}
-		// format is an existing language key
+		// $format is an existing language key
 		elseif (JFactory::getLanguage()->hasKey($format))
 		{
 			$format = JText::_($format);
@@ -818,11 +802,11 @@ abstract class JHtml
 			$attribs = JArrayHelper::toString($attribs);
 		}
 
-		if ((!$readonly) && (!$disabled))
+		if (!$readonly && !$disabled)
 		{
 			// Load the calendar behavior
-			JHtml::_('behavior.calendar');
-			JHtml::_('behavior.tooltip');
+			self::_('behavior.calendar');
+			self::_('behavior.tooltip');
 
 			// Only display the triggers once for each control.
 			if (!in_array($id, $done))
@@ -830,7 +814,7 @@ abstract class JHtml
 				$document = JFactory::getDocument();
 				$document
 					->addScriptDeclaration(
-						'window.addEvent(\'domready\', function() {Calendar.setup({
+					'window.addEvent(\'domready\', function() {Calendar.setup({
 				// Id of the input field
 				inputField: "' . $id . '",
 				// Format of the input field
@@ -845,14 +829,17 @@ abstract class JHtml
 				);
 				$done[] = $id;
 			}
+			return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value) : '') . '" name="' . $name . '" id="' . $id
+				. '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
+				. self::_('image', 'system/calendar.png', JText::_('JLIB_HTML_CALENDAR'), array('class' => 'calendar', 'id' => $id . '_img'), true);
 		}
-
-		return '<input type="text" title="' . (0 !== (int) $value ? JHtml::_('date', $value) : '') . '" name="' . $name . '" id="' . $id
-			. '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
-			. ($readonly ? ''
-				: JHtml::_('image', 'system/calendar.png', JText::_('JLIB_HTML_CALENDAR'), array('class' => 'calendar', 'id' => $id . '_img'), true));
+		else
+		{
+			return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value) : '')
+				. '" value="' . (0 !== (int) $value ? self::_('date', $value, JFactory::getDbo()->getDateFormat()) : '') . '" ' . $attribs
+				. ' /><input type="hidden" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" />';
+		}
 	}
-
 	/**
 	 * Add a directory where JHtml should search for helpers. You may
 	 * either pass a string or an array of directories.
@@ -871,13 +858,13 @@ abstract class JHtml
 		// Loop through the path directories
 		foreach ($path as $dir)
 		{
-			if (!empty($dir) && !in_array($dir, JHtml::$includePaths))
+			if (!empty($dir) && !in_array($dir, self::$includePaths))
 			{
 				jimport('joomla.filesystem.path');
-				array_unshift(JHtml::$includePaths, JPath::clean($dir));
+				array_unshift(self::$includePaths, JPath::clean($dir));
 			}
 		}
 
-		return JHtml::$includePaths;
+		return self::$includePaths;
 	}
 }

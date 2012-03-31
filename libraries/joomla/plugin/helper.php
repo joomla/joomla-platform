@@ -3,11 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Plugin helper class
@@ -103,7 +103,7 @@ abstract class JPluginHelper
 	{
 		static $loaded = array();
 
-		// check for the default args, if so we can optimise cheaply
+		// Check for the default args, if so we can optimise cheaply
 		$defaults = false;
 		if (is_null($plugin) && $autocreate == true && is_null($dispatcher))
 		{
@@ -141,7 +141,7 @@ abstract class JPluginHelper
 	/**
 	 * Loads the plugin file.
 	 *
-	 * @param   JPlugin      &$plugin     The plugin.
+	 * @param   JPlugin      $plugin      The plugin.
 	 * @param   boolean      $autocreate  True to autocreate.
 	 * @param   JDispatcher  $dispatcher  Optionally allows the plugin to use a different dispatcher.
 	 *
@@ -149,7 +149,7 @@ abstract class JPluginHelper
 	 *
 	 * @since   11.1
 	 */
-	protected static function _import(&$plugin, $autocreate = true, $dispatcher = null)
+	protected static function _import($plugin, $autocreate = true, $dispatcher = null)
 	{
 		static $paths = array();
 
@@ -166,7 +166,6 @@ abstract class JPluginHelper
 			{
 				$path = $pathExists ? $path : $legacypath;
 
-				jimport('joomla.plugin.plugin');
 				if (!isset($paths[$path]))
 				{
 					require_once $path;
@@ -239,7 +238,7 @@ abstract class JPluginHelper
 
 			if ($error = $db->getErrorMsg())
 			{
-				JError::raiseWarning(500, $error);
+				JLog::add($error, JLog::WARNING, 'jerror');
 				return false;
 			}
 

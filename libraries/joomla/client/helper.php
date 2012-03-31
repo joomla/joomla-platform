@@ -3,11 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Client
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Client helper class
@@ -23,10 +23,10 @@ class JClientHelper
 	 *
 	 * @param   string   $client  Client name, currently only 'ftp' is supported
 	 * @param   boolean  $force   Forces re-creation of the login credentials. Set this to
-	 * true if login credentials in the session storage have changed
+	 *                            true if login credentials in the session storage have changed
 	 *
 	 * @return  array    Client layer configuration options, consisting of at least
-	 * these fields: enabled, host, port, user, pass, root
+	 *                   these fields: enabled, host, port, user, pass, root
 	 *
 	 * @since   11.1
 	 */
@@ -105,8 +105,7 @@ class JClientHelper
 
 				if ($options['enabled'])
 				{
-					jimport('joomla.client.ftp');
-					$ftp = JFTP::getInstance($options['host'], $options['port']);
+					$ftp = JClientFtp::getInstance($options['host'], $options['port']);
 
 					// Test the connection and try to log in
 					if ($ftp->isConnected())
@@ -132,7 +131,7 @@ class JClientHelper
 			$session->set($client . '.pass', $pass, 'JClientHelper');
 
 			// Force re-creation of the data saved within JClientHelper::getCredentials()
-			JClientHelper::getCredentials($client, true);
+			self::getCredentials($client, true);
 		}
 
 		return $return;
@@ -211,7 +210,7 @@ class JClientHelper
 		if ($user != '' && $pass != '')
 		{
 			// Add credentials to the session
-			if (JClientHelper::setCredentials($client, $user, $pass))
+			if (self::setCredentials($client, $user, $pass))
 			{
 				$return = false;
 			}
@@ -223,7 +222,7 @@ class JClientHelper
 		else
 		{
 			// Just determine if the FTP input fields need to be shown
-			$return = !JClientHelper::hasCredentials('ftp');
+			$return = !self::hasCredentials('ftp');
 		}
 
 		return $return;

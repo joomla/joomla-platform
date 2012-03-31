@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,12 +19,17 @@ defined('JPATH_PLATFORM') or die;
 abstract class JHtmlBehavior
 {
 	/**
+	 * @var   array   array containing information for loaded files
+	 */
+	protected static $loaded = array();
+
+	/**
 	 * Method to load the MooTools framework into the document head
 	 *
 	 * If debugging mode is on an uncompressed version of MooTools is included for easier debugging.
 	 *
-	 * @param   string   $extras  MooTools file to load
-	 * @param   boolean  $debug   Is debugging mode on? [optional]
+	 * @param   string  $extras  MooTools file to load
+	 * @param   mixed   $debug   Is debugging mode on? [optional]
 	 *
 	 * @return  void
 	 *
@@ -32,17 +37,13 @@ abstract class JHtmlBehavior
 	 */
 	public static function framework($extras = false, $debug = null)
 	{
-		static $loaded = array();
-
 		$type = $extras ? 'more' : 'core';
 
 		// Only load once
-		if (!empty($loaded[$type]))
+		if (!empty(self::$loaded[__METHOD__][$type]))
 		{
 			return;
 		}
-
-		JHtml::core($debug);
 
 		// If no debugging value is set, use the configuration setting
 		if ($debug === null)
@@ -51,36 +52,16 @@ abstract class JHtmlBehavior
 			$debug = $config->get('debug');
 		}
 
-		$uncompressed = $debug ? '-uncompressed' : '';
-
-		if ($type != 'core' && empty($loaded['core']))
+		if ($type != 'core' && empty(self::$loaded[__METHOD__]['core']))
 		{
 			self::framework(false, $debug);
 		}
 
-		JHtml::_('script', 'system/mootools-' . $type . $uncompressed . '.js', false, true, false, false);
-		$loaded[$type] = true;
+		JHtml::_('script', 'system/mootools-' . $type . '.js', false, true, false, false, $debug);
+		JHtml::_('script', 'system/core.js', false, true);
+		self::$loaded[__METHOD__][$type] = true;
 
 		return;
-	}
-
-	/**
-	 * Deprecated. Use JHtmlBehavior::framework() instead.
-	 *
-	 * @param   boolean  $debug  Is debugging mode on? [optional]
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 *
-	 * @deprecated    12.1
-	 */
-	public static function mootools($debug = null)
-	{
-		// Deprecation warning.
-		JLog::add('JBehavior::mootools is deprecated.', JLog::WARNING, 'deprecated');
-
-		self::framework(true, $debug);
 	}
 
 	/**
@@ -94,15 +75,8 @@ abstract class JHtmlBehavior
 	 */
 	public static function caption($selector = 'img.caption')
 	{
-		static $caption;
-
-		if (!isset($caption))
-		{
-			$caption = array();
-		}
-
 		// Only load once
-		if (isset($caption[$selector]))
+		if (isset(self::$loaded[__METHOD__][$selector]))
 		{
 			return;
 		}
@@ -110,8 +84,7 @@ abstract class JHtmlBehavior
 		// Include MooTools framework
 		self::framework();
 
-		$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
-		JHtml::_('script', 'system/caption' . $uncompressed . '.js', true, true);
+		JHtml::_('script', 'system/caption.js', true, true);
 
 		// Attach caption to document
 		JFactory::getDocument()->addScriptDeclaration(
@@ -121,7 +94,7 @@ abstract class JHtmlBehavior
 		);
 
 		// Set static array
-		$tips[$selector] = true;
+		self::$loaded[__METHOD__][$selector] = true;
 	}
 
 	/**
@@ -138,10 +111,8 @@ abstract class JHtmlBehavior
 	 */
 	public static function formvalidation()
 	{
-		static $loaded = false;
-
 		// Only load once
-		if ($loaded)
+		if (isset(self::$loaded[__METHOD__]))
 		{
 			return;
 		}
@@ -149,9 +120,8 @@ abstract class JHtmlBehavior
 		// Include MooTools framework
 		self::framework();
 
-		$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
-		JHtml::_('script', 'system/validate' . $uncompressed . '.js', true, true);
-		$loaded = true;
+		JHtml::_('script', 'system/validate.js', true, true);
+		self::$loaded[__METHOD__] = true;
 	}
 
 	/**
@@ -164,10 +134,8 @@ abstract class JHtmlBehavior
 	 */
 	public static function switcher()
 	{
-		static $loaded = false;
-
 		// Only load once
-		if ($loaded)
+		if (isset(self::$loaded[__METHOD__]))
 		{
 			return;
 		}
@@ -175,8 +143,7 @@ abstract class JHtmlBehavior
 		// Include MooTools framework
 		self::framework();
 
-		$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
-		JHtml::_('script', 'system/switcher' . $uncompressed . '.js', true, true);
+		JHtml::_('script', 'system/switcher.js', true, true);
 
 		$script = "
 			document.switcher = null;
@@ -189,7 +156,7 @@ abstract class JHtmlBehavior
 			});";
 
 		JFactory::getDocument()->addScriptDeclaration($script);
-		$loaded = true;
+		self::$loaded[__METHOD__] = true;
 	}
 
 	/**
@@ -204,20 +171,15 @@ abstract class JHtmlBehavior
 	 */
 	public static function combobox()
 	{
-		static $loaded = false;
-
-		// Only load once
-		if ($loaded)
+		if (isset(self::$loaded[__METHOD__]))
 		{
 			return;
 		}
-
 		// Include MooTools framework
 		self::framework();
 
-		$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
-		JHtml::_('script', 'system/combobox' . $uncompressed . '.js', true, true);
-		$loaded = true;
+		JHtml::_('script', 'system/combobox.js', true, true);
+		self::$loaded[__METHOD__] = true;
 	}
 
 	/**
@@ -249,31 +211,20 @@ abstract class JHtmlBehavior
 	 */
 	public static function tooltip($selector = '.hasTip', $params = array())
 	{
-		static $tips;
-
-		if (!isset($tips))
+		$sig = md5(serialize(array($selector, $params)));
+		if (isset(self::$loaded[__METHOD__][$sig]))
 		{
-			$tips = array();
+			return;
 		}
 
 		// Include MooTools framework
 		self::framework(true);
 
-		$sig = md5(serialize(array($selector, $params)));
-		if (isset($tips[$sig]) && ($tips[$sig]))
-		{
-			return;
-		}
-
 		// Setup options object
 		$opt['maxTitleChars']	= (isset($params['maxTitleChars']) && ($params['maxTitleChars'])) ? (int) $params['maxTitleChars'] : 50;
-		// offsets needs an array in the format: array('x'=>20, 'y'=>30)
+
+		// Offsets needs an array in the format: array('x'=>20, 'y'=>30)
 		$opt['offset']			= (isset($params['offset']) && (is_array($params['offset']))) ? $params['offset'] : null;
-		if (!isset($opt['offset']))
-		{
-			// Supporting offsets parameter which was working in mootools 1.2 (Joomla!1.5)
-			$opt['offset']		= (isset($params['offsets']) && (is_array($params['offsets']))) ? $params['offsets'] : null;
-		}
 		$opt['showDelay']		= (isset($params['showDelay'])) ? (int) $params['showDelay'] : null;
 		$opt['hideDelay']		= (isset($params['hideDelay'])) ? (int) $params['hideDelay'] : null;
 		$opt['className']		= (isset($params['className'])) ? $params['className'] : null;
@@ -281,11 +232,11 @@ abstract class JHtmlBehavior
 		$opt['onShow']			= (isset($params['onShow'])) ? '\\' . $params['onShow'] : null;
 		$opt['onHide']			= (isset($params['onHide'])) ? '\\' . $params['onHide'] : null;
 
-		$options = JHtmlBehavior::_getJSObject($opt);
+		$options = self::_getJSObject($opt);
 
 		// Attach tooltips to document
 		JFactory::getDocument()->addScriptDeclaration(
-		"window.addEvent('domready', function() {
+			"window.addEvent('domready', function() {
 			$$('$selector').each(function(el) {
 				var title = el.get('title');
 				if (title) {
@@ -299,7 +250,7 @@ abstract class JHtmlBehavior
 		);
 
 		// Set static array
-		$tips[$sig] = true;
+		self::$loaded[__METHOD__][$sig] = true;
 
 		return;
 	}
@@ -327,32 +278,21 @@ abstract class JHtmlBehavior
 	 */
 	public static function modal($selector = 'a.modal', $params = array())
 	{
-		static $modals;
-		static $included;
-
 		$document = JFactory::getDocument();
 
 		// Load the necessary files if they haven't yet been loaded
-		if (!isset($included))
+		if (!isset(self::$loaded[__METHOD__]))
 		{
 			// Include MooTools framework
-			self::framework();
+			self::framework(true);
 
 			// Load the javascript and css
-			$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
-			JHtml::_('script', 'system/modal' . $uncompressed . '.js', true, true);
+			JHtml::_('script', 'system/modal.js', true, true);
 			JHtml::_('stylesheet', 'system/modal.css', array(), true);
-
-			$included = true;
-		}
-
-		if (!isset($modals))
-		{
-			$modals = array();
 		}
 
 		$sig = md5(serialize(array($selector, $params)));
-		if (isset($modals[$sig]) && ($modals[$sig]))
+		if (isset(self::$loaded[__METHOD__][$sig]))
 		{
 			return;
 		}
@@ -377,12 +317,12 @@ abstract class JHtmlBehavior
 		$opt['onShow']			= (isset($params['onShow'])) ? $params['onShow'] : null;
 		$opt['onHide']			= (isset($params['onHide'])) ? $params['onHide'] : null;
 
-		$options = JHtmlBehavior::_getJSObject($opt);
+		$options = self::_getJSObject($opt);
 
 		// Attach modal behavior to document
 		$document
 			->addScriptDeclaration(
-				"
+			"
 		window.addEvent('domready', function() {
 
 			SqueezeBox.initialize(" . $options . ");
@@ -393,7 +333,7 @@ abstract class JHtmlBehavior
 		);
 
 		// Set static array
-		$modals[$sig] = true;
+		self::$loaded[__METHOD__][$sig] = true;
 
 		return;
 	}
@@ -409,15 +349,8 @@ abstract class JHtmlBehavior
 	 */
 	public static function multiselect($id = 'adminForm')
 	{
-		static $multiselect;
-
-		if (!isset($multiselect))
-		{
-			$multiselect = array();
-		}
-
 		// Only load once
-		if (isset($multiselect[$id]))
+		if (isset(self::$loaded[__METHOD__][$id]))
 		{
 			return;
 		}
@@ -435,7 +368,7 @@ abstract class JHtmlBehavior
 		);
 
 		// Set static array
-		$multiselect[$id] = true;
+		self::$loaded[__METHOD__][$id] = true;
 		return;
 	}
 
@@ -455,19 +388,14 @@ abstract class JHtmlBehavior
 		// Include MooTools framework
 		self::framework();
 
-		$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
-		JHtml::_('script', 'system/swf' . $uncompressed . '.js', true, true);
-		JHtml::_('script', 'system/progressbar' . $uncompressed . '.js', true, true);
-		JHtml::_('script', 'system/uploader' . $uncompressed . '.js', true, true);
+		JHtml::_('script', 'system/swf.js', true, true);
+		JHtml::_('script', 'system/progressbar.js', true, true);
+		JHtml::_('script', 'system/uploader.js', true, true);
 
 		$document = JFactory::getDocument();
 
-		static $uploaders;
-
-		if (!isset($uploaders))
+		if (!isset(self::$loaded[__METHOD__]))
 		{
-			$uploaders = array();
-
 			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_FILENAME');
 			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_UPLOAD_COMPLETED');
 			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_ERROR_OCCURRED');
@@ -491,7 +419,7 @@ abstract class JHtmlBehavior
 			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_ALL_FILES');
 		}
 
-		if (isset($uploaders[$id]) && ($uploaders[$id]))
+		if (isset(self::$loaded[__METHOD__][$id]))
 		{
 			return;
 		}
@@ -521,19 +449,24 @@ abstract class JHtmlBehavior
 		$opt['target']			= (isset($params['target'])) ? $params['target'] : '\\document.id(\'upload-browse\')';
 		$opt['instantStart']	= (isset($params['instantStart']) && ($params['instantStart'])) ? true : false;
 		$opt['allowDuplicates']	= (isset($params['allowDuplicates']) && !($params['allowDuplicates'])) ? false : true;
-		// limitSize is the old parameter name.  Remove in 1.7
+
+		// "limitSize" is the old parameter name.  Remove in 1.7
 		$opt['fileSizeMax']		= (isset($params['limitSize']) && ($params['limitSize'])) ? (int) $params['limitSize'] : null;
-		// fileSizeMax is the new name.  If supplied, it will override the old value specified for limitSize
+
+		// "fileSizeMax" is the new name.  If supplied, it will override the old value specified for limitSize
 		$opt['fileSizeMax']		= (isset($params['fileSizeMax']) && ($params['fileSizeMax'])) ? (int) $params['fileSizeMax'] : $opt['fileSizeMax'];
 		$opt['fileSizeMin']		= (isset($params['fileSizeMin']) && ($params['fileSizeMin'])) ? (int) $params['fileSizeMin'] : null;
-		// limitFiles is the old parameter name.  Remove in 1.7
+
+		// "limitFiles" is the old parameter name.  Remove in 1.7
 		$opt['fileListMax']		= (isset($params['limitFiles']) && ($params['limitFiles'])) ? (int) $params['limitFiles'] : null;
-		// fileListMax is the new name.  If supplied, it will override the old value specified for limitFiles
+
+		// "fileListMax" is the new name.  If supplied, it will override the old value specified for limitFiles
 		$opt['fileListMax']		= (isset($params['fileListMax']) && ($params['fileListMax'])) ? (int) $params['fileListMax'] : $opt['fileListMax'];
 		$opt['fileListSizeMax'] = (isset($params['fileListSizeMax']) && ($params['fileListSizeMax'])) ? (int) $params['fileListSizeMax'] : null;
-		// types is the old parameter name.  Remove in 1.7
+
+		// "types" is the old parameter name.  Remove in 1.7
 		$opt['typeFilter']		= (isset($params['types'])) ? '\\' . $params['types']
-			: '\\{Joomla.JText._(\'JLIB_HTML_BEHAVIOR_UPLOADER_ALL_FILES\'): \'*.*\'}';
+		: '\\{Joomla.JText._(\'JLIB_HTML_BEHAVIOR_UPLOADER_ALL_FILES\'): \'*.*\'}';
 		$opt['typeFilter']		= (isset($params['typeFilter'])) ? '\\' . $params['typeFilter'] : $opt['typeFilter'];
 
 		// Optional functions
@@ -591,7 +524,7 @@ abstract class JHtmlBehavior
 				});
 			}';
 
-		$options = JHtmlBehavior::_getJSObject($opt);
+		$options = self::_getJSObject($opt);
 
 		// Attach tooltips to document
 		$uploaderInit = 'window.addEvent(\'domready\', function(){
@@ -600,7 +533,7 @@ abstract class JHtmlBehavior
 		$document->addScriptDeclaration($uploaderInit);
 
 		// Set static array
-		$uploaders[$id] = true;
+		self::$loaded[__METHOD__][$id] = true;
 
 		return;
 	}
@@ -618,21 +551,13 @@ abstract class JHtmlBehavior
 	 */
 	public static function tree($id, $params = array(), $root = array())
 	{
-		static $trees;
-
-		if (!isset($trees))
-		{
-			$trees = array();
-		}
-
 		// Include MooTools framework
 		self::framework();
 
-		$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
-		JHtml::_('script', 'system/mootree' . $uncompressed . '.js', true, true, false, false);
+		JHtml::_('script', 'system/mootree.js', true, true, false, false);
 		JHtml::_('stylesheet', 'system/mootree.css', array(), true);
 
-		if (isset($trees[$id]) && ($trees[$id]))
+		if (isset(self::$loaded[__METHOD__][$id]))
 		{
 			return;
 		}
@@ -647,9 +572,9 @@ abstract class JHtmlBehavior
 		$opt['onExpand']	= (array_key_exists('onExpand', $params)) ? '\\' . $params['onExpand'] : null;
 		$opt['onSelect']	= (array_key_exists('onSelect', $params)) ? '\\' . $params['onSelect'] : null;
 		$opt['onClick']		= (array_key_exists('onClick', $params)) ? '\\' . $params['onClick']
-			: '\\function(node){  window.open(node.data.url, $chk(node.data.target) ? node.data.target : \'_self\'); }';
+		: '\\function(node){  window.open(node.data.url, node.data.target != null ? node.data.target : \'_self\'); }';
 
-		$options = JHtmlBehavior::_getJSObject($opt);
+		$options = self::_getJSObject($opt);
 
 		// Setup root node
 		$rt['text']		= (array_key_exists('text', $root)) ? $root['text'] : 'Root';
@@ -659,7 +584,7 @@ abstract class JHtmlBehavior
 		$rt['icon']		= (array_key_exists('icon', $root)) ? $root['icon'] : null;
 		$rt['openicon']	= (array_key_exists('openicon', $root)) ? $root['openicon'] : null;
 		$rt['data']		= (array_key_exists('data', $root)) ? $root['data'] : null;
-		$rootNode = JHtmlBehavior::_getJSObject($rt);
+		$rootNode = self::_getJSObject($rt);
 
 		$treeName = (array_key_exists('treeName', $params)) ? $params['treeName'] : '';
 
@@ -672,7 +597,7 @@ abstract class JHtmlBehavior
 		$document->addScriptDeclaration($js);
 
 		// Set static array
-		$trees[$id] = true;
+		self::$loaded[__METHOD__][$id] = true;
 
 		return;
 	}
@@ -686,10 +611,8 @@ abstract class JHtmlBehavior
 	 */
 	public static function calendar()
 	{
-		static $loaded = false;
-
 		// Only load once
-		if ($loaded)
+		if (isset(self::$loaded[__METHOD__]))
 		{
 			return;
 		}
@@ -697,18 +620,16 @@ abstract class JHtmlBehavior
 		$document = JFactory::getDocument();
 		$tag = JFactory::getLanguage()->getTag();
 
-		//Add uncompressed versions when debug is enabled
-		$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
 		JHtml::_('stylesheet', 'system/calendar-jos.css', array(' title' => JText::_('JLIB_HTML_BEHAVIOR_GREEN'), ' media' => 'all'), true);
-		JHtml::_('script', $tag . '/calendar' . $uncompressed . '.js', false, true);
-		JHtml::_('script', $tag . '/calendar-setup' . $uncompressed . '.js', false, true);
+		JHtml::_('script', $tag . '/calendar.js', false, true);
+		JHtml::_('script', $tag . '/calendar-setup.js', false, true);
 
-		$translation = JHtmlBehavior::_calendartranslation();
+		$translation = self::_calendartranslation();
 		if ($translation)
 		{
 			$document->addScriptDeclaration($translation);
 		}
-		$loaded = true;
+		self::$loaded[__METHOD__] = true;
 	}
 
 	/**
@@ -720,10 +641,8 @@ abstract class JHtmlBehavior
 	 */
 	public static function colorpicker()
 	{
-		static $loaded = false;
-
 		// Only load once
-		if ($loaded)
+		if (isset(self::$loaded[__METHOD__]))
 		{
 			return;
 		}
@@ -731,14 +650,12 @@ abstract class JHtmlBehavior
 		// Include MooTools framework
 		self::framework(true);
 
-		//Add uncompressed versions when debug is enabled
-		$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
 		JHtml::_('stylesheet', 'system/mooRainbow.css', array('media' => 'all'), true);
 		JHtml::_('script', 'system/mooRainbow.js', false, true);
 
 		JFactory::getDocument()
 			->addScriptDeclaration(
-				"window.addEvent('domready', function(){
+			"window.addEvent('domready', function(){
 				var nativeColorUi = false;
 				if (Browser.opera && (Browser.version >= 11.5)) {
 					nativeColorUi = true;
@@ -751,7 +668,7 @@ abstract class JHtmlBehavior
 						new MooRainbow(item,
 						{
 							imgPath: '" . JURI::root(true)
-					. "/media/system/images/mooRainbow/',
+			. "/media/system/images/mooRainbow/',
 							onComplete: function(color) {
 								this.element.value = color.hex;
 							},
@@ -763,7 +680,7 @@ abstract class JHtmlBehavior
 		"
 		);
 
-		$loaded = true;
+		self::$loaded[__METHOD__] = true;
 	}
 
 	/**
@@ -775,10 +692,8 @@ abstract class JHtmlBehavior
 	 */
 	public static function keepalive()
 	{
-		static $loaded = false;
-
 		// Only load once
-		if ($loaded)
+		if (isset(self::$loaded[__METHOD__]))
 		{
 			return;
 		}
@@ -789,9 +704,10 @@ abstract class JHtmlBehavior
 		$config = JFactory::getConfig();
 		$lifetime = ($config->get('lifetime') * 60000);
 		$refreshTime = ($lifetime <= 60000) ? 30000 : $lifetime - 60000;
+
 		// Refresh time is 1 minute less than the liftime assined in the configuration.php file.
 
-		// the longest refresh period is one hour to prevent integer overflow.
+		// The longest refresh period is one hour to prevent integer overflow.
 		if ($refreshTime > 3600000 || $refreshTime <= 0)
 		{
 			$refreshTime = 3600000;
@@ -807,7 +723,59 @@ abstract class JHtmlBehavior
 		$script .= ');';
 
 		$document->addScriptDeclaration($script);
-		$loaded = true;
+		self::$loaded[__METHOD__] = true;
+
+		return;
+	}
+
+	/**
+	 * Highlight some words via Javascript.
+	 *
+	 * @param   array   $terms      Array of words that should be highlighted.
+	 * @param   string  $start      ID of the element that marks the begin of the section in which words
+	 *                              should be highlighted. Note this element will be removed from the DOM.
+	 * @param   string  $end        ID of the element that end this section.
+	 *                              Note this element will be removed from the DOM.
+	 * @param   string  $className  Class name of the element highlights are wrapped in.
+	 * @param   string  $tag        Tag that will be used to wrap the highlighted words.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public static function highlighter(array $terms, $start = 'highlighter-start', $end = 'highlighter-end', $className = 'highlight', $tag = 'span')
+	{
+		$sig = md5(serialize(array($terms, $start, $end)));
+		if (isset(self::$loaded[__METHOD__][$sig]))
+		{
+			return;
+		}
+
+		JHtml::_('script', 'system/highlighter.js', true, true);
+
+		$terms = str_replace('"', '\"', $terms);
+
+		$document = JFactory::getDocument();
+		$document->addScriptDeclaration("
+			window.addEvent('domready', function () {
+				var start = document.id('" . $start . "');
+				var end = document.id('" . $end . "');
+				if (!start || !end || !Joomla.Highlighter) {
+					return true;
+				}
+				highlighter = new Joomla.Highlighter({
+					startElement: start,
+					endElement: end,
+					className: '" . $className . "',
+					onlyWords: false,
+					tag: '" . $tag . "'
+				}).highlight([\"" . implode('","', $terms) . "\"]);
+				start.dispose();
+				end.dispose();
+			});
+		");
+
+		self::$loaded[__METHOD__][$sig] = true;
 
 		return;
 	}
@@ -815,18 +783,14 @@ abstract class JHtmlBehavior
 	/**
 	 * Break us out of any containing iframes
 	 *
-	 * @param   string  $location  Location to display in
-	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	public static function noframes($location = 'top.location.href')
+	public static function noframes()
 	{
-		static $loaded = false;
-
 		// Only load once
-		if ($loaded)
+		if (isset(self::$loaded[__METHOD__]))
 		{
 			return;
 		}
@@ -842,7 +806,7 @@ abstract class JHtmlBehavior
 
 		JResponse::setHeader('X-Frames-Options', 'SAME-ORIGIN');
 
-		$loaded = true;
+		self::$loaded[__METHOD__] = true;
 	}
 
 	/**
@@ -895,7 +859,7 @@ abstract class JHtmlBehavior
 			}
 			else
 			{
-				$object .= ' ' . $k . ': ' . JHtmlBehavior::_getJSObject($v) . ',';
+				$object .= ' ' . $k . ': ' . self::_getJSObject($v) . ',';
 			}
 		}
 

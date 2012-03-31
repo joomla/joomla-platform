@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -21,14 +21,14 @@ jimport('joomla.base.adapterinstance');
 class JUpdateAdapter extends JAdapterInstance
 {
 	/**
-	 * @var    string
+	 * @var    resource
 	 * @since  11.1
 	 */
 	protected $xml_parser;
 
 	/**
 	 * @var    array
-	 * @since 11.1
+	 * @since  11.1
 	 */
 	protected $_stack = array('base');
 
@@ -46,7 +46,7 @@ class JUpdateAdapter extends JAdapterInstance
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $_updatecols = array('NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT_ID', 'VERSION', 'DESCRIPTION');
+	protected $_updatecols = array('NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT', 'VERSION', 'DESCRIPTION', 'INFOURL');
 
 	/**
 	 * Gets the reference to the current direct parent

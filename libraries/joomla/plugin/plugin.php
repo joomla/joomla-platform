@@ -3,13 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
-
-jimport('joomla.event.event');
+defined('JPATH_PLATFORM') or die;
 
 /**
  * JPlugin Class
@@ -23,7 +21,7 @@ abstract class JPlugin extends JEvent
 	/**
 	 * A JRegistry object holding the parameters for the plugin
 	 *
-	 * @var    A JRegistry object
+	 * @var    JRegistry
 	 * @since  11.1
 	 */
 	public $params = null;
@@ -32,6 +30,7 @@ abstract class JPlugin extends JEvent
 	 * The name of the plugin
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	protected $_name = null;
 
@@ -39,6 +38,7 @@ abstract class JPlugin extends JEvent
 	 * The plugin type
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	protected $_type = null;
 

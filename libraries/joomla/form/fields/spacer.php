@@ -3,13 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
-
-jimport('joomla.form.formfield');
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Form Field class for the Joomla Platform.
@@ -66,6 +64,7 @@ class JFormFieldSpacer extends JFormField
 		else
 		{
 			$label = '';
+
 			// Get the label text from the XML element, defaulting to the element name.
 			$text = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
 			$text = $this->translateLabel ? JText::_($text) : $text;
@@ -82,9 +81,9 @@ class JFormFieldSpacer extends JFormField
 			{
 				$label .= ' title="'
 					. htmlspecialchars(
-						trim($text, ':') . '::' . ($this->translateDescription ? JText::_($this->description) : $this->description),
-						ENT_COMPAT, 'UTF-8'
-					) . '"';
+					trim($text, ':') . '::' . ($this->translateDescription ? JText::_($this->description) : $this->description),
+					ENT_COMPAT, 'UTF-8'
+				) . '"';
 			}
 
 			// Add the label text and closing tag.

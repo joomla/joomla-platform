@@ -3,15 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.log.log');
 jimport('joomla.log.logger');
-jimport('joomla.database.database');
 
 /**
  * Joomla! MySQL Database Log class
@@ -63,7 +61,7 @@ class JLoggerDatabase extends JLogger
 	protected $table = 'jos_';
 
 	/**
-	 * @var    JDatabase  The database connection object for the logger.
+	 * @var    JDatabaseDriver  The database driver object for the logger.
 	 * @since  11.1
 	 */
 	protected $dbo;
@@ -125,7 +123,7 @@ class JLoggerDatabase extends JLogger
 		}
 
 		// Convert the date.
-		$entry->date = $entry->date->toMySQL();
+		$entry->date = $entry->date->toSql();
 
 		$this->dbo->insertObject($this->table, $entry);
 	}
@@ -140,7 +138,7 @@ class JLoggerDatabase extends JLogger
 	 */
 	protected function connect()
 	{
-		// Build the configuration object to use for JDatabase.
+		// Build the configuration object to use for JDatabaseDriver.
 		$options = array(
 			'driver' => $this->driver,
 			'host' => $this->host,
@@ -153,7 +151,7 @@ class JLoggerDatabase extends JLogger
 		{
 			$db = JDatabase::getInstance($options);
 
-			if (JError::isError($db))
+			if ($db instanceof Exception)
 			{
 				throw new LogException('Database Error: ' . (string) $db);
 			}
@@ -166,7 +164,7 @@ class JLoggerDatabase extends JLogger
 			// Assign the database connector to the class.
 			$this->dbo = $db;
 		}
-		catch (JDatabaseException $e)
+		catch (RuntimeException $e)
 		{
 			throw new LogException($e->getMessage());
 		}

@@ -210,13 +210,13 @@ var MooTreeControl = new Class({
 		this.disable();
 		this._adopt(id, parentNode);
 		parentNode.update(true);
-		$(id).destroy();
+		document.id(id).destroy();
 		this.enable();
 	},
 
 	_adopt: function(id, parentNode) {
 		/* adopts a structure of ul/li elements into this tree */
-		e = $(id);
+		e = document.id(id);
 		var i=0, c = e.getChildren();
 		for (i=0; i<c.length; i++) {
 			if (c[i].nodeName == 'LI') {
@@ -248,7 +248,7 @@ var MooTreeControl = new Class({
 							if (pcs.length == 2) con[pcs[0].trim()] = pcs[1].trim();
 						}
 					}
-					if ($chk(c[i].id)) {
+					if (c[i].id != null) {
 						con.id = 'node_'+c[i].id;
 					}
 					node = parentNode.insert(con);
@@ -362,8 +362,8 @@ var MooTreeNode = new Class({
 		this.div.main.adopt(this.div.text);
 
 		// put the main and sub divs in the specified parent div:
-		$(options.div).adopt(this.div.main);
-		$(options.div).adopt(this.div.sub);
+		document.id(options.div).adopt(this.div.main);
+		document.id(options.div).adopt(this.div.sub);
 
 		// attach event handler to gadget:
 		this.div.gadget._node = this;
@@ -629,7 +629,7 @@ var MooTreeNode = new Class({
 				url: url,
 				onSuccess: this._loaded.bind(this),
 				onFailure: this._load_err.bind(this)
-			}).send(url, vars || '');
+			}).send(vars || '');
 		}.bind(this).delay(20);
 
 		//window.setTimeout(f.bind(this), 20); // allowing a small delay for the browser to draw the loader-icon.
