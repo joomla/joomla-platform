@@ -458,7 +458,7 @@ class JEditor extends JObject
                     try
                         {
 			// Try to authenticate
-                        // Unsafe opearation, might cause an exception if $className not exists                        
+                        // Unsafe operation, might cause an exception if $className not exists                        
                         if ($temp = $plugin->onDisplay($editor, $this->asset, $this->author))
                         {
                             $result[] = $temp;
