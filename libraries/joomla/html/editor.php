@@ -455,11 +455,18 @@ class JEditor extends JObject
 				$plugin = new $className($this, (array) $plugin);
 			}
 
+                        try{
 			// Try to authenticate
-			if ($temp = $plugin->onDisplay($editor, $this->asset, $this->author))
-			{
-				$result[] = $temp;
-			}
+                            // Unsafe opearation, might cause an exception if $className not exists
+                        
+                            if ($temp = $plugin->onDisplay($editor, $this->asset, $this->author))
+                            {
+                                    $result[] = $temp;
+                            }
+                        }  catch (Exception $e){
+                            echo 'Exception while authenticating.';
+                            echo 'Message '.$e->getMessage(); // print the error message
+                        }
 		}
 
 		return $result;
