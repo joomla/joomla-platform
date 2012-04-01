@@ -463,11 +463,11 @@ class JEditor extends JObject
 
 			// Try to authenticate
 			if ($temp = $plugin->onDisplay($editor, $this->asset, $this->author))
-                        {
-                            $result[] = $temp;
-                        }
-                        
-		}
+			{
+				$result[] = $temp;
+			}
+
+			}
 
 		return $result;
 	}
