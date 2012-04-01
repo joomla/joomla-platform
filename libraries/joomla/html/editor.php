@@ -454,20 +454,17 @@ class JEditor extends JObject
 			{
 				$plugin = new $className($this, (array) $plugin);
 			}
-
-                    try
+                        else 
                         {
+                            throw new Exception("Class does not exists "+$className);
+                        }
+
 			// Try to authenticate
-                        // Unsafe operation, might cause an exception if $className not exists                        
                         if ($temp = $plugin->onDisplay($editor, $this->asset, $this->author))
                         {
                             $result[] = $temp;
                         }
-                        }catch (Exception $e)
-                        {
-                            echo 'Exception while authenticating';
-                            echo 'Message ' . $e->getMessage(); //Print the error message
-                        }
+                        
 		}
 
 		return $result;
