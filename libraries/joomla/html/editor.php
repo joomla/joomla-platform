@@ -426,7 +426,7 @@ class JEditor extends JObject
 	 *
 	 * @return  array
 	 *
-         * @throws   InvalidArgumentException    If plugin required does not exists
+         * @throws	InvalidArgumentException	If plugin required does not exists
          *   
 	 * @since   11.1
 	 */
@@ -456,13 +456,13 @@ class JEditor extends JObject
 			{
 				$plugin = new $className($this, (array) $plugin);
 			}
-                        else 
-                        {
-                            throw new InvalidArgumentException("Class does not exists "+$className);
-                        }
+			else
+			{
+				throw new InvalidArgumentException('Class does not exists ' . $className);
+			}
 
 			// Try to authenticate
-                        if ($temp = $plugin->onDisplay($editor, $this->asset, $this->author))
+			if ($temp = $plugin->onDisplay($editor, $this->asset, $this->author))
                         {
                             $result[] = $temp;
                         }
