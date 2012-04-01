@@ -458,7 +458,7 @@ class JEditor extends JObject
 			}
 			else
 			{
-				throw new InvalidArgumentException('Class does not exists ' . $className);
+				throw new InvalidArgumentException('Class does not exists: ' . $className);
 			}
 
 			// Try to authenticate
