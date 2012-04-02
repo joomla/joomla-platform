@@ -265,6 +265,26 @@ class JComponentView extends JObject
 			$this->_basePath = JPATH_BASE;
 		}
 
+		// Set the theme name
+		if (array_key_exists('theme', $config))
+		{
+			$this->theme = $config['theme'];
+		}
+		else
+		{
+			$this->theme = 'system';
+		}
+
+		// Set the theme directory
+		if (array_key_exists('theme_path', $config))
+		{
+			$this->theme_path = $config['theme_path'];
+		}
+		else
+		{
+			$this->theme_path = JPATH_BASE.'/themes';
+		}
+
 		// Set the default template search path
 		if (array_key_exists('template_path', $config))
 		{
@@ -295,26 +315,6 @@ class JComponentView extends JObject
 		else
 		{
 			$this->setLayout('default');
-		}
-
-		// Set the theme name
-		if (array_key_exists('theme', $config))
-		{
-			$this->theme = $config['theme'];
-		}
-		else
-		{
-			$this->theme = 'system';
-		}
-
-		// Set the theme directory
-		if (array_key_exists('theme_path', $config))
-		{
-			$this->theme_path = $config['theme_path'];
-		}
-		else
-		{
-			$this->theme_path = JPATH_BASE.'/themes';
 		}
 
 		$this->baseurl = JURI::base(true);
