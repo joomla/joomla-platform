@@ -53,8 +53,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 	public function fetchHead($document)
 	{
 		// Trigger the onBeforeCompileHead event (skip for installation, since it causes an error)
-		$app = JFactory::getApplication();
-		$app->triggerEvent('onBeforeCompileHead');
+		JDispatcher::getInstance()->trigger('onBeforeCompileHead');
 
 		// Get line endings
 		$lnEnd = $document->_getLineEnd();
