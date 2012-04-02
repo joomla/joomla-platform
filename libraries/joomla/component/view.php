@@ -18,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Application
  * @since       11.1
  */
-class JView extends JObject
+class JComponentView extends JObject
 {
 	/**
 	 * The name of the view
@@ -156,6 +156,20 @@ class JView extends JObject
 	protected $_template = null;
 
 	/**
+	 * The name of the theme.
+	 *
+	 * @var string
+	 */
+	protected $theme = null;
+
+	/**
+	 * The path to the theme directory.
+	 *
+	 * @var string
+	 */
+	protected $theme_path = null;
+
+	/**
 	 * The output of the template script.
 	 *
 	 * @var string
@@ -248,7 +262,27 @@ class JView extends JObject
 		}
 		else
 		{
-			$this->_basePath = JPATH_COMPONENT;
+			$this->_basePath = JPATH_BASE;
+		}
+
+		// Set the theme name
+		if (array_key_exists('theme', $config))
+		{
+			$this->theme = $config['theme'];
+		}
+		else
+		{
+			$this->theme = 'system';
+		}
+
+		// Set the theme directory
+		if (array_key_exists('theme_path', $config))
+		{
+			$this->theme_path = $config['theme_path'];
+		}
+		else
+		{
+			$this->theme_path = JPATH_BASE.'/themes';
 		}
 
 		// Set the default template search path
@@ -691,7 +725,6 @@ class JView extends JObject
 		// Clear prior output
 		$this->_output = null;
 
-		$template = JFactory::getApplication()->getTemplate();
 		$layout = $this->getLayout();
 		$layoutTemplate = $this->getLayoutTemplate();
 
@@ -704,15 +737,15 @@ class JView extends JObject
 
 		// Load the language file for the template
 		$lang = JFactory::getLanguage();
-		$lang->load('tpl_' . $template, JPATH_BASE, null, false, false)
-			|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, false)
-			|| $lang->load('tpl_' . $template, JPATH_BASE, $lang->getDefault(), false, false)
-			|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", $lang->getDefault(), false, false);
+		$lang->load('tpl_' . $this->theme, JPATH_BASE, null, false, false)
+			|| $lang->load('tpl_' . $this->theme, $this->theme_path . '/' . $this->theme, null, false, false)
+			|| $lang->load('tpl_' . $this->theme, JPATH_BASE, $lang->getDefault(), false, false)
+			|| $lang->load('tpl_' . $this->theme, $this->theme_path . '/' . $this->theme, $lang->getDefault(), false, false);
 
 		// Change the template folder if alternative layout is in different template
-		if (isset($layoutTemplate) && $layoutTemplate != '_' && $layoutTemplate != $template)
+		if (isset($layoutTemplate) && $layoutTemplate != '_' && $layoutTemplate != $this->theme)
 		{
-			$this->_path['template'] = str_replace($template, $layoutTemplate, $this->_path['template']);
+			$this->_path['template'] = str_replace($this->theme, $layoutTemplate, $this->_path['template']);
 		}
 
 		// Load the template script
@@ -796,9 +829,6 @@ class JView extends JObject
 	 */
 	protected function _setPath($type, $path)
 	{
-		$component = JApplicationHelper::getComponentName();
-		$app = JFactory::getApplication();
-
 		// Clear out the prior search dirs
 		$this->_path[$type] = array();
 
@@ -810,12 +840,22 @@ class JView extends JObject
 		{
 			case 'template':
 				// Set the alternative template search dir
-				if (isset($app))
+				$input = new JInput;
+				if (!$component = $input->getCmd('option'))
 				{
-					$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $component);
-					$fallback = JPATH_THEMES . '/' . $app->getTemplate() . '/html/' . $component . '/' . $this->getName();
-					$this->_addPath('template', $fallback);
+					// Guess the option from the class name (Option)Model(View).
+					if (!preg_match('/(.*)View/i', get_class($this), $r))
+					{
+						$component = 'system';
+					}
+					else
+					{
+						$component = strtolower($r[1]);
+					}
 				}
+				$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $component);
+				$fallback = $this->theme_path . '/' . $this->theme . '/html/' . $component . '/' . $this->getName();
+				$this->_addPath('template', $fallback);
 				break;
 		}
 	}

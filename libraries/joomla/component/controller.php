@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Application
+ * @subpackage  Component
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -16,10 +16,10 @@ defined('JPATH_PLATFORM') or die;
  * functionality, such as rendering views (aka displaying templates).
  *
  * @package     Joomla.Platform
- * @subpackage  Application
- * @since       11.1
+ * @subpackage  Component
+ * @since       12.1
  */
-class JController extends JObject
+class JComponentController extends JObject
 {
 	/**
 	 * The base path of the controller
@@ -128,6 +128,21 @@ class JController extends JObject
 	protected $taskMap;
 
 	/**
+	 * The name of the theme.
+	 *
+	 * @var		string
+	 * @since	12.1
+	 */
+	protected $theme = null;
+
+	/**
+	 * The path to the theme directory.
+	 *
+	 * @var string
+	 */
+	protected $theme_path = null;
+
+	/**
 	 * @var    JController  JController instance container.
 	 * @since  11.3
 	 */
@@ -143,8 +158,7 @@ class JController extends JObject
 	 */
 	public static function addModelPath($path, $prefix = '')
 	{
-		jimport('joomla.application.component.model');
-		JModel::addIncludePath($path, $prefix);
+		JComponentModel::addIncludePath($path, $prefix);
 	}
 
 	/**
@@ -220,9 +234,10 @@ class JController extends JObject
 		}
 
 		// Get the environment configuration.
-		$basePath = array_key_exists('base_path', $config) ? $config['base_path'] : JPATH_COMPONENT;
-		$format = JRequest::getWord('format');
-		$command = JRequest::getVar('task', 'display');
+		$basePath = array_key_exists('base_path', $config) ? $config['base_path'] : JPATH_BASE;
+		$input = new JInput;
+		$format = $input->getWord('format');
+		$command = $input->getCmd('task', 'display');
 
 		// Check for array format.
 		$filter = JFilterInput::getInstance();
@@ -247,7 +262,7 @@ class JController extends JObject
 			$path = $basePath . '/controllers/' . $file;
 
 			// Reset the task without the controller context.
-			JRequest::setVar('task', $task);
+			$input->set('task', $task);
 		}
 		else
 		{
@@ -316,7 +331,7 @@ class JController extends JObject
 		$this->taskMap = array();
 
 		// Determine the methods to exclude from the base class.
-		$xMethods = get_class_methods('JController');
+		$xMethods = get_class_methods('JComponentController');
 
 		// Get the public methods in this class using reflection.
 		$r = new ReflectionClass($this);
@@ -356,7 +371,7 @@ class JController extends JObject
 		}
 		else
 		{
-			$this->basePath = JPATH_COMPONENT;
+			$this->basePath = JPATH_BASE;
 		}
 
 		// If the default task is set, register it as such
@@ -403,6 +418,26 @@ class JController extends JObject
 		else
 		{
 			$this->setPath('view', $this->basePath . '/views');
+		}
+
+		// Set the theme name
+		if (array_key_exists('theme', $config))
+		{
+			$this->theme = $config['theme'];
+		}
+		else
+		{
+			$this->theme = 'system';
+		}
+
+		// Set the theme directory
+		if (array_key_exists('theme_path', $config))
+		{
+			$this->theme_path = $config['theme_path'];
+		}
+		else
+		{
+			$this->theme_path = JPATH_BASE.'/themes';
 		}
 
 		// Set the default view.
@@ -481,49 +516,6 @@ class JController extends JObject
 	}
 
 	/**
-	 * Method to check whether an ID is in the edit list.
-	 *
-	 * @param   string   $context  The context for the session storage.
-	 * @param   integer  $id       The ID of the record to add to the edit list.
-	 *
-	 * @return  boolean  True if the ID is in the edit list.
-	 *
-	 * @since   11.1
-	 */
-	protected function checkEditId($context, $id)
-	{
-		if ($id)
-		{
-			$app = JFactory::getApplication();
-			$values = (array) $app->getUserState($context . '.id');
-
-			$result = in_array((int) $id, $values);
-
-			if (JDEBUG)
-			{
-				JLog::getInstance('jcontroller.log.php')->addEntry(
-					array(
-						'comment' => sprintf(
-							'Checking edit ID %s.%s: %d %s',
-							$context,
-							$id,
-							(int) $result,
-							str_replace("\n", ' ', print_r($values, 1))
-						)
-					)
-				);
-			}
-
-			return $result;
-		}
-		else
-		{
-			// No id for a new item.
-			return true;
-		}
-	}
-
-	/**
 	 * Method to load and return a model object.
 	 *
 	 * @param   string  $name    The name of the model.
@@ -541,7 +533,7 @@ class JController extends JObject
 		$modelName = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
-		$result = JModel::getInstance($modelName, $classPrefix, $config);
+		$result = JComponentModel::getInstance($modelName, $classPrefix, $config);
 
 		return $result;
 	}
@@ -615,10 +607,11 @@ class JController extends JObject
 	{
 		$document = JFactory::getDocument();
 		$viewType = $document->getType();
-		$viewName = JRequest::getCmd('view', $this->default_view);
-		$viewLayout = JRequest::getCmd('layout', 'default');
+		$input = new JInput;
+		$viewName = $input->getCmd('view', $this->default_view);
+		$viewLayout = $input->getCmd('layout', 'default');
 
-		$view = $this->getView($viewName, $viewType, '', array('base_path' => $this->basePath, 'layout' => $viewLayout));
+		$view = $this->getView($viewName, $viewType, '', array('base_path' => $this->basePath, 'layout' => $viewLayout, 'theme' => $this->theme, 'theme_path' => $this->theme_path));
 
 		// Get/Create the model
 		if ($model = $this->getModel($viewName))
@@ -729,21 +722,6 @@ class JController extends JObject
 		{
 			// Task is a reserved state
 			$model->setState('task', $this->task);
-
-			// Let's get the application object and set menu information if it's available
-			$app = JFactory::getApplication();
-			$menu = $app->getMenu();
-
-			if (is_object($menu))
-			{
-				if ($item = $menu->getActive())
-				{
-					$params = $menu->getParams($item->id);
-
-					// Set default state data
-					$model->setState('parameters.menu', $params);
-				}
-			}
 		}
 		return $model;
 	}
@@ -846,52 +824,27 @@ class JController extends JObject
 	}
 
 	/**
-	 * Method to add a record ID to the edit list.
-	 *
-	 * @param   string   $context  The context for the session storage.
-	 * @param   integer  $id       The ID of the record to add to the edit list.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	protected function holdEditId($context, $id)
-	{
-		// Initialise variables.
-		$app = JFactory::getApplication();
-		$values = (array) $app->getUserState($context . '.id');
-
-		// Add the id to the list if non-zero.
-		if (!empty($id))
-		{
-			array_push($values, (int) $id);
-			$values = array_unique($values);
-			$app->setUserState($context . '.id', $values);
-
-			if (JDEBUG)
-			{
-				JLog::getInstance('jcontroller.log.php')->addEntry(
-					array(
-						'comment' => sprintf('Holding edit ID %s.%s %s', $context, $id, str_replace("\n", ' ', print_r($values, 1)))
-					)
-				);
-			}
-		}
-	}
-
-	/**
 	 * Redirects the browser or returns false if no redirect is set.
 	 *
-	 * @return  boolean  False if no redirect exists.
+	 * @param		object	$app	JApplication object to use for redirect
+	 *
+	 * @return  boolean	False if no redirect exists.
 	 *
 	 * @since   11.1
 	 */
-	public function redirect()
+	public function redirect($app = null)
 	{
 		if ($this->redirect)
 		{
-			$app = JFactory::getApplication();
-			$app->redirect($this->redirect, $this->message, $this->messageType);
+			if (!$app)
+			{
+				$app = JFactory::getApplication();
+				$app->redirect($this->redirect, $this->message, $this->messageType);
+			}
+			else
+			{
+				$app->redirect($this->redirect);
+			}
 		}
 
 		return false;
@@ -947,40 +900,6 @@ class JController extends JObject
 		unset($this->taskMap[strtolower($task)]);
 
 		return $this;
-	}
-
-	/**
-	 * Method to check whether an ID is in the edit list.
-	 *
-	 * @param   string   $context  The context for the session storage.
-	 * @param   integer  $id       The ID of the record to add to the edit list.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	protected function releaseEditId($context, $id)
-	{
-		$app = JFactory::getApplication();
-		$values = (array) $app->getUserState($context . '.id');
-
-		// Do a strict search of the edit list values.
-		$index = array_search((int) $id, $values, true);
-
-		if (is_int($index))
-		{
-			unset($values[$index]);
-			$app->setUserState($context . '.id', $values);
-
-			if (JDEBUG)
-			{
-				JLog::getInstance('jcontroller.log.php')->addEntry(
-					array(
-						'comment' => sprintf('Releasing edit ID %s.%s %s', $context, $id, str_replace("\n", ' ', print_r($values, 1)))
-					)
-				);
-			}
-		}
 	}
 
 	/**

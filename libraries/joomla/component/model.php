@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Application
  * @since       11.1
  */
-abstract class JModel extends JObject
+abstract class JComponentModel extends JObject
 {
 	/**
 	 * Indicates if the internal state has been set
@@ -514,8 +514,8 @@ abstract class JModel extends JObject
 		$dispatcher = JDispatcher::getInstance();
 
 		$options = array(
-			'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : JRequest::getCmd('option')),
-			'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'));
+			'defaultgroup' => ($group) ? $group : $this->option,
+			'cachebase' => $conf->get('cache_path', JPATH_BASE . '/cache'));
 
 		$cache = JCache::getInstance('callback', $options);
 		$cache->clean();
