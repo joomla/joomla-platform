@@ -125,7 +125,7 @@ class JHttpTransportStream implements JHttpTransport
 		// Open the stream for reading.
 		$stream = @fopen((string) $uri, 'r', false, $context);
 
-		// fopen($uri) returns false (invalid uri, connection reached timeout)
+		// When fopen($uri) returns false (invalid uri, connection reached timeout)
 		if ($stream === false)
 		{
 			throw new RuntimeException('HTTP request failed');
