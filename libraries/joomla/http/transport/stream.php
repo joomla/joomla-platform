@@ -62,6 +62,7 @@ class JHttpTransportStream implements JHttpTransport
 	 * @return  JHttpResponse
 	 *
 	 * @since   11.3
+	 * @throws  RuntimeException
 	 */
 	public function request($method, JUri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
 	{
