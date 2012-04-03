@@ -210,7 +210,7 @@ class JController extends JObject
 	 * @return  JController
 	 *
 	 * @since   11.1
-	 * @throws  Exception if the controller cannot be loaded.
+	 * @throws  InvalidArgumentException
 	 */
 	public static function getInstance($prefix, $config = array())
 	{
@@ -279,7 +279,7 @@ class JController extends JObject
 			}
 			else
 			{
-				throw new InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format));
+				throw new InvalidArgumentException(sprintf("Invalid controller: name='%s', format='%s'", $type, $format));
 			}
 		}
 
@@ -290,7 +290,7 @@ class JController extends JObject
 		}
 		else
 		{
-			throw new InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $class));
+			throw new InvalidArgumentException(sprintf("Invalid controller class: %s", $class));
 		}
 
 		return self::$instance;
@@ -563,7 +563,7 @@ class JController extends JObject
 	 *
 	 * @since   11.1
 	 * @note    Replaces _createView.
-	 * @throws  Exception
+	 * @throws  RuntimeException
 	 */
 	protected function createView($name, $prefix = '', $type = '', $config = array())
 	{
@@ -586,7 +586,7 @@ class JController extends JObject
 
 				if (!class_exists($viewClass))
 				{
-					throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_CLASS_NOT_FOUND', $viewClass, $path), 500);
+					throw new RuntimeException(sprintf('View class not found [class, file]: %1$s, %2$s', $viewClass, $path), 500);
 				}
 			}
 			else
@@ -676,7 +676,7 @@ class JController extends JObject
 	 * @return  mixed   The value returned by the called method, false in error case.
 	 *
 	 * @since   11.1
-	 * @throws  Exception
+	 * @throws  InvalidArgumentException
 	 */
 	public function execute($task)
 	{
@@ -693,7 +693,7 @@ class JController extends JObject
 		}
 		else
 		{
-			throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_TASK_NOT_FOUND', $task), 404);
+			throw new InvalidArgumentException(sprintf('Task [%s] not found', $task), 404);
 		}
 
 		// Record the actual task being fired
@@ -757,7 +757,7 @@ class JController extends JObject
 	 * @return  string  The name of the dispatcher
 	 *
 	 * @since   11.1
-	 * @throws  Exception
+	 * @throws  RuntimeException
 	 */
 	public function getName()
 	{
@@ -766,7 +766,7 @@ class JController extends JObject
 			$r = null;
 			if (!preg_match('/(.*)Controller/i', get_class($this), $r))
 			{
-				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
+				throw new RuntimeException('Controller not found', 500);
 			}
 			$this->name = strtolower($r[1]);
 		}
@@ -809,7 +809,7 @@ class JController extends JObject
 	 * @return  object  Reference to the view or an error.
 	 *
 	 * @since   11.1
-	 * @throws  Exception
+	 * @throws  RuntimeException
 	 */
 	public function getView($name = '', $type = '', $prefix = '', $config = array())
 	{
@@ -838,7 +838,7 @@ class JController extends JObject
 			}
 			else
 			{
-				throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_NOT_FOUND', $name, $type, $prefix), 500);
+				throw new RuntimeException(sprintf('View not found [name, type, prefix]: %1$s, %2$s, %3$s', $name, $type, $prefix), 500);
 			}
 		}
 

@@ -1054,6 +1054,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @return  mixed
 	 *
 	 * @since   11.1
+	 * @throws InvalidArgumentException
 	 */
 	public function saveorder($pks = null, $order = null)
 	{
@@ -1063,7 +1064,7 @@ abstract class JModelAdmin extends JModelForm
 
 		if (empty($pks))
 		{
-			return JError::raiseWarning(500, JText::_($this->text_prefix . '_ERROR_NO_ITEMS_SELECTED'));
+			throw new InvalidArgumentException('No items selected.');
 		}
 
 		// Update ordering values
