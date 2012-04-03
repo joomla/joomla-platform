@@ -496,10 +496,7 @@ class JInstaller extends JAdapter
 			// Lazy load the adapter
 			if (!isset($this->_adapters[$this->extension->type]) || !is_object($this->_adapters[$this->extension->type]))
 			{
-				if (!$this->setAdapter($this->extension->type))
-				{
-					return false;
-				}
+				$this->setAdapter($this->extension->type);
 			}
 
 			if (is_object($this->_adapters[$this->extension->type]))
@@ -669,11 +666,7 @@ class JInstaller extends JAdapter
 	{
 		if (!isset($this->_adapters[$type]) || !is_object($this->_adapters[$type]))
 		{
-			if (!$this->setAdapter($type))
-			{
-				// We failed to get the right adapter
-				return false;
-			}
+			$this->setAdapter($type);
 		}
 
 		if (is_object($this->_adapters[$type]))
@@ -729,10 +722,7 @@ class JInstaller extends JAdapter
 			// Lazy load the adapter
 			if (!isset($this->_adapters[$this->extension->type]) || !is_object($this->_adapters[$this->extension->type]))
 			{
-				if (!$this->setAdapter($this->extension->type))
-				{
-					return false;
-				}
+				$this->setAdapter($this->extension->type);
 			}
 
 			if (is_object($this->_adapters[$this->extension->type]))
@@ -792,10 +782,7 @@ class JInstaller extends JAdapter
 		// Lazy load the adapter
 		if (!isset($this->_adapters[$type]) || !is_object($this->_adapters[$type]))
 		{
-			if (!$this->setAdapter($type))
-			{
-				return false;
-			}
+			$this->setAdapter($type);
 		}
 
 		return true;

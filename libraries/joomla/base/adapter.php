@@ -100,6 +100,8 @@ class JAdapter extends JObject
 	 * @return  boolean  True if successful
 	 *
 	 * @since   11.1
+	 * @throws BadMethodCallException
+	 * @throws InvalidArgumentException
 	 */
 	public function setAdapter($name, &$adapter = null, $options = array())
 	{
@@ -109,7 +111,7 @@ class JAdapter extends JObject
 
 			if (!file_exists($fullpath))
 			{
-				return false;
+				throw new InvalidArgumentException('Unknown Adapter Type');
 			}
 
 			// Try to load the adapter object
@@ -118,7 +120,7 @@ class JAdapter extends JObject
 			$class = $this->_classprefix . ucfirst($name);
 			if (!class_exists($class))
 			{
-				return false;
+				throw new BadMethodCallException('Unable to load adapter');
 			}
 
 			$adapter = new $class($this, $this->_db, $options);
@@ -135,7 +137,7 @@ class JAdapter extends JObject
 	 * @param   string  $name     Name of adapter to return
 	 * @param   array   $options  Adapter options
 	 *
-	 * @return  object  Adapter of type 'name' or false
+	 * @return  object  Adapter of type 'name'
 	 *
 	 * @since   11.1
 	 */
@@ -143,12 +145,7 @@ class JAdapter extends JObject
 	{
 		if (!array_key_exists($name, $this->_adapters))
 		{
-			if (!$this->setAdapter($name, $options))
-			{
-				$false = false;
-
-				return $false;
-			}
+			$this->setAdapter($name, $options);
 		}
 
 		return $this->_adapters[$name];
