@@ -24,44 +24,47 @@ class JEditor extends JObject
 	 * An array of Observer objects to notify
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_observers = array();
+	protected $observers = array();
 
 	/**
 	 * The state of the observable object
 	 *
 	 * @var    mixed
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_state = null;
+	protected $state = null;
 
 	/**
 	 * A multi dimensional array of [function][] = key for observers
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_methods = array();
+	protected $methods = array();
 
 	/**
 	 * Editor Plugin object
 	 *
 	 * @var  object
+	 * @since  12.1
 	 */
-	protected $_editor = null;
+	protected $editor = null;
 
 	/**
 	 * Editor Plugin name
 	 *
 	 * @var  string
+	 * @since  12.1
 	 */
-	protected $_name = null;
+	protected $name = null;
 
 	/**
 	 * Object asset
 	 *
 	 * @var  string
+	 * @since  11.1
 	 */
 	protected $asset = null;
 
@@ -69,6 +72,7 @@ class JEditor extends JObject
 	 * Object author
 	 *
 	 * @var  string
+	 * @since  11.1
 	 */
 	protected $author = null;
 
@@ -85,7 +89,7 @@ class JEditor extends JObject
 	 */
 	public function __construct($editor = 'none')
 	{
-		$this->_name = $editor;
+		$this->name = $editor;
 	}
 
 	/**
@@ -119,7 +123,7 @@ class JEditor extends JObject
 	 */
 	public function getState()
 	{
-		return $this->_state;
+		return $this->state;
 	}
 
 	/**
@@ -141,7 +145,7 @@ class JEditor extends JObject
 			}
 
 			// Make sure we haven't already attached this array as an observer
-			foreach ($this->_observers as $check)
+			foreach ($this->observers as $check)
 			{
 				if (is_array($check) && $check['event'] == $observer['event'] && $check['handler'] == $observer['handler'])
 				{
@@ -149,8 +153,8 @@ class JEditor extends JObject
 				}
 			}
 
-			$this->_observers[] = $observer;
-			end($this->_observers);
+			$this->observers[] = $observer;
+			end($this->observers);
 			$methods = array($observer['event']);
 		}
 		else
@@ -163,7 +167,7 @@ class JEditor extends JObject
 			// Make sure we haven't already attached this object as an observer
 			$class = get_class($observer);
 
-			foreach ($this->_observers as $check)
+			foreach ($this->observers as $check)
 			{
 				if ($check instanceof $class)
 				{
@@ -171,22 +175,22 @@ class JEditor extends JObject
 				}
 			}
 
-			$this->_observers[] = $observer;
+			$this->observers[] = $observer;
 			$methods = array_diff(get_class_methods($observer), get_class_methods('JPlugin'));
 		}
 
-		$key = key($this->_observers);
+		$key = key($this->observers);
 
 		foreach ($methods as $method)
 		{
 			$method = strtolower($method);
 
-			if (!isset($this->_methods[$method]))
+			if (!isset($this->methods[$method]))
 			{
-				$this->_methods[$method] = array();
+				$this->methods[$method] = array();
 			}
 
-			$this->_methods[$method][] = $key;
+			$this->methods[$method][] = $key;
 		}
 	}
 
@@ -204,14 +208,14 @@ class JEditor extends JObject
 		// Initialise variables.
 		$retval = false;
 
-		$key = array_search($observer, $this->_observers);
+		$key = array_search($observer, $this->observers);
 
 		if ($key !== false)
 		{
-			unset($this->_observers[$key]);
+			unset($this->observers[$key]);
 			$retval = true;
 
-			foreach ($this->_methods as &$method)
+			foreach ($this->methods as &$method)
 			{
 				$k = array_search($key, $method);
 
@@ -235,7 +239,7 @@ class JEditor extends JObject
 	public function initialise()
 	{
 		// Check if editor is already loaded
-		if (is_null(($this->_editor)))
+		if (is_null(($this->editor)))
 		{
 			return;
 		}
@@ -243,7 +247,7 @@ class JEditor extends JObject
 		$args['event'] = 'onInit';
 
 		$return = '';
-		$results[] = $this->_editor->update($args);
+		$results[] = $this->editor->update($args);
 
 		foreach ($results as $result)
 		{
@@ -284,7 +288,7 @@ class JEditor extends JObject
 		$this->_loadEditor($params);
 
 		// Check whether editor is already loaded
-		if (is_null(($this->_editor)))
+		if (is_null(($this->editor)))
 		{
 			return;
 		}
@@ -307,7 +311,7 @@ class JEditor extends JObject
 		$args['id'] = $id ? $id : $name;
 		$args['event'] = 'onDisplay';
 
-		$results[] = $this->_editor->update($args);
+		$results[] = $this->editor->update($args);
 
 		foreach ($results as $result)
 		{
@@ -333,7 +337,7 @@ class JEditor extends JObject
 		$this->_loadEditor();
 
 		// Check whether editor is already loaded
-		if (is_null(($this->_editor)))
+		if (is_null(($this->editor)))
 		{
 			return;
 		}
@@ -342,7 +346,7 @@ class JEditor extends JObject
 		$args['event'] = 'onSave';
 
 		$return = '';
-		$results[] = $this->_editor->update($args);
+		$results[] = $this->editor->update($args);
 
 		foreach ($results as $result)
 		{
@@ -372,7 +376,7 @@ class JEditor extends JObject
 		$args['event'] = 'onGetContent';
 
 		$return = '';
-		$results[] = $this->_editor->update($args);
+		$results[] = $this->editor->update($args);
 
 		foreach ($results as $result)
 		{
@@ -404,7 +408,7 @@ class JEditor extends JObject
 		$args['event'] = 'onSetContent';
 
 		$return = '';
-		$results[] = $this->_editor->update($args);
+		$results[] = $this->editor->update($args);
 
 		foreach ($results as $result)
 		{
@@ -477,7 +481,7 @@ class JEditor extends JObject
 	protected function _loadEditor($config = array())
 	{
 		// Check whether editor is already loaded
-		if (!is_null(($this->_editor)))
+		if (!is_null(($this->editor)))
 		{
 			return;
 		}
@@ -485,7 +489,7 @@ class JEditor extends JObject
 		jimport('joomla.filesystem.file');
 
 		// Build the path to the needed editor plugin
-		$name = JFilterInput::getInstance()->clean($this->_name, 'cmd');
+		$name = JFilterInput::getInstance()->clean($this->name, 'cmd');
 		$path = JPATH_PLUGINS . '/editors/' . $name . '.php';
 
 		if (!JFile::exists($path))
@@ -502,16 +506,16 @@ class JEditor extends JObject
 		require_once $path;
 
 		// Get the plugin
-		$plugin = JPluginHelper::getPlugin('editors', $this->_name);
+		$plugin = JPluginHelper::getPlugin('editors', $this->name);
 		$params = new JRegistry;
 		$params->loadString($plugin->params);
 		$params->loadArray($config);
 		$plugin->params = $params;
 
 		// Build editor plugin classname
-		$name = 'plgEditor' . $this->_name;
+		$name = 'plgEditor' . $this->name;
 
-		if ($this->_editor = new $name($this, (array) $plugin))
+		if ($this->editor = new $name($this, (array) $plugin))
 		{
 			// Load plugin parameters
 			$this->initialise();
