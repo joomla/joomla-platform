@@ -46,7 +46,7 @@ class JNodeTest extends PHPUnit_Framework_TestCase {
 		$newParent->addChild( $this->object );
 		$this->assertAttributeEquals(
 			$newParent,
-			'_parent',
+			'parent',
 			$this->object
 		);
 	}
@@ -66,7 +66,7 @@ class JNodeTest extends PHPUnit_Framework_TestCase {
 		);
 		$this->assertAttributeEquals(
 			null,
-			'_parent',
+			'parent',
 			$this->object
 		);
 		$newParent = new JNode;
@@ -78,7 +78,7 @@ class JNodeTest extends PHPUnit_Framework_TestCase {
 		);
 		$this->assertAttributeEquals(
 			$newParent,
-			'_parent',
+			'parent',
 			$this->object
 		);
 	}
@@ -95,7 +95,7 @@ class JNodeTest extends PHPUnit_Framework_TestCase {
 		$this->object->setParent( $newParent );
 		$this->assertAttributeEquals(
 			$newParent,
-			'_parent',
+			'parent',
 			$this->object
 		);
 	}
@@ -135,7 +135,7 @@ class JNodeTest extends PHPUnit_Framework_TestCase {
 		);
 		$this->assertAttributeEquals(
 			array(),
-			'_children',
+			'children',
 			$this->object
 		);
 
@@ -148,7 +148,7 @@ class JNodeTest extends PHPUnit_Framework_TestCase {
 		);
 		$this->assertAttributeEquals(
 			array( spl_object_hash($newChild) => $newChild ),
-			'_children',
+			'children',
 			$this->object
 		);
 	}
