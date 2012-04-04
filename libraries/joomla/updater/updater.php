@@ -93,7 +93,7 @@ class JUpdater extends JAdapter
 		{
 			$result = &$results[$i];
 			$this->setAdapter($result['type']);
-			if (!isset($this->_adapters[$result['type']]))
+			if (!isset($this->adapters[$result['type']]))
 			{
 				// Ignore update sites requiring adapters we don't have installed
 				continue;
@@ -108,7 +108,7 @@ class JUpdater extends JAdapter
 					continue;
 				}
 			}
-			$update_result = $this->_adapters[$result['type']]->findUpdate($result);
+			$update_result = $this->adapters[$result['type']]->findUpdate($result);
 			if (is_array($update_result))
 			{
 				if (array_key_exists('update_sites', $update_result) && count($update_result['update_sites']))

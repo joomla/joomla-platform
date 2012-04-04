@@ -27,38 +27,38 @@ class JAdapter extends JObject
 	 * Associative array of adapters
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_adapters = array();
+	protected $adapters = array();
 
 	/**
 	 * Adapter Folder
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_adapterfolder = 'adapters';
+	protected $adapterfolder = 'adapters';
 
 	/**
 	 * @var    string	Adapter Class Prefix
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_classprefix = 'J';
+	protected $classprefix = 'J';
 
 	/**
 	 * Base Path for the adapter instance
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_basepath = null;
+	protected $basepath = null;
 
 	/**
 	 * Database Connector Object
 	 *
 	 * @var    JDatabase
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_db;
+	protected $db;
 
 	/**
 	 * Constructor
@@ -71,11 +71,11 @@ class JAdapter extends JObject
 	 */
 	public function __construct($basepath, $classprefix = null, $adapterfolder = null)
 	{
-		$this->_basepath = $basepath;
-		$this->_classprefix = $classprefix ? $classprefix : 'J';
-		$this->_adapterfolder = $adapterfolder ? $adapterfolder : 'adapters';
+		$this->basepath = $basepath;
+		$this->classprefix = $classprefix ? $classprefix : 'J';
+		$this->adapterfolder = $adapterfolder ? $adapterfolder : 'adapters';
 
-		$this->_db = JFactory::getDBO();
+		$this->db = JFactory::getDBO();
 	}
 
 	/**
@@ -87,7 +87,7 @@ class JAdapter extends JObject
 	 */
 	public function getDBO()
 	{
-		return $this->_db;
+		return $this->db;
 	}
 
 	/**
@@ -105,7 +105,7 @@ class JAdapter extends JObject
 	{
 		if (!is_object($adapter))
 		{
-			$fullpath = $this->_basepath . '/' . $this->_adapterfolder . '/' . strtolower($name) . '.php';
+			$fullpath = $this->basepath . '/' . $this->adapterfolder . '/' . strtolower($name) . '.php';
 
 			if (!file_exists($fullpath))
 			{
@@ -115,16 +115,16 @@ class JAdapter extends JObject
 			// Try to load the adapter object
 			require_once $fullpath;
 
-			$class = $this->_classprefix . ucfirst($name);
+			$class = $this->classprefix . ucfirst($name);
 			if (!class_exists($class))
 			{
 				return false;
 			}
 
-			$adapter = new $class($this, $this->_db, $options);
+			$adapter = new $class($this, $this->db, $options);
 		}
 
-		$this->_adapters[$name] = &$adapter;
+		$this->adapters[$name] = &$adapter;
 
 		return true;
 	}
@@ -141,7 +141,7 @@ class JAdapter extends JObject
 	 */
 	public function getAdapter($name, $options = array())
 	{
-		if (!array_key_exists($name, $this->_adapters))
+		if (!array_key_exists($name, $this->adapters))
 		{
 			if (!$this->setAdapter($name, $options))
 			{
@@ -151,7 +151,7 @@ class JAdapter extends JObject
 			}
 		}
 
-		return $this->_adapters[$name];
+		return $this->adapters[$name];
 	}
 
 	/**
@@ -165,17 +165,17 @@ class JAdapter extends JObject
 	 */
 	public function loadAllAdapters($options = array())
 	{
-		$list = JFolder::files($this->_basepath . '/' . $this->_adapterfolder);
+		$list = JFolder::files($this->basepath . '/' . $this->adapterfolder);
 
 		foreach ($list as $filename)
 		{
 			if (JFile::getExt($filename) == 'php')
 			{
 				// Try to load the adapter object
-				require_once $this->_basepath . '/' . $this->_adapterfolder . '/' . $filename;
+				require_once $this->basepath . '/' . $this->adapterfolder . '/' . $filename;
 
 				$name = JFile::stripExt($filename);
-				$class = $this->_classprefix . ucfirst($name);
+				$class = $this->classprefix . ucfirst($name);
 
 				if (!class_exists($class))
 				{
@@ -183,8 +183,8 @@ class JAdapter extends JObject
 					continue;
 				}
 
-				$adapter = new $class($this, $this->_db, $options);
-				$this->_adapters[$name] = clone $adapter;
+				$adapter = new $class($this, $this->db, $options);
+				$this->adapters[$name] = clone $adapter;
 			}
 		}
 	}
