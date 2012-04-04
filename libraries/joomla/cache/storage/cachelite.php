@@ -27,9 +27,9 @@ class JCacheStorageCachelite extends JCacheStorage
 
 	/**
 	 * @var
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	protected $_root;
+	protected $root;
 
 	/**
 	 * Constructor
@@ -42,10 +42,10 @@ class JCacheStorageCachelite extends JCacheStorage
 	{
 		parent::__construct($options);
 
-		$this->_root = $options['cachebase'];
+		$this->root = $options['cachebase'];
 
 		$cloptions = array(
-			'cacheDir' => $this->_root . '/',
+			'cacheDir' => $this->root . '/',
 			'lifeTime' => $this->_lifetime,
 			'fileLocking' => $this->_locking,
 			'automaticCleaningFactor' => isset($options['autoclean']) ? $options['autoclean'] : 200,
@@ -93,7 +93,7 @@ class JCacheStorageCachelite extends JCacheStorage
 	public function get($id, $group, $checkTime = true)
 	{
 		$data = false;
-		self::$CacheLiteInstance->setOption('cacheDir', $this->_root . '/' . $group . '/');
+		self::$CacheLiteInstance->setOption('cacheDir', $this->root . '/' . $group . '/');
 		$this->_getCacheId($id, $group);
 		$data = self::$CacheLiteInstance->get($this->rawname, $group);
 
@@ -111,7 +111,7 @@ class JCacheStorageCachelite extends JCacheStorage
 	{
 		parent::getAll();
 
-		$path = $this->_root;
+		$path = $this->root;
 		jimport('joomla.filesystem.folder');
 		$folders = JFolder::folders($path);
 		$data = array();
@@ -145,7 +145,7 @@ class JCacheStorageCachelite extends JCacheStorage
 	 */
 	public function store($id, $group, $data)
 	{
-		$dir = $this->_root . '/' . $group;
+		$dir = $this->root . '/' . $group;
 
 		// If the folder doesn't exist try to create it
 		if (!is_dir($dir))
@@ -161,7 +161,7 @@ class JCacheStorageCachelite extends JCacheStorage
 			return false;
 		}
 
-		self::$CacheLiteInstance->setOption('cacheDir', $this->_root . '/' . $group . '/');
+		self::$CacheLiteInstance->setOption('cacheDir', $this->root . '/' . $group . '/');
 		$this->_getCacheId($id, $group);
 		$success = self::$CacheLiteInstance->save($data, $this->rawname, $group);
 
@@ -187,7 +187,7 @@ class JCacheStorageCachelite extends JCacheStorage
 	 */
 	public function remove($id, $group)
 	{
-		self::$CacheLiteInstance->setOption('cacheDir', $this->_root . '/' . $group . '/');
+		self::$CacheLiteInstance->setOption('cacheDir', $this->root . '/' . $group . '/');
 		$this->_getCacheId($id, $group);
 		$success = self::$CacheLiteInstance->remove($this->rawname, $group);
 
@@ -235,12 +235,12 @@ class JCacheStorageCachelite extends JCacheStorage
 				break;
 
 			case 'group':
-				if (is_dir($this->_root . '/' . $group))
+				if (is_dir($this->root . '/' . $group))
 				{
 					$clmode = $group;
-					self::$CacheLiteInstance->setOption('cacheDir', $this->_root . '/' . $group . '/');
+					self::$CacheLiteInstance->setOption('cacheDir', $this->root . '/' . $group . '/');
 					$success = self::$CacheLiteInstance->clean($group, $clmode);
-					JFolder::delete($this->_root . '/' . $group);
+					JFolder::delete($this->root . '/' . $group);
 				}
 				else
 				{
@@ -250,10 +250,10 @@ class JCacheStorageCachelite extends JCacheStorage
 				break;
 
 			default:
-				if (is_dir($this->_root . '/' . $group))
+				if (is_dir($this->root . '/' . $group))
 				{
 					$clmode = $group;
-					self::$CacheLiteInstance->setOption('cacheDir', $this->_root . '/' . $group . '/');
+					self::$CacheLiteInstance->setOption('cacheDir', $this->root . '/' . $group . '/');
 					$success = self::$CacheLiteInstance->clean($group, $clmode);
 				}
 				else
@@ -286,9 +286,9 @@ class JCacheStorageCachelite extends JCacheStorage
 		$result = true;
 		self::$CacheLiteInstance->setOption('automaticCleaningFactor', 1);
 		self::$CacheLiteInstance->setOption('hashedDirectoryLevel', 1);
-		$success1 = self::$CacheLiteInstance->_cleanDir($this->_root . '/', false, 'old');
+		$success1 = self::$CacheLiteInstance->_cleanDir($this->root . '/', false, 'old');
 
-		if (!($dh = opendir($this->_root . '/')))
+		if (!($dh = opendir($this->root . '/')))
 		{
 			return false;
 		}
@@ -297,7 +297,7 @@ class JCacheStorageCachelite extends JCacheStorage
 		{
 			if (($file != '.') && ($file != '..') && ($file != '.svn'))
 			{
-				$file2 = $this->_root . '/' . $file;
+				$file2 = $this->root . '/' . $file;
 
 				if (is_dir($file2))
 				{

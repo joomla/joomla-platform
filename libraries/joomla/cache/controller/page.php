@@ -20,21 +20,21 @@ class JCacheControllerPage extends JCacheController
 {
 	/**
 	 * @var    integer  ID property for the cache page object.
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_id;
+	protected $id;
 
 	/**
 	 * @var    string  Cache group
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_group;
+	protected $group;
 
 	/**
 	 * @var    object  Cache lock test
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_locktest = null;
+	protected $locktest = null;
 
 	/**
 	 * Get the cached page data
@@ -75,14 +75,14 @@ class JCacheControllerPage extends JCacheController
 		// We got a cache hit... set the etag header and echo the page data
 		$data = $this->cache->get($id, $group);
 
-		$this->_locktest = new stdClass;
-		$this->_locktest->locked = null;
-		$this->_locktest->locklooped = null;
+		$this->locktest = new stdClass;
+		$this->locktest->locked = null;
+		$this->locktest->locklooped = null;
 
 		if ($data === false)
 		{
-			$this->_locktest = $this->cache->lock($id, $group);
-			if ($this->_locktest->locked == true && $this->_locktest->locklooped == true)
+			$this->locktest = $this->cache->lock($id, $group);
+			if ($this->locktest->locked == true && $this->locktest->locklooped == true)
 			{
 				$data = $this->cache->get($id, $group);
 			}
@@ -97,7 +97,7 @@ class JCacheControllerPage extends JCacheController
 			}
 
 			$this->_setEtag($id);
-			if ($this->_locktest->locked == true)
+			if ($this->locktest->locked == true)
 			{
 				$this->cache->unlock($id, $group);
 			}
@@ -105,8 +105,8 @@ class JCacheControllerPage extends JCacheController
 		}
 
 		// Set id and group placeholders
-		$this->_id = $id;
-		$this->_group = $group;
+		$this->id = $id;
+		$this->group = $group;
 		return false;
 	}
 
@@ -125,24 +125,24 @@ class JCacheControllerPage extends JCacheController
 		$data = JResponse::getBody();
 
 		// Get id and group and reset the placeholders
-		$id = $this->_id;
-		$group = $this->_group;
-		$this->_id = null;
-		$this->_group = null;
+		$id = $this->id;
+		$group = $this->group;
+		$this->id = null;
+		$this->group = null;
 
 		// Only attempt to store if page data exists
 		if ($data)
 		{
 			$data = $wrkarounds == false ? $data : JCache::setWorkarounds($data);
 
-			if ($this->_locktest->locked == false)
+			if ($this->locktest->locked == false)
 			{
-				$this->_locktest = $this->cache->lock($id, $group);
+				$this->locktest = $this->cache->lock($id, $group);
 			}
 
 			$sucess = $this->cache->store(serialize($data), $id, $group);
 
-			if ($this->_locktest->locked == true)
+			if ($this->locktest->locked == true)
 			{
 				$this->cache->unlock($id, $group);
 			}
