@@ -23,9 +23,9 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	 * Renderer mime type
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_mime = "application/rss+xml";
+	protected $mime = 'application/rss+xml';
 
 	/**
 	 * Render the feed.
@@ -48,7 +48,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		$now = JFactory::getDate();
 		$now->setTimeZone($tz);
 
-		$data = $this->_doc;
+		$data = $this->doc;
 
 		$uri = JFactory::getURI();
 		$url = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));

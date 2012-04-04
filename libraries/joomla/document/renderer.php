@@ -22,17 +22,17 @@ class JDocumentRenderer
 	 * Reference to the JDocument object that instantiated the renderer
 	 *
 	 * @var    JDocument
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_doc = null;
+	protected $doc = null;
 
 	/**
 	 * Renderer mime type
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_mime = "text/html";
+	protected $mime = 'text/html';
 
 	/**
 	 * Class constructor
@@ -43,7 +43,7 @@ class JDocumentRenderer
 	 */
 	public function __construct(JDocument $doc)
 	{
-		$this->_doc = $doc;
+		$this->doc = $doc;
 	}
 
 	/**
@@ -70,6 +70,6 @@ class JDocumentRenderer
 	 */
 	public function getContentType()
 	{
-		return $this->_mime;
+		return $this->mime;
 	}
 }
