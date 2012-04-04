@@ -22,17 +22,17 @@ class JNode extends JObject
 	 * Parent node
 	 * @var    object
 	 *
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_parent = null;
+	protected $parent = null;
 
 	/**
 	 * Array of Children
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_children = array();
+	protected $children = array();
 
 	/**
 	 * Constructor
@@ -79,15 +79,15 @@ class JNode extends JObject
 		if ($parent instanceof JNode || is_null($parent))
 		{
 			$hash = spl_object_hash($this);
-			if (!is_null($this->_parent))
+			if (!is_null($this->parent))
 			{
-				unset($this->_parent->children[$hash]);
+				unset($this->parent->children[$hash]);
 			}
 			if (!is_null($parent))
 			{
 				$parent->_children[$hash] = & $this;
 			}
-			$this->_parent = & $parent;
+			$this->parent = & $parent;
 		}
 	}
 
@@ -100,7 +100,7 @@ class JNode extends JObject
 	 */
 	public function &getChildren()
 	{
-		return $this->_children;
+		return $this->children;
 	}
 
 	/**
@@ -112,7 +112,7 @@ class JNode extends JObject
 	 */
 	public function &getParent()
 	{
-		return $this->_parent;
+		return $this->parent;
 	}
 
 	/**
@@ -124,7 +124,7 @@ class JNode extends JObject
 	 */
 	public function hasChildren()
 	{
-		return (bool) count($this->_children);
+		return (bool) count($this->children);
 	}
 
 	/**
