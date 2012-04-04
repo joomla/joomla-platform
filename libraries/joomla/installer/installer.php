@@ -354,15 +354,15 @@ class JInstaller extends JAdapter
 					break;
 
 				default:
-					if ($type && is_object($this->_adapters[$type]))
+					if ($type && is_object($this->adapters[$type]))
 					{
 						// Build the name of the custom rollback method for the type
 						$method = '_rollback_' . $step['type'];
 
 						// Custom rollback method handler
-						if (method_exists($this->_adapters[$type], $method))
+						if (method_exists($this->adapters[$type], $method))
 						{
-							$stepval = $this->_adapters[$type]->$method($step);
+							$stepval = $this->adapters[$type]->$method($step);
 						}
 					}
 					else
@@ -426,12 +426,12 @@ class JInstaller extends JAdapter
 
 		$type = (string) $this->manifest->attributes()->type;
 
-		if (is_object($this->_adapters[$type]))
+		if (is_object($this->adapters[$type]))
 		{
 			// Add the languages from the package itself
-			if (method_exists($this->_adapters[$type], 'loadLanguage'))
+			if (method_exists($this->adapters[$type], 'loadLanguage'))
 			{
-				$this->_adapters[$type]->loadLanguage($path);
+				$this->adapters[$type]->loadLanguage($path);
 			}
 
 			// Fire the onExtensionBeforeInstall event.
@@ -443,7 +443,7 @@ class JInstaller extends JAdapter
 			);
 
 			// Run the install
-			$result = $this->_adapters[$type]->install();
+			$result = $this->adapters[$type]->install();
 
 			// Fire the onExtensionAfterInstall
 			$dispatcher->trigger(
@@ -494,7 +494,7 @@ class JInstaller extends JAdapter
 			}
 
 			// Lazy load the adapter
-			if (!isset($this->_adapters[$this->extension->type]) || !is_object($this->_adapters[$this->extension->type]))
+			if (!isset($this->adapters[$this->extension->type]) || !is_object($this->adapters[$this->extension->type]))
 			{
 				if (!$this->setAdapter($this->extension->type))
 				{
@@ -502,14 +502,14 @@ class JInstaller extends JAdapter
 				}
 			}
 
-			if (is_object($this->_adapters[$this->extension->type]))
+			if (is_object($this->adapters[$this->extension->type]))
 			{
-				if (method_exists($this->_adapters[$this->extension->type], 'discover_install'))
+				if (method_exists($this->adapters[$this->extension->type], 'discover_install'))
 				{
 					// Add the languages from the package itself
-					if (method_exists($this->_adapters[$this->extension->type], 'loadLanguage'))
+					if (method_exists($this->adapters[$this->extension->type], 'loadLanguage'))
 					{
-						$this->_adapters[$this->extension->type]->loadLanguage();
+						$this->adapters[$this->extension->type]->loadLanguage();
 					}
 
 					// Fire the onExtensionBeforeInstall event.
@@ -526,7 +526,7 @@ class JInstaller extends JAdapter
 					);
 
 					// Run the install
-					$result = $this->_adapters[$this->extension->type]->discover_install();
+					$result = $this->adapters[$this->extension->type]->discover_install();
 
 					// Fire the onExtensionAfterInstall
 					$dispatcher->trigger(
@@ -573,7 +573,7 @@ class JInstaller extends JAdapter
 		$this->loadAllAdapters();
 		$results = array();
 
-		foreach ($this->_adapters as $adapter)
+		foreach ($this->adapters as $adapter)
 		{
 			// Joomla! 1.5 installation adapter legacy support
 			if (method_exists($adapter, 'discover'))
@@ -619,12 +619,12 @@ class JInstaller extends JAdapter
 
 		$type = (string) $this->manifest->attributes()->type;
 
-		if (is_object($this->_adapters[$type]))
+		if (is_object($this->adapters[$type]))
 		{
 			// Add the languages from the package itself
-			if (method_exists($this->_adapters[$type], 'loadLanguage'))
+			if (method_exists($this->adapters[$type], 'loadLanguage'))
 			{
-				$this->_adapters[$type]->loadLanguage($path);
+				$this->adapters[$type]->loadLanguage($path);
 			}
 
 			// Fire the onExtensionBeforeUpdate event.
@@ -633,7 +633,7 @@ class JInstaller extends JAdapter
 			$dispatcher->trigger('onExtensionBeforeUpdate', array('type' => $type, 'manifest' => $this->manifest));
 
 			// Run the update
-			$result = $this->_adapters[$type]->update();
+			$result = $this->adapters[$type]->update();
 
 			// Fire the onExtensionAfterUpdate
 			$dispatcher->trigger(
@@ -667,7 +667,7 @@ class JInstaller extends JAdapter
 	 */
 	public function uninstall($type, $identifier, $cid = 0)
 	{
-		if (!isset($this->_adapters[$type]) || !is_object($this->_adapters[$type]))
+		if (!isset($this->adapters[$type]) || !is_object($this->adapters[$type]))
 		{
 			if (!$this->setAdapter($type))
 			{
@@ -676,7 +676,7 @@ class JInstaller extends JAdapter
 			}
 		}
 
-		if (is_object($this->_adapters[$type]))
+		if (is_object($this->adapters[$type]))
 		{
 			// We don't load languages here, we get the extension adapter to work it out
 			// Fire the onExtensionBeforeUninstall event.
@@ -685,7 +685,7 @@ class JInstaller extends JAdapter
 			$dispatcher->trigger('onExtensionBeforeUninstall', array('eid' => $identifier));
 
 			// Run the uninstall
-			$result = $this->_adapters[$type]->uninstall($identifier);
+			$result = $this->adapters[$type]->uninstall($identifier);
 
 			// Fire the onExtensionAfterInstall
 			$dispatcher->trigger(
@@ -727,7 +727,7 @@ class JInstaller extends JAdapter
 			}
 
 			// Lazy load the adapter
-			if (!isset($this->_adapters[$this->extension->type]) || !is_object($this->_adapters[$this->extension->type]))
+			if (!isset($this->adapters[$this->extension->type]) || !is_object($this->adapters[$this->extension->type]))
 			{
 				if (!$this->setAdapter($this->extension->type))
 				{
@@ -735,11 +735,11 @@ class JInstaller extends JAdapter
 				}
 			}
 
-			if (is_object($this->_adapters[$this->extension->type]))
+			if (is_object($this->adapters[$this->extension->type]))
 			{
-				if (method_exists($this->_adapters[$this->extension->type], 'refreshManifestCache'))
+				if (method_exists($this->adapters[$this->extension->type], 'refreshManifestCache'))
 				{
-					$result = $this->_adapters[$this->extension->type]->refreshManifestCache();
+					$result = $this->adapters[$this->extension->type]->refreshManifestCache();
 
 					if ($result !== false)
 					{
@@ -790,7 +790,7 @@ class JInstaller extends JAdapter
 		$type = (string) $this->manifest->attributes()->type;
 
 		// Lazy load the adapter
-		if (!isset($this->_adapters[$type]) || !is_object($this->_adapters[$type]))
+		if (!isset($this->adapters[$type]) || !is_object($this->adapters[$type]))
 		{
 			if (!$this->setAdapter($type))
 			{
@@ -814,7 +814,7 @@ class JInstaller extends JAdapter
 	public function parseQueries($element)
 	{
 		// Get the database connector object
-		$db = & $this->_db;
+		$db = & $this->db;
 
 		if (!$element || !count($element->children()))
 		{
@@ -866,7 +866,7 @@ class JInstaller extends JAdapter
 
 		// Initialise variables.
 		$queries = array();
-		$db = & $this->_db;
+		$db = & $this->db;
 		$dbDriver = strtolower($db->name);
 
 		if ($dbDriver == 'mysqli')
