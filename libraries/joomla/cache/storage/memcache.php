@@ -21,21 +21,21 @@ class JCacheStorageMemcache extends JCacheStorage
 {
 	/**
 	 * @var    Memcache
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected static $_db = null;
+	protected static $db = null;
 
 	/**
 	 * @var    boolean
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_persistent = false;
+	protected $persistent = false;
 
 	/**
 	 * @var
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	protected $_compress = 0;
+	protected $compress = 0;
 
 	/**
 	 * Constructor
@@ -47,7 +47,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	public function __construct($options = array())
 	{
 		parent::__construct($options);
-		if (self::$_db === null)
+		if (self::$db === null)
 		{
 			$this->getConnection();
 		}
@@ -69,8 +69,8 @@ class JCacheStorageMemcache extends JCacheStorage
 		}
 
 		$config = JFactory::getConfig();
-		$this->_persistent = $config->get('memcache_persist', true);
-		$this->_compress = $config->get('memcache_compress', false) == false ? 0 : MEMCACHE_COMPRESSED;
+		$this->persistent = $config->get('memcache_persist', true);
+		$this->compress = $config->get('memcache_compress', false) == false ? 0 : MEMCACHE_COMPRESSED;
 
 		/*
 		 * This will be an array of loveliness
@@ -82,20 +82,20 @@ class JCacheStorageMemcache extends JCacheStorage
 		$server['port'] = $config->get('memcache_server_port', 11211);
 
 		// Create the memcache connection
-		self::$_db = new Memcache;
-		self::$_db->addServer($server['host'], $server['port'], $this->_persistent);
+		self::$db = new Memcache;
+		self::$db->addServer($server['host'], $server['port'], $this->persistent);
 
-		$memcachetest = @self::$_db->connect($server['host'], $server['port']);
+		$memcachetest = @self::$db->connect($server['host'], $server['port']);
 		if ($memcachetest == false)
 		{
 			throw new RuntimeException('Could not connect to memcache server', 404);
 		}
 
 		// Memcahed has no list keys, we do our own accounting, initialise key index
-		if (self::$_db->get($this->_hash . '-index') === false)
+		if (self::$db->get($this->_hash . '-index') === false)
 		{
 			$empty = array();
-			self::$_db->set($this->_hash . '-index', $empty, $this->_compress, 0);
+			self::$db->set($this->_hash . '-index', $empty, $this->compress, 0);
 		}
 
 		return;
@@ -115,7 +115,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	public function get($id, $group, $checkTime = true)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
-		$back = self::$_db->get($cache_id);
+		$back = self::$db->get($cache_id);
 		return $back;
 	}
 
@@ -130,7 +130,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	{
 		parent::getAll();
 
-		$keys = self::$_db->get($this->_hash . '-index');
+		$keys = self::$db->get($this->_hash . '-index');
 		$secret = $this->_hash;
 
 		$data = array();
@@ -189,7 +189,7 @@ class JCacheStorageMemcache extends JCacheStorage
 			return false;
 		}
 
-		$index = self::$_db->get($this->_hash . '-index');
+		$index = self::$db->get($this->_hash . '-index');
 		if ($index === false)
 		{
 			$index = array();
@@ -199,13 +199,13 @@ class JCacheStorageMemcache extends JCacheStorage
 		$tmparr->name = $cache_id;
 		$tmparr->size = strlen($data);
 		$index[] = $tmparr;
-		self::$_db->replace($this->_hash . '-index', $index, 0, 0);
+		self::$db->replace($this->_hash . '-index', $index, 0, 0);
 		$this->unlockindex();
 
 		// Prevent double writes, write only if it doesn't exist else replace
-		if (!self::$_db->replace($cache_id, $data, $this->_compress, $this->_lifetime))
+		if (!self::$db->replace($cache_id, $data, $this->compress, $this->_lifetime))
 		{
-			self::$_db->set($cache_id, $data, $this->_compress, $this->_lifetime);
+			self::$db->set($cache_id, $data, $this->compress, $this->_lifetime);
 		}
 
 		return true;
@@ -230,7 +230,7 @@ class JCacheStorageMemcache extends JCacheStorage
 			return false;
 		}
 
-		$index = self::$_db->get($this->_hash . '-index');
+		$index = self::$db->get($this->_hash . '-index');
 		if ($index === false)
 		{
 			$index = array();
@@ -244,10 +244,10 @@ class JCacheStorageMemcache extends JCacheStorage
 			}
 			break;
 		}
-		self::$_db->replace($this->_hash . '-index', $index, 0, 0);
+		self::$db->replace($this->_hash . '-index', $index, 0, 0);
 		$this->unlockindex();
 
-		return self::$_db->delete($cache_id);
+		return self::$db->delete($cache_id);
 	}
 
 	/**
@@ -269,7 +269,7 @@ class JCacheStorageMemcache extends JCacheStorage
 			return false;
 		}
 
-		$index = self::$_db->get($this->_hash . '-index');
+		$index = self::$db->get($this->_hash . '-index');
 		if ($index === false)
 		{
 			$index = array();
@@ -281,11 +281,11 @@ class JCacheStorageMemcache extends JCacheStorage
 
 			if (strpos($value->name, $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
 			{
-				self::$_db->delete($value->name, 0);
+				self::$db->delete($value->name, 0);
 				unset($index[$key]);
 			}
 		}
-		self::$_db->replace($this->_hash . '-index', $index, 0, 0);
+		self::$db->replace($this->_hash . '-index', $index, 0, 0);
 		$this->unlockindex();
 		return true;
 	}
@@ -346,7 +346,7 @@ class JCacheStorageMemcache extends JCacheStorage
 			return false;
 		}
 
-		$index = self::$_db->get($this->_hash . '-index');
+		$index = self::$db->get($this->_hash . '-index');
 		if ($index === false)
 		{
 			$index = array();
@@ -356,10 +356,10 @@ class JCacheStorageMemcache extends JCacheStorage
 		$tmparr->name = $cache_id;
 		$tmparr->size = 1;
 		$index[] = $tmparr;
-		self::$_db->replace($this->_hash . '-index', $index, 0, 0);
+		self::$db->replace($this->_hash . '-index', $index, 0, 0);
 		$this->unlockindex();
 
-		$data_lock = self::$_db->add($cache_id . '_lock', 1, false, $locktime);
+		$data_lock = self::$db->add($cache_id . '_lock', 1, false, $locktime);
 
 		if ($data_lock === false)
 		{
@@ -379,7 +379,7 @@ class JCacheStorageMemcache extends JCacheStorage
 				}
 
 				usleep(100);
-				$data_lock = self::$_db->add($cache_id . '_lock', 1, false, $locktime);
+				$data_lock = self::$db->add($cache_id . '_lock', 1, false, $locktime);
 				$lock_counter++;
 			}
 
@@ -408,7 +408,7 @@ class JCacheStorageMemcache extends JCacheStorage
 			return false;
 		}
 
-		$index = self::$_db->get($this->_hash . '-index');
+		$index = self::$db->get($this->_hash . '-index');
 		if ($index === false)
 		{
 			$index = array();
@@ -422,10 +422,10 @@ class JCacheStorageMemcache extends JCacheStorage
 			}
 			break;
 		}
-		self::$_db->replace($this->_hash . '-index', $index, 0, 0);
+		self::$db->replace($this->_hash . '-index', $index, 0, 0);
 		$this->unlockindex();
 
-		return self::$_db->delete($cache_id);
+		return self::$db->delete($cache_id);
 	}
 
 	/**
@@ -438,7 +438,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	protected function lockindex()
 	{
 		$looptime = 300;
-		$data_lock = self::$_db->add($this->_hash . '-index_lock', 1, false, 30);
+		$data_lock = self::$db->add($this->_hash . '-index_lock', 1, false, 30);
 
 		if ($data_lock === false)
 		{
@@ -455,7 +455,7 @@ class JCacheStorageMemcache extends JCacheStorage
 				}
 
 				usleep(100);
-				$data_lock = self::$_db->add($this->_hash . '-index_lock', 1, false, 30);
+				$data_lock = self::$db->add($this->_hash . '-index_lock', 1, false, 30);
 				$lock_counter++;
 			}
 		}
@@ -472,6 +472,6 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	protected function unlockindex()
 	{
-		return self::$_db->delete($this->_hash . '-index_lock');
+		return self::$db->delete($this->_hash . '-index_lock');
 	}
 }

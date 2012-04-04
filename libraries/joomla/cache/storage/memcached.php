@@ -23,19 +23,19 @@ class JCacheStorageMemcached extends JCacheStorage
 	 * @var    Memcached
 	 * @since  12.1
 	 */
-	protected static $_db = null;
+	protected static $db = null;
 
 	/**
 	 * @var    boolean
 	 * @since  12.1
 	 */
-	protected $_persistent = false;
+	protected $persistent = false;
 
 	/**
 	 * @var
 	 * @since   12.1
 	 */
-	protected $_compress = 0;
+	protected $compress = 0;
 
 	/**
 	 * Constructor
@@ -47,7 +47,7 @@ class JCacheStorageMemcached extends JCacheStorage
 	public function __construct($options = array())
 	{
 		parent::__construct($options);
-		if (self::$_db === null)
+		if (self::$db === null)
 		{
 			$this->getConnection();
 		}
@@ -69,8 +69,8 @@ class JCacheStorageMemcached extends JCacheStorage
 		}
 
 		$config = JFactory::getConfig();
-		$this->_persistent = $config->get('memcache_persist', true);
-		$this->_compress = $config->get('memcache_compress', false) == false ? 0 : Memcached::OPT_COMPRESSION;
+		$this->persistent = $config->get('memcache_persist', true);
+		$this->compress = $config->get('memcache_compress', false) == false ? 0 : Memcached::OPT_COMPRESSION;
 
 		/*
 		 * This will be an array of loveliness
@@ -82,29 +82,29 @@ class JCacheStorageMemcached extends JCacheStorage
 		$server['port'] = $config->get('memcache_server_port', 11211);
 
 		// Create the memcache connection
-		if ($this->_persistent)
+		if ($this->persistent)
 		{
 			$session = JFactory::getSession();
-			self::$_db = new Memcached($session->getId());
+			self::$db = new Memcached($session->getId());
 		}
 		else
 		{
-			self::$_db = new Memcached;
+			self::$db = new Memcached;
 		}
-		$memcachedtest = self::$_db->addServer($server['host'], $server['port']);
+		$memcachedtest = self::$db->addServer($server['host'], $server['port']);
 
 		if ($memcachedtest == false)
 		{
 			throw new RuntimeException('Could not connect to memcached server', 404);
 		}
 
-		self::$_db->setOption(Memcached::OPT_COMPRESSION, $this->_compress);
+		self::$db->setOption(Memcached::OPT_COMPRESSION, $this->compress);
 
 		// Memcached has no list keys, we do our own accounting, initialise key index
-		if (self::$_db->get($this->_hash . '-index') === false)
+		if (self::$db->get($this->_hash . '-index') === false)
 		{
 			$empty = array();
-			self::$_db->set($this->_hash . '-index', $empty, 0);
+			self::$db->set($this->_hash . '-index', $empty, 0);
 		}
 
 		return;
@@ -124,7 +124,7 @@ class JCacheStorageMemcached extends JCacheStorage
 	public function get($id, $group, $checkTime = true)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
-		$back = self::$_db->get($cache_id);
+		$back = self::$db->get($cache_id);
 		return $back;
 	}
 
@@ -139,7 +139,7 @@ class JCacheStorageMemcached extends JCacheStorage
 	{
 		parent::getAll();
 
-		$keys = self::$_db->get($this->_hash . '-index');
+		$keys = self::$db->get($this->_hash . '-index');
 		$secret = $this->_hash;
 
 		$data = array();
@@ -198,7 +198,7 @@ class JCacheStorageMemcached extends JCacheStorage
 			return false;
 		}
 
-		$index = self::$_db->get($this->_hash . '-index');
+		$index = self::$db->get($this->_hash . '-index');
 		if ($index === false)
 		{
 			$index = array();
@@ -208,13 +208,13 @@ class JCacheStorageMemcached extends JCacheStorage
 		$tmparr->name = $cache_id;
 		$tmparr->size = strlen($data);
 		$index[] = $tmparr;
-		self::$_db->replace($this->_hash . '-index', $index, 0);
+		self::$db->replace($this->_hash . '-index', $index, 0);
 		$this->unlockindex();
 
 		// Prevent double writes, write only if it doesn't exist else replace
-		if (!self::$_db->replace($cache_id, $data, $this->_lifetime))
+		if (!self::$db->replace($cache_id, $data, $this->_lifetime))
 		{
-			self::$_db->set($cache_id, $data, $this->_lifetime);
+			self::$db->set($cache_id, $data, $this->_lifetime);
 		}
 
 		return true;
@@ -239,7 +239,7 @@ class JCacheStorageMemcached extends JCacheStorage
 			return false;
 		}
 
-		$index = self::$_db->get($this->_hash . '-index');
+		$index = self::$db->get($this->_hash . '-index');
 		if ($index === false)
 		{
 			$index = array();
@@ -253,10 +253,10 @@ class JCacheStorageMemcached extends JCacheStorage
 			}
 			break;
 		}
-		self::$_db->replace($this->_hash . '-index', $index, 0);
+		self::$db->replace($this->_hash . '-index', $index, 0);
 		$this->unlockindex();
 
-		return self::$_db->delete($cache_id);
+		return self::$db->delete($cache_id);
 	}
 
 	/**
@@ -278,7 +278,7 @@ class JCacheStorageMemcached extends JCacheStorage
 			return false;
 		}
 
-		$index = self::$_db->get($this->_hash . '-index');
+		$index = self::$db->get($this->_hash . '-index');
 		if ($index === false)
 		{
 			$index = array();
@@ -290,11 +290,11 @@ class JCacheStorageMemcached extends JCacheStorage
 
 			if (strpos($value->name, $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
 			{
-				self::$_db->delete($value->name, 0);
+				self::$db->delete($value->name, 0);
 				unset($index[$key]);
 			}
 		}
-		self::$_db->replace($this->_hash . '-index', $index, 0);
+		self::$db->replace($this->_hash . '-index', $index, 0);
 		$this->unlockindex();
 		return true;
 	}
@@ -355,7 +355,7 @@ class JCacheStorageMemcached extends JCacheStorage
 			return false;
 		}
 
-		$index = self::$_db->get($this->_hash . '-index');
+		$index = self::$db->get($this->_hash . '-index');
 		if ($index === false)
 		{
 			$index = array();
@@ -366,11 +366,11 @@ class JCacheStorageMemcached extends JCacheStorage
 		$tmparr->size = 1;
 
 		$index[] = $tmparr;
-		self::$_db->replace($this->_hash . '-index', $index, 0);
+		self::$db->replace($this->_hash . '-index', $index, 0);
 
 		$this->unlockindex();
 
-		$data_lock = self::$_db->add($cache_id . '_lock', 1, $locktime);
+		$data_lock = self::$db->add($cache_id . '_lock', 1, $locktime);
 
 		if ($data_lock === false)
 		{
@@ -390,7 +390,7 @@ class JCacheStorageMemcached extends JCacheStorage
 				}
 
 				usleep(100);
-				$data_lock = self::$_db->add($cache_id . '_lock', 1, $locktime);
+				$data_lock = self::$db->add($cache_id . '_lock', 1, $locktime);
 				$lock_counter++;
 			}
 
@@ -419,7 +419,7 @@ class JCacheStorageMemcached extends JCacheStorage
 			return false;
 		}
 
-		$index = self::$_db->get($this->_hash . '-index');
+		$index = self::$db->get($this->_hash . '-index');
 		if ($index === false)
 		{
 			$index = array();
@@ -434,10 +434,10 @@ class JCacheStorageMemcached extends JCacheStorage
 			break;
 		}
 
-		self::$_db->replace($this->_hash . '-index', $index, 0);
+		self::$db->replace($this->_hash . '-index', $index, 0);
 		$this->unlockindex();
 
-		return self::$_db->delete($cache_id);
+		return self::$db->delete($cache_id);
 	}
 
 	/**
@@ -450,7 +450,7 @@ class JCacheStorageMemcached extends JCacheStorage
 	protected function lockindex()
 	{
 		$looptime = 300;
-		$data_lock = self::$_db->add($this->_hash . '-index_lock', 1, 30);
+		$data_lock = self::$db->add($this->_hash . '-index_lock', 1, 30);
 
 		if ($data_lock === false)
 		{
@@ -467,7 +467,7 @@ class JCacheStorageMemcached extends JCacheStorage
 				}
 
 				usleep(100);
-				$data_lock = self::$_db->add($this->_hash . '-index_lock', 1, 30);
+				$data_lock = self::$db->add($this->_hash . '-index_lock', 1, 30);
 				$lock_counter++;
 			}
 		}
@@ -484,6 +484,6 @@ class JCacheStorageMemcached extends JCacheStorage
 	 */
 	protected function unlockindex()
 	{
-		return self::$_db->delete($this->_hash . '-index_lock');
+		return self::$db->delete($this->_hash . '-index_lock');
 	}
 }

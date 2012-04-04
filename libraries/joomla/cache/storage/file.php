@@ -22,9 +22,9 @@ class JCacheStorageFile extends JCacheStorage
 {
 	/**
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_root;
+	protected $root;
 
 	/**
 	 * Constructor
@@ -36,7 +36,7 @@ class JCacheStorageFile extends JCacheStorage
 	public function __construct($options = array())
 	{
 		parent::__construct($options);
-		$this->_root = $options['cachebase'];
+		$this->root = $options['cachebase'];
 	}
 
 	// NOTE: raw php calls are up to 100 times faster than JFile or JFolder
@@ -89,7 +89,7 @@ class JCacheStorageFile extends JCacheStorage
 	{
 		parent::getAll();
 
-		$path = $this->_root;
+		$path = $this->root;
 		$folders = $this->_folders($path);
 		$data = array();
 
@@ -194,20 +194,20 @@ class JCacheStorageFile extends JCacheStorage
 		switch ($mode)
 		{
 			case 'notgroup':
-				$folders = $this->_folders($this->_root);
+				$folders = $this->_folders($this->root);
 				for ($i = 0, $n = count($folders); $i < $n; $i++)
 				{
 					if ($folders[$i] != $folder)
 					{
-						$return |= $this->_deleteFolder($this->_root . '/' . $folders[$i]);
+						$return |= $this->_deleteFolder($this->root . '/' . $folders[$i]);
 					}
 				}
 				break;
 			case 'group':
 			default:
-				if (is_dir($this->_root . '/' . $folder))
+				if (is_dir($this->root . '/' . $folder))
 				{
-					$return = $this->_deleteFolder($this->_root . '/' . $folder);
+					$return = $this->_deleteFolder($this->root . '/' . $folder);
 				}
 				break;
 		}
@@ -226,7 +226,7 @@ class JCacheStorageFile extends JCacheStorage
 		$result = true;
 
 		// Files older than lifeTime get deleted from cache
-		$files = $this->_filesInFolder($this->_root, '', true, true, array('.svn', 'CVS', '.DS_Store', '__MACOSX', 'index.html'));
+		$files = $this->_filesInFolder($this->root, '', true, true, array('.svn', 'CVS', '.DS_Store', '__MACOSX', 'index.html'));
 		foreach ($files as $file)
 		{
 			$time = @filemtime($file);
@@ -375,7 +375,7 @@ class JCacheStorageFile extends JCacheStorage
 	protected function _getFilePath($id, $group)
 	{
 		$name = $this->_getCacheId($id, $group);
-		$dir = $this->_root . '/' . $group;
+		$dir = $this->root . '/' . $group;
 
 		// If the folder doesn't exist try to create it
 		if (!is_dir($dir))
@@ -406,7 +406,7 @@ class JCacheStorageFile extends JCacheStorage
 	protected function _deleteFolder($path)
 	{
 		// Sanity check
-		if (!$path || !is_dir($path) || empty($this->_root))
+		if (!$path || !is_dir($path) || empty($this->root))
 		{
 			// Bad programmer! Bad Bad programmer!
 			JLog::add('JCacheStorageFile::_deleteFolder ' . JText::_('JLIB_FILESYSTEM_ERROR_DELETE_BASE_DIRECTORY'), JLog::WARNING, 'jerror');
@@ -416,7 +416,7 @@ class JCacheStorageFile extends JCacheStorage
 		$path = $this->_cleanPath($path);
 
 		// Check to make sure path is inside cache folder, we do not want to delete Joomla root!
-		$pos = strpos($path, $this->_cleanPath($this->_root));
+		$pos = strpos($path, $this->_cleanPath($this->root));
 
 		if ($pos === false || $pos > 0)
 		{
@@ -505,7 +505,7 @@ class JCacheStorageFile extends JCacheStorage
 
 		if (empty($path))
 		{
-			$path = $this->_root;
+			$path = $this->root;
 		}
 		else
 		{
