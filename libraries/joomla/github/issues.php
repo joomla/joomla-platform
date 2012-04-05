@@ -350,7 +350,7 @@ class JGithubIssues extends JGithubObject
 	}
 
     /**
-   	 * Method to get a specific label on an repo.
+   	 * Method to get a specific label on a repo.
    	 *
    	 * @param   string   $user       The name of the owner of the GitHub repository.
    	 * @param   string   $repo       The name of the GitHub repository.
@@ -380,7 +380,7 @@ class JGithubIssues extends JGithubObject
    	}
 
    	/**
-   	 * Method to get the list of labels on an issue.
+   	 * Method to get the list of labels on a repo.
    	 *
    	 * @param   string   $user     The name of the owner of the GitHub repository.
    	 * @param   string   $repo     The name of the GitHub repository.
