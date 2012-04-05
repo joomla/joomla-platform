@@ -392,7 +392,7 @@ class JGithubIssues extends JGithubObject
    	public function getLabels($user, $repo)
    	{
    		// Build the request path.
-   		$path = '/repos/' . $user . '/' . $repo . '/labels/';
+   		$path = '/repos/' . $user . '/' . $repo . '/labels';
 
    		// Send the request.
    		$response = $this->client->get($this->fetchUrl($path));
