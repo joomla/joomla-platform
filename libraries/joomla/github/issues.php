@@ -517,36 +517,6 @@ class JGithubIssues extends JGithubObject
    		return json_decode($response->body);
    	}
 
-    /**
-   	 * Method to get the list of labels on an issue.
-   	 *
-   	 * @param   string   $user     The name of the owner of the GitHub repository.
-   	 * @param   string   $repo     The name of the GitHub repository.
-     * @param   integer  $issueId  The issue number.
-   	 *
-   	 * @return  array
-   	 *
-   	 * @since   12.1
-   	 */
-   	public function getLabelsByIssue($user, $repo, $issueId)
-   	{
-   		// Build the request path.
-   		$path = '/repos/' . $user . '/' . $repo . '/issues/' . $issueId . '/labels';
-
-   		// Send the request.
-   		$response = $this->client->get($this->fetchUrl($path));
-
-   		// Validate the response code.
-   		if ($response->code != 200)
-   		{
-   			// Decode the error response and throw an exception.
-   			$error = json_decode($response->body);
-   			throw new DomainException($error->message, $response->code);
-   		}
-
-   		return json_decode($response->body);
-   	}
-
 	/**
 	 * Method to list an authenticated user's issues.
 	 *
