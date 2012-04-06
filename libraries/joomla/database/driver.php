@@ -186,11 +186,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		// Loop through the types and find the ones that are available.
 		foreach ($types as $type)
 		{
-			// Ignore some files.
-			if (($type == 'index.html') || stripos($type, 'importer') || stripos($type, 'exporter') || stripos($type, 'query') || stripos($type, 'exception'))
-			{
-				continue;
-			}
 
 			// Derive the class name from the type.
 			$class = str_ireplace('.php', '', 'JDatabaseDriver' . ucfirst(trim($type)));
