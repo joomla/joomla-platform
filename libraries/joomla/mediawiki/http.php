@@ -34,6 +34,16 @@ class JMediawikiHttp extends JHttp {
 
     }
 
+    /**
+     * Method to send the GET command to the server.
+     *
+     * @param   string  $url      Path to the resource.
+     * @param   array   $headers  An array of name-value pairs to include in the header of the request.
+     *
+     * @return  JHttpResponse
+     *
+     * @since   12.1
+     */
     public function get($url, array $headers = null)
     {
         return $this->transport->request('GET', new JUri($url), null, $headers, null, $this->options->get('api.useragent'));
