@@ -467,7 +467,7 @@ class JEditor extends JObject
 				$result[] = $temp;
 			}
 
-			}
+		}
 
 		return $result;
 	}
