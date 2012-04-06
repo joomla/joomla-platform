@@ -18,6 +18,13 @@ defined('JPATH_PLATFORM') or die;
  */
 class JMediawikiSites extends JMediawikiObject
 {
+    /**
+     * Method to get site information.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
     public function getSiteInfo() {
         // build the request
         $path = '?action=query&meta=siteinfo';
