@@ -19,9 +19,4 @@ defined('JPATH_PLATFORM') or die;
 class JMediawikiPages extends JMediawikiObject
 {
 
-    public function getPageInfo(array $params)
-    {
-
-    }
-
 }
