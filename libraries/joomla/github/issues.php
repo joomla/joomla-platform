@@ -312,7 +312,7 @@ class JGithubIssues extends JGithubObject
    	public function editLabel($user, $repo, $label, $name, $color)
    	{
    		// Build the request path.
-   		$path = '/repos/' . $user . '/' . $repo . '/labels' . $label;
+   		$path = '/repos/' . $user . '/' . $repo . '/labels/' . $label;
 
    		// Build the request data.
    		$data = json_encode(
@@ -326,7 +326,7 @@ class JGithubIssues extends JGithubObject
         $response = $this->client->patch($this->fetchUrl($path), $data);
 
    		// Validate the response code.
-   		if ($response->code != 201)
+   		if ($response->code != 200)
    		{
    			// Decode the error response and throw an exception.
    			$error = json_decode($response->body);
