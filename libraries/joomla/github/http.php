@@ -46,7 +46,7 @@ class JGithubHttp extends JHttp
 	 */
 	public function __construct(JRegistry $options = null, JHttpTransport $transport = null)
 	{
-        // Override the JHttp contructor to use JHttpTransportStream.
+    // Override the JHttp contructor to use JHttpTransportStream.
     $this->options   = isset($options) ? $options : new JRegistry;
     $this->transport = isset($transport) ? $transport : new JHttpTransportStream($this->options);
 
