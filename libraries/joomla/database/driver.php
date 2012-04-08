@@ -141,20 +141,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	protected $utf = true;
 
 	/**
-	 * @var         integer  The database error number
-	 * @since       11.1
-	 * @deprecated  12.1
-	 */
-	protected $errorNum = 0;
-
-	/**
-	 * @var         string  The database error message
-	 * @since       11.1
-	 * @deprecated  12.1
-	 */
-	protected $errorMsg;
-
-	/**
 	 * @var    array  JDatabaseDriver instances container.
 	 * @since  11.1
 	 */
@@ -755,20 +741,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  boolean  True if the database engine supports UTF-8 character encoding.
 	 *
-	 * @since   11.1
-	 * @deprecated 12.3 Use hasUTFSupport() instead
-	 */
-	public function getUTFSupport()
-	{
-		JLog::add('JDatabase::getUTFSupport() is deprecated. Use JDatabase::hasUTFSupport() instead.', JLog::WARNING, 'deprecated');
-		return $this->hasUTFSupport();
-	}
-
-	/**
-	 * Determine whether or not the database engine supports UTF-8 character encoding.
-	 *
-	 * @return  boolean  True if the database engine supports UTF-8 character encoding.
-	 *
 	 * @since   12.1
 	 */
 	public function hasUTFSupport()
@@ -982,82 +954,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		$this->freeResult($cursor);
 
 		return $array;
-	}
-
-	/**
-	 * Method to get the next row in the result set from the database query as an object.
-	 *
-	 * @param   string  $class  The class name to use for the returned row object.
-	 *
-	 * @return  mixed   The result of the query as an array, false if there are no more rows.
-	 *
-	 * @since   11.1
-	 * @throws  RuntimeException
-	 */
-	public function loadNextObject($class = 'stdClass')
-	{
-		JLog::add(__METHOD__ . '() is deprecated. Use JDatabase::getIterator() instead.', JLog::WARNING, 'deprecated');
-		$this->connect();
-
-		static $cursor = null;
-
-		// Execute the query and get the result set cursor.
-		if ( is_null($cursor) )
-		{
-			if (!($cursor = $this->execute()))
-			{
-				return $this->errorNum ? null : false;
-			}
-		}
-
-		// Get the next row from the result set as an object of type $class.
-		if ($row = $this->fetchObject($cursor, $class))
-		{
-			return $row;
-		}
-
-		// Free up system resources and return.
-		$this->freeResult($cursor);
-		$cursor = null;
-
-		return false;
-	}
-
-	/**
-	 * Method to get the next row in the result set from the database query as an array.
-	 *
-	 * @return  mixed  The result of the query as an array, false if there are no more rows.
-	 *
-	 * @since   11.1
-	 * @throws  RuntimeException
-	 */
-	public function loadNextRow()
-	{
-		JLog::add('JDatabase::loadNextRow() is deprecated. Use JDatabase::getIterator() instead.', JLog::WARNING, 'deprecated');
-		$this->connect();
-
-		static $cursor = null;
-
-		// Execute the query and get the result set cursor.
-		if ( is_null($cursor) )
-		{
-			if (!($cursor = $this->execute()))
-			{
-				return $this->errorNum ? null : false;
-			}
-		}
-
-		// Get the next row from the result set as an object of type $class.
-		if ($row = $this->fetchArray($cursor))
-		{
-			return $row;
-		}
-
-		// Free up system resources and return.
-		$this->freeResult($cursor);
-		$cursor = null;
-
-		return false;
 	}
 
 	/**
