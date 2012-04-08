@@ -666,7 +666,8 @@ abstract class JHtmlBehavior
 						item.type = 'color';
 					} else {
 						new MooRainbow(item,
-						{
+						{       
+							id:item.id,
 							imgPath: '" . JURI::root(true)
 			. "/media/system/images/mooRainbow/',
 							onComplete: function(color) {
