@@ -107,6 +107,21 @@ abstract class JDatabase
 	}
 
 	/**
+	 * Get the total number of SQL statements executed by the database driver.
+	 *
+	 * @return  integer
+	 *
+	 * @since   11.1
+	 * @deprecated 13.1 Use JDatabaseDriver::count() instead.
+	 */
+	public function getCount()
+	{
+		JLog::add('JDatabase::getCount() is deprecated, use JDatabaseDriver::count() instead.', JLog::WARNING, 'deprecated');
+
+		return $this->count;
+	}
+
+	/**
 	 * Determine whether or not the database engine supports UTF-8 character encoding.
 	 *
 	 * @return  boolean  True if the database engine supports UTF-8 character encoding.

@@ -40,7 +40,7 @@ interface JDatabaseInterface
  * @method      string  q()   q($text, $escape)  Alias for quote method
  * @method      string  qn()  qs($name, $as)     Alias for quoteName method
  */
-abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
+abstract class JDatabaseDriver extends JDatabase implements Countable, JDatabaseInterface
 {
 	/**
 	 * The name of the database.
@@ -488,9 +488,10 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  integer
 	 *
-	 * @since   11.1
+	 * @since   12.1
+	 * @see     Countable::count
 	 */
-	public function getCount()
+	public function count()
 	{
 		return $this->count;
 	}
