@@ -633,8 +633,10 @@ class JImage
 		return $instance;
 	}
 
-	/**
+     /**
 	 * Method to get the new dimensions for a resized image.
+     * Behavior: by setting $width or $height to (int)0 the opposite value will be used 
+     * to calculate the ratio.   
 	 *
 	 * @param   integer  $width        The width of the resized image in pixels.
 	 * @param   integer  $height       The height of the resized image in pixels.
@@ -659,10 +661,34 @@ class JImage
 
 			case JImage::SCALE_INSIDE:
 			case JImage::SCALE_OUTSIDE:
-				$rx = $this->getWidth() / $width;
-				$ry = $this->getHeight() / $height;
+				if ($width == 0 && $height != 0)
+				{ 
+				    // Scale an image to the specified $height 
+					$rx = 0;
+					$ry = $this->getHeight() / $height;
 
-				if ($scaleMethod == JImage::SCALE_INSIDE)
+				}
+				elseif ($width != 0 && $height == 0)
+				{
+					//Scale an image to the specified $width
+					$rx = $this->getWidth() / $width;
+					$ry = 0;
+
+				}
+				elseif ($width == 0 && $height == 0)
+				{
+					// Both $height and $width are zero lets get the with as default scale ratio
+					$rx = $this->getWidth() / $width;
+					$ry = 0;
+				}
+				else
+				{ 
+				    // If both $width and $height are not equals to zero
+					$rx = $this->getWidth() / $width;
+					$ry = $this->getHeight() / $height;
+				}
+                //determine the final scale direction
+				if ($scaleMethod == self::SCALE_INSIDE)
 				{
 					$ratio = ($rx > $ry) ? $rx : $ry;
 				}
