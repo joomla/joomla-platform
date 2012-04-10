@@ -251,21 +251,4 @@ class JFactoryTest extends TestCase
 			'Tests that a date passed in with UTC timezone comes back unchanged.'
 		);
 	}
-
-	/**
-	 * Tests the JFactory::getFilesystem method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.2
-	 * @covers  JFactory::getFilesystem
-	 */
-	function testGetFilesystem()
-	{
-		$this->assertInstanceOf(
-			'JFilesystem',
-			JFactory::getFilesystem(),
-			'Line: '.__LINE__
-		);
-	}
 }
