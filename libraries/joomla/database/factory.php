@@ -19,12 +19,49 @@ defined('JPATH_PLATFORM') or die;
 class JDatabaseFactory
 {
 	/**
+	 * Name of the Database Driver
+	 *
+	 * @var    string
+	 * @since  12.1
+	 */
+	private static $_name = null;
+
+	/**
 	 * Contains the current JDatabaseFactory instance
 	 *
 	 * @var    JDatabaseFactory
 	 * @since  12.1
 	 */
 	private static $_instance = null;
+
+	/**
+	 * Gets an instance of the factory object.
+	 *
+	 * @param   string  $name     Name of the database driver you'd like to instantiate
+	 * @param   array   $options  Parameters to be passed to the database driver
+	 *
+	 * @return  JDatabaseFactory
+	 *
+	 * @since   12.1
+	 */
+	public static function getInstance($name = 'mysql', $options = array())
+	{
+		return self::$_instance ? self::$_instance : new JDatabaseFactory($name, $options);
+	}
+
+	/**
+	 * Class constructor.
+	 *
+	 * @param   string  $name     Name of the database driver you'd like to instantiate
+	 * @param   array   $options  Parameters to be passed to the database driver
+	 *
+	 * @since   11.3
+	 */
+	public function __construct($name = 'mysql', $options = array())
+	{
+		$this->name = $name;
+		return $this->getDriver($options);
+	}
 
 	/**
 	 * Method to return a JDatabaseDriver instance based on the given options.  There are three global options and then
@@ -36,17 +73,16 @@ class JDatabaseFactory
 	 * Instances are unique to the given options and new objects are only created when a unique options array is
 	 * passed into the method.  This ensures that we don't end up with unnecessary database connection resources.
 	 *
-	 * @param   string  $name     Name of the database driver you'd like to instantiate
 	 * @param   array   $options  Parameters to be passed to the database driver.
 	 *
 	 * @return  JDatabaseDriver  A database driver object.
 	 *
 	 * @since   12.1
 	 */
-	public function getDriver($name = 'mysql', $options = array())
+	public function getDriver($options = array())
 	{
 		// Sanitize the database connector options.
-		$options['driver'] = preg_replace('/[^A-Z0-9_\.-]/i', '', $name);
+		$options['driver'] = preg_replace('/[^A-Z0-9_\.-]/i', '', $this->name);
 		$options['database'] = (isset($options['database'])) ? $options['database'] : null;
 		$options['select'] = (isset($options['select'])) ? $options['select'] : true;
 
@@ -75,18 +111,15 @@ class JDatabaseFactory
 	/**
 	 * Gets an exporter class object.
 	 *
-	 * @param   string           $name  Name of the driver you want an exporter for.
-	 * @param   JDatabaseDriver  $db    Optional JDatabaseDriver instance
-	 *
 	 * @return  JDatabaseExporter  An exporter object.
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
-	public function getExporter($name, JDatabaseDriver $db = null)
+	public function getExporter()
 	{
 		// Derive the class name from the driver.
-		$class = 'JDatabaseExporter' . ucfirst(strtolower($name));
+		$class = 'JDatabaseExporter' . ucfirst(strtolower($this->name));
 
 		// Make sure we have an exporter class for this driver.
 		if (!class_exists($class))
@@ -97,9 +130,9 @@ class JDatabaseFactory
 
 		$o = new $class;
 
-		if ($db instanceof JDatabaseDriver)
+		if ($this->_instance instanceof JDatabaseDriver)
 		{
-			$o->setDbo($db);
+			$o->setDbo($this->_instance);
 		}
 
 		return $o;
@@ -108,18 +141,15 @@ class JDatabaseFactory
 	/**
 	 * Gets an importer class object.
 	 *
-	 * @param   string           $name  Name of the driver you want an importer for.
-	 * @param   JDatabaseDriver  $db    Optional JDatabaseDriver instance
-	 *
 	 * @return  JDatabaseImporter  An importer object.
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
-	public function getImporter($name, JDatabaseDriver $db = null)
+	public function getImporter()
 	{
 		// Derive the class name from the driver.
-		$class = 'JDatabaseImporter' . ucfirst(strtolower($name));
+		$class = 'JDatabaseImporter' . ucfirst(strtolower($this->name));
 
 		// Make sure we have an importer class for this driver.
 		if (!class_exists($class))
@@ -130,41 +160,26 @@ class JDatabaseFactory
 
 		$o = new $class;
 
-		if ($db instanceof JDatabaseDriver)
+		if ($this->_instance instanceof JDatabaseDriver)
 		{
-			$o->setDbo($db);
+			$o->setDbo($this->_instance);
 		}
 
 		return $o;
 	}
 
 	/**
-	 * Gets an instance of the factory object.
-	 *
-	 * @return  JDatabaseFactory
-	 *
-	 * @since   12.1
-	 */
-	public static function getInstance()
-	{
-		return self::$_instance ? self::$_instance : new JDatabaseFactory;
-	}
-
-	/**
 	 * Get the current query object or a new JDatabaseQuery object.
-	 *
-	 * @param   string           $name  Name of the driver you want an importer for.
-	 * @param   JDatabaseDriver  $db    Optional JDatabaseDriver instance
 	 *
 	 * @return  JDatabaseQuery  The current query object or a new object extending the JDatabaseQuery class.
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
-	public function getQuery($name, JDatabaseDriver $db = null)
+	public function getQuery()
 	{
 		// Derive the class name from the driver.
-		$class = 'JDatabaseQuery' . ucfirst(strtolower($name));
+		$class = 'JDatabaseQuery' . ucfirst(strtolower($this->name));
 
 		// Make sure we have a query class for this driver.
 		if (!class_exists($class))
@@ -173,20 +188,33 @@ class JDatabaseFactory
 			throw new RuntimeException('Database Query class not found');
 		}
 
-		return new $class($db);
+		return new $class($this->_instance);
 	}
 
 	/**
-	 * Gets an instance of a factory object to return on subsequent calls of getInstance.
+	 * Get a new iterator on the current query.
 	 *
-	 * @param   JDatabaseFactory  $instance  A JDatabaseFactory object.
+	 * @param   string  $column  An option column to use as the iterator key.
+	 * @param   string  $class   The class of object that is returned.
 	 *
-	 * @return  void
+	 * @return  JDatabaseIterator  A new database iterator.
 	 *
 	 * @since   12.1
+	 * @throws  RuntimeException
 	 */
-	public static function setInstance(JDatabaseFactory $instance = null)
+	public function getIterator($column = null, $class = 'stdClass')
 	{
-		self::$_instance = $instance;
+		// Derive the class name from the driver.
+		$iteratorClass = 'JDatabaseIterator' . ucfirst($this->name);
+
+		// Make sure we have an iterator class for this driver.
+		if (!class_exists($iteratorClass))
+		{
+			// If it doesn't exist we are at an impasse so throw an exception.
+			throw new RuntimeException(sprintf('class *%s* is not defined', $iteratorClass));
+		}
+
+		// Return a new iterator
+		return new $iteratorClass($this->execute(), $column, $class);
 	}
 }
