@@ -426,8 +426,8 @@ class JEditor extends JObject
 	 *
 	 * @return  array
 	 *
-         * @throws	InvalidArgumentException	If plugin required does not exists
-         *   
+     * @throws	InvalidArgumentException	If plugin required does not exists
+     *   
 	 * @since   11.1
 	 */
 	public function getButtons($editor, $buttons = true)
@@ -466,7 +466,6 @@ class JEditor extends JObject
 			{
 				$result[] = $temp;
 			}
-
 		}
 
 		return $result;
