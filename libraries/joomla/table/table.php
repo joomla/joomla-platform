@@ -345,7 +345,7 @@ abstract class JTable extends JObject
 	 *
 	 * @param   JDatabaseDriver  $db  A JDatabaseDriver object to be used by the table object.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  JTable.
 	 *
 	 * @link    http://docs.joomla.org/JTable/setDBO
 	 * @since   11.1
@@ -354,7 +354,7 @@ abstract class JTable extends JObject
 	{
 		$this->_db = $db;
 
-		return true;
+		return $this;
 	}
 
 	/**
@@ -362,7 +362,7 @@ abstract class JTable extends JObject
 	 *
 	 * @param   mixed  $input  A JAccessRules object, JSON string, or array.
 	 *
-	 * @return  void
+	 * @return  JTable
 	 *
 	 * @since   11.1
 	 */
@@ -376,6 +376,8 @@ abstract class JTable extends JObject
 		{
 			$this->_rules = new JAccessRules($input);
 		}
+
+		return $this;
 	}
 
 	/**
@@ -395,7 +397,7 @@ abstract class JTable extends JObject
 	 * definition. It will ignore the primary key as well as any private class
 	 * properties.
 	 *
-	 * @return  void
+	 * @return  JTable
 	 *
 	 * @link    http://docs.joomla.org/JTable/reset
 	 * @since   11.1
@@ -411,6 +413,8 @@ abstract class JTable extends JObject
 				$this->$k = $v->Default;
 			}
 		}
+
+		return $this;
 	}
 
 	/**
@@ -421,11 +425,11 @@ abstract class JTable extends JObject
 	 * @param   mixed  $src     An associative array or object to bind to the JTable instance.
 	 * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  JTable.
 	 *
 	 * @link    http://docs.joomla.org/JTable/bind
 	 * @since   11.1
-	 * @throws  UnexpectedValueException
+	 * @throws  InvalidArgumentException
 	 */
 	public function bind($src, $ignore = array())
 	{
@@ -460,7 +464,7 @@ abstract class JTable extends JObject
 			}
 		}
 
-		return true;
+		return $this;
 	}
 
 	/**
@@ -489,7 +493,7 @@ abstract class JTable extends JObject
 			// If empty primary key there's is no need to load anything
 			if (empty($keyValue))
 			{
-				return true;
+				return $this;
 			}
 
 			$keys = array($keyName => $keyValue);
@@ -542,14 +546,14 @@ abstract class JTable extends JObject
 	 * method to make sure the data they are storing in the database is safe and
 	 * as expected before storage.
 	 *
-	 * @return  boolean  True if the instance is sane and able to be stored in the database.
+	 * @return  JTable  If the instance is sane and able to be stored in the database.
 	 *
 	 * @link    http://docs.joomla.org/JTable/check
 	 * @since   11.1
 	 */
 	public function check()
 	{
-		return true;
+		return $this;
 	}
 
 	/**
@@ -561,7 +565,7 @@ abstract class JTable extends JObject
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  JTable
 	 *
 	 * @link	http://docs.joomla.org/JTable/store
 	 * @since   11.1
@@ -590,7 +594,7 @@ abstract class JTable extends JObject
 		// If the table is not set to track assets return true.
 		if (!$this->_trackAssets)
 		{
-			return true;
+			return $this;
 		}
 
 		if ($this->_locked)
@@ -656,7 +660,7 @@ abstract class JTable extends JObject
 			$this->_db->execute();
 		}
 
-		return true;
+		return $this;
 	}
 
 	/**
@@ -672,7 +676,7 @@ abstract class JTable extends JObject
 	 * @param   mixed   $ignore          An optional array or space separated list of properties
 	 * to ignore while binding.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  JTable
 	 *
 	 * @link	http://docs.joomla.org/JTable/save
 	 * @since   11.1
@@ -713,7 +717,7 @@ abstract class JTable extends JObject
 		// Set the error to empty and return true.
 		$this->setError('');
 
-		return true;
+		return $this;
 	}
 
 	/**
@@ -721,7 +725,7 @@ abstract class JTable extends JObject
 	 *
 	 * @param   mixed  $pk  An optional primary key value to delete.  If not set the instance property value is used.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  JTable
 	 *
 	 * @link	http://docs.joomla.org/JTable/delete
 	 * @since   11.1
@@ -772,7 +776,7 @@ abstract class JTable extends JObject
 		// Check for a database error.
 		$this->_db->execute();
 
-		return true;
+		return $this;
 	}
 
 	/**
@@ -785,19 +789,20 @@ abstract class JTable extends JObject
 	 *
 	 * @param   integer  $userId  The Id of the user checking out the row.
 	 * @param   mixed    $pk      An optional primary key value to check out.  If not set
-	 * the instance property value is used.
+	 *                            the instance property value is used.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  JTable
 	 *
 	 * @link    http://docs.joomla.org/JTable/checkOut
 	 * @since   11.1
+	 * @throws UnexpectedValueException
 	 */
 	public function checkOut($userId, $pk = null)
 	{
 		// If there is no checked_out or checked_out_time field, just return true.
 		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time'))
 		{
-			return true;
+			return $this;
 		}
 
 		// Initialise variables.
@@ -826,7 +831,7 @@ abstract class JTable extends JObject
 		$this->checked_out = (int) $userId;
 		$this->checked_out_time = $time;
 
-		return true;
+		return $this;
 	}
 
 	/**
@@ -835,17 +840,18 @@ abstract class JTable extends JObject
 	 *
 	 * @param   mixed  $pk  An optional primary key value to check out.  If not set the instance property value is used.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  JTable
 	 *
 	 * @link    http://docs.joomla.org/JTable/checkIn
 	 * @since   11.1
+	 * @throws UnexpectedValueException
 	 */
 	public function checkIn($pk = null)
 	{
 		// If there is no checked_out or checked_out_time field, just return true.
 		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time'))
 		{
-			return true;
+			return $this;
 		}
 
 		// Initialise variables.
@@ -873,7 +879,7 @@ abstract class JTable extends JObject
 		$this->checked_out = 0;
 		$this->checked_out_time = '';
 
-		return true;
+		return $this;
 	}
 
 	/**
@@ -881,7 +887,7 @@ abstract class JTable extends JObject
 	 *
 	 * @param   mixed  $pk  An optional primary key value to increment. If not set the instance property value is used.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  JTable
 	 *
 	 * @link    http://docs.joomla.org/JTable/hit
 	 * @since   11.1
@@ -891,7 +897,7 @@ abstract class JTable extends JObject
 		// If there is no hits field, just return true.
 		if (!property_exists($this, 'hits'))
 		{
-			return true;
+			return $this;
 		}
 
 		// Initialise variables.
@@ -915,7 +921,7 @@ abstract class JTable extends JObject
 		// Set table values in the object.
 		$this->hits++;
 
-		return true;
+		return $this;
 	}
 
 	/**
@@ -965,6 +971,7 @@ abstract class JTable extends JObject
 	 *
 	 * @link    http://docs.joomla.org/JTable/getNextOrder
 	 * @since   11.1
+	 * @throws UnexpectedValueException
 	 */
 	public function getNextOrder($where = '')
 	{
@@ -997,10 +1004,11 @@ abstract class JTable extends JObject
 	 *
 	 * @param   string  $where  WHERE clause to use for limiting the selection of rows to compact the ordering values.
 	 *
-	 * @return  mixed  Boolean true on success.
+	 * @return  JTable
 	 *
 	 * @link    http://docs.joomla.org/JTable/reorder
 	 * @since   11.1
+	 * @throws UnexpectedValueException
 	 */
 	public function reorder($where = '')
 	{
@@ -1008,8 +1016,6 @@ abstract class JTable extends JObject
 		if (!property_exists($this, 'ordering'))
 		{
 			throw new UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
-			$this->setError($e);
-			return false;
 		}
 
 		// Initialise variables.
@@ -1051,7 +1057,7 @@ abstract class JTable extends JObject
 			}
 		}
 
-		return true;
+		return $this;
 	}
 
 	/**
@@ -1062,7 +1068,7 @@ abstract class JTable extends JObject
 	 * @param   string   $where  WHERE clause to use for limiting the selection of rows to compact the
 	 * ordering values.
 	 *
-	 * @return  mixed    Boolean true on success.
+	 * @return  JTable
 	 *
 	 * @link    http://docs.joomla.org/JTable/move
 	 * @since   11.1
@@ -1079,7 +1085,7 @@ abstract class JTable extends JObject
 		// If the change is none, do nothing.
 		if (empty($delta))
 		{
-			return true;
+			return $this;
 		}
 
 		// Initialise variables.
@@ -1147,7 +1153,7 @@ abstract class JTable extends JObject
 			$this->_db->execute();
 		}
 
-		return true;
+		return $this;
 	}
 
 	/**
@@ -1159,7 +1165,7 @@ abstract class JTable extends JObject
 	 * @param   integer  $state   The publishing state. eg. [0 = unpublished, 1 = published]
 	 * @param   integer  $userId  The user id of the user performing the operation.
 	 *
-	 * @return  boolean  True on success; false if $pks is empty.
+	 * @return  mixed  JTable on success; false if $pks is empty.
 	 *
 	 * @link    http://docs.joomla.org/JTable/publish
 	 * @since   11.1
@@ -1227,13 +1233,13 @@ abstract class JTable extends JObject
 		}
 
 		$this->setError('');
-		return true;
+		return $this;
 	}
 
 	/**
 	 * Method to lock the database table for writing.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  JTable
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
@@ -1243,13 +1249,13 @@ abstract class JTable extends JObject
 		$this->_db->lockTable($this->_tbl);
 		$this->_locked = true;
 
-		return true;
+		return $this;
 	}
 
 	/**
 	 * Method to unlock the database table for writing.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  JTable
 	 *
 	 * @since   11.1
 	 */
@@ -1258,6 +1264,6 @@ abstract class JTable extends JObject
 		$this->_db->unlockTables();
 		$this->_locked = false;
 
-		return true;
+		return $this;
 	}
 }
