@@ -112,7 +112,7 @@ class JTableLanguageTest extends TestCaseDatabase
 		$table->lang_code = 'en-GB';
 		$this->assertFalse($table->store(), 'Line: ' . __LINE__ . ' Table store should fail due to a duplicated lang_code field.');
 		$table->lang_code = 'en-US';
-		$this->assertTrue($table->store(), 'Line: ' . __LINE__ . ' Table store should successfully insert a record for English (US).');
+		$this->assertInstanceOf('JTable', $table->store(), 'Line: ' . __LINE__ . ' Table store should successfully insert a record for English (US).');
 	}
 
 }
