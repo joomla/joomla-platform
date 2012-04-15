@@ -15,7 +15,7 @@ include_once JPATH_PLATFORM . '/joomla/log/logexception.php';
 class LogExceptionTest extends PHPUnit_Framework_TestCase {
 
     /**
-     * @var LogException
+     * @var InvalidArgumentException
      */
     protected $object;
 
@@ -24,7 +24,6 @@ class LogExceptionTest extends PHPUnit_Framework_TestCase {
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        //$this->object = new LogException;
     }
 
     /**
@@ -32,7 +31,7 @@ class LogExceptionTest extends PHPUnit_Framework_TestCase {
      * This method is called after a test is executed.
      */
     protected function tearDown() {
-        
+
     }
 
 	/**
@@ -44,5 +43,3 @@ class LogExceptionTest extends PHPUnit_Framework_TestCase {
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }
-
-?>
