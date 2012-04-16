@@ -31,6 +31,6 @@ class JLoggerEcho extends JLogger
 	 */
 	public function addEntry(JLogEntry $entry)
 	{
-		echo $this->priorities[$entry->priority] . ': ' . $entry->message . (empty($entry->category) ? '' : ' [' . $entry->category . ']') . "\n";
+		echo $this->priorities[$entry->priority] . ': ' . $entry->message . (empty($entry->category) ? '' : ' [' . $entry->category . ']') . "<br />";
 	}
 }
