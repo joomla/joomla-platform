@@ -402,11 +402,10 @@ class JLog
 		foreach ((array) $this->lookup as $signature => $rules)
 		{
 			// Check to make sure the priority matches the logger.
-			if ($priority & $rules->priorities)
+			if ($priority == $rules->priorities || $rules->priorities == JLog::ALL)
 			{
-
 				// If either there are no set categories (meaning all) or the specific category is set, add this logger.
-				if (empty($category) || empty($rules->categories) || in_array($category, $rules->categories))
+				if (count($rules->categories) == 0 || in_array($category, $rules->categories))
 				{
 					$loggers[] = $signature;
 				}
