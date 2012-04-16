@@ -124,7 +124,7 @@ class JLogTest extends PHPUnit_Framework_TestCase
 		// Add a loggers to the JLog object.
 		JLog::addLogger(array('logger' => 'echo'), JLog::ALL);
 
-		$this->expectOutputString("DEBUG: TESTING [deprecated]\n");
+		$this->expectOutputString("DEBUG: TESTING [deprecated]<br />");
 		$log->addLogEntry(new JLogEntry('TESTING', JLog::DEBUG, 'DePrEcAtEd'));
 	}
 
@@ -143,7 +143,7 @@ class JLogTest extends PHPUnit_Framework_TestCase
 
 		JLog::addLogger(array('logger' => 'echo'), JLog::ALL);
 
-		$this->expectOutputString("WARNING: TESTING [deprecated]\n");
+		$this->expectOutputString("WARNING: TESTING [deprecated]<br />");
 		JLog::add(new JLogEntry('TESTING', JLog::WARNING, 'DePrEcAtEd'));
 	}
 
@@ -158,8 +158,8 @@ class JLogTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAddLoggerAutoInstantiationInvalidLogger()
 	{
-		// We are expecting a LogException to be thrown since we are trying to add a bogus logger.
-		$this->setExpectedException('LogException');
+		// We are expecting an InvalidArgumentException to be thrown since we are trying to add a bogus logger.
+		$this->setExpectedException('InvalidArgumentException');
 
 		JLog::setInstance(null);
 

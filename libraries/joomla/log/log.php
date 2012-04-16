@@ -11,8 +11,6 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.log.logger');
 
-JLoader::register('LogException', JPATH_PLATFORM . '/joomla/log/logexception.php');
-
 JLoader::discover('JLogger', __DIR__ . '/loggers');
 
 // @deprecated  12.1
@@ -293,7 +291,7 @@ class JLog
 	 *
 	 * @param   array  $entry  Array of values to map to the format string for the log file.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  mixed  null|boolean
 	 *
 	 * @since         11.1
 	 *
@@ -352,7 +350,7 @@ class JLog
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  LogException
+	 * @throws  InvalidArgumentException
 	 */
 	protected function addLogEntry(JLogEntry $entry)
 	{
@@ -372,7 +370,7 @@ class JLog
 				}
 				else
 				{
-					throw new LogException(JText::_('Unable to create a JLogger instance: '));
+					throw new InvalidArgumentException('Unable to create a JLogger instance: '. $class);
 				}
 			}
 
@@ -404,11 +402,11 @@ class JLog
 		foreach ((array) $this->lookup as $signature => $rules)
 		{
 			// Check to make sure the priority matches the logger.
-			if ($priority & $rules->priorities)
+			if ($priority == $rules->priorities || $rules->priorities == JLog::ALL)
 			{
-
 				// If either there are no set categories (meaning all) or the specific category is set, add this logger.
-				if (empty($category) || empty($rules->categories) || in_array($category, $rules->categories))
+				if (count($rules->categories) == 0
+					|| in_array($category, $rules->categories))
 				{
 					$loggers[] = $signature;
 				}

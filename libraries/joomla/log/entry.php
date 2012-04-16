@@ -81,7 +81,7 @@ class JLogEntry
 		$this->message = (string) $message;
 
 		// Sanitize the priority.
-		if (!in_array($priority, $this->priorities, true))
+		if (!in_array($priority, $this->priorities))
 		{
 			$priority = JLog::INFO;
 		}
