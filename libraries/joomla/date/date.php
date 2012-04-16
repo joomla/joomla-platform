@@ -425,11 +425,21 @@ class JDate extends DateTime
 	 */
 	public function toSql($local = false, JDatabase $dbo = null)
 	{
-		if ($dbo === null)
+		if ($dbo === null && class_exists('JFactory'))
 		{
 			$dbo = JFactory::getDbo();
 		}
-		return $this->format($dbo->getDateFormat(), $local, false);
+
+		if ($dbo === null)
+		{
+			$format = 'Y-m-d H:i:s';
+		}
+		else
+		{
+			$format = $dbo->getDateFormat();
+		}
+
+		return $this->format($format, $local, false);
 	}
 
 	/**
