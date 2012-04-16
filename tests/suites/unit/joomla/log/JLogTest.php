@@ -158,8 +158,8 @@ class JLogTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAddLoggerAutoInstantiationInvalidLogger()
 	{
-		// We are expecting a LogException to be thrown since we are trying to add a bogus logger.
-		$this->setExpectedException('LogException');
+		// We are expecting a InvalidArgumentException to be thrown since we are trying to add a bogus logger.
+		$this->setExpectedException('InvalidArgumentException');
 
 		JLog::setInstance(null);
 

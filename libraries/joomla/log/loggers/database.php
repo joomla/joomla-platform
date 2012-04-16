@@ -72,7 +72,6 @@ class JLoggerDatabase extends JLogger
 	 * @param   array  &$options  Log object options.
 	 *
 	 * @since   11.1
-	 * @throws  LogException
 	 */
 	public function __construct(array &$options)
 	{
@@ -134,7 +133,6 @@ class JLoggerDatabase extends JLogger
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  LogException
 	 */
 	protected function connect()
 	{
@@ -147,21 +145,7 @@ class JLoggerDatabase extends JLogger
 			'database' => $this->database,
 			'prefix' => $this->prefix);
 
-		try
-		{
-			$db = JDatabase::getInstance($options);
-
-			if ($db instanceof Exception)
-			{
-				throw new LogException('Database Error: ' . (string) $db);
-			}
-
-			// Assign the database connector to the class.
-			$this->dbo = $db;
-		}
-		catch (RuntimeException $e)
-		{
-			throw new LogException($e->getMessage());
-		}
+		$db = JDatabase::getInstance($options);
+		$this->dbo = $db;
 	}
 }

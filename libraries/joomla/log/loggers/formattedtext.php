@@ -127,7 +127,7 @@ class JLoggerFormattedText extends JLogger
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  LogException
+	 * @throws  RuntimeException
 	 */
 	public function addEntry(JLogEntry $entry)
 	{
@@ -182,7 +182,7 @@ class JLoggerFormattedText extends JLogger
 		// Write the new entry to the file.
 		if (!fputs($this->file, $line . "\n"))
 		{
-			throw new LogException;
+			throw new RuntimeException('Cannot write to log file.');
 		}
 	}
 
@@ -232,7 +232,6 @@ class JLoggerFormattedText extends JLogger
 		// If the file doesn't already exist we need to create it and generate the file header.
 		if (!is_file($this->path))
 		{
-
 			// Make sure the folder exists in which to create the log file.
 			JFolder::create(dirname($this->path));
 
@@ -247,13 +246,13 @@ class JLoggerFormattedText extends JLogger
 		// Open the file for writing (append mode).
 		if (!$this->file = fopen($this->path, 'a'))
 		{
-			// Throw exception.
+			throw new RuntimeException('Cannot open file for writing log');
 		}
 		if ($head)
 		{
 			if (!fputs($this->file, $head))
 			{
-				throw new LogException;
+				throw new RuntimeException('Cannot fput file for log');
 			}
 		}
 	}
