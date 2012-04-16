@@ -50,20 +50,6 @@ class JLoggerFormattedText extends JLogger
 	protected $path;
 
 	/**
-	 * @var    array  Translation array for JLogEntry priorities to text strings.
-	 * @since  11.1
-	 */
-	protected $priorities = array(
-		JLog::EMERGENCY => 'EMERGENCY',
-		JLog::ALERT => 'ALERT',
-		JLog::CRITICAL => 'CRITICAL',
-		JLog::ERROR => 'ERROR',
-		JLog::WARNING => 'WARNING',
-		JLog::NOTICE => 'NOTICE',
-		JLog::INFO => 'INFO',
-		JLog::DEBUG => 'DEBUG');
-
-	/**
 	 * Constructor.
 	 *
 	 * @param   array  &$options  Log object options.
