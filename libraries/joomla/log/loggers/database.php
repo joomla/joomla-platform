@@ -15,7 +15,7 @@ jimport('joomla.log.logger');
  * Joomla! MySQL Database Log class
  *
  * This class is designed to output logs to a specific MySQL database table. Fields in this
- * table are based on the SysLog style of log output. This is designed to allow quick and
+ * table are based on the Syslog style of log output. This is designed to allow quick and
  * easy searching.
  *
  * @package     Joomla.Platform
@@ -72,7 +72,6 @@ class JLoggerDatabase extends JLogger
 	 * @param   array  &$options  Log object options.
 	 *
 	 * @since   11.1
-	 * @throws  LogException
 	 */
 	public function __construct(array &$options)
 	{
@@ -80,9 +79,12 @@ class JLoggerDatabase extends JLogger
 		parent::__construct($options);
 
 		// If both the database object and driver options are empty we want to use the system database connection.
-		if (empty($this->options['db_object']) && empty($this->options['db_driver']))
+		if (!empty($this->options['dbo']))
 		{
 			$this->dbo = JFactory::getDBO();
+		}
+		elseif (!empty($this->options['db_driver']))
+		{
 			$this->driver = JFactory::getConfig()->get('dbtype');
 			$this->host = JFactory::getConfig()->get('host');
 			$this->user = JFactory::getConfig()->get('user');
@@ -93,7 +95,8 @@ class JLoggerDatabase extends JLogger
 		// We need to get the database connection settings from the configuration options.
 		else
 		{
-			$this->driver = (empty($this->options['db_driver'])) ? 'mysql' : $this->options['db_driver'];
+			$this->dbo = $this->options['dbo'];
+			$this->driver = $this->options['db_driver'];
 			$this->host = (empty($this->options['db_host'])) ? '127.0.0.1' : $this->options['db_host'];
 			$this->user = (empty($this->options['db_user'])) ? 'root' : $this->options['db_user'];
 			$this->password = (empty($this->options['db_pass'])) ? '' : $this->options['db_pass'];
@@ -134,7 +137,6 @@ class JLoggerDatabase extends JLogger
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  LogException
 	 */
 	protected function connect()
 	{
@@ -147,21 +149,7 @@ class JLoggerDatabase extends JLogger
 			'database' => $this->database,
 			'prefix' => $this->prefix);
 
-		try
-		{
-			$db = JDatabase::getInstance($options);
-
-			if ($db instanceof Exception)
-			{
-				throw new LogException('Database Error: ' . (string) $db);
-			}
-
-			// Assign the database connector to the class.
-			$this->dbo = $db;
-		}
-		catch (RuntimeException $e)
-		{
-			throw new LogException($e->getMessage());
-		}
+		$db = JDatabase::getInstance($options);
+		$this->dbo = $db;
 	}
 }

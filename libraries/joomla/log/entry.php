@@ -51,7 +51,7 @@ class JLogEntry
 	public $priority = JLog::INFO;
 
 	/**
-	 * List of available log priority levels [Based on the SysLog default levels].
+	 * List of available log priority levels [Based on the Syslog default levels].
 	 * @var    array
 	 * @since  11.1
 	 */
@@ -81,7 +81,7 @@ class JLogEntry
 		$this->message = (string) $message;
 
 		// Sanitize the priority.
-		if (!in_array($priority, $this->priorities, true))
+		if (!in_array($priority, $this->priorities))
 		{
 			$priority = JLog::INFO;
 		}

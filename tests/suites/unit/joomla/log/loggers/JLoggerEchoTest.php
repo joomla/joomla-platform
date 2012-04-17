@@ -25,7 +25,7 @@ class JLoggerEchoTest extends PHPUnit_Framework_TestCase
 		// Get an instance of the logger.
 		$logger = new JLoggerEcho($config);
 
-		$this->expectOutputString("DEBUG: TESTING [deprecated]\n");
+		$this->expectOutputString("DEBUG: TESTING [deprecated]<br />");
 		$logger->addEntry(new JLogEntry('TESTING', JLog::DEBUG, 'DePrEcAtEd'));
 	}
 
@@ -40,7 +40,7 @@ class JLoggerEchoTest extends PHPUnit_Framework_TestCase
 		// Get an instance of the logger.
 		$logger = new JLoggerEcho($config);
 
-		$this->expectOutputString("CRITICAL: TESTING2 [bam]\n");
+		$this->expectOutputString("CRITICAL: TESTING2 [bam]<br />");
 		$logger->addEntry(new JLogEntry('TESTING2', JLog::CRITICAL, 'BAM'));
 	}
 
@@ -55,7 +55,7 @@ class JLoggerEchoTest extends PHPUnit_Framework_TestCase
 		// Get an instance of the logger.
 		$logger = new JLoggerEcho($config);
 
-		$this->expectOutputString("ERROR: Testing3\n");
+		$this->expectOutputString("ERROR: Testing3<br />");
 		$logger->addEntry(new JLogEntry('Testing3', JLog::ERROR));
 	}
 
@@ -70,7 +70,7 @@ class JLoggerEchoTest extends PHPUnit_Framework_TestCase
 		// Get an instance of the logger.
 		$logger = new JLoggerEcho($config);
 
-		$this->expectOutputString("INFO: Testing 4\n");
+		$this->expectOutputString("INFO: Testing 4<br />");
 		$logger->addEntry(new JLogEntry('Testing 4'));
 	}
 }
