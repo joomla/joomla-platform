@@ -79,9 +79,12 @@ class JLoggerDatabase extends JLogger
 		parent::__construct($options);
 
 		// If both the database object and driver options are empty we want to use the system database connection.
-		if (empty($this->options['dbo']) || empty($this->options['db_driver']))
+		if (!empty($this->options['dbo']))
 		{
 			$this->dbo = JFactory::getDBO();
+		}
+		elseif (!empty($this->options['db_driver']))
+		{
 			$this->driver = JFactory::getConfig()->get('dbtype');
 			$this->host = JFactory::getConfig()->get('host');
 			$this->user = JFactory::getConfig()->get('user');
