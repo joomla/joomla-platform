@@ -21,7 +21,7 @@ jimport('joomla.filesystem.path');
  *
  * This class hooks into the global log configuration settings to allow for user configured
  * logging events to be sent to where the user wishes them to be sent. On high load sites
- * SysLog is probably the best (pure PHP function), then the text file based loggers (CSV, W3C
+ * Syslog is probably the best (pure PHP function), then the text file based loggers (CSV, W3C
  * or plain FormattedText) and finally MySQL offers the most features (e.g. rapid searching)
  * but will incur a performance hit due to INSERT being issued.
  *
