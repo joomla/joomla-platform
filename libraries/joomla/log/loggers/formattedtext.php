@@ -22,7 +22,7 @@ jimport('joomla.filesystem.folder');
  * @subpackage  Log
  * @since       11.1
  */
-class JLoggerFormattedText extends JLogger
+class JLoggerFormattedtext extends JLogger
 {
 	/**
 	 * @var    resource  The file pointer for the log file.
