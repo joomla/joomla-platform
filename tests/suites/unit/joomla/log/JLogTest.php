@@ -128,6 +128,27 @@ class JLogTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test the JLog::add method to verify that if called directly it will route the entry to the
+	 * appropriate loggers.  We use the echo logger here for easy testing using the PHP output buffer.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function testAdd()
+	{
+		// First let's test a set of priorities.
+		$log = new JLogInspector;
+		JLog::setInstance($log);
+
+		// Add a loggers to the JLog object.
+		JLog::addLogger(array('logger' => 'echo', 'line_separator' => '<br />'), 128, array('dogs','cats'));
+
+		$this->expectOutputString("DEBUG: TESTING [cats]<br />");
+		$log->add('TESTING', 128, 'cats');
+	}
+
+	/**
 	 * Test that if JLog::addLogger is called and no JLog instance has been instantiated yet, that one will
 	 * be instantiated automatically and the logger will work accordingly.  We use the echo logger here for
 	 * easy testing using the PHP output buffer.
