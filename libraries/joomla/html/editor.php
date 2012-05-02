@@ -366,7 +366,7 @@ class JEditor extends JObject
 	{
 		$this->_loadEditor();
 		
-		// if LoadEditor fails.
+		// If LoadEditor fails.
 		if (is_null(($this->_editor)))
 		{
 			return;
@@ -403,7 +403,7 @@ class JEditor extends JObject
 	{
 		$this->_loadEditor();
 		
-		// if LoadEditor fails.
+		// If LoadEditor fails.
 		if (is_null(($this->_editor)))
 		{
 			return;
