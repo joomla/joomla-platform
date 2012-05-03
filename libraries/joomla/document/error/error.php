@@ -33,7 +33,7 @@ class JDocumentError extends JDocument
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($options = array())
+	public function __construct(array $options = array())
 	{
 		parent::__construct($options);
 
@@ -47,7 +47,7 @@ class JDocumentError extends JDocument
 	/**
 	 * Set error object
 	 *
-	 * @param   object  $error  Error object to set
+	 * @param   Exception  $error  Error object to set
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -57,7 +57,7 @@ class JDocumentError extends JDocument
 	{
 		if ($error instanceof Exception)
 		{
-			$this->_error = & $error;
+			$this->_error = $error;
 			return true;
 		}
 		else
@@ -76,7 +76,7 @@ class JDocumentError extends JDocument
 	 *
 	 * @since   11.1
 	 */
-	public function render($cache = false, $params = array())
+	public function render($cache = false, array $params = array())
 	{
 		// If no error object is set return null
 		if (!isset($this->_error))

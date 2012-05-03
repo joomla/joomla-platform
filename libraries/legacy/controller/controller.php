@@ -836,7 +836,7 @@ class JController extends JObject
 		{
 			if ($view = $this->createView($name, $prefix, $type, $config))
 			{
-				$views[$name] = & $view;
+				$views[$name] = $view;
 			}
 			else
 			{

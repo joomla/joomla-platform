@@ -21,7 +21,7 @@ class JCacheControllerView extends JCacheController
 	/**
 	 * Get the cached view data
 	 *
-	 * @param   object   &$view       The view object to cache output for
+	 * @param   JView    $view        The view object to cache output for
 	 * @param   string   $method      The method name of the view method to cache output for
 	 * @param   string   $id          The cache data id
 	 * @param   boolean  $wrkarounds  True to enable workarounds.
@@ -30,7 +30,7 @@ class JCacheControllerView extends JCacheController
 	 *
 	 * @since   11.1
 	 */
-	public function get(&$view, $method, $id = false, $wrkarounds = true)
+	public function get(JView $view, $method, $id = false, $wrkarounds = true)
 	{
 		// If an id is not given generate it from the request
 		if ($id == false)
@@ -124,14 +124,14 @@ class JCacheControllerView extends JCacheController
 	/**
 	 * Generate a view cache id.
 	 *
-	 * @param   object  &$view   The view object to cache output for
+	 * @param   JView   $view    The view object to cache output for
 	 * @param   string  $method  The method name to cache for the view object
 	 *
 	 * @return  string  MD5 Hash : view cache id
 	 *
 	 * @since   11.1
 	 */
-	protected function _makeId(&$view, $method)
+	protected function _makeId(JView $view, $method)
 	{
 		return md5(serialize(array(JCache::makeId(), get_class($view), $method)));
 	}

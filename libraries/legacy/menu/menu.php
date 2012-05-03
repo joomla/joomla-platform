@@ -113,7 +113,7 @@ class JMenu extends JObject
 				return $error;
 			}
 
-			self::$instances[$client] = & $instance;
+			self::$instances[$client] = $instance;
 		}
 
 		return self::$instances[$client];

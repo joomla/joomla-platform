@@ -31,7 +31,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 	 *
 	 * @note    Unused arguments are retained to preserve backward compatibility.
 	 */
-	public function render($head, $params = array(), $content = null)
+	public function render($head, array $params = array(), $content = null)
 	{
 		ob_start();
 		echo $this->fetchHead($this->_doc);

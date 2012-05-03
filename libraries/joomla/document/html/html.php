@@ -107,7 +107,7 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($options = array())
+	public function __construct(array $options = array())
 	{
 		parent::__construct($options);
 
@@ -150,9 +150,9 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @since   11.1
 	 */
-	public function setHeadData($data)
+	public function setHeadData(array $data)
 	{
-		if (empty($data) || !is_array($data))
+		if (empty($data))
 		{
 			return;
 		}
@@ -180,10 +180,10 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @since   11.1
 	 */
-	public function mergeHeadData($data)
+	public function mergeHeadData(array $data)
 	{
 
-		if (empty($data) || !is_array($data))
+		if (empty($data))
 		{
 			return;
 		}
@@ -264,7 +264,7 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @since   11.1
 	 */
-	public function addHeadLink($href, $relation, $relType = 'rel', $attribs = array())
+	public function addHeadLink($href, $relation, $relType = 'rel', array $attribs = array())
 	{
 		$this->_links[$href]['relation'] = $relation;
 		$this->_links[$href]['relType'] = $relType;
@@ -352,7 +352,7 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @since   11.1
 	 */
-	public function getBuffer($type = null, $name = null, $attribs = array())
+	public function getBuffer($type = null, $name = null, array $attribs = array())
 	{
 		// If no type is specified, return the whole buffer
 		if ($type === null)
@@ -412,7 +412,7 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @since   11.1
 	 */
-	public function setBuffer($content, $options = array())
+	public function setBuffer($content, array $options = array())
 	{
 		// The following code is just for backward compatibility.
 		if (func_num_args() > 1 && !is_array($options))
@@ -438,7 +438,7 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @since   11.1
 	 */
-	public function parse($params = array())
+	public function parse(array $params = array())
 	{
 		return $this->_fetchTemplate($params)->_parseTemplate();
 	}
@@ -453,7 +453,7 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @since   11.1
 	 */
-	public function render($caching = false, $params = array())
+	public function render($caching = false, array $params = array())
 	{
 		$this->_caching = $caching;
 
@@ -589,7 +589,7 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @since   11.1
 	 */
-	protected function _fetchTemplate($params = array())
+	protected function _fetchTemplate(array $params = array())
 	{
 		// Check
 		$directory = isset($params['directory']) ? $params['directory'] : 'templates';

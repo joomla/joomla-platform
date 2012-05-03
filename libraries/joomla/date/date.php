@@ -389,6 +389,7 @@ class JDate extends DateTime
 	 * @return  JDate
 	 *
 	 * @since   11.1
+	 * @note    $tz can't be type hinted (https://bugs.php.net/bug.php?id=61483)
 	 */
 	public function setTimezone($tz)
 	{

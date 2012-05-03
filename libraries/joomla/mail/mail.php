@@ -106,7 +106,7 @@ class JMail extends PHPMailer
 	/**
 	 * Set the email sender
 	 *
-	 * @param   array  $from  email address and Name of sender
+	 * @param   mixed  $from  email address and Name of sender
 	 *                        <code>array([0] => email Address [1] => Name)</code>
 	 *
 	 * @return  JMail  Returns this object for chaining.

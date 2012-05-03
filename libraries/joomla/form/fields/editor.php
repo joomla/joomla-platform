@@ -93,7 +93,7 @@ class JFormFieldEditor extends JFormField
 	 *
 	 * @since   11.1
 	 */
-	protected function &getEditor()
+	protected function getEditor()
 	{
 		// Only create the editor if it is not already created.
 		if (empty($this->editor))

@@ -39,7 +39,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	 * @see JDocumentRenderer::render()
 	 * @since   11.1
 	 */
-	public function render($name = '', $params = null, $content = null)
+	public function render($name = '', array $params = null, $content = null)
 	{
 		$app = JFactory::getApplication();
 

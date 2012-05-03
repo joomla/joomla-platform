@@ -29,7 +29,7 @@ class JDocumentRendererModules extends JDocumentRenderer
 	 *
 	 * @since   11.1
 	 */
-	public function render($position, $params = array(), $content = null)
+	public function render($position, array $params = array(), $content = null)
 	{
 		$renderer = $this->_doc->loadRenderer('module');
 		$buffer = '';

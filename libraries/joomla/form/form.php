@@ -1419,7 +1419,7 @@ class JForm
 				// If the field is in the exact group use it and break out of the loop.
 				if ($names == (array) $groupNames)
 				{
-					$element = &$field;
+					$element = $field;
 					break;
 				}
 			}
@@ -1446,7 +1446,7 @@ class JForm
 				// Found it!
 				else
 				{
-					$element = &$field;
+					$element = $field;
 					break;
 				}
 			}

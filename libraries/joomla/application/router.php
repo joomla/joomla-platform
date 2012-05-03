@@ -139,7 +139,7 @@ class JRouter extends JObject
 				throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client), 500);
 			}
 
-			self::$instances[$client] = & $instance;
+			self::$instances[$client] = $instance;
 		}
 
 		return self::$instances[$client];
@@ -263,7 +263,7 @@ class JRouter extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function setVars($vars = array(), $merge = true)
+	public function setVars(array $vars = array(), $merge = true)
 	{
 		if ($merge)
 		{
@@ -474,7 +474,7 @@ class JRouter extends JObject
 	 *
 	 * @since   11.1
 	 */
-	protected function _encodeSegments($segments)
+	protected function _encodeSegments(array $segments)
 	{
 		$total = count($segments);
 		for ($i = 0; $i < $total; $i++)
@@ -494,7 +494,7 @@ class JRouter extends JObject
 	 *
 	 * @since 11.1
 	 */
-	protected function _decodeSegments($segments)
+	protected function _decodeSegments(array $segments)
 	{
 		$total = count($segments);
 		for ($i = 0; $i < $total; $i++)

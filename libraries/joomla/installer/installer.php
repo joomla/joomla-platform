@@ -814,7 +814,7 @@ class JInstaller extends JAdapter
 	public function parseQueries($element)
 	{
 		// Get the database connector object
-		$db = & $this->_db;
+		$db = $this->_db;
 
 		if (!$element || !count($element->children()))
 		{
@@ -866,7 +866,7 @@ class JInstaller extends JAdapter
 
 		// Initialise variables.
 		$queries = array();
-		$db = & $this->_db;
+		$db = $this->_db;
 		$dbDriver = strtolower($db->name);
 
 		if ($dbDriver == 'mysqli')

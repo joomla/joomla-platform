@@ -25,7 +25,7 @@ class JDocumentImage extends JDocument
 	 *
 	 * @since   12.1
 	 */
-	public function __construct($options = array())
+	public function __construct(array $options = array())
 	{
 		parent::__construct($options);
 
@@ -46,7 +46,7 @@ class JDocumentImage extends JDocument
 	 *
 	 * @since   12.1
 	 */
-	public function render($cache = false, $params = array())
+	public function render($cache = false, array $params = array())
 	{
 		// Get the image type
 		$type = JFactory::getApplication()->input->get('type', 'png');

@@ -211,7 +211,7 @@ abstract class JHtml
 	 * @since   11.1
 	 * @throws  InvalidArgumentException
 	 */
-	protected static function call($function, $args)
+	protected static function call($function, array $args)
 	{
 		if (is_callable($function))
 		{
@@ -240,7 +240,7 @@ abstract class JHtml
 	 *
 	 * @since   11.1
 	 */
-	public static function link($url, $text, $attribs = null)
+	public static function link($url, $text, array $attribs = null)
 	{
 		if (is_array($attribs))
 		{
@@ -262,7 +262,7 @@ abstract class JHtml
 	 *
 	 * @since   11.1
 	 */
-	public static function iframe($url, $name, $attribs = null, $noFrames = '')
+	public static function iframe($url, $name, array $attribs = null, $noFrames = '')
 	{
 		if (is_array($attribs))
 		{
@@ -444,7 +444,7 @@ abstract class JHtml
 	 * @param   string   $file       The relative or absolute URL to use for the src attribute
 	 * @param   string   $alt        The alt text.
 	 * @param   string   $attribs    The target attribute to use
-	 * @param   array    $relative   An associative array of attributes to add
+	 * @param   boolean  $relative   An associative array of attributes to add
 	 * @param   boolean  $path_only  If set to true, it tries to find an override for the file in the template
 	 *
 	 * @return  string
@@ -517,7 +517,7 @@ abstract class JHtml
 	 * @see     JBrowser
 	 * @since   11.1
 	 */
-	public static function stylesheet($file, $attribs = array(), $relative = false, $path_only = false, $detect_browser = true, $detect_debug = true)
+	public static function stylesheet($file, array $attribs = array(), $relative = false, $path_only = false, $detect_browser = true, $detect_debug = true)
 	{
 		$includes = self::includeRelativeFiles('css', $file, $relative, $detect_browser, $detect_debug);
 
@@ -612,7 +612,7 @@ abstract class JHtml
 	 *
 	 * @since   11.1
 	 */
-	public static function setFormatOptions($options)
+	public static function setFormatOptions(array $options)
 	{
 		foreach ($options as $key => $val)
 		{
@@ -773,7 +773,7 @@ abstract class JHtml
 	 *
 	 * @since   11.1
 	 */
-	public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = null)
+	public static function calendar($value, $name, $id, $format = '%Y-%m-%d', array $attribs = null)
 	{
 		static $done;
 
