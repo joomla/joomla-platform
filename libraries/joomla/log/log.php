@@ -278,12 +278,9 @@ class JLog
 	 *
 	 * @since   11.1
 	 */
-	public static function setInstance($instance)
+	public static function setInstance(JLog $instance = null)
 	{
-		if (($instance instanceof JLog) || $instance === null)
-		{
-			self::$instance = & $instance;
-		}
+		self::$instance = $instance;
 	}
 
 	/**

@@ -29,7 +29,7 @@ class JDocumentRendererModule extends JDocumentRenderer
 	 *
 	 * @since   11.1
 	 */
-	public function render($module, $attribs = array(), $content = null)
+	public function render($module, array $attribs = array(), $content = null)
 	{
 		if (!is_object($module))
 		{

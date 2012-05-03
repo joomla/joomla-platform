@@ -208,7 +208,7 @@ class JDocument extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($options = array())
+	public function __construct(array $options = array())
 	{
 		parent::__construct();
 
@@ -260,7 +260,7 @@ class JDocument extends JObject
 	 * @since   11.1
 	 * @throws  RuntimeException
 	 */
-	public static function getInstance($type = 'html', $attributes = array())
+	public static function getInstance($type = 'html', array $attributes = array())
 	{
 		$signature = serialize(array($type, $attributes));
 
@@ -356,7 +356,7 @@ class JDocument extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function setBuffer($content, $options = array())
+	public function setBuffer($content, array $options = array())
 	{
 		self::$_buffer = $content;
 
@@ -495,7 +495,7 @@ class JDocument extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function addStyleSheet($url, $type = 'text/css', $media = null, $attribs = array())
+	public function addStyleSheet($url, $type = 'text/css', $media = null, array $attribs = array())
 	{
 		$this->_styleSheets[$url]['mime'] = $type;
 		$this->_styleSheets[$url]['media'] = $media;
@@ -939,7 +939,7 @@ class JDocument extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function parse($params = array())
+	public function parse(array $params = array())
 	{
 		return $this;
 	}
@@ -954,7 +954,7 @@ class JDocument extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function render($cache = false, $params = array())
+	public function render($cache = false, array $params = array())
 	{
 		if ($mdate = $this->getModifiedDate())
 		{

@@ -513,7 +513,7 @@ class JUser extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function bind(&$array)
+	public function bind(array &$array)
 	{
 		// Let's check to see if the user is new or not
 		if (empty($this->id))

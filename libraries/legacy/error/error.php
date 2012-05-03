@@ -111,19 +111,19 @@ abstract class JError
 	/**
 	 * Method to add non-JError thrown JExceptions to the JError stack for debugging purposes
 	 *
-	 * @param   JException  &$e  Add an exception to the stack.
+	 * @param   JException  $e  Add an exception to the stack.
 	 *
 	 * @return  void
 	 *
 	 * @since       11.1
 	 * @deprecated  12.1
 	 */
-	public static function addToStack(JException &$e)
+	public static function addToStack(JException $e)
 	{
 		// Deprecation warning.
 		JLog::add('JError::addToStack() is deprecated.', JLog::WARNING, 'deprecated');
 
-		self::$stack[] = &$e;
+		self::$stack[] = $e;
 	}
 
 	/**

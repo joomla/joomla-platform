@@ -89,7 +89,7 @@ class JGrid
 	 *
 	 * @since 11.3
 	 */
-	public function setTableOptions($options = array(), $replace = false)
+	public function setTableOptions(array $options = array(), $replace = false)
 	{
 		if ($replace)
 		{
@@ -173,7 +173,7 @@ class JGrid
 	 *
 	 * @since 11.3
 	 */
-	public function setColumns($columns)
+	public function setColumns(array $columns)
 	{
 		$this->columns = array_values($columns);
 
@@ -191,7 +191,7 @@ class JGrid
 	 *
 	 * @since 11.3
 	 */
-	public function addRow($options = array(), $special = false)
+	public function addRow(array $options = array(), $special = false)
 	{
 		$this->rows[]['_row'] = $options;
 		$this->activeRow = count($this->rows) - 1;
@@ -231,7 +231,7 @@ class JGrid
 	 *
 	 * @since 11.3
 	 */
-	public function setRowOptions($options)
+	public function setRowOptions(array $options)
 	{
 		$this->rows[$this->activeRow]['_row'] = $options;
 
@@ -278,7 +278,7 @@ class JGrid
 	 *
 	 * @since 11.3
 	 */
-	public function setRowCell($name, $content, $option = array(), $replace = true)
+	public function setRowCell($name, $content, array $option = array(), $replace = true)
 	{
 		if ($replace || !isset($this->rows[$this->activeRow][$name]))
 		{
@@ -422,7 +422,7 @@ class JGrid
 	 *
 	 * @since 11.3
 	 */
-	protected function renderArea($ids, $area = 'tbody', $cell = 'td')
+	protected function renderArea(array $ids, $area = 'tbody', $cell = 'td')
 	{
 		$output = array();
 		$output[] = '<' . $area . ">\n";
@@ -454,7 +454,7 @@ class JGrid
 	 *
 	 * @since 11.3
 	 */
-	protected function renderAttributes($attributes)
+	protected function renderAttributes(array $attributes)
 	{
 		if (count((array) $attributes) == 0)
 		{

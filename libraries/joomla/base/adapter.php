@@ -124,7 +124,7 @@ class JAdapter extends JObject
 			$adapter = new $class($this, $this->_db, $options);
 		}
 
-		$this->_adapters[$name] = &$adapter;
+		$this->_adapters[$name] = $adapter;
 
 		return true;
 	}

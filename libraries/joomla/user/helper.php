@@ -143,7 +143,7 @@ abstract class JUserHelper
 	 *
 	 * @since   11.1
 	 */
-	public static function setUserGroups($userId, $groups)
+	public static function setUserGroups($userId, array $groups)
 	{
 		// Get the user object.
 		$user = JUser::getInstance((int) $userId);

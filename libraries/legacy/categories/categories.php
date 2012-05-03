@@ -704,7 +704,7 @@ class JCategoryNode extends JObject
 
 			if (!is_null($parent))
 			{
-				$parent->_children[] = & $this;
+				$parent->_children[] = $this;
 			}
 
 			$this->_parent = $parent;
@@ -722,7 +722,7 @@ class JCategoryNode extends JObject
 			{
 				end($parent->_children);
 				$this->_leftSibling = prev($parent->_children);
-				$this->_leftSibling->_rightsibling = &$this;
+				$this->_leftSibling->_rightsibling = $this;
 			}
 		}
 	}

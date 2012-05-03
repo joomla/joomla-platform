@@ -29,7 +29,7 @@ class JDocumentRendererComponent extends JDocumentRenderer
 	 *
 	 * @since   11.1
 	 */
-	public function render($component = null, $params = array(), $content = null)
+	public function render($component = null, array $params = array(), $content = null)
 	{
 		return $content;
 	}

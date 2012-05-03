@@ -275,7 +275,7 @@ class JEditor extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function display($name, $html, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
+	public function display($name, $html, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, array $params = array())
 	{
 		$this->asset = $asset;
 		$this->author = $author;
@@ -472,7 +472,7 @@ class JEditor extends JObject
 	 *
 	 * @since   11.1
 	 */
-	protected function _loadEditor($config = array())
+	protected function _loadEditor(array $config = array())
 	{
 		// Check whether editor is already loaded
 		if (!is_null(($this->_editor)))
