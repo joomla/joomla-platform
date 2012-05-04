@@ -139,7 +139,7 @@ class JFormFieldMedia extends JFormField
 			$folder = '';
 		}
 		// The button.
-		if ($this->element['disabled'] != true)
+		if ($this->element['disabled'] != 'true')
 		{
 			$html[] = '<div class="button2-left">';
 			$html[] = '	<div class="blank">';
