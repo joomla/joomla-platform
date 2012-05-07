@@ -141,6 +141,15 @@ abstract class JFormField
 	protected $required = false;
 
 	/**
+	 * The disabled state for the form field.  If true then there mustn't be a possibility
+     * to change the pre-selected value.
+	 *
+	 * @var    boolean
+	 * @since  12.2
+	 */
+	protected $required = false;
+	
+	/**
 	 * The form field type.
 	 *
 	 * @var    string
@@ -241,6 +250,7 @@ abstract class JFormField
 			case 'multiple':
 			case 'name':
 			case 'required':
+			case 'disabled':
 			case 'type':
 			case 'validate':
 			case 'value':
@@ -328,9 +338,11 @@ abstract class JFormField
 		$multiple = (string) $element['multiple'];
 		$name = (string) $element['name'];
 		$required = (string) $element['required'];
-
+		$disabled = (string) $element['disabled'];
+		
 		// Set the required and validation options.
 		$this->required = ($required == 'true' || $required == 'required' || $required == '1');
+		$this->disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
 		$this->validate = (string) $element['validate'];
 
 		// Add the required class if the field is required.
