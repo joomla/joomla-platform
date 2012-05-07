@@ -147,7 +147,7 @@ abstract class JFormField
 	 * @var    boolean
 	 * @since  12.2
 	 */
-	protected $required = false;
+	protected $disabled = false;
 
 	/**
 	 * The form field type.
@@ -340,7 +340,7 @@ abstract class JFormField
 		$required = (string) $element['required'];
 		$disabled = (string) $element['disabled'];
 
-		// Set the required and validation options.
+		// Set the required, disabled and validation options.
 		$this->required = ($required == 'true' || $required == 'required' || $required == '1');
 		$this->disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
 		$this->validate = (string) $element['validate'];
