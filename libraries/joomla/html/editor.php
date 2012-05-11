@@ -365,7 +365,7 @@ class JEditor extends JObject
 	public function getContent($editor)
 	{
 		$this->_loadEditor();
-		
+
 		// If LoadEditor fails.
 		if (is_null(($this->_editor)))
 		{
@@ -402,13 +402,13 @@ class JEditor extends JObject
 	public function setContent($editor, $html)
 	{
 		$this->_loadEditor();
-		
+
 		// If LoadEditor fails.
 		if (is_null(($this->_editor)))
 		{
 			return;
 		}
-		
+
 		$args['name'] = $editor;
 		$args['html'] = $html;
 		$args['event'] = 'onSetContent';
