@@ -36,6 +36,7 @@ class JMediawikiSites extends JMediawikiObject
         $xml = simplexml_load_string($response->body);
 
         // Validate the response code.
+        // throwing warnings error not found
         if($xml->error)
         {
             throw new DomainException($xml->error['info']);
@@ -57,3 +58,4 @@ class JMediawikiSites extends JMediawikiObject
      * @since   12.1
      */
 }
+
