@@ -48,4 +48,12 @@ class JMediawikiSites extends JMediawikiObject
 
         return $xml->query;
     }
+
+    /**
+     * Method to get events from logs.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
 }
