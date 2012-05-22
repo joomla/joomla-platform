@@ -17,9 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @property-read  JMediawikiUsers          $users          MediaWiki API object for users.
  * @property-read  JMediawikiLinks          $links          MediaWiki API object for links.
  * @property-read  JMediawikiCategories     $categories     MediaWiki API object for categories.
- * @property-read  JMediawikiReviews        $reviews        MediaWiki API object for reviews.
  * @property-read  JMediawikiImages         $images         MediaWiki API object for images.
- * @property-read  JMediawikiFiles          $files          MediaWiki API object for files.
  * @property-read  JMediawikiSearch         $search         MediaWiki API object for search.
  *
  * @package     Joomla.Platform
@@ -74,12 +72,6 @@ class JMediawiki {
      * @since  12.1
      */
     protected $images;
-
-    /**
-     * @var    JMediawikiFiles  MediaWiki API object for files.
-     * @since  12.1
-     */
-    protected $files;
 
     /**
      * @var    JMediawikiSearch  MediaWiki API object for search.
@@ -161,15 +153,6 @@ class JMediawiki {
    			return $this->categories;
    		}
 
-   		if ($name == 'reviews')
-   		{
-   			if ($this->reviews == null)
-   			{
-   				$this->reviews = new JMediawikiReviews($this->options, $this->client);
-   			}
-   			return $this->reviews;
-   		}
-
         if ($name == 'images')
         {
             if ($this->images == null)
@@ -177,15 +160,6 @@ class JMediawiki {
                 $this->images = new JMediawikiImages($this->options, $this->client);
             }
             return $this->images;
-        }
-
-        if ($name == 'files')
-        {
-            if ($this->files == null)
-            {
-                $this->files = new JMediawikiFiles($this->options, $this->client);
-            }
-            return $this->files;
         }
 
         if ($name == 'search')
