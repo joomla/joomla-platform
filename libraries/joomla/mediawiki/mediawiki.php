@@ -197,14 +197,5 @@ class JMediawiki {
            return $this->search;
         }
 
-           if ($name == 'extensions')
-           {
-              if ($this->extensions == null)
-              {
-                  $this->extensions = new JMediawikiExtensions($this->options, $this->client);
-              }
-              return $this->extensions;
-           }
-
    	}
 }
