@@ -19,6 +19,30 @@ defined('JPATH_PLATFORM') or die;
 class JMediawikiUsers extends JMediawikiObject
 {
     /**
+     * Method to login and get authentication tokens.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function login()
+    {
+
+    }
+
+    /**
+     * Method to logout and clear session data.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function logout()
+    {
+
+    }
+
+    /**
      * Method to get site information.
      *
      * @return  object
