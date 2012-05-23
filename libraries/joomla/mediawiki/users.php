@@ -27,6 +27,10 @@ class JMediawikiUsers extends JMediawikiObject
      */
     public function getUserInfo()
     {
+        // Build the request path.
+        $path = '?action=query&list=users';
 
+        // Send the request.
+        $response = $this->client->get($this->fetchUrl($path));
     }
 }
