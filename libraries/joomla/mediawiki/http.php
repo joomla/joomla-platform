@@ -16,7 +16,8 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  MediaWiki
  * @since       12.1
  */
-class JMediawikiHttp extends JHttp {
+class JMediawikiHttp extends JHttp
+{
 
     /**
      * Constructor.
@@ -29,8 +30,9 @@ class JMediawikiHttp extends JHttp {
     public function __construct(JRegistry $options = null, JHttpTransport $transport = null)
     {
         // Override the JHttp contructor to use JHttpTransportStream.
-        $this->options   = isset($options) ? $options : new JRegistry;
+        $this->options = isset($options) ? $options : new JRegistry;
         $this->transport = isset($transport) ? $transport : new JHttpTransportStream($this->options);
+        // @TODO define user agent and timeout
 
     }
 
