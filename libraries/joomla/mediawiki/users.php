@@ -73,4 +73,20 @@ class JMediawikiUsers extends JMediawikiObject
         // Send the request.
         $response = $this->client->get($this->fetchUrl($path));
     }
+
+    /**
+     * Method to get current user contributions.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function getCurrentUserContribs()
+    {
+        // Build the request path.
+        $path = '?action=query&list=users';
+
+        // Send the request.
+        $response = $this->client->get($this->fetchUrl($path));
+    }
 }
