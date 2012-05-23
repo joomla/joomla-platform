@@ -51,4 +51,19 @@ class JMediawikiHttp extends JHttp
         return $this->transport->request('GET', new JUri($url), null, $headers, null, $this->options->get('api.useragent'));
     }
 
+    /**
+     * Method to send the POST command to the server.
+     *
+     * @param   string  $url      Path to the resource.
+     * @param   array   $headers  An array of name-value pairs to include in the header of the request.
+     *
+     * @return  JHttpResponse
+     *
+     * @since   12.1
+     */
+    public function post($url, array $headers = null)
+    {
+        return $this->transport->request('POST', new JUri($url), null, $headers, null, $this->options->get('api.useragent'));
+    }
+
 }
