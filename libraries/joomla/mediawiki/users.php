@@ -21,13 +21,18 @@ class JMediawikiUsers extends JMediawikiObject
     /**
      * Method to login and get authentication tokens.
      *
+     * @param   string   $username       The name of the owner of the GitHub repository.
+     * @param   string   $password       The name of the GitHub repository.
+     * @param   string   $token          The comment id to get.
+     *
      * @return  object
      *
      * @since   12.1
      */
-    public function login()
+    public function login($username, $password, $token)
     {
-
+        // Build the request path.
+        $path = '?action=query&list=users';
     }
 
     /**
