@@ -89,4 +89,52 @@ class JMediawikiUsers extends JMediawikiObject
         // Send the request.
         $response = $this->client->get($this->fetchUrl($path));
     }
+
+    /**
+     * Method to block a user.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function blockUser()
+    {
+
+    }
+
+    /**
+     * Method to unblock a user.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function unBlockUser()
+    {
+
+    }
+
+    /**
+     * Method to assign a user to a group.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function assignGroup()
+    {
+
+    }
+
+    /**
+     * Method to email a user.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function emailUser()
+    {
+
+    }
 }
