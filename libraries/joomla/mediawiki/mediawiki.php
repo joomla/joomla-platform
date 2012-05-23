@@ -180,7 +180,7 @@ class JMediawiki
      * @param   string  $key    The name of the option to set.
      * @param   mixed   $value  The option value to set.
      *
-     * @return  JGitHub  This object for method chaining.
+     * @return  JMediawiki  This object for method chaining.
      *
      * @since   12.1
      */
