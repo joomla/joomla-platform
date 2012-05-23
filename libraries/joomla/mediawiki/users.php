@@ -18,5 +18,15 @@ defined('JPATH_PLATFORM') or die;
  */
 class JMediawikiUsers extends JMediawikiObject
 {
+    /**
+     * Method to get site information.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function getUserInfo()
+    {
 
+    }
 }
