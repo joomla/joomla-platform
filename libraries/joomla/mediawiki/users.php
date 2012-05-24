@@ -29,7 +29,7 @@ class JMediawikiUsers extends JMediawikiObject
      *
      * @since   12.1
      */
-    public function login($username, $password, $token)
+    public function login($username, $password, $token = '')
     {
         // Build the request path.
         $path = '?action=login&lgname=' . $username . '&lgpassword' . $password;
