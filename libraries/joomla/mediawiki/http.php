@@ -69,7 +69,7 @@ class JMediawikiHttp extends JHttp
      */
     public function post($url, $data = null, array $headers = null)
     {
-        return $this->transport->request('POST', new JUri($url), $data, $headers);
+        return $this->transport->request('POST', new JUri($url), $data, $headers, $this->options->get('api.timeout'), $this->options->get('api.useragent'));
     }
 
 }
