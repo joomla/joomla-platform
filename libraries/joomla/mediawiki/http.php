@@ -32,7 +32,12 @@ class JMediawikiHttp extends JHttp
         // Override the JHttp contructor to use JHttpTransportStream.
         $this->options = isset($options) ? $options : new JRegistry;
         $this->transport = isset($transport) ? $transport : new JHttpTransportStream($this->options);
-        // @TODO define user agent and timeout
+
+        // Make sure the user agent string is defined.
+        $this->options->def('userAgent', 'JMediawiki/1.0');
+
+        // Set the default timeout to 120 seconds.
+        $this->options->def('timeout', 120);
 
     }
 
