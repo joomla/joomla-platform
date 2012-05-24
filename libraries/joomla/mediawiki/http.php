@@ -55,15 +55,16 @@ class JMediawikiHttp extends JHttp
      * Method to send the POST command to the server.
      *
      * @param   string  $url      Path to the resource.
+     * @param   mixed   $data     Either an associative array or a string to be sent with the request.
      * @param   array   $headers  An array of name-value pairs to include in the header of the request.
      *
      * @return  JHttpResponse
      *
      * @since   12.1
      */
-    public function post($url, array $headers = null)
+    public function post($url, $data = null, array $headers = null)
     {
-        return $this->transport->request('POST', new JUri($url), null, $headers, null, $this->options->get('api.useragent'));
+        return $this->transport->request('POST', new JUri($url), $data, $headers);
     }
 
 }
