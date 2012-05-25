@@ -372,19 +372,28 @@ abstract class JFactory
 	/**
 	 * Reads a XML file.
 	 *
-	 * @param   string   $data    Full path and file name.
-	 * @param   boolean  $isFile  true to load a file or false to load a string.
+	 * @param   string   $data       Full path and file name.
+	 * @param   boolean  $isFile     true to load a file or false to load a string.
+	 * @param   boolean  $jxmlement  true to load a JXMLElement otherwise loads as SimpleXMLElement.
 	 *
-	 * @return  mixed    JXMLElement on success or false on error.
+	 * @return  mixed    JXMLElement or SimpleXMLElement on success or false on error.
 	 *
 	 * @see     JXMLElement
 	 * @since   11.1
 	 * @note    This method will return SimpleXMLElement object in the future. Do not rely on JXMLElement's methods.
 	 * @todo    This may go in a separate class - error reporting may be improved.
 	 */
-	public static function getXML($data, $isFile = true)
+	public static function getXML($data, $isFile = true, $jxmlement = true)
 	{
-		jimport('joomla.utilities.xmlelement');
+		if ($jxmlement)
+		{
+			jimport('joomla.utilities.xmlelement');
+			$class = 'JXMLElement';
+		}
+		else
+		{
+			$class = 'SimpleXMLElement';
+		}
 
 		// Disable libxml errors and allow to fetch error information as needed
 		libxml_use_internal_errors(true);
@@ -392,12 +401,12 @@ abstract class JFactory
 		if ($isFile)
 		{
 			// Try to load the XML file
-			$xml = simplexml_load_file($data, 'JXMLElement');
+			$xml = simplexml_load_file($data, $class);
 		}
 		else
 		{
 			// Try to load the XML string
-			$xml = simplexml_load_string($data, 'JXMLElement');
+			$xml = simplexml_load_string($data, $class);
 		}
 
 		if (empty($xml))
@@ -415,6 +424,7 @@ abstract class JFactory
 			}
 		}
 
+		libxml_clear_errors();
 		return $xml;
 	}
 

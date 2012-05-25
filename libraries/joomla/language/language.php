@@ -1305,7 +1305,7 @@ class JLanguage extends JObject
 	public static function parseXMLLanguageFile($path)
 	{
 		// Try to load the file
-		if (!$xml = JFactory::getXML($path))
+		if (!$xml = JFactory::getXML($path, true, false))
 		{
 			return null;
 		}
