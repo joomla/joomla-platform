@@ -60,17 +60,34 @@ class JMediawikiUsers extends JMediawikiObject
     /**
      * Method to get user information.
      *
+     * @param   array   $users
      * @return  object
      *
      * @since   12.1
      */
-    public function getUserInfo()
+    public function getUserInfo($users)
     {
+        // extract the list of users
+        $ususers = '';
+        foreach ($users as $user) {
+            $ususers .= $user . '|'; // a trailing | does not trhow an error
+        }
+
+        // @TODO undo hardcoding
+        $usprop = 'blockinfo|groups|implicitgroups|rights|editcount|registration|emailable|gender';
+
         // Build the request path.
-        $path = '?action=query&list=users';
+        $path = '?action=query&list=users&ususers=' . $ususers . '&usprop=' . $usprop;
 
         // Send the request.
         $response = $this->client->get($this->fetchUrl($path));
+
+        // convert xml string to an object
+        $xml = simplexml_load_string($response->body);
+
+        // validate the response
+
+        return $response;
     }
 
     /**
