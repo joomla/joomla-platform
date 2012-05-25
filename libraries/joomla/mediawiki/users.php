@@ -37,7 +37,12 @@ class JMediawikiUsers extends JMediawikiObject
         // Send the request.
         $response = $this->client->post($this->fetchUrl($path));
 
-        return $response;
+        // convert xml string to an object
+        $xml = simplexml_load_string($response->body);
+
+        // validate the response
+
+        return $xml;
     }
 
     /**

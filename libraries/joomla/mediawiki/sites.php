@@ -25,25 +25,24 @@ class JMediawikiSites extends JMediawikiObject
      *
      * @since   12.1
      */
-    public function getSiteInfo() {
+    public function getSiteInfo()
+    {
         // build the request
         $path = '?action=query&meta=siteinfo';
 
         // Send the request.
-		$response = $this->client->get($this->fetchUrl($path));
+        $response = $this->client->get($this->fetchUrl($path));
 
         // convert xml string to an object
         $xml = simplexml_load_string($response->body);
 
         // Validate the response code.
-        // throwing warnings error not found
-        if($xml->error)
-        {
+        // @TODO if all errors are in the same format move this as a helper function
+        if ($xml->error) {
             throw new DomainException($xml->error['info']);
         }
 
-        if($xml->warnings)
-        {
+        if ($xml->warnings) {
             throw new DomainException($xml->warnings->query);
         }
 
