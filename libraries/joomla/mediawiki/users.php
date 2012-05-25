@@ -99,11 +99,22 @@ class JMediawikiUsers extends JMediawikiObject
      */
     public function getCurrentUserInfo()
     {
+
+        // @TODO undo hardcoding
+        $uiprop = 'blockinfo|hasmsg|groups|implicitgroups|rights|changeablegroups|options|preferencetokens|editcount|ratelimits|realname|email|acceptlang|registrationdate|';
+
         // Build the request path.
-        $path = '?action=query&list=users';
+        $path = '?action=query&&meta=userinfo&uiprop=' . $uiprop;
 
         // Send the request.
         $response = $this->client->get($this->fetchUrl($path));
+
+        // convert xml string to an object
+        $xml = simplexml_load_string($response->body);
+
+        // validate the response
+
+        return $response;
     }
 
     /**
