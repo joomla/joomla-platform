@@ -251,7 +251,46 @@ class JMediawikiSites extends JMediawikiObject
      */
     public function getProtectedTitles(array $ptnamespace = null, array $ptlevel, $ptlimit = null, $ptdir = null, $ptstart = null, $ptend = null, array $ptprop = null)
     {
+        // build the request
+        $path = '?action=query&list=protectedtitles';
 
+        if (isset($ptnamespace)) {
+            $path .= '&ptnamespace=' . $this->buildParameter($ptnamespace);
+        }
+
+        if (isset($ptlevel)) {
+            $path .= '&ptlevel=' . $this->buildParameter($ptlevel);
+        }
+
+        if (isset($ptlimit)) {
+            $path .= '&ptlimit=' . $ptlimit;
+        }
+
+        if (isset($ptdir)) {
+            $path .= '&ptdir=' . $ptdir;
+        }
+
+        if (isset($ptstart)) {
+            $path .= '&ptstart=' . $ptstart;
+        }
+
+        if (isset($ptend)) {
+            $path .= '&ptend=' . $ptend;
+        }
+
+        if (isset($ptprop)) {
+            $path .= '&ptprop=' . $this->buildParameter($ptprop);
+        }
+
+        // Send the request.
+        $response = $this->client->get($this->fetchUrl($path));
+
+        // convert xml string to an object
+        $xml = simplexml_load_string($response->body);
+
+        // validate the response
+
+        return $xml;
     }
 }
 
