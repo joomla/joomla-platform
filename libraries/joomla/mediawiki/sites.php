@@ -75,7 +75,6 @@ class JMediawikiSites extends JMediawikiObject
      */
     public function getEvents()
     {
-        // @TODO support parameters
 
         // build the request
         $path = '?action=query&list=logevents';
@@ -88,7 +87,7 @@ class JMediawikiSites extends JMediawikiObject
 
         // validate the response
 
-        return $response;
+        return $xml;
     }
 
     /**
