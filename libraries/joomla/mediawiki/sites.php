@@ -69,11 +69,23 @@ class JMediawikiSites extends JMediawikiObject
     /**
      * Method to get events from logs.
      *
+     * @param   array    $leprop            The array of properties to get.
+     * @param   string   $letype              Filter log actions to only this type.
+     * @param   string   $leaction            Filter log actions to only this type.
+     * @param   string   $letitle             Filter entries to those related to a page.
+     * @param   string   $leprefix            Filter entries that start with this prefix.
+     * @param   string   $letag               Filter entries with tag.
+     * @param   string   $leuser              Filter entries made by the given user.
+     * @param   string   $lestart             Starting timestamp.
+     * @param   string   $leend               Ending timestamp.
+     * @param   string   $ledir               Direction of enumeration.
+     * @param   integer  $lelimit             Event limit to return.
+     *
      * @return  object
      *
      * @since   12.1
      */
-    public function getEvents()
+    public function getEvents(array $leprop = null, $letype = '', $leaction = '', $letitle, $leprefix, $letag, $leuser, $lestart, $leend, $ledir, $lelimit)
     {
 
         // build the request
