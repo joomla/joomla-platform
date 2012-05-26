@@ -149,11 +149,25 @@ class JMediawikiSites extends JMediawikiObject
     /**
      * Method to get recent changes on a site.
      *
+     * @param   string   $rcstart             Starting timestamp.
+     * @param   string   $rcend               Ending timestamp.
+     * @param   string   $rcdir               Direction of enumeration.
+     * @param   string   $rcnamespace         Filter changes to only this namespace(s).
+     * @param   string   $rcuser              Filter changes by this user.
+     * @param   string   $rcexcludeuser       Filter changes to exclude changes by this user.
+     * @param   string   $rctag               Filter changes by this tag.
+     * @param   string   $rcprop              Filter log actions to only this type.
+     * @param   string   $rctoken             Which token to obtain for each change.
+     * @param   string   $rcshow              Filter changes by this criteria.
+     * @param   string   $rclimit             Changes limit to return.
+     * @param   string   $rctype              Filter event by type of changes.
+     * @param   string   $rctoponly           Filter changes which are latest revision.
+     *
      * @return  object
      *
      * @since   12.1
      */
-    public function getRecentChanges()
+    public function getRecentChanges($rcstart = null, $rcend = null, $rcdir = null, $rcnamespace = null, $rcuser = null, $rcexcludeuser = null, $rctag = null, $rcprop = null, $rctoken = null, $rcshow = null, $rclimit = null, $rctype = null, $rctoponly = null)
     {
 
     }
