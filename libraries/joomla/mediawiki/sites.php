@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * MediaWiki API Site class for the Joomla Platform.
+ * MediaWiki API Sites class for the Joomla Platform.
  *
  * @package     Joomla.Platform
  * @subpackage  MediaWiki
@@ -35,16 +35,6 @@ class JMediawikiSites extends JMediawikiObject
 
         // convert xml string to an object
         $xml = simplexml_load_string($response->body);
-
-        // Validate the response code.
-        // @TODO if all errors are in the same format move this as a helper function
-        if ($xml->error) {
-            throw new DomainException($xml->error['info']);
-        }
-
-        if ($xml->warnings) {
-            throw new DomainException($xml->warnings->query);
-        }
 
         return $xml->query;
     }
@@ -72,6 +62,30 @@ class JMediawikiSites extends JMediawikiObject
         // validate the response
 
         return $response;
+    }
+
+    /**
+     * Method to edit a page.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function getRecentChanges()
+    {
+
+    }
+
+    /**
+     * Method to edit a page.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function getProtectedTitles()
+    {
+
     }
 }
 
