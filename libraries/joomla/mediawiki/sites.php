@@ -69,7 +69,7 @@ class JMediawikiSites extends JMediawikiObject
     /**
      * Method to get events from logs.
      *
-     * @param   array    $leprop            The array of properties to get.
+     * @param   array    $leprop              The array of properties to get.
      * @param   string   $letype              Filter log actions to only this type.
      * @param   string   $leaction            Filter log actions to only this type.
      * @param   string   $letitle             Filter entries to those related to a page.
@@ -151,13 +151,13 @@ class JMediawikiSites extends JMediawikiObject
      * @param   string   $rcstart             Starting timestamp.
      * @param   string   $rcend               Ending timestamp.
      * @param   string   $rcdir               Direction of enumeration.
-     * @param   string   $rcnamespace         Filter changes to only this namespace(s).
+     * @param   array    $rcnamespace         Filter changes to only this namespace(s).
      * @param   string   $rcuser              Filter changes by this user.
      * @param   string   $rcexcludeuser       Filter changes to exclude changes by this user.
      * @param   string   $rctag               Filter changes by this tag.
-     * @param   string   $rcprop              Filter log actions to only this type.
-     * @param   string   $rctoken             Which token to obtain for each change.
-     * @param   string   $rcshow              Filter changes by this criteria.
+     * @param   array    $rcprop              Filter log actions to only this type.
+     * @param   array    $rctoken             Which token to obtain for each change.
+     * @param   array    $rcshow              Filter changes by this criteria.
      * @param   string   $rclimit             Changes limit to return.
      * @param   string   $rctype              Filter event by type of changes.
      * @param   string   $rctoponly           Filter changes which are latest revision.
@@ -166,7 +166,7 @@ class JMediawikiSites extends JMediawikiObject
      *
      * @since   12.1
      */
-    public function getRecentChanges($rcstart = null, $rcend = null, $rcdir = null, $rcnamespace = null, $rcuser = null, $rcexcludeuser = null, $rctag = null, $rcprop = null, $rctoken = null, $rcshow = null, $rclimit = null, $rctype = null, $rctoponly = null)
+    public function getRecentChanges($rcstart = null, $rcend = null, $rcdir = null, array $rcnamespace = null, $rcuser = null, $rcexcludeuser = null, $rctag = null, array $rcprop = null, array $rctoken = null, array $rcshow = null, $rclimit = null, $rctype = null, $rctoponly = null)
     {
         // build the request
         $path = '?action=query&list=recentchanges';
