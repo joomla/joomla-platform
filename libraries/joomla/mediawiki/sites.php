@@ -91,6 +91,50 @@ class JMediawikiSites extends JMediawikiObject
         // build the request
         $path = '?action=query&list=logevents';
 
+        if (!empty($leprop)) {
+            $path .= '&leprop=' . $this->buildParameter($leprop);
+        }
+
+        if (!empty($letype)) {
+            $path .= '&letype=' . $letype;
+        }
+
+        if (!empty($leaction)) {
+            $path .= '&leaction=' . $leaction;
+        }
+
+        if (!empty($letitle)) {
+            $path .= '&letitle=' . $letitle;
+        }
+
+        if (!empty($leprefix)) {
+            $path .= '&leprefix=' . $leprefix;
+        }
+
+        if (!empty($letag)) {
+            $path .= '&letag=' . $letag;
+        }
+
+        if (!empty($leuser)) {
+            $path .= '&leuser=' . $leuser;
+        }
+
+        if (!empty($lestart)) {
+            $path .= '&lestart=' . $lestart;
+        }
+
+        if (!empty($leend)) {
+            $path .= '&leend=' . $leend;
+        }
+
+        if (!empty($ledir)) {
+            $path .= '&ledir=' . $ledir;
+        }
+
+        if (!empty($lelimit)) {
+            $path .= '&lelimit=' . $lelimit;
+        }
+
         // Send the request.
         $response = $this->client->get($this->fetchUrl($path));
 
