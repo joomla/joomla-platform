@@ -31,28 +31,28 @@ class JMediawikiSites extends JMediawikiObject
      *
      * @since   12.1
      */
-    public function getSiteInfo(array $siprop = null, $sifilteriw = '', $sishowalldb = false, $sinumberingroup = false, array $siinlanguagecode = null)
+    public function getSiteInfo(array $siprop = null, $sifilteriw = null, $sishowalldb = false, $sinumberingroup = false, array $siinlanguagecode = null)
     {
         // build the request
         $path = '?action=query&meta=siteinfo';
 
-        if (!empty($siprop)) {
+        if (isset($siprop)) {
             $path .= '&siprop=' . $this->buildParameter($siprop);
         }
 
-        if (!empty($sifilteriw)) {
+        if (isset($sifilteriw)) {
             $path .= '&sifilteriw=' . $sifilteriw;
         }
 
-        if (!empty($sishowalldb)) {
+        if ($sishowalldb) {
             $path .= 'sishowalldb=';
         }
 
-        if (!empty($sinumberingroup)) {
+        if ($sinumberingroup) {
             $path .= 'sinumberingroup=';
         }
 
-        if (!empty($siinlanguagecode)) {
+        if (isset($siinlanguagecode)) {
             $path .= '&siinlanguagecode=' . $this->buildParameter($siinlanguagecode);
         }
 
