@@ -241,7 +241,7 @@ class JMediawikiSites extends JMediawikiObject
      *
      * @since   12.1
      */
-    public function getProtectedTitles()
+    public function getProtectedTitles(array $ptnamespace = null, array $ptlevel, $ptlimit = null, $ptdir = null, $ptstart = null, $ptend = null, array $ptprop = null)
     {
 
     }
