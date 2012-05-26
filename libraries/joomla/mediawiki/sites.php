@@ -31,11 +31,11 @@ class JMediawikiSites extends JMediawikiObject
         $path = '?action=query&meta=siteinfo';
 
         if (!empty($siprop)) {
-            $path .= '&siprop' . $this->buildParameter($siprop);
+            $path .= '&siprop=' . $this->buildParameter($siprop);
         }
 
         if (!empty($sifilteriw)) {
-            $path .= '&sifilteriw' . $sifilteriw;
+            $path .= '&sifilteriw=' . $sifilteriw;
         }
 
         if (!empty($sishowalldb)) {
@@ -47,7 +47,7 @@ class JMediawikiSites extends JMediawikiObject
         }
 
         if (!empty($siinlanguagecode)) {
-            $path .= '&siinlanguagecode' . $this->buildParameter($siinlanguagecode);
+            $path .= '&siinlanguagecode=' . $this->buildParameter($siinlanguagecode);
         }
 
         // Send the request.
@@ -56,7 +56,7 @@ class JMediawikiSites extends JMediawikiObject
         // convert xml string to an object
         $xml = simplexml_load_string($response->body);
 
-        return $xml->query;
+        return $xml;
 
     }
 
