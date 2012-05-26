@@ -56,5 +56,22 @@ class JMediawikiSites extends JMediawikiObject
      *
      * @since   12.1
      */
+    public function getEvents()
+    {
+        // @TODO support parameters
+
+        // build the request
+        $path = '?action=query&list=logevents';
+
+        // Send the request.
+        $response = $this->client->get($this->fetchUrl($path));
+
+        // convert xml string to an object
+        $xml = simplexml_load_string($response->body);
+
+        // validate the response
+
+        return $response;
+    }
 }
 
