@@ -85,53 +85,53 @@ class JMediawikiSites extends JMediawikiObject
      *
      * @since   12.1
      */
-    public function getEvents(array $leprop = null, $letype = '', $leaction = '', $letitle, $leprefix, $letag, $leuser, $lestart, $leend, $ledir, $lelimit)
+    public function getEvents(array $leprop = null, $letype = null, $leaction = null, $letitle, $leprefix = null, $letag = null, $leuser = null, $lestart = null, $leend = null, $ledir = null, $lelimit = null)
     {
 
         // build the request
         $path = '?action=query&list=logevents';
 
-        if (!empty($leprop)) {
+        if (isset($leprop)) {
             $path .= '&leprop=' . $this->buildParameter($leprop);
         }
 
-        if (!empty($letype)) {
+        if (isset($letype)) {
             $path .= '&letype=' . $letype;
         }
 
-        if (!empty($leaction)) {
+        if (isset($leaction)) {
             $path .= '&leaction=' . $leaction;
         }
 
-        if (!empty($letitle)) {
+        if (isset($letitle)) {
             $path .= '&letitle=' . $letitle;
         }
 
-        if (!empty($leprefix)) {
+        if (isset($leprefix)) {
             $path .= '&leprefix=' . $leprefix;
         }
 
-        if (!empty($letag)) {
+        if (isset($letag)) {
             $path .= '&letag=' . $letag;
         }
 
-        if (!empty($leuser)) {
+        if (isset($leuser)) {
             $path .= '&leuser=' . $leuser;
         }
 
-        if (!empty($lestart)) {
+        if (isset($lestart)) {
             $path .= '&lestart=' . $lestart;
         }
 
-        if (!empty($leend)) {
+        if (isset($leend)) {
             $path .= '&leend=' . $leend;
         }
 
-        if (!empty($ledir)) {
+        if (isset($ledir)) {
             $path .= '&ledir=' . $ledir;
         }
 
-        if (!empty($lelimit)) {
+        if (isset($lelimit)) {
             $path .= '&lelimit=' . $lelimit;
         }
 
