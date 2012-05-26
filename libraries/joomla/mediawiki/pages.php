@@ -18,5 +18,196 @@ defined('JPATH_PLATFORM') or die;
  */
 class JMediawikiPages extends JMediawikiObject
 {
+    /**
+     * Method to edit a page.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function editPage()
+    {
+
+    }
+
+    /**
+     * Method to delete a page.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function deletePage()
+    {
+
+    }
+
+    /**
+     * Method to restore certain revisions of a deleted page.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function undeletePage()
+    {
+
+    }
+
+    /**
+     * Method to move a page.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function movePage()
+    {
+
+    }
+
+    /**
+     * Method to undo the last edit to the page.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function rollback()
+    {
+
+    }
+
+    /**
+     * Method to change the protection level of a page.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function changeProtection()
+    {
+
+    }
+
+    /**
+     * Method to get basic page information.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function getPageInfo()
+    {
+
+    }
+
+    /**
+     * Method to get various properties defined in the page content.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function getPageProperties()
+    {
+
+    }
+
+    /**
+     * Method to get a list of revisions.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function getRevisions()
+    {
+
+    }
+
+    /**
+     * Method to get a list of deleted revisions.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function getDeletedRevisions()
+    {
+
+    }
+
+    /**
+     * Method to get all page templates from the given page.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function getPageTemplates()
+    {
+
+    }
+
+    /**
+     * Method to get all pages that link to the given page.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function getBackLinks()
+    {
+
+    }
+
+    /**
+     * Method to get all pages that link to the given interwiki link.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function getIWBackLinks()
+    {
+
+    }
+
+    /**
+     * Method to get all pages that link to the given language link .
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function getLangBackLinks()
+    {
+
+    }
+
+    /**
+     * Method to get all pages in a given category.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function getPagesByCategory()
+    {
+
+    }
+
+    /**
+     * Method to get all pages  that use the given image title.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function getImageUsage()
+    {
+
+    }
 
 }
