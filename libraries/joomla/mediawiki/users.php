@@ -61,6 +61,7 @@ class JMediawikiUsers extends JMediawikiObject
      * Method to get user information.
      *
      * @param   array   $users
+     *
      * @return  object
      *
      * @since   12.1
@@ -70,7 +71,7 @@ class JMediawikiUsers extends JMediawikiObject
         // extract the list of users
         $ususers = '';
         foreach ($users as $user) {
-            $ususers .= $user . '|'; // a trailing | does not trhow an error
+            $ususers .= $user . '|'; // a trailing | does not throw an error
         }
 
         // @TODO undo hardcoding
@@ -118,16 +119,18 @@ class JMediawikiUsers extends JMediawikiObject
     }
 
     /**
-     * Method to get current user contributions.
+     * Method to get user contributions.
+     *
+     * @param   string   $user
      *
      * @return  object
      *
      * @since   12.1
      */
-    public function getCurrentUserContribs()
+    public function getUserContribs($user)
     {
         // Build the request path.
-        $path = '';
+        $path = '?action=query&list=usercontribs&ucuser=' . $user;
 
         // Send the request.
         $response = $this->client->get($this->fetchUrl($path));
