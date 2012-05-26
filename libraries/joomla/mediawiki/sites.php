@@ -171,6 +171,58 @@ class JMediawikiSites extends JMediawikiObject
         // build the request
         $path = '?action=query&list=recentchanges';
 
+        if (isset($rcstart)) {
+            $path .= '&rcstart=' . $rcstart;
+        }
+
+        if (isset($rcend)) {
+            $path .= '&rcend=' . $rcend;
+        }
+
+        if (isset($rcdir)) {
+            $path .= '&rcdir=' . $rcdir;
+        }
+
+        if (isset($rcnamespace)) {
+            $path .= '&rcnamespaces=' . $this->buildParameter($rcnamespace);
+        }
+
+        if (isset($rcuser)) {
+            $path .= '&rcuser=' . $rcuser;
+        }
+
+        if (isset($rcexcludeuser)) {
+            $path .= '&rcexcludeuser=' . $rcexcludeuser;
+        }
+
+        if (isset($rctag)) {
+            $path .= '&rctag=' . $rctag;
+        }
+
+        if (isset($rcprop)) {
+            $path .= '&rcprop=' . $this->buildParameter($rcprop);
+        }
+
+        if (isset($rctoken)) {
+            $path .= '&rctoken=' . $this->buildParameter($rctoken);
+        }
+
+        if (isset($rcshow)) {
+            $path .= '&rcshow=' . $this->buildParameter($rcshow);
+        }
+
+        if (isset($rclimit)) {
+            $path .= '&rclimit=' . $rclimit;
+        }
+
+        if (isset($rctype)) {
+            $path .= '&rctype=' . $rctype;
+        }
+
+        if (isset($rctoponly)) {
+            $path .= '&rctoponly=' . $rctoponly;
+        }
+
         // Send the request.
         $response = $this->client->get($this->fetchUrl($path));
 
