@@ -237,6 +237,14 @@ class JMediawikiSites extends JMediawikiObject
     /**
      * Method to get protected titles on a site.
      *
+     * @param   array    $ptnamespace         Only list titles in this namespace.
+     * @param   array    $ptlevel             Only list titles with these protection level.
+     * @param   integer  $ptlimit             Limit of pages to return.
+     * @param   string   $ptdir               Direction of enumeration.
+     * @param   string   $ptstart             Starting timestamp.
+     * @param   string   $ptend               Ending timestamp.
+     * @param   array    $ptprop              List of properties to get.
+     *
      * @return  object
      *
      * @since   12.1
