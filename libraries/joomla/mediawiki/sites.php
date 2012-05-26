@@ -21,6 +21,12 @@ class JMediawikiSites extends JMediawikiObject
     /**
      * Method to get site information.
      *
+     * @param   array    $siprop            The sysinfo properties to get.
+     * @param   string   $sifilteriw        Only local or only non local entries to return.
+     * @param   boolean  $sishowalldb       List all database servers.
+     * @param   boolean  $sinumberingroup   List the number of users in usergroups.
+     * @param   array    $siinlanguagecode  Language code for localized languages.
+     *
      * @return  object
      *
      * @since   12.1
@@ -56,7 +62,7 @@ class JMediawikiSites extends JMediawikiObject
         // convert xml string to an object
         $xml = simplexml_load_string($response->body);
 
-        return $xml;
+        return $response;
 
     }
 
