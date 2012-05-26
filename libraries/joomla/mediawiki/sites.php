@@ -87,7 +87,6 @@ class JMediawikiSites extends JMediawikiObject
      */
     public function getEvents(array $leprop = null, $letype = null, $leaction = null, $letitle, $leprefix = null, $letag = null, $leuser = null, $lestart = null, $leend = null, $ledir = null, $lelimit = null)
     {
-
         // build the request
         $path = '?action=query&list=logevents';
 
@@ -169,7 +168,18 @@ class JMediawikiSites extends JMediawikiObject
      */
     public function getRecentChanges($rcstart = null, $rcend = null, $rcdir = null, $rcnamespace = null, $rcuser = null, $rcexcludeuser = null, $rctag = null, $rcprop = null, $rctoken = null, $rcshow = null, $rclimit = null, $rctype = null, $rctoponly = null)
     {
+        // build the request
+        $path = '?action=query&list=recentchanges';
 
+        // Send the request.
+        $response = $this->client->get($this->fetchUrl($path));
+
+        // convert xml string to an object
+        $xml = simplexml_load_string($response->body);
+
+        // validate the response
+
+        return $xml;
     }
 
     /**
