@@ -16,7 +16,8 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  GitHub
  * @since       12.1
  */
-abstract class JMediawikiObject {
+abstract class JMediawikiObject
+{
 
     /**
      * @var    JRegistry  Options for the MediaWiki object.
@@ -58,19 +59,38 @@ abstract class JMediawikiObject {
         // append the path with output format
         $path .= '&format=xml';
 
-        $uri = new JUri($this->options->get('api.url') .'/api.php' .$path);
+        $uri = new JUri($this->options->get('api.url') . '/api.php' . $path);
 
-        if ($this->options->get('api.username', false))
-        {
+        if ($this->options->get('api.username', false)) {
             $uri->setUser($this->options->get('api.username'));
         }
 
-        if ($this->options->get('api.password', false))
-        {
+        if ($this->options->get('api.password', false)) {
             $uri->setPass($this->options->get('api.password'));
         }
 
-        return (string) $uri;
+        return (string)$uri;
+    }
+
+    /**
+     * Method to build request parameters from a string array.
+     *
+     * @param   array    $params   string array that contains the parameters
+     *
+     * @return  string   request parameter
+     *
+     * @since   12.1
+     */
+    public function buildParameter(array $params)
+    {
+        $path = '';
+        foreach ($params as $param) {
+            $path .= $param;
+            if (next($params) == true) {
+                $path .= '|';
+            }
+        }
+        return $path;
     }
 
 }
