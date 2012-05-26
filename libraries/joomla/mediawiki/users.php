@@ -146,25 +146,52 @@ class JMediawikiUsers extends JMediawikiObject
     /**
      * Method to block a user.
      *
+     * @param   string   $user
+     * @param   string   $token
      * @return  object
      *
      * @since   12.1
      */
-    public function blockUser()
+    public function blockUser($user, $token)
     {
+        // Build the request path.
+        $path = '?action=query&list=usercontribs&ucuser=' . $user;
 
+        // Send the request.
+        $response = $this->client->get($this->fetchUrl($path));
+
+        // convert xml string to an object
+        $xml = simplexml_load_string($response->body);
+
+        // validate the response
+
+        return $response;
     }
 
     /**
      * Method to unblock a user.
      *
+     * @param   string   $user
+     * @param   string   $token
+     *
      * @return  object
      *
      * @since   12.1
      */
-    public function unBlockUser()
+    public function unBlockUser($user, $token)
     {
+        // Build the request path.
+        $path = '?action=query&list=usercontribs&ucuser=' . $user;
 
+        // Send the request.
+        $response = $this->client->get($this->fetchUrl($path));
+
+        // convert xml string to an object
+        $xml = simplexml_load_string($response->body);
+
+        // validate the response
+
+        return $response;
     }
 
     /**
