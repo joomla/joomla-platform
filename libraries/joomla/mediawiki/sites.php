@@ -25,10 +25,30 @@ class JMediawikiSites extends JMediawikiObject
      *
      * @since   12.1
      */
-    public function getSiteInfo()
+    public function getSiteInfo(array $siprop = null, $sifilteriw = '', $sishowalldb = false, $sinumberingroup = false, array $siinlanguagecode = null)
     {
         // build the request
         $path = '?action=query&meta=siteinfo';
+
+        if (!empty($siprop)) {
+            $path .= '&siprop' . $this->buildParameter($siprop);
+        }
+
+        if (!empty($sifilteriw)) {
+            $path .= '&sifilteriw' . $sifilteriw;
+        }
+
+        if (!empty($sishowalldb)) {
+            $path .= 'sishowalldb=';
+        }
+
+        if (!empty($sinumberingroup)) {
+            $path .= 'sinumberingroup=';
+        }
+
+        if (!empty($siinlanguagecode)) {
+            $path .= '&siinlanguagecode' . $this->buildParameter($siinlanguagecode);
+        }
 
         // Send the request.
         $response = $this->client->get($this->fetchUrl($path));
@@ -37,6 +57,7 @@ class JMediawikiSites extends JMediawikiObject
         $xml = simplexml_load_string($response->body);
 
         return $xml->query;
+
     }
 
     /**
