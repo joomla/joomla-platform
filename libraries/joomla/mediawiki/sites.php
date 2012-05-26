@@ -92,7 +92,7 @@ class JMediawikiSites extends JMediawikiObject
     }
 
     /**
-     * Method to edit a page.
+     * Method to get recent changes on a site.
      *
      * @return  object
      *
@@ -104,7 +104,7 @@ class JMediawikiSites extends JMediawikiObject
     }
 
     /**
-     * Method to edit a page.
+     * Method to get protected titles on a site.
      *
      * @return  object
      *
