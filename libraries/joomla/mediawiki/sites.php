@@ -60,7 +60,6 @@ class JMediawikiSites extends JMediawikiObject
         $response = $this->client->get($this->fetchUrl($path));
 
         return $this->validateResponse($response);
-
     }
 
     /**
@@ -134,12 +133,7 @@ class JMediawikiSites extends JMediawikiObject
         // Send the request.
         $response = $this->client->get($this->fetchUrl($path));
 
-        // convert xml string to an object
-        $xml = simplexml_load_string($response->body);
-
-        // validate the response
-
-        return $xml;
+        return $this->validateResponse($response);
     }
 
     /**
@@ -223,12 +217,7 @@ class JMediawikiSites extends JMediawikiObject
         // Send the request.
         $response = $this->client->get($this->fetchUrl($path));
 
-        // convert xml string to an object
-        $xml = simplexml_load_string($response->body);
-
-        // validate the response
-
-        return $xml;
+        return $this->validateResponse($response);
     }
 
     /**
@@ -282,12 +271,7 @@ class JMediawikiSites extends JMediawikiObject
         // Send the request.
         $response = $this->client->get($this->fetchUrl($path));
 
-        // convert xml string to an object
-        $xml = simplexml_load_string($response->body);
-
-        // validate the response
-
-        return $xml;
+        return $this->validateResponse($response);
     }
 }
 
