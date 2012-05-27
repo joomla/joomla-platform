@@ -19,4 +19,63 @@ defined('JPATH_PLATFORM') or die;
 class JMediawikiLinks extends JMediawikiObject
 {
 
+    /**
+     * Method to return all links from the given page(s).
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function getLinks()
+    {
+
+    }
+
+    /**
+     * Method to return all interwiki links from the given page(s).
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function getIWLinks()
+    {
+
+    }
+
+    /**
+     * Method to return all interlanguage links from the given page(s).
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function getLangLinks()
+    {
+
+    }
+
+    /**
+     * Method to return all external urls from the given page(s).
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function getExtLinks()
+    {
+
+    }
+
+    /**
+     * Method to enumerate all links that point to a given namespace.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function enumerateLinks()
+    {
+
+    }
 }
