@@ -25,7 +25,7 @@ class JMediawikiCategories extends JMediawikiObject
      *
      * @since   12.1
      */
-    public function getCategories(array $titles, array $clprop = null, array $clshow = null, $cllimit = null, $clcontinue = null, $clcategories = null, $cldir = null)
+    public function getCategories(array $titles, $clinfo = null, array $clprop = null, array $clshow = null, $cllimit = null, $clcontinue = null, $clcategories = null, $cldir = null)
     {
         // build the request
         $path = '?action=query&prop=categories';
