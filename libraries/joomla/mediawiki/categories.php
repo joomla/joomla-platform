@@ -25,9 +25,15 @@ class JMediawikiCategories extends JMediawikiObject
      *
      * @since   12.1
      */
-    public function getCategories()
+    public function getCategories(array $titles, array $clprop = null, array $clshow = null, $cllimit = null, $clcontinue = null, $clcategories = null, $cldir = null)
     {
+        // build the request
+        $path = '?action=query&prop=categories';
 
+        // Send the request.
+        $response = $this->client->get($this->fetchUrl($path));
+
+        return $this->validateResponse($response);
     }
 
     /**
@@ -76,6 +82,8 @@ class JMediawikiCategories extends JMediawikiObject
         if (isset($tglimit)) {
             $path .= '&tglimit=' . $tglimit;
         }
+
+        // @TODO add support for $tgcontinue
 
         // Send the request.
         $response = $this->client->get($this->fetchUrl($path));
