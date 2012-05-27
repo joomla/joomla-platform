@@ -19,4 +19,39 @@ defined('JPATH_PLATFORM') or die;
 class JMediawikiImages extends JMediawikiObject
 {
 
+    /**
+     * Method to get all images contained on the given page(s).
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function getImages()
+    {
+
+    }
+
+    /**
+     * Method to get all image information and upload history.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function getImageInfo()
+    {
+
+    }
+
+    /**
+     * Method to enumerate all images.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function enumerateImages()
+    {
+
+    }
 }
