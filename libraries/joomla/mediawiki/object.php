@@ -111,7 +111,7 @@ abstract class JMediawikiObject
         }
 
         if (isset($xml->error)) {
-            throw new DomainException($xml->error['info'], $xml->error['code']);
+            throw new DomainException($xml->error['info']);
         }
 
         return $xml;
