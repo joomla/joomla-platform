@@ -18,5 +18,51 @@ defined('JPATH_PLATFORM') or die;
  */
 class JMediawikiCategories extends JMediawikiObject
 {
+    /**
+     * Method to list all categories the page(s) belong to.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function getCategories()
+    {
 
+    }
+
+    /**
+     * Method to get information about the given categories.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function getCategoryInfo()
+    {
+
+    }
+
+    /**
+     * Method to enumerate all categories.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function enumerateCategories()
+    {
+
+    }
+
+    /**
+     * Method to list change tags.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function getChangeTags()
+    {
+
+    }
 }
