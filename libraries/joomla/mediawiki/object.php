@@ -93,4 +93,28 @@ abstract class JMediawikiObject
         return $path;
     }
 
+    /**
+     * Method to validate response for errors
+     *
+     * @param   JHttpresponse   $response   reponse from the mediawiki server
+     *
+     * @return  Object
+     *
+     * @since   12.1
+     */
+    public function validateResponse($response)
+    {
+        $xml = simplexml_load_string($response->body);
+
+        if (isset($xml->warnings)) {
+            throw new DomainException($xml->warnings->siteinfo);
+        }
+
+        if (isset($xml->error)) {
+            throw new DomainException($xml->error['info'], $xml->error['code']);
+        }
+
+        return $xml;
+    }
+
 }
