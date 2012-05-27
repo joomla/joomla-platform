@@ -59,10 +59,7 @@ class JMediawikiSites extends JMediawikiObject
         // Send the request.
         $response = $this->client->get($this->fetchUrl($path));
 
-        // convert xml string to an object
-        $xml = simplexml_load_string($response->body);
-
-        return $xml;
+        return $this->validateResponse($response);
 
     }
 
