@@ -19,4 +19,27 @@ defined('JPATH_PLATFORM') or die;
 class JMediawikiSearch extends JMediawikiObject
 {
 
+    /**
+     * Method to perform a full text search.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function search()
+    {
+
+    }
+
+    /**
+     * Method to search the wiki using opensearch protocol.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function openSearch()
+    {
+
+    }
 }
