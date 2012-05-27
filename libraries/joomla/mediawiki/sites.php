@@ -65,7 +65,7 @@ class JMediawikiSites extends JMediawikiObject
     /**
      * Method to get events from logs.
      *
-     * @param   array    $leprop              The array of properties to get.
+     * @param   array    $leprop              List of properties to get.
      * @param   string   $letype              Filter log actions to only this type.
      * @param   string   $leaction            Filter log actions to only this type.
      * @param   string   $letitle             Filter entries to those related to a page.

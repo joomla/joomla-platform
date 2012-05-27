@@ -57,12 +57,29 @@ class JMediawikiCategories extends JMediawikiObject
     /**
      * Method to list change tags.
      *
+     * @param   array    $tgprop              List of properties to get.
+     * @param   string   $tglimit             The maximum number of tags to limit.
+     *
      * @return  object
      *
      * @since   12.1
      */
-    public function getChangeTags()
+    public function getChangeTags(array $tgprop = null, $tglimit = null)
     {
+        // build the request
+        $path = '?action=query&list=tags';
 
+        if (isset($tgprop)) {
+            $path .= '&tgprop=' . $this->buildParameter($tgprop);
+        }
+
+        if (isset($tglimit)) {
+            $path .= '&tglimit=' . $tglimit;
+        }
+
+        // Send the request.
+        $response = $this->client->get($this->fetchUrl($path));
+
+        return $this->validateResponse($response);
     }
 }
