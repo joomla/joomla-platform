@@ -38,6 +38,24 @@ class JMediawikiLinks extends JMediawikiObject
     }
 
     /**
+     * Method to return info about the link pages.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function getLinksInfo()
+    {
+        // build the request
+        $path = '?action=query&generator=links&prop=info';
+
+        // Send the request.
+        $response = $this->client->get($this->fetchUrl($path));
+
+        return $this->validateResponse($response);
+    }
+
+    /**
      * Method to return all interwiki links from the given page(s).
      *
      * @return  object
