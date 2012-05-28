@@ -26,14 +26,14 @@ class JMediawikiCategories extends JMediawikiObject
      * @param   array       $clshow             Type of categories to show.
      * @param   string      $cllimit            Number of categories to return.
      * @param   string      $clcontinue         Continue when more results are available.
-     * @param   string      $clcategories       Only list these categories.
+     * @param   array       $clcategories       Only list these categories.
      * @param   string      $cldir              Direction of listing.
      *
      * @return  object
      *
      * @since   12.1
      */
-    public function getCategories(array $titles = null, array $clprop = null, array $clshow = null, $cllimit = null, $clcontinue = null, $clcategories = null, $cldir = null)
+    public function getCategories(array $titles = null, array $clprop = null, array $clshow = null, $cllimit = null, $clcontinue = null, array $clcategories = null, $cldir = null)
     {
         // build the request
         $path = '?action=query&prop=categories';
