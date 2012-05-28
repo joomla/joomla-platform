@@ -71,6 +71,8 @@ class JMediawikiLinks extends JMediawikiObject
     /**
      * Method to return info about the link pages.
      *
+     * @param   array       $titles             Page titles to retrieve links.
+     *
      * @return  object
      *
      * @since   12.1
@@ -79,6 +81,9 @@ class JMediawikiLinks extends JMediawikiObject
     {
         // build the request
         $path = '?action=query&generator=links&prop=info';
+
+        // append titles to the request
+        $path .= '&titles=' . $this->buildParameter($titles);
 
         // Send the request.
         $response = $this->client->get($this->fetchUrl($path));
