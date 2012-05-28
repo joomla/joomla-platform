@@ -21,11 +21,14 @@ class JMediawikiCategories extends JMediawikiObject
     /**
      * Method to list all categories the page(s) belong to.
      *
+     * @param   array       $titles             Page titles to retrieve categories.
+     * @param   string      $clinfo              Filter changes by this user.
+     *
      * @return  object
      *
      * @since   12.1
      */
-    public function getCategories(array $titles, $clinfo = null, array $clprop = null, array $clshow = null, $cllimit = null, $clcontinue = null, $clcategories = null, $cldir = null)
+    public function getCategories(array $titles = null, $clinfo = null, array $clprop = null, array $clshow = null, $cllimit = null, $clcontinue = null, $clcategories = null, $cldir = null)
     {
         // build the request
         $path = '?action=query&prop=categories';
@@ -34,6 +37,18 @@ class JMediawikiCategories extends JMediawikiObject
         $response = $this->client->get($this->fetchUrl($path));
 
         return $this->validateResponse($response);
+    }
+
+    /**
+     * Method to get information about all categories used.
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function getAllCategories()
+    {
+
     }
 
     /**
