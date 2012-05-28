@@ -94,14 +94,49 @@ class JMediawikiLinks extends JMediawikiObject
     /**
      * Method to return all interwiki links from the given page(s).
      *
+     * @param   array       $titles             Page titles to retrieve links.
+     * @param   boolean     $iwurl              Whether to get the full url.
+     * @param   integer     $iwlimit            Number of interwiki links to return.
+     * @param   boolean     $iwcontinue         When more results are available, use this to continue.
+     * @param   string      $iwprefix           Prefix for the interwiki.
+     * @param   string      $iwtitle            Interwiki link to search for.
+     * @param   string      $iwdir              The direction in which to list.
+     *
      * @return  object
      *
      * @since   12.1
      */
-    public function getIWLinks()
+    public function getIWLinks(array $titles, $iwurl = null, $iwlimit = null, $iwcontinue = null, $iwprefix = null, $iwtitle = null, $iwdir = null)
     {
         // build the request
-        $path = '?action=query&meta=siteinfo';
+        $path = '?action=query&prop=links';
+
+        // append titles to the request
+        $path .= '&titles=' . $this->buildParameter($titles);
+
+        if ($iwurl) {
+            $path .= 'iwurl=';
+        }
+
+        if (isset($iwlimit)) {
+            $path .= '&iwlimit=' . $iwlimit;
+        }
+
+        if ($iwcontinue) {
+            $path .= 'iwcontinue=';
+        }
+
+        if (isset($iwprefix)) {
+            $path .= '&iwprefix=' . $iwprefix;
+        }
+
+        if (isset($iwtitle)) {
+            $path .= '&iwtitle=' . $iwtitle;
+        }
+
+        if (isset($iwdir)) {
+            $path .= '&iwdir=' . $iwdir;
+        }
 
         // Send the request.
         $response = $this->client->get($this->fetchUrl($path));
