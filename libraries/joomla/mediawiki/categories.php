@@ -22,13 +22,18 @@ class JMediawikiCategories extends JMediawikiObject
      * Method to list all categories the page(s) belong to.
      *
      * @param   array       $titles             Page titles to retrieve categories.
-     * @param   string      $clinfo              Filter changes by this user.
+     * @param   array       $clprop             List of additional properties to get.
+     * @param   array       $clshow             Type of categories to show.
+     * @param   string      $cllimit            Number of categories to return.
+     * @param   string      $clcontinue         Continue when more results are available.
+     * @param   string      $clcategories       Only list these categories.
+     * @param   string      $cldir              Direction of listing.
      *
      * @return  object
      *
      * @since   12.1
      */
-    public function getCategories(array $titles = null, $clinfo = null, array $clprop = null, array $clshow = null, $cllimit = null, $clcontinue = null, $clcategories = null, $cldir = null)
+    public function getCategories(array $titles = null, array $clprop = null, array $clshow = null, $cllimit = null, $clcontinue = null, $clcategories = null, $cldir = null)
     {
         // build the request
         $path = '?action=query&prop=categories';
