@@ -147,14 +147,49 @@ class JMediawikiLinks extends JMediawikiObject
     /**
      * Method to return all interlanguage links from the given page(s).
      *
+     * @param   array       $titles             Page titles to retrieve links.
+     * @param   integer     $lllimit            Number of langauge links to return.
+     * @param   boolean     $llcontinue         When more results are available, use this to continue.
+     * @param   string      $llurl              Whether to get the full URL.
+     * @param   string      $lllang             Language code.
+     * @param   string      $lltitle            Link to search for.
+     * @param   string      $lldir              The direction in which to list.
+     *
      * @return  object
      *
      * @since   12.1
      */
-    public function getLangLinks()
+    public function getLangLinks(array $titles, $lllimit = null, $llcontinue = null, $llurl = null, $lllang = null, $lltitle = null, $lldir = null)
     {
         // build the request
-        $path = '?action=query&meta=siteinfo';
+        $path = '?action=query&prop=langlinks';
+
+        // append titles to the request
+        $path .= '&titles=' . $this->buildParameter($titles);
+
+        if (isset($lllimit)) {
+            $path .= '&lllimit=' . $lllimit;
+        }
+
+        if ($llcontinue) {
+            $path .= 'llcontinue=';
+        }
+
+        if (isset($llurl)) {
+            $path .= '&llurl=' . $llurl;
+        }
+
+        if (isset($lllang)) {
+            $path .= '&lllang=' . $lllang;
+        }
+
+        if (isset($lltitle)) {
+            $path .= '&lltitle=' . $lltitle;
+        }
+
+        if (isset($lldir)) {
+            $path .= '&lldir=' . $lldir;
+        }
 
         // Send the request.
         $response = $this->client->get($this->fetchUrl($path));
