@@ -36,7 +36,31 @@ class JMediawikiLinks extends JMediawikiObject
     public function getLinks(array $titles = null, array $plnamespace = null, $pllimit = null, $plcontinue = null, array $pltitles = null, $pldir = null)
     {
         // build the request
-        $path = '?action=query&meta=siteinfo';
+        $path = '?action=query&prop=links';
+
+        if (isset($titles)) {
+            $path .= '&titles=' . $this->buildParameter($titles);
+        }
+
+        if (isset($plnamespace)) {
+            $path .= '&plnamespace=' . $this->buildParameter($plnamespace);
+        }
+
+        if (isset($pllimit)) {
+            $path .= '&pllimit=' . $pllimit;
+        }
+
+        if (isset($plcontinue)) {
+            $path .= '&plcontinue=' . $plcontinue;
+        }
+
+        if (isset($pltitles)) {
+            $path .= '&pltitles=' . $this->buildParameter($pltitles);
+        }
+
+        if (isset($pldir)) {
+            $path .= '&pldir=' . $pldir;
+        }
 
         // Send the request.
         $response = $this->client->get($this->fetchUrl($path));
