@@ -33,14 +33,14 @@ class JMediawikiLinks extends JMediawikiObject
      *
      * @since   12.1
      */
-    public function getLinks(array $titles = null, array $plnamespace = null, $pllimit = null, $plcontinue = null, array $pltitles = null, $pldir = null)
+    public function getLinks(array $titles, array $plnamespace = null, $pllimit = null, $plcontinue = null, array $pltitles = null, $pldir = null)
     {
         // build the request
         $path = '?action=query&prop=links';
 
-        if (isset($titles)) {
-            $path .= '&titles=' . $this->buildParameter($titles);
-        }
+        // append titles to the request
+        $path .= '&titles=' . $this->buildParameter($titles);
+
 
         if (isset($plnamespace)) {
             $path .= '&plnamespace=' . $this->buildParameter($plnamespace);
@@ -75,7 +75,7 @@ class JMediawikiLinks extends JMediawikiObject
      *
      * @since   12.1
      */
-    public function getLinksInfo()
+    public function getLinksInfo(array $titles)
     {
         // build the request
         $path = '?action=query&generator=links&prop=info';
