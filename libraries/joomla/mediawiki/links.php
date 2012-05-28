@@ -22,11 +22,18 @@ class JMediawikiLinks extends JMediawikiObject
     /**
      * Method to return all links from the given page(s).
      *
+     * @param   array       $titles             Page titles to retrieve links.
+     * @param   array       $plnamespace        Namespaces to get links.
+     * @param   string      $pllimit            Number of links to return.
+     * @param   string      $plcontinue         Continue when more results are available.
+     * @param   array       $pltitles           List links to these titles.
+     * @param   string      $pldir              Direction of listing.
+     *
      * @return  object
      *
      * @since   12.1
      */
-    public function getLinks()
+    public function getLinks(array $titles = null, array $plnamespace = null, $pllimit = null, $plcontinue = null, array $pltitles = null, $pldir = null)
     {
         // build the request
         $path = '?action=query&meta=siteinfo';
