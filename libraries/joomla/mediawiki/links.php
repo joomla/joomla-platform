@@ -28,7 +28,13 @@ class JMediawikiLinks extends JMediawikiObject
      */
     public function getLinks()
     {
+        // build the request
+        $path = '?action=query&meta=siteinfo';
 
+        // Send the request.
+        $response = $this->client->get($this->fetchUrl($path));
+
+        return $this->validateResponse($response);
     }
 
     /**
@@ -40,7 +46,13 @@ class JMediawikiLinks extends JMediawikiObject
      */
     public function getIWLinks()
     {
+        // build the request
+        $path = '?action=query&meta=siteinfo';
 
+        // Send the request.
+        $response = $this->client->get($this->fetchUrl($path));
+
+        return $this->validateResponse($response);
     }
 
     /**
@@ -52,7 +64,13 @@ class JMediawikiLinks extends JMediawikiObject
      */
     public function getLangLinks()
     {
+        // build the request
+        $path = '?action=query&meta=siteinfo';
 
+        // Send the request.
+        $response = $this->client->get($this->fetchUrl($path));
+
+        return $this->validateResponse($response);
     }
 
     /**
@@ -64,7 +82,13 @@ class JMediawikiLinks extends JMediawikiObject
      */
     public function getExtLinks()
     {
+        // build the request
+        $path = '?action=query&meta=siteinfo';
 
+        // Send the request.
+        $response = $this->client->get($this->fetchUrl($path));
+
+        return $this->validateResponse($response);
     }
 
     /**
@@ -76,6 +100,12 @@ class JMediawikiLinks extends JMediawikiObject
      */
     public function enumerateLinks()
     {
+        // build the request
+        $path = '?action=query&meta=siteinfo';
 
+        // Send the request.
+        $response = $this->client->get($this->fetchUrl($path));
+
+        return $this->validateResponse($response);
     }
 }
