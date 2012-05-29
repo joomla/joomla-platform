@@ -152,12 +152,73 @@ class JMediawikiImages extends JMediawikiObject
     /**
      * Method to enumerate all images.
      *
+     * @param   string      $aifrom                     The image title to start enumerating from.
+     * @param   string      $aito                       The image title to stop enumerating at.
+     * @param   string      $aiprefix                   Search for all image titles that begin with this value.
+     * @param   integer     $aiminsize                  Limit to images with at least this many bytes.
+     * @param   integer     $aimaxsize                  Limit to images with at most this many bytes.
+     * @param   integer     $ailimit                    How many images in total to return.
+     * @param   string      $aidir                      The direction in which to list.
+     * @param   string      $aisha1                     SHA1 hash of image.
+     * @param   string      $aisha1base36               SHA1 hash of image in base 36.
+     * @param   array       $aiprop                     What image information to get.
+     * @param   string      $aimime                     What MIME type to search for.
+     *
      * @return  object
      *
      * @since   12.1
      */
-    public function enumerateImages()
+    public function enumerateImages($aifrom = null, $aito = null, $aiprefix = null, $aiminsize = null, $aimaxsize = null, $ailimit = null, $aidir = null, $aisha1 = null, $aisha1base36, array $aiprop = null, $aimime = null)
     {
+        // build the request
+        $path = '?action=query&list=allimages';
 
+        if (isset($aifrom)) {
+            $path .= '&aifrom=' . $aifrom;
+        }
+
+        if (isset($aito)) {
+            $path .= '&aito=' . $aito;
+        }
+
+        if (isset($aiprefix)) {
+            $path .= '&aiprefix=' . $aiprefix;
+        }
+
+        if (isset($aiminsize)) {
+            $path .= '&aiminsize=' . $aiminsize;
+        }
+
+        if (isset($aimaxsize)) {
+            $path .= '&aimaxsize=' . $aimaxsize;
+        }
+
+        if (isset($ailimit)) {
+            $path .= '&ailimit=' . $ailimit;
+        }
+
+        if (isset($aidir)) {
+            $path .= '&aidir=' . $aidir;
+        }
+        if (isset($aisha1)) {
+            $path .= '&aisha1=' . $aisha1;
+        }
+
+        if (isset($aisha1base36)) {
+            $path .= '&$aisha1base36=' . $aisha1base36;
+        }
+
+        if (isset($aiprop)) {
+            $path .= '&aiprop=' . $this->buildParameter($aiprop);
+        }
+
+        if (isset($aimime)) {
+            $path .= '&aimime=' . $aimime;
+        }
+
+        // Send the request.
+        $response = $this->client->get($this->fetchUrl($path));
+
+        return $this->validateResponse($response);
     }
 }
