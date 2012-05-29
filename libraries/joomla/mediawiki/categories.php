@@ -57,6 +57,14 @@ class JMediawikiCategories extends JMediawikiObject
             $path .= '&clcontinue=';
         }
 
+        if (isset($clcategories)) {
+            $path .= '&clcategories=' . $this->buildParameter($clcategories);
+        }
+
+        if (isset($cldir)) {
+            $path .= '&cldir=' . $cldir;
+        }
+
         // Send the request.
         $response = $this->client->get($this->fetchUrl($path));
 
