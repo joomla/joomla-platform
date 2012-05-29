@@ -215,6 +215,25 @@ class JMediawikiLinks extends JMediawikiObject
         // build the request
         $path = '?action=query&meta=siteinfo';
 
+        // append titles to the request
+        $path .= '&titles=' . $this->buildParameter($titles);
+
+        if (isset($ellimit)) {
+            $path .= '&ellimit=' . $ellimit;
+        }
+
+        if (isset($eloffset)) {
+            $path .= '&eloffset=' . $eloffset;
+        }
+
+        if (isset($elprotocol)) {
+            $path .= '&elprotocol=' . $elprotocol;
+        }
+
+        if (isset($elquery)) {
+            $path .= '&elquery=' . $elquery;
+        }
+
         // Send the request.
         $response = $this->client->get($this->fetchUrl($path));
 
