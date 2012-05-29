@@ -200,11 +200,17 @@ class JMediawikiLinks extends JMediawikiObject
     /**
      * Method to return all external urls from the given page(s).
      *
+     * @param   array       $titles             Page titles to retrieve links.
+     * @param   integer     $ellimit            Number of links to return.
+     * @param   string      $eloffset           When more results are available, use this to continue.
+     * @param   string      $elprotocol         Protocol of the url.
+     * @param   string      $elquery            Search string without protocol.
+     *
      * @return  object
      *
      * @since   12.1
      */
-    public function getExtLinks()
+    public function getExtLinks(array $titles, $ellimit = null, $eloffset = null, $elprotocol = null, $elquery = null)
     {
         // build the request
         $path = '?action=query&meta=siteinfo';
