@@ -32,6 +32,18 @@ class JMediawikiImages extends JMediawikiObject
     }
 
     /**
+     * Method to get all images contained on the given page(s).
+     *
+     * @return  object
+     *
+     * @since   12.1
+     */
+    public function getImagesUsed()
+    {
+
+    }
+
+    /**
      * Method to get all image information and upload history.
      *
      * @return  object
