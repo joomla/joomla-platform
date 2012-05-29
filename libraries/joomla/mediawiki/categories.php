@@ -33,7 +33,7 @@ class JMediawikiCategories extends JMediawikiObject
      *
      * @since   12.1
      */
-    public function getCategories(array $titles, array $clprop = null, array $clshow = null, $cllimit = null, $clcontinue = null, array $clcategories = null, $cldir = null)
+    public function getCategories(array $titles, array $clprop = null, array $clshow = null, $cllimit = null, $clcontinue = false, array $clcategories = null, $cldir = null)
     {
         // build the request
         $path = '?action=query&prop=categories';
@@ -74,7 +74,7 @@ class JMediawikiCategories extends JMediawikiObject
     /**
      * Method to get information about all categories used.
      *
-     * @param   array       $titles             Page titles to retrieve links.
+     * @param   array       $titles             Page titles to retrieve categories.
      *
      * @return  object
      *
@@ -97,13 +97,29 @@ class JMediawikiCategories extends JMediawikiObject
     /**
      * Method to get information about the given categories.
      *
+     * @param   array       $titles             Page titles to retrieve categories.
+     * @param   boolean     $clcontinue         Continue when more results are available.
+     *
      * @return  object
      *
      * @since   12.1
      */
-    public function getCategoriesInfo(array $titles, $clcontinue = null)
+    public function getCategoriesInfo(array $titles, $clcontinue = false)
     {
+        // build the request
+        $path = '?action=query&prop=categoryinfo';
 
+        // append titles to the request
+        $path .= '&titles=' . $this->buildParameter($titles);
+
+        if ($clcontinue) {
+            $path .= '&clcontinue=';
+        }
+
+        // Send the request.
+        $response = $this->client->get($this->fetchUrl($path));
+
+        return $this->validateResponse($response)
     }
 
     /**
