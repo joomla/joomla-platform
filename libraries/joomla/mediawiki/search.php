@@ -37,7 +37,45 @@ class JMediawikiSearch extends JMediawikiObject
      */
     public function search($srsearch, array $srnamespace = null, $srwhat = null, array $srinfo = null, array $srprop = null, $srredirects = null, $sroffest = null, $srlimit = null)
     {
+        // build the request
+        $path = '?action=query&list=search';
 
+        if (isset($srsearch)) {
+            $path .= '&srsearch=' . $srsearch;
+        }
+
+        if (isset($srnamespace)) {
+            $path .= '&srnamespace=' . $this->buildParameter($srnamespace);
+        }
+
+        if (isset($srwhat)) {
+            $path .= '&srwhat=' . $srwhat;
+        }
+
+        if (isset($srinfo)) {
+            $path .= '&srinfo=' . $this->buildParameter($srinfo);
+        }
+
+        if (isset($srprop)) {
+            $path .= '&srprop=' . $this->buildParameter($srprop);
+        }
+
+        if ($srredirects) {
+            $path .= '&srredirects=';
+        }
+
+        if (isset($sroffest)) {
+            $path .= '&sroffest=' . $sroffest;
+        }
+
+        if (isset($srlimit)) {
+            $path .= '&srlimit=' . $srlimit;
+        }
+
+        // Send the request.
+        $response = $this->client->get($this->fetchUrl($path));
+
+        return $this->validateResponse($response);
     }
 
     /**
