@@ -77,7 +77,7 @@ class JMediawikiLinks extends JMediawikiObject
      *
      * @since   12.1
      */
-    public function getLinksInfo(array $titles)
+    public function getLinksUsed(array $titles)
     {
         // build the request
         $path = '?action=query&generator=links&prop=info';

@@ -53,7 +53,7 @@ class JMediawikiCategories extends JMediawikiObject
      *
      * @since   12.1
      */
-    public function getCategoriesInfo(array $titles)
+    public function getCategoriesUsed(array $titles)
     {
         // build the request
         $path = '?action=query&generator=categories&prop=info';
@@ -74,7 +74,7 @@ class JMediawikiCategories extends JMediawikiObject
      *
      * @since   12.1
      */
-    public function getCategoryInfo()
+    public function getCategoriesInfo()
     {
 
     }
