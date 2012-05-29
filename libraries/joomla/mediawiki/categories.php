@@ -119,7 +119,7 @@ class JMediawikiCategories extends JMediawikiObject
         // Send the request.
         $response = $this->client->get($this->fetchUrl($path));
 
-        return $this->validateResponse($response)
+        return $this->validateResponse($response);
     }
 
     /**
