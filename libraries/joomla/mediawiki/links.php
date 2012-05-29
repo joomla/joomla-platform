@@ -249,7 +249,6 @@ class JMediawikiLinks extends JMediawikiObject
      * @param   string      $alprefix           Search for all page titles that begin with this value.
      * @param   string      $alunique           Only show unique links.
      * @param   array       $alprop             What pieces of information to include.
-     * @param   string      $alfrom             Start listing at this title. The title need not exist.
      * @param   string      $alnamespace        The namespace to enumerate.
      * @param   integer     $allimit            Number of links to return.
      *
@@ -261,6 +260,38 @@ class JMediawikiLinks extends JMediawikiObject
     {
         // build the request
         $path = '?action=query&meta=siteinfo';
+
+        if ($alcontinue) {
+            $path .= 'alcontinue=';
+        }
+
+        if (isset($alfrom)) {
+            $path .= '&alfrom=' . $alfrom;
+        }
+
+        if (isset($alto)) {
+            $path .= '&alto=' . $alto;
+        }
+
+        if (isset($alprefix)) {
+            $path .= '&alprefix=' . $alprefix;
+        }
+
+        if (isset($alunique)) {
+            $path .= '&alunique=' . $alunique;
+        }
+
+        if (isset($alprop)) {
+            $path .= '&alprop=' . $this->buildParameter($alprop);
+        }
+
+        if (isset($alnamespace)) {
+            $path .= '&alnamespace=' . $alnamespace;
+        }
+
+        if (isset($allimit)) {
+            $path .= '&allimit=' . $allimit;
+        }
 
         // Send the request.
         $response = $this->client->get($this->fetchUrl($path));
