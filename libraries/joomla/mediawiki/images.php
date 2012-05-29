@@ -65,13 +65,24 @@ class JMediawikiImages extends JMediawikiObject
     /**
      * Method to get all images contained on the given page(s).
      *
+     * @param   array       $titles             Page titles to retrieve links.
+     *
      * @return  object
      *
      * @since   12.1
      */
-    public function getImagesUsed()
+    public function getImagesUsed(array $titles)
     {
+        // build the request
+        $path = '?action=query&generator=images&prop=info';
 
+        // append titles to the request
+        $path .= '&titles=' . $this->buildParameter($titles);
+
+        // Send the request.
+        $response = $this->client->get($this->fetchUrl($path));
+
+        return $this->validateResponse($response);
     }
 
     /**
