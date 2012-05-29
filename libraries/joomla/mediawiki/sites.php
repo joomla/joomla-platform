@@ -45,11 +45,11 @@ class JMediawikiSites extends JMediawikiObject
         }
 
         if ($sishowalldb) {
-            $path .= 'sishowalldb=';
+            $path .= '&sishowalldb=';
         }
 
         if ($sinumberingroup) {
-            $path .= 'sinumberingroup=';
+            $path .= '&sinumberingroup=';
         }
 
         if (isset($siinlanguagecode)) {

@@ -106,7 +106,7 @@ class JMediawikiLinks extends JMediawikiObject
      *
      * @since   12.1
      */
-    public function getIWLinks(array $titles, $iwurl = null, $iwlimit = null, $iwcontinue = null, $iwprefix = null, $iwtitle = null, $iwdir = null)
+    public function getIWLinks(array $titles, $iwurl = false, $iwlimit = null, $iwcontinue = false, $iwprefix = null, $iwtitle = null, $iwdir = null)
     {
         // build the request
         $path = '?action=query&prop=links';
@@ -115,7 +115,7 @@ class JMediawikiLinks extends JMediawikiObject
         $path .= '&titles=' . $this->buildParameter($titles);
 
         if ($iwurl) {
-            $path .= 'iwurl=';
+            $path .= '&iwurl=';
         }
 
         if (isset($iwlimit)) {
@@ -123,7 +123,7 @@ class JMediawikiLinks extends JMediawikiObject
         }
 
         if ($iwcontinue) {
-            $path .= 'iwcontinue=';
+            $path .= '&iwcontinue=';
         }
 
         if (isset($iwprefix)) {
@@ -159,7 +159,7 @@ class JMediawikiLinks extends JMediawikiObject
      *
      * @since   12.1
      */
-    public function getLangLinks(array $titles, $lllimit = null, $llcontinue = null, $llurl = null, $lllang = null, $lltitle = null, $lldir = null)
+    public function getLangLinks(array $titles, $lllimit = null, $llcontinue = false, $llurl = null, $lllang = null, $lltitle = null, $lldir = null)
     {
         // build the request
         $path = '?action=query&prop=langlinks';
@@ -172,7 +172,7 @@ class JMediawikiLinks extends JMediawikiObject
         }
 
         if ($llcontinue) {
-            $path .= 'llcontinue=';
+            $path .= '&llcontinue=';
         }
 
         if (isset($llurl)) {
@@ -256,13 +256,13 @@ class JMediawikiLinks extends JMediawikiObject
      *
      * @since   12.1
      */
-    public function enumerateLinks($alcontinue = null, $alfrom = null, $alto = null, $alprefix = null, $alunique = null, array $alprop = null, $alnamespace = null, $allimit = null)
+    public function enumerateLinks($alcontinue = false, $alfrom = null, $alto = null, $alprefix = null, $alunique = null, array $alprop = null, $alnamespace = null, $allimit = null)
     {
         // build the request
         $path = '?action=query&meta=siteinfo';
 
         if ($alcontinue) {
-            $path .= 'alcontinue=';
+            $path .= '&alcontinue=';
         }
 
         if (isset($alfrom)) {

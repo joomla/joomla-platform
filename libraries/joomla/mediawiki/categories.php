@@ -24,8 +24,8 @@ class JMediawikiCategories extends JMediawikiObject
      * @param   array       $titles             Page titles to retrieve categories.
      * @param   array       $clprop             List of additional properties to get.
      * @param   array       $clshow             Type of categories to show.
-     * @param   string      $cllimit            Number of categories to return.
-     * @param   string      $clcontinue         Continue when more results are available.
+     * @param   integer     $cllimit            Number of categories to return.
+     * @param   boolean     $clcontinue         Continue when more results are available.
      * @param   array       $clcategories       Only list these categories.
      * @param   string      $cldir              Direction of listing.
      *
@@ -33,10 +33,29 @@ class JMediawikiCategories extends JMediawikiObject
      *
      * @since   12.1
      */
-    public function getCategories(array $titles = null, array $clprop = null, array $clshow = null, $cllimit = null, $clcontinue = null, array $clcategories = null, $cldir = null)
+    public function getCategories(array $titles, array $clprop = null, array $clshow = null, $cllimit = null, $clcontinue = null, array $clcategories = null, $cldir = null)
     {
         // build the request
         $path = '?action=query&prop=categories';
+
+        // append titles to the request
+        $path .= '&titles=' . $this->buildParameter($titles);
+
+        if (isset($clprop)) {
+            $path .= '&clprop=' . $this->buildParameter($clprop);
+        }
+
+        if (isset($clshow)) {
+            $path .= '&$clshow=' . $this->buildParameter($clshow);
+        }
+
+        if (isset($cllimit)) {
+            $path .= '&cllimit=' . $cllimit;
+        }
+
+        if ($clcontinue) {
+            $path .= '&clcontinue=';
+        }
 
         // Send the request.
         $response = $this->client->get($this->fetchUrl($path));
@@ -74,7 +93,7 @@ class JMediawikiCategories extends JMediawikiObject
      *
      * @since   12.1
      */
-    public function getCategoriesInfo()
+    public function getCategoriesInfo(array $titles, $clcontinue = null)
     {
 
     }
