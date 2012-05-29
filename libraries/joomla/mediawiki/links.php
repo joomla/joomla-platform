@@ -213,7 +213,7 @@ class JMediawikiLinks extends JMediawikiObject
     public function getExtLinks(array $titles, $ellimit = null, $eloffset = null, $elprotocol = null, $elquery = null)
     {
         // build the request
-        $path = '?action=query&meta=siteinfo';
+        $path = '?action=query&prop=extlinks';
 
         // append titles to the request
         $path .= '&titles=' . $this->buildParameter($titles);
@@ -243,11 +243,21 @@ class JMediawikiLinks extends JMediawikiObject
     /**
      * Method to enumerate all links that point to a given namespace.
      *
+     * @param   boolean     $alcontinue         When more results are available, use this to continue.
+     * @param   string      $alfrom             Start listing at this title. The title need not exist.
+     * @param   string      $alto               The page title to stop enumerating at.
+     * @param   string      $alprefix           Search for all page titles that begin with this value.
+     * @param   string      $alunique           Only show unique links.
+     * @param   array       $alprop             What pieces of information to include.
+     * @param   string      $alfrom             Start listing at this title. The title need not exist.
+     * @param   string      $alnamespace        The namespace to enumerate.
+     * @param   integer     $allimit            Number of links to return.
+     *
      * @return  object
      *
      * @since   12.1
      */
-    public function enumerateLinks()
+    public function enumerateLinks($alcontinue = null, $alfrom = null, $alto = null, $alprefix = null, $alunique = null, array $alprop = null, $alnamespace = null, $allimit = null)
     {
         // build the request
         $path = '?action=query&meta=siteinfo';
