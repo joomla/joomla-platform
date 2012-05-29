@@ -81,12 +81,44 @@ class JMediawikiSearch extends JMediawikiObject
     /**
      * Method to search the wiki using opensearch protocol.
      *
+     * @param   string      $search             Search string.
+     * @param   integer     $limit              Maximum amount of results to return.
+     * @param   array       $namespace          Namespaces to search.
+     * @param   string      $suggest            Do nothing if $wgEnableOpenSearchSuggest is false.
+     * @param   string      $format             Output format.
+     *
      * @return  object
      *
      * @since   12.1
      */
-    public function openSearch()
+    public function openSearch($search = null, $limit = null, array $namespace = null, $suggest = null, $format = null)
     {
+        // build the request
+        $path = '?action=query&list=search';
 
+        if (isset($search)) {
+            $path .= '&search=' . $search;
+        }
+
+        if (isset($limit)) {
+            $path .= '&limit=' . $limit;
+        }
+
+        if (isset($namespace)) {
+            $path .= '&namespace=' . $this->buildParameter($namespace);
+        }
+
+        if (isset($suggest)) {
+            $path .= '&suggest=' . $suggest;
+        }
+
+        if (isset($format)) {
+            $path .= '&format=' . $format;
+        }
+
+        // Send the request.
+        $response = $this->client->get($this->fetchUrl($path));
+
+        return $this->validateResponse($response);
     }
 }
