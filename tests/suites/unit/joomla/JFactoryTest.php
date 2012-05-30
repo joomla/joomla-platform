@@ -71,7 +71,7 @@ class JFactoryTest extends TestCase
 
 		// Test the exception with a non specified application
 		JFactory::$application = null;
-		$catched = false;
+		$caught = false;
 		try
 		{
 			JFactory::getApplication();
@@ -79,10 +79,10 @@ class JFactoryTest extends TestCase
 
 		catch (Exception $e)
 		{
-			$catched = true;
+			$caught = true;
 		}
 
-		$this->assertTrue($catched);
+		$this->assertTrue($caught);
 
 		// Test JApplication (CMS only)
 		if (class_exists('JApplication'))
@@ -100,7 +100,7 @@ class JFactoryTest extends TestCase
 		$this->assertInstanceOf('JApplicationCli', JFactory::getApplication('test', 'cli'));
 
 		// Test the exception with a non existing Application type
-		$catched = false;
+		$caught = false;
 		JFactory::$application = null;
 
 		try
@@ -110,10 +110,10 @@ class JFactoryTest extends TestCase
 
 		catch (Exception $e)
 		{
-			$catched = true;
+			$caught = true;
 		}
 
-		$this->assertTrue($catched);
+		$this->assertTrue($caught);
 
 		JFactory::$application = $temp;
 	}
