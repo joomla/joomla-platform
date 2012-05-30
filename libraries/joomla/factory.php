@@ -82,6 +82,7 @@ abstract class JFactory
 	 * Returns the global {@link JApplication} object, only creating it if it doesn't already exist.
 	 *
 	 * @param   mixed   $id      A client identifier or name.
+	 * @param   string  $type    Application type : Web or Cli
 	 * @param   array   $config  An optional associative array of configuration settings.
 	 * @param   string  $prefix  Application prefix
 	 *
@@ -91,7 +92,7 @@ abstract class JFactory
 	 * @since   11.1
 	 * @throws  Exception
 	 */
-	public static function getApplication($id = null, array $config = array(), $prefix = 'J')
+	public static function getApplication($id = null, $type = null, array $config = array(), $prefix = 'J')
 	{
 		if (!self::$application)
 		{
@@ -100,7 +101,26 @@ abstract class JFactory
 				throw new Exception('Application Instantiation Error', 500);
 			}
 
-			self::$application = JApplication::getInstance($id, $config, $prefix);
+			if (!$type)
+			{
+				self::$application = JApplication::getInstance($id, $config, $prefix);
+			}
+
+			else
+			{
+				$type = strtolower($type);
+
+				if ($type === 'web' || $type === 'cli')
+				{
+					$classname = 'JApplication' . ucfirst($type);
+					self::$application = $classname::getInstance($id);
+				}
+
+				else
+				{
+					throw new Exception('Application Instantiation Error : Unknown Application type ' . $type, 500);
+				}
+			}
 		}
 
 		return self::$application;
