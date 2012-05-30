@@ -49,20 +49,73 @@ class JFactoryTest extends TestCase
 	}
 
 	/**
-	 * Tests the JFactory::getApplicatiom method.
+	 * Tests the JFactory::getApplication method.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
-	 * @covers  JFactory::getApplicatiom
-	 * @todo    Implement testGetApplication().
+	 * @covers  JFactory::getApplication
 	 */
-	function testGetApplication()
+	public function testGetApplication()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-				'This test has not been implemented yet.'
-		);
+		if (empty($_SERVER['HTTP_HOST']))
+		{
+			$_SERVER['HTTP_HOST'] = 'localhost';
+		}
+
+		$temp = JFactory::$application;
+
+		// Test without param
+		JFactory::$application = TestMockApplicationWeb::create($this);
+		$this->assertInstanceOf('JApplicationWeb', JFactory::getApplication());
+
+		// Test the exception with a non specified application
+		JFactory::$application = null;
+		$catched = false;
+		try
+		{
+			JFactory::getApplication();
+		}
+
+		catch (Exception $e)
+		{
+			$catched = true;
+		}
+
+		$this->assertTrue($catched);
+
+		// Test JApplication (CMS only)
+		if (class_exists('JApplication'))
+		{
+			JFactory::$application = null;
+			$this->assertInstanceOf('JApplication', JFactory::getApplication('site'));
+		}
+
+		// Test JApplicationWeb
+		JFactory::$application = null;
+		$this->assertInstanceOf('JApplicationWeb', JFactory::getApplication('test', 'web'));
+
+		// Test JApplicationCli
+		JFactory::$application = null;
+		$this->assertInstanceOf('JApplicationCli', JFactory::getApplication('test', 'cli'));
+
+		// Test the exception with a non existing Application type
+		$catched = false;
+		JFactory::$application = null;
+
+		try
+		{
+			JFactory::getApplication('test', 'nonexisting');
+		}
+
+		catch (Exception $e)
+		{
+			$catched = true;
+		}
+
+		$this->assertTrue($catched);
+
+		JFactory::$application = $temp;
 	}
 
 	/**
@@ -111,7 +164,7 @@ class JFactoryTest extends TestCase
 				'This test has not been implemented completely yet.'
 		);
 	}
-	
+
 	/**
 	 * Tests the JFactory::getDocument method.
 	 *
