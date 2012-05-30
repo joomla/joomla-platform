@@ -310,7 +310,7 @@ class JApplicationWeb extends JApplicationBase
 		$options = array(
 			'template' => $this->get('theme'),
 			'file' => 'index.php',
-			'params' => ''
+			'params' => $this->get('themeParams')
 		);
 
 		if ($this->get('themes.base'))
@@ -320,7 +320,7 @@ class JApplicationWeb extends JApplicationBase
 		// Fall back to constants.
 		else
 		{
-			$options['directory'] = (defined('JPATH_BASE') ? JPATH_BASE : __DIR__) . '/themes';
+			$options['directory'] = defined('JPATH_THEMES') ? JPATH_THEMES : (defined('JPATH_BASE') ? JPATH_BASE : __DIR__) . '/themes';
 		}
 
 		// Parse the document.
@@ -985,10 +985,10 @@ class JApplicationWeb extends JApplicationBase
 	}
 
 	/**
-	 * Allows the application to load a custom or default document.
+	 * Allows the application to load a custom or default language.
 	 *
 	 * The logic and options for creating this object are adequately generic for default cases
-	 * but for many applications it will make sense to override this method and create an language,
+	 * but for many applications it will make sense to override this method and create a language,
 	 * if required, based on more specific needs.
 	 *
 	 * @param   JLanguage  $language  An optional language object. If omitted, the factory language is created.
@@ -1005,7 +1005,7 @@ class JApplicationWeb extends JApplicationBase
 	}
 
 	/**
-	 * Allows the application to load a custom or default document.
+	 * Allows the application to load a custom or default session.
 	 *
 	 * The logic and options for creating this object are adequately generic for default cases
 	 * but for many applications it will make sense to override this method and create a session,

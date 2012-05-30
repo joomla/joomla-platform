@@ -37,8 +37,8 @@ interface JDatabaseInterface
  * @subpackage  Database
  * @since       12.1
  *
- * @method      string  q()   q($text, $escape)  Alias for quote method
- * @method      string  qn()  qs($name, $as)     Alias for quoteName method
+ * @method      string  q()   q($text, $escape = true)  Alias for quote method
+ * @method      string  qn()  qn($name, $as = null)     Alias for quoteName method
  */
 abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 {
@@ -397,12 +397,21 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	abstract public function connected();
 
 	/**
+	 * Disconnects the database.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	abstract public function disconnect();
+
+	/**
 	 * Drops a table from the database.
 	 *
 	 * @param   string   $table     The name of the database table to drop.
 	 * @param   boolean  $ifExists  Optionally specify that the table must exist before it is dropped.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriver     Returns this object to support chaining.
 	 *
 	 * @since   11.4
 	 * @throws  RuntimeException
@@ -812,9 +821,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		$fields = array();
 		$values = array();
 
-		// Create the base insert statement.
-		$statement = 'INSERT INTO ' . $this->quoteName($table) . ' (%s) VALUES (%s)';
-
 		// Iterate over the object variables to build the query fields and values.
 		foreach (get_object_vars($object) as $k => $v)
 		{
@@ -835,8 +841,14 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			$values[] = $this->quote($v);
 		}
 
+		// Create the base insert statement.
+		$query = $this->getQuery(true);
+		$query->insert($this->quoteName($table))
+				->columns($fields)
+				->values(implode(',', $values));
+
 		// Set the query and execute the insert.
-		$this->setQuery(sprintf($statement, implode(',', $fields), implode(',', $values)));
+		$this->setQuery($query);
 		if (!$this->execute())
 		{
 			return false;
@@ -1260,7 +1272,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @param   string  $tableName  The name of the table to unlock.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriver     Returns this object to support chaining.
 	 *
 	 * @since   11.4
 	 * @throws  RuntimeException
@@ -1471,7 +1483,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @param   string  $backup    Table prefix
 	 * @param   string  $prefix    For the table - used to rename constraints in non-mysql databases
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriver    Returns this object to support chaining.
 	 *
 	 * @since   11.4
 	 * @throws  RuntimeException
@@ -1668,7 +1680,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	/**
 	 * Unlocks tables in the database.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriver  Returns this object to support chaining.
 	 *
 	 * @since   11.4
 	 * @throws  RuntimeException

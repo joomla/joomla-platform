@@ -9,20 +9,18 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.log.logger');
-
 /**
  * Joomla MessageQueue logger class.
  *
  * This class is designed to output logs to a specific MySQL database table. Fields in this
- * table are based on the SysLog style of log output. This is designed to allow quick and
+ * table are based on the Syslog style of log output. This is designed to allow quick and
  * easy searching.
  *
  * @package     Joomla.Platform
  * @subpackage  Log
  * @since       11.1
  */
-class JLoggerMessageQueue extends JLogger
+class JLogLoggerMessageQueue extends JLogLogger
 {
 	/**
 	 * Method to add an entry to the log.

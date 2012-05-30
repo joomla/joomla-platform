@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Application
+ * @subpackage  Controller
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * functionality, such as rendering views (aka displaying templates).
  *
  * @package     Joomla.Platform
- * @subpackage  Application
+ * @subpackage  Controller
  * @since       11.1
  */
 class JController extends JObject
@@ -316,6 +316,11 @@ class JController extends JObject
 		$this->redirect = null;
 		$this->taskMap = array();
 
+		if (defined('JDEBUG') && JDEBUG)
+		{
+			JLog::addLogger(array('text_file' => 'jcontroller.log.php'), JLog::ALL, array('controller'));
+		}
+
 		// Determine the methods to exclude from the base class.
 		$xMethods = get_class_methods('JController');
 
@@ -500,18 +505,18 @@ class JController extends JObject
 
 			$result = in_array((int) $id, $values);
 
-			if (JDEBUG)
+			if (defined('JDEBUG') && JDEBUG)
 			{
-				JLog::getInstance('jcontroller.log.php')->addEntry(
-					array(
-						'comment' => sprintf(
-							'Checking edit ID %s.%s: %d %s',
-							$context,
-							$id,
-							(int) $result,
-							str_replace("\n", ' ', print_r($values, 1))
-						)
-					)
+				JLog::add(
+					sprintf(
+						'Checking edit ID %s.%s: %d %s',
+						$context,
+						$id,
+						(int) $result,
+						str_replace("\n", ' ', print_r($values, 1))
+					),
+					JLog::INFO,
+					'controller'
 				);
 			}
 
@@ -870,12 +875,17 @@ class JController extends JObject
 			$values = array_unique($values);
 			$app->setUserState($context . '.id', $values);
 
-			if (JDEBUG)
+			if (defined('JDEBUG') && JDEBUG)
 			{
-				JLog::getInstance('jcontroller.log.php')->addEntry(
-					array(
-						'comment' => sprintf('Holding edit ID %s.%s %s', $context, $id, str_replace("\n", ' ', print_r($values, 1)))
-					)
+				JLog::add(
+					sprintf(
+						'Holding edit ID %s.%s %s',
+						$context,
+						$id,
+						str_replace("\n", ' ', print_r($values, 1))
+					),
+					JLog::INFO,
+					'controller'
 				);
 			}
 		}
@@ -974,12 +984,17 @@ class JController extends JObject
 			unset($values[$index]);
 			$app->setUserState($context . '.id', $values);
 
-			if (JDEBUG)
+			if (defined('JDEBUG') && JDEBUG)
 			{
-				JLog::getInstance('jcontroller.log.php')->addEntry(
-					array(
-						'comment' => sprintf('Releasing edit ID %s.%s %s', $context, $id, str_replace("\n", ' ', print_r($values, 1)))
-					)
+				JLog::add(
+					sprintf(
+						'Releasing edit ID %s.%s %s',
+						$context,
+						$id,
+						str_replace("\n", ' ', print_r($values, 1))
+					),
+					JLog::INFO,
+					'controller'
 				);
 			}
 		}

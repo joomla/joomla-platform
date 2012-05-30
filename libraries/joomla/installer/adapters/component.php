@@ -480,11 +480,11 @@ class JInstallerComponent extends JAdapterInstance
 			return false;
 		}
 
-		$eid = $db->insertid();
+		$eid = $row->extension_id;
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(array('element' => $this->get('element'), 'type' => 'component', 'client_id' => '', 'folder' => ''));
+		$uid = $update->find(array('element' => $this->get('element'), 'type' => 'component', 'client_id' => 1, 'folder' => ''));
 
 		if ($uid)
 		{
@@ -877,7 +877,7 @@ class JInstallerComponent extends JAdapterInstance
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(array('element' => $this->get('element'), 'type' => 'component', 'client_id' => '', 'folder' => ''));
+		$uid = $update->find(array('element' => $this->get('element'), 'type' => 'component', 'client_id' => 1, 'folder' => ''));
 
 		if ($uid)
 		{
@@ -1135,7 +1135,7 @@ class JInstallerComponent extends JAdapterInstance
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(array('element' => $row->element, 'type' => 'component', 'client_id' => '', 'folder' => ''));
+		$uid = $update->find(array('element' => $row->element, 'type' => 'component', 'client_id' => 1, 'folder' => ''));
 
 		if ($uid)
 		{
@@ -1298,8 +1298,6 @@ class JInstallerComponent extends JAdapterInstance
 			 */
 			$this->parent->pushStep(array('type' => 'menu', 'id' => $component_id));
 		}
-
-		$parent_id = $table->id;
 
 		/*
 		 * Process SubMenus
@@ -1724,7 +1722,7 @@ class JInstallerComponent extends JAdapterInstance
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(array('element' => $this->get('element'), 'type' => 'component', 'client_id' => '', 'folder' => ''));
+		$uid = $update->find(array('element' => $this->get('element'), 'type' => 'component', 'client_id' => 1, 'folder' => ''));
 
 		if ($uid)
 		{

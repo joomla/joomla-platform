@@ -875,8 +875,6 @@ class JInstaller extends JAdapter
 		}
 
 		// Get the name of the sql file to process
-		$sqlfile = '';
-
 		foreach ($element->children() as $file)
 		{
 			$fCharset = (strtolower($file->attributes()->charset) == 'utf8') ? 'utf8' : '';
@@ -1880,7 +1878,7 @@ class JInstaller extends JAdapter
 		else
 		{
 			// No XML files were found in the install folder
-			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR'), JLog::WARNING, 'jerror');
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), JLog::WARNING, 'jerror');
 			return false;
 		}
 	}

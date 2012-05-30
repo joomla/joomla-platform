@@ -78,6 +78,19 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	}
 
 	/**
+	 * Database object destructor
+	 *
+	 * @since 12.1
+	 */
+	public function __destruct()
+	{
+		if (is_resource($this->connection))
+		{
+			pg_close($this->connection);
+		}
+	}
+
+	/**
 	 * Connects to the database if needed.
 	 *
 	 * @return  void  Returns void if the database connected successfully.
@@ -112,16 +125,21 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	}
 
 	/**
-	 * Database object destructor
+	 * Disconnects the database.
 	 *
-	 * @since 12.1
+	 * @return  void
+	 *
+	 * @since   12.1
 	 */
-	public function __destruct()
+	public function disconnect()
 	{
+		// Close the connection.
 		if (is_resource($this->connection))
 		{
 			pg_close($this->connection);
 		}
+
+		$this->connection = null;
 	}
 
 	/**
@@ -242,7 +260,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	{
 		$this->connect();
 
-		return pg_num_rows($cur ? $cur : $this->cursor);
+		return pg_num_rows((int) $cur ? $cur : $this->cursor);
 	}
 
 	/**
@@ -327,7 +345,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 					END AS "null",
 					CASE WHEN pg_catalog.pg_get_expr(adef.adbin, adef.adrelid, true) IS NOT NULL
 						THEN pg_catalog.pg_get_expr(adef.adbin, adef.adrelid, true)
-					END as "default",
+					END as "Default",
 					CASE WHEN pg_catalog.col_description(a.attrelid, a.attnum) IS NULL
 					THEN \'\'
 					ELSE pg_catalog.col_description(a.attrelid, a.attnum)
@@ -336,7 +354,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				LEFT JOIN pg_catalog.pg_attrdef adef ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum
 				LEFT JOIN pg_catalog.pg_type t ON a.atttypid=t.oid
 				WHERE a.attrelid =
-					(SELECT oid FROM pg_catalog.pg_class WHERE relname=' . $this->quote($table) . '
+					(SELECT oid FROM pg_catalog.pg_class WHERE relname=' . $this->quote($tableSub) . '
 						AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE
 						nspname = \'public\')
 					)
@@ -358,6 +376,15 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			foreach ($fields as $field)
 			{
 				$result[$field->column_name] = $field;
+			}
+		}
+
+		/* Change Postgresql's NULL::* type with PHP's null one */
+		foreach ($fields as $field)
+		{
+			if (preg_match("/^NULL::*/", $field->Default))
+			{
+				$field->Default = null;
 			}
 		}
 
@@ -556,7 +583,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @param   string  $tableName  The name of the table to unlock.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriverPostgresql  Returns this object to support chaining.
 	 *
 	 * @since   11.4
 	 * @throws  RuntimeException
@@ -662,7 +689,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 * @param   string  $backup    Not used by PostgreSQL.
 	 * @param   string  $prefix    Not used by PostgreSQL.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriverPostgresql  Returns this object to support chaining.
 	 *
 	 * @since   11.4
 	 * @throws  RuntimeException
@@ -755,6 +782,57 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		$this->connect();
 
 		return pg_set_client_encoding($this->connection, 'UTF8');
+	}
+
+	/**
+	 * This function return a field value as a prepared string to be used in a SQL statement.
+	 *
+	 * @param   array   $columns      Array of table's column returned by ::getTableColumns.
+	 * @param   string  $field_name   The table field's name.
+	 * @param   string  $field_value  The variable value to quote and return.
+	 * 
+	 * @return  string  The quoted string.
+	 *
+	 * @since   11.3
+	 */
+	public function sqlValue($columns, $field_name, $field_value)
+	{
+		switch ($columns[$field_name])
+		{
+			case 'boolean':
+				$val = 'NULL';
+				if ($field_value == 't')
+				{
+					$val = 'TRUE';
+				}
+				elseif ($field_value == 'f')
+				{
+					$val = 'FALSE';
+				}
+				break;
+			case 'bigint':
+			case 'bigserial':
+			case 'integer':
+			case 'money':
+			case 'numeric':
+			case 'real':
+			case 'smallint':
+			case 'serial':
+			case 'numeric,':
+				$val = strlen($field_value) == 0 ? 'NULL' : $field_value;
+				break;
+			case 'date':
+			case 'timestamp without time zone':
+				if (empty($field_value))
+				{
+					$field_value = $this->getNullDate();
+				}
+			default:
+				$val = $this->quote($field_value);
+				break;
+		}
+
+		return $val;
 	}
 
 	/**
@@ -883,15 +961,11 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 */
 	public function insertObject($table, &$object, $key = null)
 	{
-		$this->connect();
-
 		// Initialise variables.
+		$columns = $this->getTableColumns($table);
+
 		$fields = array();
 		$values = array();
-
-		// Create the base insert statement.
-		$query = $this->getQuery(true);
-		$query->insert($this->quoteName($table));
 
 		// Iterate over the object variables to build the query fields and values.
 		foreach (get_object_vars($object) as $k => $v)
@@ -910,27 +984,44 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 			// Prepare and sanitize the fields and values for the database query.
 			$fields[] = $this->quoteName($k);
-			$values[] = is_numeric($v) ? $v : $this->quote($v);
+			$values[] = $this->sqlValue($columns, $k, $v);
 		}
 
-		$query->columns($fields);
-		$query->values(implode(',', $values));
+		// Create the base insert statement.
+		$query = $this->getQuery(true);
 
-		// Set the query and execute the insert.
-		$this->setQuery($query);
-		if (!$this->execute())
+		$query->insert($this->quoteName($table))
+				->columns($fields)
+				->values(implode(',', $values));
+
+		$retVal = false;
+
+		if ($key)
 		{
-			return false;
-		}
+			$query->returning($key);
 
-		// Update the primary key if it exists.
-		$id = $this->insertid();
-		if ($key && $id)
+			// Set the query and execute the insert.
+			$this->setQuery($query);
+
+			$id = $this->loadResult();
+			if ($id)
+			{
+				$object->$key = $id;
+				$retVal = true;
+			}
+		}
+		else
 		{
-			$object->$key = $id;
+			// Set the query and execute the insert.
+			$this->setQuery($query);
+
+			if ($this->execute())
+			{
+				$retVal = true;
+			}
 		}
 
-		return true;
+		return $retVal;
 	}
 
 	/**
@@ -1148,7 +1239,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 * Unlocks tables in the database, this command does not exist in PostgreSQL,
 	 * it is automatically done on commit or rollback.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriverPostgresql  Returns this object to support chaining.
 	 *
 	 * @since   11.4
 	 * @throws  RuntimeException
@@ -1174,9 +1265,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 */
 	public function updateObject($table, &$object, $key, $nulls = false)
 	{
-		$this->connect();
-
 		// Initialise variables.
+		$columns = $this->getTableColumns($table);
 		$fields = array();
 		$where = '';
 
@@ -1197,7 +1287,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			// Set the primary key to the WHERE clause instead of a field to update.
 			if ($k == $key)
 			{
-				$where = $this->quoteName($k) . '=' . (is_numeric($v) ? $v : $this->quote($v));
+				$key_val = $this->sqlValue($columns, $k, $v);
+				$where = $this->quoteName($k) . '=' . $key_val;
 				continue;
 			}
 
@@ -1218,7 +1309,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			// The field is not null so we prep it for update.
 			else
 			{
-				$val = (is_numeric($v) ? $v : $this->quote($v));
+				$val = $this->sqlValue($columns, $k, $v);
 			}
 
 			// Add the field to be updated.
