@@ -93,7 +93,7 @@ class JFactoryTest extends TestCase
 
 		// Test JApplicationWeb
 		JFactory::$application = null;
-		$this->assertEquals('JApplicationWeb', JFactory::getApplication('test', 'web'));
+		$this->assertInstanceOf('JApplicationWeb', JFactory::getApplication('test', 'web'));
 		TestReflection::setValue('JApplicationWeb', 'instance', null);
 
 		// Test JApplicationCli
