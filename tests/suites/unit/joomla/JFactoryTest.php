@@ -66,8 +66,8 @@ class JFactoryTest extends TestCase
 		$temp = JFactory::$application;
 
 		// Test without param
-		JFactory::$application = TestMockApplicationWeb::create($this);
-		$this->assertInstanceOf('JApplicationWeb', JFactory::getApplication());
+		JFactory::$application = 'test';
+		$this->assertEquals('test', JFactory::getApplication());
 
 		// Test the exception with a non specified application
 		JFactory::$application = null;
@@ -93,11 +93,13 @@ class JFactoryTest extends TestCase
 
 		// Test JApplicationWeb
 		JFactory::$application = null;
-		$this->assertInstanceOf('JApplicationWeb', JFactory::getApplication('test', 'web'));
+		$this->assertEquals('JApplicationWeb', JFactory::getApplication('test', 'web'));
+		TestReflection::setValue('JApplicationWeb', 'instance', null);
 
 		// Test JApplicationCli
 		JFactory::$application = null;
 		$this->assertInstanceOf('JApplicationCli', JFactory::getApplication('test', 'cli'));
+		TestReflection::setValue('JApplicationCli', 'instance', null);
 
 		// Test the exception with a non existing Application type
 		$caught = false;
