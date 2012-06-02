@@ -93,13 +93,39 @@ class JMediawikiPages extends JMediawikiObject
     /**
      * Method to get basic page information.
      *
+     * @param   array       $titles             Page titles to retrieve info.
+     * @param   array       $inprop             Which additional properties to get.
+     * @param   array       $intoken            Request a token to perform a data-modifying action on a page
+     * @param   boolean     $incontinue         When more results are available, use this to continue.
+     *
      * @return  object
      *
      * @since   12.1
      */
-    public function getPageInfo()
+    public function getPageInfo(array $titles, array $inprop = null, array $intoken = null, $incontinue = null)
     {
+        // build the request
+        $path = '?action=query&prop=info';
 
+        // append titles to the request
+        $path .= '&titles=' . $this->buildParameter($titles);
+
+        if (isset($inprop)) {
+            $path .= '&inprop=' . $this->buildParameter($inprop);
+        }
+
+        if (isset($intoken)) {
+            $path .= '&intoken=' . $this->buildParameter($intoken);
+        }
+
+        if ($incontinue) {
+            $path .= '&incontinue=';
+        }
+
+        // Send the request.
+        $response = $this->client->get($this->fetchUrl($path));
+
+        return $this->validateResponse($response);
     }
 
     /**
