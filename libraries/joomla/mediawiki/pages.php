@@ -189,11 +189,11 @@ class JMediawikiPages extends JMediawikiObject
      * Method to get all page templates from the given page.
      *
      * @param   array       $titles             Page titles to retrieve templates.
-     * @param   array       $tlnamespace             Page titles to retrieve links.
-     * @param   integer     $tllimit             Page titles to retrieve links.
-     * @param   boolean     $tlcontinue             Page titles to retrieve links.
-     * @param   string      $tltemplates             Page titles to retrieve links.
-     * @param   string      $tldir             Page titles to retrieve links.
+     * @param   array       $tlnamespace        Show templates in this namespace(s) only.
+     * @param   integer     $tllimit            How many templates to return.
+     * @param   boolean     $tlcontinue         When more results are available, use this to continue.
+     * @param   string      $tltemplates        Only list these templates.
+     * @param   string      $tldir              The direction in which to list.
      *
      * @return  object
      *
@@ -240,7 +240,7 @@ class JMediawikiPages extends JMediawikiObject
      *
      * @since   12.1
      */
-    public function getBackLinks()
+    public function getBackLinks($bltitle, $blpageid = null, $blcontinue = null, array $blnamespace, $blfilterredirect = null, $bllimit = null, $blredirect = null)
     {
 
     }
