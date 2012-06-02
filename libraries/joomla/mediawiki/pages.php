@@ -170,7 +170,7 @@ class JMediawikiPages extends JMediawikiObject
      */
     public function getRevisions()
     {
-
+        // TODO hold this at the moment. too many parameters
     }
 
     /**
