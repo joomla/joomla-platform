@@ -131,13 +131,34 @@ class JMediawikiPages extends JMediawikiObject
     /**
      * Method to get various properties defined in the page content.
      *
+     * @param   array       $titles             Page titles to retrieve properties.
+     * @param   boolean     $ppcontinue         When more results are available, use this to continue.
+     * @param   string      $ppprop             Page prop to look on the page for.
+     *
      * @return  object
      *
      * @since   12.1
      */
-    public function getPageProperties()
+    public function getPageProperties(array $titles, $ppcontinue = null, $ppprop = null)
     {
+        // build the request
+        $path = '?action=query&prop=pageprops';
 
+        // append titles to the request
+        $path .= '&titles=' . $this->buildParameter($titles);
+
+        if ($ppcontinue) {
+            $path .= '&ppcontinue=';
+        }
+
+        if (isset($ppprop)) {
+            $path .= '&ppprop=' . $ppprop;
+        }
+
+        // Send the request.
+        $response = $this->client->get($this->fetchUrl($path));
+
+        return $this->validateResponse($response);
     }
 
     /**
