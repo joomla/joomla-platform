@@ -167,13 +167,49 @@ class JMediawikiPages extends JMediawikiObject
     /**
      * Method to get all page templates from the given page.
      *
+     * @param   array       $titles             Page titles to retrieve templates.
+     * @param   array       $tlnamespace             Page titles to retrieve links.
+     * @param   integer     $tllimit             Page titles to retrieve links.
+     * @param   boolean     $tlcontinue             Page titles to retrieve links.
+     * @param   string      $tltemplates             Page titles to retrieve links.
+     * @param   string      $tldir             Page titles to retrieve links.
+     *
      * @return  object
      *
      * @since   12.1
      */
-    public function getPageTemplates()
+    public function getPageTemplates(array $titles, array $tlnamespace = null, $tllimit = null, $tlcontinue = null, $tltemplates = null, $tldir = null)
     {
+        // build the request
+        $path = '?action=query&prop=templates';
 
+        // append titles to the request
+        $path .= '&titles=' . $this->buildParameter($titles);
+
+        if (isset($tlnamespace)) {
+            $path .= '&tlnamespace=' . $this->buildParameter($tlnamespace);
+        }
+
+        if (isset($tllimit)) {
+            $path .= '&tllimit=' . $tllimit;
+        }
+
+        if ($tlcontinue) {
+            $path .= '&tlcontinue=';
+        }
+
+        if (isset($tltemplates)) {
+            $path .= '&tltemplates=' . $tltemplates;
+        }
+
+        if (isset($tldir)) {
+            $path .= '&tldir=' . $tldir;
+        }
+
+        // Send the request.
+        $response = $this->client->get($this->fetchUrl($path));
+
+        return $this->validateResponse($response);
     }
 
     /**
