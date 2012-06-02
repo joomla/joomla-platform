@@ -496,7 +496,7 @@ class JAccess
 		else
 		{
 			// Else return the actions from the xml.
-			return self::getActionsFromData(JFactory::getXML($file, true), $xpath);
+			return self::getActionsFromData(JFactory::getXML($file, true, false), $xpath);
 		}
 	}
 
@@ -521,7 +521,7 @@ class JAccess
 		// Attempt to load the XML if a string.
 		if (is_string($data))
 		{
-			$data = JFactory::getXML($data, false);
+			$data = JFactory::getXML($data, false, false);
 
 			// Make sure the XML loaded correctly.
 			if (!$data)

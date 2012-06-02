@@ -181,7 +181,7 @@ class JHelp
 
 		if (!empty($pathToXml))
 		{
-			$xml = JFactory::getXML($pathToXml);
+			$xml = JFactory::getXML($pathToXml, true, false);
 		}
 
 		if (!$xml)
