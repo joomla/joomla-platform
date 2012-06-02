@@ -236,13 +236,55 @@ class JMediawikiPages extends JMediawikiObject
     /**
      * Method to get all pages that link to the given page.
      *
+     * @param   string      $bltitle                Title to search.
+     * @param   integer     $blpageid               Pageid to search.
+     * @param   boolean     $blcontinue             When more results are available, use this to continue.
+     * @param   array       $blnamespace            The namespace to enumerate.
+     * @param   string      $blfilterredirect       How to filter for redirects..
+     * @param   integer     $bllimit                How many total pages to return.
+     * @param   boolean     $blredirect             If linking page is a redirect, find all pages that link to that redirect as well.
+     *
      * @return  object
      *
      * @since   12.1
      */
     public function getBackLinks($bltitle, $blpageid = null, $blcontinue = null, array $blnamespace, $blfilterredirect = null, $bllimit = null, $blredirect = null)
     {
+        // build the request
+        $path = '?action=query&list=backlinks';
 
+        if (isset($bltitle)) {
+            $path .= '&bltitle=' . $bltitle;
+        }
+
+        if (isset($blpageid)) {
+            $path .= '&blpageid=' . $blpageid;
+        }
+
+        if ($blcontinue) {
+            $path .= '&blcontinue=';
+        }
+
+        if (isset($blnamespace)) {
+            $path .= '&blnamespace=' . $this->buildParameter($blnamespace);
+        }
+
+        if (isset($blfilterredirect)) {
+            $path .= '&blfilterredirect=' . $blfilterredirect;
+        }
+
+        if (isset($bllimit)) {
+            $path .= '&bllimit=' . $bllimit;
+        }
+
+        if ($blredirect) {
+            $path .= '&blredirect=';
+        }
+
+        // Send the request.
+        $response = $this->client->get($this->fetchUrl($path));
+
+        return $this->validateResponse($response);
     }
 
     /**
