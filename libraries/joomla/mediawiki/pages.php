@@ -182,7 +182,7 @@ class JMediawikiPages extends JMediawikiObject
      */
     public function getDeletedRevisions()
     {
-
+        // @TODO hold to synce with getRevisions
     }
 
     /**
