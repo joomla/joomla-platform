@@ -424,6 +424,8 @@ class JEditor extends JObject
 	 *
 	 * @return  array
 	 *
+	 * @throws	InvalidArgumentException	If plugin required does not exists
+	 *   
 	 * @since   11.1
 	 */
 	public function getButtons($editor, $buttons = true)
@@ -451,6 +453,10 @@ class JEditor extends JObject
 			if (class_exists($className))
 			{
 				$plugin = new $className($this, (array) $plugin);
+			}
+			else
+			{
+				throw new InvalidArgumentException('Class does not exists: ' . $className);
 			}
 
 			// Try to authenticate
