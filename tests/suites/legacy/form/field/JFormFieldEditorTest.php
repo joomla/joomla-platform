@@ -7,32 +7,57 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_TESTS . '/suites/unit/joomla/form/inspectors.php';
-
 /**
- * Test class for JForm.
+ * Test class for JFormFieldEditor.
  *
- * @package		Joomla.UnitTest
+ * @package     Joomla.UnitTest
  * @subpackage  Form
+ * @since       11.1
  */
-class JFormFieldUserTest extends TestCase
+class JFormFieldEditorTest extends TestCaseDatabase
 {
 	/**
+	 * Sets up dependencies for the test.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	protected function setUp()
+	{
+		require_once JPATH_TESTS . '/suites/unit/joomla/form/inspectors.php';
+	}
+
+	/**
+	 * Gets the data set to be loaded into the database during setup
+	 *
+	 * @return  xml  dataset
+	 *
+	 * @since   12.1
+	 */
+	protected function getDataSet()
+	{
+		return $this->createXMLDataSet(__DIR__ . '/testfiles/JFormField.xml');
+	}
+
+	/**
 	 * Test the getInput method.
-	 * @covers JFormFieldUser::getInput()
-	 * @covers JFormFieldUser::<!public>
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function testGetInput()
 	{
 		$form = new JFormInspector('form1');
 
 		$this->assertThat(
-			$form->load('<form><field name="user" type="user" /></form>'),
+			$form->load('<form><field name="editor" type="editor" /></form>'),
 			$this->isTrue(),
 			'Line:'.__LINE__.' XML string should load successfully.'
 		);
 
-		$field = new JFormFieldUser($form);
+		$field = new JFormFieldEditor($form);
 
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),
@@ -40,7 +65,7 @@ class JFormFieldUserTest extends TestCase
 			'Line:'.__LINE__.' The setup method should return true.'
 		);
 
-		$this->markTestIncomplete('Incomplete test');
+		$this->markTestIncomplete('Problems encountered in next assertion');
 
 		$this->assertThat(
 			strlen($field->input),
