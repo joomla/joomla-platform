@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @since       12.1
+ * @since       12.2
  */
 abstract class JFilesystemAccessorFormatted
 {
@@ -30,20 +30,11 @@ abstract class JFilesystemAccessorFormatted
 	 *
 	 * @link    http://php.net/manual/en/function.fscanf.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function read(JFilesystemElementFile $file, $format)
 	{
-		$v = fscanf($file->handle, $format);
-		if (!is_array($v))
-		{
-			$file->valid = false;
-			return false;
-		}
-		else
-		{
-			return $v;
-		}
+		return fscanf($file->handle, $format);
 	}
 
 	/**
@@ -56,7 +47,7 @@ abstract class JFilesystemAccessorFormatted
 	 *
 	 * @link    http://php.net/manual/en/function.fwrite.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function write(JFilesystemElementFile $file, $format)
 	{

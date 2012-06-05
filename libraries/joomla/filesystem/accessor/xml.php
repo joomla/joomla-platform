@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @since       12.1
+ * @since       12.2
  */
 abstract class JFilesystemAccessorXml
 {
@@ -33,7 +33,7 @@ abstract class JFilesystemAccessorXml
 	 *
 	 * @link    http://php.net/manual/en/function.simplexml-load-file.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function pull(JFilesystemElementFile $file, $class_name = 'SimpleXMLElement', $options = 0, $ns = '', $is_prefix = false)
 	{
@@ -51,7 +51,7 @@ abstract class JFilesystemAccessorXml
 	 * @link    http://php.net/manual/en/function.file-put-contents.php
 	 * @link    http://php.net/manual/en/simplexmlelement.asxml.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function push(JFilesystemElementFile $file, SimpleXMLElement $xml)
 	{

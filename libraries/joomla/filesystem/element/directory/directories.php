@@ -16,35 +16,35 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @since       12.1
+ * @since       12.2
  */
 class JFilesystemElementDirectoryDirectories extends RecursiveFilterIterator
 {
 	/**
 	 * @var  string  regex filter
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	private $_filter;
 
 	/**
 	 * @var  string  regex exclude filter
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	private $_exclude;
 
 	/**
 	 * @var  function  function accepting a directory
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	private $_accept = null;
 
 	/**
 	 * @var  array  Array of options
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	private $_options;
 
@@ -53,7 +53,7 @@ class JFilesystemElementDirectoryDirectories extends RecursiveFilterIterator
 	 *
 	 * @return  bool  TRUE on success, FALSE on failure
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function accept()
 	{
@@ -76,7 +76,7 @@ class JFilesystemElementDirectoryDirectories extends RecursiveFilterIterator
 	 *
 	 * @return  JFilesystemElementDirectoryDirectories  new iterator
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function getChildren()
 	{
@@ -88,7 +88,7 @@ class JFilesystemElementDirectoryDirectories extends RecursiveFilterIterator
 	 *
 	 * @return  JFilesystemElementDirectory  Directory object
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function current()
 	{
@@ -101,7 +101,7 @@ class JFilesystemElementDirectoryDirectories extends RecursiveFilterIterator
 	 * @param   JFilesystemElementDirectoryContents  $iterator  Directory iterator
 	 * @param   array                                $options   Array of options
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function __construct($iterator, array $options = array())
 	{

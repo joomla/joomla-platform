@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @since       12.1
+ * @since       12.2
  */
 abstract class JFilesystemAccessorCharacter
 {
@@ -29,20 +29,11 @@ abstract class JFilesystemAccessorCharacter
 	 *
 	 * @link    http://php.net/manual/en/function.fgetc.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function read(JFilesystemElementFile $file)
 	{
-		$return = fgetc($file->handle);
-		if ($return === false)
-		{
-			$file->valid = false;
-			return false;
-		}
-		else
-		{
-			return $return;
-		}
+		return fgetc($file->handle);
 	}
 
 	/**
@@ -55,7 +46,7 @@ abstract class JFilesystemAccessorCharacter
 	 *
 	 * @see     JFilesystemAccessorContents::write
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function write(JFilesystemElementFile $file, $character)
 	{

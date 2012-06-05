@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @since       12.1
+ * @since       12.2
  */
 abstract class JFilesystemAccessorSerializable
 {
@@ -31,7 +31,7 @@ abstract class JFilesystemAccessorSerializable
 	 *
 	 * @see     JFilesystemAccessorLine::read
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function read(JFilesystemElementFile $file)
 	{
@@ -58,7 +58,7 @@ abstract class JFilesystemAccessorSerializable
 	 *
 	 * @see     JFilesystemAccessorLine::write
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function write(JFilesystemElementFile $file, $serializable)
 	{
@@ -72,7 +72,7 @@ abstract class JFilesystemAccessorSerializable
 	 *
 	 * @return  array  The unserialized data
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function pull(JFilesystemElementFile $file)
 	{
@@ -80,7 +80,10 @@ abstract class JFilesystemAccessorSerializable
 		$file->open('r');
 		foreach ($file->iterateSerializable() as $unserialized)
 		{
-			$array[] = $unserialized;
+			if ($unserialized !== false)
+			{
+				$array[] = $unserialized;
+			}
 		}
 		$file->close();
 		return $array;
@@ -94,7 +97,7 @@ abstract class JFilesystemAccessorSerializable
 	 *
 	 * @return  int|FALSE  The number of bytes written, or FALSE on failure.
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function push(JFilesystemElementFile $file, $data)
 	{

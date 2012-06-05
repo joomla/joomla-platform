@@ -16,63 +16,63 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @since       12.1
+ * @since       12.2
  */
 class JFilesystemElementDirectoryContents implements RecursiveIterator
 {
 	/**
 	 * Iterate in depth first mode
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	const DEPTH_FIRST = -1;
 
 	/**
 	 * Iterate in breadth first mode
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	const BREADTH_FIRST = 1;
 
 	/**
 	 * @var  string  Original path
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	private $_path;
 
 	/**
 	 * @var  JFilesystem  File system
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	private $_system;
 
 	/**
 	 * @var  array  Array of options
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	private $_options;
 
 	/**
 	 * @var  array  Array of entries
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	private $_entries = array();
 
 	/**
 	 * @var  function  Compare function
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	private $_compare = null;
 
 	/**
 	 * @var  int  Either JFilesystemElementDirectoryContents::DEPTH_FIRST|BREADTH_FIRST
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	private $_mode = self::BREADTH_FIRST;
 
@@ -84,7 +84,7 @@ class JFilesystemElementDirectoryContents implements RecursiveIterator
 	 * @param   JFilesystem  $system    File system
 	 * @param   array        $options   Array of options
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function __construct($path, $relative, $system, array $options = array())
 	{
@@ -122,7 +122,7 @@ class JFilesystemElementDirectoryContents implements RecursiveIterator
 	 *
 	 * @return  int     Negative, 0 or positive
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	private function _compare($a, $b)
 	{
@@ -175,7 +175,7 @@ class JFilesystemElementDirectoryContents implements RecursiveIterator
 	 *
 	 * @throw   InvalidArgumentException
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function __get($property)
 	{
@@ -204,7 +204,7 @@ class JFilesystemElementDirectoryContents implements RecursiveIterator
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function rewind()
 	{
@@ -216,7 +216,7 @@ class JFilesystemElementDirectoryContents implements RecursiveIterator
 	 *
 	 * @return  string  Directory pathname
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function key()
 	{
@@ -228,7 +228,7 @@ class JFilesystemElementDirectoryContents implements RecursiveIterator
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function next()
 	{
@@ -240,7 +240,7 @@ class JFilesystemElementDirectoryContents implements RecursiveIterator
 	 *
 	 * @return  string  Directory name
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function current()
 	{
@@ -252,7 +252,7 @@ class JFilesystemElementDirectoryContents implements RecursiveIterator
 	 *
 	 * @return  bool  TRUE on success, or FALSE on failure
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function valid()
 	{
@@ -264,7 +264,7 @@ class JFilesystemElementDirectoryContents implements RecursiveIterator
 	 *
 	 * @return  bool  TRUE on success, or FALSE on failure
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function hasChildren()
 	{
@@ -276,7 +276,7 @@ class JFilesystemElementDirectoryContents implements RecursiveIterator
 	 *
 	 * @return  JFilesystemElementDirectoryContents  new iterator
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function getChildren()
 	{

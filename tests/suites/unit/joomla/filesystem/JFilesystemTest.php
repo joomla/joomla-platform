@@ -14,7 +14,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  FileSystem
  *
- * @since       12.1
+ * @since       12.2
  */
 class JFilesystemTest extends TestCase
 {
@@ -24,7 +24,7 @@ class JFilesystemTest extends TestCase
      *
      * @return  void
 	 *
-	 * @since       12.1
+	 * @since       12.2
      */
 	protected function setUp()
 	{
@@ -40,7 +40,7 @@ class JFilesystemTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since       12.1
+	 * @since       12.2
 	 */
 	protected function tearDown()
 	{
@@ -57,7 +57,7 @@ class JFilesystemTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function testGetInstance()
 	{
@@ -83,7 +83,7 @@ class JFilesystemTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function testGetFile()
 	{
@@ -119,7 +119,7 @@ class JFilesystemTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function testGetDirectory()
 	{
@@ -145,7 +145,7 @@ class JFilesystemTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function test__Get()
 	{

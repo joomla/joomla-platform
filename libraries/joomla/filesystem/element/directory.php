@@ -24,7 +24,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  FileSystem
- * @since       12.1
+ * @since       12.2
  */
 class JFilesystemElementDirectory extends JFilesystemElement
 {
@@ -40,7 +40,7 @@ class JFilesystemElementDirectory extends JFilesystemElement
 	 * @param   JFilesystem  $system     Element file system
 	 * @param   string       $signature  Signature
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function __construct($path, JFilesystem $system, $signature)
 	{
@@ -63,7 +63,7 @@ class JFilesystemElementDirectory extends JFilesystemElement
 	 *
 	 * @throw   Exception
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function __get($property)
 	{
@@ -91,7 +91,7 @@ class JFilesystemElementDirectory extends JFilesystemElement
 	 *
 	 * @throw   Exception
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function __call($method, $args)
 	{
@@ -134,7 +134,7 @@ class JFilesystemElementDirectory extends JFilesystemElement
 	 *
 	 * @link    http://php.net/manual/en/function.mkdir.php	 
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function create($permissions = null)
 	{
@@ -161,7 +161,7 @@ class JFilesystemElementDirectory extends JFilesystemElement
 	 *
 	 * @return  RecursiveIteratorIterator  Iterator on files.
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function items($type, $mode, array $options = array())
 	{
@@ -194,7 +194,7 @@ class JFilesystemElementDirectory extends JFilesystemElement
 	 * @link    http://php.net/manual/en/function.rmdir.php	 
 	 * @link    http://php.net/manual/en/function.unlink.php	 
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function delete()
 	{
@@ -228,7 +228,7 @@ class JFilesystemElementDirectory extends JFilesystemElement
 	 * @link    http://php.net/manual/en/function.fileperms.php
 	 * @link    http://php.net/manual/en/function.chmod.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function setPermissions($permissions)
 	{
@@ -302,7 +302,7 @@ class JFilesystemElementDirectory extends JFilesystemElement
 	 *
 	 * @return  int|FALSE  The number of bytes that were written to the file, or FALSE on failure.
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function copyFromFile(JFilesystemElementFile $src)
 	{
@@ -320,7 +320,7 @@ class JFilesystemElementDirectory extends JFilesystemElement
 	 *
 	 * @return  int|FALSE  The number of bytes that were written to the files, or FALSE on failure.
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function copy(JFilesystemElementDirectory $dest)
 	{

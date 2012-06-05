@@ -14,7 +14,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  FileSystem
  *
- * @since       12.1
+ * @since       12.2
  */
 class JFilesystemElementDirectoryPhpTest extends TestCaseFilesystemElementDirectory
 {
@@ -23,7 +23,7 @@ class JFilesystemElementDirectoryPhpTest extends TestCaseFilesystemElementDirect
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function test__Set_permissions()
 	{

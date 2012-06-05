@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @since       12.1
+ * @since       12.2
  */
 abstract class JFilesystemAccessorContents
 {
@@ -30,7 +30,7 @@ abstract class JFilesystemAccessorContents
 	 *
 	 * @link    http://php.net/manual/en/function.fread.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function read(JFilesystemElementFile $file, $length)
 	{
@@ -48,7 +48,7 @@ abstract class JFilesystemAccessorContents
 	 *
 	 * @link    http://php.net/manual/en/function.fwrite.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function write(JFilesystemElementFile $file, $data, $length = null)
 	{
@@ -73,7 +73,7 @@ abstract class JFilesystemAccessorContents
 	 *
 	 * @link    http://php.net/manual/en/function.file-get-contents.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function pull(JFilesystemElementFile $file, $offset = -1, $maxlen = null)
 	{
@@ -100,7 +100,7 @@ abstract class JFilesystemAccessorContents
 	 *
 	 * @link    http://php.net/manual/en/function.file-put-contents.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function push(JFilesystemElementFile $file, $data, $flags = 0)
 	{

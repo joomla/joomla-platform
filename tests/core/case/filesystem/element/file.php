@@ -44,7 +44,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 		);
 		$this->assertThat(
 			$file,
-			$this->identicalTo(JFilesystemElementFile::getInstance(static::$path . '\\..//filesystem/\\./test.txt', static::$system)),
+			$this->identicalTo(JFilesystemElementFile::getInstance(static::$path . '/filesystem/../test.txt', static::$system)),
 			'The object is not the same.'
 		);
 
@@ -877,11 +877,14 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 
 		foreach ($file->open('r')->iterateLine() as $i => $line)
 		{
-			$this->assertThat(
-				$line,
-				$this->equalTo($message),
-				'The line is not correct'
-			);
+			if ($line !== false)
+			{
+				$this->assertThat(
+					$line,
+					$this->equalTo($message . "\n"),
+					'The line is not correct'
+				);
+			}
 		}
 		$file->close();
 
@@ -906,12 +909,7 @@ abstract class TestCaseFilesystemElementFile extends TestCaseFilesystem
 		$file->open('r');
 		$this->assertThat(
 			iterator_to_array($file->iterateFormatted('%d %d')),
-			$this->equalTo(array(array(1, 2), array(3, 4), array(5, null))),
-			'The lines are not correct'
-		);
-		$this->assertThat(
-			iterator_to_array($file->iterateLine()),
-			$this->equalTo(array('last line')),
+			$this->equalTo(array(array(1, 2), array(3, 4), array(5, null), null, array(null, null))),
 			'The lines are not correct'
 		);
 		$file->close();

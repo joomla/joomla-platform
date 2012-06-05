@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @since       12.1
+ * @since       12.2
  */
 abstract class JFilesystemAccessorLine
 {
@@ -30,7 +30,7 @@ abstract class JFilesystemAccessorLine
 	 *
 	 * @link    http://php.net/manual/en/function.fgets.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function read(JFilesystemElementFile $file, $length = null)
 	{
@@ -42,23 +42,7 @@ abstract class JFilesystemAccessorLine
 		{
 			$return = fgets($file->handle, $length);
 		}
-
-		if ($return === false)
-		{
-			$file->valid = false;
-			return false;
-		}
-		else
-		{
-			if ($return[strlen($return) - 1] == "\n")
-			{
-				return substr($return, 0, strlen($return) - 1);
-			}
-			else
-			{
-				return $return;
-			}
-		}
+		return $return;
 	}
 
 	/**
@@ -72,7 +56,7 @@ abstract class JFilesystemAccessorLine
 	 *
 	 * @see     JFilesystemAccessorContents::write
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function write(JFilesystemElementFile $file, $data, $length = null)
 	{
@@ -94,7 +78,7 @@ abstract class JFilesystemAccessorLine
 	 *
 	 * @return  array|FALSE  The lines, or FALSE on failure.
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function pull(JFilesystemElementFile $file, $length = null)
 	{
@@ -127,7 +111,7 @@ abstract class JFilesystemAccessorLine
 	 *
 	 * @return  int|FALSE  The number of bytes written, or FALSE on failure.
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function push(JFilesystemElementFile $file, $data, $length = null)
 	{

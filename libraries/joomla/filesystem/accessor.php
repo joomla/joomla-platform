@@ -16,42 +16,42 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @since       12.1
+ * @since       12.2
  */
 abstract class JFilesystemAccessor
 {
 	/**
 	 * @var  array  Array of readers
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected static $readers = array();
 
 	/**
 	 * @var  array  Array of writers
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected static $writers = array();
 
 	/**
 	 * @var  array  Array of pullers
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected static $pullers = array();
 
 	/**
 	 * @var  array  Array of pushers
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected static $pushers = array();
 
 	/**
 	 * @var  array  Array of accessors
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected static $accessors = array();
 
@@ -63,7 +63,7 @@ abstract class JFilesystemAccessor
 	 *
 	 * @return  mixed  The data read.
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function read($name, $args)
 	{
@@ -78,7 +78,7 @@ abstract class JFilesystemAccessor
 	 *
 	 * @return  int|FALSE  The number of bytes written, or FALSE on failure.
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function write($name, $args)
 	{
@@ -93,7 +93,7 @@ abstract class JFilesystemAccessor
 	 *
 	 * @return  mixed  The data read.
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function pull($name, $args)
 	{
@@ -108,7 +108,7 @@ abstract class JFilesystemAccessor
 	 *
 	 * @return  int|FALSE  The number of bytes written, or FALSE on failure.
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function push($name, $args)
 	{
@@ -124,7 +124,7 @@ abstract class JFilesystemAccessor
 	 *
 	 * @return  mixed
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected static function call($type, $name, $args)
 	{
@@ -191,7 +191,7 @@ abstract class JFilesystemAccessor
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function registerAccessor($name, $className)
 	{
@@ -206,7 +206,7 @@ abstract class JFilesystemAccessor
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function registerReader($name, $function)
 	{
@@ -221,7 +221,7 @@ abstract class JFilesystemAccessor
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function registerWriter($name, $function)
 	{
@@ -236,7 +236,7 @@ abstract class JFilesystemAccessor
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function registerPuller($name, $function)
 	{
@@ -251,7 +251,7 @@ abstract class JFilesystemAccessor
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function registerPusher($name, $function)
 	{
@@ -265,7 +265,7 @@ abstract class JFilesystemAccessor
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function unregisterAccessor($name)
 	{
@@ -279,7 +279,7 @@ abstract class JFilesystemAccessor
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function unregisterReader($name)
 	{
@@ -293,7 +293,7 @@ abstract class JFilesystemAccessor
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function unregisterWriter($name)
 	{
@@ -307,7 +307,7 @@ abstract class JFilesystemAccessor
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function unregisterPuller($name)
 	{
@@ -321,7 +321,7 @@ abstract class JFilesystemAccessor
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function unregisterPusher($name)
 	{
@@ -335,7 +335,7 @@ abstract class JFilesystemAccessor
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function isAccessor($name)
 	{
@@ -349,7 +349,7 @@ abstract class JFilesystemAccessor
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function isReader($name)
 	{
@@ -363,7 +363,7 @@ abstract class JFilesystemAccessor
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function isWriter($name)
 	{
@@ -377,7 +377,7 @@ abstract class JFilesystemAccessor
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function isPuller($name)
 	{
@@ -391,7 +391,7 @@ abstract class JFilesystemAccessor
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function isPusher($name)
 	{
@@ -405,7 +405,7 @@ abstract class JFilesystemAccessor
 	 *
 	 * @return  string  Class registered
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function getAccessor($name)
 	{
@@ -419,7 +419,7 @@ abstract class JFilesystemAccessor
 	 *
 	 * @return  callable  The function registered
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function getReader($name)
 	{
@@ -433,7 +433,7 @@ abstract class JFilesystemAccessor
 	 *
 	 * @return  callable  The function registered
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function getWriter($name)
 	{
@@ -447,7 +447,7 @@ abstract class JFilesystemAccessor
 	 *
 	 * @return  callable  The function registered
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function getPuller($name)
 	{
@@ -461,7 +461,7 @@ abstract class JFilesystemAccessor
 	 *
 	 * @return  callable  The function registered
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function getPusher($name)
 	{
@@ -475,7 +475,7 @@ abstract class JFilesystemAccessor
 	 *
 	 * @return  array  array($prefix, $suffix).
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected static function extract($name)
 	{

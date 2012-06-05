@@ -14,7 +14,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  FileSystem
  *
- * @since       12.1
+ * @since       12.2
  */
 class JFilesystemAccessorContentsPhpTest extends TestCaseFilesystemAccessorContents
 {
@@ -23,7 +23,7 @@ class JFilesystemAccessorContentsPhpTest extends TestCaseFilesystemAccessorConte
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function testPull()
 	{

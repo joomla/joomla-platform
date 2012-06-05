@@ -49,15 +49,10 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @since       12.1
+ * @since       12.2
  */
 class JFilesystemElementFile extends JFilesystemElement
 {
-	/**
-	 * @var  bool  Used by iterators on file
-	 */
-	public $valid = true;
-
 	/**
 	 * @var  resource|null  The file handler or null if it not opened
 	 */
@@ -80,7 +75,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	 * @param   JFilesystem  $system     Element file system
 	 * @param   string       $signature  Signature
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function __construct($path, JFilesystem $system, $signature)
 	{
@@ -97,7 +92,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	/**
 	 * Destructor
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function __destruct()
 	{
@@ -118,7 +113,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	 *
 	 * @throw   Exception
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function __get($property)
 	{
@@ -158,7 +153,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	 *
 	 * @throw   Exception
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function __set($property, $value)
 	{
@@ -189,7 +184,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	 *
 	 * @throw   Exception
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function __call($method, $args)
 	{
@@ -199,6 +194,7 @@ class JFilesystemElementFile extends JFilesystemElement
 			case 'close':
 			case 'flush':
 			case 'truncate':
+			case 'lock':
 			case 'copy':
 			case 'copyFromFile':
 			case 'delete':
@@ -240,7 +236,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	 *
 	 * @throw   RuntimeException
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function getInstance($path, JFilesystem $system = null, $mode = null, $use_include_path = false)
 	{
@@ -255,7 +251,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	 *
 	 * @return  JFilesystemElementFile  $this for chaining
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function initialise($mode = null, $use_include_path = false)
 	{
@@ -273,7 +269,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	 * @link    http://php.net/manual/en/function.fopen.php
 	 * @link    http://php.net/manual/en/function.fclose.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function open($mode)
 	{
@@ -307,7 +303,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	 *
 	 * @link    http://php.net/manual/en/function.fclose.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function close()
 	{
@@ -324,7 +320,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	 *
 	 * @link    http://php.net/manual/en/function.fflush.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function flush()
 	{
@@ -341,7 +337,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	 *
 	 * @see    JFilesystemAccessor::read
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function read($name, $args)
 	{
@@ -358,7 +354,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	 *
 	 * @see    JFilesystemAccessor::write
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function write($name, $args)
 	{
@@ -375,7 +371,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	 *
 	 * @see    JFilesystemAccessor::pull
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function pull($name, $args)
 	{
@@ -392,7 +388,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	 *
 	 * @see    JFilesystemAccessor::push
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function push($name, $args)
 	{
@@ -407,7 +403,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	 *
 	 * @return  JFilesystemElementFileIterator
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function iterate($name, $args)
 	{
@@ -423,11 +419,32 @@ class JFilesystemElementFile extends JFilesystemElement
 	 *
 	 * @link    http://php.net/manual/en/function.ftruncate.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function truncate($size)
 	{
 		return ftruncate($this->_handle, $size);
+	}
+
+	/**
+	 * Locks the file
+	 *
+	 * @param   int  $operation    Either
+	 *                             LOCK_SH to to acquire a shared lock (reader),
+	 *                             LOCK_EX to acquire an exclusive lock (writer) or
+	 *                             LOCK_UN to release a lock (shared or exclusive). 
+	 * @param   int  &$wouldblock  The optional third argument is set to TRUE if the lock would block (EWOULDBLOCK errno condition).
+	 *                             (not supported on Windows)
+	 *
+	 * @return  bool  TRUE on success, or FALSE on failure.
+	 *
+	 * @link    http://php.net/manual/en/function.flock.php
+	 *
+	 * @since   12.2
+	 */
+	protected function lock($operation, &$wouldblock = true)
+	{
+		return flock($this->_handle, $operation, $wouldblock);
 	}
 
 	/**
@@ -437,7 +454,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	 *
 	 * @link    http://php.net/manual/en/function.feof.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function getEof()
 	{
@@ -451,7 +468,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	 *
 	 * @link    http://php.net/manual/en/function.ftell.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function getPosition()
 	{
@@ -467,7 +484,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	 *
 	 * @link    http://php.net/manual/en/function.fseek.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function setPosition($offset)
 	{
@@ -508,7 +525,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	 *
 	 * @return  int|FALSE  The number of bytes that were written to the file, or FALSE on failure.
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function copy(JFilesystemElement $dest)
 	{
@@ -524,7 +541,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	 *
 	 * @link    http://php.net/manual/en/function.stream-copy-to-stream.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function copyFromFile(JFilesystemElementFile $src)
 	{
@@ -543,7 +560,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	 *
 	 * @link    http://php.net/manual/en/function.delete.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function delete()
 	{
@@ -559,7 +576,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	 *
 	 * @link    http://php.net/manual/en/function.touch.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function create()
 	{
@@ -582,7 +599,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	 *
 	 * @link    http://.php.net/manual/en/function.stream-filter-prepend.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function prependFilter($filtername, $read_write = 0, $params = null)
 	{
@@ -601,7 +618,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	 *
 	 * @link    http://.php.net/manual/en/function.stream-filter-append.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function appendFilter($filtername, $read_write = 0, $params = null)
 	{
@@ -618,7 +635,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	 *
 	 * @link    http://.php.net/manual/en/function.stream-filter-remove.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function removeFilter($stream_filter)
 	{

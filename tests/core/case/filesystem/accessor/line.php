@@ -97,7 +97,7 @@ abstract class TestCaseFilesystemAccessorLine extends TestCaseFilesystem
 
 		$this->assertThat(
 			JFilesystemAccessorLine::pull($file),
-			$this->equalTo(array('Hello world!', 'Welcome to Joomla!')),
+			$this->equalTo(array('Hello world!' . "\n", 'Welcome to Joomla!' . "\n")),
 			'The content is not correct'
 		);
 	}

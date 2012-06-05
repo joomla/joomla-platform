@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @since       12.1
+ * @since       12.2
  */
 class JFilesystemElementFileIterator implements Iterator
 {
@@ -41,7 +41,7 @@ class JFilesystemElementFileIterator implements Iterator
 	 * @param   string  $name  The accessor name.
 	 * @param   array   $args  The file system.
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function __construct($name, array $args)
 	{
@@ -54,11 +54,11 @@ class JFilesystemElementFileIterator implements Iterator
 	 *
 	 * @return  mixed  The current data
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function current()
 	{
-		return $this->_current;
+		return JFilesystemAccessor::read($this->_name, $this->_args);
 	}
 
 	/**
@@ -66,7 +66,7 @@ class JFilesystemElementFileIterator implements Iterator
 	 *
 	 * @return  int  The current key
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function key()
 	{
@@ -78,11 +78,10 @@ class JFilesystemElementFileIterator implements Iterator
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function next()
 	{
-		$this->_current = JFilesystemAccessor::read($this->_name, $this->_args);
 	}
 
 	/**
@@ -90,12 +89,10 @@ class JFilesystemElementFileIterator implements Iterator
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function rewind()
 	{
-		$this->_args[0]->valid = true;
-		$this->next();
 	}
 
 	/**
@@ -103,10 +100,10 @@ class JFilesystemElementFileIterator implements Iterator
 	 *
 	 * @return  bool  Tells if the current position is valid
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function valid()
 	{
-		return $this->_args[0]->valid;
+		return !$this->_args[0]->eof;
 	}
 }

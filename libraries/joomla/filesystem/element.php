@@ -41,42 +41,42 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @since       12.1
+ * @since       12.2
  */
 abstract class JFilesystemElement
 {
 	/**
 	 * @var  array  Array of instances
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected static $instances = array();
 
 	/**
 	 * @var  string  Element signature
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	private $_signature;
 
 	/**
 	 * @var  string  Element path
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	private $_path;
 
 	/**
 	 * @var  string  Element full path
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	private $_fullpath;
 
 	/**
 	 * @var  JFilesystem  Element file system
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	private $_system;
 
@@ -103,7 +103,7 @@ abstract class JFilesystemElement
 	 * @param   JFilesystem  $system     Element file system
 	 * @param   string       $signature  Signature
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function __construct($path, $fullpath, JFilesystem $system, $signature)
 	{
@@ -122,7 +122,7 @@ abstract class JFilesystemElement
 	 *
 	 * @throw   Exception
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function __get($property)
 	{
@@ -175,7 +175,7 @@ abstract class JFilesystemElement
 	 *
 	 * @link    http://php.net/manual/en/function.clearstatcache.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function __set($property, $value)
 	{
@@ -210,7 +210,7 @@ abstract class JFilesystemElement
 	 *
 	 * @throw   Exception
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function __call($method, $args)
 	{
@@ -222,7 +222,7 @@ abstract class JFilesystemElement
 	 *
 	 * @return  string  Return full path
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function __toString()
 	{
@@ -239,7 +239,7 @@ abstract class JFilesystemElement
 	 *
 	 * @throw   Exception
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function callHandleError($method, array $args = array())
 	{
@@ -301,7 +301,7 @@ abstract class JFilesystemElement
 	 *
 	 * @throw   RuntimeException
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function getInstance($path, JFilesystem $system = null)
 	{
@@ -337,7 +337,7 @@ abstract class JFilesystemElement
 	 *
 	 * @link    http://php.net/manual/en/function.basename.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function getName()
 	{
@@ -351,7 +351,7 @@ abstract class JFilesystemElement
 	 *
 	 * @link    http://php.net/manual/en/function.basename.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function getBasename()
 	{
@@ -373,7 +373,7 @@ abstract class JFilesystemElement
 	 *
 	 * @link    http://php.net/manual/en/function.dirname.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function getDirpath()
 	{
@@ -387,7 +387,7 @@ abstract class JFilesystemElement
 	 *
 	 * @link    http://php.net/manual/en/function.pathinfo.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function getExtension()
 	{
@@ -401,7 +401,7 @@ abstract class JFilesystemElement
 	 *
 	 * @link    http://php.net/manual/en/function.realpath.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function getRealpath()
 	{
@@ -415,7 +415,7 @@ abstract class JFilesystemElement
 	 *
 	 * @link    http://php.net/manual/en/function.file-exists.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function getExists()
 	{
@@ -429,7 +429,7 @@ abstract class JFilesystemElement
 	 *
 	 * @link    http://php.net/manual/en/function.fileatime.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function getAccessTime()
 	{
@@ -443,7 +443,7 @@ abstract class JFilesystemElement
 	 *
 	 * @link    http://php.net/manual/en/function.filectime.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function getChangeTime()
 	{
@@ -457,7 +457,7 @@ abstract class JFilesystemElement
 	 *
 	 * @link    http://php.net/manual/en/function.filemtime.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function getModificationTime()
 	{
@@ -471,7 +471,7 @@ abstract class JFilesystemElement
 	 *
 	 * @link    http://php.net/manual/en/function.filegroup.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function getGroup()
 	{
@@ -485,7 +485,7 @@ abstract class JFilesystemElement
 	 *
 	 * @link    http://php.net/manual/en/function.fileowner.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function getOwner()
 	{
@@ -499,7 +499,7 @@ abstract class JFilesystemElement
 	 *
 	 * @link    http://php.net/manual/en/function.fileperms.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function getPermissions()
 	{
@@ -524,7 +524,7 @@ abstract class JFilesystemElement
 	 *
 	 * @link    http://php.net/manual/en/function.filesize.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function getSize()
 	{
@@ -538,7 +538,7 @@ abstract class JFilesystemElement
 	 *
 	 * @link    http://php.net/manual/en/function.is-dir.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function getIsDir()
 	{
@@ -552,7 +552,7 @@ abstract class JFilesystemElement
 	 *
 	 * @link    http://php.net/manual/en/function.is-file.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function getIsFile()
 	{
@@ -566,7 +566,7 @@ abstract class JFilesystemElement
 	 *
 	 * @link    http://php.net/manual/en/function.is-link.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function getIsLink()
 	{
@@ -580,7 +580,7 @@ abstract class JFilesystemElement
 	 *
 	 * @link    http://php.net/manual/en/function.is-readable.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function getIsReadable()
 	{
@@ -594,7 +594,7 @@ abstract class JFilesystemElement
 	 *
 	 * @link    http://php.net/manual/en/function.is-writable.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function getIsWritable()
 	{
@@ -608,7 +608,7 @@ abstract class JFilesystemElement
 	 *
 	 * @link    http://php.net/manual/en/function.readlink.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function getLink()
 	{
@@ -625,7 +625,7 @@ abstract class JFilesystemElement
 	 * @link    http://php.net/manual/en/function.filegroup.php
 	 * @link    http://php.net/manual/en/function.chgrp.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function setGroup($group)
 	{
@@ -663,7 +663,7 @@ abstract class JFilesystemElement
 	 * @link    http://php.net/manual/en/function.fileowner.php
 	 * @link    http://php.net/manual/en/function.chown.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function setOwner($owner)
 	{
@@ -701,7 +701,7 @@ abstract class JFilesystemElement
 	 * @link    http://php.net/manual/en/function.fileperms.php
 	 * @link    http://php.net/manual/en/function.chmod.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function setPermissions($permissions)
 	{
@@ -718,7 +718,7 @@ abstract class JFilesystemElement
 	 * @link    http://php.net/manual/en/function.fileperms.php
 	 * @link    http://php.net/manual/en/function.chmod.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function affectPermissions($permissions)
 	{
@@ -758,7 +758,7 @@ abstract class JFilesystemElement
 	 *
 	 * @return  int  The new permissions
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected static function newPermissions($permissions, $operation)
 	{
@@ -852,7 +852,7 @@ abstract class JFilesystemElement
 	 *
 	 * @link    http://php.net/manual/en/function.symlink.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function setLink($link)
 	{
@@ -866,7 +866,7 @@ abstract class JFilesystemElement
 	 *
 	 * @return  bool  TRUE on success, or FALSE on failure.
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function setPath($path)
 	{
@@ -897,7 +897,7 @@ abstract class JFilesystemElement
 	 *
 	 * @return  bool  TRUE on success, or FALSE on failure.
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function setDirpath($dirpath)
 	{
@@ -911,7 +911,7 @@ abstract class JFilesystemElement
 	 *
 	 * @return  bool  TRUE on success, or FALSE on failure.
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function setName($name)
 	{
@@ -925,7 +925,7 @@ abstract class JFilesystemElement
 	 *
 	 * @return  bool  TRUE on success, or FALSE on failure.
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function setBasename($basename)
 	{
@@ -947,7 +947,7 @@ abstract class JFilesystemElement
 	 *
 	 * @return  bool  TRUE on success, or FALSE on failure.
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function setExtension($extension)
 	{
@@ -968,7 +968,7 @@ abstract class JFilesystemElement
 	 *
 	 * @return  void.
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected static function cleanpath($path)
 	{

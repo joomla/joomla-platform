@@ -19,28 +19,28 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @since       12.1
+ * @since       12.2
  */
 class JFilesystem
 {
 	/**
 	 * @var  array  Array of instances
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected static $instances = array();
 
 	/**
 	 * @var  string  $prefix  The file system prefix.
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	private $_prefix;
 
 	/**
 	 * @var  resource  $context  The stream context.
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	private $_context;
 
@@ -53,7 +53,7 @@ class JFilesystem
 	 *
 	 * @link    http://fr.php.net/manual/en/function.stream-context-create.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	protected function __construct($prefix,  $options,  $params)
 	{
@@ -85,7 +85,7 @@ class JFilesystem
 	 *
 	 * @throw   InvalidArgumentException
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function __get($property)
 	{
@@ -124,7 +124,7 @@ class JFilesystem
 	 *
 	 * @return  JFilesystem  The file system instance.
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function getInstance($prefix = '', array $options = array(), array $params = array())
 	{
@@ -165,7 +165,7 @@ class JFilesystem
 	 *
 	 * @see     JFilesystemElement::getInstance
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function getFile($path, $mode = null, $use_include_path = false)
 	{
@@ -188,7 +188,7 @@ class JFilesystem
 	 *
 	 * @see     JFilesystemElement::getInstance
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function getDirectory($path)
 	{

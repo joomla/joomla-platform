@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @since       12.1
+ * @since       12.2
  */
 abstract class JFilesystemAccessorIni
 {
@@ -32,7 +32,7 @@ abstract class JFilesystemAccessorIni
 	 *
 	 * @link    http://php.net/manual/en/function.parse-ini-file.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function pull(JFilesystemElementFile $file, $process_sections = false, $scanner_mode = INI_SCANNER_NORMAL)
 	{
@@ -49,7 +49,7 @@ abstract class JFilesystemAccessorIni
 	 *
 	 * @see     JFilesystemElementAccessorLine::write
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function push(JFilesystemElementFile $file, $ini)
 	{
@@ -112,7 +112,7 @@ abstract class JFilesystemAccessorIni
 	 *
 	 * @see     JFilesystemElementAccessorLine::write
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function writeEntry(JFilesystemElementFile $file, $key, $value)
 	{

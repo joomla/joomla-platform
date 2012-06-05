@@ -14,7 +14,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  FileSystem
  *
- * @since       12.1
+ * @since       12.2
  */
 class JFilesystemElementFilePhpTest extends TestCaseFilesystemElementFile
 {
@@ -23,7 +23,7 @@ class JFilesystemElementFilePhpTest extends TestCaseFilesystemElementFile
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function testGetInstance()
 	{
@@ -41,7 +41,7 @@ class JFilesystemElementFilePhpTest extends TestCaseFilesystemElementFile
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function test__Set_permissions()
 	{
@@ -119,7 +119,7 @@ class JFilesystemElementFilePhpTest extends TestCaseFilesystemElementFile
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function test__Get_realpath()
 	{
@@ -137,7 +137,7 @@ class JFilesystemElementFilePhpTest extends TestCaseFilesystemElementFile
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function test__Get_is_writable()
 	{
@@ -155,7 +155,7 @@ class JFilesystemElementFilePhpTest extends TestCaseFilesystemElementFile
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function test__Get_position()
 	{
@@ -184,7 +184,7 @@ class JFilesystemElementFilePhpTest extends TestCaseFilesystemElementFile
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function test__Get_link()
 	{
@@ -202,7 +202,7 @@ class JFilesystemElementFilePhpTest extends TestCaseFilesystemElementFile
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function test__Set_owner()
 	{
@@ -216,7 +216,7 @@ class JFilesystemElementFilePhpTest extends TestCaseFilesystemElementFile
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function test__Set_group()
 	{
@@ -230,7 +230,7 @@ class JFilesystemElementFilePhpTest extends TestCaseFilesystemElementFile
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function test__Set_position()
 	{
@@ -321,7 +321,7 @@ class JFilesystemElementFilePhpTest extends TestCaseFilesystemElementFile
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function test__Set_link()
 	{
@@ -339,7 +339,7 @@ class JFilesystemElementFilePhpTest extends TestCaseFilesystemElementFile
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function test__Call_truncate()
 	{
@@ -365,7 +365,30 @@ class JFilesystemElementFilePhpTest extends TestCaseFilesystemElementFile
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
+	 */
+	public function test__Call_lock()
+	{
+		$file = JFilesystemElementFile::getInstance(static::$path . '/test.txt', static::$system);
+		$file->contents = 'Hello world';
+
+		$file->open('r');
+
+		$this->assertThat(
+			$file->lock(LOCK_SH),
+			$this->equalTo(true),
+			'The lock is not correct.'
+		);
+
+		$file->close();
+	}
+
+	/**
+	 * Test JFilesystemElementFile::__call
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
 	 */
 	public function test__Call_filters()
 	{

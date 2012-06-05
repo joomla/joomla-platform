@@ -42,7 +42,7 @@ abstract class TestCaseFilesystem extends TestCase
 		{
 			$this->markTestSkipped('There is no file system.');
 		}
-		
+
 		// Create a temporary directory
 		JFilesystemElementDirectory::getInstance(static::$path, static::$system)->create();
 

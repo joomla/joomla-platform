@@ -13,6 +13,9 @@
 		<testsuite name="Database">
 			<directory>tests/suites/database</directory>
 		</testsuite>
+		<testsuite name="Filesystem">
+			<directory>tests/suites/filesystem</directory>
+		</testsuite>
 		<testsuite name="Unit">
 			<directory>tests/suites/unit</directory>
 		</testsuite>

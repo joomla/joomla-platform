@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @since       12.1
+ * @since       12.2
  */
 abstract class JFilesystemAccessorCsv
 {
@@ -33,20 +33,11 @@ abstract class JFilesystemAccessorCsv
 	 *
 	 * @link    http://php.net/manual/en/function.fgetcsv.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function read(JFilesystemElementFile $file, $length = 0, $delimiter = ',', $enclosure = '"', $escape = '\\')
 	{
-		$return = fgetcsv($file->handle, $length, $delimiter, $enclosure, $escape);
-		if ($return === false)
-		{
-			$file->valid = false;
-			return false;
-		}
-		else
-		{
-			return $return;
-		}
+		return fgetcsv($file->handle, $length, $delimiter, $enclosure, $escape);
 	}
 
 	/**
@@ -61,7 +52,7 @@ abstract class JFilesystemAccessorCsv
 	 *
 	 * @link    http://php.net/manual/en/function.fputcsv.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function write(JFilesystemElementFile $file, $fields, $delimiter = ',', $enclosure = '"')
 	{
@@ -81,7 +72,7 @@ abstract class JFilesystemAccessorCsv
 	 *
 	 * @link    http://php.net/manual/en/function.fgetcsv.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function pull(JFilesystemElementFile $file, $length = 0, $delimiter = ',', $enclosure = '"', $escape = '\\')
 	{
@@ -89,7 +80,10 @@ abstract class JFilesystemAccessorCsv
 		$file->open('r');
 		foreach ($file->iterateCsv($length, $delimiter, $enclosure, $escape) as $csv)
 		{
-			$array[] = $csv;
+			if (is_array($csv))
+			{
+				$array[] = $csv;
+			}
 		}
 		$file->close();
 		return $array;
@@ -107,7 +101,7 @@ abstract class JFilesystemAccessorCsv
 	 *
 	 * @link    http://php.net/manual/en/function.fputcsv.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function push(JFilesystemElementFile $file, $data, $delimiter = ',', $enclosure = '"')
 	{

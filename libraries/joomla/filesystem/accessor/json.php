@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @since       12.1
+ * @since       12.2
  */
 abstract class JFilesystemAccessorJson
 {
@@ -33,7 +33,7 @@ abstract class JFilesystemAccessorJson
 	 *
 	 * @see     JFilesystemAccessorLine::read
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function read(JFilesystemElementFile $file, $assoc = false, $depth = 512)
 	{
@@ -64,7 +64,7 @@ abstract class JFilesystemAccessorJson
 	 *
 	 * @see     JFilesystemAccessorLine::write
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function write(JFilesystemElementFile $file, $value, $options = 0)
 	{
@@ -82,7 +82,7 @@ abstract class JFilesystemAccessorJson
 	 *
 	 * @link    http://php.net/manual/en/function.json-decode.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function pull(JFilesystemElementFile $file, $assoc = false, $depth = 512)
 	{
@@ -90,7 +90,10 @@ abstract class JFilesystemAccessorJson
 		$file->open('r');
 		foreach ($file->iterateJson($assoc, $depth) as $json)
 		{
-			$array[] = $json;
+			if (is_object($json) || is_array($json))
+			{
+				$array[] = $json;
+			}
 		}
 		$file->close();
 		return $array;
@@ -111,7 +114,7 @@ abstract class JFilesystemAccessorJson
 	 * @link    http://php.net/manual/en/function.file-put-contents.php
 	 * @link    http://php.net/manual/en/function.json-encode.php
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public static function push(JFilesystemElementFile $file, $data, $options = 0)
 	{

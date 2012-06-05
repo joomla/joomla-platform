@@ -16,49 +16,49 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @since       12.1
+ * @since       12.2
  */
 class JFilesystemElementDirectoryFiles extends RecursiveFilterIterator
 {
 	/**
 	 * @var  string  regex filter
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	private $_filter;
 
 	/**
 	 * @var  string  regex exclude filter
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	private $_exclude;
 
 	/**
 	 * @var  string  regex directory filter
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	private $_filter_directory;
 
 	/**
 	 * @var  string  regex directory exclude filter
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	private $_exclude_directory;
 
 	/**
 	 * @var  function  function accepting a file
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	private $_accept = null;
 
 	/**
 	 * @var  array  Array of options
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	private $_options;
 
@@ -67,7 +67,7 @@ class JFilesystemElementDirectoryFiles extends RecursiveFilterIterator
 	 *
 	 * @return  bool  TRUE on success, FALSE on failure
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function accept()
 	{
@@ -92,7 +92,7 @@ class JFilesystemElementDirectoryFiles extends RecursiveFilterIterator
 	 *
 	 * @return  JFilesystemElementDirectoryDirectories  new iterator
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function getChildren()
 	{
@@ -104,7 +104,7 @@ class JFilesystemElementDirectoryFiles extends RecursiveFilterIterator
 	 *
 	 * @return  JFilesystemElementFile  File object
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function current()
 	{
@@ -117,7 +117,7 @@ class JFilesystemElementDirectoryFiles extends RecursiveFilterIterator
 	 * @param   JFilesystemElementDirectoryContents  $iterator  Directory iterator
 	 * @param   array                                $options   Array of options
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
 	public function __construct($iterator, array $options = array())
 	{
