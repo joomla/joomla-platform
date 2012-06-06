@@ -59,16 +59,68 @@ class JFormFieldList extends JFormField
 		// Get the field options.
 		$options = (array) $this->getOptions();
 
+		// Get the value(s)
+		if ($this->multiple)
+		{
+			if (empty($this->value))
+			{
+				// Filter the option using the preset flag
+				$filter = array_filter(
+					$options,
+					function($option)
+					{
+						return $option->preset;
+					}
+				);
+
+				// If the data exists or there is no preset
+				if ($this->form->existValue($this->fieldname, $this->group) || empty($filter))
+				{
+					$filter = array_filter(
+						$options,
+						function($option)
+						{
+							return $option->default;
+						}
+					);
+				}
+
+				// Extract the values from the filter
+				$values = array_map(
+					function ($option)
+					{
+						return $option->value;
+					},
+					$filter
+				);
+			}
+			elseif (is_array($this->value))
+			{
+				$values = $this->value;
+			}
+			else
+			{
+				$values = array($this->value);
+			}
+		}
+		else
+		{
+			$values = array($this->value);
+		}
+
 		// Create a read-only list (no name) with a hidden input to store the value.
 		if ((string) $this->element['readonly'] == 'true')
 		{
-			$html[] = JHtml::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $this->value, $this->id);
-			$html[] = '<input type="hidden" name="' . $this->name . '" value="' . $this->value . '"/>';
+			$html[] = JHtml::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $values, $this->id);
+			foreach ($values as $value)
+			{
+				$html[] = '<input type="hidden" name="' . $this->name . '" value="' . $value . '"/>';
+			}
 		}
 		// Create a regular list.
 		else
 		{
-			$html[] = JHtml::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
+			$html[] = JHtml::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $values, $this->id);
 		}
 
 		return implode($html);
@@ -107,6 +159,12 @@ class JFormFieldList extends JFormField
 
 			// Set some JavaScript option attributes.
 			$tmp->onclick = (string) $option['onclick'];
+
+			// Set the default attribute.
+			$tmp->default = (string) $option['default'] == 'true';
+
+			// Set the preset attribute.
+			$tmp->preset = (string) $option['preset'] == 'true';
 
 			// Add the option object to the result set.
 			$options[] = $tmp;

@@ -249,6 +249,11 @@ class JFormDataHelper
 			name="title"
 			type="text"
 			description="The title." />
+		<field
+			name="alias"
+			type="text"
+			description="The alias."
+			preset="preset-alias" />
 		<fields
 			name="params">
 			<field

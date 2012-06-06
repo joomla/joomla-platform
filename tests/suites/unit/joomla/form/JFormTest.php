@@ -814,10 +814,17 @@ class JFormTest extends TestCase
 			'Line:'.__LINE__.' Prior to binding data, the defaults in the field should be used.'
 		);
 
+		$this->assertThat(
+			$form->getField('alias')->value,
+			$this->equalTo('preset-alias'),
+			'Line:'.__LINE__.' Prior to binding data, the presets in the field should be used.'
+		);
+
 		// Check values after binding.
 
 		$data = array(
 			'title' => 'The title',
+			'alias' => '',
 			'show_title' => 3,
 			'params' => array(
 				'show_title' => 2,
@@ -833,6 +840,12 @@ class JFormTest extends TestCase
 		$this->assertThat(
 			$form->getField('title')->value,
 			$this->equalTo('The title'),
+			'Line:'.__LINE__.' Check the field value bound correctly.'
+		);
+
+		$this->assertThat(
+			$form->getField('alias')->value,
+			$this->equalTo(''),
 			'Line:'.__LINE__.' Check the field value bound correctly.'
 		);
 
@@ -1134,6 +1147,42 @@ class JFormTest extends TestCase
 			$form->getValue('title'),
 			$this->equalTo('Avatar'),
 			'Line:'.__LINE__.' The bind value should be returned.'
+		);
+	}
+
+	/**
+	 * Test for JForm::existValue method.
+	 */
+	public function testExistValue()
+	{
+		$form = new JFormInspector('form1');
+
+		$this->assertThat(
+			$form->load(JFormDataHelper::$loadFieldDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		$this->assertThat(
+			$form->existValue('title'),
+			$this->equalTo(false),
+			'Line:'.__LINE__.' The value should not exist.'
+		);
+
+		$data = array(
+			'title'		=> 'Avatar',
+		);
+
+		$this->assertThat(
+			$form->bind($data),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The data should bind successfully.'
+		);
+
+		$this->assertThat(
+			$form->existValue('title'),
+			$this->equalTo(true),
+			'Line:'.__LINE__.' The value should exist.'
 		);
 	}
 
