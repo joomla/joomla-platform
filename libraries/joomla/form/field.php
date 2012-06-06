@@ -141,8 +141,8 @@ abstract class JFormField
 	protected $required = false;
 
 	/**
-	 * The disabled state for the form field.  If true then there mustn't be a possibility
-     * to change the pre-selected value.
+	 * The disabled state for the form field.  If true then there must not be a possibility
+	 * to change the pre-selected value.
 	 *
 	 * @var    boolean
 	 * @since  12.2
