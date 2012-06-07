@@ -405,6 +405,7 @@ class JInstallerFile extends JAdapterInstance
 	public function uninstall($id)
 	{
 		// Initialise variables.
+        $db = JFactory::getDbo();
 		$row = JTable::getInstance('extension');
 		if (!$row->load($id))
 		{
@@ -496,7 +497,6 @@ class JInstallerFile extends JAdapterInstance
 			}
 
 			// Remove the schema version
-			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 			$query->delete()
 				->from('#__schemas')
