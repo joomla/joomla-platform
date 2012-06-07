@@ -378,6 +378,27 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	}
 
 	/**
+	 * Alter database's character set, obtaining query string from protected member.
+	 *
+	 * @param   string  $dbName  The database name that will be altered
+	 *
+	 * @return  string  The query that alter the database query string
+	 *
+	 * @since   12.2
+	 * @throws  RuntimeException
+	 */
+	public function alterDbCharacterSet($dbName)
+	{
+		if (is_null($dbName))
+		{
+			throw new RuntimeException('Database name must not be null.');
+		}
+
+		$this->setQuery($this->getAlterDbCharacterSet($dbName));
+		return $this->execute();
+	}
+
+	/**
 	 * Connects to the database if needed.
 	 *
 	 * @return  void  Returns void if the database connected successfully.
@@ -396,6 +417,31 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	abstract public function connected();
 
+	/**
+	 * Create a new database using information from $options object, obtaining query string
+	 * from protected member.
+	 *
+	 * @param   JObject  $options  JObject coming from CMS' "initialise" function to pass user
+	 *								and database name to database driver.
+	 * @param   boolean  $utf      True if the database supports the UTF-8 character set.
+	 *
+	 * @return  string  The query that creates database
+	 *
+	 * @since   12.2
+	 * @throws  RuntimeException
+	 */
+	public function createDatabase($options, $utf = true)
+	{
+		if (is_null($options))
+		{
+			throw new RuntimeException('$options object must not be null.');
+		}
+
+		$this->setQuery($this->getCreateDatabaseQuery($options, $utf));
+		return $this->execute();
+	}
+	
+	
 	/**
 	 * Disconnects the database.
 	 *
@@ -484,6 +530,48 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	abstract public function getAffectedRows();
 
+	/**
+	 * Return the query string to alter the database character set.
+	 *
+	 * @param   string  $dbName  The database name
+	 *
+	 * @return  string  The query that alter the database query string
+	 *
+	 * @since   12.2
+	 */
+	protected function getAlterDbCharacterSet($dbName)
+	{
+		$query = 'ALTER DATABASE ' . $this->quoteName($dbName) . ' CHARACTER SET `utf8`';
+
+		return $query;
+	}
+
+	/**
+	 * Return the query string to create new Database.
+	 * Each database driver, other than MySQL, need to override this member to return correct string.
+	 *
+	 * @param   JObject  $options  JObject coming from CMS' "initialise" function to pass user
+	 *								and database name to database driver.
+	 * @param   boolean  $utf      True if the database supports the UTF-8 character set.
+	 *
+	 * @return  string  The query that creates database
+	 *
+	 * @since   12.2
+	 */
+	protected function getCreateDatabaseQuery($options, $utf)
+	{
+		if ($utf)
+		{
+			$query = 'CREATE DATABASE ' . $this->quoteName($options->db_name) . ' CHARACTER SET `utf8`';
+		}
+		else
+		{
+			$query = 'CREATE DATABASE ' . $this->quoteName($options->db_name);
+		}
+
+		return $query;
+	}
+	
 	/**
 	 * Method to get the database collation in use by sampling a text field of a table in the database.
 	 *

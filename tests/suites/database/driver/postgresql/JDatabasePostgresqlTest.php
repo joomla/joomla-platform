@@ -225,6 +225,18 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	}
 
 	/**
+	 * Test alterDbCharacterSet with null param.
+	 *
+	 * @return   void
+	 *
+	 * @expectedException RuntimeException
+	 */
+	public function testAlterDbCharacterSet()
+	{
+		self::$driver->alterDbCharacterSet(null);
+	}
+
+	/**
 	 * Check if connected() method returns true.
 	 *
 	 * @return   void
@@ -232,6 +244,18 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	public function testConnected()
 	{
 		$this->assertThat(self::$driver->connected(), $this->equalTo(true), 'Not connected to database');
+	}
+
+	/**
+	 * Test createDatabase with null param.
+	 *
+	 * @return   void
+	 *
+	 * @expectedException RuntimeException
+	 */
+	public function testCreateDatabase()
+	{
+		self::$driver->createDatabase(null);
 	}
 
 	/**
@@ -268,6 +292,45 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 		$result = self::$driver->execute();
 
 		$this->assertThat(self::$driver->getAffectedRows(), $this->equalTo(4), __LINE__);
+	}
+
+	/**
+	 * Tests the JDatabasePostgresql getCreateDbQuery method.
+	 *
+	 * @param   JObject  $options  JObject coming from "initialise" function to pass user
+	 * 									and database name to database driver.
+	 * @param   boolean  $utf      True if the database supports the UTF-8 character set.
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider dataGetCreateDbQuery
+	 */
+	public function testGetCreateDatabaseQuery($options, $utf)
+	{
+		$expected = 'CREATE DATABASE ' . self::$driver->quoteName($options->db_name) . ' OWNER ' . self::$driver->quoteName($options->db_user);
+
+		if ($utf)
+		{
+			$expected .= ' ENCODING ' . self::$driver->quote('UTF-8');
+		}
+
+		$result = TestReflection::invoke(self::$driver, 'getCreateDatabaseQuery', $options, $utf);
+
+		$this->assertThat($result, $this->equalTo($expected), __LINE__);
+	}
+
+	/**
+	 * Tests the JDatabasePostgresql getAlterDbCharacterSet method.
+	 *
+	 * @return  void
+	 */
+	public function testGetAlterDbCharacterSet()
+	{
+		$expected = 'ALTER DATABASE ' . self::$driver->quoteName('test') . ' SET CLIENT_ENCODING TO ' . self::$driver->quote('UTF8');
+
+		$result = TestReflection::invoke(self::$driver, 'getAlterDbCharacterSet', 'test');
+
+		$this->assertThat($result, $this->equalTo($expected), __LINE__);
 	}
 
 	/**
@@ -1345,44 +1408,5 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	public function testTransactionSavepoint( /*$savepointName*/ )
 	{
 		$this->markTestSkipped('This command is tested inside testTransactionRollback.');
-	}
-
-	/**
-	 * Tests the JDatabasePostgresql getCreateDbQuery method.
-	 *
-	 * @param   JObject  $options  JObject coming from "initialise" function to pass user
-	 * 									and database name to database driver.
-	 * @param   boolean  $utf      True if the database supports the UTF-8 character set.
-	 *
-	 * @return  void
-	 *
-	 * @dataProvider dataGetCreateDbQuery
-	 */
-	public function testGetCreateDbQuery($options, $utf)
-	{
-		$expected = 'CREATE DATABASE ' . self::$driver->quoteName($options->db_name) . ' OWNER ' . self::$driver->quoteName($options->db_user);
-
-		if ($utf)
-		{
-			$expected .= ' ENCODING ' . self::$driver->quote('UTF-8');
-		}
-
-		$result = self::$driver->getCreateDbQuery($options, $utf);
-
-		$this->assertThat($result, $this->equalTo($expected), __LINE__);
-	}
-
-	/**
-	 * Tests the JDatabasePostgresql getAlterDbCharacterSet method.
-	 *
-	 * @return  void
-	 */
-	public function testGetAlterDbCharacterSet()
-	{
-		$expected = 'ALTER DATABASE ' . self::$driver->quoteName('test') . ' SET CLIENT_ENCODING TO ' . self::$driver->quote('UTF8');
-
-		$result = self::$driver->getAlterDbCharacterSet('test');
-
-		$this->assertThat($result, $this->equalTo($expected), __LINE__);
 	}
 }
