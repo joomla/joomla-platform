@@ -148,7 +148,7 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	}
 
 	/**
-	 * Tests the JDatabasePostgresql getAlterDbCharacterSet method.
+	 * Tests the JDatabaseMysqli getAlterDbCharacterSet method.
 	 *
 	 * @return  void
 	 */
