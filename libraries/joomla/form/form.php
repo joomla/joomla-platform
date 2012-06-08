@@ -622,6 +622,31 @@ class JForm
 	}
 
 	/**
+	 * Method to test if the value of a field exists.
+	 *
+	 * @param   string  $name   The name of the field for which to get the value.
+	 * @param   string  $group  The optional dot-separated form group path on which to get the value.
+	 *
+	 * @return  bool  TRUE on success, FALSE on failure.
+	 *
+	 * @since   12.2
+	 */
+	public function existValue($name, $group = null)
+	{
+		// If a group is set use it.
+		if ($group)
+		{
+			$return = $this->data->exists($group . '.' . $name);
+		}
+		else
+		{
+			$return = $this->data->exists($name);
+		}
+
+		return $return;
+	}
+
+	/**
 	 * Method to load the form description from an XML string or object.
 	 *
 	 * The replace option works per field.  If a field being loaded already exists in the current
@@ -1667,6 +1692,9 @@ class JForm
 			return false;
 		}
 
+		// Get the field name.
+		$name = (string) $element['name'];
+
 		// Get the field type.
 		$type = $element['type'] ? (string) $element['type'] : 'text';
 
@@ -1687,6 +1715,7 @@ class JForm
 		 */
 		if ($value === null)
 		{
+			// Get the default value
 			$default = (string) $element['default'];
 			if (($translate = $element['translate_default']) && ((string) $translate == 'true' || (string) $translate == '1'))
 			{
@@ -1702,7 +1731,32 @@ class JForm
 					$default = JText::_($default);
 				}
 			}
-			$value = $this->getValue((string) $element['name'], $group, $default);
+
+			// Get the value
+			if ($this->existValue($name, $group) || !isset($element['preset']))
+			{
+				$value = $this->getValue($name, $group, $default);
+			}
+			else
+			{
+				// Get the preset value
+				$preset = (string) $element['preset'];
+				if (($translate = $element['translate_preset']) && ((string) $translate == 'true' || (string) $translate == '1'))
+				{
+					$lang = JFactory::getLanguage();
+					if ($lang->hasKey($default))
+					{
+						$debug = $lang->setDebug(false);
+						$preset = JText::_($preset);
+						$lang->setDebug($debug);
+					}
+					else
+					{
+						$preset = JText::_($preset);
+					}
+				}
+				$value = $this->getValue((string) $element['name'], $group, $preset);
+			}
 		}
 
 		// Setup the JFormField object.

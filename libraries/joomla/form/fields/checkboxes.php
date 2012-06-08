@@ -58,13 +58,55 @@ class JFormFieldCheckboxes extends JFormField
 		// Get the field options.
 		$options = $this->getOptions();
 
+		// Get the value(s)
+		if (empty($this->value))
+		{
+			// Filter the option using the preset flag
+			$filter = array_filter(
+				$options,
+				function($option)
+				{
+					return $option->preset;
+				}
+			);
+
+			// If the data exists or there is no preset
+			if ($this->form->existValue($this->fieldname, $this->group) || empty($filter))
+			{
+				$filter = array_filter(
+					$options,
+					function($option)
+					{
+						return $option->default;
+					}
+				);
+			}
+
+			// Extract the values from the filter
+			$values = array_map(
+				function ($option)
+				{
+					return $option->value;
+				},
+				$filter
+			);
+		}
+		elseif (is_array($this->value))
+		{
+			$values = $this->value;
+		}
+		else
+		{
+			$values = array($this->value);
+		}
+
 		// Build the checkbox field output.
 		$html[] = '<ul>';
 		foreach ($options as $i => $option)
 		{
 
 			// Initialize some option attributes.
-			$checked = (in_array((string) $option->value, (array) $this->value) ? ' checked="checked"' : '');
+			$checked = (in_array((string) $option->value, $values) ? ' checked="checked"' : '');
 			$class = !empty($option->class) ? ' class="' . $option->class . '"' : '';
 			$disabled = !empty($option->disable) ? ' disabled="disabled"' : '';
 
@@ -118,6 +160,12 @@ class JFormFieldCheckboxes extends JFormField
 
 			// Set some JavaScript option attributes.
 			$tmp->onclick = (string) $option['onclick'];
+
+			// Set the default attribute.
+			$tmp->default = (string) $option['default'] == 'true';
+
+			// Set the preset attribute.
+			$tmp->preset = (string) $option['preset'] == 'true';
 
 			// Add the option object to the result set.
 			$options[] = $tmp;
