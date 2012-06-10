@@ -609,5 +609,35 @@ class JStringTest extends PHPUnit_Framework_TestCase
 		$expected = parse_url($url);
 		$actual = JString::parse_url($url);
 		$this->assertEquals($expected, $actual, 'Line: ' . __LINE__ . ' Results should be equal');
+
+		// Test rawurlencode in query
+		$url = 'http://a.com/b.php?retUrl='.rawurlencode('http://a.com/b.php?a=123&b=456');
+		$expected = parse_url($url);
+		$actual = JString::parse_url($url);
+		$this->assertEquals($expected, $actual, 'Line: ' . __LINE__ . ' Results should be equal');
+
+		// Test fragment
+		$url = 'http://example.com/test# _22';
+		$expected = parse_url($url);
+		$actual = JString::parse_url($url);
+		$this->assertEquals($expected, $actual, 'Line: ' . __LINE__ . ' Results should be equal');
+
+		// Test wrong url
+		$url = 'http://example.com:###';
+		$expected = parse_url($url);
+		$actual = JString::parse_url($url);
+		$this->assertEquals($expected, $actual, 'Line: ' . __LINE__ . ' Results should be equal');
+
+		// Test wrong url
+		$url = 'http://a.com/?a=é';
+		$expected = parse_url($url);
+		$actual = JString::parse_url($url);
+		$this->assertEquals($expected, $actual, 'Line: ' . __LINE__ . ' Results should be equal');
+
+		// Test wrong url
+		$url = 'ftp://user:abcé@example.com/';
+		$expected = parse_url($url);
+		$actual = JString::parse_url($url);
+		$this->assertEquals($expected, $actual, 'Line: ' . __LINE__ . ' Results should be equal');
 	}
 }
