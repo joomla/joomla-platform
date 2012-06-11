@@ -436,12 +436,19 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		{
 			throw new RuntimeException('$options object must not be null.');
 		}
+		elseif (!isset($options->db_name) || empty($options->db_name))
+		{
+			throw new RuntimeException('$options object must have db_name set.');
+		}
+		elseif (!isset($options->db_user) || empty($options->db_user))
+		{
+			throw new RuntimeException('$options object must have db_user set.');
+		}
 
 		$this->setQuery($this->getCreateDatabaseQuery($options, $utf));
 		return $this->execute();
 	}
-	
-	
+
 	/**
 	 * Disconnects the database.
 	 *
@@ -571,7 +578,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 		return $query;
 	}
-	
+
 	/**
 	 * Method to get the database collation in use by sampling a text field of a table in the database.
 	 *

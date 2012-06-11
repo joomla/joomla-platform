@@ -259,6 +259,51 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	}
 
 	/**
+	 * Test createDatabase with null database's name.
+	 *
+	 * @return   void
+	 *
+	 * @expectedException RuntimeException
+	 */
+	public function testCreateDatabase_nullDbName()
+	{
+		$obj = new JObject;
+		$obj->db_user = 'test';
+
+		self::$driver->createDatabase($obj);
+	}
+
+	/**
+	 * Test createDatabase with null user's name.
+	 *
+	 * @return   void
+	 *
+	 * @expectedException RuntimeException
+	 */
+	public function testCreateDatabase_nullUserName()
+	{
+		$obj = new JObject;
+		$obj->db_name = 'test';
+
+		self::$driver->createDatabase($obj);
+	}
+
+	/**
+	 * Test createDatabase with empty user's name.
+	 *
+	 * @return   void
+	 *
+	 * @expectedException RuntimeException
+	 */
+	public function testCreateDatabase_emptyUserName()
+	{
+		$obj = new JObject;
+		$obj->db_name = '';
+
+		self::$driver->createDatabase($obj);
+	}
+
+	/**
 	 * Tests the JDatabasePostgresql escape method.
 	 *
 	 * @param   string  $text    The string to be escaped.
