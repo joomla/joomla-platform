@@ -14,7 +14,7 @@
     formats.</para>
 
     <para>The classes included in the Log package are JLog, JLogEntry, LogException, JLogger as well as the classes
-    JLoggerDatabase, JLoggerEcho, JLoggerFormattedText, JLoggerMessageQueue, JLoggerSyslog and JLoggerW3C which support formatting
+    JLoggerDatabase, JLoggerEcho, JLoggerEmail, JLoggerFormattedtext, JLoggerMessagequeue, JLoggerSyslog and JLoggerW3c which support formatting
     and storage. Of all these classes, you will generally only use JLog in your projects.</para>
 
     <para>Logging is a two-step process.</para>
@@ -271,7 +271,7 @@ JLog::addLogger(
 JLog::addLogger(
     array(
         'text_file' =&gt; 'com_hello.php',
-        'text_entry_format' =&gt; '{DATE} {TIME} {CLIENTIP} {CATEGORY} {MESSAGE}' 
+        'text_entry_format' =&gt; '{DATE} {TIME} {CLIENTIP} {CATEGORY} {MESSAGE}'
     )
 );</programlisting>
       </example>
@@ -288,7 +288,7 @@ JLog::addLogger(
 JLog::addLogger(
     array(
         'text_file' =&gt; 'com_shop.sales.php',
-        'text_entry_format' =&gt; '{DATETIME} {PRICE} {QUANTITY} {MESSAGE}' 
+        'text_entry_format' =&gt; '{DATETIME} {PRICE} {QUANTITY} {MESSAGE}'
     ),
     JLog::INFO,
     'Shop'
@@ -366,4 +366,37 @@ JLog::add(json_encode($log), JLog::INFO, 'dblog');</programlisting>
 
     <para>This makes it possible to retrieve detailed information for display.</para>
   </section>
+
+    <section>
+        <title>Logging to email</title>
+
+        <para>The "email" logger allows you to send a log message via email. </para>
+
+        <para>To log messages using the "email" logger, you the following code as a guide.</para>
+
+        <example>
+            <title>Using an email logger</title>
+
+            <programlisting>// Add the logger.
+                JLog::addLogger(
+                array(
+                'logger' =&gt; 'email',
+                'from' =&gt; 'admin@example.com',
+                'to' =&gt; 'support@example.com'
+                ),
+                JLog::EMERGENCY,
+                'Alert'
+                );
+
+                // Add the message.
+                JLog::add('Database Connection Failed.', JLog::EMERGENCY, 'alert');</programlisting>
+        </example>
+
+        <para>Notice that the example binds the logger to the emergency message priority for a category of "alert".</para>
+
+        <para>The mail logger works with JMail. For the Joomla CMS, if the "from" and "to" values are omitted
+        from the addLogger call, JLog will retrieve the configuration "mailfrom" value and use it for both parameters.</para>
+    </section>
+
+
 </section>
