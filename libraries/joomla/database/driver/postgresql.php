@@ -787,7 +787,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * This function return a field value as a prepared string to be used in a SQL statement.
 	 *
-	 * @param   array   $columns      Array of table's column returned by ::getTableColumns.
+	 * @param   array   $columns      Array of table's column returned by JDatabasePostgreSQL::getTableColumns.
 	 * @param   string  $field_name   The table field's name.
 	 * @param   string  $field_value  The variable value to quote and return.
 	 * 
@@ -795,7 +795,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @since   11.3
 	 */
-	public function sqlValue($columns, $field_name, $field_value)
+	protected function sqlValue(&$columns, $field_name, $field_value)
 	{
 		switch ($columns[$field_name])
 		{
@@ -814,7 +814,6 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			case 'bigserial':
 			case 'integer':
 			case 'money':
-			case 'numeric':
 			case 'real':
 			case 'smallint':
 			case 'serial':

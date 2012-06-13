@@ -1179,7 +1179,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 
 		foreach (get_object_vars($tst) as $key => $val)
 		{
-			$values[] = self::$driver->sqlValue($tablCol, $key, $val);
+			$values[] = TestReflection::invoke(self::$driver, 'sqlValue', $tablCol, $key, $val);
 		}
 
 		$this->assertThat(
