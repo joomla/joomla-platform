@@ -961,28 +961,6 @@ abstract class JString
 	 */
 	public static function parse_url($url)
 	{
-		$result = array();
-
-		// Build arrays of values we need to decode before parsing
-		$entities = array('%21', '%2A', '%27', '%28', '%29', '%3B', '%3A', '%40', '%26', '%3D', '%24', '%2C', '%2F', '%3F', '%25', '%23', '%5B',
-			'%5D');
-		$replacements = array('!', '*', "'", "(", ")", ";", ":", "@", "&", "=", "$", ",", "/", "?", "%", "#", "[", "]");
-
-		// Create encoded URL with special URL characters decoded so it can be parsed
-		// All other characters will be encoded
-		$encodedURL = str_replace($entities, $replacements, urlencode($url));
-
-		// Parse the encoded URL
-		$encodedParts = parse_url($encodedURL);
-
-		// Now, decode each value of the resulting array
-		if ($encodedParts)
-		{
-			foreach ($encodedParts as $key => $value)
-			{
-				$result[$key] = urldecode($value);
-			}
-		}
-		return $result;
+		return parse_url($url);
 	}
 }
