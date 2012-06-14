@@ -612,7 +612,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 
 		// Test invalild URL
 		$url = 'http:///mydomain.com';
-		$expected = array ();
+		$expected = false;
 		$actual = JString::parse_url($url);
 		$this->assertEquals($expected, $actual, 'Line: ' . __LINE__ . ' Results should be equal');
 	}
