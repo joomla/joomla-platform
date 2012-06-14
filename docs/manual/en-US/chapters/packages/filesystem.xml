@@ -208,22 +208,6 @@ $eof = $file->eof;
 						</listitem>
 					</varlistentry>
 					<varlistentry>
-						<term><varname>valid</varname> (<type>boolean</type> property)</term>
-						<listitem>
-							<para>
-								<example>
-									<title>Tells if the last read was valid (used by iterators on files)</title>
-									<para>
-										<programlisting language="PHP (HTML)">
-// Getting the valid state
-$valid = $file->valid;
-</programlisting>
-									</para>
-								</example>
-							</para>
-						</listitem>
-					</varlistentry>
-					<varlistentry>
 						<term><varname>contents</varname> (<type>string|array|null</type> property)</term>
 						<listitem>
 							<para>
