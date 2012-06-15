@@ -962,7 +962,7 @@ abstract class JString
 	public static function parse_url($url)
 	{
 		$parsedURL = parse_url($url);
-		if ($parsedURL == false)
+		if ($parsedURL === false)
 		{
 			return array();
 		}
