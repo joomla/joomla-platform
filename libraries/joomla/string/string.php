@@ -954,13 +954,19 @@ abstract class JString
 	 *
 	 * @param   string  $url  URL to parse
 	 *
-	 * @return  mixed  Associative array or false if badly formed URL.
+	 * @return  mixed  Associative array or empty array if badly formed URL.
 	 *
 	 * @see     http://us3.php.net/manual/en/function.parse-url.php
 	 * @since   11.1
 	 */
 	public static function parse_url($url)
 	{
-		return parse_url($url);
+		$parsedURL = parse_url($url);
+		if ($parsedURL == false)
+		{
+			return array();
+		}
+
+		return $parsedURL;
 	}
 }
