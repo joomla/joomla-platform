@@ -290,11 +290,17 @@ class JMediawikiPages extends JMediawikiObject
     /**
      * Method to get all pages that link to the given interwiki link.
      *
+     * @param   string      $iwbltitle              Interwiki link to search for. Must be used with iwblprefix.
+     * @param   string      $iwblprefix             Prefix for the interwiki.
+     * @param   string      $iwblcontinue           When more results are available, use this to continue.
+     * @param   string      $iwbllimit              How many total pages to return.
+     * @param   string      $iwblprop               Which properties to get.
+     *
      * @return  object
      *
      * @since   12.1
      */
-    public function getIWBackLinks($iwbltitle, $iwblprefix = null, $iwblcontinue = null, $iwbllimit = null, $iwblprop = null)
+    public function getIWBackLinks($iwbltitle, $iwblprefix, $iwblcontinue = null, $iwbllimit = null, array $iwblprop = null)
     {
 
     }
