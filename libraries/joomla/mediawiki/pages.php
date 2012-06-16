@@ -294,7 +294,7 @@ class JMediawikiPages extends JMediawikiObject
      *
      * @since   12.1
      */
-    public function getIWBackLinks()
+    public function getIWBackLinks($bltitle)
     {
 
     }
