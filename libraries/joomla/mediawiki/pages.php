@@ -292,9 +292,9 @@ class JMediawikiPages extends JMediawikiObject
      *
      * @param   string      $iwbltitle              Interwiki link to search for. Must be used with iwblprefix.
      * @param   string      $iwblprefix             Prefix for the interwiki.
-     * @param   string      $iwblcontinue           When more results are available, use this to continue.
-     * @param   string      $iwbllimit              How many total pages to return.
-     * @param   string      $iwblprop               Which properties to get.
+     * @param   boolean     $iwblcontinue           When more results are available, use this to continue.
+     * @param   integer     $iwbllimit              How many total pages to return.
+     * @param   array       $iwblprop               Which properties to get.
      *
      * @return  object
      *
@@ -302,7 +302,33 @@ class JMediawikiPages extends JMediawikiObject
      */
     public function getIWBackLinks($iwbltitle, $iwblprefix, $iwblcontinue = null, $iwbllimit = null, array $iwblprop = null)
     {
+        // build the request
+        $path = '?action=query&list=iwbacklinks';
 
+        if (isset($iwbltitle)) {
+            $path .= '&iwbltitle=' . $iwbltitle;
+        }
+
+        if (isset($iwblprefix)) {
+            $path .= '&iwblprefix=' . $iwblprefix;
+        }
+
+        if ($iwblcontinue) {
+            $path .= '&iwblcontinue=';
+        }
+
+        if (isset($iwbllimit)) {
+            $path .= '&bllimit=' . $iwbllimit;
+        }
+
+        if (isset($iwblprop)) {
+            $path .= '&iwblprop=' . $this->buildParameter($iwblprop);
+        }
+
+        // Send the request.
+        $response = $this->client->get($this->fetchUrl($path));
+
+        return $this->validateResponse($response);
     }
 
     /**
