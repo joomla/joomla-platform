@@ -37,7 +37,7 @@ class JMediawikiSearch extends JMediawikiObject
      */
     public function search($srsearch, array $srnamespace = null, $srwhat = null, array $srinfo = null, array $srprop = null, $srredirects = null, $sroffest = null, $srlimit = null)
     {
-        // build the request
+        // Build the request.
         $path = '?action=query&list=search';
 
         if (isset($srsearch)) {
