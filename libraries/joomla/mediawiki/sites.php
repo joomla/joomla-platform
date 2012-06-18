@@ -18,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  */
 class JMediawikiSites extends JMediawikiObject
 {
-    /**
+	/**
      * Method to get site information.
      *
      * @param   array    $siprop            The sysinfo properties to get.
@@ -31,38 +31,43 @@ class JMediawikiSites extends JMediawikiObject
      *
      * @since   12.1
      */
-    public function getSiteInfo(array $siprop = null, $sifilteriw = null, $sishowalldb = false, $sinumberingroup = false, array $siinlanguagecode = null)
-    {
-        // build the request
-        $path = '?action=query&meta=siteinfo';
+	public function getSiteInfo(array $siprop = null, $sifilteriw = null, $sishowalldb = false, $sinumberingroup = false, array $siinlanguagecode = null)
+	{
+		// Build the request.
+		$path = '?action=query&meta=siteinfo';
 
-        if (isset($siprop)) {
-            $path .= '&siprop=' . $this->buildParameter($siprop);
-        }
+		if (isset($siprop))
+		{
+			$path .= '&siprop=' . $this->buildParameter($siprop);
+		}
 
-        if (isset($sifilteriw)) {
-            $path .= '&sifilteriw=' . $sifilteriw;
-        }
+		if (isset($sifilteriw))
+		{
+			$path .= '&sifilteriw=' . $sifilteriw;
+		}
 
-        if ($sishowalldb) {
-            $path .= '&sishowalldb=';
-        }
+		if ($sishowalldb)
+		{
+			$path .= '&sishowalldb=';
+		}
 
-        if ($sinumberingroup) {
-            $path .= '&sinumberingroup=';
-        }
+		if ($sinumberingroup)
+		{
+			$path .= '&sinumberingroup=';
+		}
 
-        if (isset($siinlanguagecode)) {
-            $path .= '&siinlanguagecode=' . $this->buildParameter($siinlanguagecode);
-        }
+		if (isset($siinlanguagecode))
+		{
+			$path .= '&siinlanguagecode=' . $this->buildParameter($siinlanguagecode);
+		}
 
-        // Send the request.
-        $response = $this->client->get($this->fetchUrl($path));
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path));
 
-        return $this->validateResponse($response);
-    }
+		return $this->validateResponse($response);
+	}
 
-    /**
+	/**
      * Method to get events from logs.
      *
      * @param   array    $leprop              List of properties to get.
@@ -81,60 +86,71 @@ class JMediawikiSites extends JMediawikiObject
      *
      * @since   12.1
      */
-    public function getEvents(array $leprop = null, $letype = null, $leaction = null, $letitle, $leprefix = null, $letag = null, $leuser = null, $lestart = null, $leend = null, $ledir = null, $lelimit = null)
-    {
-        // build the request
-        $path = '?action=query&list=logevents';
+	public function getEvents(array $leprop = null, $letype = null, $leaction = null, $letitle, $leprefix = null, $letag = null, $leuser = null, $lestart = null, $leend = null, $ledir = null, $lelimit = null)
+	{
+		// Build the request
+		$path = '?action=query&list=logevents';
 
-        if (isset($leprop)) {
-            $path .= '&leprop=' . $this->buildParameter($leprop);
-        }
+		if (isset($leprop))
+		{
+			$path .= '&leprop=' . $this->buildParameter($leprop);
+		}
 
-        if (isset($letype)) {
-            $path .= '&letype=' . $letype;
-        }
+		if (isset($letype))
+		{
+			$path .= '&letype=' . $letype;
+		}
 
-        if (isset($leaction)) {
-            $path .= '&leaction=' . $leaction;
-        }
+		if (isset($leaction))
+		{
+			$path .= '&leaction=' . $leaction;
+		}
 
-        if (isset($letitle)) {
-            $path .= '&letitle=' . $letitle;
-        }
+		if (isset($letitle))
+		{
+			$path .= '&letitle=' . $letitle;
+		}
 
-        if (isset($leprefix)) {
-            $path .= '&leprefix=' . $leprefix;
-        }
+		if (isset($leprefix))
+		{
+			$path .= '&leprefix=' . $leprefix;
+		}
 
-        if (isset($letag)) {
-            $path .= '&letag=' . $letag;
-        }
+		if (isset($letag))
+		{
+			$path .= '&letag=' . $letag;
+		}
 
-        if (isset($leuser)) {
-            $path .= '&leuser=' . $leuser;
-        }
+		if (isset($leuser))
+		{
+			$path .= '&leuser=' . $leuser;
+		}
 
-        if (isset($lestart)) {
-            $path .= '&lestart=' . $lestart;
-        }
+		if (isset($lestart))
+		{
+			$path .= '&lestart=' . $lestart;
+		}
 
-        if (isset($leend)) {
-            $path .= '&leend=' . $leend;
-        }
+		if (isset($leend))
+		{
+			$path .= '&leend=' . $leend;
+		}
 
-        if (isset($ledir)) {
-            $path .= '&ledir=' . $ledir;
-        }
+		if (isset($ledir))
+		{
+			$path .= '&ledir=' . $ledir;
+		}
 
-        if (isset($lelimit)) {
-            $path .= '&lelimit=' . $lelimit;
-        }
+		if (isset($lelimit))
+		{
+			$path .= '&lelimit=' . $lelimit;
+		}
 
-        // Send the request.
-        $response = $this->client->get($this->fetchUrl($path));
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path));
 
-        return $this->validateResponse($response);
-    }
+		return $this->validateResponse($response);
+	}
 
     /**
      * Method to get recent changes on a site.
@@ -157,70 +173,83 @@ class JMediawikiSites extends JMediawikiObject
      *
      * @since   12.1
      */
-    public function getRecentChanges($rcstart = null, $rcend = null, $rcdir = null, array $rcnamespace = null, $rcuser = null, $rcexcludeuser = null, $rctag = null, array $rcprop = null, array $rctoken = null, array $rcshow = null, $rclimit = null, $rctype = null, $rctoponly = null)
-    {
-        // build the request
-        $path = '?action=query&list=recentchanges';
+	public function getRecentChanges($rcstart = null, $rcend = null, $rcdir = null, array $rcnamespace = null, $rcuser = null, $rcexcludeuser = null, $rctag = null, array $rcprop = null, array $rctoken = null, array $rcshow = null, $rclimit = null, $rctype = null, $rctoponly = null)
+	{
+		// Build the request.
+		$path = '?action=query&list=recentchanges';
 
-        if (isset($rcstart)) {
-            $path .= '&rcstart=' . $rcstart;
-        }
+		if (isset($rcstart))
+		{
+			$path .= '&rcstart=' . $rcstart;
+		}
 
-        if (isset($rcend)) {
-            $path .= '&rcend=' . $rcend;
-        }
+		if (isset($rcend))
+		{
+			$path .= '&rcend=' . $rcend;
+		}
 
-        if (isset($rcdir)) {
-            $path .= '&rcdir=' . $rcdir;
-        }
+		if (isset($rcdir))
+		{
+			$path .= '&rcdir=' . $rcdir;
+		}
 
-        if (isset($rcnamespace)) {
-            $path .= '&rcnamespaces=' . $this->buildParameter($rcnamespace);
-        }
+		if (isset($rcnamespace))
+		{
+			$path .= '&rcnamespaces=' . $this->buildParameter($rcnamespace);
+		}
 
-        if (isset($rcuser)) {
-            $path .= '&rcuser=' . $rcuser;
-        }
+		if (isset($rcuser))
+		{
+			$path .= '&rcuser=' . $rcuser;
+		}
 
-        if (isset($rcexcludeuser)) {
-            $path .= '&rcexcludeuser=' . $rcexcludeuser;
-        }
+		if (isset($rcexcludeuser))
+		{
+			$path .= '&rcexcludeuser=' . $rcexcludeuser;
+		}
 
-        if (isset($rctag)) {
-            $path .= '&rctag=' . $rctag;
-        }
+		if (isset($rctag))
+		{
+			$path .= '&rctag=' . $rctag;
+		}
 
-        if (isset($rcprop)) {
-            $path .= '&rcprop=' . $this->buildParameter($rcprop);
-        }
+		if (isset($rcprop))
+		{
+			$path .= '&rcprop=' . $this->buildParameter($rcprop);
+		}
 
-        if (isset($rctoken)) {
-            $path .= '&rctoken=' . $this->buildParameter($rctoken);
-        }
+		if (isset($rctoken))
+		{
+			$path .= '&rctoken=' . $this->buildParameter($rctoken);
+		}
 
-        if (isset($rcshow)) {
-            $path .= '&rcshow=' . $this->buildParameter($rcshow);
-        }
+		if (isset($rcshow))
+		{
+			$path .= '&rcshow=' . $this->buildParameter($rcshow);
+		}
 
-        if (isset($rclimit)) {
-            $path .= '&rclimit=' . $rclimit;
-        }
+		if (isset($rclimit))
+		{
+			$path .= '&rclimit=' . $rclimit;
+		}
 
-        if (isset($rctype)) {
-            $path .= '&rctype=' . $rctype;
-        }
+		if (isset($rctype))
+		{
+			$path .= '&rctype=' . $rctype;
+		}
 
-        if (isset($rctoponly)) {
-            $path .= '&rctoponly=' . $rctoponly;
-        }
+		if (isset($rctoponly))
+		{
+			$path .= '&rctoponly=' . $rctoponly;
+		}
 
-        // Send the request.
-        $response = $this->client->get($this->fetchUrl($path));
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path));
 
-        return $this->validateResponse($response);
-    }
+		return $this->validateResponse($response);
+	}
 
-    /**
+	/**
      * Method to get protected titles on a site.
      *
      * @param   array    $ptnamespace         Only list titles in this namespace.
@@ -235,43 +264,49 @@ class JMediawikiSites extends JMediawikiObject
      *
      * @since   12.1
      */
-    public function getProtectedTitles(array $ptnamespace = null, array $ptlevel, $ptlimit = null, $ptdir = null, $ptstart = null, $ptend = null, array $ptprop = null)
-    {
-        // build the request
-        $path = '?action=query&list=protectedtitles';
+	public function getProtectedTitles(array $ptnamespace = null, array $ptlevel, $ptlimit = null, $ptdir = null, $ptstart = null, $ptend = null, array $ptprop = null)
+	{
+		// Build the request.
+		$path = '?action=query&list=protectedtitles';
 
-        if (isset($ptnamespace)) {
-            $path .= '&ptnamespace=' . $this->buildParameter($ptnamespace);
-        }
+		if (isset($ptnamespace))
+		{
+			$path .= '&ptnamespace=' . $this->buildParameter($ptnamespace);
+		}
 
-        if (isset($ptlevel)) {
-            $path .= '&ptlevel=' . $this->buildParameter($ptlevel);
-        }
+		if (isset($ptlevel))
+		{
+			$path .= '&ptlevel=' . $this->buildParameter($ptlevel);
+		}
 
-        if (isset($ptlimit)) {
-            $path .= '&ptlimit=' . $ptlimit;
-        }
+		if (isset($ptlimit))
+		{
+			$path .= '&ptlimit=' . $ptlimit;
+		}
 
-        if (isset($ptdir)) {
-            $path .= '&ptdir=' . $ptdir;
-        }
+		if (isset($ptdir))
+		{
+			$path .= '&ptdir=' . $ptdir;
+		}
 
-        if (isset($ptstart)) {
-            $path .= '&ptstart=' . $ptstart;
-        }
+		if (isset($ptstart))
+		{
+			$path .= '&ptstart=' . $ptstart;
+		}
 
-        if (isset($ptend)) {
-            $path .= '&ptend=' . $ptend;
-        }
+		if (isset($ptend))
+		{
+			$path .= '&ptend=' . $ptend;
+		}
 
-        if (isset($ptprop)) {
-            $path .= '&ptprop=' . $this->buildParameter($ptprop);
-        }
+		if (isset($ptprop))
+		{
+			$path .= '&ptprop=' . $this->buildParameter($ptprop);
+		}
 
-        // Send the request.
-        $response = $this->client->get($this->fetchUrl($path));
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path));
 
-        return $this->validateResponse($response);
-    }
+		return $this->validateResponse($response);
+	}
 }
-
