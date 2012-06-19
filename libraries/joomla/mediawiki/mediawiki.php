@@ -26,79 +26,78 @@ defined('JPATH_PLATFORM') or die;
  */
 class JMediawiki
 {
-    /**
-     * @var    JRegistry  Options for the MediaWiki object.
-     * @since  12.1
-     */
-    protected $options;
+	/**
+	 * @var    JRegistry  Options for the MediaWiki object.
+	 * @since  12.1
+	 */
+	protected $options;
 
-    /**
-     * @var    JMediawikiHttp  The HTTP client object to use in sending HTTP requests.
-     * @since  12.1
-     */
-    protected $client;
+	/**
+	 * @var    JMediawikiHttp  The HTTP client object to use in sending HTTP requests.
+	 * @since  12.1
+	 */
+	protected $client;
 
-    /**
-     * @var    JMediawikiSites  MediaWiki API object for Site.
-     * @since  12.1
-     */
-    protected $sites;
+	/**
+	 * @var    JMediawikiSites  MediaWiki API object for Site.
+	 * @since  12.1
+	 */
+	protected $sites;
 
-    /**
-     * @var    JMediawikiPages  MediaWiki API object for pages.
-     * @since  12.1
-     */
-    protected $pages;
+	/**
+	 * @var    JMediawikiPages  MediaWiki API object for pages.
+	 * @since  12.1
+	 */
+	protected $pages;
 
-    /**
-     * @var    JMediawikiUsers  MediaWiki API object for users.
-     * @since  12.1
-     */
-    protected $users;
+	/**
+	 * @var    JMediawikiUsers  MediaWiki API object for users.
+	 * @since  12.1
+	 */
+	protected $users;
 
-    /**
-     * @var    JMediawikiLinks  MediaWiki API object for links.
-     * @since  12.1
-     */
-    protected $links;
+	/**
+	 * @var    JMediawikiLinks  MediaWiki API object for links.
+	 * @since  12.1
+	 */
+	protected $links;
 
-    /**
-     * @var    JMediawikiCategories  MediaWiki API object for categories.
-     * @since  12.1
-     */
-    protected $categories;
+	/**
+	 * @var    JMediawikiCategories  MediaWiki API object for categories.
+	 * @since  12.1
+	 */
+	protected $categories;
 
-    /**
-     * @var    JMediawikiImages  MediaWiki API object for images.
-     * @since  12.1
-     */
-    protected $images;
+	/**
+	 * @var    JMediawikiImages  MediaWiki API object for images.
+	 * @since  12.1
+	 */
+	protected $images;
 
-    /**
-     * @var    JMediawikiSearch  MediaWiki API object for search.
-     * @since  12.1
-     */
-    protected $search;
+	/**
+	 * @var    JMediawikiSearch  MediaWiki API object for search.
+	 * @since  12.1
+	 */
+	protected $search;
 
-    /**
+	/**
      * Constructor.
      *
-     * @param   JRegistry    $options  MediaWiki options object.
+     * @param   JRegistry       $options  MediaWiki options object.
      * @param   JMediawikiHttp  $client   The HTTP client object.
      *
      * @since   12.1
      */
-    public function __construct(JRegistry $options = null, JMediawikiHttp $client = null)
-    {
-        $this->options = isset($options) ? $options : new JRegistry;
-        $this->client = isset($client) ? $client : new JMediawikiHttp($this->options);
+	public function __construct(JRegistry $options = null, JMediawikiHttp $client = null)
+	{
+		$this->options = isset($options) ? $options : new JRegistry;
+		$this->client = isset($client) ? $client : new JMediawikiHttp($this->options);
 
-        // Setup the default User-Agent if not already set.
-        $this->options->def('api.useragent', 'Joomla-Wiki-Bot');
+		// Setup the default User-Agent if not already set.
+		$this->options->def('api.useragent', 'Joomla-Wiki-Bot');
+	}
 
-    }
-
-    /**
+	/**
      * Magic method to lazily create API objects
      *
      * @param   string  $name  Name of property to retrieve
@@ -107,60 +106,74 @@ class JMediawiki
      *
      * @since   12.1
      */
-    public function __get($name)
-    {
-        if ($name == 'sites') {
-            if ($this->sites == null) {
-                $this->sites = new JMediawikiSites($this->options, $this->client);
-            }
-            return $this->sites;
-        }
+	public function __get($name)
+	{
+		if ($name == 'sites')
+		{
+			if ($this->sites == null)
+			{
+				$this->sites = new JMediawikiSites($this->options, $this->client);
+			}
+			return $this->sites;
+		}
 
-        if ($name == 'pages') {
-            if ($this->pages == null) {
-                $this->pages = new JMediawikiPages($this->options, $this->client);
-            }
-            return $this->pages;
-        }
+		if ($name == 'pages')
+		{
+			if ($this->pages == null)
+			{
+				$this->pages = new JMediawikiPages($this->options, $this->client);
+			}
+			return $this->pages;
+		}
 
-        if ($name == 'users') {
-            if ($this->users == null) {
-                $this->users = new JMediawikiUsers($this->options, $this->client);
-            }
-            return $this->users;
-        }
+		if ($name == 'users')
+		{
+			if ($this->users == null)
+			{
+				$this->users = new JMediawikiUsers($this->options, $this->client);
+			}
+			return $this->users;
+		}
 
-        if ($name == 'links') {
-            if ($this->links == null) {
-                $this->links = new JMediawikiLinks($this->options, $this->client);
-            }
-            return $this->links;
-        }
+		if ($name == 'links')
+		{
+			if ($this->links == null)
+			{
+				$this->links = new JMediawikiLinks($this->options, $this->client);
+			}
+			return $this->links;
+		}
 
-        if ($name == 'categories') {
-            if ($this->categories == null) {
-                $this->categories = new JMediawikiCategories($this->options, $this->client);
-            }
-            return $this->categories;
-        }
+		if ($name == 'categories')
+		{
+			if ($this->categories == null)
+			{
+				$this->categories = new JMediawikiCategories($this->options, $this->client);
+			}
+			return $this->categories;
+		}
 
-        if ($name == 'images') {
-            if ($this->images == null) {
-                $this->images = new JMediawikiImages($this->options, $this->client);
-            }
-            return $this->images;
-        }
+		if ($name == 'images')
+		{
+			if ($this->images == null)
+			{
+				$this->images = new JMediawikiImages($this->options, $this->client);
+			}
+			return $this->images;
+		}
 
-        if ($name == 'search') {
-            if ($this->search == null) {
-                $this->search = new JMediawikiSearch($this->options, $this->client);
-            }
-            return $this->search;
-        }
+		if ($name == 'search')
+		{
+			if ($this->search == null)
+			{
+				$this->search = new JMediawikiSearch($this->options, $this->client);
+			}
+			return $this->search;
+		}
 
-    }
+	}
 
-    /**
+	/**
      * Get an option from the JMediawiki instance.
      *
      * @param   string  $key  The name of the option to get.
@@ -169,12 +182,12 @@ class JMediawiki
      *
      * @since   12.1
      */
-    public function getOption($key)
-    {
-        return $this->options->get($key);
-    }
+	public function getOption($key)
+	{
+		return $this->options->get($key);
+	}
 
-    /**
+	/**
      * Set an option for the JMediawiki instance.
      *
      * @param   string  $key    The name of the option to set.
@@ -184,10 +197,9 @@ class JMediawiki
      *
      * @since   12.1
      */
-    public function setOption($key, $value)
-    {
-        $this->options->set($key, $value);
-
-        return $this;
-    }
+	public function setOption($key, $value)
+	{
+		$this->options->set($key, $value);
+		return $this;
+	}
 }
