@@ -70,17 +70,17 @@ class JMediawikiSites extends JMediawikiObject
 	/**
      * Method to get events from logs.
      *
-     * @param   array    $leprop              List of properties to get.
-     * @param   string   $letype              Filter log actions to only this type.
-     * @param   string   $leaction            Filter log actions to only this type.
-     * @param   string   $letitle             Filter entries to those related to a page.
-     * @param   string   $leprefix            Filter entries that start with this prefix.
-     * @param   string   $letag               Filter entries with tag.
-     * @param   string   $leuser              Filter entries made by the given user.
-     * @param   string   $lestart             Starting timestamp.
-     * @param   string   $leend               Ending timestamp.
-     * @param   string   $ledir               Direction of enumeration.
-     * @param   integer  $lelimit             Event limit to return.
+     * @param   array    $leprop    List of properties to get.
+     * @param   string   $letype    Filter log actions to only this type.
+     * @param   string   $leaction  Filter log actions to only this type.
+     * @param   string   $letitle   Filter entries to those related to a page.
+     * @param   string   $leprefix  Filter entries that start with this prefix.
+     * @param   string   $letag     Filter entries with tag.
+     * @param   string   $leuser    Filter entries made by the given user.
+     * @param   string   $lestart   Starting timestamp.
+     * @param   string   $leend     Ending timestamp.
+     * @param   string   $ledir     Direction of enumeration.
+     * @param   integer  $lelimit   Event limit to return.
      *
      * @return  object
      *
@@ -152,22 +152,22 @@ class JMediawikiSites extends JMediawikiObject
 		return $this->validateResponse($response);
 	}
 
-    /**
+	/**
      * Method to get recent changes on a site.
      *
-     * @param   string   $rcstart             Starting timestamp.
-     * @param   string   $rcend               Ending timestamp.
-     * @param   string   $rcdir               Direction of enumeration.
-     * @param   array    $rcnamespace         Filter changes to only this namespace(s).
-     * @param   string   $rcuser              Filter changes by this user.
-     * @param   string   $rcexcludeuser       Filter changes to exclude changes by this user.
-     * @param   string   $rctag               Filter changes by this tag.
-     * @param   array    $rcprop              Filter log actions to only this type.
-     * @param   array    $rctoken             Which token to obtain for each change.
-     * @param   array    $rcshow              Filter changes by this criteria.
-     * @param   string   $rclimit             Changes limit to return.
-     * @param   string   $rctype              Filter event by type of changes.
-     * @param   string   $rctoponly           Filter changes which are latest revision.
+     * @param   string  $rcstart        Starting timestamp.
+     * @param   string  $rcend          Ending timestamp.
+     * @param   string  $rcdir          Direction of enumeration.
+     * @param   array   $rcnamespace    Filter changes to only this namespace(s).
+     * @param   string  $rcuser         Filter changes by this user.
+     * @param   string  $rcexcludeuser  Filter changes to exclude changes by this user.
+     * @param   string  $rctag          Filter changes by this tag.
+     * @param   array   $rcprop         Filter log actions to only this type.
+     * @param   array   $rctoken        Which token to obtain for each change.
+     * @param   array   $rcshow         Filter changes by this criteria.
+     * @param   string  $rclimit        Changes limit to return.
+     * @param   string  $rctype         Filter event by type of changes.
+     * @param   string  $rctoponly      Filter changes which are latest revision.
      *
      * @return  object
      *
@@ -252,13 +252,13 @@ class JMediawikiSites extends JMediawikiObject
 	/**
      * Method to get protected titles on a site.
      *
-     * @param   array    $ptnamespace         Only list titles in this namespace.
-     * @param   array    $ptlevel             Only list titles with these protection level.
-     * @param   integer  $ptlimit             Limit of pages to return.
-     * @param   string   $ptdir               Direction of enumeration.
-     * @param   string   $ptstart             Starting timestamp.
-     * @param   string   $ptend               Ending timestamp.
-     * @param   array    $ptprop              List of properties to get.
+     * @param   array    $ptnamespace  Only list titles in this namespace.
+     * @param   array    $ptlevel      Only list titles with these protection level.
+     * @param   integer  $ptlimit      Limit of pages to return.
+     * @param   string   $ptdir        Direction of enumeration.
+     * @param   string   $ptstart      Starting timestamp.
+     * @param   string   $ptend        Ending timestamp.
+     * @param   array    $ptprop       List of properties to get.
      *
      * @return  object
      *
