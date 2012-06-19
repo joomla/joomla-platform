@@ -33,7 +33,7 @@ class JMediawikiUsers extends JMediawikiObject
 	public function login($lgname, $lgpassword, $lgdomain = null, $lgtoken)
 	{
 		// Build the request path.
-		$path = '?action=login&lgname=' . $username . '&lgpassword=' . $password;
+		$path = '?action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword;
 
 		// Send the request.
 		$response = $this->client->post($this->fetchUrl($path));
