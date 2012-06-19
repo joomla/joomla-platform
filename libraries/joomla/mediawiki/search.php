@@ -22,14 +22,14 @@ class JMediawikiSearch extends JMediawikiObject
 	/**
      * Method to perform a full text search.
      *
-     * @param   string      $srsearch           Search for all page titles (or content) that has this value.
-     * @param   array       $srnamespace        The namespace(s) to enumerate.
-     * @param   string      $srwhat             Search inside the text or titles.
-     * @param   array       $srinfo             What metadata to return.
-     * @param   array       $srprop             What properties to return.
-     * @param   boolean     $srredirects        Include redirect pages in the search.
-     * @param   integer     $sroffest           Use this value to continue paging.
-     * @param   integer     $srlimit            How many total pages to return.
+     * @param   string   $srsearch     Search for all page titles (or content) that has this value.
+     * @param   array    $srnamespace  The namespace(s) to enumerate.
+     * @param   string   $srwhat       Search inside the text or titles.
+     * @param   array    $srinfo       What metadata to return.
+     * @param   array    $srprop       What properties to return.
+     * @param   boolean  $srredirects  Include redirect pages in the search.
+     * @param   integer  $sroffest     Use this value to continue paging.
+     * @param   integer  $srlimit      How many total pages to return.
      *
      * @return  object
      *
@@ -89,11 +89,11 @@ class JMediawikiSearch extends JMediawikiObject
 	/**
      * Method to search the wiki using opensearch protocol.
      *
-     * @param   string      $search             Search string.
-	 * @param	integer		$limit				Maximum amount of results to return.
-     * @param   array       $namespace			Namespaces to search.
-     * @param   string      $suggest			Do nothing if $wgEnableOpenSearchSuggest is false.
-     * @param   string      $format             Output format.
+     * @param   string    $search     Search string.
+	 * @param   integer   $limit	  Maximum amount of results to return.
+     * @param   array     $namespace  Namespaces to search.
+     * @param   string    $suggest    Do nothing if $wgEnableOpenSearchSuggest is false.
+     * @param   string    $format     Output format.
      *
      * @return  object
      *
