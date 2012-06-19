@@ -18,32 +18,33 @@ defined('JPATH_PLATFORM') or die;
  */
 class JMediawikiUsers extends JMediawikiObject
 {
-    /**
+	/**
      * Method to login and get authentication tokens.
      *
-     * @param   string   $username
-     * @param   string   $password
-     * @param   string   $token
+     * @param   string  $lgname      User Name.
+     * @param   string  $lgpassword  Password.
+     * @param   string  $lgdomain    Domain (optional).
+	 * @param   string  $lgtoken     Login token obtained in first request.
      *
      * @return  object
      *
      * @since   12.1
      */
-    public function login($username, $password, $token = '')
-    {
-        // Build the request path.
-        $path = '?action=login&lgname=' . $username . '&lgpassword=' . $password;
+	public function login($lgname, $lgpassword, $lgdomain = null, $lgtoken)
+	{
+		// Build the request path.
+		$path = '?action=login&lgname=' . $username . '&lgpassword=' . $password;
 
-        // Send the request.
-        $response = $this->client->post($this->fetchUrl($path));
+		// Send the request.
+		$response = $this->client->post($this->fetchUrl($path));
 
-        // convert xml string to an object
-        $xml = simplexml_load_string($response->body);
+		// Convert xml string to an object.
+		$xml = simplexml_load_string($response->body);
 
-        // validate the response
+		// @TODO validate the response
 
-        return $xml;
-    }
+		return $xml;
+	}
 
     /**
      * Method to logout and clear session data.
