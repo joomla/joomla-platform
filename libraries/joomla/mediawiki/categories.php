@@ -103,8 +103,8 @@ class JMediawikiCategories extends JMediawikiObject
 	/**
      * Method to get information about the given categories.
      *
-     * @param   array       $titles             Page titles to retrieve categories.
-     * @param   boolean     $clcontinue         Continue when more results are available.
+     * @param   array    $titles      Page titles to retrieve categories.
+     * @param   boolean  $clcontinue  Continue when more results are available.
      *
      * @return  object
      *
@@ -120,7 +120,7 @@ class JMediawikiCategories extends JMediawikiObject
 
 		if ($clcontinue)
 		{
-		    $path .= '&clcontinue=';
+			$path .= '&clcontinue=';
 		}
 
 		// Send the request.
@@ -132,94 +132,105 @@ class JMediawikiCategories extends JMediawikiObject
 	/**
      * Method to enumerate all categories.
      *
-     * @param   string      $acfrom    The category to start enumerating from.
-     * @param   string      $acto      The category to stop enumerating at.
-     * @param   string      $acprefix  Search for all category titles that begin with this value.
-     * @param   string      $acdir     Direction to sort in.
-     * @param   integer     $acmin     Minimum number of category members.
-     * @param   integer     $acmax     Maximum number of category members.
-     * @param   integer     $aclimit   How many categories to return.
-     * @param   array       $acprop    Which properties to get.
+     * @param   string    $acfrom    The category to start enumerating from.
+     * @param   string    $acto      The category to stop enumerating at.
+     * @param   string    $acprefix  Search for all category titles that begin with this value.
+     * @param   string    $acdir     Direction to sort in.
+     * @param   integer   $acmin     Minimum number of category members.
+     * @param   integer   $acmax     Maximum number of category members.
+     * @param   integer   $aclimit   How many categories to return.
+     * @param   array     $acprop    Which properties to get.
      *
      * @return  object
      *
      * @since   12.1
      */
-    public function enumerateCategories($acfrom = null, $acto = null, $acprefix = null, $acdir = null, $acmin = null, $acmax = null, $aclimit = null, array $acprop = null)
-    {
-        // build the request
-        $path = '?action=query&list=allcategories';
+	public function enumerateCategories($acfrom = null, $acto = null, $acprefix = null, $acdir = null, $acmin = null, $acmax = null, $aclimit = null, array $acprop = null)
+	{
+		// Build the request.
+		$path = '?action=query&list=allcategories';
 
-        if (isset($acfrom)) {
-            $path .= '&acfrom=' . $acfrom;
-        }
+		if (isset($acfrom))
+		{
+			$path .= '&acfrom=' . $acfrom;
+		}
 
-        if (isset($acto)) {
-            $path .= '&acto=' . $acto;
-        }
+		if (isset($acto))
+		{
+			$path .= '&acto=' . $acto;
+		}
 
-        if (isset($acprefix)) {
-            $path .= '&acprefix=' . $acprefix;
-        }
+		if (isset($acprefix))
+		{
+			$path .= '&acprefix=' . $acprefix;
+		}
 
-        if (isset($acdir)) {
-            $path .= '&acdir=' . $acdir;
-        }
+		if (isset($acdir))
+		{
+			$path .= '&acdir=' . $acdir;
+		}
 
-        if (isset($acfrom)) {
-            $path .= '&acfrom=' . $acfrom;
-        }
+		if (isset($acfrom))
+		{
+			$path .= '&acfrom=' . $acfrom;
+		}
 
-        if (isset($acmin)) {
-            $path .= '&acmin=' . $acmin;
-        }
+		if (isset($acmin))
+		{
+			$path .= '&acmin=' . $acmin;
+		}
 
-        if (isset($acmax)) {
-            $path .= '&acmax=' . $acmax;
-        }
+		if (isset($acmax))
+		{
+			$path .= '&acmax=' . $acmax;
+		}
 
-        if (isset($aclimit)) {
-            $path .= '&aclimit=' . $aclimit;
-        }
+		if (isset($aclimit))
+		{
+			$path .= '&aclimit=' . $aclimit;
+		}
 
-        if (isset($acprop)) {
-            $path .= '&acprop=' . $this->buildParameter($acprop);
-        }
+		if (isset($acprop))
+		{
+			$path .= '&acprop=' . $this->buildParameter($acprop);
+		}
 
-        // Send the request.
-        $response = $this->client->get($this->fetchUrl($path));
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path));
 
-        return $this->validateResponse($response);
-    }
+		return $this->validateResponse($response);
+	}
 
-    /**
+	/**
      * Method to list change tags.
      *
-     * @param   array    $tgprop              List of properties to get.
-     * @param   string   $tglimit             The maximum number of tags to limit.
+     * @param   array   $tgprop   List of properties to get.
+     * @param   string  $tglimit  The maximum number of tags to limit.
      *
      * @return  object
      *
      * @since   12.1
      */
-    public function getChangeTags(array $tgprop = null, $tglimit = null)
-    {
-        // build the request
-        $path = '?action=query&list=tags';
+	public function getChangeTags(array $tgprop = null, $tglimit = null)
+	{
+		// Build the request.
+		$path = '?action=query&list=tags';
 
-        if (isset($tgprop)) {
-            $path .= '&tgprop=' . $this->buildParameter($tgprop);
-        }
+		if (isset($tgprop))
+		{
+			$path .= '&tgprop=' . $this->buildParameter($tgprop);
+		}
 
-        if (isset($tglimit)) {
-            $path .= '&tglimit=' . $tglimit;
-        }
+		if (isset($tglimit))
+		{
+			$path .= '&tglimit=' . $tglimit;
+		}
 
-        // @TODO add support for $tgcontinue
+		// @TODO add support for $tgcontinue
 
-        // Send the request.
-        $response = $this->client->get($this->fetchUrl($path));
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path));
 
-        return $this->validateResponse($response);
-    }
+		return $this->validateResponse($response);
+	}
 }
