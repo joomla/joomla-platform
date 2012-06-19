@@ -49,20 +49,75 @@ class JFactoryTest extends TestCase
 	}
 
 	/**
-	 * Tests the JFactory::getApplicatiom method.
+	 * Tests the JFactory::getApplication method.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
-	 * @covers  JFactory::getApplicatiom
-	 * @todo    Implement testGetApplication().
+	 * @covers  JFactory::getApplication
 	 */
-	function testGetApplication()
+	public function testGetApplication()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-				'This test has not been implemented yet.'
-		);
+		if (empty($_SERVER['HTTP_HOST']))
+		{
+			$_SERVER['HTTP_HOST'] = 'localhost';
+		}
+
+		$temp = JFactory::$application;
+
+		// Test without param
+		JFactory::$application = 'test';
+		$this->assertEquals('test', JFactory::getApplication());
+
+		// Test the exception with a non specified application
+		JFactory::$application = null;
+		$caught = false;
+		try
+		{
+			JFactory::getApplication();
+		}
+
+		catch (Exception $e)
+		{
+			$caught = true;
+		}
+
+		$this->assertTrue($caught);
+
+		// Test JApplication (CMS only)
+		if (class_exists('JApplication'))
+		{
+			JFactory::$application = null;
+			$this->assertInstanceOf('JApplication', JFactory::getApplication('site'));
+		}
+
+		// Test JApplicationWeb
+		JFactory::$application = null;
+		$this->assertInstanceOf('JApplicationWeb', JFactory::getApplication('test', 'web'));
+		TestReflection::setValue('JApplicationWeb', 'instance', null);
+
+		// Test JApplicationCli
+		JFactory::$application = null;
+		$this->assertInstanceOf('JApplicationCli', JFactory::getApplication('test', 'cli'));
+		TestReflection::setValue('JApplicationCli', 'instance', null);
+
+		// Test the exception with a non existing Application type
+		$caught = false;
+		JFactory::$application = null;
+
+		try
+		{
+			JFactory::getApplication('test', 'nonexisting');
+		}
+
+		catch (Exception $e)
+		{
+			$caught = true;
+		}
+
+		$this->assertTrue($caught);
+
+		JFactory::$application = $temp;
 	}
 
 	/**
@@ -111,7 +166,7 @@ class JFactoryTest extends TestCase
 				'This test has not been implemented completely yet.'
 		);
 	}
-	
+
 	/**
 	 * Tests the JFactory::getDocument method.
 	 *
