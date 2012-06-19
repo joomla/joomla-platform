@@ -287,8 +287,8 @@ class JMediawikiPages extends JMediawikiObject
 			$path .= '&bllimit=' . $bllimit;
 		}
 
-			if ($blredirect)
-			{
+		if ($blredirect)
+		{
 			$path .= '&blredirect=';
 		}
 
