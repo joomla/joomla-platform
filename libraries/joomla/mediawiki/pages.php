@@ -18,353 +18,366 @@ defined('JPATH_PLATFORM') or die;
  */
 class JMediawikiPages extends JMediawikiObject
 {
-    /**
+	/**
      * Method to edit a page.
      *
      * @return  object
      *
      * @since   12.1
      */
-    public function editPage()
-    {
+	public function editPage()
+	{
+	}
 
-    }
+	/**
+	 * Method to delete a page.
+	 *
+	 * @return  object
+	 *
+	 * @since   12.1
+	 */
+	public function deletePage()
+	{
+	}
 
-    /**
-     * Method to delete a page.
-     *
-     * @return  object
-     *
-     * @since   12.1
-     */
-    public function deletePage()
-    {
-
-    }
-
-    /**
+	/**
      * Method to restore certain revisions of a deleted page.
      *
      * @return  object
      *
      * @since   12.1
      */
-    public function undeletePage()
-    {
+	public function undeletePage()
+	{
+	}
 
-    }
-
-    /**
+	/**
      * Method to move a page.
      *
      * @return  object
      *
      * @since   12.1
      */
-    public function movePage()
-    {
+	public function movePage()
+	{
+	}
 
-    }
-
-    /**
+	/**
      * Method to undo the last edit to the page.
      *
      * @return  object
      *
      * @since   12.1
      */
-    public function rollback()
-    {
+	public function rollback()
+	{
+	}
 
-    }
-
-    /**
+	/**
      * Method to change the protection level of a page.
      *
      * @return  object
      *
      * @since   12.1
      */
-    public function changeProtection()
-    {
+	public function changeProtection()
+	{
+	}
 
-    }
-
-    /**
+	/**
      * Method to get basic page information.
      *
-     * @param   array       $titles             Page titles to retrieve info.
-     * @param   array       $inprop             Which additional properties to get.
-     * @param   array       $intoken            Request a token to perform a data-modifying action on a page
-     * @param   boolean     $incontinue         When more results are available, use this to continue.
+     * @param   array    $titles      Page titles to retrieve info.
+     * @param   array    $inprop      Which additional properties to get.
+     * @param   array    $intoken     Request a token to perform a data-modifying action on a page
+     * @param   boolean  $incontinue  When more results are available, use this to continue.
      *
      * @return  object
      *
      * @since   12.1
      */
-    public function getPageInfo(array $titles, array $inprop = null, array $intoken = null, $incontinue = null)
-    {
-        // build the request
-        $path = '?action=query&prop=info';
+	public function getPageInfo(array $titles, array $inprop = null, array $intoken = null, $incontinue = null)
+	{
+		// Build the request
+		$path = '?action=query&prop=info';
 
-        // append titles to the request
-        $path .= '&titles=' . $this->buildParameter($titles);
+		// Append titles to the request.
+		$path .= '&titles=' . $this->buildParameter($titles);
 
-        if (isset($inprop)) {
-            $path .= '&inprop=' . $this->buildParameter($inprop);
-        }
+		if (isset($inprop))
+		{
+			$path .= '&inprop=' . $this->buildParameter($inprop);
+		}
 
-        if (isset($intoken)) {
-            $path .= '&intoken=' . $this->buildParameter($intoken);
-        }
+		if (isset($intoken))
+		{
+			$path .= '&intoken=' . $this->buildParameter($intoken);
+		}
 
-        if ($incontinue) {
-            $path .= '&incontinue=';
-        }
+		if ($incontinue)
+		{
+			$path .= '&incontinue=';
+		}
 
-        // Send the request.
-        $response = $this->client->get($this->fetchUrl($path));
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path));
 
-        return $this->validateResponse($response);
-    }
+		return $this->validateResponse($response);
+	}
 
-    /**
+	/**
      * Method to get various properties defined in the page content.
      *
-     * @param   array       $titles             Page titles to retrieve properties.
-     * @param   boolean     $ppcontinue         When more results are available, use this to continue.
-     * @param   string      $ppprop             Page prop to look on the page for.
+     * @param   array    $titles      Page titles to retrieve properties.
+     * @param   boolean  $ppcontinue  When more results are available, use this to continue.
+     * @param   string   $ppprop      Page prop to look on the page for.
      *
      * @return  object
      *
      * @since   12.1
      */
-    public function getPageProperties(array $titles, $ppcontinue = null, $ppprop = null)
-    {
-        // build the request
-        $path = '?action=query&prop=pageprops';
+	public function getPageProperties(array $titles, $ppcontinue = null, $ppprop = null)
+	{
+		// Build the request
+		$path = '?action=query&prop=pageprops';
 
-        // append titles to the request
-        $path .= '&titles=' . $this->buildParameter($titles);
+		// Append titles to the request.
+		$path .= '&titles=' . $this->buildParameter($titles);
 
-        if ($ppcontinue) {
-            $path .= '&ppcontinue=';
-        }
+		if ($ppcontinue)
+		{
+			$path .= '&ppcontinue=';
+		}
 
-        if (isset($ppprop)) {
-            $path .= '&ppprop=' . $ppprop;
-        }
+		if (isset($ppprop))
+		{
+			$path .= '&ppprop=' . $ppprop;
+		}
 
-        // Send the request.
-        $response = $this->client->get($this->fetchUrl($path));
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path));
 
-        return $this->validateResponse($response);
-    }
+		return $this->validateResponse($response);
+	}
 
-    /**
+	/**
      * Method to get a list of revisions.
      *
      * @return  object
      *
      * @since   12.1
      */
-    public function getRevisions()
-    {
-        // TODO hold this at the moment. too many parameters
-    }
+	public function getRevisions()
+	{
+		// TODO hold this at the moment. too many parameters
+	}
 
-    /**
+	/**
      * Method to get a list of deleted revisions.
      *
      * @return  object
      *
      * @since   12.1
      */
-    public function getDeletedRevisions()
-    {
-        // @TODO hold to synce with getRevisions
-    }
+	public function getDeletedRevisions()
+	{
+		// @TODO hold to synce with getRevisions
+	}
 
-    /**
+	/**
      * Method to get all page templates from the given page.
      *
-     * @param   array       $titles             Page titles to retrieve templates.
-     * @param   array       $tlnamespace        Show templates in this namespace(s) only.
-     * @param   integer     $tllimit            How many templates to return.
-     * @param   boolean     $tlcontinue         When more results are available, use this to continue.
-     * @param   string      $tltemplates        Only list these templates.
-     * @param   string      $tldir              The direction in which to list.
+     * @param   array    $titles       Page titles to retrieve templates.
+     * @param   array    $tlnamespace  Show templates in this namespace(s) only.
+     * @param   integer  $tllimit      How many templates to return.
+     * @param   boolean  $tlcontinue   When more results are available, use this to continue.
+     * @param   string   $tltemplates  Only list these templates.
+     * @param   string   $tldir        The direction in which to list.
      *
      * @return  object
      *
      * @since   12.1
      */
-    public function getPageTemplates(array $titles, array $tlnamespace = null, $tllimit = null, $tlcontinue = null, $tltemplates = null, $tldir = null)
-    {
-        // build the request
-        $path = '?action=query&prop=templates';
+	public function getPageTemplates(array $titles, array $tlnamespace = null, $tllimit = null, $tlcontinue = null, $tltemplates = null, $tldir = null)
+	{
+		// Build the request.
+		$path = '?action=query&prop=templates';
 
-        // append titles to the request
-        $path .= '&titles=' . $this->buildParameter($titles);
+		// Append titles to the request.
+		$path .= '&titles=' . $this->buildParameter($titles);
 
-        if (isset($tlnamespace)) {
-            $path .= '&tlnamespace=' . $this->buildParameter($tlnamespace);
-        }
+		if (isset($tlnamespace))
+		{
+			$path .= '&tlnamespace=' . $this->buildParameter($tlnamespace);
+		}
 
-        if (isset($tllimit)) {
-            $path .= '&tllimit=' . $tllimit;
-        }
+		if (isset($tllimit))
+		{
+			$path .= '&tllimit=' . $tllimit;
+		}
 
-        if ($tlcontinue) {
-            $path .= '&tlcontinue=';
-        }
+		if ($tlcontinue)
+		{
+			$path .= '&tlcontinue=';
+		}
 
-        if (isset($tltemplates)) {
-            $path .= '&tltemplates=' . $tltemplates;
-        }
+		if (isset($tltemplates))
+		{
+			$path .= '&tltemplates=' . $tltemplates;
+		}
 
-        if (isset($tldir)) {
-            $path .= '&tldir=' . $tldir;
-        }
+		if (isset($tldir))
+		{
+			$path .= '&tldir=' . $tldir;
+		}
 
-        // Send the request.
-        $response = $this->client->get($this->fetchUrl($path));
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path));
 
-        return $this->validateResponse($response);
-    }
+		return $this->validateResponse($response);
+	}
 
-    /**
+	/**
      * Method to get all pages that link to the given page.
      *
-     * @param   string      $bltitle                Title to search.
-     * @param   integer     $blpageid               Pageid to search.
-     * @param   boolean     $blcontinue             When more results are available, use this to continue.
-     * @param   array       $blnamespace            The namespace to enumerate.
-     * @param   string      $blfilterredirect       How to filter for redirects..
-     * @param   integer     $bllimit                How many total pages to return.
-     * @param   boolean     $blredirect             If linking page is a redirect, find all pages that link to that redirect as well.
+     * @param   string   $bltitle           Title to search.
+     * @param   integer  $blpageid          Pageid to search.
+     * @param   boolean  $blcontinue        When more results are available, use this to continue.
+     * @param   array    $blnamespace       The namespace to enumerate.
+     * @param   string   $blfilterredirect  How to filter for redirects..
+     * @param   integer  $bllimit           How many total pages to return.
+     * @param   boolean  $blredirect        If linking page is a redirect, find all pages that link to that redirect as well.
      *
      * @return  object
      *
      * @since   12.1
      */
-    public function getBackLinks($bltitle, $blpageid = null, $blcontinue = null, array $blnamespace, $blfilterredirect = null, $bllimit = null, $blredirect = null)
-    {
-        // build the request
-        $path = '?action=query&list=backlinks';
+	public function getBackLinks($bltitle, $blpageid = null, $blcontinue = null, array $blnamespace, $blfilterredirect = null, $bllimit = null, $blredirect = null)
+	{
+		// Build the request.
+		$path = '?action=query&list=backlinks';
 
-        if (isset($bltitle)) {
-            $path .= '&bltitle=' . $bltitle;
-        }
+		if (isset($bltitle))
+		{
+			$path .= '&bltitle=' . $bltitle;
+		}
 
-        if (isset($blpageid)) {
-            $path .= '&blpageid=' . $blpageid;
-        }
+		if (isset($blpageid))
+		{
+			$path .= '&blpageid=' . $blpageid;
+		}
 
-        if ($blcontinue) {
-            $path .= '&blcontinue=';
-        }
+		if ($blcontinue)
+		{
+			$path .= '&blcontinue=';
+		}
 
-        if (isset($blnamespace)) {
-            $path .= '&blnamespace=' . $this->buildParameter($blnamespace);
-        }
+		if (isset($blnamespace))
+		{
+			$path .= '&blnamespace=' . $this->buildParameter($blnamespace);
+		}
 
-        if (isset($blfilterredirect)) {
-            $path .= '&blfilterredirect=' . $blfilterredirect;
-        }
+		if (isset($blfilterredirect))
+		{
+			$path .= '&blfilterredirect=' . $blfilterredirect;
+		}
 
-        if (isset($bllimit)) {
-            $path .= '&bllimit=' . $bllimit;
-        }
+		if (isset($bllimit))
+		{
+			$path .= '&bllimit=' . $bllimit;
+		}
 
-        if ($blredirect) {
-            $path .= '&blredirect=';
-        }
+			if ($blredirect)
+			{
+			$path .= '&blredirect=';
+		}
 
-        // Send the request.
-        $response = $this->client->get($this->fetchUrl($path));
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path));
 
-        return $this->validateResponse($response);
-    }
+		return $this->validateResponse($response);
+	}
 
-    /**
+	/**
      * Method to get all pages that link to the given interwiki link.
      *
-     * @param   string      $iwbltitle              Interwiki link to search for. Must be used with iwblprefix.
-     * @param   string      $iwblprefix             Prefix for the interwiki.
-     * @param   boolean     $iwblcontinue           When more results are available, use this to continue.
-     * @param   integer     $iwbllimit              How many total pages to return.
-     * @param   array       $iwblprop               Which properties to get.
+     * @param   string   $iwbltitle     Interwiki link to search for. Must be used with iwblprefix.
+     * @param   string   $iwblprefix    Prefix for the interwiki.
+     * @param   boolean  $iwblcontinue  When more results are available, use this to continue.
+     * @param   integer  $iwbllimit     How many total pages to return.
+     * @param   array    $iwblprop      Which properties to get.
      *
      * @return  object
      *
      * @since   12.1
      */
-    public function getIWBackLinks($iwbltitle, $iwblprefix, $iwblcontinue = null, $iwbllimit = null, array $iwblprop = null)
-    {
-        // build the request
-        $path = '?action=query&list=iwbacklinks';
+	public function getIWBackLinks($iwbltitle, $iwblprefix, $iwblcontinue = null, $iwbllimit = null, array $iwblprop = null)
+	{
+		// Build the request
+		$path = '?action=query&list=iwbacklinks';
 
-        if (isset($iwbltitle)) {
-            $path .= '&iwbltitle=' . $iwbltitle;
-        }
+		if (isset($iwbltitle))
+		{
+			$path .= '&iwbltitle=' . $iwbltitle;
+		}
 
-        if (isset($iwblprefix)) {
-            $path .= '&iwblprefix=' . $iwblprefix;
-        }
+		if (isset($iwblprefix))
+		{
+			$path .= '&iwblprefix=' . $iwblprefix;
+		}
 
-        if ($iwblcontinue) {
-            $path .= '&iwblcontinue=';
-        }
+		if ($iwblcontinue)
+		{
+			$path .= '&iwblcontinue=';
+		}
 
-        if (isset($iwbllimit)) {
-            $path .= '&bllimit=' . $iwbllimit;
-        }
+		if (isset($iwbllimit))
+		{
+			$path .= '&bllimit=' . $iwbllimit;
+		}
 
-        if (isset($iwblprop)) {
-            $path .= '&iwblprop=' . $this->buildParameter($iwblprop);
-        }
+		if (isset($iwblprop))
+		{
+			$path .= '&iwblprop=' . $this->buildParameter($iwblprop);
+		}
 
-        // Send the request.
-        $response = $this->client->get($this->fetchUrl($path));
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path));
 
-        return $this->validateResponse($response);
-    }
+		return $this->validateResponse($response);
+	}
 
-    /**
+	/**
      * Method to get all pages that link to the given language link .
      *
      * @return  object
      *
      * @since   12.1
      */
-    public function getLangBackLinks()
-    {
+	public function getLangBackLinks()
+	{
+	}
 
-    }
-
-    /**
+	/**
      * Method to get all pages in a given category.
      *
      * @return  object
      *
      * @since   12.1
      */
-    public function getPagesByCategory()
-    {
+	public function getPagesByCategory()
+	{
+	}
 
-    }
-
-    /**
+	/**
      * Method to get all pages  that use the given image title.
      *
      * @return  object
      *
      * @since   12.1
      */
-    public function getImageUsage()
-    {
-
-    }
+	public function getImageUsage()
+	{
+	}
 
 }
