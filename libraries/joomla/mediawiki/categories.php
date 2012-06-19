@@ -18,83 +18,89 @@ defined('JPATH_PLATFORM') or die;
  */
 class JMediawikiCategories extends JMediawikiObject
 {
-    /**
+	/**
      * Method to list all categories the page(s) belong to.
      *
-     * @param   array       $titles             Page titles to retrieve categories.
-     * @param   array       $clprop             List of additional properties to get.
-     * @param   array       $clshow             Type of categories to show.
-     * @param   integer     $cllimit            Number of categories to return.
-     * @param   boolean     $clcontinue         Continue when more results are available.
-     * @param   array       $clcategories       Only list these categories.
-     * @param   string      $cldir              Direction of listing.
+     * @param   array    $titles        Page titles to retrieve categories.
+     * @param   array    $clprop        List of additional properties to get.
+     * @param   array    $clshow        Type of categories to show.
+     * @param   integer  $cllimit       Number of categories to return.
+     * @param   boolean  $clcontinue    Continue when more results are available.
+     * @param   array    $clcategories  Only list these categories.
+     * @param   string   $cldir         Direction of listing.
      *
      * @return  object
      *
      * @since   12.1
      */
-    public function getCategories(array $titles, array $clprop = null, array $clshow = null, $cllimit = null, $clcontinue = false, array $clcategories = null, $cldir = null)
-    {
-        // build the request
-        $path = '?action=query&prop=categories';
+	public function getCategories(array $titles, array $clprop = null, array $clshow = null, $cllimit = null, $clcontinue = false, array $clcategories = null, $cldir = null)
+	{
+		// Build the request.
+		$path = '?action=query&prop=categories';
 
-        // append titles to the request
-        $path .= '&titles=' . $this->buildParameter($titles);
+		// Append titles to the request.
+		$path .= '&titles=' . $this->buildParameter($titles);
 
-        if (isset($clprop)) {
-            $path .= '&clprop=' . $this->buildParameter($clprop);
-        }
+		if (isset($clprop))
+		{
+		$path .= '&clprop=' . $this->buildParameter($clprop);
+		}
 
-        if (isset($clshow)) {
-            $path .= '&$clshow=' . $this->buildParameter($clshow);
-        }
+		if (isset($clshow))
+		{
+			$path .= '&$clshow=' . $this->buildParameter($clshow);
+		}
 
-        if (isset($cllimit)) {
-            $path .= '&cllimit=' . $cllimit;
-        }
+		if (isset($cllimit))
+		{
+			$path .= '&cllimit=' . $cllimit;
+		}
 
-        if ($clcontinue) {
-            $path .= '&clcontinue=';
-        }
+		if ($clcontinue)
+		{
+			$path .= '&clcontinue=';
+		}
 
-        if (isset($clcategories)) {
-            $path .= '&clcategories=' . $this->buildParameter($clcategories);
-        }
+		if (isset($clcategories))
+		{
+			$path .= '&clcategories=' . $this->buildParameter($clcategories);
+		}
 
-        if (isset($cldir)) {
-            $path .= '&cldir=' . $cldir;
-        }
+		if (isset($cldir))
+		{
+			$path .= '&cldir=' . $cldir;
+		}
 
-        // Send the request.
-        $response = $this->client->get($this->fetchUrl($path));
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path));
 
-        return $this->validateResponse($response);
-    }
+		return $this->validateResponse($response);
+	}
 
-    /**
+	/**
      * Method to get information about all categories used.
      *
-     * @param   array       $titles             Page titles to retrieve categories.
+     * @param   array  $titles  Page titles to retrieve categories.
      *
      * @return  object
      *
      * @since   12.1
      */
-    public function getCategoriesUsed(array $titles)
-    {
-        // build the request
-        $path = '?action=query&generator=categories&prop=info';
+	public function getCategoriesUsed(array $titles)
+	{
+		// Build the request
+		$path = '?action=query&generator=categories&prop=info';
 
-        // append titles to the request
-        $path .= '&titles=' . $this->buildParameter($titles);
+		// Append titles to the request
+		$path .= '&titles=' . $this->buildParameter($titles);
 
-        // Send the request.
-        $response = $this->client->get($this->fetchUrl($path));
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path));
 
-        return $this->validateResponse($response);
-    }
+		return $this->validateResponse($response);
+	}
 
-    /**
+	/**
      * Method to get information about the given categories.
      *
      * @param   array       $titles             Page titles to retrieve categories.
@@ -104,35 +110,36 @@ class JMediawikiCategories extends JMediawikiObject
      *
      * @since   12.1
      */
-    public function getCategoriesInfo(array $titles, $clcontinue = false)
-    {
-        // build the request
-        $path = '?action=query&prop=categoryinfo';
+	public function getCategoriesInfo(array $titles, $clcontinue = false)
+	{
+		// Build the request.
+		$path = '?action=query&prop=categoryinfo';
 
-        // append titles to the request
-        $path .= '&titles=' . $this->buildParameter($titles);
+		// Append titles to the request
+		$path .= '&titles=' . $this->buildParameter($titles);
 
-        if ($clcontinue) {
-            $path .= '&clcontinue=';
-        }
+		if ($clcontinue)
+		{
+		    $path .= '&clcontinue=';
+		}
 
-        // Send the request.
-        $response = $this->client->get($this->fetchUrl($path));
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path));
 
-        return $this->validateResponse($response);
-    }
+		return $this->validateResponse($response);
+	}
 
-    /**
+	/**
      * Method to enumerate all categories.
      *
-     * @param   string      $acfrom             The category to start enumerating from.
-     * @param   string      $acto               The category to stop enumerating at.
-     * @param   string      $acprefix           Search for all category titles that begin with this value.
-     * @param   string      $acdir              Direction to sort in.
-     * @param   integer     $acmin              Minimum number of category members.
-     * @param   integer     $acmax              Maximum number of category members.
-     * @param   integer     $aclimit            How many categories to return.
-     * @param   array       $acprop             Which properties to get.
+     * @param   string      $acfrom    The category to start enumerating from.
+     * @param   string      $acto      The category to stop enumerating at.
+     * @param   string      $acprefix  Search for all category titles that begin with this value.
+     * @param   string      $acdir     Direction to sort in.
+     * @param   integer     $acmin     Minimum number of category members.
+     * @param   integer     $acmax     Maximum number of category members.
+     * @param   integer     $aclimit   How many categories to return.
+     * @param   array       $acprop    Which properties to get.
      *
      * @return  object
      *
