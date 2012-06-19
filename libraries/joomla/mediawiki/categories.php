@@ -132,14 +132,14 @@ class JMediawikiCategories extends JMediawikiObject
 	/**
      * Method to enumerate all categories.
      *
-     * @param   string    $acfrom    The category to start enumerating from.
-     * @param   string    $acto      The category to stop enumerating at.
-     * @param   string    $acprefix  Search for all category titles that begin with this value.
-     * @param   string    $acdir     Direction to sort in.
-     * @param   integer   $acmin     Minimum number of category members.
-     * @param   integer   $acmax     Maximum number of category members.
-     * @param   integer   $aclimit   How many categories to return.
-     * @param   array     $acprop    Which properties to get.
+     * @param   string   $acfrom    The category to start enumerating from.
+     * @param   string   $acto      The category to stop enumerating at.
+     * @param   string   $acprefix  Search for all category titles that begin with this value.
+     * @param   string   $acdir     Direction to sort in.
+     * @param   integer  $acmin     Minimum number of category members.
+     * @param   integer  $acmax     Maximum number of category members.
+     * @param   integer  $aclimit   How many categories to return.
+     * @param   array    $acprop    Which properties to get.
      *
      * @return  object
      *
