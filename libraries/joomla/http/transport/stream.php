@@ -63,8 +63,7 @@ class JHttpTransportStream implements JHttpTransport
      */
     public function request($method, JUri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
     {
-        var_dump($uri);
-        var_dump($data);
+
         // Create the stream context options array with the required method offset.
         $options = array('method' => strtoupper($method));
 
