@@ -24,13 +24,12 @@ class JMediawikiUsers extends JMediawikiObject
      * @param   string  $lgname      User Name.
      * @param   string  $lgpassword  Password.
      * @param   string  $lgdomain    Domain (optional).
-	 * @param   string  $lgtoken     Login token obtained in first request.
      *
      * @return  object
      *
      * @since   12.1
      */
-	public function login($lgname, $lgpassword, $lgdomain = null, $lgtoken)
+	public function login($lgname, $lgpassword, $lgdomain = null)
 	{
 		// Build the request path.
 		$path = '?action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword;
@@ -38,184 +37,186 @@ class JMediawikiUsers extends JMediawikiObject
 		// Send the request.
 		$response = $this->client->post($this->fetchUrl($path));
 
-		// Convert xml string to an object.
-		$xml = simplexml_load_string($response->body);
-
-		// @TODO validate the response
-
-		return $xml;
+		return $this->validateResponse($response);
 	}
 
-    /**
-     * Method to logout and clear session data.
-     *
-     * @return  object
-     *
-     * @since   12.1
-     */
-    public function logout()
-    {
+	/**
+	 * Method to logout and clear session data.
+	 *
+	 * @return  object
+	 *
+	 * @since   12.1
+	 */
+	public function logout()
+	{
+	}
 
-    }
-
-    /**
+	/**
      * Method to get user information.
      *
-     * @param   array   $users
-     *
      * @return  object
      *
      * @since   12.1
      */
-    public function getUserInfo($users)
-    {
-        // extract the list of users
-        $ususers = '';
-        foreach ($users as $user) {
-            $ususers .= $user . '|'; // a trailing | does not throw an error
-        }
+	public function getUserInfo()
+	{
+	}
 
-        // @TODO undo hardcoding
-        $usprop = 'blockinfo|groups|implicitgroups|rights|editcount|registration|emailable|gender';
-
-        // Build the request path.
-        $path = '?action=query&list=users&ususers=' . $ususers . '&usprop=' . $usprop;
-
-        // Send the request.
-        $response = $this->client->get($this->fetchUrl($path));
-
-        // convert xml string to an object
-        $xml = simplexml_load_string($response->body);
-
-        // validate the response
-
-        return $response;
-    }
-
-    /**
+	/**
      * Method to get current user information.
      *
      * @return  object
      *
      * @since   12.1
      */
-    public function getCurrentUserInfo()
-    {
+	public function getCurrentUserInfo()
+	{
+	}
 
-        // @TODO undo hardcoding
-        $uiprop = 'blockinfo|hasmsg|groups|implicitgroups|rights|changeablegroups|options|preferencestoken|editcount|ratelimits|realname|email|acceptlang|registrationdate';
-
-        // Build the request path.
-        $path = '?action=query&&meta=userinfo&uiprop=' . $uiprop;
-
-        // Send the request.
-        $response = $this->client->get($this->fetchUrl($path));
-
-        // convert xml string to an object
-        $xml = simplexml_load_string($response->body);
-
-        // validate the response
-
-        return $response;
-    }
-
-    /**
+	/**
      * Method to get user contributions.
      *
-     * @param   string   $user
+     * @param   string   $ucuser        The users to retrieve contributions for.
+	 * @param   string   $ucuserprefix  Retrieve contibutions for all users whose names begin with this value.
+     * @param   integer  $uclimit       The users to retrieve contributions for.
+     * @param   string   $ucstart       The start timestamp to return from.
+     * @param   string   $ucend         The end timestamp to return to.
+     * @param   boolean  $uccontinue    When more results are available, use this to continue.
+     * @param   string   $ucdir         In which direction to enumerate.
+     * @param   array    $ucnamespace   Only list contributions in these namespaces.
+     * @param   array    $ucprop        Include additional pieces of information.
+     * @param   array    $ucshow        Show only items that meet this criteria.
+     * @param   string   $uctag         Only list revisions tagged with this tag.
+     * @param   string   $uctoponly     Only list changes which are the latest revision
      *
      * @return  object
      *
      * @since   12.1
      */
-    public function getUserContribs($user)
-    {
-        // Build the request path.
-        $path = '?action=query&list=usercontribs&ucuser=' . $user;
+	public function getUserContribs($ucuser = null, $ucuserprefix = null, $uclimit = null, $ucstart = null, $ucend = null, $uccontinue = null, $ucdir = null, array $ucnamespace = null, array $ucprop = null, array $ucshow = null, $uctag = null, $uctoponly = null)
+	{
+		// Build the request path.
+		$path = '?action=query&list=usercontribs';
 
-        // Send the request.
-        $response = $this->client->get($this->fetchUrl($path));
+		if (isset($ucuser))
+		{
+			$path .= '&ucuser=' . $ucuser;
+		}
 
-        // convert xml string to an object
-        $xml = simplexml_load_string($response->body);
+		if (isset($ucuserprefix))
+		{
+			$path .= '&ucuserprefix=' . $ucuserprefix;
+		}
 
-        // validate the response
+		if (isset($uclimit))
+		{
+			$path .= '&uclimit=' . $uclimit;
+		}
 
-        return $response;
-    }
+		if (isset($ucstart))
+		{
+			$path .= '&ucstart=' . $ucstart;
+		}
 
-    /**
+		if (isset($ucend))
+		{
+			$path .= '&ucend=' . $ucend;
+		}
+
+		if ($uccontinue)
+		{
+			$path .= '&uccontinue=';
+		}
+
+		if (isset($ucdir))
+		{
+			$path .= '&ucdir=' . $ucdir;
+		}
+
+		if (isset($ucnamespace))
+		{
+			$path .= '&ucnamespace=' . $this->buildParameter($ucnamespace);
+		}
+
+		if (isset($ucprop))
+		{
+			$path .= '&ucprop=' . $this->buildParameter($ucprop);
+		}
+
+		if (isset($ucshow))
+		{
+			$path .= '&ucshow=' . $this->buildParameter($ucshow);
+		}
+
+		if (isset($uctag))
+		{
+			$path .= '&uctag=' . $uctag;
+		}
+
+		if (isset($uctoponly))
+		{
+			$path .= '&uctoponly=' . $uctoponly;
+		}
+
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path));
+
+		return $this->validateResponse($response);
+	}
+
+	/**
      * Method to block a user.
      *
-     * @param   string   $user
-     * @param   string   $token
      * @return  object
      *
      * @since   12.1
      */
-    public function blockUser($user, $token)
-    {
-        // Build the request path.
-        $path = '?action=query&list=usercontribs&ucuser=' . $user;
+	public function blockUser()
+	{
+	}
 
-        // Send the request.
-        $response = $this->client->get($this->fetchUrl($path));
-
-        // convert xml string to an object
-        $xml = simplexml_load_string($response->body);
-
-        // validate the response
-
-        return $response;
-    }
-
-    /**
+	/**
      * Method to unblock a user.
-     *
-     * @param   string   $user
-     * @param   string   $token
+	 *
+	 * @param   string   $user    Username, IP address or IP range you want to unblock.
+	 * @param   integer  $token   An unblock token.
+	 * @param   string   $reason  Reason for unblock (optional).
      *
      * @return  object
      *
      * @since   12.1
      */
-    public function unBlockUser($user, $token)
-    {
-        // Build the request path.
-        $path = '?action=query&list=usercontribs&ucuser=' . $user;
+	public function unBlockUser($user, $token, $reason = null)
+	{
+		// Build the request path.
+		$path = '?action=query&list=usercontribs&ucuser=' . $user;
 
-        // Send the request.
-        $response = $this->client->get($this->fetchUrl($path));
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path));
 
-        // convert xml string to an object
-        $xml = simplexml_load_string($response->body);
+		return $this->validateResponse($response);
+	}
 
-        // validate the response
-
-        return $response;
-    }
-
-    /**
+	/**
      * Method to assign a user to a group.
      *
      * @return  object
      *
      * @since   12.1
      */
-    public function assignGroup()
-    {
+	public function assignGroup()
+	{
 
-    }
+	}
 
-    /**
+	/**
      * Method to email a user.
      *
      * @return  object
      *
      * @since   12.1
      */
-    public function emailUser()
-    {
-
-    }
+	public function emailUser()
+	{
+	}
 }
