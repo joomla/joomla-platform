@@ -493,9 +493,9 @@ class JDocumentHTML extends JDocument
 				: count(JModuleHelper::getModules($name));
 		}
 
-		$str = 'return ' . implode(' ', $words) . ';';
+		$str = implode(' ', $words);
 
-		return eval($str);
+		return $str;
 	}
 
 	/**
