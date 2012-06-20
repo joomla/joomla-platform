@@ -493,8 +493,170 @@ class JDocumentHTML extends JDocument
 				: count(JModuleHelper::getModules($name));
 		}
 
-		$str = implode(' ', $words);
+		//process multiplication and division
+		for ($i = 0, $n = count($words), $newwords = array(); $i < $n; $i += 2)
+		{
+			$op1 = $words[$i];
+			$test = ($i < ($n-1)) ? $words[$i+1] : false;
+			$op2 = ($i < ($n-2)) ? $words[$i+2] : null;
+			switch ($test) {
+				case '*':
+					$words[$i+2] = $op1 * $op2;
+					break;
+				case '//':
+					$words[$i+2] = $op1 / $op2;
+					break;
+				case false:
+					$newwords[] = $op1;
+					break;
+				default:
+					$newwords[] = $op1;
+					$newwords[] = $test;
+					break;
+			}
+			$words = $newwords;
+		}
 
+		//process addition and subtraction
+		for ($i = 0, $n = count($words), $newwords = array(); $i < $n; $i += 2)
+		{
+			$op1 = $words[$i];
+			$test = ($i < ($n-1)) ? $words[$i+1] : false;
+			$op2 = ($i < ($n-2)) ? $words[$i+2] : null;
+			switch ($test) {
+				case '+':
+					$words[$i+2] = $op1 + $op2;
+					break;
+				case '-':
+					$words[$i+2] = $op1 - $op2;
+					break;
+				case false:
+					$newwords[] = $op1;
+					break;
+				default:
+					$newwords[] = $op1;
+					$newwords[] = $test;
+					break;
+			}
+			$words = $newwords;
+		}
+
+				//process comparisons
+		for ($i = 0, $n = count($words), $newwords = array(); $i < $n; $i += 2)
+		{
+			$op1 = $words[$i];
+			$test = ($i < ($n-1)) ? $words[$i+1] : false;
+			$op2 = ($i < ($n-2)) ? $words[$i+2] : null;
+			switch ($test) {
+				case '<':
+					$words[$i+2] = $op1 < $op2;
+					break;
+				case '>':
+					$words[$i+2] = $op1 > $op2;
+					break;
+				case '<=':
+					$words[$i+2] = $op1 <= $op2;
+					break;
+				case '>=':
+					$words[$i+2] = $op1 >= $op2;
+					break;
+				case false:
+					$newwords[] = $op1;
+					break;
+				default:
+					$newwords[] = $op1;
+					$newwords[] = $test;
+					break;
+			}
+			$words = $newwords;
+		}
+
+				//process comparisons
+		for ($i = 0, $n = count($words), $newwords = array(); $i < $n; $i += 2)
+		{
+			$op1 = $words[$i];
+			$test = ($i < ($n-1)) ? $words[$i+1] : false;
+			$op2 = ($i < ($n-2)) ? $words[$i+2] : null;
+			switch ($test) {
+				case '==':
+					$words[$i+2] = $op1 == $op2;
+					break;
+				case '!=':
+					$words[$i+2] = $op1 != $op2;
+					break;
+				case false:
+					$newwords[] = $op1;
+					break;
+				default:
+					$newwords[] = $op1;
+					$newwords[] = $test;
+					break;
+			}
+			$words = $newwords;
+		}
+
+
+		// logical and
+		for ($i = 0, $n = count($words), $newwords = array(); $i < $n; $i += 2)
+		{
+			$op1 = $words[$i];
+			$test = ($i < ($n-1)) ? $words[$i+1] : false;
+			$op2 = ($i < ($n-2)) ? $words[$i+2] : null;
+			switch ($test) {
+				case 'and':
+					$words[$i+2] = $op1 and $op2;
+					break;
+				case false:
+					$newwords[] = $op1;
+					break;
+				default:
+					$newwords[] = $op1;
+					$newwords[] = $test;
+					break;
+			}
+			$words = $newwords;
+		}
+
+		// logical xor
+		for ($i = 0, $n = count($words), $newwords = array(); $i < $n; $i += 2)
+		{
+			$op1 = $words[$i];
+			$test = ($i < ($n-1)) ? $words[$i+1] : false;
+			$op2 = ($i < ($n-2)) ? $words[$i+2] : null;
+			switch ($test) {
+				case 'xor':
+					$words[$i+2] = $op1 xor $op2;
+					break;
+				case false:
+					$newwords[] = $op1;
+					break;
+				default:
+					$newwords[] = $op1;
+					$newwords[] = $test;
+					break;
+			}
+			$words = $newwords;
+		}
+
+		// logical or
+		for ($i = 0, $n = count($words), $newwords = array(); $i < $n; $i += 2)
+		{
+			$op1 = $words[$i];
+			$test = ($i < ($n-1)) ? $words[$i+1] : false;
+			$op2 = ($i < ($n-2)) ? $words[$i+2] : null;
+			switch ($test) {
+				case 'or':
+					$words[$i+2] = $op1 or $op2;
+					break;
+				default:
+					// or is the last operator, so there are no further tests
+					$newwords[] = $op1;
+					break;
+			}
+			$words = $newwords;
+		}
+
+		$str = implode(' ', $words);
 		return $str;
 	}
 
