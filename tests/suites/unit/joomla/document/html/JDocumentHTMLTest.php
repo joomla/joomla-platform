@@ -139,9 +139,130 @@ class JDocumentHTMLTest extends PHPUnit_Framework_TestCase {
      * @todo Implement testCountModules().
      */
     public function testCountModules() {
+
+		 // countModules parameter must be a string with an odd number of words
+		 $this->assertThat(
+			$this->object->countModules(''),
+			$this->equalTo(false),
+			'JDocumentHTMLTest->countModules invalid number of parameters failed.'
+		);
+
+		$this->assertThat(
+			$this->object->countModules('dummy1 or'),
+			$this->equalTo(false),
+			'JDocumentHTMLTest->countModules invalid number of parameters failed.'
+		);
+
+		$this->assertThat(
+			$this->object->countModules('dummy1 or dummy2 or'),
+			$this->equalTo(false),
+			'JDocumentHTMLTest->countModules invalid number of parameters failed.'
+		);
+
+		 //nonExistant conditions will be 0
+		$this->assertThat(
+			$this->object->countModules('dummy1'),
+			$this->equalTo(0),
+			'JDocumentHTMLTest->countModules single empty position failed.'
+		);
+
+		// simple operator logic with 2 positions which are both nonexistant/0
+		$this->assertThat(
+			$this->object->countModules('dummy1 + dummy2'),
+			$this->equalTo(0),
+			'JDocumentHTMLTest->countModules empty positions addition failed.'
+		);
+
+		$this->assertThat(
+			$this->object->countModules('dummy1 - dummy2'),
+			$this->equalTo(0),
+			'JDocumentHTMLTest->countModules empty positions subtraction failed.'
+		);
+
+		 $this->assertThat(
+			$this->object->countModules('dummy1 * dummy2'),
+			$this->equalTo(0),
+			'JDocumentHTMLTest->countModules empty positions multiplication failed.'
+		);
+
+		/*  Divide by 0 test, need to catch and check the exception
+		*
+		* $this->assertThat(
+		*	$this->object->countModules('dummy1 / dummy2'),
+		*	$this->equalTo(0)
+		*);
+		 */
+
+		$this->assertThat(
+			$this->object->countModules('dummy1 == dummy2'),
+			$this->equalTo(true),
+			'JDocumentHTMLTest->countModules empty positions equal comparison failed.'
+		);
+
+		$this->assertThat(
+			$this->object->countModules('dummy1 != dummy2'),
+			$this->equalTo(false),
+			'JDocumentHTMLTest->countModules empty positions not equal comparison failed.'
+		);
+
+		$this->assertThat(
+			$this->object->countModules('dummy1 <> dummy2'),
+			$this->equalTo(false),
+			'JDocumentHTMLTest->countModules empty positions not equal comparison failed.'
+		);
+
+		$this->assertThat(
+			$this->object->countModules('dummy1 < dummy2'),
+			$this->equalTo(false),
+			'JDocumentHTMLTest->countModules empty positions less then comparison failed.'
+		);
+
+		$this->assertThat(
+			$this->object->countModules('dummy1 > dummy2'),
+			$this->equalTo(false),
+			'JDocumentHTMLTest->countModules empty positions greater then comparison failed.'
+		);
+
+		$this->assertThat(
+			$this->object->countModules('dummy1 <= dummy2'),
+			$this->equalTo(true),
+			'JDocumentHTMLTest->countModules empty positions less then or equal to comparison failed.'
+		);
+
+		$this->assertThat(
+			$this->object->countModules('dummy1 >= dummy2'),
+			$this->equalTo(true),
+			'JDocumentHTMLTest->countModules empty positions greater then or equal to comparison failed.'
+		);
+
+		$this->assertThat(
+			$this->object->countModules('dummy1 and dummy2'),
+			$this->equalTo(false),
+			'JDocumentHTMLTest->countModules empty positions and comparison failed.'
+		);
+
+		$this->assertThat(
+			$this->object->countModules('dummy1 or dummy2'),
+			$this->equalTo(false),
+			'JDocumentHTMLTest->countModules empty positions or comparison failed.'
+		);
+
+		$this->assertThat(
+			$this->object->countModules('dummy1 xor dummy2'),
+			$this->equalTo(false),
+			'JDocumentHTMLTest->countModules empty positions xor comparison failed.'
+		);
+
+		 //todo: create module positions in order to do simple tests with actual numbers
+
+		 //todo: add complex condition tests
+
+		 //todo: add invalid operator tests
+
+
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
-                'This test has not been implemented yet.'
+                'This test has not been completed yet.'
         );
     }
 
