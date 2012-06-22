@@ -787,7 +787,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * This function return a field value as a prepared string to be used in a SQL statement.
 	 *
-	 * @param   array   $columns      Array of table's column returned by JDatabasePostgreSQL::getTableColumns.
+	 * @param   array   &$columns     Array of table's column returned by JDatabasePostgreSQL::getTableColumns.
 	 * @param   string  $field_name   The table field's name.
 	 * @param   string  $field_value  The variable value to quote and return.
 	 * 
