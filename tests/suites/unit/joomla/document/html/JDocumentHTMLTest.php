@@ -185,14 +185,6 @@ class JDocumentHTMLTest extends PHPUnit_Framework_TestCase {
 			'JDocumentHTMLTest->countModules empty positions multiplication failed.'
 		);
 
-		/*  Divide by 0 test, need to catch and check the exception
-		*
-		* $this->assertThat(
-		*	$this->object->countModules('dummy1 / dummy2'),
-		*	$this->equalTo(0)
-		*);
-		 */
-
 		$this->assertThat(
 			$this->object->countModules('dummy1 == dummy2'),
 			$this->equalTo(true),
@@ -264,6 +256,21 @@ class JDocumentHTMLTest extends PHPUnit_Framework_TestCase {
         $this->markTestIncomplete(
                 'This test has not been completed yet.'
         );
+    }
+
+	 /**
+     * countModules divide by zero special case test
+     */
+    public function testCountModulesDivideByZeroWarning()
+    {
+		try {
+			$this->object->countModules('dummy1 / dummy2');
+			}
+		catch (PHPUnit_Framework_Error_Warning $divideByZeroWarning) {
+			return;
+		}
+		$this->fail('An divide by zeror error was expected but has not been raised.');
+
     }
 
     /**
