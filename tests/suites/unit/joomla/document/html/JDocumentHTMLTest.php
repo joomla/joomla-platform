@@ -135,130 +135,136 @@ class JDocumentHTMLTest extends PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testCountModules().
-     */
-    public function testCountModules() {
+	/**
+	 *  These three tests cannot be enabled until the functionality has been added
 
+	public function testCountModulesNullString() {
 		 // countModules parameter must be a string with an odd number of words
 		 $this->assertThat(
 			$this->object->countModules(''),
 			$this->equalTo(false),
 			'JDocumentHTMLTest->countModules invalid number of parameters failed.'
 		);
-
+	}
+	public function testCountModulesNotTwo() {
 		$this->assertThat(
 			$this->object->countModules('dummy1 or'),
 			$this->equalTo(false),
 			'JDocumentHTMLTest->countModules invalid number of parameters failed.'
 		);
-
+	}
+	public function testCountModulesNotEven() {
 		$this->assertThat(
 			$this->object->countModules('dummy1 or dummy2 or'),
 			$this->equalTo(false),
 			'JDocumentHTMLTest->countModules invalid number of parameters failed.'
 		);
+	}
+	 **/
 
+	public function testCountModulesOneParameter() {
 		 //nonExistant conditions will be 0
 		$this->assertThat(
 			$this->object->countModules('dummy1'),
 			$this->equalTo(0),
 			'JDocumentHTMLTest->countModules single empty position failed.'
 		);
-
+	}
+	public function testCountModulesAddition() {
 		// simple operator logic with 2 positions which are both nonexistant/0
 		$this->assertThat(
 			$this->object->countModules('dummy1 + dummy2'),
 			$this->equalTo(0),
 			'JDocumentHTMLTest->countModules empty positions addition failed.'
 		);
-
+	}
+	public function testCountModulesSubtraction() {
 		$this->assertThat(
 			$this->object->countModules('dummy1 - dummy2'),
 			$this->equalTo(0),
 			'JDocumentHTMLTest->countModules empty positions subtraction failed.'
 		);
-
+	}
+	public function testCountModulesMultiplication() {
 		 $this->assertThat(
 			$this->object->countModules('dummy1 * dummy2'),
 			$this->equalTo(0),
 			'JDocumentHTMLTest->countModules empty positions multiplication failed.'
 		);
-
+	}
+		public function testCountModulesEquals() {
 		$this->assertThat(
 			$this->object->countModules('dummy1 == dummy2'),
 			$this->equalTo(true),
 			'JDocumentHTMLTest->countModules empty positions equal comparison failed.'
 		);
-
+	}
+		public function testCountModulesNotEquals() {
 		$this->assertThat(
 			$this->object->countModules('dummy1 != dummy2'),
 			$this->equalTo(false),
 			'JDocumentHTMLTest->countModules empty positions not equal comparison failed.'
 		);
-
+	}
+		public function testCountModulesUnequal() {
 		$this->assertThat(
 			$this->object->countModules('dummy1 <> dummy2'),
 			$this->equalTo(false),
 			'JDocumentHTMLTest->countModules empty positions not equal comparison failed.'
 		);
-
+	}
+		public function testCountModulesLessThen() {
 		$this->assertThat(
 			$this->object->countModules('dummy1 < dummy2'),
 			$this->equalTo(false),
 			'JDocumentHTMLTest->countModules empty positions less then comparison failed.'
 		);
-
+	}
+		public function testCountModulesGreaterThen() {
 		$this->assertThat(
 			$this->object->countModules('dummy1 > dummy2'),
 			$this->equalTo(false),
 			'JDocumentHTMLTest->countModules empty positions greater then comparison failed.'
 		);
 
+				}
+		public function testCountModulesLessThenOrEqual() {
 		$this->assertThat(
 			$this->object->countModules('dummy1 <= dummy2'),
 			$this->equalTo(true),
 			'JDocumentHTMLTest->countModules empty positions less then or equal to comparison failed.'
 		);
-
+	}
+		public function testCountModulesGreaterThenOrEqual() {
 		$this->assertThat(
 			$this->object->countModules('dummy1 >= dummy2'),
 			$this->equalTo(true),
 			'JDocumentHTMLTest->countModules empty positions greater then or equal to comparison failed.'
 		);
-
+	}
+		public function testCountModulesLogicalAnd() {
 		$this->assertThat(
 			$this->object->countModules('dummy1 and dummy2'),
 			$this->equalTo(false),
 			'JDocumentHTMLTest->countModules empty positions and comparison failed.'
 		);
-
+	}
+		public function testCountModulesLogicalOr() {
 		$this->assertThat(
 			$this->object->countModules('dummy1 or dummy2'),
 			$this->equalTo(false),
 			'JDocumentHTMLTest->countModules empty positions or comparison failed.'
 		);
-
+	}
+	public function testCountModulesLogicalXor() {
 		$this->assertThat(
 			$this->object->countModules('dummy1 xor dummy2'),
 			$this->equalTo(false),
 			'JDocumentHTMLTest->countModules empty positions xor comparison failed.'
 		);
+	}
 
-		 //todo: create module positions in order to do simple tests with actual numbers
-
-		 //todo: add complex condition tests
-
-		 //todo: add invalid operator tests
-
-
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been completed yet.'
-        );
-    }
-
-	 /**
+		 /**
      * countModules divide by zero special case test
      */
     public function testCountModulesDivideByZeroWarning()
@@ -270,8 +276,23 @@ class JDocumentHTMLTest extends PHPUnit_Framework_TestCase {
 			return;
 		}
 		$this->fail('An divide by zeror error was expected but has not been raised.');
-
     }
+
+    /**
+     * @todo finish implementing testCountModules().
+     */
+    public function testCountModules() {
+        // Remove the following lines when you implement this test.
+        $this->markTestIncomplete(
+                'these tests have not been completed.'
+        );
+    }
+
+	//todo: create module positions in order to do simple tests with actual numbers
+
+	 //todo: add complex condition tests
+
+	 //todo: add invalid operator tests
 
     /**
      * @todo Implement testCountMenuChildren().
