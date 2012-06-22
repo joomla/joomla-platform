@@ -484,6 +484,23 @@ class JDocumentHTML extends JDocument
 	{
 		$operators = '(\+|\-|\*|\/|==|\!=|\<\>|\<|\>|\<=|\>=|and|or|xor)';
 		$words = preg_split('# ' . $operators . ' #', $condition, null, PREG_SPLIT_DELIM_CAPTURE);
+
+		// $words must be odd, an even number of words is a mistake so skip processing
+		if (!(count($words) & 1)) {
+			return false;
+		}
+
+		// don't allow undocumented/malicious operators
+		for ($i = 1, $n = count($words); $i < $n; $i += 2)
+		{
+			// even parts (operators)
+			$operator = strtolower($words[$i]);
+			if (!preg_match($operators, $words) )
+			{
+				return false;
+			}
+		}
+
 		for ($i = 0, $n = count($words); $i < $n; $i += 2)
 		{
 			// Odd parts (modules)
@@ -491,6 +508,12 @@ class JDocumentHTML extends JDocument
 			$words[$i] = ((isset(parent::$_buffer['modules'][$name])) && (parent::$_buffer['modules'][$name] === false))
 				? 0
 				: count(JModuleHelper::getModules($name));
+		}
+
+
+		// one word doesn't need an eval call
+		if (count($words) == 1) {
+			return $words[0];
 		}
 
 		$str = 'return ' . implode(' ', $words) . ';';
