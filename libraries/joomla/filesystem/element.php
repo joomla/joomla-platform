@@ -618,9 +618,9 @@ abstract class JFilesystemElement
 	/**
 	 * Sets the element group
 	 *
-	 * @param   int  $group  The new group ID
+	 * @param   integer  $group  The new group ID
 	 *
-	 * @return  int|false  Returns the group ID of the element, or FALSE if an error occurs.
+	 * @return  mixed  Returns the group ID of the element, or FALSE if an error occurs.
 	 *
 	 * @link    http://php.net/manual/en/function.filegroup.php
 	 * @link    http://php.net/manual/en/function.chgrp.php
