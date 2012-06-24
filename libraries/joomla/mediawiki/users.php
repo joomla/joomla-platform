@@ -232,7 +232,7 @@ class JMediawikiUsers extends JMediawikiObject
 		$path = '?action=unblock&user=' . $user . '&token=' . $token . '&reason=' . $reason;
 
 		// Send the request.
-		$response = $this->client->get(urlencode($this->fetchUrl($path)));
+		$response = $this->client->get($this->fetchUrl($path));
 
 		return $this->validateResponse($response);
 	}
