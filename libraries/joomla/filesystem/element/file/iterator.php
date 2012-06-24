@@ -31,7 +31,7 @@ class JFilesystemElementFileIterator implements Iterator
 	private $_args;
 
 	/**
-	 * @var  int  The count used for iterating
+	 * @var  integer  The count used for iterating
 	 */
 	private $_count = 0;
 
@@ -64,7 +64,7 @@ class JFilesystemElementFileIterator implements Iterator
 	/**
 	 * Return the current key
 	 *
-	 * @return  int  The current key
+	 * @return  integer  The current key
 	 *
 	 * @since   12.2
 	 */
@@ -98,7 +98,7 @@ class JFilesystemElementFileIterator implements Iterator
 	/**
 	 * Checks if current position is valid
 	 *
-	 * @return  bool  Tells if the current position is valid
+	 * @return  boolean  Tells if the current position is valid
 	 *
 	 * @since   12.2
 	 */

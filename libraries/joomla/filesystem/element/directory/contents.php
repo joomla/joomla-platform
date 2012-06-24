@@ -70,7 +70,7 @@ class JFilesystemElementDirectoryContents implements RecursiveIterator
 	private $_compare = null;
 
 	/**
-	 * @var  int  Either JFilesystemElementDirectoryContents::DEPTH_FIRST|BREADTH_FIRST
+	 * @var  integer  Either JFilesystemElementDirectoryContents::DEPTH_FIRST|BREADTH_FIRST
 	 *
 	 * @since   12.2
 	 */
@@ -120,7 +120,7 @@ class JFilesystemElementDirectoryContents implements RecursiveIterator
 	 * @param   string  $a  First directory
 	 * @param   string  $b  Second directory
 	 *
-	 * @return  int     Negative, 0 or positive
+	 * @return  integer     Negative, 0 or positive
 	 *
 	 * @since   12.2
 	 */
@@ -250,7 +250,7 @@ class JFilesystemElementDirectoryContents implements RecursiveIterator
 	/**
 	 * Iterator valid function
 	 *
-	 * @return  bool  TRUE on success, or FALSE on failure
+	 * @return  boolean  TRUE on success, or FALSE on failure
 	 *
 	 * @since   12.2
 	 */
@@ -262,7 +262,7 @@ class JFilesystemElementDirectoryContents implements RecursiveIterator
 	/**
 	 * Recursive iterator hasChildren function
 	 *
-	 * @return  bool  TRUE on success, or FALSE on failure
+	 * @return  boolean  TRUE on success, or FALSE on failure
 	 *
 	 * @since   12.2
 	 */

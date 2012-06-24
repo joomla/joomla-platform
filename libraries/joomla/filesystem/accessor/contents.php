@@ -24,9 +24,9 @@ abstract class JFilesystemAccessorContents
 	 * Read data from a file
 	 *
 	 * @param   JFilesystemElementFile  $file    The file to be read.
-	 * @param   int                     $length  The maximum number of characters read.
+	 * @param   integer                 $length  The maximum number of characters read.
 	 *
-	 * @return  string|FALSE  The data read, or FALSE on failure.
+	 * @return  mixed  The data read, or FALSE on failure.
 	 *
 	 * @link    http://php.net/manual/en/function.fread.php
 	 *
@@ -42,9 +42,9 @@ abstract class JFilesystemAccessorContents
 	 *
 	 * @param   JFilesystemElementFile  $file    The file to be written.
 	 * @param   string                  $data    The string that is to be written.
-	 * @param   int                     $length  The maximum number of characters written.
+	 * @param   integer                 $length  The maximum number of characters written.
 	 *
-	 * @return  int|FALSE  The number of bytes written, or FALSE on failure.
+	 * @return  mixed  The number of bytes written, or FALSE on failure.
 	 *
 	 * @link    http://php.net/manual/en/function.fwrite.php
 	 *
@@ -66,10 +66,10 @@ abstract class JFilesystemAccessorContents
 	 * Pull an entire file into a string
 	 *
 	 * @param   JFilesystemElementFile  $file    The file to be pulled.
-	 * @param   int                     $offset  The offset where the reading starts on the original stream.
-	 * @param   int                     $maxlen  Maximum length of data read.
+	 * @param   integer                 $offset  The offset where the reading starts on the original stream.
+	 * @param   integer                 $maxlen  Maximum length of data read.
 	 *
-	 * @return  string|FALSE  The read data or FALSE on failure.
+	 * @return  mixed  The read data or FALSE on failure.
 	 *
 	 * @link    http://php.net/manual/en/function.file-get-contents.php
 	 *
@@ -92,11 +92,11 @@ abstract class JFilesystemAccessorContents
 	 *
 	 * @param   JFilesystemElementFile  $file   The file to be pushed.
 	 * @param   mixed                   $data   The data to write. Can be either a string, an array or a stream resource.
-	 * @param   int                     $flags  The value of flags can be any combination of the following flags, joined with the binary | operator:
+	 * @param   integer                 $flags  The value of flags can be any combination of the following flags, joined with the binary | operator:
 	 *                                          -FILE_APPEND If file filename already exists, append the data to the file instead of overwriting it.
 	 *                                          -LOCK_EX Acquire an exclusive lock on the file while proceeding to the writing.
 	 *
-	 * @return  int|FALSE  The number of bytes that were written to the file, or FALSE on failure.
+	 * @return  mixed  The number of bytes that were written to the file, or FALSE on failure.
 	 *
 	 * @link    http://php.net/manual/en/function.file-put-contents.php
 	 *

@@ -13,28 +13,28 @@ defined('JPATH_PLATFORM') or die;
 /**
  * A File System Element handling class
  *
- * @property  int     $owner        The owner id
- * @property  int     $group        The group id
- * @property  int     $permissions  The element permissions
- * @property  string  $path         The path
- * @property  string  $name         The name
- * @property  string  $dirpath      The directory path
- * @property  string  $basename     The base name
- * @property  string  $extension    The extension
- * @property  string  $link         The link
+ * @property  integer  $owner        The owner id
+ * @property  integer  $group        The group id
+ * @property  integer  $permissions  The element permissions
+ * @property  string   $path         The path
+ * @property  string   $name         The name
+ * @property  string   $dirpath      The directory path
+ * @property  string   $basename     The base name
+ * @property  string   $extension    The extension
+ * @property  string   $link         The link
  *
  * @property-write  string  $permissions  The element permissions using a string representation
  *
- * @property-read  bool         $exists             Tell if the element exists.
- * @property-read  bool         $is_dir             Tell if the element is an existing directory
- * @property-read  bool         $is_file            Tell if the element is an existing file
- * @property-read  bool         $is_link            Tell if the element is an existing link
- * @property-read  bool         $is_readable        Tell if the element is writable
- * @property-read  bool         $is_writable        Tell if the element is readable
- * @property-read  int          $access_time        The access time
- * @property-read  int          $change_time        The change time
- * @property-read  int          $modification_time  The modification time
- * @property-read  int          $size               The element size
+ * @property-read  boolean      $exists             Tell if the element exists.
+ * @property-read  boolean      $is_dir             Tell if the element is an existing directory
+ * @property-read  boolean      $is_file            Tell if the element is an existing file
+ * @property-read  boolean      $is_link            Tell if the element is an existing link
+ * @property-read  boolean      $is_readable        Tell if the element is writable
+ * @property-read  boolean      $is_writable        Tell if the element is readable
+ * @property-read  integer      $access_time        The access time
+ * @property-read  integer      $change_time        The change time
+ * @property-read  integer      $modification_time  The modification time
+ * @property-read  integer      $size               The element size
  * @property-read  string       $fullpath           The full path
  * @property-read  JFilesystem  $system             The file system
  *
@@ -81,7 +81,7 @@ abstract class JFilesystemElement
 	private $_system;
 
 	/**
-	 * @var  bool  Tell if the error are handled
+	 * @var  boolean  Tell if the error are handled
 	 */
 	private $_errors_handled;
 
@@ -294,7 +294,7 @@ abstract class JFilesystemElement
 	/**
 	 * Get an instance of a element
 	 *
-	 * @param   string|null  $path    The element path.
+	 * @param   mixed        $path    The element path.
 	 * @param   JFilesystem  $system  The file system.
 	 *
 	 * @return  JFilesystemElement  The file system element instance.
@@ -411,7 +411,7 @@ abstract class JFilesystemElement
 	/**
 	 * Checks whether an element exists
 	 *
-	 * @return  bool  TRUE if the element exists, FALSE otherwise.
+	 * @return  boolean  TRUE if the element exists, FALSE otherwise.
 	 *
 	 * @link    http://php.net/manual/en/function.file-exists.php
 	 *
@@ -425,7 +425,7 @@ abstract class JFilesystemElement
 	/**
 	 * Gets last access time of an element
 	 *
-	 * @return  int|false  Returns the time the element was last accessed, or FALSE on failure. The time is returned as a Unix timestamp.
+	 * @return  mixed  Returns the time the element was last accessed, or FALSE on failure. The time is returned as a Unix timestamp.
 	 *
 	 * @link    http://php.net/manual/en/function.fileatime.php
 	 *
@@ -439,7 +439,7 @@ abstract class JFilesystemElement
 	/**
 	 * Gets change time of an element
 	 *
-	 * @return  int|false  Returns the time the element was last changed, or FALSE on failure. The time is returned as a Unix timestamp.
+	 * @return  mixed  Returns the time the element was last changed, or FALSE on failure. The time is returned as a Unix timestamp.
 	 *
 	 * @link    http://php.net/manual/en/function.filectime.php
 	 *
@@ -453,7 +453,7 @@ abstract class JFilesystemElement
 	/**
 	 * Gets modification time of an element
 	 *
-	 * @return  int|false  Returns the time the element was last modified, or FALSE on failure. The time is returned as a Unix timestamp.
+	 * @return  mixed  Returns the time the element was last modified, or FALSE on failure. The time is returned as a Unix timestamp.
 	 *
 	 * @link    http://php.net/manual/en/function.filemtime.php
 	 *
@@ -467,7 +467,7 @@ abstract class JFilesystemElement
 	/**
 	 * Gets the element group
 	 *
-	 * @return  int|false  Returns the group ID of the element, or FALSE if an error occurs.
+	 * @return  mixed  Returns the group ID of the element, or FALSE if an error occurs.
 	 *
 	 * @link    http://php.net/manual/en/function.filegroup.php
 	 *
@@ -481,7 +481,7 @@ abstract class JFilesystemElement
 	/**
 	 * Gets or sets the element owner
 	 *
-	 * @return  int|false  Returns the owner ID of the element, or FALSE if an error occurs.
+	 * @return  mixed  Returns the owner ID of the element, or FALSE if an error occurs.
 	 *
 	 * @link    http://php.net/manual/en/function.fileowner.php
 	 *
@@ -495,7 +495,7 @@ abstract class JFilesystemElement
 	/**
 	 * Gets the element permissions
 	 *
-	 * @return  int|false  Returns the permissions of the element, or FALSE if an error occurs.
+	 * @return  mixed  Returns the permissions of the element, or FALSE if an error occurs.
 	 *
 	 * @link    http://php.net/manual/en/function.fileperms.php
 	 *
@@ -520,7 +520,7 @@ abstract class JFilesystemElement
 	/**
 	 * Gets element size
 	 *
-	 * @return  int|false  Returns the size of the file in bytes, or FALSE if an error occurs.
+	 * @return  mixed  Returns the size of the file in bytes, or FALSE if an error occurs.
 	 *
 	 * @link    http://php.net/manual/en/function.filesize.php
 	 *
@@ -534,7 +534,7 @@ abstract class JFilesystemElement
 	/**
 	 * Tell if the element is an existing directory
 	 *
-	 * @return  bool  Returns TRUE if the element is an existing directory, FALSE otherwise.
+	 * @return  boolean  Returns TRUE if the element is an existing directory, FALSE otherwise.
 	 *
 	 * @link    http://php.net/manual/en/function.is-dir.php
 	 *
@@ -548,7 +548,7 @@ abstract class JFilesystemElement
 	/**
 	 * Tell if the element is an existing file
 	 *
-	 * @return  bool  Returns TRUE if the element is an existing file, FALSE otherwise.
+	 * @return  boolean  Returns TRUE if the element is an existing file, FALSE otherwise.
 	 *
 	 * @link    http://php.net/manual/en/function.is-file.php
 	 *
@@ -562,7 +562,7 @@ abstract class JFilesystemElement
 	/**
 	 * Tell if the element is an existing link
 	 *
-	 * @return  bool  Returns TRUE if the element is an existing link, FALSE otherwise.
+	 * @return  boolean  Returns TRUE if the element is an existing link, FALSE otherwise.
 	 *
 	 * @link    http://php.net/manual/en/function.is-link.php
 	 *
@@ -576,7 +576,7 @@ abstract class JFilesystemElement
 	/**
 	 * Tells whether an element exists and is readable
 	 *
-	 * @return  bool  Returns TRUE if the element exists and is readable, FALSE otherwise. 
+	 * @return  boolean  Returns TRUE if the element exists and is readable, FALSE otherwise. 
 	 *
 	 * @link    http://php.net/manual/en/function.is-readable.php
 	 *
@@ -590,7 +590,7 @@ abstract class JFilesystemElement
 	/**
 	 * Tells whether an element exists and is writable
 	 *
-	 * @return  bool  Returns TRUE if the element exists and is writable, FALSE otherwise. 
+	 * @return  boolean  Returns TRUE if the element exists and is writable, FALSE otherwise. 
 	 *
 	 * @link    http://php.net/manual/en/function.is-writable.php
 	 *
@@ -656,9 +656,9 @@ abstract class JFilesystemElement
 	/**
 	 * Sets the element owner
 	 *
-	 * @param   int  $owner  The new owner ID
+	 * @param   integer  $owner  The new owner ID
 	 *
-	 * @return  int|false  Returns the owner ID of the element, or FALSE if an error occurs.
+	 * @return  mixed  Returns the owner ID of the element, or FALSE if an error occurs.
 	 *
 	 * @link    http://php.net/manual/en/function.fileowner.php
 	 * @link    http://php.net/manual/en/function.chown.php
@@ -694,9 +694,9 @@ abstract class JFilesystemElement
 	/**
 	 * Sets the element permissions
 	 *
-	 * @param   int|string  $permissions  The new permissions
+	 * @param   mixed  $permissions  The new permissions
 	 *
-	 * @return  bool  TRUE on success, or FALSE if an error occurs.
+	 * @return  boolean  TRUE on success, or FALSE if an error occurs.
 	 *
 	 * @link    http://php.net/manual/en/function.fileperms.php
 	 * @link    http://php.net/manual/en/function.chmod.php
@@ -711,9 +711,9 @@ abstract class JFilesystemElement
 	/**
 	 * Sets the element permissions
 	 *
-	 * @param   int|string  $permissions  The new permissions
+	 * @param   mixed  $permissions  The new permissions
 	 *
-	 * @return  bool  TRUE on success, or FALSE if an error occurs.
+	 * @return  boolean  TRUE on success, or FALSE if an error occurs.
 	 *
 	 * @link    http://php.net/manual/en/function.fileperms.php
 	 * @link    http://php.net/manual/en/function.chmod.php
@@ -753,10 +753,10 @@ abstract class JFilesystemElement
 	/**
 	 * Transformation of string permissions into integer ones
 	 *
-	 * @param   int     $permissions  The actual permissions
-	 * @param   string  $operation    The modification operations
+	 * @param   integer  $permissions  The actual permissions
+	 * @param   string   $operation    The modification operations
 	 *
-	 * @return  int  The new permissions
+	 * @return  integer  The new permissions
 	 *
 	 * @since   12.2
 	 */
@@ -848,7 +848,7 @@ abstract class JFilesystemElement
 	 *
 	 * @param   string  $link  The linked element
 	 *
-	 * @return  bool  TRUE on success, or FALSE if an error occurs.
+	 * @return  boolean  TRUE on success, or FALSE if an error occurs.
 	 *
 	 * @link    http://php.net/manual/en/function.symlink.php
 	 *
@@ -864,7 +864,7 @@ abstract class JFilesystemElement
 	 *
 	 * @param   string  $path  The path name.
 	 *
-	 * @return  bool  TRUE on success, or FALSE on failure.
+	 * @return  boolean  TRUE on success, or FALSE on failure.
 	 *
 	 * @since   12.2
 	 */
@@ -895,7 +895,7 @@ abstract class JFilesystemElement
 	 *
 	 * @param   string  $dirpath  The directory  path name.
 	 *
-	 * @return  bool  TRUE on success, or FALSE on failure.
+	 * @return  boolean  TRUE on success, or FALSE on failure.
 	 *
 	 * @since   12.2
 	 */
@@ -909,7 +909,7 @@ abstract class JFilesystemElement
 	 *
 	 * @param   string  $name  The base name.
 	 *
-	 * @return  bool  TRUE on success, or FALSE on failure.
+	 * @return  boolean  TRUE on success, or FALSE on failure.
 	 *
 	 * @since   12.2
 	 */
@@ -923,7 +923,7 @@ abstract class JFilesystemElement
 	 *
 	 * @param   string  $basename  The base name.
 	 *
-	 * @return  bool  TRUE on success, or FALSE on failure.
+	 * @return  boolean  TRUE on success, or FALSE on failure.
 	 *
 	 * @since   12.2
 	 */
@@ -945,7 +945,7 @@ abstract class JFilesystemElement
 	 *
 	 * @param   string  $extension  The base name.
 	 *
-	 * @return  bool  TRUE on success, or FALSE on failure.
+	 * @return  boolean  TRUE on success, or FALSE on failure.
 	 *
 	 * @since   12.2
 	 */

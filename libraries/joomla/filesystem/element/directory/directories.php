@@ -51,7 +51,7 @@ class JFilesystemElementDirectoryDirectories extends RecursiveFilterIterator
 	/**
 	 * Accept the directory
 	 *
-	 * @return  bool  TRUE on success, FALSE on failure
+	 * @return  boolean  TRUE on success, FALSE on failure
 	 *
 	 * @since   12.2
 	 */

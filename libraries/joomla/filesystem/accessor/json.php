@@ -24,8 +24,8 @@ abstract class JFilesystemAccessorJson
 	 * Read a JSON value
 	 *
 	 * @param   JFilesystemElementFile  $file   The file to be read.
-	 * @param   bool                    $assoc  When TRUE, returned objects will be converted into associative arrays.
-	 * @param   int                     $depth  User specified recursion depth.
+	 * @param   boolean                    $assoc  When TRUE, returned objects will be converted into associative arrays.
+	 * @param   integer                     $depth  User specified recursion depth.
 	 *
 	 * @return  mixed                   Decoded JSON value.
 	 *
@@ -53,12 +53,12 @@ abstract class JFilesystemAccessorJson
 	 *
 	 * @param   JFilesystemElementFile  $file    The file to be written.
 	 * @param   mixed                   $value   The value to write.
-	 * @param   int                     $options Bitmask consisting of
+	 * @param   integer                     $options Bitmask consisting of
 	 *                                  JSON_HEX_QUOT, JSON_HEX_TAG, JSON_HEX_AMP, JSON_HEX_APOS, JSON_NUMERIC_CHECK, JSON_FORCE_OBJECT.
 	 *                                  JSON_NUMERIC_CHECK option was added in PHP 5.3.3
 	 *                                  JSON_BIGINT_AS_STRING, JSON_PRETTY_PRINT, JSON_UNESCAPED_SLASHES, JSON_UNESCAPED_UNICODE were added in PHP 5.4
 	 *
-	 * @return  int|FALSE  The number of bytes that were written to the file, or FALSE on failure.
+	 * @return  mixed  The number of bytes that were written to the file, or FALSE on failure.
 	 *
 	 * @link    http://php.net/manual/en/function.json-encode.php
 	 *
@@ -75,8 +75,8 @@ abstract class JFilesystemAccessorJson
 	 * Pull entire JSON file
 	 *
 	 * @param   JFilesystemElementFile  $file   The file to be read.
-	 * @param   bool                    $assoc  When TRUE, returned objects will be converted into associative arrays.
-	 * @param   int                     $depth  User specified recursion depth.
+	 * @param   boolean                    $assoc  When TRUE, returned objects will be converted into associative arrays.
+	 * @param   integer                     $depth  User specified recursion depth.
 	 *
 	 * @return  mixed                   Decoded JSON value.
 	 *
@@ -103,13 +103,13 @@ abstract class JFilesystemAccessorJson
 	 * Push JSON data to a file
 	 *
 	 * @param   JFilesystemElementFile  $file    The file to be written.
-	 * @param   array|Traversable       $data    The value to write.
-	 * @param   int                     $options Bitmask consisting of
+	 * @param   mixed       $data    The value to write.
+	 * @param   integer                     $options Bitmask consisting of
 	 *                                  JSON_HEX_QUOT, JSON_HEX_TAG, JSON_HEX_AMP, JSON_HEX_APOS, JSON_NUMERIC_CHECK, JSON_FORCE_OBJECT.
 	 *                                  JSON_NUMERIC_CHECK option was added in PHP 5.3.3
 	 *                                  JSON_BIGINT_AS_STRING, JSON_PRETTY_PRINT, JSON_UNESCAPED_SLASHES, JSON_UNESCAPED_UNICODE were added in PHP 5.4
 	 *
-	 * @return  int|FALSE  The number of bytes that were written to the file, or FALSE on failure.
+	 * @return  mixed  The number of bytes that were written to the file, or FALSE on failure.
 	 *
 	 * @link    http://php.net/manual/en/function.file-put-contents.php
 	 * @link    http://php.net/manual/en/function.json-encode.php

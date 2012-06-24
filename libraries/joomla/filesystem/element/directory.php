@@ -15,12 +15,12 @@ defined('JPATH_PLATFORM') or die;
  * @property-read  RecursiveIteratorIterator  $files        Iterator on files.
  * @property-read  RecursiveIteratorIterator  $directories  Iterator on directories.
  *
- * @method                            bool create(int $permissions)                   create the directory
- * @method                            bool delete()                                   delete the directory
- * @method                       int|FALSE copy(JFilesystemElementDirectory $dest)    copy the directory
- * @method                       int|FALSE copyFromFile(JFilesystemElementFile $src)  copy from a file
- * @method       RecursiveIteratorIterator files(array $options)                      iterate on files
- * @method       RecursiveIteratorIterator directories(array $options)                iterate on directories
+ * @method                    boolean create(integer $permissions)               create the directory
+ * @method                    boolean delete()                                   delete the directory
+ * @method                      mixed copy(JFilesystemElementDirectory $dest)    copy the directory
+ * @method                      mixed copyFromFile(JFilesystemElementFile $src)  copy from a file
+ * @method  RecursiveIteratorIterator files(array $options)                      iterate on files
+ * @method  RecursiveIteratorIterator directories(array $options)                iterate on directories
  *
  * @package     Joomla.Platform
  * @subpackage  FileSystem
@@ -29,7 +29,7 @@ defined('JPATH_PLATFORM') or die;
 class JFilesystemElementDirectory extends JFilesystemElement
 {
 	/**
-	 * @var  int  Default creation permissions
+	 * @var  integer  Default creation permissions
 	 */
 	public static $permissions = 0755;
 
@@ -126,9 +126,9 @@ class JFilesystemElementDirectory extends JFilesystemElement
 	/**
 	 * Makes directory.
 	 *
-	 * @param   int|null  $permissions  The permissions.
+	 * @param   mixed  $permissions  The permissions.
 	 *
-	 * @return  bool  Returns TRUE on success or FALSE on failure.
+	 * @return  boolean  Returns TRUE on success or FALSE on failure.
 	 *
 	 * @throw   RuntimeException
 	 *
@@ -155,9 +155,9 @@ class JFilesystemElementDirectory extends JFilesystemElement
 
 	/** List items.
 	 *
-	 * @param   string  $type     'files' or 'directories'.
-	 * @param   int     $mode     RecursiveIteratorIterator::LEAVES_ONLY|CHILD_FIRST|SELF_FIRST
-	 * @param   array   $options  Array of options.
+	 * @param   string   $type     'files' or 'directories'.
+	 * @param   integer  $mode     RecursiveIteratorIterator::LEAVES_ONLY|CHILD_FIRST|SELF_FIRST
+	 * @param   array    $options  Array of options.
 	 *
 	 * @return  RecursiveIteratorIterator  Iterator on files.
 	 *
@@ -187,7 +187,7 @@ class JFilesystemElementDirectory extends JFilesystemElement
 	/**
 	 * Deletes a directory.
 	 *
-	 * @return  bool  Returns TRUE on success or FALSE on failure.
+	 * @return  boolean  Returns TRUE on success or FALSE on failure.
 	 *
 	 * @throw   RuntimeException
 	 *
@@ -221,9 +221,9 @@ class JFilesystemElementDirectory extends JFilesystemElement
 	/**
 	 * Sets the element permissions
 	 *
-	 * @param   int|string  $permissions  The new permissions
+	 * @param   mixed  $permissions  The new permissions
 	 *
-	 * @return  bool  TRUE on success, or FALSE if an error occurs.
+	 * @return  boolean  TRUE on success, or FALSE if an error occurs.
 	 *
 	 * @link    http://php.net/manual/en/function.fileperms.php
 	 * @link    http://php.net/manual/en/function.chmod.php
@@ -300,7 +300,7 @@ class JFilesystemElementDirectory extends JFilesystemElement
 	 *
 	 * @param   JFilesystemElementFile  $src  The source file.
 	 *
-	 * @return  int|FALSE  The number of bytes that were written to the file, or FALSE on failure.
+	 * @return  mixed  The number of bytes that were written to the file, or FALSE on failure.
 	 *
 	 * @since   12.2
 	 */
@@ -318,7 +318,7 @@ class JFilesystemElementDirectory extends JFilesystemElement
 	 *
 	 * @param   JFilesystemElementDirectory  $dest  The destination directory.
 	 *
-	 * @return  int|FALSE  The number of bytes that were written to the files, or FALSE on failure.
+	 * @return  mixed  The number of bytes that were written to the files, or FALSE on failure.
 	 *
 	 * @since   12.2
 	 */

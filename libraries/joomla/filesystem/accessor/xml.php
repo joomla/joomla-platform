@@ -25,11 +25,11 @@ abstract class JFilesystemAccessorXml
 	 *
 	 * @param   JFilesystemElementFile  $file        The file to be read.
 	 * @param   string                  $class_name  Object class.
-	 * @param   int                     $options     Additional Libxml parameters. .
+	 * @param   integer                 $options     Additional Libxml parameters. .
 	 * @param   string                  $ns          Namespace prefix or URI.
-	 * @param   bool                    $is_prefix   TRUE if ns is a prefix, FALSE if it's a URI.
+	 * @param   boolean                 $is_prefix   TRUE if ns is a prefix, FALSE if it's a URI.
 	 *
-	 * @return  JXMLElement|FALSE  The xml or FALSE on failure.
+	 * @return  mixed  The xml or FALSE on failure.
 	 *
 	 * @link    http://php.net/manual/en/function.simplexml-load-file.php
 	 *
@@ -46,7 +46,7 @@ abstract class JFilesystemAccessorXml
 	 * @param   JFilesystemElementFile  $file  The file to be written.
 	 * @param   SimpleXMLElement        $xml   The xml to write.
 	 *
-	 * @return  int|FALSE  The number of bytes that were written to the file, or FALSE on failure.
+	 * @return  mixed  The number of bytes that were written to the file, or FALSE on failure.
 	 *
 	 * @link    http://php.net/manual/en/function.file-put-contents.php
 	 * @link    http://php.net/manual/en/simplexmlelement.asxml.php

@@ -25,7 +25,7 @@ abstract class JFilesystemAccessorCharacter
 	 *
 	 * @param   JFilesystemElementFile  $file  The file to be read.
 	 *
-	 * @return  string|FALSE  The character read, or FALSE on failure.
+	 * @return  mixed  The character read, or FALSE on failure.
 	 *
 	 * @link    http://php.net/manual/en/function.fgetc.php
 	 *
@@ -42,7 +42,7 @@ abstract class JFilesystemAccessorCharacter
 	 * @param   JFilesystemElementFile  $file       The file to be written.
 	 * @param   string                  $character  The character that is to be written.
 	 *
-	 * @return  int|FALSE  The number of bytes written, or FALSE on failure.
+	 * @return  mixed  The number of bytes written, or FALSE on failure.
 	 *
 	 * @see     JFilesystemAccessorContents::write
 	 *

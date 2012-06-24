@@ -52,7 +52,7 @@ abstract class JFilesystemAccessorSerializable
 	 * @param   JFilesystemElementFile  $file          The file to be written.
 	 * @param   mixed                   $serializable  The data to be serialized.
 	 *
-	 * @return  int|FALSE  The number of bytes written, or FALSE on failure.
+	 * @return  mixed  The number of bytes written, or FALSE on failure.
 	 *
 	 * @link    http://php.net/manual/en/function.serialize.php
 	 *
@@ -93,9 +93,9 @@ abstract class JFilesystemAccessorSerializable
 	 * Push lines to a file
 	 *
 	 * @param   JFilesystemElementFile  $file  The file to be written.
-	 * @param   Traversable|array       $data  The data that is to be written.
+	 * @param   mixed                   $data  The data that is to be written.
 	 *
-	 * @return  int|FALSE  The number of bytes written, or FALSE on failure.
+	 * @return  mixed  The number of bytes written, or FALSE on failure.
 	 *
 	 * @since   12.2
 	 */

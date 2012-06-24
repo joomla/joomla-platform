@@ -24,11 +24,11 @@ abstract class JFilesystemAccessorIni
 	 * pull entire ini file into an array
 	 *
 	 * @param   JFilesystemElementFile  $file              The file to be read.
-	 * @param   bool                    $process_sections  Tells to get a multidimensional array, with the section names and settings included.
-	 * @param   int                     $scanner_mode      Can either be INI_SCANNER_NORMAL (default) or INI_SCANNER_RAW.
+	 * @param   boolean                 $process_sections  Tells to get a multidimensional array, with the section names and settings included.
+	 * @param   integer                 $scanner_mode      Can either be INI_SCANNER_NORMAL (default) or INI_SCANNER_RAW.
 	 *                                                     If INI_SCANNER_RAW is supplied, then option values will not be parsed. 
 	 *
-	 * @return  array|FALSE  Associative array on success, or FALSE on failure.
+	 * @return  mixed  Associative array on success, or FALSE on failure.
 	 *
 	 * @link    http://php.net/manual/en/function.parse-ini-file.php
 	 *
@@ -43,9 +43,9 @@ abstract class JFilesystemAccessorIni
 	 * push an ini data to a file
 	 *
 	 * @param   JFilesystemElementFile  $file  The file to be written.
-	 * @param   Traversable|array       $ini   The ini to write.
+	 * @param   mixed                   $ini   The ini to write.
 	 *
-	 * @return  int|FALSE  The number of bytes that were written to the file, or FALSE on failure.
+	 * @return  mixed  The number of bytes that were written to the file, or FALSE on failure.
 	 *
 	 * @see     JFilesystemElementAccessorLine::write
 	 *
@@ -108,7 +108,7 @@ abstract class JFilesystemAccessorIni
 	 * @param   string                  $key    The ini key.
 	 * @param   mixed                   $value  The ini value.
 	 *
-	 * @return  int|FALSE  The number of bytes that were written to the file, or FALSE on failure.
+	 * @return  mixed  The number of bytes that were written to the file, or FALSE on failure.
 	 *
 	 * @see     JFilesystemElementAccessorLine::write
 	 *

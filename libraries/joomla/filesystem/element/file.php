@@ -13,14 +13,14 @@ defined('JPATH_PLATFORM') or die;
 /**
  * A File handling class
  *
- * @property  string|null  $mode      The file opening mode.
- * @property  int          $position  The file position.
+ * @property  mixed  $mode      The file opening mode.
+ * @property  integer          $position  The file position.
  *
- * @property-write  string|array|resource  $contents  The file content.
+ * @property-write  mixed  $contents  The file content.
  *
- * @property-read  bool                         $use_include_path  Tells if the file system use include path.
- * @property-read  bool                         $opened            Tells if the file is opened.
- * @property-read  bool                         $eof               Tells if the file is at end-of-file.
+ * @property-read  boolean                      $use_include_path  Tells if the file system use include path.
+ * @property-read  boolean                      $opened            Tells if the file is opened.
+ * @property-read  boolean                      $eof               Tells if the file is at end-of-file.
  * @property-read  ressource                    $handle            The file handle.
  * @property-read  string                       $contents          The file content.
  * @property-read  JFilesystemElementDirectory  $directory         The directory.
@@ -28,23 +28,23 @@ defined('JPATH_PLATFORM') or die;
  * @method          JFilesystemElementFile open(string $mode)                         open the file
  * @method          JFilesystemElementFile close()                                    close the file
  * @method                           mixed readXXX(...)                               read content using accessor
- * @method                       int|FALSE writeXXX(...)                              write content using accessor
- * @method                            bool flush()                                    flush the file
- * @method                            bool truncate(int $size)                        truncate the file
+ * @method                           mixed writeXXX(...)                              write content using accessor
+ * @method                         boolean flush()                                    flush the file
+ * @method                         boolean truncate(integer $size)                    truncate the file
  *
- * @method                            bool create()                                   create the file
- * @method                            bool delete()                                   delete the file
+ * @method                         boolean create()                                   create the file
+ * @method                         boolean delete()                                   delete the file
  *
- * @method                       int|FALSE copy(JFilesystemElement $dest)             copy the file
- * @method                       int|FALSE copyFromFile(JFilesystemElementFile $src)  copy from a file
+ * @method                           mixed copy(JFilesystemElement $dest)             copy the file
+ * @method                           mixed copyFromFile(JFilesystemElementFile $src)  copy from a file
  *
  * @method                           mixed pullXXX(...)                               pull content using accessor
- * @method                       int|FALSE pushXXX(...)                               push content using accessor
+ * @method                           mixed pushXXX(...)                               push content using accessor
  * @method  JFilesystemElementFileIterator iterateXXX(...)                            iterate content using accessor
  *
  * @method                        resource prependFilter(string, int, mixed)          prepend a filter
  * @method                        resource appendFilter(string, int, mixed)           prepend a filter
- * @method                            bool removeFilter(resource)                     remove a filter
+ * @method                         boolean removeFilter(resource)                     remove a filter
  *
  * @package     Joomla.Platform
  * @subpackage  FileSystem
@@ -54,12 +54,12 @@ defined('JPATH_PLATFORM') or die;
 class JFilesystemElementFile extends JFilesystemElement
 {
 	/**
-	 * @var  resource|null  The file handler or null if it not opened
+	 * @var  mixed  The file handler or null if it not opened
 	 */
 	private $_handle;
 
 	/**
-	 * @var  bool  Tell the file system to use include path
+	 * @var  boolean  Tell the file system to use include path
 	 */
 	private $_use_include_path;
 
@@ -227,10 +227,10 @@ class JFilesystemElementFile extends JFilesystemElement
 	/**
 	 * Get an instance of a element
 	 *
-	 * @param   string|null  $path              The file path.
+	 * @param   mixed        $path              The file path.
 	 * @param   JFilesystem  $system            The file system.
-	 * @param   string|null  $mode              The file opening mode.
-	 * @param   bool         $use_include_path  TRUE if you want to search for the file in the include_path. 
+	 * @param   mixed        $mode              The file opening mode.
+	 * @param   boolean      $use_include_path  TRUE if you want to search for the file in the include_path. 
 	 *
 	 * @return  JFilesystemElement  The file system element instance.
 	 *
@@ -246,8 +246,8 @@ class JFilesystemElementFile extends JFilesystemElement
 	/**
 	 * Initialise the object
 	 *
-	 * @param   string|null  $mode              The file opening mode.
-	 * @param   bool         $use_include_path  TRUE if you want to search for the file in the include_path. 
+	 * @param   mixed    $mode              The file opening mode.
+	 * @param   boolean  $use_include_path  TRUE if you want to search for the file in the include_path. 
 	 *
 	 * @return  JFilesystemElementFile  $this for chaining
 	 *
@@ -262,7 +262,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	/**
 	 * Open the file
 	 *
-	 * @param   string|null  $mode  The opening mode
+	 * @param   mixed  $mode  The opening mode
 	 *
 	 * @return  JFilesystemElementFile  $this for chaining
 	 *
@@ -316,7 +316,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	/**
 	 * Flushes the output to the file
 	 *
-	 * @return  bool  TRUE on success or FALSE on failure.
+	 * @return  boolean  TRUE on success or FALSE on failure.
 	 *
 	 * @link    http://php.net/manual/en/function.fflush.php
 	 *
@@ -333,7 +333,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	 * @param   string  $name  The reader name.
 	 * @param   array   $args  Array of args
 	 *
-	 * @return  mixed|NULL|FALSE  The data read, or NULL or FALSE on failure.
+	 * @return  mixed  The data read, or NULL or FALSE on failure.
 	 *
 	 * @see    JFilesystemAccessor::read
 	 *
@@ -350,7 +350,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	 * @param   string  $name  The writer name.
 	 * @param   array   $args  Array of args
 	 *
-	 * @return  int|FALSE  The number of bytes written, or FALSE on failure.
+	 * @return  mixed  The number of bytes written, or FALSE on failure.
 	 *
 	 * @see    JFilesystemAccessor::write
 	 *
@@ -367,7 +367,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	 * @param   string  $name  The puller name.
 	 * @param   array   $args  Array of args
 	 *
-	 * @return  mixed|NULL|FALSE  The contents, or NULL or FALSE on failure.
+	 * @return  mixed  The contents, or NULL or FALSE on failure.
 	 *
 	 * @see    JFilesystemAccessor::pull
 	 *
@@ -384,7 +384,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	 * @param   string  $name  The pusher name.
 	 * @param   array   $args  Array of args
 	 *
-	 * @return  int|FALSE  The number of bytes that were written to the file, or FALSE on failure.
+	 * @return  mixed  The number of bytes that were written to the file, or FALSE on failure.
 	 *
 	 * @see    JFilesystemAccessor::push
 	 *
@@ -413,9 +413,9 @@ class JFilesystemElementFile extends JFilesystemElement
 	/**
 	 * Truncates the file to a given length
 	 *
-	 * @param   int  $size  The truncated size
+	 * @param   integer  $size  The truncated size
 	 *
-	 * @return  bool  TRUE on success, or FALSE on failure.
+	 * @return  boolean  TRUE on success, or FALSE on failure.
 	 *
 	 * @link    http://php.net/manual/en/function.ftruncate.php
 	 *
@@ -429,14 +429,14 @@ class JFilesystemElementFile extends JFilesystemElement
 	/**
 	 * Locks the file
 	 *
-	 * @param   int  $operation    Either
+	 * @param   integer  $operation    Either
 	 *                             LOCK_SH to to acquire a shared lock (reader),
 	 *                             LOCK_EX to acquire an exclusive lock (writer) or
 	 *                             LOCK_UN to release a lock (shared or exclusive). 
-	 * @param   int  &$wouldblock  The optional third argument is set to TRUE if the lock would block (EWOULDBLOCK errno condition).
+	 * @param   integer  &$wouldblock  The optional third argument is set to TRUE if the lock would block (EWOULDBLOCK errno condition).
 	 *                             (not supported on Windows)
 	 *
-	 * @return  bool  TRUE on success, or FALSE on failure.
+	 * @return  boolean  TRUE on success, or FALSE on failure.
 	 *
 	 * @link    http://php.net/manual/en/function.flock.php
 	 *
@@ -450,7 +450,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	/**
 	 * Tests for end-of-file on a file pointer
 	 *
-	 * @return  bool  TRUE on success or FALSE on failure.
+	 * @return  boolean  TRUE on success or FALSE on failure.
 	 *
 	 * @link    http://php.net/manual/en/function.feof.php
 	 *
@@ -464,7 +464,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	/**
 	 * Returns the current position of the file read/write pointer
 	 *
-	 * @return  int  The current position, or FALSE on failure.
+	 * @return  integer  The current position, or FALSE on failure.
 	 *
 	 * @link    http://php.net/manual/en/function.ftell.php
 	 *
@@ -478,9 +478,9 @@ class JFilesystemElementFile extends JFilesystemElement
 	/**
 	 * Sets the current position of the file read/write pointer
 	 *
-	 * @param   int|string  $offset  The offset.
+	 * @param   mixed  $offset  The offset.
 	 *
-	 * @return  int|FALSE  The current position, or FALSE on failure.
+	 * @return  mixed  The current position, or FALSE on failure.
 	 *
 	 * @link    http://php.net/manual/en/function.fseek.php
 	 *
@@ -523,7 +523,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	 *
 	 * @param   JFilesystemElement  $dest  The destination.
 	 *
-	 * @return  int|FALSE  The number of bytes that were written to the file, or FALSE on failure.
+	 * @return  mixed  The number of bytes that were written to the file, or FALSE on failure.
 	 *
 	 * @since   12.2
 	 */
@@ -537,7 +537,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	 *
 	 * @param   JFilesystemElementFile  $src  The source file.
 	 *
-	 * @return  int|FALSE  The number of bytes that were written to the file, or FALSE on failure.
+	 * @return  mixed  The number of bytes that were written to the file, or FALSE on failure.
 	 *
 	 * @link    http://php.net/manual/en/function.stream-copy-to-stream.php
 	 *
@@ -556,7 +556,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	/**
 	 * Delete a file
 	 *
-	 * @return  bool  TRUE on success or FALSE on failure.
+	 * @return  boolean  TRUE on success or FALSE on failure.
 	 *
 	 * @link    http://php.net/manual/en/function.delete.php
 	 *
@@ -570,7 +570,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	/**
 	 * Create a file
 	 *
-	 * @return  bool  TRUE on success or FALSE on failure.
+	 * @return  boolean  TRUE on success or FALSE on failure.
 	 *
 	 * @throw   RuntimeException
 	 *
@@ -591,11 +591,11 @@ class JFilesystemElementFile extends JFilesystemElement
 	/**
 	 * Prepend a filter to a stream
 	 *
-	 * @param   string  $filtername  The filter name.
-	 * @param   int     $read_write  STREAM_FILTER_READ, STREAM_FILTER_WRITE, and/or STREAM_FILTER_ALL to override the default behavior.
-	 * @param   mixed   $params      Additional parameters.
+	 * @param   string   $filtername  The filter name.
+	 * @param   integer  $read_write  STREAM_FILTER_READ, STREAM_FILTER_WRITE, and/or STREAM_FILTER_ALL to override the default behavior.
+	 * @param   mixed    $params      Additional parameters.
 	 *
-	 * @return  bool  TRUE on success or FALSE on failure.
+	 * @return  boolean  TRUE on success or FALSE on failure.
 	 *
 	 * @link    http://.php.net/manual/en/function.stream-filter-prepend.php
 	 *
@@ -610,11 +610,11 @@ class JFilesystemElementFile extends JFilesystemElement
 	/**
 	 * Append a filter to a stream
 	 *
-	 * @param   string  $filtername  The filter name.
-	 * @param   int     $read_write  STREAM_FILTER_READ, STREAM_FILTER_WRITE, and/or STREAM_FILTER_ALL to override the default behavior.
-	 * @param   mixed   $params      Additional parameters.
+	 * @param   string   $filtername  The filter name.
+	 * @param   integer  $read_write  STREAM_FILTER_READ, STREAM_FILTER_WRITE, and/or STREAM_FILTER_ALL to override the default behavior.
+	 * @param   mixed    $params      Additional parameters.
 	 *
-	 * @return  bool  TRUE on success or FALSE on failure.
+	 * @return  boolean  TRUE on success or FALSE on failure.
 	 *
 	 * @link    http://.php.net/manual/en/function.stream-filter-append.php
 	 *
@@ -631,7 +631,7 @@ class JFilesystemElementFile extends JFilesystemElement
 	 *
 	 * @param   resource  $stream_filter  The stream filter to be removed.
 	 *
-	 * @return  bool  TRUE on success or FALSE on failure.
+	 * @return  boolean  TRUE on success or FALSE on failure.
 	 *
 	 * @link    http://.php.net/manual/en/function.stream-filter-remove.php
 	 *

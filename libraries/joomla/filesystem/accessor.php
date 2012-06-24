@@ -76,7 +76,7 @@ abstract class JFilesystemAccessor
 	 * @param   string  $name  The writer name.
 	 * @param   array   $args  Array of args
 	 *
-	 * @return  int|FALSE  The number of bytes written, or FALSE on failure.
+	 * @return  mixed  The number of bytes written, or FALSE on failure.
 	 *
 	 * @since   12.2
 	 */
@@ -106,7 +106,7 @@ abstract class JFilesystemAccessor
 	 * @param   string  $name  The pusher name.
 	 * @param   array   $args  Array of args
 	 *
-	 * @return  int|FALSE  The number of bytes written, or FALSE on failure.
+	 * @return  mixed  The number of bytes written, or FALSE on failure.
 	 *
 	 * @since   12.2
 	 */

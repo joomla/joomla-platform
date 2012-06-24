@@ -24,12 +24,12 @@ abstract class JFilesystemAccessorCsv
 	 * Read csv data from a file
 	 *
 	 * @param   JFilesystemElementFile  $file       The file to be read.
-	 * @param   int                     $length     The longest line (in characters) to be found in the CSV file.
+	 * @param   integer                 $length     The longest line (in characters) to be found in the CSV file.
 	 * @param   string                  $delimiter  The optional delimiter parameter sets the field delimiter (one character only).
 	 * @param   string                  $enclosure  The optional enclosure parameter sets the field enclosure (one character only).
 	 * @param   string                  $escape     Set the escape character (one character only).
 	 *
-	 * @return  array|FALSE|NULL  The data read, or FALSE or NULL on failure.
+	 * @return  mixed  The data read, or FALSE or NULL on failure.
 	 *
 	 * @link    http://php.net/manual/en/function.fgetcsv.php
 	 *
@@ -48,7 +48,7 @@ abstract class JFilesystemAccessorCsv
 	 * @param   string                  $delimiter  The optional delimiter parameter sets the field delimiter (one character only).
 	 * @param   string                  $enclosure  The optional enclosure parameter sets the field enclosure (one character only).
 	 *
-	 * @return  int|FALSE  The number of bytes written, or FALSE on failure.
+	 * @return  mixed  The number of bytes written, or FALSE on failure.
 	 *
 	 * @link    http://php.net/manual/en/function.fputcsv.php
 	 *
@@ -63,12 +63,12 @@ abstract class JFilesystemAccessorCsv
 	 * Pull csv data from a file
 	 *
 	 * @param   JFilesystemElementFile  $file       The file to be read.
-	 * @param   int                     $length     The longest line (in characters) to be found in the CSV file.
+	 * @param   integer                 $length     The longest line (in characters) to be found in the CSV file.
 	 * @param   string                  $delimiter  The optional delimiter parameter sets the field delimiter (one character only).
 	 * @param   string                  $enclosure  The optional enclosure parameter sets the field enclosure (one character only).
 	 * @param   string                  $escape     Set the escape character (one character only).
 	 *
-	 * @return  array|FALSE  The csv data, or FALSE on failure.
+	 * @return  mixed  The csv data, or FALSE on failure.
 	 *
 	 * @link    http://php.net/manual/en/function.fgetcsv.php
 	 *
@@ -93,11 +93,11 @@ abstract class JFilesystemAccessorCsv
 	 * Push csv data to a file
 	 *
 	 * @param   JFilesystemElementFile  $file       The file to be written.
-	 * @param   Traversable|array       $data       The csv data that is to be written.
+	 * @param   mixed                   $data       The csv data that is to be written.
 	 * @param   string                  $delimiter  The optional delimiter parameter sets the field delimiter (one character only).
 	 * @param   string                  $enclosure  The optional enclosure parameter sets the field enclosure (one character only).
 	 *
-	 * @return  int|FALSE  The number of bytes written, or FALSE on failure.
+	 * @return  mixed  The number of bytes written, or FALSE on failure.
 	 *
 	 * @link    http://php.net/manual/en/function.fputcsv.php
 	 *

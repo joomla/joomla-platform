@@ -24,9 +24,9 @@ abstract class JFilesystemAccessorLine
 	 * Read a line from a file
 	 *
 	 * @param   JFilesystemElementFile  $file    The file to be read.
-	 * @param   int                     $length  The maximum number of characters read.
+	 * @param   integer                 $length  The maximum number of characters read.
 	 *
-	 * @return  string|FALSE  The data read, or FALSE on failure.
+	 * @return  mixed  The data read, or FALSE on failure.
 	 *
 	 * @link    http://php.net/manual/en/function.fgets.php
 	 *
@@ -50,9 +50,9 @@ abstract class JFilesystemAccessorLine
 	 *
 	 * @param   JFilesystemElementFile  $file    The file to be written.
 	 * @param   string                  $data    The string that is to be written.
-	 * @param   int                     $length  The maximum number of characters written.
+	 * @param   integer                 $length  The maximum number of characters written.
 	 *
-	 * @return  int|FALSE  The number of bytes written, or FALSE on failure.
+	 * @return  mixed  The number of bytes written, or FALSE on failure.
 	 *
 	 * @see     JFilesystemAccessorContents::write
 	 *
@@ -74,9 +74,9 @@ abstract class JFilesystemAccessorLine
 	 * Pull lines from a file
 	 *
 	 * @param   JFilesystemElementFile  $file    The file to be read.
-	 * @param   int                     $length  The maximum number of characters read.
+	 * @param   integer                 $length  The maximum number of characters read.
 	 *
-	 * @return  array|FALSE  The lines, or FALSE on failure.
+	 * @return  mixed  The lines, or FALSE on failure.
 	 *
 	 * @since   12.2
 	 */
@@ -106,10 +106,10 @@ abstract class JFilesystemAccessorLine
 	 * Push lines to a file
 	 *
 	 * @param   JFilesystemElementFile  $file    The file to be written.
-	 * @param   Traversable|array       $data    The data that is to be written.
-	 * @param   int                     $length  The maximum number of characters written.
+	 * @param   mixed                   $data    The data that is to be written.
+	 * @param   integer                 $length  The maximum number of characters written.
 	 *
-	 * @return  int|FALSE  The number of bytes written, or FALSE on failure.
+	 * @return  mixed  The number of bytes written, or FALSE on failure.
 	 *
 	 * @since   12.2
 	 */

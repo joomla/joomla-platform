@@ -26,7 +26,7 @@ abstract class JFilesystemAccessorFormatted
 	 * @param   JFilesystemElementFile  $file    The file to be read.
 	 * @param   string                  $format  The format string.
 	 *
-	 * @return  array|FALSE  The data read, or FALSE on failure.
+	 * @return  mixed  The data read, or FALSE on failure.
 	 *
 	 * @link    http://php.net/manual/en/function.fscanf.php
 	 *
@@ -43,7 +43,7 @@ abstract class JFilesystemAccessorFormatted
 	 * @param   JFilesystemElementFile  $file    The file to be written.
 	 * @param   string                  $format  The format string.
 	 *
-	 * @return  int|FALSE  The number of bytes written, or FALSE on failure.
+	 * @return  mixed  The number of bytes written, or FALSE on failure.
 	 *
 	 * @link    http://php.net/manual/en/function.fwrite.php
 	 *

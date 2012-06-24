@@ -155,9 +155,9 @@ class JFilesystem
 	 * $file = JFilesystem::getInstance()->getFile('/path/to/writefile', 'w');
 	 * </code>
 	 *
-	 * @param   string       $path              The file path.
-	 * @param   string|null  $mode              The file opening mode.
-	 * @param   bool         $use_include_path  TRUE if you want to search for the file in the include_path. 
+	 * @param   string   $path              The file path.
+	 * @param   mixed    $mode              The file opening mode.
+	 * @param   boolean  $use_include_path  TRUE if you want to search for the file in the include_path. 
 	 *
 	 * @return  JFilesystemElementFile  The file instance.
 	 *
