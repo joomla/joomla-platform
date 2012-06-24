@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Table
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Category table
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Table
  * @since       11.1
  */
@@ -154,7 +154,7 @@ class JTableCategory extends JTableNested
 	 *
 	 * @param   array   $array   named array
 	 * @param   string  $ignore  An optional array or space separated list of properties
-	 * to ignore while binding.
+	 *                           to ignore while binding.
 	 *
 	 * @return  mixed   Null if operation was satisfactory, otherwise returns an error
 	 *

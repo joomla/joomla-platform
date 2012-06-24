@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Model
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -12,11 +12,11 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Prototype item model.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Model
  * @since       11.1
  */
-abstract class JModelItem extends JModel
+abstract class JModelItem extends JModelLegacy
 {
 	/**
 	 * An item.

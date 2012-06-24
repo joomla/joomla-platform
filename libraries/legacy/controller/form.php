@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Controller
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -12,12 +12,12 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Controller tailored to suit most form-based admin operations.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Controller
  * @since       11.1
  * @todo        Add ability to set redirect manually to better cope with frontend usage.
  */
-class JControllerForm extends JController
+class JControllerForm extends JControllerLegacy
 {
 	/**
 	 * The context for storing internal data, e.g. record.
@@ -64,7 +64,7 @@ class JControllerForm extends JController
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JController
+	 * @see     JControllerLegacy
 	 * @since   11.1
 	 * @throws  Exception
 	 */
@@ -242,7 +242,7 @@ class JControllerForm extends JController
 	/**
 	 * Method to run batch operations.
 	 *
-	 * @param   JModel  $model  The model of the component being processed.
+	 * @param   JModelLegacy  $model  The model of the component being processed.
 	 *
 	 * @return	boolean	 True if successful, false otherwise and internal error is set.
 	 *
@@ -534,14 +534,14 @@ class JControllerForm extends JController
 	 * Function that allows child controller access to model data
 	 * after the data has been saved.
 	 *
-	 * @param   JModel  $model      The data model object.
-	 * @param   array   $validData  The validated data.
+	 * @param   JModelLegacy  $model      The data model object.
+	 * @param   array         $validData  The validated data.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	protected function postSaveHook(JModel $model, $validData = array())
+	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
 	}
 

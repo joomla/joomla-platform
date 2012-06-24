@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Model
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -12,14 +12,14 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Prototype form model.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Model
  * @see         JForm
  * @see         JFormField
  * @see         JformRule
  * @since       11.1
  */
-abstract class JModelForm extends JModel
+abstract class JModelForm extends JModelLegacy
 {
 	/**
 	 * Array of form objects.

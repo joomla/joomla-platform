@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Model
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -15,11 +15,11 @@ defined('JPATH_PLATFORM') or die;
  * Acts as a Factory class for application specific objects and
  * provides many supporting API functions.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Model
  * @since       11.1
  */
-abstract class JModel extends JObject
+abstract class JModelLegacy extends JObject
 {
 	/**
 	 * Indicates if the internal state has been set
@@ -72,7 +72,7 @@ abstract class JModel extends JObject
 	protected $event_clean_cache = null;
 
 	/**
-	 * Add a directory where JModel should search for models. You may
+	 * Add a directory where JModelLegacy should search for models. You may
 	 * either pass a string or an array of directories.
 	 *
 	 * @param   mixed   $path    A path or array[sting] of paths to search.

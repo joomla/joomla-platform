@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Model
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -12,11 +12,11 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Model class for handling lists of items.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Model
  * @since       11.1
  */
-class JModelList extends JModel
+class JModelList extends JModelLegacy
 {
 	/**
 	 * Internal memory based cache array of data.
@@ -56,7 +56,7 @@ class JModelList extends JModel
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JController
+	 * @see     JModelLegacy
 	 * @since   11.1
 	 */
 	public function __construct($config = array())

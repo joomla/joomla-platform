@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  View
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -14,11 +14,11 @@ defined('JPATH_PLATFORM') or die;
  *
  * Class holding methods for displaying presentation data.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  View
  * @since       11.1
  */
-class JView extends JObject
+class JViewLegacy extends JObject
 {
 	/**
 	 * The name of the view
@@ -400,7 +400,7 @@ class JView extends JObject
 	 *
 	 * @param   string  $name  The name of the model (optional)
 	 *
-	 * @return  mixed  JModel object
+	 * @return  mixed  JModelLegacy object
 	 *
 	 * @since   11.1
 	 */
@@ -470,8 +470,8 @@ class JView extends JObject
 	 * referenced by the name without JModel, eg. JModelCategory is just
 	 * Category.
 	 *
-	 * @param   JModel   $model    The model to add to the view.
-	 * @param   boolean  $default  Is this the default model?
+	 * @param   JModelLegacy  $model    The model to add to the view.
+	 * @param   boolean       $default  Is this the default model?
 	 *
 	 * @return  object   The added model.
 	 *

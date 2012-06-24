@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Form
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * Provides a modal media selector including upload mechanism
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Form
  * @since       11.1
  */
@@ -92,11 +92,12 @@ class JFormFieldMedia extends JFormField
 
 			$script[] = '	function jMediaRefreshPreviewTip(tip)';
 			$script[] = '	{';
-			$script[] = '		tip.setStyle("display", "block");';
 			$script[] = '		var img = tip.getElement("img.media-preview");';
+			$script[] = '		tip.getElement("div.tip").setStyle("max-width", "none");';
 			$script[] = '		var id = img.getProperty("id");';
 			$script[] = '		id = id.substring(0, id.length - "_preview".length);';
 			$script[] = '		jMediaRefreshPreview(id);';
+			$script[] = '		tip.setStyle("display", "block");';
 			$script[] = '	}';
 
 			// Add the script to the document head.
@@ -138,6 +139,7 @@ class JFormFieldMedia extends JFormField
 		{
 			$folder = '';
 		}
+
 		// The button.
 		if ($this->element['disabled'] != true)
 		{
@@ -170,13 +172,17 @@ class JFormFieldMedia extends JFormField
 		$showAsTooltip = false;
 		switch ($preview)
 		{
-			case 'no':
+			case 'no': // Deprecated parameter value
+			case 'false':
 			case 'none':
 				$showPreview = false;
 				break;
-			case 'yes':
+
+			case 'yes': // Deprecated parameter value
+			case 'true':
 			case 'show':
 				break;
+
 			case 'tooltip':
 			default:
 				$showAsTooltip = true;
@@ -198,10 +204,16 @@ class JFormFieldMedia extends JFormField
 				$src = '';
 			}
 
+			$width = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 300;
+			$height = isset($this->element['preview_height']) ? (int) $this->element['preview_height'] : 200;
+			$style = '';
+			$style .= ($width > 0) ? 'max-width:' . $width . 'px;' : '';
+			$style .= ($height > 0) ? 'max-height:' . $height . 'px;' : '';
+
 			$attr = array(
 				'id' => $this->id . '_preview',
 				'class' => 'media-preview',
-				'style' => 'max-width:160px; max-height:100px;'
+				'style' => $style,
 			);
 			$img = JHtml::image($src, JText::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $attr);
 			$previewImg = '<div id="' . $this->id . '_preview_img"' . ($src ? '' : ' style="display:none"') . '>' . $img . '</div>';
