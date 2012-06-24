@@ -54,12 +54,10 @@ class JFormFieldCheckboxesTest extends TestCase
 			<option value="red">red</option>
 			<option value="blue">blue</option>
 			</field>');
-		TestReflection::setValue($formFieldCheckboxes, 'element', $element);
-		TestReflection::setValue($formFieldCheckboxes, 'id', 'myTestId');
-		TestReflection::setValue($formFieldCheckboxes, 'name', 'myTestName');
+		$formFieldCheckboxes->setup($element, null);
 
 		$this->assertEquals(
-			'<fieldset id="myTestId" class="checkboxes"><ul><li><input type="checkbox" id="myTestId0" name="myTestName" value="red"/><label for="myTestId0">red</label></li><li><input type="checkbox" id="myTestId1" name="myTestName" value="blue"/><label for="myTestId1">blue</label></li></ul></fieldset>',
+			'<fieldset id="color" class="checkboxes"><ul><li><input type="checkbox" id="color0" name="color[]" value="red"/><label for="color0">red</label></li><li><input type="checkbox" id="color1" name="color[]" value="blue"/><label for="color1">blue</label></li></ul></fieldset>',
 			TestReflection::invoke($formFieldCheckboxes, 'getInput'),
 			'The field with no value and no checked values did not produce the right html'
 		);
@@ -93,13 +91,10 @@ class JFormFieldCheckboxesTest extends TestCase
 			<option value="red">red</option>
 			<option value="blue">blue</option>
 			</field>');
-		TestReflection::setValue($formFieldCheckboxes, 'element', $element);
-		TestReflection::setValue($formFieldCheckboxes, 'id', 'myTestId');
-		TestReflection::setValue($formFieldCheckboxes, 'value', 'red');
-		TestReflection::setValue($formFieldCheckboxes, 'name', 'myTestName');
+		$formFieldCheckboxes->setup($element, 'red');
 
 		$this->assertEquals(
-			'<fieldset id="myTestId" class="checkboxes"><ul><li><input type="checkbox" id="myTestId0" name="myTestName" value="red" checked="checked"/><label for="myTestId0">red</label></li><li><input type="checkbox" id="myTestId1" name="myTestName" value="blue"/><label for="myTestId1">blue</label></li></ul></fieldset>',
+			'<fieldset id="color" class="checkboxes"><ul><li><input type="checkbox" id="color0" name="color[]" value="red" checked="checked"/><label for="color0">red</label></li><li><input type="checkbox" id="color1" name="color[]" value="blue"/><label for="color1">blue</label></li></ul></fieldset>',
 			TestReflection::invoke($formFieldCheckboxes, 'getInput'),
 			'The field with one value did not produce the right html'
 		);
@@ -134,13 +129,10 @@ class JFormFieldCheckboxesTest extends TestCase
 			<option value="blue">blue</option>
 			</field>');
 		$valuearray = array ('red');
-		TestReflection::setValue($formFieldCheckboxes, 'element', $element);
-		TestReflection::setValue($formFieldCheckboxes, 'id', 'myTestId');
-		TestReflection::setValue($formFieldCheckboxes, 'value', $valuearray);
-		TestReflection::setValue($formFieldCheckboxes, 'name', 'myTestName');
+		$formFieldCheckboxes->setup($element, $valuearray);
 
 		$this->assertEquals(
-			'<fieldset id="myTestId" class="checkboxes"><ul><li><input type="checkbox" id="myTestId0" name="myTestName" value="red" checked="checked"/><label for="myTestId0">red</label></li><li><input type="checkbox" id="myTestId1" name="myTestName" value="blue"/><label for="myTestId1">blue</label></li></ul></fieldset>',
+			'<fieldset id="color" class="checkboxes"><ul><li><input type="checkbox" id="color0" name="color[]" value="red" checked="checked"/><label for="color0">red</label></li><li><input type="checkbox" id="color1" name="color[]" value="blue"/><label for="color1">blue</label></li></ul></fieldset>',
 			TestReflection::invoke($formFieldCheckboxes, 'getInput'),
 			'The field with one value did not produce the right html'
 		);
@@ -174,12 +166,10 @@ class JFormFieldCheckboxesTest extends TestCase
 			<option value="red">red</option>
 			<option value="blue">blue</option>
 			</field>');
-		TestReflection::setValue($formFieldCheckboxes, 'element', $element);
-		TestReflection::setValue($formFieldCheckboxes, 'id', 'myTestId');
-		TestReflection::setValue($formFieldCheckboxes, 'name', 'myTestName');
+		$formFieldCheckboxes->setup($element, null);
 
 		$this->assertEquals(
-			'<fieldset id="myTestId" class="checkboxes"><ul><li><input type="checkbox" id="myTestId0" name="myTestName" value="red"/><label for="myTestId0">red</label></li><li><input type="checkbox" id="myTestId1" name="myTestName" value="blue" checked="checked"/><label for="myTestId1">blue</label></li></ul></fieldset>',
+			'<fieldset id="color" class="checkboxes"><ul><li><input type="checkbox" id="color0" name="color[]" value="red"/><label for="color0">red</label></li><li><input type="checkbox" id="color1" name="color[]" value="blue" checked="checked"/><label for="color1">blue</label></li></ul></fieldset>',
 			TestReflection::invoke($formFieldCheckboxes, 'getInput'),
 			'The field with no values and one value in the checked element did not produce the right html'
 		);
@@ -341,6 +331,82 @@ class JFormFieldCheckboxesTest extends TestCase
 			$optionsExpected,
 			TestReflection::invoke($formFieldCheckboxes, 'getOptions'),
 			'The field with two values did not produce the right options'
+		);
+	}
+
+	/**
+	 * Data provider for testGetDefaultPreset
+	 *
+	 * @since  12.2
+	 */
+	public function caseGetDefaultPreset()
+	{
+		return array(
+			// no default, no preset
+			array(
+				'',
+				'<option value="1">1</option><option value="2">2</option><option value="3">3</option>',
+				array(),
+				array()
+			),
+			// one default, no preset
+			array(
+				'default="1"',
+				'<option value="1">1</option><option value="2">2</option><option value="3">3</option>',
+				'1',
+				'1'
+			),
+			// no default, one preset
+			array(
+				'preset="1"',
+				'<option value="1">1</option><option value="2">2</option><option value="3">3</option>',
+				array(),
+				'1'
+			),
+			// one default, one preset
+			array(
+				'preset="1" default="2"',
+				'<option value="1">1</option><option value="2">2</option><option value="3">3</option>',
+				'2',
+				'1'
+			),
+			// many default, many preset
+			array(
+				'',
+				'<option value="1" checked="true">1</option><option value="2" checked="true" default="true">2</option><option value="3" default="true">3</option>',
+				array(2, 3),
+				array(1, 2)
+			),
+		);
+	}
+
+	/**
+	 * Test the getDefault and getPreset method.
+	 *
+	 * @dataProvider caseGetDefaultPreset
+	 *
+	 * @since  12.2
+	 */
+	public function testGetDefaultPreset($attributes, $options, $default, $preset)
+	{
+		$form = new JFormInspector('form1');
+
+		$this->assertThat(
+			$form->load('<form><field name="checkboxes" type="checkboxes" ' . $attributes . ' >' . $options . '</field></form>'),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		$this->assertThat(
+			$form->getField('checkboxes')->default,
+			$this->equalTo($default),
+			'Line:'.__LINE__.' The getDefault method should return correct default.'
+		);
+
+		$this->assertThat(
+			$form->getField('checkboxes')->preset,
+			$this->equalTo($preset),
+			'Line:'.__LINE__.' The getDefault method should return correct preset.'
 		);
 	}
 }

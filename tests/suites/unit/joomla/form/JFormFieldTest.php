@@ -518,4 +518,121 @@ class JFormFieldTest extends TestCase
 			'Line:'.__LINE__.' The property should be computed from the XML.'
 		);
 	}
+
+	/**
+	 * Tests the JFormField::getDefault method
+	 */
+	public function testGetDefault()
+	{
+		$form = new JFormInspector('form1');
+
+		$this->assertThat(
+			$form->load(JFormDataHelper::$loadFieldDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		$xml = $form->getXML();
+		$translate_default = array_pop($xml->xpath('fields/field[@name="translate_default"]'));
+
+		// Standard usage.
+		$field = new JFormFieldInspector($form);
+		$this->assertThat(
+			$field->setup($translate_default, null),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The setup method should return true if successful.'
+		);
+
+		$this->assertThat(
+			$field->default,
+			$this->equalTo('DEFAULT_KEY'),
+			'Line:'.__LINE__.' The property should be computed from the XML.'
+		);
+
+		// With key language
+		$lang = JFactory::getLanguage();
+		JFactory::$language = new JLanguage();
+		JFactory::$language->load('form_test', __DIR__);
+
+		$field = new JFormFieldInspector($form);
+		$this->assertThat(
+			$field->setup($translate_default, null),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The setup method should return true if successful.'
+		);
+
+		$this->assertThat(
+			$field->default,
+			$this->equalTo('My Default'),
+			'Line:'.__LINE__.' The property should be computed from the XML.'
+		);
+
+		JFactory::$language = $lang;
+	}
+
+	/**
+	 * Tests the JFormField::getPreset method
+	 */
+	public function testGetPreset()
+	{
+		$form = new JFormInspector('form1');
+
+		$this->assertThat(
+			$form->load(JFormDataHelper::$loadFieldDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		$xml = $form->getXML();
+		$translate_preset = array_pop($xml->xpath('fields/field[@name="translate_preset"]'));
+		$translate_default = array_pop($xml->xpath('fields/field[@name="translate_default"]'));
+
+		// Standard usage
+		$field = new JFormFieldInspector($form);
+		$this->assertThat(
+			$field->setup($translate_preset, null),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The setup method should return true if successful.'
+		);
+
+		$this->assertThat(
+			$field->preset,
+			$this->equalTo('PRESET_KEY'),
+			'Line:'.__LINE__.' The property should be computed from the XML.'
+		);
+
+		// Using default as a fallback
+		$field = new JFormFieldInspector($form);
+		$this->assertThat(
+			$field->setup($translate_default, null),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The setup method should return true if successful.'
+		);
+
+		$this->assertThat(
+			$field->preset,
+			$this->equalTo('DEFAULT_KEY'),
+			'Line:'.__LINE__.' The property should be computed from the XML.'
+		);
+
+		// With key language
+		$lang = JFactory::getLanguage();
+		JFactory::$language = new JLanguage();
+		JFactory::$language->load('form_test', __DIR__);
+
+		$field = new JFormFieldInspector($form);
+		$this->assertThat(
+			$field->setup($translate_preset, null),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The setup method should return true if successful.'
+		);
+
+		$this->assertThat(
+			$field->preset,
+			$this->equalTo('My Preset'),
+			'Line:'.__LINE__.' The property should be computed from the XML.'
+		);
+
+		JFactory::$language = $lang;
+	}
 }

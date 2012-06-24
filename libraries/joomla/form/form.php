@@ -214,31 +214,45 @@ class JForm
 		}
 
 		// Filter the fields.
-		foreach ($fields as $field)
+		foreach ($fields as $element)
 		{
-			// Initialise variables.
-			$name = (string) $field['name'];
+			// Get the field
+			$field = $this->loadField($element, $group);
 
-			// Get the field groups for the element.
-			$attrs = $field->xpath('ancestor::fields[@name]/@name');
-			$groups = array_map('strval', $attrs ? $attrs : array());
-			$group = implode('.', $groups);
-
-			// Get the field value from the data input.
-			if ($group)
+			if ($field)
 			{
-				// Filter the value if it exists.
-				if ($input->exists($group . '.' . $name))
+				// Initialise variables.
+				$name = (string) $element['name'];
+
+				// Get the field groups for the element.
+				$attrs = $element->xpath('ancestor::fields[@name]/@name');
+				$groups = array_map('strval', $attrs ? $attrs : array());
+				$group = implode('.', $groups);
+
+				// Get the field value from the data input.
+				if ($group)
 				{
-					$output->set($group . '.' . $name, $this->filterField($field, $input->get($group . '.' . $name, (string) $field['default'])));
+					// Filter the value if it exists.
+					if ($input->exists($group . '.' . $name))
+					{
+						$output->set($group . '.' . $name, $this->filterField($element, $input->get($group . '.' . $name, $field->default)));
+					}
+					else
+					{
+						$output->set($group . '.' . $name, $this->filterField($element, $field->default));
+					}
 				}
-			}
-			else
-			{
-				// Filter the value if it exists.
-				if ($input->exists($name))
+				else
 				{
-					$output->set($name, $this->filterField($field, $input->get($name, (string) $field['default'])));
+					// Filter the value if it exists.
+					if ($input->exists($name))
+					{
+						$output->set($name, $this->filterField($element, $input->get($name, $field->default)));
+					}
+					else
+					{
+						$output->set($name, $this->filterField($element, $field->default));
+					}
 				}
 			}
 		}
@@ -619,6 +633,29 @@ class JForm
 		}
 
 		return $return;
+	}
+
+	/**
+	 * Method to test if a field has a value.
+	 *
+	 * @param   string  $name   The name of the field for which to get the value.
+	 * @param   string  $group  The optional dot-separated form group path on which to get the value.
+	 *
+	 * @return  bool  TRUE on success, FALSE otherwise.
+	 *
+	 * @since   12.2
+	 */
+	public function existsValue($name, $group = null)
+	{
+		// If a group is set use it.
+		if ($group)
+		{
+			return $this->data->exists($group . '.' . $name);
+		}
+		else
+		{
+			return $this->data->exists($name);
+		}
 	}
 
 	/**
@@ -1679,30 +1716,14 @@ class JForm
 			$field = $this->loadFieldType('text');
 		}
 
-		/*
-		 * Get the value for the form field if not set.
-		 * Default to the translated version of the 'default' attribute
-		 * if 'translate_default' attribute if set to 'true' or '1'
-		 * else the value of the 'default' attribute for the field.
-		 */
+		// Get the value for the form field if not set.
 		if ($value === null)
 		{
-			$default = (string) $element['default'];
-			if (($translate = $element['translate_default']) && ((string) $translate == 'true' || (string) $translate == '1'))
+			$name = (string) $element['name'];
+			if ($this->existsValue($name, $group))
 			{
-				$lang = JFactory::getLanguage();
-				if ($lang->hasKey($default))
-				{
-					$debug = $lang->setDebug(false);
-					$default = JText::_($default);
-					$lang->setDebug($debug);
-				}
-				else
-				{
-					$default = JText::_($default);
-				}
+				$value = $this->getValue($name, $group, '');
 			}
-			$value = $this->getValue((string) $element['name'], $group, $default);
 		}
 
 		// Setup the JFormField object.

@@ -51,7 +51,6 @@ class JFormFieldCheckboxes extends JFormField
 
 		// Initialize some field attributes.
 		$class = $this->element['class'] ? ' class="checkboxes ' . (string) $this->element['class'] . '"' : ' class="checkboxes"';
-		$checkedOptions = explode(',', (string) $this->element['checked']);
 
 		// Start the checkbox field output.
 		$html[] = '<fieldset id="' . $this->id . '"' . $class . '>';
@@ -64,15 +63,7 @@ class JFormFieldCheckboxes extends JFormField
 		foreach ($options as $i => $option)
 		{
 			// Initialize some option attributes.
-			if (!isset($this->value) || empty($this->value))
-			{
-				$checked = (in_array((string) $option->value, (array) $checkedOptions) ? ' checked="checked"' : '');
-			}
-			else
-			{
-				$value = !is_array($this->value) ? explode(',', $this->value) : $this->value;
-				$checked = (in_array((string) $option->value, $value) ? ' checked="checked"' : '');
-			}
+			$checked = (in_array((string) $option->value, (array) $this->value) ? ' checked="checked"' : '');
 			$class = !empty($option->class) ? ' class="' . $option->class . '"' : '';
 			$disabled = !empty($option->disable) ? ' disabled="disabled"' : '';
 
@@ -134,5 +125,58 @@ class JFormFieldCheckboxes extends JFormField
 		reset($options);
 
 		return $options;
+	}
+
+	/**
+	 * Method to get the field default value.
+	 *
+	 * @return  mixed  The field default value.
+	 *
+	 * @since   12.2
+	 */
+	protected function getDefault()
+	{
+		$default = parent::getDefault();
+		if ($default == '')
+		{
+			// Initialize variables.
+			$default = array();
+
+			foreach ($this->element->xpath('option[@default="true"]') as $option)
+			{
+				$default[] = (string) $option['value'];
+			}
+		}
+		return $default;
+	}
+
+	/**
+	 * Method to get the field preset value.
+	 *
+	 * @return  mixed  The field default value.
+	 *
+	 * @since   12.2
+	 */
+	protected function getPreset()
+	{
+		$preset = parent::getPreset();
+		if ($preset == '')
+		{
+			if (isset($this->element['checked']))
+			{
+				$preset = explode(',', $this->element['checked']);
+			}
+			else
+			{
+				// Initialize variables.
+				$preset = array();
+
+				foreach ($this->element->xpath('option[@checked="true"]') as $option)
+				{
+					$preset[] = (string) $option['value'];
+				}
+			}
+		}
+		return $preset;
 	}
 }

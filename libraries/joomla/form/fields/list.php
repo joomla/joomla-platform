@@ -59,16 +59,22 @@ class JFormFieldList extends JFormField
 		// Get the field options.
 		$options = (array) $this->getOptions();
 
+		// Get the value
+		$values = (array) $this->value;
+
 		// Create a read-only list (no name) with a hidden input to store the value.
 		if ((string) $this->element['readonly'] == 'true')
 		{
-			$html[] = JHtml::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $this->value, $this->id);
-			$html[] = '<input type="hidden" name="' . $this->name . '" value="' . $this->value . '"/>';
+			$html[] = JHtml::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $values, $this->id);
+			foreach ($values as $value)
+			{
+				$html[] = '<input type="hidden" name="' . $this->name . '" value="' . $value . '"/>';
+			}
 		}
 		// Create a regular list.
 		else
 		{
-			$html[] = JHtml::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
+			$html[] = JHtml::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $values, $this->id);
 		}
 
 		return implode($html);
@@ -115,5 +121,58 @@ class JFormFieldList extends JFormField
 		reset($options);
 
 		return $options;
+	}
+
+	/**
+	 * Method to get the field default value.
+	 *
+	 * @return  mixed  The field default value.
+	 *
+	 * @since   12.2
+	 */
+	protected function getDefault()
+	{
+		$default = parent::getDefault();
+		if ($this->multiple && $default == '')
+		{
+			// Initialize variables.
+			$default = array();
+
+			foreach ($this->element->xpath('option[@default="true"]') as $option)
+			{
+				$default[] = (string) $option['value'];
+			}
+		}
+		return $default;
+	}
+
+	/**
+	 * Method to get the field preset value.
+	 *
+	 * @return  mixed  The field default value.
+	 *
+	 * @since   12.2
+	 */
+	protected function getPreset()
+	{
+		$preset = parent::getPreset();
+		if ($this->multiple && $preset == '')
+		{
+			if (isset($this->element['selected']))
+			{
+				$preset = explode(',', $this->element['selected']);
+			}
+			else
+			{
+				// Initialize variables.
+				$preset = array();
+
+				foreach ($this->element->xpath('option[@selected="true"]') as $option)
+				{
+					$preset[] = (string) $option['value'];
+				}
+			}
+		}
+		return $preset;
 	}
 }
