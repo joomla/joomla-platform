@@ -112,7 +112,7 @@ abstract class JMediawikiObject
 
 		if (isset($xml->warnings))
 		{
-			throw new DomainException($xml->warnings->siteinfo);
+			throw new DomainException($xml->warnings->info);
 		}
 
 		if (isset($xml->error))

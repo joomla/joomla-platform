@@ -34,8 +34,37 @@ class JMediawikiUsers extends JMediawikiObject
 		// Build the request path.
 		$path = '?action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword;
 
+		if (isset($lgdomain))
+		{
+			$path .= '&lgdomain=' . $lgdomain;
+		}
+
 		// Send the request.
-		$response = $this->client->post($this->fetchUrl($path));
+		$response = $this->client->post($this->fetchUrl($path), null);
+
+		// Request path with login token.
+		$path = '?action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword . '&lgtoken=' . $this->validateResponse($response)->login['token'];
+
+		if (isset($lgdomain))
+		{
+			$path .= '&lgdomain=' . $lgdomain;
+		}
+
+		// Set the session cookies returned.
+		$headers = (array) $this->options->get('headers');
+		$headers['Cookie'] = !empty($headers['Cookie']) ? empty($headers['Cookie']) : '';
+		$headers['Cookie'] = $headers['Cookie'] . $response->headers['Set-Cookie'];
+		$this->options->set('headers', $headers);
+
+		// Send the request again with the token.
+		$response = $this->client->post($this->fetchUrl($path), null);
+		$response_body = $this->validateResponse($response);
+
+		$headers = (array) $this->options->get('headers');
+		$cookie_prefix = $response_body->login['cookieprefix'];
+		$cookie = $cookie_prefix . 'UserID=' . $response_body->login['lguserid'] . '; ' . $cookie_prefix . 'UserName=' . $response_body->login['lgusername'];
+		$headers['Cookie'] = $headers['Cookie'] . '; ' . $response->headers['Set-Cookie'] . '; ' . $cookie;
+		$this->options->set('headers', $headers);
 
 		return $this->validateResponse($response);
 	}
@@ -49,6 +78,15 @@ class JMediawikiUsers extends JMediawikiObject
 	 */
 	public function logout()
 	{
+		// Build the request path.
+		$path = '?action=login';
+
+		// @TODO clear internal data as well
+
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path));
+
+		return $this->validateResponse($response);
 	}
 
 	/**
@@ -178,18 +216,44 @@ class JMediawikiUsers extends JMediawikiObject
 	/**
      * Method to unblock a user.
 	 *
-	 * @param   string   $user    Username, IP address or IP range you want to unblock.
-	 * @param   integer  $token   An unblock token.
-	 * @param   string   $reason  Reason for unblock (optional).
+	 * @param   string  $user    Username, IP address or IP range you want to unblock.
+	 * @param   string  $reason  Reason for unblock (optional).
      *
      * @return  object
      *
      * @since   12.1
      */
-	public function unBlockUser($user, $token, $reason = null)
+	public function unBlockUserByName($user, $reason = null)
 	{
+		// Get the token.
+		$token = $this->getToken($user, 'unblock');
+
 		// Build the request path.
-		$path = '?action=query&list=usercontribs&ucuser=' . $user;
+		$path = '?action=unblock&user=' . $user . '&token=' . $token . '&reason=' . $reason;
+
+		// Send the request.
+		$response = $this->client->get(urlencode($this->fetchUrl($path)));
+
+		return $this->validateResponse($response);
+	}
+
+	/**
+	 * Method to unblock a user.
+	 *
+	 * @param   string  $id      Username, IP address or IP range you want to unblock.
+	 * @param   string  $reason  Reason for unblock (optional).
+	 *
+	 * @return  object
+	 *
+	 * @since   12.1
+	 */
+	public function unBlockUserByID($id, $reason = null)
+	{
+		// Get the token.
+		$token = $this->getToken($id, 'unblock');
+
+		// Build the request path.
+		$path = '?action=unblock&id=' . $id . '&token=' . $token . '&reason=' . $reason;
 
 		// Send the request.
 		$response = $this->client->get($this->fetchUrl($path));
@@ -211,12 +275,38 @@ class JMediawikiUsers extends JMediawikiObject
 
 	/**
      * Method to email a user.
+	 *
+	 * @param   string  $target   User to send email to.
+	 * @param   string  $subject  Subject header.
+	 * @param   string  $text     Mail body.
+	 * @param   string  $ccme     Send a copy of this mail to me.
      *
      * @return  object
      *
      * @since   12.1
      */
-	public function emailUser()
+	public function emailUser($target, $subject = null, $text, $ccme = null)
 	{
+	}
+
+	/**
+	 * Method to get access token.
+	 *
+	 * @param   string  $titles   The User to get token.
+	 * @param   string  $intoken  The type of token.
+	 *
+	 * @return  object
+	 *
+	 * @since   12.1
+	 */
+	public function getToken($titles, $intoken)
+	{
+		// Build the request path.
+		$path = '?action=query&prop=info&intoken=' . $intoken . '&titles=' . $titles;
+
+		// Send the request.
+		$response = $this->client->post($this->fetchUrl($path), null);
+
+		return $this->validateResponse($response)->query->pages->page[$intoken.'token'];
 	}
 }

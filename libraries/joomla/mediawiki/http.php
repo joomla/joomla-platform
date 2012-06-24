@@ -18,7 +18,6 @@ defined('JPATH_PLATFORM') or die;
  */
 class JMediawikiHttp extends JHttp
 {
-
 	/**
      * Constructor.
      *
@@ -39,36 +38,4 @@ class JMediawikiHttp extends JHttp
 		// Set the default timeout to 120 seconds.
 		$this->options->def('timeout', 120);
 	}
-
-	/**
-     * Method to send the GET command to the server.
-     *
-     * @param   string  $url      Path to the resource.
-     * @param   array   $headers  An array of name-value pairs to include in the header of the request.
-     *
-     * @return  JHttpResponse
-     *
-     * @since   12.1
-     */
-	public function get($url, array $headers = null)
-	{
-		return $this->transport->request('GET', new JUri($url), null, $headers, null, $this->options->get('api.useragent'));
-	}
-
-	/**
-     * Method to send the POST command to the server.
-     *
-     * @param   string  $url      Path to the resource.
-     * @param   mixed   $data     Either an associative array or a string to be sent with the request.
-     * @param   array   $headers  An array of name-value pairs to include in the header of the request.
-     *
-     * @return  JHttpResponse
-     *
-     * @since   12.1
-     */
-	public function post($url, $data = null, array $headers = null)
-	{
-		return $this->transport->request('POST', new JUri($url), $data, $headers, $this->options->get('api.timeout'), $this->options->get('api.useragent'));
-	}
-
 }

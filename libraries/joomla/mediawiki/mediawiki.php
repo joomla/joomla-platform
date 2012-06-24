@@ -92,9 +92,6 @@ class JMediawiki
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
 		$this->client = isset($client) ? $client : new JMediawikiHttp($this->options);
-
-		// Setup the default User-Agent if not already set.
-		$this->options->def('api.useragent', 'Joomla-Wiki-Bot');
 	}
 
 	/**
