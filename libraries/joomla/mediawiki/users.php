@@ -307,6 +307,6 @@ class JMediawikiUsers extends JMediawikiObject
 		// Send the request.
 		$response = $this->client->post($this->fetchUrl($path), null);
 
-		return $this->validateResponse($response)->query->pages->page[$intoken.'token'];
+		return $this->validateResponse($response)->query->pages->page[$intoken . 'token'];
 	}
 }
