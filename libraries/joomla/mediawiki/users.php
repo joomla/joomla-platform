@@ -229,10 +229,17 @@ class JMediawikiUsers extends JMediawikiObject
 		$token = $this->getToken($user, 'unblock');
 
 		// Build the request path.
-		$path = '?action=unblock&user=' . $user . '&token=' . $token . '&reason=' . $reason;
+		$path = '?action=unblock';
+
+		// Build the request data.
+		$data =		array(
+				'user' => $user,
+				'token' => $token,
+				'reason' => $reason,
+		);
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path));
+		$response = $this->client->post($this->fetchUrl($path), $data);
 
 		return $this->validateResponse($response);
 	}
@@ -292,21 +299,21 @@ class JMediawikiUsers extends JMediawikiObject
 	/**
 	 * Method to get access token.
 	 *
-	 * @param   string  $titles   The User to get token.
+	 * @param   string  $user     The User to get token.
 	 * @param   string  $intoken  The type of token.
 	 *
 	 * @return  object
 	 *
 	 * @since   12.1
 	 */
-	public function getToken($titles, $intoken)
+	public function getToken($user, $intoken)
 	{
 		// Build the request path.
-		$path = '?action=query&prop=info&intoken=' . $intoken . '&titles=' . $titles;
+		$path = '?action=query&prop=info&intoken=' . $intoken . '&titles=User:' . $user;
 
 		// Send the request.
 		$response = $this->client->post($this->fetchUrl($path), null);
 
-		return $this->validateResponse($response)->query->pages->page[$intoken . 'token'];
+		return (string) $this->validateResponse($response)->query->pages->page[$intoken . 'token'];
 	}
 }
