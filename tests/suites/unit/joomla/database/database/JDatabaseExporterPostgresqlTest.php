@@ -587,7 +587,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 		{
 			$instance->setDbo(new stdClass);
 		}
-		catch (PHPUnit_Framework_Error $e)
+		catch (ErrorException $e)
 		{
 			// Expecting the error, so just ignore it.
 			return;

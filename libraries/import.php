@@ -6,6 +6,17 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
+// Change error messages into ErrorException
+set_error_handler(
+	function($errno, $errstr, $errfile, $errline)
+	{
+		if (($errno & error_reporting()) === $errno)
+		{
+			throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+		}
+	}
+);
+
 // Set the platform root path as a constant if necessary.
 if (!defined('JPATH_PLATFORM'))
 {
