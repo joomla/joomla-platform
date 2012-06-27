@@ -141,6 +141,12 @@ class JHttpTransportSocket implements JHttpTransport
 			$content .= fgets($connection, 4096);
 		}
 
+		// Received empty response (invalid uri, connection reached timeout);
+		if ($content === "")
+		{
+			throw new RuntimeException('HTTP request failed');
+		}
+
 		return $this->getResponse($content);
 	}
 

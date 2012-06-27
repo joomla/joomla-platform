@@ -62,6 +62,7 @@ class JHttpTransportStream implements JHttpTransport
 	 * @return  JHttpResponse
 	 *
 	 * @since   11.3
+	 * @throws  RuntimeException
 	 */
 	public function request($method, JUri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
 	{
@@ -123,7 +124,13 @@ class JHttpTransportStream implements JHttpTransport
 		$context = stream_context_create(array('http' => $options));
 
 		// Open the stream for reading.
-		$stream = fopen((string) $uri, 'r', false, $context);
+		$stream = @fopen((string) $uri, 'r', false, $context);
+
+		// When fopen($uri) returns false (invalid uri, connection reached timeout)
+		if ($stream === false)
+		{
+			throw new RuntimeException('HTTP request failed');
+		}
 
 		// Get the metadata for the stream, including response headers.
 		$metadata = stream_get_meta_data($stream);

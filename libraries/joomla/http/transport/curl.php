@@ -55,6 +55,7 @@ class JHttpTransportCurl implements JHttpTransport
 	 * @return  JHttpResponse
 	 *
 	 * @since   11.3
+	 * @throws  RuntimeException
 	 */
 	public function request($method, JUri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
 	{
@@ -141,6 +142,12 @@ class JHttpTransportCurl implements JHttpTransport
 		// Execute the request and close the connection.
 		$content = curl_exec($ch);
 		curl_close($ch);
+
+		// Received empty response (invalid uri, connection reached timeout);
+		if ($content === false)
+		{
+			throw new RuntimeException('HTTP request failed');
+		}
 
 		return $this->getResponse($content);
 	}
