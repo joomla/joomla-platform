@@ -91,13 +91,31 @@ class JMediawikiUsers extends JMediawikiObject
 
 	/**
      * Method to get user information.
-     *
+	 *
+	 * @param   array  $ususers  A list of users to obtain the same information for.
+	 * @param   array  $usprop   What pieces of information to include.
+	 *
      * @return  object
      *
      * @since   12.1
      */
-	public function getUserInfo()
+	public function getUserInfo(array $ususers, array $usprop = null)
 	{
+		// Build the request path.
+		$path = '?action=query&list=users';
+
+		// Append users to the request.
+		$path .= '&ususers=' . $this->buildParameter($ususers);
+
+		if (isset($usprop))
+		{
+			$path .= '&usprop' . $this->buildParameter($usprop);
+		}
+
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path));
+
+		return $this->validateResponse($response);
 	}
 
 	/**
