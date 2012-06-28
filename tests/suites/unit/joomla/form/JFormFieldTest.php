@@ -290,7 +290,7 @@ class JFormFieldTest extends TestCase
 	 * Test an invalid argument for the JFormField::setup method
 	 *
 	 * @covers JFormField::setup
-	 * @expectedException PHPUnit_Framework_Error
+	 * @expectedException ErrorException
 	 */
 	public function testSetupInvalidElement()
 	{
