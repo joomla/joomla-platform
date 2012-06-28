@@ -232,7 +232,7 @@ class JMediawikiUsers extends JMediawikiObject
 		$path = '?action=unblock';
 
 		// Build the request data.
-		$data =		array(
+		$data = array(
 				'user' => $user,
 				'token' => $token,
 				'reason' => $reason,
