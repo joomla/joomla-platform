@@ -120,13 +120,27 @@ class JMediawikiUsers extends JMediawikiObject
 
 	/**
      * Method to get current user information.
+	 *
+	 * @param   array  $uiprop  What pieces of information to include.
      *
      * @return  object
      *
      * @since   12.1
      */
-	public function getCurrentUserInfo()
+	public function getCurrentUserInfo(array $uiprop = null)
 	{
+		// Build the request path.
+		$path = '?action=query&meta=userinfo';
+
+		if (isset($uiprop))
+		{
+			$path .= '&uiprop' . $this->buildParameter($uiprop);
+		}
+
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path));
+
+		return $this->validateResponse($response);
 	}
 
 	/**
