@@ -348,13 +348,19 @@ class JMediawikiPages extends JMediawikiObject
 	}
 
 	/**
-     * Method to get all pages that link to the given language link .
+     * Method to get all pages that link to the given language link.
+	 *
+	 * @param   string   $lblang      Language for the language link.
+	 * @param   string   $lbtitle     Language link to search for.
+	 * @param   boolean  $lbcontinue  When more results are available, use this to continue.
+	 * @param   int      $lblimit     How many total pages to return.
+	 * @param   array    $lbprop      Which properties to get.
      *
      * @return  object
      *
      * @since   12.1
      */
-	public function getLangBackLinks()
+	public function getLangBackLinks($lblang, $lbtitle, $lbcontinue = null, $lblimit = null, $lbprop = null)
 	{
 	}
 
