@@ -265,7 +265,16 @@ class JMediawikiUsers extends JMediawikiObject
 		$data = array(
 			'user' => $user,
 			'token' => $token,
+			'expiry' => $expiry,
 			'reason' => $reason,
+			'anononly' => $anononly,
+			'nocreate' => $nocreate,
+			'autoblock' => $autoblock,
+			'noemail' => $noemail,
+			'hidename' => $hidename,
+			'allowusetalk' => $allowusertalk,
+			'reblock' => $reblock,
+			'watchuser' => $watchuser
 		);
 
 		// Send the request.
@@ -308,7 +317,7 @@ class JMediawikiUsers extends JMediawikiObject
 	/**
 	 * Method to unblock a user.
 	 *
-	 * @param   string  $id      Username, IP address or IP range you want to unblock.
+	 * @param   int     $id      Username, IP address or IP range you want to unblock.
 	 * @param   string  $reason  Reason for unblock (optional).
 	 *
 	 * @return  object
@@ -351,16 +360,18 @@ class JMediawikiUsers extends JMediawikiObject
 	public function assignGroup($username, $add = null, $remove = null, $reason = null)
 	{
 		// Get the token.
-		$token = $this->getToken($user, 'unblock');
+		$token = $this->getToken($username, 'unblock');
 
 		// Build the request path.
 		$path = '?action=userrights';
 
 		// Build the request data.
 		$data = array(
-			'user' => $user,
+			'username' => $username,
 			'token' => $token,
-			'reason' => $reason,
+			'add' => $add,
+			'remove' => $remove,
+			'reason' => $reason
 		);
 
 		// Send the request.
@@ -372,10 +383,10 @@ class JMediawikiUsers extends JMediawikiObject
 	/**
      * Method to email a user.
 	 *
-	 * @param   string  $target   User to send email to.
-	 * @param   string  $subject  Subject header.
-	 * @param   string  $text     Mail body.
-	 * @param   string  $ccme     Send a copy of this mail to me.
+	 * @param   string   $target   User to send email to.
+	 * @param   string   $subject  Subject header.
+	 * @param   string   $text     Mail body.
+	 * @param   boolean  $ccme     Send a copy of this mail to me.
      *
      * @return  object
      *
@@ -384,16 +395,18 @@ class JMediawikiUsers extends JMediawikiObject
 	public function emailUser($target, $subject = null, $text, $ccme = null)
 	{
 		// Get the token.
-		$token = $this->getToken($target, 'unblock');
+		$token = $this->getToken($target, 'emailuser');
 
 		// Build the request path.
-		$path = '?action=userrights';
+		$path = '?action=emailuser';
 
 		// Build the request data.
 		$data = array(
-			'user' => $user,
+			'target' => $target,
 			'token' => $token,
-			'reason' => $reason,
+			'subject' => $subject,
+			'text' => $text,
+			'ccme' => $ccme
 		);
 
 		// Send the request.

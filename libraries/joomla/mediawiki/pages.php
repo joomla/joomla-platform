@@ -20,68 +20,306 @@ class JMediawikiPages extends JMediawikiObject
 {
 	/**
      * Method to edit a page.
+	 *
+	 * @param   string  $title         Page title.
+	 * @param   int     $section       Section number.
+	 * @param   string  $sectiontitle  The title for a new section.
+	 * @param   string  $text          Page content.
+	 * @param   string  $summary       Title of the page you want to delete.
      *
      * @return  object
      *
      * @since   12.1
      */
-	public function editPage()
+	public function editPage($title, $section = null, $sectiontitle = null, $text = null, $summary = null) // @TODO add support to all methods
 	{
+		// Get the token.
+		$token = $this->getToken($title, 'edit');
+
+		// Build the request path.
+		$path = '?action=edit';
+
+		// Build the request data.
+		$data = array(
+			'title' => $title,
+			'token' => $token,
+			'section' => $section,
+			'sectiontitle' => $section,
+			'text' => $text,
+			'summary' => $summary
+		);
+
+		// Send the request.
+		$response = $this->client->post($this->fetchUrl($path), $data);
+
+		return $this->validateResponse($response);
 	}
 
 	/**
 	 * Method to delete a page.
 	 *
+	 * @param   string  $title      Title of the page you want to delete.
+	 * @param   string  $reason     Reason for the deletion.
+	 * @param   string  $watchlist  Unconditionally add or remove the page from your watchlis.
+	 * @param   string  $oldimage   The name of the old image to delete.
+	 *
 	 * @return  object
 	 *
 	 * @since   12.1
 	 */
-	public function deletePage()
+	public function deletePageByName($title, $reason = null, $watchlist = null, $oldimage = null)
 	{
+		// Get the token.
+		$token = $this->getToken($title, 'delete');
+
+		// Build the request path.
+		$path = '?action=delete';
+
+		// Build the request data.
+		$data = array(
+			'title' => $title,
+			'token' => $token,
+			'reason' => $reason,
+			'watchlist' => $watchlist,
+			'oldimage' => $oldimage
+		);
+
+		// Send the request.
+		$response = $this->client->post($this->fetchUrl($path), $data);
+
+		return $this->validateResponse($response);
+	}
+
+	/**
+	 * Method to delete a page.
+	 *
+	 * @param   string  $pageid     Page ID of the page you want to delete.
+	 * @param   string  $reason     Reason for the deletion.
+	 * @param   string  $watchlist  Unconditionally add or remove the page from your watchlis.
+	 * @param   string  $oldimage   The name of the old image to delete.
+	 *
+	 * @return  object
+	 *
+	 * @since   12.1
+	 */
+	public function deletePageByID($pageid,  $reason = null, $watchlist = null, $oldimage = null)
+	{
+		// Get the token.
+		$token = $this->getToken($pageid, 'delete');
+
+		// Build the request path.
+		$path = '?action=delete';
+
+		// Build the request data.
+		$data = array(
+			'pageid' => $pageid,
+			'token' => $token,
+			'reason' => $reason,
+			'watchlist' => $watchlist,
+			'oldimage' => $oldimage
+		);
+
+		// Send the request.
+		$response = $this->client->post($this->fetchUrl($path), $data);
+
+		return $this->validateResponse($response);
 	}
 
 	/**
      * Method to restore certain revisions of a deleted page.
+	 *
+	 * @param   string  $title      Title of the page you want to restore.
+	 * @param   string  $reason     Reason for restoring (optional).
+	 * @param   string  $timestamp  Timestamps of the revisions to restore.
+	 * @param   string  $watchlist  Unconditionally add or remove the page from your watchlist.
      *
      * @return  object
      *
      * @since   12.1
      */
-	public function undeletePage()
+	public function undeletePage($title, $reason = null, $timestamp = null, $watchlist = null)
 	{
+		// Get the token.
+		$token = $this->getToken($title, 'undelete');
+
+		// Build the request path.
+		$path = '?action=undelete';
+
+		// Build the request data.
+		$data = array(
+			'title' => $title,
+			'token' => $token,
+			'reason' => $reason,
+			'timestamp' => $timestamp,
+			'watchlist' => $watchlist,
+		);
+
+		// Send the request.
+		$response = $this->client->post($this->fetchUrl($path), $data);
+
+		return $this->validateResponse($response);
 	}
 
 	/**
      * Method to move a page.
+	 *
+	 * @param   string   $from            Title of the page you want to move.
+	 * @param   string   $to              Title you want to rename the page to.
+	 * @param   string   $reason          Reason for the move (optional).
+	 * @param   string   $movetalk        Move the talk page, if it exists.
+	 * @param   string   $movesubpages    Move subpages, if applicable.
+	 * @param   boolean  $noredirect      Don't create a redirect.
+	 * @param   string   $watchlist       Unconditionally add or remove the page from your watchlist.
+	 * @param   boolean  $ignorewarnings  Ignore any warnings.
      *
      * @return  object
      *
      * @since   12.1
      */
-	public function movePage()
+	public function movePageByName($from, $to, $reason = null, $movetalk = null, $movesubpages = null, $noredirect = null, $watchlist =null, $ignorewarnings = null)
 	{
+		// Get the token.
+		$token = $this->getToken($from, 'move');
+
+		// Build the request path.
+		$path = '?action=move';
+
+		// Build the request data.
+		$data = array(
+			'from' => $from,
+			'to' => $reason,
+			'token' => $token,
+			'reason' => $reason,
+			'movetalk' => $movetalk,
+			'movesubpages' => $movesubpages,
+			'noredirect' => $noredirect,
+			'watchlist' => $watchlist,
+			'ignorewarnings' => $ignorewarnings
+		);
+
+		// Send the request.
+		$response = $this->client->post($this->fetchUrl($path), $data);
+
+		return $this->validateResponse($response);
+	}
+
+	/**
+	 * Method to move a page.
+	 *
+	 * @param   int      $fromid          Page ID of the page you want to move.
+	 * @param   string   $to              Title you want to rename the page to.
+	 * @param   string   $reason          Reason for the move (optional).
+	 * @param   string   $movetalk        Move the talk page, if it exists.
+	 * @param   string   $movesubpages    Move subpages, if applicable.
+	 * @param   boolean  $noredirect      Don't create a redirect.
+	 * @param   string   $watchlist       Unconditionally add or remove the page from your watchlist.
+	 * @param   boolean  $ignorewarnings  Ignore any warnings.
+	 *
+	 * @return  object
+	 *
+	 * @since   12.1
+	 */
+	public function movePageByID($fromid, $to, $reason = null, $movetalk = null, $movesubpages = null, $noredirect = null, $watchlist =null, $ignorewarnings = null)
+	{
+		// Get the token.
+		$token = $this->getToken($fromid, 'move');
+
+		// Build the request path.
+		$path = '?action=move';
+
+		// Build the request data.
+		$data = array(
+			'fromid' => $fromid,
+			'to' => $reason,
+			'token' => $token,
+			'reason' => $reason,
+			'movetalk' => $movetalk,
+			'movesubpages' => $movesubpages,
+			'noredirect' => $noredirect,
+			'watchlist' => $watchlist,
+			'ignorewarnings' => $ignorewarnings
+		);
+
+		// Send the request.
+		$response = $this->client->post($this->fetchUrl($path), $data);
+
+		return $this->validateResponse($response);
 	}
 
 	/**
      * Method to undo the last edit to the page.
+	 *
+	 * @param   string  $title      Title of the page you want to rollback.
+	 * @param   string  $user       Name of the user whose edits are to be rolled back.
+	 * @param   string  $summary    Custom edit summary. If not set, default summary will be used.
+	 * @param   string  $markbot    Mark the reverted edits and the revert as bot edits.
+	 * @param   string  $watchlist  Unconditionally add or remove the page from your watchlist.
      *
      * @return  object
      *
      * @since   12.1
      */
-	public function rollback()
+	public function rollback($title, $user, $summary = null, $markbot = null, $watchlist = null)
 	{
+		// Get the token.
+		$token = $this->getToken($title, 'rollback');
+
+		// Build the request path.
+		$path = '?action=rollback';
+
+		// Build the request data.
+		$data = array(
+			'title' => $title,
+			'token' => $token,
+			'user' => $user,
+			'expiry' => $summary,
+			'markbot' => $markbot,
+			'watchlist' => $watchlist
+		);
+
+		// Send the request.
+		$response = $this->client->post($this->fetchUrl($path), $data);
+
+		return $this->validateResponse($response);
 	}
 
 	/**
      * Method to change the protection level of a page.
+	 *
+	 * @param   string  $title        Title of the page you want to (un)protect.
+	 * @param   string  $protections  Pipe-separated list of protection levels.
+	 * @param   string  $expiry       Expiry timestamps.
+	 * @param   string  $reason       Reason for (un)protecting (optional).
+	 * @param   string  $cascade      Enable cascading protection.
+	 * @param   string  $watchlist    Unconditionally add or remove the page from your watchlist.
      *
      * @return  object
      *
      * @since   12.1
      */
-	public function changeProtection()
+	public function changeProtection($title, $protections, $expiry = null, $reason = null, $cascade = null, $watchlist = null)
 	{
+		// Get the token.
+		$token = $this->getToken($title, 'unblock');
+
+		// Build the request path.
+		$path = '?action=protect';
+
+		// Build the request data.
+		$data = array(
+			'title' => $title,
+			'token' => $token,
+			'protections' => $protections,
+			'expiry' => $expiry,
+			'reason' => $reason,
+			'cascade' => $cascade,
+			'watchlist' => $watchlist
+		);
+
+		// Send the request.
+		$response = $this->client->post($this->fetchUrl($path), $data);
+
+		return $this->validateResponse($response);
 	}
 
 	/**
@@ -434,4 +672,24 @@ class JMediawikiPages extends JMediawikiObject
 	{
 	}
 
+	/**
+	 * Method to get access token.
+	 *
+	 * @param   string  $user     The User to get token.
+	 * @param   string  $intoken  The type of token.
+	 *
+	 * @return  object
+	 *
+	 * @since   12.1
+	 */
+	public function getToken($user, $intoken)
+	{
+		// Build the request path.
+		$path = '?action=query&prop=info&intoken=' . $intoken . '&titles=User:' . $user;
+
+		// Send the request.
+		$response = $this->client->post($this->fetchUrl($path), null);
+
+		return (string) $this->validateResponse($response)->query->pages->page[$intoken . 'token'];
+	}
 }
