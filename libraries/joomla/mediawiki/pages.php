@@ -359,24 +359,72 @@ class JMediawikiPages extends JMediawikiObject
 	}
 
 	/**
-     * Method to get all pages in a given category.
+     * Method to get all pages in a given category by page name.
+	 *
+	 * @param   string  $cmtitle               Which category to enumerate.
+	 * @param   array   $cmprop                What pieces of information to include.
+	 * @param   array   $cmnamespace           Only include pages in these namespaces.
+	 * @param   array   $cmtype                What type of category members to include.
+	 * @param   string  $cmcontinue            For large categories, give the value retured from previous query.
+	 * @param   int     $cmlimit               The maximum number of pages to return.
+	 * @param   string  $cmsort                Property to sort by.
+	 * @param   string  $cmdir                 In which direction to sort.
+	 * @param   string  $cmstart               Timestamp to start listing from.
+	 * @param   string  $cmend                 Timestamp to end listing at.
+	 * @param   string  $cmstartsortkey        Sortkey to start listing from.
+	 * @param   string  $cmendsortkey          Sortkey to end listing at.
+	 * @param   string  $cmstartsortkeyprefix  Sortkey prefix to start listing from.
+	 * @param   string  $cmendsortkeyprefix    Sortkey prefix to end listing BEFORE.
      *
      * @return  object
      *
      * @since   12.1
      */
-	public function getPagesByCategory()
+	public function getCategoryPagesByname($cmtitle, array $cmprop = null, array $cmnamespace = null, array $cmtype = null, $cmcontinue = null, $cmlimit = null, $cmsort = null, $cmdir = null, $cmstart = null, $cmend = null, $cmstartsortkey = null, $cmendsortkey = null, $cmstartsortkeyprefix = null, $cmendsortkeyprefix = null)
+	{
+	}
+
+	/**
+	 * Method to get all pages in a given category by page id.
+	 *
+	 * @param   string  $cmpageid              Page ID of the category to enumerate.
+	 * @param   array   $cmprop                What pieces of information to include.
+	 * @param   array   $cmnamespace           Only include pages in these namespaces.
+	 * @param   array   $cmtype                What type of category members to include.
+	 * @param   string  $cmcontinue            For large categories, give the value retured from previous query.
+	 * @param   int     $cmlimit               The maximum number of pages to return.
+	 * @param   string  $cmsort                Property to sort by.
+	 * @param   string  $cmdir                 In which direction to sort.
+	 * @param   string  $cmstart               Timestamp to start listing from.
+	 * @param   string  $cmend                 Timestamp to end listing at.
+	 * @param   string  $cmstartsortkey        Sortkey to start listing from.
+	 * @param   string  $cmendsortkey          Sortkey to end listing at.
+	 * @param   string  $cmstartsortkeyprefix  Sortkey prefix to start listing from.
+	 * @param   string  $cmendsortkeyprefix    Sortkey prefix to end listing BEFORE.
+	 *
+	 * @return  object
+	 *
+	 * @since   12.1
+	 */
+	public function getCategoryPagesByID($cmpageid, array $cmprop = null, array $cmnamespace = null, array $cmtype = null, $cmcontinue = null, $cmlimit = null, $cmsort = null, $cmdir = null, $cmstart = null, $cmend = null, $cmstartsortkey = null, $cmendsortkey = null, $cmstartsortkeyprefix = null, $cmendsortkeyprefix = null)
 	{
 	}
 
 	/**
      * Method to get all pages  that use the given image title.
+	 *
+	 * @param   string   $bltitle        Title to search.
+	 * @param   boolean  $blcontinue     When more results are available, use this to continue.
+	 * @param   array    $blnamespace    The namespace to enumerate.
+	 * @param   string   $blfilterredir  How to filter for redirects.
+	 * @param   int      $bllimit        How many total pages to return.
+	 * @param   boolean  $blredirect     If linking page is a redirect.
      *
      * @return  object
      *
      * @since   12.1
      */
-	public function getImageUsage()
+	public function getImageUsage($bltitle, $blcontinue = null, array $blnamespace = null, $blfilterredir, $bllimit = null, $blredirect = null)
 	{
 	}
 

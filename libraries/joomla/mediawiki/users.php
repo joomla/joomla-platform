@@ -255,6 +255,23 @@ class JMediawikiUsers extends JMediawikiObject
      */
 	public function blockUser($user, $expiry = null, $reason = null, $anononly = null, $nocreate = null, $autoblock = null, $noemail = null, $hidename = null, $allowusertalk = null, $reblock = null, $watchuser = null)
 	{
+		// Get the token.
+		$token = $this->getToken($user, 'block');
+
+		// Build the request path.
+		$path = '?action=unblock';
+
+		// Build the request data.
+		$data = array(
+			'user' => $user,
+			'token' => $token,
+			'reason' => $reason,
+		);
+
+		// Send the request.
+		$response = $this->client->post($this->fetchUrl($path), $data);
+
+		return $this->validateResponse($response);
 	}
 
 	/**
@@ -304,7 +321,14 @@ class JMediawikiUsers extends JMediawikiObject
 		$token = $this->getToken($id, 'unblock');
 
 		// Build the request path.
-		$path = '?action=unblock&id=' . $id . '&token=' . $token . '&reason=' . $reason;
+		$path = '?action=unblock';
+
+		// Build the request data.
+		$data = array(
+			'id' => $id,
+			'token' => $token,
+			'reason' => $reason,
+		);
 
 		// Send the request.
 		$response = $this->client->get($this->fetchUrl($path));
@@ -314,14 +338,35 @@ class JMediawikiUsers extends JMediawikiObject
 
 	/**
      * Method to assign a user to a group.
+	 *
+	 * @param   string  $username  User name.
+	 * @param   array   $add       Add the user to these groups.
+	 * @param   array   $remove    Remove the user from these groups.
+	 * @param   string  $reason    Reason for the change.
      *
      * @return  object
      *
      * @since   12.1
      */
-	public function assignGroup()
+	public function assignGroup($username, $add = null, $remove = null, $reason = null)
 	{
+		// Get the token.
+		$token = $this->getToken($user, 'unblock');
 
+		// Build the request path.
+		$path = '?action=userrights';
+
+		// Build the request data.
+		$data = array(
+			'user' => $user,
+			'token' => $token,
+			'reason' => $reason,
+		);
+
+		// Send the request.
+		$response = $this->client->post($this->fetchUrl($path), $data);
+
+		return $this->validateResponse($response);
 	}
 
 	/**
@@ -338,6 +383,23 @@ class JMediawikiUsers extends JMediawikiObject
      */
 	public function emailUser($target, $subject = null, $text, $ccme = null)
 	{
+		// Get the token.
+		$token = $this->getToken($target, 'unblock');
+
+		// Build the request path.
+		$path = '?action=userrights';
+
+		// Build the request data.
+		$data = array(
+			'user' => $user,
+			'token' => $token,
+			'reason' => $reason,
+		);
+
+		// Send the request.
+		$response = $this->client->post($this->fetchUrl($path), $data);
+
+		return $this->validateResponse($response);
 	}
 
 	/**
