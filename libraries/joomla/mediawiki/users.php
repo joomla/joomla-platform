@@ -236,12 +236,24 @@ class JMediawikiUsers extends JMediawikiObject
 
 	/**
      * Method to block a user.
+	 *
+	 * @param   string   $user           Username, IP address or IP range you want to block.
+	 * @param   string   $expiry         Relative expiry time, Default: never.
+	 * @param   string   $reason         Reason for block (optional).
+	 * @param   boolean  $anononly       Block anonymous users only.
+	 * @param   boolean  $nocreate       Prevent account creation.
+	 * @param   boolean  $autoblock      Automatically block the last used IP address, and any subsequent IP addresses they try to login from.
+	 * @param   boolean  $noemail        Prevent user from sending e-mail through the wiki.
+	 * @param   boolean  $hidename       Hide the username from the block log.
+	 * @param   boolean  $allowusertalk  Allow the user to edit their own talk page.
+	 * @param   boolean  $reblock        If the user is already blocked, overwrite the existing block.
+	 * @param   boolean  $watchuser      Watch the user/IP's user and talk pages.
      *
      * @return  object
      *
      * @since   12.1
      */
-	public function blockUser()
+	public function blockUser($user, $expiry = null, $reason = null, $anononly = null, $nocreate = null, $autoblock = null, $noemail = null, $hidename = null, $allowusertalk = null, $reblock = null, $watchuser = null)
 	{
 	}
 
