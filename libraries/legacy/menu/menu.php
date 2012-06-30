@@ -93,8 +93,6 @@ class JMenu extends JObject
 
 			if (!class_exists($classname))
 			{
-				JLog::add('Non-autoloadable JMenu subclasses are deprecated.', JLog::WARNING, 'deprecated');
-
 				// Load the menu object
 				$info = JApplicationHelper::getClientInfo($client, true);
 
