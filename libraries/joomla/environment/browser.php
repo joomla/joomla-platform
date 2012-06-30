@@ -21,9 +21,11 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Environment
  * @since       11.1
+ * @deprecated  This API may be changed in the near future and should not be considered stable
  */
 class JBrowser
 {
+
 	/**
 	 * @var    integer  Major version number
 	 * @since  12.1
@@ -651,13 +653,9 @@ class JBrowser
 	 * @return  boolean  True if using SSL, false if not.
 	 *
 	 * @since   11.1
-	 * @deprecated  13.3  Use the isSSLConnection method on the application object.
 	 */
 	public function isSSLConnection()
 	{
-		JLog::add('JBrowser::isSSLConnection() is deprecated. Use the isSSLConnection method on the application object instead.',
-			JLog::WARNING, 'deprecated');
-
 		return ((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION'));
 	}
 }
