@@ -93,6 +93,14 @@ class JDocumentHTML extends JDocument
 	protected $_caching = null;
 
 	/**
+	 * Array of JavaScript libraries
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
+	public $libraries = array();
+
+	/**
 	 * Set to true when the document should be output as HTML%
 	 *
 	 * @var    boolean
@@ -425,6 +433,46 @@ class JDocumentHTML extends JDocument
 		}
 
 		parent::$_buffer[$options['type']][$options['name']][$options['title']] = $content;
+
+		return $this;
+	}
+
+	/**
+	 * Registers a request to use a specific JavaScript library with a desired
+	 * version. The name is set to lowercase before use. If the path is to a
+	 * JavaScript file on the local filesystem, it is checked before being added.
+	 * If it does not exist, an error is thrown.
+	 *
+	 * @param   string   $name     Name of the library
+	 * @param   string   $version  Version of the library in $path
+	 * @param   string   $url      URL to the linked script
+	 * @param   string   $mime     Type of script. Defaults to 'text/javascript'
+	 * @param   boolean  $defer    Adds the defer attribute.
+	 * @param   boolean  $async    Adds the async attribute.
+	 *
+	 * @return  JDocumentHTML instance of $this to allow chaining
+	 */
+	public function registerLibrary($name, $version, $url,
+		$mime = "text/javascript", $defer = false, $async = false)
+	{
+		$name = strtolower($name);
+
+		// Check if that library has already been added and if that's the case whether this one is newer
+		if (isset($this->libraries[$name])
+		{
+			$key = array_keys($this->libraries[$name]);
+			$currVersion = $key[0];
+			if (version_compare($currVersion, $version, '>'))
+			{
+				unset($this->libraries[$name]);
+			}
+		}
+
+		$this->libraries[$name]['url'] = $path;
+		$this->libraries[$name]['version'] = $version;
+		$this->libraries[$name]['mime'] = $mime;
+		$this->libraries[$name]['defer'] = $defer;
+		$this->libraries[$name]['async'] = $async;
 
 		return $this;
 	}
