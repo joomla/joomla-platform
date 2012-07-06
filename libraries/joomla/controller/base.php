@@ -50,6 +50,20 @@ abstract class JControllerBase implements JController
 	}
 
 	/**
+	 * Proxy to execute the controller.
+	 *
+	 * @return  boolean  True if controller finished execution, false if the controller did not
+	 *                   finish execution. A controller might return false if some precondition for
+	 *                   the controller to run has not been satisfied.
+	 *
+	 * @since   12.2
+	 */
+	public function __invoke()
+	{
+		return $this->execute();
+	}
+
+	/**
 	 * Get the application object.
 	 *
 	 * @return  JApplicationBase  The application object.
