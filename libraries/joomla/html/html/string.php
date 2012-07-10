@@ -117,6 +117,57 @@ abstract class JHtmlString
 	}
 
 	/**
+	* Method to extend the truncate method to more complex situations 
+	* 
+	* The goal is to get the proper length plain text string with as much of 
+	* the html intact as possible with all tags properly closed.
+	* 
+	* @param string   $html       The content of the introtext to be truncated
+	* @param integer  $maxLength  The maximum number of charactes to render
+	* 
+	* @return  string  The truncated string
+	*/
+	public static function truncateComplex($html, $maxLength = 0)
+	{
+		$baseLength = strlen($html);
+		$diffLength = 0;
+
+		// First get the truncated plain text string. This is the rendered text we want to end up with.
+		$ptString = JHtml::_('string.truncate', $html, $maxLength, $noSplit = true, $allowHtml = false);
+
+		for ($maxLength; $maxLength < $baseLength;)
+		{
+			// Now get the truncated string if HTML is allowed.
+			$htmlString = JHtml::_('string.truncate', $html, $maxLength, $noSplit = true, $allowHtml = true);
+
+			// Now get the plain text from the html string.
+			$htmlStringToPtString = JHtml::_('string.truncate', $htmlString, $maxLength, $noSplit = true, $allowHtml = false);
+
+			// If the new plain text string matches the original plain text string we are done.
+			if ($ptString == $htmlStringToPtString)
+			{
+				return $htmlString;
+			}
+
+			// Get the number of HTML tag characters in the first $maxLength characters
+			$diffLength = strlen($ptString) - strlen($htmlStringToPtString);
+
+			// Set new $maxlength that adjusts for the html tags
+			$maxLength += $diffLength;
+
+			// Check to see if we are done, if not repeat.
+			if ($baseLength <= $maxLength || $diffLength <= 0)
+			{
+				return $htmlString;
+			}
+		}
+		
+		// If the original HTML string is shorter than the $maxLength do nothing and return that.
+		return $html;
+	}
+
+
+	/**
 	 * Abridges text strings over the specified character limit. The
 	 * behavior will insert an ellipsis into the text replacing a section
 	 * of variable size to ensure the string does not exceed the defined

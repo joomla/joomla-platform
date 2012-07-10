@@ -173,6 +173,137 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 			),
 		);
 	}
+	/**
+	 * Test cases for complex truncate.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.3
+	 */
+	function getTestComplexTruncateData()
+	{
+		return array(
+			'No change case' => array(
+				'Plain text',
+				0,
+				true,
+				true,
+				'Plain text',
+			),
+			'Plain text under the limit' => array(
+				'Plain text',
+				100,
+				true,
+				true,
+				'Plain text',
+			),
+			'Plain text at the limit' => array(
+				'Plain text',
+				10,
+				true,
+				true,
+				'Plain text',
+			),
+			'Plain text over the limit by two words' => array(
+				'Plain text test',
+				12,
+				true,
+				true,
+				'Plain...',
+			),
+			'Plain text over the limit by one word' => array(
+				'Plain text test',
+				13,
+				true,
+				true,
+				'Plain text...',
+			),
+			'Plain text over the limit with short trailing words' => array(
+				'Plain text a b c d',
+				13,
+				true,
+				true,
+				'Plain text...',
+			),
+			'Plain text over the limit splitting first word' => array(
+				'Plain text',
+				3,
+				true,
+				true,
+				'Pla...',
+			),
+			'Plain text with word split' => array(
+				'Plain split-less',
+				7,
+				false,
+				false,
+				'Plain s...',
+			),
+			'Plain html under the limit' => array(
+				'<span>Plain text</span>',
+				100,
+				true,
+				true,
+				'<span>Plain text</span>',
+			),
+			'Plain html at the limit' => array(
+				'<span>Plain text</span>',
+				23,
+				true,
+				true,
+				'<span>Plain text</span>',
+			),
+			'Plain html over the limit' => array(
+				'<span>Plain text</span>',
+				22,
+				true,
+				true,
+				'<span>Plain text</span>...',
+			),
+			'Plain html over the limit by one word' => array(
+				'<span>Plain text</span>',
+				5,
+				true,
+				true,
+				'<span>Plain</span>...',
+			),
+			'Plain html over the limit splitting first word' => array(
+				'<span>Plain text</span>',
+				4,
+				true,
+				true,
+				'<span>Plai</span>...',
+			),
+			'Complex html over the limit' => array(
+				'<div><span><i>Plain</i> <b>text</b> foo</span></div>',
+				5,
+				true,
+				true,
+				'<div><span><i>Plain</i></span></div>...',
+			),
+			'Complex html over the limit 2' => array(
+				'<div><span><i>Plain</i> <b>text</b> foo</span></div>',
+				5,
+				true,
+				true,
+				'<div><span><i>Plain</i> <b>text</b></span></div>...',
+			),
+			'Split words' => array(
+				'<div><span><i>Plain</i> <b>text</b> foo</span></div>',
+				8,
+				false,
+				false,
+				'<div><span><i>Plain te</i></span></div>...',
+			),
+			'No split' => array(
+				'<div><span><i>Plain</i> <b>text</b> foo</span></div>',
+				8,
+				true,
+				false,
+				'<div><span><i>Plain</i></span></div>...',
+			),
+		);
+	}
 
 	/**
 	 * Tests the JHtmlString::abridge method.
