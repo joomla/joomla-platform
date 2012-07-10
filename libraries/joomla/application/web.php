@@ -1049,13 +1049,6 @@ class JApplicationWeb extends JApplicationBase
 			$session->restart();
 		}
 
-		// If the session is new, load the user and registry objects.
-		if ($session->isNew())
-		{
-			$session->set('registry', new JRegistry);
-			$session->set('user', new JUser);
-		}
-
 		// Set the session object.
 		$this->session = $session;
 
