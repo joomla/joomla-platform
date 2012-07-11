@@ -1056,13 +1056,6 @@ class JApplication extends JApplicationBase
 			{
 				jexit($e->getMessage());
 			}
-
-			// Session doesn't exist yet, so create session variables
-			if ($session->isNew())
-			{
-				$session->set('registry', new JRegistry('session'));
-				$session->set('user', new JUser);
-			}
 		}
 	}
 
