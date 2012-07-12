@@ -188,11 +188,11 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   12.2
 	 */
 	function getTestTruncateComplexData()
 	{
-/*		return array(
+		return array(
 			'No change case' => array(
 				'Plain text',
 				10,
@@ -215,7 +215,7 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 				'Plain text test',
 				6,
 				true,
-				'Plain...',
+				'...',
 			),
 			'Plain text over the limit by one word' => array(
 				'Plain text test',
@@ -257,11 +257,12 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 				'<span>Plain text</span>',
 				22,
 				true,
-				'<span>Plain text</span>...',
+				'<span>Plain text</span>',
 			),
+				
 			'Plain html over the limit by one word' => array(
 				'<span>Plain text</span>',
-				5,
+				8,
 				true,
 				'<span>Plain</span>...',
 			),
@@ -281,7 +282,7 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 				'<span>Plain text</span>',
 				4,
 				false,
-				'<span>Plai</span>',
+				'<span>Plai</span>...',
 			),	
 			'Complex html over the limit' => array(
 				'<div><span><i>Plain</i> <b>text</b> foo</span></div>',
@@ -303,11 +304,11 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 			),
 			'No split' => array(
 				'<div><span><i>Plain</i> <b>text</b> foo</span></div>',
-				4,
+				8,
 				true,
-				'<div><span><i>Plain</i></span></div>...',
+				'<div><span><i>Plain</i> </span></div>...',
 			),
-		);*/
+		);
 	}
 
 	/**
@@ -364,13 +365,13 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  getTestTruncateComplexData
-	 * @since   11.3
+	 * @since   12.2
 	 */
-/*	public function testTruncateComplex($html, $maxLength, $noSplit, $expected)
+	public function testTruncateComplex($html, $maxLength, $noSplit, $expected)
 	{
 		$this->assertThat(
 			JHtmlString::truncateComplex($html, $maxLength, $noSplit),
 			$this->equalTo($expected)
 		);
-	}*/
+	}
 }

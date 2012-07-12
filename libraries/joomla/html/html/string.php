@@ -166,7 +166,7 @@ abstract class JHtmlString
 		$baseLength = strlen($html);
 		$diffLength = 0;
 
-		// Deal with maximum lenth of 1 directly
+		// Deal with maximum length of 1 directly
 		if ($maxLength == 1 && substr($html, 0, 1) == '<')
 		{
 			$endTagPos = strlen(strstr($html,'>',true));
@@ -195,7 +195,12 @@ abstract class JHtmlString
 			// If the new plain text string matches the original plain text string we are done.
 			if ($ptString == $htmlStringToPtString)
 			{
-				// Put back the ellipsis
+				// If the HTML string includes the whole input string, we don't need an ellipsis.
+				if ($baseLength == strlen(trim($htmlString)))
+				{
+					return $htmlString;
+				}
+				// Otherwise, put back the ellipsis
 				return $htmlString . '...';
 			}
 
