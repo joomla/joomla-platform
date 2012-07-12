@@ -65,7 +65,7 @@ abstract class JHtmlString
 			{
 					return '...';
 			}
-			
+
 			// $noSplit true means that we do not allow splitting of words.
 			if ($noSplit)
 			{
@@ -78,8 +78,8 @@ abstract class JHtmlString
 				{
 					return '...';
 				}
-				
-				// If the last open tag is after the last close tag we need to adjust the offset to 
+
+				// If the last open tag is after the last close tag we need to adjust the offset to
 				// exclude it. We assume a < is part of a tag.
 				if (!empty($tmp) && JString::strrpos($tmp, '<') > JString::strrpos($tmp, '>'))
 				{
@@ -134,7 +134,6 @@ abstract class JHtmlString
 						unset($closedTags[array_search($openedTags[$i], $closedTags)]);
 					}
 				}
-				
 			}
 			if (strlen($text) > $tmp || $tmp === false)
 			{
@@ -143,7 +142,7 @@ abstract class JHtmlString
 			else
 			{
 				$text = $tmp;
-			}	
+			}
 		}
 
 		return $text;
@@ -155,9 +154,9 @@ abstract class JHtmlString
 	* The goal is to get the proper length plain text string with as much of 
 	* the html intact as possible with all tags properly closed.
 	* 
-	* @param  string   $html       The content of the introtext to be truncated
-	* @param  integer  $maxLength  The maximum number of characters to render
-	* @param  boolean  $noSplit    Don't split a word if that is where the cutoff occurs (default: true).
+	* @param   string   $html       The content of the introtext to be truncated
+	* @param   integer  $maxLength  The maximum number of characters to render
+	* @param   boolean  $noSplit    Don't split a word if that is where the cutoff occurs (default: true).
 	* 
 	* @return  string  The truncated string
 	* 
@@ -172,10 +171,10 @@ abstract class JHtmlString
 		if ($maxLength == 1 && substr($html, 0, 1) == '<')
 		{
 			$endTagPos = strlen(strstr($html,'>',true));
-			$tag = substr($html,1,$endTagPos);
-			
+			$tag = substr($html, 1, $endTagPos);
+
 			$l = $endTagPos + 2;
-			return substr($html,0,$l) . '</'. $tag;
+			return substr($html, 0, $l) . '</'. $tag;
 		}
 
 		// First get the truncated plain text string. This is the rendered text we want to end up with.
@@ -188,11 +187,11 @@ abstract class JHtmlString
 
 			// Now get the truncated string if HTML is allowed.
 			$htmlString = JHtml::_('string.truncate', $html, $maxLength, $noSplit, $allowHtml = true);
-			$htmlString = rtrim($htmlString,'.');
+			$htmlString = rtrim($htmlString, '.');
 
 			// Now get the plain text from the HTML string.
 			$htmlStringToPtString = JHtml::_('string.truncate', $htmlString, $maxLength, $noSplit, $allowHtml = false);
-			$htmlStringToPtString = rtrim($htmlStringToPtString,'.');
+			$htmlStringToPtString = rtrim($htmlStringToPtString, '.');
 
 			// If the new plain text string matches the original plain text string we are done.
 			if ($ptString == $htmlStringToPtString)
@@ -220,7 +219,7 @@ abstract class JHtmlString
 				return $htmlString;
 			}
 		}
-		
+
 		// If the original HTML string is shorter than the $maxLength do nothing and return that.
 		return $html;
 	}
