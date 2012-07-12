@@ -129,12 +129,13 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 				true,
 				'<span>Plain text</span>...',
 			),
+			// The tags by themselves make the string too long.
 			'Plain html over the limit by one word' => array(
 				'<span>Plain text</span>',
 				12,
 				true,
 				true,
-				'<span>Plain</span>...',
+				'...',
 			),
 			// Don't return invalid HTML
 			'Plain html over the limit splitting first word' => array(

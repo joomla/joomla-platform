@@ -57,32 +57,43 @@ abstract class JHtmlString
 			$text = JString::trim(preg_replace('#\s+#mui', ' ', $text));
 		}
 
-		// Truncate the item text if it is too long.
+		// Whether or not allowing HTML, truncate the item text if it is too long.
 		if ($length > 0 && JString::strlen($text) > $length)
 		{
-			$tmp = JString::substr($text, 0, $length);
+			$tmp = trim(JString::substr($text, 0, $length));
+			if (substr($tmp, 0, 1) == '<' && strpos($tmp, '>') === false)
+			{
+					return '...';
+			}
 			
+			// $noSplit true means that we do not allow splitting of words.
 			if ($noSplit)
 			{
-				// Find the first space within the allowed length.
+				// Find the position of the last space within the allowed length.
 				$offset = JString::strrpos($tmp, ' ');
 
+				// If there are no spaces and the string is longer than the maximum
+				// we need to just use the ellipsis. In that case we are done.
 				if ($offset === false && strlen($text) > $length)
 				{
 					return '...';
 				}
 				
-				if (JString::strrpos($tmp, '<') > JString::strrpos($tmp, '>'))
+				// If the last open tag is after the last close tag we need to adjust the offset to 
+				// exclude it. We assume a < is part of a tag.
+				if (!empty($tmp) && JString::strrpos($tmp, '<') > JString::strrpos($tmp, '>'))
 				{
 					$offset = JString::strrpos($tmp, '<') - 1;
 				}
+
+				// Offset is calculated from 0 so to use it for length we need to adjust it.
 				$offset += 1;
 				$tmp = JString::substr($tmp, 0, $offset);
 
 				// If we don't have 3 characters of room, go to the second space within the limit.
 				if (JString::strlen($tmp) > $length - 3)
 				{
-					$tmp = JString::substr($tmp, 0, JString::strrpos($tmp, ' '));
+					$tmp = trim(JString::substr($tmp, 0, JString::strrpos($tmp, ' ')));
 				}
 			}
 
@@ -91,6 +102,8 @@ abstract class JHtmlString
 				// Put all opened tags into an array
 				preg_match_all("#<([a-z][a-z0-9]*)\b.*?(?!/)>#i", $tmp, $result);
 				$openedTags = $result[1];
+
+				// Some tags self close so they do not need a separate close tag.
 				$openedTags = array_diff($openedTags, array("img", "hr", "br"));
 				$openedTags = array_values($openedTags);
 
@@ -100,12 +113,13 @@ abstract class JHtmlString
 
 				$numOpened = count($openedTags);
 
-				// All tags are closed
+				// All tags are closed so trim the text and finish.
 				if (count($closedTags) == $numOpened)
 				{
-					return $tmp . '...';
+					return trim($tmp) . '...';
 				}
 
+				// Closing tags need to be in the reverse order of opening tags.
 				$openedTags = array_reverse($openedTags);
 
 				// Close tags
@@ -131,13 +145,7 @@ abstract class JHtmlString
 				$text = $tmp;
 			}	
 		}
-		// Final check for hanging tags that were opened in the first position.
-		// This is mainly for very short values of $length.
 
-		if (!empty($tmp) && (substr($tmp, 0, 1) == '<'  &&  !strpos($tmp, '>') ))
-		{
-			$text = '...';
-		}
 		return $text;
 	}
 
