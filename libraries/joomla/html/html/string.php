@@ -87,7 +87,7 @@ abstract class JHtmlString
 				}
 
 				// Offset is calculated from 0 so to use it for length we need to adjust it.
-				$offset += 1;
+				$offset = $offset + 1;
 				$tmp = JString::substr($tmp, 0, $offset);
 
 				// If we don't have 3 characters of room, go to the second space within the limit.
@@ -170,11 +170,11 @@ abstract class JHtmlString
 		// Deal with maximum length of 1 directly
 		if ($maxLength == 1 && substr($html, 0, 1) == '<')
 		{
-			$endTagPos = strlen(strstr($html,'>',true));
+			$endTagPos = strlen(strstr($html, '>', true));
 			$tag = substr($html, 1, $endTagPos);
 
 			$l = $endTagPos + 2;
-			return substr($html, 0, $l) . '</'. $tag;
+			return substr($html, 0, $l) . '</' . $tag;
 		}
 
 		// First get the truncated plain text string. This is the rendered text we want to end up with.
@@ -183,7 +183,7 @@ abstract class JHtmlString
 		for ($maxLength; $maxLength < $baseLength;)
 		{
 			// We need to trim the ellipsis that truncate adds.
-			$ptString = rtrim($ptString,'.');
+			$ptString = rtrim($ptString, '.');
 
 			// Now get the truncated string if HTML is allowed.
 			$htmlString = JHtml::_('string.truncate', $html, $maxLength, $noSplit, $allowHtml = true);
