@@ -458,6 +458,40 @@ class JDocument
 	}
 
 	/**
+	 * Adds inline code immediately before a linked script
+	 *
+	 * @param   string $url
+	 * @param   string $code
+	 *
+	 * @return  JDocument instance of $this to allow chaining
+	 *
+	 * @since   12.2
+	 */
+	public function addPreScript($url, $code)
+	{
+		$this->_preScripts[$url] = $code;
+
+		return $this;
+	}
+
+	/**
+	 * Adds inline code immediately after a linked script
+	 *
+	 * @param   string $url
+	 * @param   string $code
+	 *
+	 * @return  JDocument instance of $this to allow chaining
+	 *
+	 * @since   12.2
+	 */
+	public function addPostScript($url, $code)
+	{
+		$this->_postScripts[$url] = $code;
+
+		return $this;
+	}
+
+	/**
 	 * Adds a script to the page
 	 *
 	 * @param   string  $content  Script
