@@ -155,11 +155,13 @@ abstract class JHtmlString
 	* The goal is to get the proper length plain text string with as much of 
 	* the html intact as possible with all tags properly closed.
 	* 
-	* @param string   $html       The content of the introtext to be truncated
-	* @param integer  $maxLength  The maximum number of characters to render
-	* @param   boolean  $noSplit    Don't split a word if that is where the cutoff occurs (default: true).
+	* @param  string   $html       The content of the introtext to be truncated
+	* @param  integer  $maxLength  The maximum number of characters to render
+	* @param  boolean  $noSplit    Don't split a word if that is where the cutoff occurs (default: true).
 	* 
 	* @return  string  The truncated string
+	* 
+	* @since   12.2
 	*/
 	public static function truncateComplex($html, $maxLength = 0, $noSplit = true)
 	{
