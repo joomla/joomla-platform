@@ -35,6 +35,11 @@ abstract class JHtmlString
 	 */
 	public static function truncate($text, $length = 0, $noSplit = true, $allowHtml = true)
 	{
+		// Assume a lone open tag is invalid HTML.
+		if ($length == 1 && substr($text, 0, 1) == '<')
+		{
+			return '...';
+		}
 		// Check if HTML tags are allowed.
 		if (!$allowHtml)
 		{
@@ -55,16 +60,23 @@ abstract class JHtmlString
 		// Truncate the item text if it is too long.
 		if ($length > 0 && JString::strlen($text) > $length)
 		{
-			// Find the first space within the allowed length.
 			$tmp = JString::substr($text, 0, $length);
-
+			
 			if ($noSplit)
 			{
+				// Find the first space within the allowed length.
 				$offset = JString::strrpos($tmp, ' ');
+
+				if ($offset === false && strlen($text) > $length)
+				{
+					return '...';
+				}
+				
 				if (JString::strrpos($tmp, '<') > JString::strrpos($tmp, '>'))
 				{
-					$offset = JString::strrpos($tmp, '<');
+					$offset = JString::strrpos($tmp, '<') - 1;
 				}
+				$offset += 1;
 				$tmp = JString::substr($tmp, 0, $offset);
 
 				// If we don't have 3 characters of room, go to the second space within the limit.
@@ -108,11 +120,24 @@ abstract class JHtmlString
 						unset($closedTags[array_search($openedTags[$i], $closedTags)]);
 					}
 				}
+				
 			}
-
-			$text = $tmp . '...';
+			if (strlen($text) > $tmp || $tmp === false)
+			{
+				$text = trim($tmp) . '...';
+			}
+			else
+			{
+				$text = $tmp;
+			}	
 		}
+		// Final check for hanging tags that were opened in the first position.
+		// This is mainly for very short values of $length.
 
+		if (!empty($tmp) && (substr($tmp, 0, 1) == '<'  &&  !strpos($tmp, '>') ))
+		{
+			$text = '...';
+		}
 		return $text;
 	}
 
@@ -123,41 +148,59 @@ abstract class JHtmlString
 	* the html intact as possible with all tags properly closed.
 	* 
 	* @param string   $html       The content of the introtext to be truncated
-	* @param integer  $maxLength  The maximum number of charactes to render
+	* @param integer  $maxLength  The maximum number of characters to render
+	* @param   boolean  $noSplit    Don't split a word if that is where the cutoff occurs (default: true).
 	* 
 	* @return  string  The truncated string
 	*/
-	public static function truncateComplex($html, $maxLength = 0)
+	public static function truncateComplex($html, $maxLength = 0, $noSplit = true)
 	{
 		$baseLength = strlen($html);
 		$diffLength = 0;
 
+		// Deal with maximum lenth of 1 directly
+		if ($maxLength == 1 && substr($html, 0, 1) == '<')
+		{
+			$endTagPos = strlen(strstr($html,'>',true));
+			$tag = substr($html,1,$endTagPos);
+			
+			$l = $endTagPos + 2;
+			return substr($html,0,$l) . '</'. $tag;
+		}
+
 		// First get the truncated plain text string. This is the rendered text we want to end up with.
-		$ptString = JHtml::_('string.truncate', $html, $maxLength, $noSplit = true, $allowHtml = false);
+		$ptString = JHtml::_('string.truncate', $html, $maxLength, $noSplit, $allowHtml = false);
 
 		for ($maxLength; $maxLength < $baseLength;)
 		{
-			// Now get the truncated string if HTML is allowed.
-			$htmlString = JHtml::_('string.truncate', $html, $maxLength, $noSplit = true, $allowHtml = true);
+			// We need to trim the ellipsis that truncate adds.
 
-			// Now get the plain text from the html string.
-			$htmlStringToPtString = JHtml::_('string.truncate', $htmlString, $maxLength, $noSplit = true, $allowHtml = false);
+			$ptString = rtrim($ptString,'.');
+			// Now get the truncated string if HTML is allowed.
+			$htmlString = JHtml::_('string.truncate', $html, $maxLength, $noSplit, $allowHtml = true);
+			$htmlString = rtrim($htmlString,'.');
+
+			// Now get the plain text from the HTML string.
+			$htmlStringToPtString = JHtml::_('string.truncate', $htmlString, $maxLength, $noSplit, $allowHtml = false);
+			$htmlStringToPtString = rtrim($htmlStringToPtString,'.');
 
 			// If the new plain text string matches the original plain text string we are done.
 			if ($ptString == $htmlStringToPtString)
 			{
-				return $htmlString;
+				// Put back the ellipsis
+				return $htmlString . '...';
 			}
 
 			// Get the number of HTML tag characters in the first $maxLength characters
 			$diffLength = strlen($ptString) - strlen($htmlStringToPtString);
 
-			// Set new $maxlength that adjusts for the html tags
+			// Set new $maxlength that adjusts for the HTML tags
 			$maxLength += $diffLength;
 
 			// Check to see if we are done, if not repeat.
 			if ($baseLength <= $maxLength || $diffLength <= 0)
 			{
+				// Everything shows, so no ellipsis
 				return $htmlString;
 			}
 		}
@@ -165,7 +208,6 @@ abstract class JHtmlString
 		// If the original HTML string is shorter than the $maxLength do nothing and return that.
 		return $html;
 	}
-
 
 	/**
 	 * Abridges text strings over the specified character limit. The
