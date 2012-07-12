@@ -62,12 +62,6 @@ class JForm
 	 */
 	protected $xml;
 
-	/**
-	 * Form instances.
-	 * @var    array
-	 * @since  11.1
-	 */
-	protected static $forms = array();
 
 	/**
 	 * Method to instantiate the form object.
@@ -1962,7 +1956,7 @@ class JForm
 	public static function getInstance($name, $data = null, $options = array(), $replace = true, $xpath = false)
 	{
 		// Reference to array with form instances
-		$forms = &self::$forms;
+		static $forms = array();
 
 		// Only instantiate the form if it does not already exist.
 		if (!isset($forms[$name]))
