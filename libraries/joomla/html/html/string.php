@@ -182,8 +182,8 @@ abstract class JHtmlString
 		for ($maxLength; $maxLength < $baseLength;)
 		{
 			// We need to trim the ellipsis that truncate adds.
-
 			$ptString = rtrim($ptString,'.');
+
 			// Now get the truncated string if HTML is allowed.
 			$htmlString = JHtml::_('string.truncate', $html, $maxLength, $noSplit, $allowHtml = true);
 			$htmlString = rtrim($htmlString,'.');
@@ -200,6 +200,7 @@ abstract class JHtmlString
 				{
 					return $htmlString;
 				}
+
 				// Otherwise, put back the ellipsis
 				return $htmlString . '...';
 			}
