@@ -87,8 +87,8 @@ abstract class JHtmlString
 				}
 
 				// Offset is calculated from 0 so to use it for length we need to adjust it.
-				$offset = $offset + 1;
-				$tmp = JString::substr($tmp, 0, $offset);
+				$newoffset = $offset + 1;
+				$tmp = JString::substr($tmp, 0, $newoffset);
 
 				// If we don't have 3 characters of room, go to the second space within the limit.
 				if (JString::strlen($tmp) > $length - 3)
