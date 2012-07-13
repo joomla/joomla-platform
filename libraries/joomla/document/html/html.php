@@ -468,7 +468,7 @@ class JDocumentHTML extends JDocument
 			}
 		}
 
-		$this->libraries[$name]['url'] = $path;
+		$this->libraries[$name]['url'] = $url;
 		$this->libraries[$name]['version'] = $version;
 		$this->libraries[$name]['mime'] = $mime;
 		$this->libraries[$name]['defer'] = $defer;
