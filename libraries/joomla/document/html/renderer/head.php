@@ -163,9 +163,13 @@ class JDocumentRendererHead extends JDocumentRenderer
 		}
 
 		// Generate script file links
-		foreach ($scripts as $script)
+		foreach ($scripts as $url => $script)
 		{
-			$buffer .= $tab . '<script src="' . $script['url'] . '"';
+			if (isset($script['pre'])) {
+				$buffer .= $tab . '<script type="' . $script['mime'] . '">' . $script['pre'] . '</script>' . $lnEnd;
+			}
+
+			$buffer .= $tab . '<script src="' . $url . '"';
 			if (!is_null($script['mime']))
 			{
 				$buffer .= ' type="' . $script['mime'] . '"';
@@ -179,6 +183,10 @@ class JDocumentRendererHead extends JDocumentRenderer
 				$buffer .= ' async="async"';
 			}
 			$buffer .= '></script>' . $lnEnd;
+
+			if (isset($script['post'])) {
+				$buffer .= $tab . '<script type="' . $script['mime'] . '">' . $script['post'] . '</script>' . $lnEnd;
+			}
 		}
 
 		// Generate script declarations
