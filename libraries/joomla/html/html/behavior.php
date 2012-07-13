@@ -65,6 +65,46 @@ abstract class JHtmlBehavior
 	}
 
 	/**
+	 * Method to load jQuery into the document head
+	 *
+	 * @param   string   $file  An optional path to use in place of the local path. (for CDNs)
+	 * @param   boolean  $debug  An optional argument toggling debug mode. $file takes precedence.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 */
+	public static function jquery($version = '1.7.2', $file = null, $debug = null)
+	{
+		// Only load once
+		if (!empty(self::$loaded[__METHOD__]))
+		{
+			return;
+		}
+
+		if ($debug === null)
+		{
+			$config = JFactory::getConfig();
+			$debug = $config->get('debug');
+		}
+
+		if ($file) {
+			$path = $file;
+		} else if ($debug) {
+			$path = JURI::base() . 'media/system/js/jquery.js';
+		} else {
+			$path = JURI::base() . 'media/system/js/jquery.min.js';
+		}
+
+		$document = JFactory::getDocument();
+		$document->registerLibrary('jquery', $version, $path, "text/javascript", false, false, '', 'jQuery.noConflict();');
+
+		self::$loaded[__METHOD__] = true;
+
+		return;
+	}
+
+	/**
 	 * Add unobtrusive javascript support for image captions.
 	 *
 	 * @param   string  $selector  The selector for which a caption behaviour is to be applied.
