@@ -458,7 +458,7 @@ class JDocumentHTML extends JDocument
 		$name = strtolower($name);
 
 		// Check if that library has already been added and if that's the case whether this one is newer
-		if (isset($this->libraries[$name])
+		if (isset($this->libraries[$name]))
 		{
 			$key = array_keys($this->libraries[$name]);
 			$currVersion = $key[0];
