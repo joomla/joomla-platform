@@ -56,7 +56,13 @@ class JDocumentRendererHead extends JDocumentRenderer
 		$app = JFactory::getApplication();
 		$app->triggerEvent('onBeforeCompileHead');
 
-		$scripts = array_merge($document->_scripts, $document->libraries);
+		$urlKeyedLibraries = array();
+
+		foreach ($document->libraries as $library => $info) {
+			$urlKeyedLibraries[$info['url']] = $info;
+		}
+
+		$scripts = array_merge($document->_scripts, $urlKeyedLibraries);
 
 		// Get line endings
 		$lnEnd = $document->_getLineEnd();
