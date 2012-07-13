@@ -453,7 +453,8 @@ class JDocumentHTML extends JDocument
 	 * @return  JDocumentHTML instance of $this to allow chaining
 	 */
 	public function registerLibrary($name, $version, $url,
-		$mime = "text/javascript", $defer = false, $async = false)
+		$mime = "text/javascript", $defer = false, $async = false,
+		$pre = null, $post = null)
 	{
 		$name = strtolower($name);
 
@@ -473,6 +474,14 @@ class JDocumentHTML extends JDocument
 		$this->libraries[$name]['mime'] = $mime;
 		$this->libraries[$name]['defer'] = $defer;
 		$this->libraries[$name]['async'] = $async;
+
+		if ($pre) {
+			$this->libraries[$name]['pre'] = $pre;
+		}
+
+		if ($post) {
+			$this->libraries[$name]['post'] = $post;
+		}
 
 		return $this;
 	}
