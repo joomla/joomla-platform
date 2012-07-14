@@ -93,25 +93,12 @@ class JTableContentTest extends TestCaseDatabase
 			'Line: '.__LINE__.' Checking an empty table should fail.'
 		);
 
-		$table->title = 'Test Title';
-		$this->assertThat(
-			$table->check(),
-			$this->isFalse(),
-			'Line: '.__LINE__.' Checking the table with just the title should fail.'
-		);
-
 		$this->assertThat(
 			$table->alias,
 			$this->equalTo('test-title'),
 			'Line: '.__LINE__.' An empty alias should assume the value of the title.'
 		);
 
-		$table->introtext = '';
-		$this->assertThat(
-			$table->check(),
-			$this->isFalse(),
-			'Line: '.__LINE__.' Checking with an empty introtext should fail.'
-		);
 
 		$table->introtext = 'The intro text object.';
 		$table->publish_down = '2001-01-01 00:00:00';
