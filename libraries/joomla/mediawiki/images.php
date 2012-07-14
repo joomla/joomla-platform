@@ -181,7 +181,7 @@ class JMediawikiImages extends JMediawikiObject
      *
      * @since   12.1
      */
-	public function enumerateImages($aifrom = null, $aito = null, $aiprefix = null, $aiminsize = null, $aimaxsize = null, $ailimit = null, $aidir = null, $aisha1 = null, $aisha1base36, array $aiprop = null, $aimime = null)
+	public function enumerateImages($aifrom = null, $aito = null, $aiprefix = null, $aiminsize = null, $aimaxsize = null, $ailimit = null, $aidir = null, $aisha1 = null, $aisha1base36 = null, array $aiprop = null, $aimime = null)
 	{
 		// Build the request.
 		$path = '?action=query&list=allimages';
