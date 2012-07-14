@@ -99,7 +99,7 @@ class JMediawikiSearch extends JMediawikiObject
      *
      * @since   12.1
      */
-	public function openSearch($search = null, $limit = null, array $namespace = null, $suggest = null, $format = null)
+	public function openSearch($search, $limit = null, array $namespace = null, $suggest = null, $format = null)
 	{
 		// Build the request.
 		$path = '?action=query&list=search';
