@@ -62,7 +62,6 @@ class JMediawikiSearchTest extends PHPUnit_Framework_TestCase
 
 	/**
      * @covers JMediawikiSearch::search
-     * @todo   Implement testSearch().
      */
 	public function testSearch()
 	{
@@ -82,7 +81,6 @@ class JMediawikiSearchTest extends PHPUnit_Framework_TestCase
 
 	/**
      * @covers JMediawikiSearch::openSearch
-     * @todo   Implement testOpenSearch().
      */
 	public function testOpenSearch()
 	{
