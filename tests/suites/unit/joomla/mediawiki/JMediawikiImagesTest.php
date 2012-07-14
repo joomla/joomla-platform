@@ -12,7 +12,7 @@ require_once JPATH_PLATFORM . '/joomla/mediawiki/http.php';
 require_once JPATH_PLATFORM . '/joomla/mediawiki/images.php';
 
 /**
- * Test class for JMediawikiLinks.
+ * Test class for JMediawikiImages.
  */
 class JMediawikiImagesTest extends PHPUnit_Framework_TestCase
 {

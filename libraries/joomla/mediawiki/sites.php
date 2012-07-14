@@ -86,7 +86,7 @@ class JMediawikiSites extends JMediawikiObject
      *
      * @since   12.1
      */
-	public function getEvents(array $leprop = null, $letype = null, $leaction = null, $letitle, $leprefix = null, $letag = null, $leuser = null, $lestart = null, $leend = null, $ledir = null, $lelimit = null)
+	public function getEvents(array $leprop = null, $letype = null, $leaction = null, $letitle = null, $leprefix = null, $letag = null, $leuser = null, $lestart = null, $leend = null, $ledir = null, $lelimit = null)
 	{
 		// Build the request
 		$path = '?action=query&list=logevents';
@@ -264,7 +264,7 @@ class JMediawikiSites extends JMediawikiObject
      *
      * @since   12.1
      */
-	public function getProtectedTitles(array $ptnamespace = null, array $ptlevel, $ptlimit = null, $ptdir = null, $ptstart = null, $ptend = null, array $ptprop = null)
+	public function getProtectedTitles(array $ptnamespace = null, array $ptlevel = null, $ptlimit = null, $ptdir = null, $ptstart = null, $ptend = null, array $ptprop = null)
 	{
 		// Build the request.
 		$path = '?action=query&list=protectedtitles';
