@@ -19,6 +19,14 @@ defined('JPATH_PLATFORM') or die;
 abstract class JModuleHelper
 {
 	/**
+	 * An array to hold included paths
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
+	protected static $includePaths = array();
+
+	/**
 	 * Get module by name (real, eg 'Breadcrumbs' or folder, eg 'mod_breadcrumbs')
 	 *
 	 * @param   string  $name   The name of the module
@@ -156,11 +164,11 @@ abstract class JModuleHelper
 
 		// Get module path
 		$module->module = preg_replace('/[^A-Z0-9_\.-]/i', '', $module->module);
-		$path = JPATH_BASE . '/modules/' . $module->module . '/' . $module->module . '.php';
-
+		self::addIncludePath(JPATH_BASE . '/modules');
+		
 		// Load the module
 		// $module->user is a check for 1.0 custom modules and is deprecated refactoring
-		if (empty($module->user) && file_exists($path))
+		if (empty($module->user))
 		{
 			$lang = JFactory::getLanguage();
 
@@ -172,7 +180,7 @@ abstract class JModuleHelper
 
 			$content = '';
 			ob_start();
-			include $path;
+			include JPath::find(self::addIncludePath(),$module->module . '/' . $module->module . '.php');
 			$module->content = ob_get_contents() . $content;
 			ob_end_clean();
 		}
@@ -260,18 +268,16 @@ abstract class JModuleHelper
 		}
 
 		// Build the template and base path for the layout
-		$tPath = JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php';
-		$bPath = JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php';
+		$templatePaths = array(
+			JPATH_THEMES . '/' . $template . '/html/' . $module,
+			JPATH_BASE . '/modules/' . $module . '/tmpl',
+		);
 		$dPath = JPATH_BASE . '/modules/' . $module . '/tmpl/default.php';
 
 		// If the template has a layout override use it
-		if (file_exists($tPath))
+		if ($tPath = JPath::find($templatePaths,$defaultLayout.'.php'))
 		{
 			return $tPath;
-		}
-		elseif (file_exists($bPath))
-		{
-			return $bPath;
 		}
 		else
 		{
@@ -511,5 +517,36 @@ abstract class JModuleHelper
 		}
 
 		return $ret;
+	}
+
+	/**
+	 * Add a directory where JModuleHelper should search for module. You may
+	 * either pass a string or an array of directories.
+	 *
+	 * @param   string  $path  A path to search.
+	 *
+	 * @return  array  An array with directory elements
+	 *
+	 * @since   11.1
+	 */
+	public static function addIncludePath($path = '')
+	{
+		// Force path to array
+		settype($path, 'array');
+
+		// Loop through the path directories
+		foreach ($path as $dir)
+		{
+			if (!empty($dir) && !in_array($dir, self::$includePaths))
+			{
+				jimport('joomla.filesystem.path');
+				array_unshift(self::$includePaths, JPath::clean($dir));
+				
+				//fix to override include path priority
+				self::$includePath = array_reverse(self::$includePath);
+			}
+		}
+
+		return self::$includePaths;
 	}
 }
