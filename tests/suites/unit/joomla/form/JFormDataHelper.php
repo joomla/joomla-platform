@@ -89,6 +89,8 @@ class JFormDataHelper
 			name="params"
 			description="Optional Settings">
 			<field
+				name="show_image" filter="int" default="1" />
+			<field
 				name="show_title" filter="int" />
 			<fieldset
 				name="basic">
@@ -249,6 +251,11 @@ class JFormDataHelper
 			name="title"
 			type="text"
 			description="The title." />
+		<field
+			name="alias"
+			type="text"
+			description="The alias."
+			preset="preset-alias" />
 		<fields
 			name="params">
 			<field
@@ -370,6 +377,11 @@ class JFormDataHelper
 			label="Title"
 			description="The title." />
 
+		<field
+			name="unexisting"
+			type="unexisting"
+		/>
+
 		<fields
 			name="params">
 			<field
@@ -406,6 +418,12 @@ class JFormDataHelper
 			name="translate_default"
 			default="DEFAULT_KEY"
 			translate_default="true"
+			type="text"/>
+
+		<field
+			name="translate_preset"
+			preset="PRESET_KEY"
+			translate_preset="true"
 			type="text"/>
 	</fields>
 </form>';

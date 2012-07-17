@@ -166,6 +166,22 @@ abstract class JFormField
 	protected $value;
 
 	/**
+	 * The default value of the form field.
+	 *
+	 * @var    mixed
+	 * @since  12.2
+	 */
+	protected $default;
+
+	/**
+	 * The preset value of the form field.
+	 *
+	 * @var    mixed
+	 * @since  12.2
+	 */
+	protected $preset;
+
+	/**
 	 * The label's CSS class of the form field
 	 *
 	 * @var    mixed
@@ -272,6 +288,12 @@ abstract class JFormField
 			case 'title':
 				return $this->getTitle();
 				break;
+			case 'default':
+				return $this->getDefault();
+				break;
+			case 'preset':
+				return $this->getPreset();
+				break;
 		}
 
 		return null;
@@ -292,6 +314,87 @@ abstract class JFormField
 		$this->formControl = $form->getFormControl();
 
 		return $this;
+	}
+
+	/**
+	 * Method to get the preset value for a field (used for setup)
+	 *
+	 * @return  mixed  The preset value
+	 *
+	 * @since   12.2
+	 */
+	protected function getPreset()
+	{
+		if (!isset($this->preset))
+		{
+			if (isset($this->element['preset']))
+			{
+				/*
+				 * Get the value for the form field if not set.
+				 * Default to the translated version of the 'preset' attribute
+				 * if 'translate_preset' attribute if set to 'true' or '1'
+				 * else the value of the 'preset' attribute for the field.
+				 */
+				$preset = (string) $this->element['preset'];
+				if (($translate = $this->element['translate_preset']) && ((string) $translate == 'true' || (string) $translate == '1'))
+				{
+					$lang = JFactory::getLanguage();
+					if ($lang->hasKey($preset))
+					{
+						$debug = $lang->setDebug(false);
+						$preset = JText::_($preset);
+						$lang->setDebug($debug);
+					}
+					else
+					{
+						$preset = JText::_($preset);
+					}
+				}
+			}
+			else
+			{
+				$preset = self::getDefault();
+			}
+			$this->preset = $preset;
+		}
+		return $this->preset;
+	}
+
+	/**
+	 * Method to get the default value for a field (used for filtering)
+	 *
+	 * @return  mixed  The default value
+	 *
+	 * @since   12.2
+	 */
+	protected function getDefault()
+	{
+		if (!isset($this->default))
+		{
+			/*
+			 * Get the value for the form field if not set.
+			 * Default to the translated version of the 'default' attribute
+			 * if 'translate_default' attribute if set to 'true' or '1'
+			 * else the value of the 'default' attribute for the field.
+			 */
+			$default = (string) $this->element['default'];
+			if (($translate = $this->element['translate_default']) && ((string) $translate == 'true' || (string) $translate == '1'))
+			{
+				$lang = JFactory::getLanguage();
+				if ($lang->hasKey($default))
+				{
+					$debug = $lang->setDebug(false);
+					$default = JText::_($default);
+					$lang->setDebug($debug);
+				}
+				else
+				{
+					$default = JText::_($default);
+				}
+			}
+			$this->default = $default;
+		}
+		return $this->default;
 	}
 
 	/**
@@ -378,7 +481,14 @@ abstract class JFormField
 		$this->id = $this->getId($id, $this->fieldname);
 
 		// Set the field default value.
-		$this->value = $value;
+		if ($value === null)
+		{
+			$this->value = $this->getPreset();
+		}
+		else
+		{
+			$this->value = $value;
+		}
 
 		// Set the CSS class of field label
 		$this->labelClass = (string) $element['labelclass'];

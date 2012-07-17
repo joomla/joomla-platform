@@ -178,4 +178,57 @@ class JFormFieldGroupedList extends JFormField
 
 		return implode($html);
 	}
+
+	/**
+	 * Method to get the field default value.
+	 *
+	 * @return  mixed  The field default value.
+	 *
+	 * @since   12.2
+	 */
+	protected function getDefault()
+	{
+		$default = parent::getDefault();
+		if ($this->multiple && $default == '')
+		{
+			// Initialize variables.
+			$default = array();
+
+			foreach ($this->element->xpath('//option[@default="true"]') as $option)
+			{
+				$default[] = (string) $option['value'];
+			}
+		}
+		return $default;
+	}
+
+	/**
+	 * Method to get the field preset value.
+	 *
+	 * @return  mixed  The field default value.
+	 *
+	 * @since   12.2
+	 */
+	protected function getPreset()
+	{
+		$preset = parent::getPreset();
+		if ($this->multiple && $preset == '')
+		{
+			if (isset($this->element['selected']))
+			{
+				$preset = explode(',', $this->element['selected']);
+			}
+			else
+			{
+				// Initialize variables.
+				$preset = array();
+
+				foreach ($this->element->xpath('//option[@selected="true"]') as $option)
+				{
+					$preset[] = (string) $option['value'];
+				}
+			}
+		}
+		return $preset;
+	}
 }

@@ -315,6 +315,12 @@ class JFormTest extends TestCase
 		);
 
 		$this->assertThat(
+			$filtered['params']['show_image'],
+			$this->equalTo(1),
+			'Line:'.__LINE__.' The nested variable should be present.'
+		);
+
+		$this->assertThat(
 			$filtered['params']['show_author'],
 			$this->equalTo(0),
 			'Line:'.__LINE__.' The nested variable should be present.'
@@ -813,10 +819,17 @@ class JFormTest extends TestCase
 			'Line:'.__LINE__.' Prior to binding data, the defaults in the field should be used.'
 		);
 
+		$this->assertThat(
+			$form->getField('alias')->value,
+			$this->equalTo('preset-alias'),
+			'Line:'.__LINE__.' Prior to binding data, the presets in the field should be used.'
+		);
+
 		// Check values after binding.
 
 		$data = array(
 			'title' => 'The title',
+			'alias' => '',
 			'show_title' => 3,
 			'params' => array(
 				'show_title' => 2,
@@ -832,6 +845,12 @@ class JFormTest extends TestCase
 		$this->assertThat(
 			$form->getField('title')->value,
 			$this->equalTo('The title'),
+			'Line:'.__LINE__.' Check the field value bound correctly.'
+		);
+
+		$this->assertThat(
+			$form->getField('alias')->value,
+			$this->equalTo(''),
 			'Line:'.__LINE__.' Check the field value bound correctly.'
 		);
 
@@ -1420,10 +1439,23 @@ class JFormTest extends TestCase
 			'Line:'.__LINE__.' An unknown field should return false.'
 		);
 
+		$this->assertThat(
+			$form->loadField('bogus'),
+			$this->isFalse(),
+			'Line:'.__LINE__.' An unknown field should return false.'
+		);
+
 		// Test correct usage.
 
 		$field = $form->getField('title');
 		$field = $form->loadField($field);
+
+		$field = $form->getField('unexisting');
+		$this->assertThat(
+			$field->type,
+			$this->equalTo('Text'),
+			'Line:'.__LINE__.' An unknown type should return "text".'
+		);
 	}
 
 	/**
