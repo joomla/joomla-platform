@@ -65,7 +65,7 @@ abstract class JHtmlString
 			{
 					return '...';
 			}
-
+echo 'tm'; var_dump($tmp);
 			// $noSplit true means that we do not allow splitting of words.
 			if ($noSplit)
 			{
@@ -173,8 +173,14 @@ abstract class JHtmlString
 			$endTagPos = strlen(strstr($html, '>', true));
 			$tag = substr($html, 1, $endTagPos);
 
-			$l = $endTagPos + 2;
-			return substr($html, 0, $l) . '</' . $tag;
+			$l = $endTagPos + 1;
+			if ($noSplit)
+			{
+				return substr($html, 0, $l) . '</' . $tag . '...';
+			}
+			$character = substr(strip_tags($html), 0, 1);
+
+			return substr($html, 0, $l) .  $character . '</' . $tag . '...';			
 		}
 
 		// First get the truncated plain text string. This is the rendered text we want to end up with.
@@ -187,6 +193,7 @@ abstract class JHtmlString
 
 			// Now get the truncated string if HTML is allowed.
 			$htmlString = JHtml::_('string.truncate', $html, $maxLength, $noSplit, $allowHtml = true);
+
 			$htmlString = rtrim($htmlString, '.');
 
 			// Now get the plain text from the HTML string.

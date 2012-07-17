@@ -181,6 +181,34 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 				false,
 				'...',
 			),
+				'First character is < with a maximum length of 1' => array(
+				'<div><span><i>Plain</i> <b>text</b> foo</span></div>',
+				1,
+				true,
+				false,
+				'...',
+			),
+			'HTML not allowed, no split' => array(
+				'<div><span><i>Plain</i> <b>text</b> foo</span></div>',
+				5,
+				true,
+				false,
+				'...',
+			),
+			'Text is the same as maxLength, no split, HTML allowed' => array(
+				'<div><span><i>Plain</i></span></div>',
+				5,
+				true,
+				true.
+				'...',
+			),
+			'HTML not allowed, no split' => array(
+				'<div><span><i>Plain</i></span></div>',
+				5,
+				true,
+				false,
+				'Plain',
+			),
 		);
 	}
 	/**
@@ -307,6 +335,24 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 				8,
 				true,
 				'<div><span><i>Plain</i> </span></div>...',
+			),
+				'First character is < with a maximum length of 1, no split' => array(
+				'<div><span><i>Plain</i> <b>text</b> foo</span></div>',
+				1,
+				true,
+				'<div></div>...',
+			),
+				'First character is < with a maximum length of 1, split' => array(
+				'<div><span><i>Plain</i> <b>text</b> foo</span></div>',
+				1,
+				false,
+				'<div>P</div>...',
+			),
+				'Text is the same as maxLength, no split' => array(
+				'<div><span><i>Plain</i></span></div>',
+				5,
+				true,
+				'<div><span><i>Plain</i></span></div>',
 			),
 		);
 	}
