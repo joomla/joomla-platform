@@ -67,7 +67,7 @@ class JMediaCompressorCss extends JMediaCompressor
 
 		// Handle selectors - match a start of a selector and pass them to $this->_handleSelectors() to get replacements
 		// /x is used turn on free-spacing mode in regex patterns
-		$this->_compressed = preg_replace_callback('/(?:\\s*[^~>+,\\s]+\\s*[,>+~])+\\s*[^~>+,\\s]+{/', array($this,'_handleSelectors') , $this->_compressed);
+		$this->_compressed = preg_replace_callback('/(?:\\s*[^~>+,\\s]+\\s*[,>+~])+\\s*[^~>+,\\s]+{/', array($this,'_handleSelectors'), $this->_compressed);
 
 		if ($this->_options['MIN_COLOR_CODES'])
 		{
@@ -217,7 +217,7 @@ class JMediaCompressorCss extends JMediaCompressor
 	 */
 	private function _minColorCodes($source)
 	{
-		return preg_replace('/([^=])#([a-f\\d])\\2([a-f\\d])\\3([a-f\\d])\\4([\\s;\\}])/i', '$1#$2$3$4$5' , $source);
+		return preg_replace('/([^=])#([a-f\\d])\\2([a-f\\d])\\3([a-f\\d])\\4([\\s;\\}])/i', '$1#$2$3$4$5', $source);
 	}
 
 	/**
@@ -232,13 +232,13 @@ class JMediaCompressorCss extends JMediaCompressor
 	private function _breakInToLines($source)
 	{
 		// Insert a newline between desendant selectors
-		$source = preg_replace('/([\\w#\\.\\*]+)\\s+([\\w#\\.\\*]+){/', "$1\n$2{" , $source);
+		$source = preg_replace('/([\\w#\\.\\*]+)\\s+([\\w#\\.\\*]+){/', "$1\n$2{", $source);
 
 		// Insert a new line after 1st numeric value found within a padding, margin, border or outline property
 		$source = preg_replace('/
 					            ((?:padding|margin|border|outline):\\d+(?:px|em)?) # match 1 = 1st numeric string (eg: 10px)
 					            \\s+
-					            /x', "$1\n" , $source
+					            /x', "$1\n", $source
 								);
 		return $source;
 	}
