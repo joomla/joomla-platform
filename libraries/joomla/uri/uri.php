@@ -338,7 +338,7 @@ class JUri
 		// Parse the URI and populate the object fields. If URI is parsed properly,
 		// set method return value to true.
 
-		$parts = JString::parse_url($uri);
+		$parts = parse_url($uri);
 
 		$retval = ($parts) ? true : false;
 
