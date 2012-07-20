@@ -255,8 +255,15 @@ class JViewLegacy extends JObject
 		JLog::add(__METHOD__ . ' is deprecated. Use native PHP syntax.', JLog::WARNING, 'deprecated');
 
 		// Get the arguments; there may be 1 or 2.
-		$arg0 = @func_get_arg(0);
-		$arg1 = @func_get_arg(1);
+		$arg0 = func_get_arg(0);
+		if (func_num_args() > 1)
+		{
+			$arg1 = func_get_arg(1);
+		}
+		else
+		{
+			$arg1 = null;
+		}
 
 		// Assign by object
 		if (is_object($arg0))

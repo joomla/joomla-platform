@@ -383,16 +383,13 @@ class JDocument
 		{
 			$result = $this->getDescription();
 		}
+		elseif ($httpEquiv == true)
+		{
+			$result = isset($this->_metaTags['http-equiv'][$name]) ? $this->_metaTags['http-equiv'][$name] : null;
+		}
 		else
 		{
-			if ($httpEquiv == true)
-			{
-				$result = @$this->_metaTags['http-equiv'][$name];
-			}
-			else
-			{
-				$result = @$this->_metaTags['standard'][$name];
-			}
+			$result = isset($this->_metaTags['standard'][$name]) ? $this->_metaTags['standard'][$name] : null;
 		}
 
 		return $result;
