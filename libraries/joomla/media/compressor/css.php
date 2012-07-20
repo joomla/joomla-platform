@@ -48,12 +48,12 @@ class JMediaCompressorCss extends JMediaCompressor
 	 */
 	public function compress()
 	{
-		if ($this->uncompressed === null)
+		if ($this->_uncompressed === null)
 		{
 			throw new RuntimeException(JText::sprintf('JMEDIA_CSS_COMPRESSION_ERROR_UNCOMPRESSED_NOTSET'));
 		}
 
-		$this->_compressed = str_replace("\r\n", "\n", $this->uncompressed);
+		$this->_compressed = str_replace("\r\n", "\n", $this->_uncompressed);
 
 		$this->_compressed = $this->_preServe($this->_compressed);
 

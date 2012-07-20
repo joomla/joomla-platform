@@ -22,13 +22,25 @@ abstract class JMediaCompressor
 	 * @var    String  To hold uncompressed Code.
      * @since  12.1
 	 */
-	public $uncompressed = null;
+	public $_uncompressed = null;
 
 	/**
-     * @var    int  length of uncompressed Code.
+     * @var    int  size of uncompressed Code.
      * @since  12.1
      */
-	public $length;
+	public $_uncompressedSize = null;
+
+    /**
+     * @var    String  To hold compressed Code.
+     * @since  12.1
+     */
+    protected  $_compressed = null;
+
+    /**
+     * @var    int  size of compressed Code.
+     * @since  12.1
+     */
+    public $_compressedSize = null;
 
 	/**
      * @var    Array  Compression options for CSS Minifier.
@@ -36,11 +48,11 @@ abstract class JMediaCompressor
      */
 	protected  $_options = array();
 
-	/**
-     * @var    String  To hold compressed Code.
-     * @since  12.1
+    /**
+     * @var    array  JMediaCompressor instances container.
+     * @since  11.1
      */
-	protected  $_compressed = null;
+    protected static $instances = array();
 
 	/**
      * Method to set uncompressed code.
@@ -53,9 +65,48 @@ abstract class JMediaCompressor
 	*/
 	public function setUncompressed($uncompressed)
 	{
-		$this->uncompressed = $uncompressed;
-		$this->length 		= strlen($this->uncompressed);
+		$this->_uncompressed = $uncompressed;
+		$this->_uncompressedSize	= strlen($this->_uncompressed);
 	}
+
+    /**
+     * Method to get uncompressed code.
+     *
+     * @return  String  uncompressed code.
+     *
+     * @since  12.1
+     */
+    public function getUncompressed()
+    {
+        return $this->_uncompressed;
+    }
+
+    /**
+     * Method to set uncompressed code.
+     *
+     * @param   string  $uncompressed  Uncomressed Code.
+     *
+     * @return  void
+     *
+     * @since  12.1
+     */
+    public function setCompressed($compressed)
+    {
+        $this->_compressed = $compressed;
+        $this->_compressedSize	= strlen($this->_compressed);
+    }
+
+    /**
+     * Method to get compressed code.
+     *
+     * @return  String  compressed code.
+     *
+     * @since  12.1
+     */
+    public function getCompressed()
+    {
+        return $this->_compressed;
+    }
 
 	/**
      * Method to set compression options.
@@ -85,17 +136,6 @@ abstract class JMediaCompressor
 		$this->_options = array_merge($options, $this->_options);
 	}
 
-	/**
-     * Method to get compressed code.
-     *
-     * @return  String  compressed code.
-     *
-     * @since  12.1
-     */
-	public function getCompressed()
-	{
-		return trim($this->_compressed);
-	}
 
 	/**
      * Method to get compressed ratio.
@@ -106,7 +146,7 @@ abstract class JMediaCompressor
      */
 	public function getRatio()
 	{
-		return $ratio = 0.0 + ( strlen($this->_compressed) / $this->length * 100 );
+		return round(($this->_compressedSize / $this->_uncompressedSize * 100),2);
 	}
 
 	/**
@@ -156,12 +196,39 @@ abstract class JMediaCompressor
 		return $compressors;
 	}
 
+    /**
+     * Compress a CSS/JS file with given options
+     *
+     * @param   string  $sourcefile   The full file path of the source file.
+     * @param   array   $options      An asssociative array with options. Eg: force overwirte, prefix for minified files
+     * @param   string  $destination  The full file path of the destination file.
+     *
+     * @return  boolean  false on failure.
+     *
+     * @since  12.1
+     */
+    public static function compressString( $uncompressed, $options = array())
+    {
+        $compressor = self::getInstance( $options );
+        $compressor->setUncompressed ($uncompressed );
+
+        try
+        {
+            $compressor->compress();
+        }
+        catch (Exception $e)
+        {
+            return false;
+        }
+        return $compressor->getCompressed;
+    }
+
 	/**
 	 * Compress a CSS/JS file with given options
 	 *
 	 * @param   string  $sourcefile   The full file path of the source file.
 	 * @param   array   $options      An asssociative array with options. Eg: force overwirte, prefix for minified files
-	 * @param   string  $destination  The full file path of the destination file.
+	 * @param   string  $destination  The full file path of the destination file. If left empty the compressed file will be returned as string
 	 * 
 	 * @return  boolean  false on failure.
 	 *
@@ -169,11 +236,7 @@ abstract class JMediaCompressor
 	 */
 	public static function compressFile( $sourcefile, $options = array(),  $destination = null )
 	{
-		// Detect the extension of file
-		$type = JFile::getExt(strtolower($sourcefile));
-
-		$compressor = self::getInstance($type, $options);
-
+		$compressor = self::getInstance( $options);
 		$uncompressed = JFile::read($sourcefile);
 
 		// Sets force overwrite option
@@ -182,7 +245,8 @@ abstract class JMediaCompressor
 
 		if ($destination === null)
 		{
-			if (array_key_exists('PREFIX', $options) && !empty($options['PREFIX']))
+            $type = $extension = pathinfo($sourcefile, PATHINFO_EXTENSION);
+            if (array_key_exists('PREFIX', $options) && !empty($options['PREFIX']))
 			{
 				$destination = str_ireplace('.' . $type, '.' . $options['PREFIX'] . '.' . $type, $sourcefile);
 			}
@@ -197,16 +261,16 @@ abstract class JMediaCompressor
 			throw new JMediaException("Error reading the file (" . $sourcefile . ") contents");
 		}
 
-		$compressor->setUncompressed($uncompressed);
+        $compressor->setUncompressed($uncompressed);
 
-		try
-		{
-			$compressor->compress();
-		}
-		catch (Exception $e)
-		{
-			return false;
-		}
+        try
+        {
+            $compressor->compress();
+        }
+        catch (Exception $e)
+        {
+            return false;
+        }
 
 		if (JFile::write($destination, $compressor->getCompressed()))
 		{
@@ -228,33 +292,43 @@ abstract class JMediaCompressor
 	 * 
 	 * @since   12.1
 	 */
-	public static function getInstance($type, $options = array())
+	public static function getInstance($options = array())
 	{
 
-		// Derive the class name from the type.
-		$class = 'JMediaCompressor' . ucfirst(strtolower($type));
+        // Get the options signature for the database connector.
+        $signature = md5(serialize($options));
 
-		// Load the class
-		jimport('joomla.media.compressor.' . $class);
+        // If we already have a database connector instance for these options then just use that.
+        if (empty(self::$instances[$signature]))
+        {
+			// Derive the class name from the type.
+			$class = 'JMediaCompressor' . ucfirst(strtolower($options['type']));
 
-		// If the class still doesn't exist we have nothing left to do but throw an exception.  We did our best.
-		if (!class_exists($class))
-		{
-			throw new RuntimeException(JText::sprintf('JMEDIA_ERROR_LOAD_COMPRESSOR', $type));
-		}
+			// Load the class
+			jimport('joomla.media.compressor.' . $class);
 
-		// Create our new JMediaCompressor class based on the options given.
-		try
-		{
-			$instance = new $class($options);
-		}
-		catch (RuntimeException $e)
-		{
-			throw new RuntimeException(JText::sprintf('JLIB_DATABASE_ERROR_CONNECT_DATABASE', $e->getMessage()));
-		}
+			// If the class still doesn't exist we have nothing left to do but throw an exception.  We did our best.
+			if (!class_exists($class))
+			{
+				throw new RuntimeException(JText::sprintf('JMEDIA_ERROR_LOAD_COMPRESSOR', $options['type']));
+			}
 
-		return $instance;
-	}
+			// Create our new JMediaCompressor class based on the options given.
+			try
+			{
+				$instance = new $class($options);
+			}
+			catch (RuntimeException $e)
+			{
+				throw new RuntimeException(JText::sprintf('JLIB_DATABASE_ERROR_CONNECT_DATABASE', $e->getMessage()));
+			}
+
+            // Set the new connector to the global instances based on signature.
+            self::$instances[$signature] = $instance;
+        }
+
+        return self::$instances[$signature];
+    }
 
 	/**
 	 * Method to test if supported

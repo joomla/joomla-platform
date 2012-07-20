@@ -91,14 +91,14 @@ class JMediaCompressorJs extends JMediaCompressor
 	 */
 	public function compress()
 	{
-		if ($this->uncompressed === null)
+		if ($this->_uncompressed === null)
 		{
 			throw new RuntimeException(JText::sprintf('JMEDIA_JS_COMPRESSION_ERROR_UNCOMPRESSED_NOTSET'));
 		}
 		$encoding = $this->_changeCharEncoding();
 
-		$this->uncompressed = str_replace("\r\n", "\n", $this->uncompressed);
-		$this->_startLength = strlen($this->uncompressed);
+		$this->_uncompressed = str_replace("\r\n", "\n", $this->_uncompressed);
+		$this->_startLength = strlen($this->_uncompressed);
 
 		/*	Commands to determine start point of switch in _executeCommand()
 		*	Command 1	: Keep  A
@@ -169,7 +169,7 @@ class JMediaCompressorJs extends JMediaCompressor
 		// Prevent + + or - - becomes ++ or --
 		if ($cmd === 3 && ($this->_a === '+' || $this->_a === '-') && $this->_b === ' ' )
 		{
-			if ($this->uncompressed[$this->_nextIndex] === $this->_a)
+			if ($this->_uncompressed[$this->_nextIndex] === $this->_a)
 			{
 				$cmd = 1;
 			}
@@ -342,7 +342,7 @@ class JMediaCompressorJs extends JMediaCompressor
 
 		if ($this->_nextIndex < $this->_startLength)
 		{
-			$char = $this->uncompressed[$this->_nextIndex];
+			$char = $this->_uncompressed[$this->_nextIndex];
 			$this->_nextIndex++;
 		}
 		else
@@ -380,7 +380,7 @@ class JMediaCompressorJs extends JMediaCompressor
 			return $nextB;
 		}
 
-		$this->_preLoaded = $this->uncompressed[$this->_nextIndex];
+		$this->_preLoaded = $this->_uncompressed[$this->_nextIndex];
 
 		if ($this->_preLoaded === '/' || $this->_preLoaded === '*')
 		{
@@ -439,7 +439,7 @@ class JMediaCompressorJs extends JMediaCompressor
 
 				if ($tmp === '*')
 				{
-					if ($this->uncompressed[$this->_nextIndex] === '/')// End of comment
+					if ($this->_uncompressed[$this->_nextIndex] === '/')// End of comment
 					{
 						$this->_next();
 
