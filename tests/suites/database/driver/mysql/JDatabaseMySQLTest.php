@@ -164,9 +164,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Tests the JDatabaseMysqli getCreateDbQuery method.
 	 *
-	 * @param   JObject  $options  JObject coming from "initialise" function to pass user
-	 * 									and database name to database driver.
-	 * @param   boolean  $utf      True if the database supports the UTF-8 character set.
+	 * @param   stdClass  $options  Object used to pass user and database name to database driver.
+	 * 									This object must have "db_name" and "db_user" set.
+	 * @param   boolean   $utf      True if the database supports the UTF-8 character set.
 	 *
 	 * @return  void
 	 *
