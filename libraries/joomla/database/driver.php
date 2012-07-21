@@ -421,9 +421,9 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * Create a new database using information from $options object, obtaining query string
 	 * from protected member.
 	 *
-	 * @param   JObject  $options  JObject coming from CMS' "initialise" function to pass user
-	 *								and database name to database driver.
-	 * @param   boolean  $utf      True if the database supports the UTF-8 character set.
+	 * @param   stdClass  $options  Object used to pass user and database name to database driver.
+	 * 									This object must have "db_name" and "db_user" set.
+	 * @param   boolean   $utf      True if the database supports the UTF-8 character set.
 	 *
 	 * @return  string  The query that creates database
 	 *
@@ -436,11 +436,11 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		{
 			throw new RuntimeException('$options object must not be null.');
 		}
-		elseif (!isset($options->db_name) || empty($options->db_name))
+		elseif (empty($options->db_name))
 		{
 			throw new RuntimeException('$options object must have db_name set.');
 		}
-		elseif (!isset($options->db_user) || empty($options->db_user))
+		elseif (empty($options->db_user))
 		{
 			throw new RuntimeException('$options object must have db_user set.');
 		}
