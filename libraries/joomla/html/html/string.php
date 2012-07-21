@@ -71,7 +71,7 @@ abstract class JHtmlString
 			{
 				// Find the position of the last space within the allowed length.
 				$offset = JString::strrpos($tmp, ' ');
-				$tmp = JString::substr($tmp, 0, $offset+1);
+				$tmp = JString::substr($tmp, 0, $offset + 1);
 
 				// If there are no spaces and the string is longer than the maximum
 				// we need to just use the ellipsis. In that case we are done.
@@ -158,7 +158,7 @@ abstract class JHtmlString
 	*/
 	public static function truncateComplex($html, $maxLength = 0, $noSplit = true)
 	{
-		//Start with some basic rules.
+		// Start with some basic rules.
 		$baseLength = strlen($html);
 
 		// If the original HTML string is shorter than the $maxLength do nothing and return that.
@@ -168,11 +168,11 @@ abstract class JHtmlString
 		}
 
 		// Take care of short simple cases.
-		if ($maxLength <= 3 && substr($html, 0, 1) != '<' && strpos(substr($html, 0, $maxLength-1), '<') === false && $baseLength > $maxLength)
+		if ($maxLength <= 3 && substr($html, 0, 1) != '<' && strpos(substr($html, 0, $maxLength - 1), '<') === false && $baseLength > $maxLength)
 		{
 			return '...';
 		}
-		
+
 		// Deal with maximum length of 1 where the string starts with a tag.
 		if ($maxLength == 1 && substr($html, 0, 1) == '<')
 		{
@@ -186,18 +186,17 @@ abstract class JHtmlString
 			}
 			$character = substr(strip_tags($html), 0, 1);
 
-			return substr($html, 0, $l) . '</' . $tag . '...';			
+			return substr($html, 0, $l) . '</' . $tag . '...';
 		}
 
 		// First get the truncated plain text string. This is the rendered text we want to end up with.
 		$ptString = JHtml::_('string.truncate', $html, $maxLength, $noSplit, $allowHtml = false);
 
 		// It's all HTML, just return it.
-		if (strlen($ptString) == 0) 
+		if (strlen($ptString) == 0)
 		{
 				return $html;
 		}
-
 
 		// If the plain text is shorter than the max length the variable will not end in ...
 		// In that case we use the whole string.
