@@ -50,9 +50,9 @@ class JInstallerPlugin extends JInstallerAdapter
 	protected $oldFiles = null;
 
 	/**
-	 * Custom loadLanguage method
+	 * Load language from a path
 	 *
-	 * @param   string  $path  The path where to find language files.
+	 * @param   string  $path  The path language files are on.
 	 *
 	 * @return  void
 	 *

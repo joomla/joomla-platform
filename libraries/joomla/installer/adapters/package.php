@@ -32,7 +32,7 @@ class JInstallerPackage extends JInstallerAdapter
 	/**
 	 * Load language from a path
 	 *
-	 * @param   string  $path  The path of the language.
+	 * @param   string  $path  The path language files are on.
 	 *
 	 * @return  void
 	 *

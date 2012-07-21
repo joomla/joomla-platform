@@ -21,9 +21,9 @@ jimport('joomla.installer.librarymanifest');
 class JInstallerLibrary extends JInstallerAdapter
 {
 	/**
-	 * Custom loadLanguage method
+	 * Load language from a path
 	 *
-	 * @param   string  $path  The path where to find language files.
+	 * @param   string  $path  The path language files are on.
 	 *
 	 * @return  void
 	 *
@@ -208,8 +208,9 @@ class JInstallerLibrary extends JInstallerAdapter
 		// Set the extensions name
 		$name = (string) $this->manifest->name;
 		$name = JFilterInput::getInstance()->clean($name, 'string');
+		$this->name = $name;
+
 		$element = str_replace('.xml', '', basename($this->parent->getPath('manifest')));
-		$this->set('name', $name);
 		$this->set('element', $element);
 
 		// We don't want to compromise this instance!

@@ -39,9 +39,9 @@ class JInstallerModule extends JInstallerAdapter
 	protected $scriptElement = null;
 
 	/**
-	 * Custom loadLanguage method
+	 * Load language from a path
 	 *
-	 * @param   string  $path  The path where we find language files
+	 * @param   string  $path  The path language files are on.
 	 *
 	 * @return  void
 	 *

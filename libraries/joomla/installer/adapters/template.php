@@ -30,11 +30,11 @@ class JInstallerTemplate extends JInstallerAdapter
 	protected $route = 'install';
 
 	/**
-	 * Custom loadLanguage method
+	 * Load language from a path
 	 *
-	 * @param   string  $path  The path where to find language files.
+	 * @param   string  $path  The path language files are on.
 	 *
-	 * @return  JInstallerTemplate
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */

@@ -59,7 +59,7 @@ class JInstallerComponent extends JInstallerAdapter
 	protected $install_script = null;
 
 	/**
-	 * Custom loadLanguage method
+	 * Load language from a path
 	 *
 	 * @param   string  $path  The path language files are on.
 	 *
@@ -536,8 +536,11 @@ class JInstallerComponent extends JInstallerAdapter
 		 * ---------------------------------------------------------------------------------------------
 		 */
 
-		// Set the extension's name
-		$name = strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd'));
+		// Set the extensions name
+		$name = (string) $this->manifest->name;
+		$name = JFilterInput::getInstance()->clean($name, 'string');
+		$this->name = $name;
+
 		if (substr($name, 0, 4) == 'com_')
 		{
 			$element = $name;
@@ -546,8 +549,6 @@ class JInstallerComponent extends JInstallerAdapter
 		{
 			$element = 'com_' . $name;
 		}
-
-		$this->set('name', $name);
 		$this->set('element', $element);
 
 		// Get the component description
@@ -977,7 +978,10 @@ class JInstallerComponent extends JInstallerAdapter
 		}
 
 		// Set the extensions name
-		$name = strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd'));
+		$name = (string) $this->manifest->name;
+		$name = JFilterInput::getInstance()->clean($name, 'string');
+		$this->name = $name;
+
 		if (substr($name, 0, 4) == 'com_')
 		{
 			$element = $name;
@@ -986,8 +990,6 @@ class JInstallerComponent extends JInstallerAdapter
 		{
 			$element = 'com_' . $name;
 		}
-
-		$this->set('name', $name);
 		$this->set('element', $element);
 
 		// Attempt to load the admin language file; might have uninstall strings
@@ -1536,7 +1538,10 @@ class JInstallerComponent extends JInstallerAdapter
 		 */
 
 		// Set the extensions name
-		$name = strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd'));
+		$name = (string) $this->manifest->name;
+		$name = JFilterInput::getInstance()->clean($name, 'string');
+		$this->name = $name;
+
 		if (substr($name, 0, 4) == 'com_')
 		{
 			$element = $name;
@@ -1545,8 +1550,6 @@ class JInstallerComponent extends JInstallerAdapter
 		{
 			$element = 'com_' . $name;
 		}
-
-		$this->set('name', $name);
 		$this->set('element', $element);
 
 		// Get the component description

@@ -23,9 +23,9 @@ class JInstallerFile extends JInstallerAdapter
 	protected $route = 'install';
 
 	/**
-	 * Custom loadLanguage method
+	 * Load language from a path
 	 *
-	 * @param   string  $path  The path on which to find language files.
+	 * @param   string  $path  The path language files are on.
 	 *
 	 * @return  void
 	 *
@@ -388,9 +388,11 @@ class JInstallerFile extends JInstallerAdapter
 		// Set the overwrite setting
 		$this->parent->setOverwrite(true);
 		$this->parent->setUpgrade(true);
+
+		// Set the route for the install
 		$this->route = 'update';
 
-		// ...and adds new files
+		// Go to install which handles updates properly
 		return $this->install();
 	}
 
