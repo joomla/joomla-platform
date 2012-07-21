@@ -21,14 +21,6 @@ jimport('joomla.base.adapterinstance');
 class JInstallerLanguage extends JAdapterInstance
 {
 	/**
-	 * Core language pack flag
-	 *
-	 * @var    boolean
-	 * @since  12.1
-	 */
-	protected $core = false;
-
-	/**
 	 * Custom install method
 	 *
 	 * Note: This behaves badly due to hacks made in the middle of 1.5.x to add
@@ -116,20 +108,6 @@ class JInstallerLanguage extends JAdapterInstance
 
 		// Set the language installation path
 		$this->parent->setPath('extension_site', $basePath . '/language/' . $tag);
-
-		// Do we have a meta file in the file list?  In other words... is this a core language pack?
-		if ($element && count($element->children()))
-		{
-			$files = $element->children();
-			foreach ($files as $file)
-			{
-				if ((string) $file->attributes()->file == 'meta')
-				{
-					$this->core = true;
-					break;
-				}
-			}
-		}
 
 		// If the language directory does not exist, let's create it
 		$created = false;
@@ -304,19 +282,6 @@ class JInstallerLanguage extends JAdapterInstance
 
 		// Set the language installation path
 		$this->parent->setPath('extension_site', $basePath . '/language/' . $this->get('tag'));
-
-		// Do we have a meta file in the file list?  In other words... is this a core language pack?
-		if (count($xml->files->children()))
-		{
-			foreach ($xml->files->children() as $file)
-			{
-				if ((string) $file->attributes()->file == 'meta')
-				{
-					$this->core = true;
-					break;
-				}
-			}
-		}
 
 		// Copy all the necessary files
 		if ($this->parent->parseFiles($xml->files) === false)

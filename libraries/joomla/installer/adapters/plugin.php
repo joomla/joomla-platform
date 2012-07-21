@@ -718,12 +718,6 @@ class JInstallerPlugin extends JAdapterInstance
 				$manifest_details = JInstaller::parseXMLInstallFile(JPATH_SITE . '/plugins/' . $folder . '/' . $file);
 				$file = JFile::stripExt($file);
 
-				// Ignore example plugins
-				if ($file == 'example')
-				{
-					continue;
-				}
-
 				$extension = JTable::getInstance('extension');
 				$extension->set('type', 'plugin');
 				$extension->set('client_id', 0);
@@ -745,12 +739,6 @@ class JInstallerPlugin extends JAdapterInstance
 					);
 					$file = JFile::stripExt($file);
 
-					if ($file == 'example')
-					{
-						continue;
-					}
-
-					// Ignore example plugins
 					$extension = JTable::getInstance('extension');
 					$extension->set('type', 'plugin');
 					$extension->set('client_id', 0);
