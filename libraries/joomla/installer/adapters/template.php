@@ -105,7 +105,7 @@ class JInstallerTemplate extends JInstallerAdapter
 		}
 
 		$element = strtolower(str_replace(" ", "_", $name));
-		$this->set('element', $element);
+		$this->element = $element;
 
 		// Check to see if a template by the same name is already installed.
 		$query = $db->getQuery(true);

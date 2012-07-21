@@ -148,7 +148,7 @@ class JInstallerModule extends JInstallerAdapter
 				if ((string) $file->attributes()->module)
 				{
 					$element = (string) $file->attributes()->module;
-					$this->set('element', $element);
+					$this->element = $element;
 
 					break;
 				}

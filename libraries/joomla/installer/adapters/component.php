@@ -148,7 +148,7 @@ class JInstallerComponent extends JInstallerAdapter
 		{
 			$element = 'com_' . $name;
 		}
-		$this->set('element', $element);
+		$this->element = $element;
 
 		// Set the installation target paths
 		$this->parent->setPath('extension_site', JPath::clean(JPATH_SITE . '/components/' . $this->get('element')));
@@ -549,7 +549,7 @@ class JInstallerComponent extends JInstallerAdapter
 		{
 			$element = 'com_' . $name;
 		}
-		$this->set('element', $element);
+		$this->element = $element;
 
 		// Get the component description
 		$description = (string) $this->manifest->description;
@@ -990,7 +990,7 @@ class JInstallerComponent extends JInstallerAdapter
 		{
 			$element = 'com_' . $name;
 		}
-		$this->set('element', $element);
+		$this->element = $element;
 
 		// Attempt to load the admin language file; might have uninstall strings
 		$this->loadLanguage(JPATH_ADMINISTRATOR . '/components/' . $element);
@@ -1550,7 +1550,7 @@ class JInstallerComponent extends JInstallerAdapter
 		{
 			$element = 'com_' . $name;
 		}
-		$this->set('element', $element);
+		$this->element = $element;
 
 		// Get the component description
 		$description = (string) $this->manifest->description;

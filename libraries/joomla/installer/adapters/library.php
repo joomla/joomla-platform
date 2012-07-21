@@ -63,7 +63,7 @@ class JInstallerLibrary extends JInstallerAdapter
 
 		// Set the extension's name
 		$element = str_replace('.xml', '', basename($this->parent->getPath('manifest')));
-		$this->set('element', $element);
+		$this->element = $element;
 
 		$db = $this->parent->getDbo();
 		$query = $db->getQuery(true);
@@ -211,7 +211,7 @@ class JInstallerLibrary extends JInstallerAdapter
 		$this->name = $name;
 
 		$element = str_replace('.xml', '', basename($this->parent->getPath('manifest')));
-		$this->set('element', $element);
+		$this->element = $element;
 
 		// We don't want to compromise this instance!
 		$installer = new JInstaller;

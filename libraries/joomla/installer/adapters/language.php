@@ -102,7 +102,7 @@ class JInstallerLanguage extends JInstallerAdapter
 			return false;
 		}
 
-		$this->set('tag', $tag);
+		$this->tag = $tag;
 
 		// Set the language installation path
 		$this->parent->setPath('extension_site', $basePath . '/language/' . $tag);
@@ -274,7 +274,7 @@ class JInstallerLanguage extends JInstallerAdapter
 			return false;
 		}
 
-		$this->set('tag', $tag);
+		$this->tag = $tag;
 		$folder = $tag;
 
 		// Set the language installation path

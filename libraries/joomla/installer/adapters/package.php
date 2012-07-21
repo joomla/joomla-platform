@@ -63,7 +63,7 @@ class JInstallerPackage extends JInstallerAdapter
 		 */
 
 		$element = 'pkg_' . $filter->clean($this->manifest->packagename, 'cmd');
-		$this->set('element', $element);
+		$this->element = $element;
 
 		// Set the installation path
 		$files = $this->manifest->files;

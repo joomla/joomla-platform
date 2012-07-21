@@ -58,7 +58,7 @@ class JInstallerFile extends JInstallerAdapter
 		// Set element
 		$manifestPath = JPath::clean($this->parent->getPath('manifest'));
 		$element = preg_replace('/\.xml/', '', basename($manifestPath));
-		$this->set('element', $element);
+		$this->element = $element;
 
 		// Check if the extension by the same name is already installed
 		if ($this->extensionExistsInSystem($element))
