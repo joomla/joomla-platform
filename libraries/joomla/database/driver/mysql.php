@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @see         http://dev.mysql.com/doc/
  * @since       12.1
  */
-class JDatabaseDriverMysql extends JDatabaseDriverMysqli
+class JDatabaseDriverMysql extends JDatabaseDriverPdo
 {
 	/**
 	 * The name of the database driver.
@@ -26,6 +26,32 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 * @since  12.1
 	 */
 	public $name = 'mysql';
+
+	/**
+	 * The character(s) used to quote SQL statement names such as table names or field names,
+	 * etc. The child classes should define this as necessary.  If a single character string the
+	 * same character is used for both sides of the quoted name, else the first character will be
+	 * used for the opening quote and the second for the closing quote.
+	 *
+	 * @var    string
+	 * @since  12.1
+	 */
+	protected $nameQuote = '`';
+
+	/**
+	 * The null or zero representation of a timestamp for the database driver.  This should be
+	 * defined in child classes to hold the appropriate value for the engine.
+	 *
+	 * @var    string
+	 * @since  12.1
+	 */
+	protected $nullDate = '0000-00-00 00:00:00';
+
+	/**
+	 * @var    string  The minimum supported database version.
+	 * @since  12.1
+	 */
+	protected static $dbMinimum = '5.0.4';
 
 	/**
 	 * Constructor.
@@ -37,106 +63,21 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	public function __construct($options)
 	{
 		// Get some basic values from the options.
-		$options['host'] = (isset($options['host'])) ? $options['host'] : 'localhost';
-		$options['user'] = (isset($options['user'])) ? $options['user'] : 'root';
-		$options['password'] = (isset($options['password'])) ? $options['password'] : '';
-		$options['database'] = (isset($options['database'])) ? $options['database'] : '';
-		$options['select'] = (isset($options['select'])) ? (bool) $options['select'] : true;
+		$options['driver'] = 'mysql';
+		$options['charset']    = (isset($options['charset'])) ? $options['charset']   : 'UTF-8';
+
+		$this->charset = $options['charset'];
 
 		// Finalize initialisation.
 		parent::__construct($options);
 	}
 
-	/**
-	 * Destructor.
-	 *
-	 * @since   12.1
-	 */
-	public function __destruct()
-	{
-		if (is_resource($this->connection))
-		{
-			mysql_close($this->connection);
-		}
-	}
-
-	/**
-	 * Connects to the database if needed.
-	 *
-	 * @return  void  Returns void if the database connected successfully.
-	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
-	 */
 	public function connect()
 	{
-		if ($this->connection)
-		{
-			return;
-		}
+		parent::connect();
 
-		// Make sure the MySQL extension for PHP is installed and enabled.
-		if (!function_exists('mysql_connect'))
-		{
-			throw new RuntimeException('Could not connect to MySQL.');
-		}
-
-		// Attempt to connect to the server.
-		if (!($this->connection = @ mysql_connect($this->options['host'], $this->options['user'], $this->options['password'], true)))
-		{
-			throw new RuntimeException('Could not connect to MySQL.');
-		}
-
-		// Set sql_mode to non_strict mode
-		mysql_query("SET @@SESSION.sql_mode = '';", $this->connection);
-
-		// If auto-select is enabled select the given database.
-		if ($this->options['select'] && !empty($this->options['database']))
-		{
-			$this->select($this->options['database']);
-		}
-
-		// Set charactersets (needed for MySQL 4.1.2+).
-		$this->setUTF();
-	}
-
-	/**
-	 * Disconnects the database.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 */
-	public function disconnect()
-	{
-		// Close the connection.
-		mysql_close($this->connection);
-
-		$this->connection = null;
-	}
-
-	/**
-	 * Method to escape a string for usage in an SQL statement.
-	 *
-	 * @param   string   $text   The string to be escaped.
-	 * @param   boolean  $extra  Optional parameter to provide extra escaping.
-	 *
-	 * @return  string  The escaped string.
-	 *
-	 * @since   12.1
-	 */
-	public function escape($text, $extra = false)
-	{
-		$this->connect();
-
-		$result = mysql_real_escape_string($text, $this->getConnection());
-
-		if ($extra)
-		{
-			$result = addcslashes($result, '%_');
-		}
-
-		return $result;
+		$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES,true);
 	}
 
 	/**
@@ -148,54 +89,278 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 */
 	public static function isSupported()
 	{
-		return (function_exists('mysql_connect'));
+		return in_array('mysql', PDO::getAvailableDrivers());
 	}
 
 	/**
-	 * Determines if the connection to the server is active.
+	 * Drops a table from the database.
 	 *
-	 * @return  boolean  True if connected to the database engine.
+	 * @param   string   $tableName  The name of the database table to drop.
+	 * @param   boolean  $ifExists   Optionally specify that the table must exist before it is dropped.
+	 *
+	 * @return  JDatabaseDriverMysql  Returns this object to support chaining.
 	 *
 	 * @since   12.1
+	 * @throws  RuntimeException
 	 */
-	public function connected()
+	public function dropTable($tableName, $ifExists = true)
 	{
-		if (is_resource($this->connection))
+		$this->connect();
+
+		$query = $this->getQuery(true);
+
+		$query->setQuery('DROP TABLE ' . ($ifExists ? 'IF EXISTS ' : '') . $this->quoteName($tableName));
+
+		$this->setQuery($query);
+
+		$this->execute();
+
+		return $this;
+	}
+
+	/**
+	 * Method to get the database collation in use by sampling a text field of a table in the database.
+	 *
+	 * @return  mixed  The collation in use by the database (string) or boolean false if not supported.
+	 *
+	 * @since   12.1
+	 * @throws  RuntimeException
+	 */
+	public function getCollation()
+	{
+		$this->connect();
+
+		$this->setQuery('SHOW FULL COLUMNS FROM #__users');
+		$array = $this->loadAssocList();
+		return $array['2']['Collation'];
+	}
+
+	/**
+	 * Select a database for use.
+	 *
+	 * @param   string  $database  The name of the database to select for use.
+	 *
+	 * @return  boolean  True if the database was successfully selected.
+	 *
+	 * @since   11.1
+	 * @throws  RuntimeException
+	 */
+	public function select($database)
+	{
+		$this->connect();
+
+		$this->setQuery('USE ' . $this->quoteName($database));
+
+		$this->execute();
+
+		return $this;
+	}
+
+	/**
+	 * Wrap an SQL statement identifier name such as column, table or database names in quotes to prevent injection
+	 * risks and reserved word conflicts.
+	 *
+	 * @param   mixed  $name  The identifier name to wrap in quotes, or an array of identifier names to wrap in quotes.
+	 *                        Each type supports dot-notation name.
+	 * @param   mixed  $as    The AS query part associated to $name. It can be string or array, in latter case it has to be
+	 *                        same length of $name; if is null there will not be any AS part for string or array element.
+	 *
+	 * @return  mixed  The quote wrapped name, same type of $name.
+	 *
+	 * @since   11.1
+	 */
+	public function quoteName($name, $as = null)
+	{
+		if (is_string($name))
 		{
-			return @mysql_ping($this->connection);
+			$quotedName = $this->quoteNameStr(explode('.', $name));
+
+			$quotedAs = '';
+			if (!is_null($as))
+			{
+				settype($as, 'array');
+				$quotedAs .= ' AS ' . $this->quoteNameStr($as);
+			}
+
+			return $quotedName . $quotedAs;
+		}
+		else
+		{
+			$fin = array();
+
+			if (is_null($as))
+			{
+				foreach ($name as $str)
+				{
+					$fin[] = $this->quoteName($str);
+				}
+			}
+			elseif (is_array($name) && (count($name) == count($as)))
+			{
+				$count = count($name);
+				for ($i = 0; $i < $count; $i++)
+				{
+					$fin[] = $this->quoteName($name[$i], $as[$i]);
+				}
+			}
+
+			return $fin;
+		}
+	}
+
+	/**
+	 * Quote strings coming from quoteName call.
+	 *
+	 * @param   array  $strArr  Array of strings coming from quoteName dot-explosion.
+	 *
+	 * @return  string  Dot-imploded string of quoted parts.
+	 *
+	 * @since 11.3
+	 */
+	protected function quoteNameStr($strArr)
+	{
+		$parts = array();
+		$q = $this->nameQuote;
+
+		foreach ($strArr as $part)
+		{
+			if (is_null($part))
+			{
+				continue;
+			}
+
+			$part = str_replace('`', '``', $part);
+
+			if (strlen($q) == 1)
+			{
+				$parts[] = $q . $part . $q;
+			}
+			else
+			{
+				$parts[] = $q{0} . $part . $q{1};
+			}
 		}
 
-		return false;
+		return implode('.', $parts);
 	}
 
 	/**
-	 * Get the number of affected rows for the previous executed SQL statement.
+	 * Shows the table CREATE statement that creates the given tables.
 	 *
-	 * @return  integer  The number of affected rows.
+	 * @param   mixed  $tables  A table name or a list of table names.
+	 *
+	 * @return  array  A list of the create SQL for the tables.
 	 *
 	 * @since   12.1
+	 * @throws  RuntimeException
 	 */
-	public function getAffectedRows()
+	public function getTableCreate($tables)
 	{
 		$this->connect();
 
-		return mysql_affected_rows($this->connection);
+		// Initialise variables.
+		$result = array();
+
+		// Sanitize input to an array and iterate over the list.
+		settype($tables, 'array');
+		foreach ($tables as $table)
+		{
+			$this->setQuery('SHOW CREATE TABLE ' . $this->quoteName($table));
+
+			$row = $this->loadRow();
+
+			// Populate the result array based on the create statements.
+			$result[$table] = $row[1];
+		}
+
+		return $result;
 	}
 
 	/**
-	 * Get the number of returned rows for the previous executed SQL statement.
+	 * Retrieves field information about a given table.
 	 *
-	 * @param   resource  $cursor  An optional database cursor resource to extract the row count from.
+	 * @param   string   $table     The name of the database table.
+	 * @param   boolean  $typeOnly  True to only return field types.
 	 *
-	 * @return  integer   The number of returned rows.
+	 * @return  array  An array of fields for the database table.
 	 *
 	 * @since   12.1
+	 * @throws  RuntimeException
 	 */
-	public function getNumRows($cursor = null)
+	public function getTableColumns($table, $typeOnly = true)
 	{
 		$this->connect();
 
-		return mysql_num_rows($cursor ? $cursor : $this->cursor);
+		$result = array();
+
+		$query = $this->getQuery(true);
+
+		// Set the query to get the table fields statement.
+		$this->setQuery('SHOW FULL COLUMNS FROM ' . $this->quoteName($table));
+
+		$fields = $this->loadObjectList();
+
+		// If we only want the type as the value add just that to the list.
+		if ($typeOnly)
+		{
+			foreach ($fields as $field)
+			{
+				$result[$field->Field] = preg_replace("/[(0-9)]/", '', $field->Type);
+			}
+		}
+		// If we want the whole field data object add that to the list.
+		else
+		{
+			foreach ($fields as $field)
+			{
+				$result[$field->Field] = $field;
+			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Get the details list of keys for a table.
+	 *
+	 * @param   string  $table  The name of the table.
+	 *
+	 * @return  array  An array of the column specification for the table.
+	 *
+	 * @since   12.1
+	 * @throws  RuntimeException
+	 */
+	public function getTableKeys($table)
+	{
+		$this->connect();
+
+		$query = $this->getQuery(true);
+
+		// Get the details columns information.
+		$this->setQuery('SHOW KEYS FROM ' . $this->quoteName($table));
+
+		$keys = $this->loadObjectList();
+
+		return $keys;
+	}
+
+	/**
+	 * Method to get an array of all tables in the database.
+	 *
+	 * @return  array  An array of all the tables in the database.
+	 *
+	 * @since   12.1
+	 * @throws  RuntimeException
+	 */
+	public function getTableList()
+	{
+		$this->connect();
+
+		// Set the query to get the tables statement.
+		$this->setQuery('SHOW TABLES');
+		$tables = $this->loadColumn();
+
+		return $tables;
 	}
 
 	/**
@@ -209,203 +374,104 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	{
 		$this->connect();
 
-		return mysql_get_server_info($this->connection);
+		return $this->getOption(PDO::ATTR_SERVER_VERSION);
 	}
 
 	/**
-	 * Method to get the auto-incremented value from the last INSERT statement.
+	 * Locks a table in the database.
 	 *
-	 * @return  integer  The value of the auto-increment field from the last inserted row.
+	 * @param   string  $table  The name of the table to unlock.
 	 *
-	 * @since   12.1
-	 */
-	public function insertid()
-	{
-		$this->connect();
-
-		return mysql_insert_id($this->connection);
-	}
-
-	/**
-	 * Execute the SQL statement.
-	 *
-	 * @return  mixed  A database cursor resource on success, boolean false on failure.
+	 * @return  JDatabaseMySQL  Returns this object to support chaining.
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
-	public function execute()
+	public function lockTable($table)
 	{
-		$this->connect();
+		$query = $this->getQuery(true);
 
-		if (!is_resource($this->connection))
-		{
-			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-			throw new RuntimeException($this->errorMsg, $this->errorNum);
-		}
+		$this->setQuery('LOCK TABLES ' . $this->quoteName($table) . ' WRITE');
 
-		// Take a local copy so that we don't modify the original query and cause issues later
-		$sql = $this->replacePrefix((string) $this->sql);
-		if ($this->limit > 0 || $this->offset > 0)
-		{
-			$sql .= ' LIMIT ' . $this->offset . ', ' . $this->limit;
-		}
+		$this->setQuery($query)->exec();
 
-		// If debugging is enabled then let's log the query.
-		if ($this->debug)
-		{
-			// Increment the query counter and add the query to the object queue.
-			$this->count++;
-			$this->log[] = $sql;
-
-			JLog::add($sql, JLog::DEBUG, 'databasequery');
-		}
-
-		// Reset the error values.
-		$this->errorNum = 0;
-		$this->errorMsg = '';
-
-		// Execute the query. Error suppression is used here to prevent warnings/notices that the connection has been lost.
-		$this->cursor = @mysql_query($sql, $this->connection);
-
-		// If an error occurred handle it.
-		if (!$this->cursor)
-		{
-			// Check if the server was disconnected.
-			if (!$this->connected())
-			{
-				try
-				{
-					// Attempt to reconnect.
-					$this->connection = null;
-					$this->connect();
-				}
-				// If connect fails, ignore that exception and throw the normal exception.
-				catch (RuntimeException $e)
-				{
-					// Get the error number and message.
-					$this->errorNum = (int) mysql_errno($this->connection);
-					$this->errorMsg = (string) mysql_error($this->connection) . ' SQL=' . $sql;
-
-					// Throw the normal query exception.
-					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-					throw new RuntimeException($this->errorMsg, $this->errorNum);
-				}
-
-				// Since we were able to reconnect, run the query again.
-				return $this->execute();
-			}
-			// The server was not disconnected.
-			else
-			{
-				// Get the error number and message.
-				$this->errorNum = (int) mysql_errno($this->connection);
-				$this->errorMsg = (string) mysql_error($this->connection) . ' SQL=' . $sql;
-
-				// Throw the normal query exception.
-				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-				throw new RuntimeException($this->errorMsg, $this->errorNum);
-			}
-		}
-
-		return $this->cursor;
+		return $this;
 	}
 
 	/**
-	 * Select a database for use.
+	 * Renames a table in the database.
 	 *
-	 * @param   string  $database  The name of the database to select for use.
+	 * @param   string  $oldTable  The name of the table to be renamed
+	 * @param   string  $newTable  The new name for the table.
+	 * @param   string  $backup    Not used by MySQL.
+	 * @param   string  $prefix    Not used by MySQL.
 	 *
-	 * @return  boolean  True if the database was successfully selected.
+	 * @return  JDatabaseDriverMysql  Returns this object to support chaining.
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
-	public function select($database)
+	public function renameTable($oldTable, $newTable, $backup = null, $prefix = null)
+	{
+		$query = $this->getQuery(true);
+
+		$this->setQuery('RENAME TABLE ' . $this->quoteName($oldTable) . ' TO ' . $this->quoteName($newTable));
+
+		return $this;
+	}
+
+	/**
+	 * Method to escape a string for usage in an SQL statement.
+	 *
+	 * Oracle escaping reference:
+	 * http://www.orafaq.com/wiki/SQL_FAQ#How_does_one_escape_special_characters_when_writing_SQL_queries.3F
+	 *
+	 * SQLite escaping notes:
+	 * http://www.sqlite.org/faq.html#q14
+	 *
+	 * Method body is as implemented by the Zend Framework
+	 *
+	 * Note: Using query objects with bound variables is
+	 * preferable to the below.
+	 *
+	 * @param   string   $text   The string to be escaped.
+	 * @param   boolean  $extra  Unused optional parameter to provide extra escaping.
+	 *
+	 * @return  string  The escaped string.
+	 *
+	 * @since   12.1
+	 */
+	public function escape($text, $extra = false)
 	{
 		$this->connect();
 
-		if (!$database)
+		if (is_int($text) || is_float($text))
 		{
-			return false;
+			return $text;
 		}
 
-		if (!mysql_select_db($database, $this->connection))
+		$result = substr($this->connection->quote($text), 1, -1);
+
+		if ($extra)
 		{
-			throw new RuntimeException('Could not connect to database');
+			$result = addcslashes($result, '%_');
 		}
 
-		return true;
+		return $result;
 	}
 
 	/**
-	 * Set the connection to use UTF-8 character encoding.
+	 * Unlocks tables in the database.
 	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   12.1
-	 */
-	public function setUTF()
-	{
-		$this->connect();
-
-		return mysql_set_charset('utf8', $this->connection);
-	}
-
-	/**
-	 * Method to fetch a row from the result set cursor as an array.
-	 *
-	 * @param   mixed  $cursor  The optional result set cursor from which to fetch the row.
-	 *
-	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
+	 * @return  JDatabaseMySQL  Returns this object to support chaining.
 	 *
 	 * @since   12.1
+	 * @throws  RuntimeException
 	 */
-	protected function fetchArray($cursor = null)
+	public function unlockTables()
 	{
-		return mysql_fetch_row($cursor ? $cursor : $this->cursor);
-	}
+		$this->setQuery('UNLOCK TABLES')->execute();
 
-	/**
-	 * Method to fetch a row from the result set cursor as an associative array.
-	 *
-	 * @param   mixed  $cursor  The optional result set cursor from which to fetch the row.
-	 *
-	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
-	 *
-	 * @since   12.1
-	 */
-	protected function fetchAssoc($cursor = null)
-	{
-		return mysql_fetch_assoc($cursor ? $cursor : $this->cursor);
-	}
-
-	/**
-	 * Method to fetch a row from the result set cursor as an object.
-	 *
-	 * @param   mixed   $cursor  The optional result set cursor from which to fetch the row.
-	 * @param   string  $class   The class name to use for the returned row object.
-	 *
-	 * @return  mixed   Either the next row from the result set or false if there are no more rows.
-	 *
-	 * @since   12.1
-	 */
-	protected function fetchObject($cursor = null, $class = 'stdClass')
-	{
-		return mysql_fetch_object($cursor ? $cursor : $this->cursor, $class);
-	}
-
-	/**
-	 * Method to free up the memory used for the result set.
-	 *
-	 * @param   mixed  $cursor  The optional result set cursor from which to fetch the row.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 */
-	protected function freeResult($cursor = null)
-	{
-		mysql_free_result($cursor ? $cursor : $this->cursor);
+		return $this;
 	}
 }

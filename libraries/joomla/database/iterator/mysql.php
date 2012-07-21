@@ -14,45 +14,8 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Database
- * @see         http://dev.mysql.com/doc/
  * @since       12.1
  */
-class JDatabaseIteratorMysql extends JDatabaseIterator
+class JDatabaseIteratorMysql extends JDatabaseIteratorPdo
 {
-	/**
-	 * Get the number of rows in the result set for the executed SQL given by the cursor.
-	 *
-	 * @return  integer  The number of rows in the result set.
-	 *
-	 * @since   12.1
-	 * @see     Countable::count()
-	 */
-	public function count()
-	{
-		return mysql_num_rows($this->cursor);
-	}
-
-	/**
-	 * Method to fetch a row from the result set cursor as an object.
-	 *
-	 * @return  mixed   Either the next row from the result set or false if there are no more rows.
-	 *
-	 * @since   12.1
-	 */
-	protected function fetchObject()
-	{
-		return mysql_fetch_object($this->cursor, $this->class);
-	}
-
-	/**
-	 * Method to free up the memory used for the result set.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 */
-	protected function freeResult()
-	{
-		mysql_free_result($this->cursor);
-	}
 }
