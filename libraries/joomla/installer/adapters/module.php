@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.base.adapterinstance');
-
 /**
  * Module installer
  *
@@ -18,7 +16,7 @@ jimport('joomla.base.adapterinstance');
  * @subpackage  Installer
  * @since       11.1
  */
-class JInstallerModule extends JAdapterInstance
+class JInstallerModule extends JInstallerAdapter
 {
 	/**
 	 * Install function routing
@@ -32,27 +30,7 @@ class JInstallerModule extends JAdapterInstance
 	 * @var
 	 * @since 11.1
 	 */
-	protected $manifest = null;
-
-	/**
-	 * @var
-	 * @since 11.1
-	 */
 	protected $manifest_script = null;
-
-	/**
-	 * Extension name
-	 *
-	 * @var
-	 * @since   11.1
-	 */
-	protected $name = null;
-
-	/**
-	 * @var
-	 * @since  11.1
-	 */
-	protected $element = null;
 
 	/**
 	 * @var    string
@@ -103,7 +81,6 @@ class JInstallerModule extends JAdapterInstance
 
 			if ($extension)
 			{
-				$lang = JFactory::getLanguage();
 				$source = $path ? $path : ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $extension;
 				$folder = (string) $element->attributes()->folder;
 
@@ -113,10 +90,7 @@ class JInstallerModule extends JAdapterInstance
 				}
 
 				$client = (string) $this->manifest->attributes()->client;
-				$lang->load($extension . '.sys', $source, null, false, false)
-					|| $lang->load($extension . '.sys', constant('JPATH_' . strtoupper($client)), null, false, false)
-					|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
-					|| $lang->load($extension . '.sys', constant('JPATH_' . strtoupper($client)), $lang->getDefault(), false, false);
+				$this->doLoadLanguage($extension, $source);
 			}
 		}
 	}
@@ -130,33 +104,10 @@ class JInstallerModule extends JAdapterInstance
 	 */
 	public function install()
 	{
+		parent::install();
+
 		// Get a database connector object
 		$db = $this->parent->getDbo();
-
-		// Get the extension manifest object
-		$this->manifest = $this->parent->getManifest();
-
-		/*
-		 * ---------------------------------------------------------------------------------------------
-		 * Manifest Document Setup Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
-
-		// Set the extensions name
-		$name = (string) $this->manifest->name;
-		$name = JFilterInput::getInstance()->clean($name, 'string');
-		$this->set('name', $name);
-
-		// Get the module description
-		$description = (string) $this->manifest->description;
-		if ($description)
-		{
-			$this->parent->set('message', JText::_($description));
-		}
-		else
-		{
-			$this->parent->set('message', '');
-		}
 
 		/*
 		 * ---------------------------------------------------------------------------------------------

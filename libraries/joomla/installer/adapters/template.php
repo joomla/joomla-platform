@@ -10,7 +10,6 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.installer.extension');
-jimport('joomla.base.adapterinstance');
 
 /**
  * Template installer
@@ -19,32 +18,8 @@ jimport('joomla.base.adapterinstance');
  * @subpackage  Installer
  * @since       11.1
  */
-class JInstallerTemplate extends JAdapterInstance
+class JInstallerTemplate extends JInstallerAdapter
 {
-	/**
-	 * Copy of the XML manifest file
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	protected $manifest = null;
-
-	/**
-	 * Name of the extension
-	 *
-	 * @var    string
-	 * @since  11.1
-	 * */
-	protected $name = null;
-
-	/**
-	 * The unique identifier for the extension (e.g. mod_login)
-	 *
-	 * @var    string
-	 * @since  11.1
-	 * */
-	protected $element = null;
-
 	/**
 	 * Method of system
 	 *
@@ -87,12 +62,8 @@ class JInstallerTemplate extends JAdapterInstance
 		}
 
 		$extension = "tpl_$name";
-		$lang = JFactory::getLanguage();
 		$source = $path ? $path : ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/templates/' . $name;
-		$lang->load($extension . '.sys', $source, null, false, false)
-			|| $lang->load($extension . '.sys', constant('JPATH_' . strtoupper($client)), null, false, false)
-			|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
-			|| $lang->load($extension . '.sys', constant('JPATH_' . strtoupper($client)), $lang->getDefault(), false, false);
+		$this->doLoadLanguage($extension, $source);
 	}
 
 	/**
@@ -104,6 +75,8 @@ class JInstallerTemplate extends JAdapterInstance
 	 */
 	public function install()
 	{
+		parent::install();
+
 		// Get a database connector object
 		$db = $this->parent->getDbo();
 
@@ -131,11 +104,7 @@ class JInstallerTemplate extends JAdapterInstance
 			$clientId = 0;
 		}
 
-		// Set the extension's name
-		$name = JFilterInput::getInstance()->clean((string) $xml->name, 'cmd');
-
 		$element = strtolower(str_replace(" ", "_", $name));
-		$this->set('name', $name);
 		$this->set('element', $element);
 
 		// Check to see if a template by the same name is already installed.
@@ -252,9 +221,6 @@ class JInstallerTemplate extends JAdapterInstance
 		// Parse optional tags
 		$this->parent->parseMedia($xml->media);
 		$this->parent->parseLanguages($xml->languages, $clientId);
-
-		// Get the template description
-		$this->parent->set('message', JText::_((string) $xml->description));
 
 		// Lastly, we will copy the manifest file to its appropriate place.
 		if (!$this->parent->copyManifest(-1))

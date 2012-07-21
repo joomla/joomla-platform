@@ -10,7 +10,6 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.installer.librarymanifest');
-jimport('joomla.base.adapterinstance');
 
 /**
  * Library installer
@@ -19,7 +18,7 @@ jimport('joomla.base.adapterinstance');
  * @subpackage  Installer
  * @since       11.1
  */
-class JInstallerLibrary extends JAdapterInstance
+class JInstallerLibrary extends JInstallerAdapter
 {
 	/**
 	 * Custom loadLanguage method
@@ -40,12 +39,9 @@ class JInstallerLibrary extends JAdapterInstance
 		$this->manifest = $this->parent->getManifest();
 		$extension = 'lib_' . strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd'));
 		$name = strtolower((string) $this->manifest->libraryname);
-		$lang = JFactory::getLanguage();
+
 		$source = $path ? $path : JPATH_PLATFORM . "/$name";
-		$lang->load($extension . '.sys', $source, null, false, false)
-			|| $lang->load($extension . '.sys', JPATH_SITE, null, false, false)
-			|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
-			|| $lang->load($extension . '.sys', JPATH_SITE, $lang->getDefault(), false, false);
+		$this->doLoadLanguage($extension, $source);
 	}
 
 	/**
@@ -57,8 +53,7 @@ class JInstallerLibrary extends JAdapterInstance
 	 */
 	public function install()
 	{
-		// Get the extension manifest object
-		$this->manifest = $this->parent->getManifest();
+		parent::install();
 
 		/*
 		 * ---------------------------------------------------------------------------------------------
@@ -67,9 +62,7 @@ class JInstallerLibrary extends JAdapterInstance
 		 */
 
 		// Set the extension's name
-		$name = JFilterInput::getInstance()->clean((string) $this->manifest->name, 'string');
 		$element = str_replace('.xml', '', basename($this->parent->getPath('manifest')));
-		$this->set('name', $name);
 		$this->set('element', $element);
 
 		$db = $this->parent->getDbo();
@@ -95,17 +88,6 @@ class JInstallerLibrary extends JAdapterInstance
 				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_ALREADY_INSTALLED'));
 				return false;
 			}
-		}
-
-		// Get the library's description
-		$description = (string) $this->manifest->description;
-		if ($description)
-		{
-			$this->parent->set('message', JText::_($description));
-		}
-		else
-		{
-			$this->parent->set('message', '');
 		}
 
 		// Set the installation path

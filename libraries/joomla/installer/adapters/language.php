@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.base.adapterinstance');
-
 /**
  * Language installer
  *
@@ -18,7 +16,7 @@ jimport('joomla.base.adapterinstance');
  * @subpackage  Installer
  * @since       11.1
  */
-class JInstallerLanguage extends JAdapterInstance
+class JInstallerLanguage extends JInstallerAdapter
 {
 	/**
 	 * Custom install method
