@@ -65,12 +65,13 @@ abstract class JHtmlString
 			{
 					return '...';
 			}
-echo 'tm'; var_dump($tmp);
+
 			// $noSplit true means that we do not allow splitting of words.
 			if ($noSplit)
 			{
 				// Find the position of the last space within the allowed length.
 				$offset = JString::strrpos($tmp, ' ');
+				$tmp = JString::substr($tmp, 0, $offset+1);
 
 				// If there are no spaces and the string is longer than the maximum
 				// we need to just use the ellipsis. In that case we are done.
@@ -79,18 +80,6 @@ echo 'tm'; var_dump($tmp);
 					return '...';
 				}
 
-				// If the last open tag is after the last close tag we need to adjust the offset to
-				// exclude it. We assume a < is part of a tag.
-				if (!empty($tmp) && JString::strrpos($tmp, '<') > JString::strrpos($tmp, '>'))
-				{
-					$offset = JString::strrpos($tmp, '<') - 1;
-				}
-
-				// Offset is calculated from 0 so to use it for length we need to adjust it.
-				$newoffset = $offset + 1;
-				$tmp = JString::substr($tmp, 0, $newoffset);
-
-				// If we don't have 3 characters of room, go to the second space within the limit.
 				if (JString::strlen($tmp) > $length - 3)
 				{
 					$tmp = trim(JString::substr($tmp, 0, JString::strrpos($tmp, ' ')));
@@ -135,15 +124,15 @@ echo 'tm'; var_dump($tmp);
 					}
 				}
 			}
-			if (strlen($text) > $tmp || $tmp === false)
+			if ( $tmp === false || strlen($text) > strlen($tmp))
 			{
 				$text = trim($tmp) . '...';
 			}
-			else
-			{
-				$text = $tmp;
-			}
 		}
+
+		// Clean up any internal spaces created by the processing.
+		$text = str_replace(' </', '</', $text);
+		$text = str_replace(' ...', '...', $text);
 
 		return $text;
 	}
@@ -158,16 +147,33 @@ echo 'tm'; var_dump($tmp);
 	* @param   integer  $maxLength  The maximum number of characters to render
 	* @param   boolean  $noSplit    Don't split a word if that is where the cutoff occurs (default: true).
 	* 
-	* @return  string  The truncated string
+	* @return  string  The truncated string. If the string is truncated an ellipsis
+	*                  (...) will be appended.
+	*  
+	* @note: If a maximum length of 3 or less is selected and the text has more than
+	*        that number of characters an ellipsis will be displayed.
+	*        This method will not create valid HTML from malformed HTML.
 	* 
 	* @since   12.2
 	*/
 	public static function truncateComplex($html, $maxLength = 0, $noSplit = true)
 	{
+		//Start with some basic rules.
 		$baseLength = strlen($html);
-		$diffLength = 0;
 
-		// Deal with maximum length of 1 directly
+		// If the original HTML string is shorter than the $maxLength do nothing and return that.
+		if ($baseLength <= $maxLength || $maxLength == 0)
+		{
+			return $html;
+		}
+
+		// Take care of short simple cases.
+		if ($maxLength <= 3 && substr($html, 0, 1) != '<' && strpos(substr($html, 0, $maxLength-1), '<') === false && $baseLength > $maxLength)
+		{
+			return '...';
+		}
+		
+		// Deal with maximum length of 1 where the string starts with a tag.
 		if ($maxLength == 1 && substr($html, 0, 1) == '<')
 		{
 			$endTagPos = strlen(strstr($html, '>', true));
@@ -180,36 +186,56 @@ echo 'tm'; var_dump($tmp);
 			}
 			$character = substr(strip_tags($html), 0, 1);
 
-			return substr($html, 0, $l) .  $character . '</' . $tag . '...';			
+			return substr($html, 0, $l) . '</' . $tag . '...';			
 		}
 
 		// First get the truncated plain text string. This is the rendered text we want to end up with.
 		$ptString = JHtml::_('string.truncate', $html, $maxLength, $noSplit, $allowHtml = false);
 
-		for ($maxLength; $maxLength < $baseLength;)
+		// It's all HTML, just return it.
+		if (strlen($ptString) == 0) 
 		{
-			// We need to trim the ellipsis that truncate adds.
-			$ptString = rtrim($ptString, '.');
+				return $html;
+		}
 
-			// Now get the truncated string if HTML is allowed.
+
+		// If the plain text is shorter than the max length the variable will not end in ...
+		// In that case we use the whole string.
+		if (substr($ptString, -3) != '...')
+		{
+				return $html;
+		}
+
+		// Regular truncate gives us the ellipsis but we want to go back for text and tags.
+		if ($ptString == '...')
+		{
+			$stripped = substr(strip_tags($html), 0, $maxLength);
+			$ptString = JHtml::_('string.truncate', $stripped, $maxLength, $noSplit, $allowHtml = false);
+		}
+		// We need to trim the ellipsis that truncate adds.
+		$ptString = rtrim($ptString, '.');
+
+		// Now deal with more complex truncation.
+		$diffLength = 0;
+		for (; $maxLength <= $baseLength;)
+		{
+			// Get the truncated string assuming HTML is allowed.
 			$htmlString = JHtml::_('string.truncate', $html, $maxLength, $noSplit, $allowHtml = true);
+
+			if ($htmlString == '...' && strlen($ptString) + 3 > $maxLength)
+			{
+				return $htmlString;
+			}
 
 			$htmlString = rtrim($htmlString, '.');
 
-			// Now get the plain text from the HTML string.
+			// Now get the plain text from the HTML string and trim it.
 			$htmlStringToPtString = JHtml::_('string.truncate', $htmlString, $maxLength, $noSplit, $allowHtml = false);
 			$htmlStringToPtString = rtrim($htmlStringToPtString, '.');
 
 			// If the new plain text string matches the original plain text string we are done.
 			if ($ptString == $htmlStringToPtString)
 			{
-				// If the HTML string includes the whole input string, we don't need an ellipsis.
-				if ($baseLength == strlen(trim($htmlString)))
-				{
-					return $htmlString;
-				}
-
-				// Otherwise, put back the ellipsis
 				return $htmlString . '...';
 			}
 
@@ -218,17 +244,7 @@ echo 'tm'; var_dump($tmp);
 
 			// Set new $maxlength that adjusts for the HTML tags
 			$maxLength += $diffLength;
-
-			// Check to see if we are done, if not repeat.
-			if ($baseLength <= $maxLength || $diffLength <= 0)
-			{
-				// Everything shows, so no ellipsis
-				return $htmlString;
-			}
 		}
-
-		// If the original HTML string is shorter than the $maxLength do nothing and return that.
-		return $html;
 	}
 
 	/**

@@ -127,7 +127,7 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 				22,
 				true,
 				true,
-				'<span>Plain text</span>...',
+				'<span>Plain</span>...',
 			),
 			// The tags by themselves make the string too long.
 			'Plain html over the limit by one word' => array(
@@ -199,7 +199,7 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 				'<div><span><i>Plain</i></span></div>',
 				5,
 				true,
-				true.
+				true,
 				'...',
 			),
 			'HTML not allowed, no split' => array(
@@ -221,6 +221,7 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 	function getTestTruncateComplexData()
 	{
 		return array(
+
 			'No change case' => array(
 				'Plain text',
 				10,
@@ -237,123 +238,142 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 				'Plain text',
 				10,
 				true,
-				'Plain text',
+				'Plain text'
 			),
 			'Plain text over the limit by two words' => array(
 				'Plain text test',
 				6,
 				true,
-				'...',
+				'...'
 			),
 			'Plain text over the limit by one word' => array(
 				'Plain text test',
 				13,
 				true,
-				'Plain text...',
+				'Plain text...'
 			),
 			'Plain text over the limit with short trailing words' => array(
 				'Plain text a b c d',
 				13,
 				true,
-				'Plain text...',
+				'Plain text...'
 			),
 			'Plain text over the limit splitting first word' => array(
 				'Plain text',
 				3,
 				false,
-				'Pla...',
+				'...'
 			),
 			'Plain text with word split' => array(
 				'Plain split-less',
 				7,
 				true,
-				'Plain...',
+				'Plain...'
+			),
+			'Plain text under a short limit' => array(
+				'Hi',
+				3,
+				true,
+				'Hi'
+			),
+			'Plain text with length 1 and a limit of 1' => array(
+				'H',
+				1,
+				true,
+				'H'
 			),
 			'Plain html under the limit' => array(
 				'<span>Plain text</span>',
 				100,
 				true,
-				'<span>Plain text</span>',
+				'<span>Plain text</span>'
 			),
 			'Plain html at the limit' => array(
 				'<span>Plain text</span>',
 				23,
 				true,
-				'<span>Plain text</span>',
+				'<span>Plain text</span>'
 			),
-			'Plain html over the limit' => array(
+			'Plain html over the limit but under the text limit' => array(
 				'<span>Plain text</span>',
 				22,
 				true,
-				'<span>Plain text</span>',
+				'<span>Plain text</span>'
 			),
 				
 			'Plain html over the limit by one word' => array(
 				'<span>Plain text</span>',
 				8,
 				true,
-				'<span>Plain</span>...',
+				'<span>Plain</span>...'
 			),
 			'Plain html over the limit splitting first word' => array(
 				'<span>Plain text</span>',
 				4,
 				false,
-				'<span>Plai</span>...',
+				'<span>P</span>...'
 			),
 			'Plain html over the limit splitting first word' => array(
 				'<span>Plain text</span>',
 				1,
 				false,
-				'<span>P</span>',
+				'<span></span>...'
 			),			
-			'Plain html over the limit splitting first word' => array(
-				'<span>Plain text</span>',
-				4,
-				false,
-				'<span>Plai</span>...',
-			),	
-			'Complex html over the limit' => array(
+			'Complex html over the limit but under the text limit' => array(
 				'<div><span><i>Plain</i> <b>text</b> foo</span></div>',
 				37,
 				true,
-				'<div><span><i>Plain</i> <b>text</b> foo</span></div>',
+				'<div><span><i>Plain</i> <b>text</b> foo</span></div>'
 			),
 			'Complex html over the limit 2' => array(
 				'<div><span><i>Plain</i> <b>text</b> foo</span></div>',
 				38,
 				true,
-				'<div><span><i>Plain</i> <b>text</b> foo</span></div>',
+				'<div><span><i>Plain</i> <b>text</b> foo</span></div>'
 			),
 			'Split words' => array(
 				'<div><span><i>Plain</i> <b>text</b> foo</span></div>',
 				8,
 				false,
-				'<div><span><i>Plain</i> <b>te</b></span></div>...',
+				'<div><span><i>Plain</i> <b>te</b></span></div>...'
 			),
 			'No split' => array(
 				'<div><span><i>Plain</i> <b>text</b> foo</span></div>',
 				8,
 				true,
-				'<div><span><i>Plain</i> </span></div>...',
+				'<div><span><i>Plain</i></span></div>...'
 			),
 				'First character is < with a maximum length of 1, no split' => array(
 				'<div><span><i>Plain</i> <b>text</b> foo</span></div>',
 				1,
 				true,
-				'<div></div>...',
+				'<div></div>...'
 			),
 				'First character is < with a maximum length of 1, split' => array(
 				'<div><span><i>Plain</i> <b>text</b> foo</span></div>',
 				1,
 				false,
-				'<div>P</div>...',
+				'<div></div>...'
 			),
-				'Text is the same as maxLength, no split' => array(
+				'Text is the same as maxLength, Complex HTML, no split' => array(
 				'<div><span><i>Plain</i></span></div>',
 				5,
 				true,
-				'<div><span><i>Plain</i></span></div>',
+				'<div><span><i>Plain</i></span></div>'
 			),
+				'Text is all HTML' => array(
+				'<img src="myimage.jpg" />',
+				5,
+				true,
+				'<img src="myimage.jpg" />'
+			),
+				'Text with no spaces, split, maxlength 3' => array(
+				'thisistextwithnospace',
+				3,
+				false,
+				'...'
+			),
+
 		);
 	}
 
@@ -403,9 +423,11 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the JHtmlString::truncateComplex method.
 	 *
-	 * @param   string   $text      The text to truncate.
-	 * @param   integer  $length    The maximum length of the text.
-	 * @param   boolean  $noSplit    Don't split a word if that is where the cutoff occurs (default: true).
+	 * @param   string   $html       The text to truncate.
+	 * @param   integer  $maxLength     The maximum length of the text.
+	 * @param   boolean  $noSplit    Don't split a word if that is where the cutoff occurs (default: true)
+	 * @param   boolean  $allowHtml  Allow HTML, always true for truncateComplex. Needed for 
+	 *                               compatibility with truncate tests.
 	 * @param   string   $expected   The expected result.
 	 *
 	 * @return  void
