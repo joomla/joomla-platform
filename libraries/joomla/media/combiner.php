@@ -25,6 +25,11 @@ abstract class JMediaCombiner
 	protected $_options = array();
 
 	/**
+	 * @var    array  JMediaCombiner instances container.
+	 * @since  11.1
+	 */
+	protected static $instances = array();
+	/**
 	 * Constructor
 	 * 
 	 * @param   Array  $options  options for the combiner
@@ -35,6 +40,31 @@ abstract class JMediaCombiner
 	{
 		// Merge user defined options with default options
 		$this->_options = array_merge($options, $this->_options);
+	}
+	
+	public function setSources($files =array())
+	{
+		//get combiner object type
+		$type = $this->_options['type'];
+		
+		foreach ($files as $file)
+		{
+			//Check file ext for compability
+			if(JFile::getExt($file) == $type)
+			{
+				$this->sources[] = $file;
+			}
+			else
+			{
+				throw new RuntimeException(JText::sprintf('JMEDIA_COMBINE_ERROR_MULTIPLE_FILE_TYPES'), $type);
+			}
+			
+		}
+	}
+	
+	public function getCombined()
+	{
+		return  $this->_combined;
 	}
 
 	/**
@@ -47,55 +77,88 @@ abstract class JMediaCombiner
 	 *
 	 * @since   12.1
 	 */
-	public static function getInstance($type, $options = array())
+	public static function getInstance( $options = array())
 	{
 
-		// Derive the class name from the type.
-		$class = 'JMediaCombiner' . ucfirst(strtolower($type));
+		// Get the options signature for the database connector.
+        $signature = md5(serialize($options));
 
-		// Load the class
-		jimport('joomla.media.combiner.' . $class);
+        // If we already have a database connector instance for these options then just use that.
+        if (empty(self::$instances[$signature]))
+        {
+			// Derive the class name from the type.
+			$class = 'JMediaCompressor' . ucfirst(strtolower($options['type']));
 
-		// If the class still doesn't exist we have nothing left to do but throw an exception.  We did our best.
-		if (!class_exists($class))
-		{
-			throw new RuntimeException(JText::sprintf('JMEDIA_ERROR_LOAD_COMBINOR', $type));
-		}
+			// Load the class
+			jimport('joomla.media.compressor.' . $class);
 
-		// Create our new JMediaCompressor class based on the options given.
-		try
-		{
-			$instance = new $class($options);
-		}
-		catch (RuntimeException $e)
-		{
-			throw new RuntimeException(JText::sprintf('JLIB_DATABASE_ERROR_CONNECT_DATABASE', $e->getMessage()));
-		}
+			// If the class still doesn't exist we have nothing left to do but throw an exception.  We did our best.
+			if (!class_exists($class))
+			{
+				throw new RuntimeException(JText::sprintf('JMEDIA_ERROR_LOAD_COMBINER', $options['type']));
+			}
 
-		return $instance;
+			// Create our new JMediaCompressor class based on the options given.
+			try
+			{
+				$instance = new $class($options);
+			}
+			catch (RuntimeException $e)
+			{
+				throw new RuntimeException(JText::sprintf('JLIB_DATABASE_ERROR_CONNECT_DATABASE', $e->getMessage()));
+			}
+
+            // Set the new connector to the global instances based on signature.
+            self::$instances[$signature] = $instance;
+        }
+
+        return self::$instances[$signature];
 	}
 
-	/**
-	 * 
-	 * @param unknown_type $files
-	 * @param unknown_type $options
-	 * @param unknown_type $destination
-	 * @throws RuntimeException
-	 */
+	
 	public static function combineFiles($files, $options = array(), $destination = null)
 	{
+		//Detect file type
 		$type = JFile::getExt($files[0]);
-
-		foreach ($files as $file)
+		
+		//Checks for the destination
+		if ($destination === null)
 		{
-			if ($type != JFile::getExt($file))
+			$type = $extension = pathinfo($files[0], PATHINFO_EXTENSION);
+		
+			if (array_key_exists('PREFIX', $options) && !empty($options['PREFIX']))
 			{
-				throw new RuntimeException(JText::sprintf('JMEDIA_COMBINE_ERROR_MULTIPLE_FILE_TYPES'), $type);
+				$destination = str_ireplace('.' . $type, '.' . $options['PREFIX'] . '.' . $type, $files[0]);
+			}
+			else
+			{
+				$destination = str_ireplace('.' . $type, '.combined.' . $type, $files[0]);
 			}
 		}
+		
+		$options['type'] = $type;
 
-		$combiner = self::getInstance($type);
+		$combiner = self::getInstance($options);
+		
+		$combiner->setSources($files);
 
-		$combiner->combine($files);
+		if (!empty($combiner->combine())
+		{
+			$force = array_key_exists('overwrite', $options) && !empty($options['overwrite']) ? $options['overwrite'] : false;
+			
+			if(!JFile::exists($destination) || (JFile::exists($destination) && $force))
+			{
+				JFile::write($destination, $combiner->getCombined());
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
 	}
 }

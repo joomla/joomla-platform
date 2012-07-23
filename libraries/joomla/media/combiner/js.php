@@ -21,7 +21,7 @@ class JMediaCombinerJs
 	
 	public function __construct($options = array())
 	{
-		$this->_options = array('COMPRESS' => false);
+		$this->_options = array('COMPRESS' => false, 'FILE_COMMENTS' => true, 'COMPRESS_OPTIONS' => array());
 		parent::__construct($options);
 	}
 	
@@ -33,22 +33,30 @@ class JMediaCombinerJs
 	 *
 	 * @since  12.1
 	 */
-	public function combine($files, $destination)
+	public function combine()
 	{
-		foreach ($files as $file)
+		foreach ($this->sources as $file)
 		{
-			$this->_combined .= JFile::read($file)."\n\n";
-		}
-		
-		if ($this->_options['COMPRESS'])
-		{
-			$compressor = JMediaCompressorCss::getInstance('js', $this->_options);
-			$compressor->setUncompressed($this->_combined);
-			$compressor->compress();
-				
-			$this->_combined = $compressor->getCompressed();
-		}
-		
-		return $this->_combined;
+			if($this->_options['FILE_COMMENTS'])
+			{
+				$this->_combined .= '// File : ' . JFile::getName($file) . ' : Start' . "\n\n";
+			}
+			
+			if ($this->_options['COMPRESS'])
+			{
+				$this->_options['COMPRESS_OPTIONS']['type'] = 'js';
+					
+				$this->_combined .= JMediaCompressor::compressString(JFile::read($file), $this->_options['COMPRESS_OPTIONS']) . "\n\n";
+			}
+			else 
+			{
+				$this->_combined .= JFile::read($file)."\n\n";
+			}
+			
+			if($this->_options['FILE_COMMENTS'])
+			{
+				$this->_combined .= '// File : ' . JFile::getName($file) . ' : End' . "\n\n";
+			}
+		}	
 	}
 }
