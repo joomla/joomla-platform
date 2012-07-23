@@ -239,9 +239,7 @@ abstract class JMediaCompressor
 		$compressor = self::getInstance( $options);
 		$uncompressed = JFile::read($sourcefile);
 
-		// Sets force overwrite option
-		$force = array_key_exists('overwrite', $options) && !empty($options['overwrite']) ?
-				$options['overwrite'] : false;
+	
 
 		if ($destination === null)
 		{
@@ -271,15 +269,25 @@ abstract class JMediaCompressor
         {
             return false;
         }
+        
+       // Sets force overwrite option
+        $force = array_key_exists('overwrite', $options) && !empty($options['overwrite']) ? $options['overwrite'] : false;
 
-		if (JFile::write($destination, $compressor->getCompressed()))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+			if(!JFile::exists($destination) || (JFile::exists($destination) && $force))
+			{
+				if(JFile::write($destination, $compressor->getCompressed()))
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			else
+			{
+				return false;
+			}
 	}
 
 	/**
