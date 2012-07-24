@@ -259,6 +259,7 @@ abstract class JFormField
 			case 'name':
 			case 'required':
 			case 'disabled':
+			case 'readonly':
 			case 'type':
 			case 'validate':
 			case 'value':
