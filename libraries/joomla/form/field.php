@@ -345,6 +345,7 @@ abstract class JFormField
 		$name = (string) $element['name'];
 		$required = (string) $element['required'];
 		$disabled = (string) $element['disabled'];
+		$readonly = (string) $element['readonly'];
 
 		// Set the required, disabled and validation options.
 		$this->required = ($required == 'true' || $required == 'required' || $required == '1');
