@@ -480,7 +480,7 @@ class JInstallerComponent extends JAdapterInstance
 			return false;
 		}
 
-		$eid = $row->$key;
+		$eid = $row->extension_id;
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
@@ -1218,7 +1218,7 @@ class JInstallerComponent extends JAdapterInstance
 			// Remove existing menu items if overwrite has been enabled
 			if ($option)
 			{
-				// If something goes wrong, theres no way to rollback TODO: Search for better solution
+				// If something goes wrong, there's no way to rollback TODO: Search for better solution
 				$this->_removeAdminMenus($componentrow);
 			}
 
@@ -1256,7 +1256,17 @@ class JInstallerComponent extends JAdapterInstance
 			$data['img'] = ((string) $menuElement->attributes()->img) ? (string) $menuElement->attributes()->img : 'class:component';
 			$data['home'] = 0;
 
-			if (!$table->setLocation(1, 'last-child') || !$table->bind($data) || !$table->check() || !$table->store())
+			try
+			{
+				$table->setLocation(1, 'last-child');
+			}
+			catch (InvalidArgumentException $e)
+			{
+				JLog::add($e->getMessage(), JLog::WARNING, 'jerror');
+				return false;
+			}
+
+			if (!$table->bind($data) || !$table->check() || !$table->store())
 			{
 				// Install failed, warn user and rollback changes
 				JLog::add($table->getError(), JLog::WARNING, 'jerror');
@@ -1285,7 +1295,17 @@ class JInstallerComponent extends JAdapterInstance
 			$data['img'] = 'class:component';
 			$data['home'] = 0;
 
-			if (!$table->setLocation(1, 'last-child') || !$table->bind($data) || !$table->check() || !$table->store())
+			try
+			{
+				$table->setLocation(1, 'last-child');
+			}
+			catch (InvalidArgumentException $e)
+			{
+				JLog::add($e->getMessage(), JLog::WARNING, 'jerror');
+				return false;
+			}
+
+			if (!$table->bind($data) || !$table->check() || !$table->store())
 			{
 				// Install failed, warn user and rollback changes
 				JLog::add($table->getError(), JLog::WARNING, 'jerror');
@@ -1369,7 +1389,16 @@ class JInstallerComponent extends JAdapterInstance
 
 			$table = JTable::getInstance('menu');
 
-			if (!$table->setLocation($parent_id, 'last-child') || !$table->bind($data) || !$table->check() || !$table->store())
+			try
+			{
+				$table->setLocation($parent_id, 'last-child');
+			}
+			catch (InvalidArgumentException $e)
+			{
+				return false;
+			}
+
+			if (!$table->bind($data) || !$table->check() || !$table->store())
 			{
 				// Install failed, rollback changes
 				return false;

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Request
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -17,9 +17,9 @@ $GLOBALS['_JREQUEST'] = array();
 /**
  * Set the available masks for cleaning variables
  */
-define('JREQUEST_NOTRIM', 1);
-define('JREQUEST_ALLOWRAW', 2);
-define('JREQUEST_ALLOWHTML', 4);
+const JREQUEST_NOTRIM    = 1;
+const JREQUEST_ALLOWRAW  = 2;
+const JREQUEST_ALLOWHTML = 4;
 
 JLog::add('JRequest is deprecated.', JLog::WARNING, 'deprecated');
 
@@ -30,7 +30,7 @@ JLog::add('JRequest is deprecated.', JLog::WARNING, 'deprecated');
  * request variables.  This includes $_POST, $_GET, and naturally $_REQUEST.  Variables
  * can be passed through an input filter to avoid injection or returned raw.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Request
  * @since       11.1
  * @deprecated  12.1  Get the JInput object from the application instead
@@ -48,7 +48,7 @@ class JRequest
 	 */
 	public static function getURI()
 	{
-		$uri = JFactory::getURI();
+		$uri = JURI::getInstance();
 		return $uri->toString(array('path', 'query'));
 	}
 
@@ -148,12 +148,6 @@ class JRequest
 			{
 				// Get the variable from the input hash and clean it
 				$var = self::_cleanVar($input[$name], $mask, $type);
-
-				// Handle magic quotes compatibility
-				if (get_magic_quotes_gpc() && ($var != $default) && ($hash != 'FILES'))
-				{
-					$var = self::_stripSlashesRecursive($var);
-				}
 
 				$GLOBALS['_JREQUEST'][$name][$sig] = $var;
 			}
@@ -465,12 +459,6 @@ class JRequest
 
 		$result = self::_cleanVar($input, $mask);
 
-		// Handle magic quotes compatibility
-		if (get_magic_quotes_gpc() && ($hash != 'FILES'))
-		{
-			$result = self::_stripSlashesRecursive($result);
-		}
-
 		return $result;
 	}
 
@@ -562,21 +550,5 @@ class JRequest
 			$var = $noHtmlFilter->clean($var, $type);
 		}
 		return $var;
-	}
-
-	/**
-	 * Strips slashes recursively on an array.
-	 *
-	 * @param   array  $value  Array or (nested arrays) of strings.
-	 *
-	 * @return  array  The input array with stripslashes applied to it.
-	 *
-	 * @deprecated  12.1
-	 * @since       11.1
-	 */
-	protected static function _stripSlashesRecursive($value)
-	{
-		$value = is_array($value) ? array_map(array('JRequest', '_stripSlashesRecursive'), $value) : stripslashes($value);
-		return $value;
 	}
 }

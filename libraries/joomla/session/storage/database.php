@@ -20,39 +20,6 @@ defined('JPATH_PLATFORM') or die;
 class JSessionStorageDatabase extends JSessionStorage
 {
 	/**
-	 * @var    unknown  No idea what this does. Seems not to be used.
-	 * @since  12.1
-	 */
-	protected $data = null;
-
-	/**
-	 * Open the SessionHandler backend.
-	 *
-	 * @param   string  $save_path     The path to the session object.
-	 * @param   string  $session_name  The name of the session.
-	 *
-	 * @return  boolean  True on success, false otherwise.
-	 *
-	 * @since   11.1
-	 */
-	public function open($save_path, $session_name)
-	{
-		return true;
-	}
-
-	/**
-	 * Close the SessionHandler backend.
-	 *
-	 * @return  boolean  True on success, false otherwise.
-	 *
-	 * @since   11.1
-	 */
-	public function close()
-	{
-		return true;
-	}
-
-	/**
 	 * Read the data for a particular session identifier from the SessionHandler backend.
 	 *
 	 * @param   string  $id  The session identifier.
@@ -113,22 +80,11 @@ class JSessionStorageDatabase extends JSessionStorage
 			{
 				return false;
 			}
-
-			if ($db->getAffectedRows())
-			{
-				return true;
-			}
-			else
-			{
-				$query->clear();
-				$query->insert($db->quoteName('#__session'))
-				->columns($db->quoteName('session_id') . ', ' . $db->quoteName('data') . ', ' . $db->quoteName('time'))
-				->values($db->quote($id) . ', ' . $db->quote($data) . ', ' . $db->quote((int) time()));
-
-				// If the session does not exist, we need to insert the session.
-				$db->setQuery($query);
-				return (boolean) $db->execute();
-			}
+			/* Since $db->execute did not throw an exception, so the query was successful.
+			Either the data changed, or the data was identical.
+			In either case we are done.
+			*/
+			return true;
 		}
 		catch (Exception $e)
 		{

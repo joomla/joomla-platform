@@ -78,7 +78,7 @@ abstract class JString
 	 *
 	 * @return  array   The splitted string.
 	 *
-	 * @deprecated  12.3
+	 * @deprecated  12.3 Use JStringNormalise::fromCamelCase()
 	 * @since   11.3
 	 */
 	public static function splitCamelCase($string)
@@ -976,9 +976,12 @@ abstract class JString
 		$encodedParts = parse_url($encodedURL);
 
 		// Now, decode each value of the resulting array
-		foreach ($encodedParts as $key => $value)
+		if ($encodedParts)
 		{
-			$result[$key] = urldecode($value);
+			foreach ($encodedParts as $key => $value)
+			{
+				$result[$key] = urldecode($value);
+			}
 		}
 		return $result;
 	}

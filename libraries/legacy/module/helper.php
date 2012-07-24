@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Module
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Module helper class
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Module
  * @since       11.1
  */
@@ -61,7 +61,6 @@ abstract class JModuleHelper
 			$result->showtitle = 0;
 			$result->control   = '';
 			$result->params    = '';
-			$result->user      = 0;
 		}
 
 		return $result;
@@ -159,8 +158,7 @@ abstract class JModuleHelper
 		$path = JPATH_BASE . '/modules/' . $module->module . '/' . $module->module . '.php';
 
 		// Load the module
-		// $module->user is a check for 1.0 custom modules and is deprecated refactoring
-		if (empty($module->user) && file_exists($path))
+		if (file_exists($path))
 		{
 			$lang = JFactory::getLanguage();
 
@@ -262,15 +260,20 @@ abstract class JModuleHelper
 		// Build the template and base path for the layout
 		$tPath = JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php';
 		$bPath = JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php';
+		$dPath = JPATH_BASE . '/modules/' . $module . '/tmpl/default.php';
 
 		// If the template has a layout override use it
 		if (file_exists($tPath))
 		{
 			return $tPath;
 		}
-		else
+		elseif (file_exists($bPath))
 		{
 			return $bPath;
+		}
+		else
+		{
+			return $dPath;
 		}
 	}
 
@@ -328,12 +331,15 @@ abstract class JModuleHelper
 
 		// Set the query
 		$db->setQuery($query);
-		$modules = $db->loadObjectList();
 		$clean = array();
 
-		if ($db->getErrorNum())
+		try
 		{
-			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $db->getErrorMsg()), JLog::WARNING, 'jerror');
+			$modules = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()), JLog::WARNING, 'jerror');
 			return $clean;
 		}
 
@@ -384,6 +390,8 @@ abstract class JModuleHelper
 	 * Caching modes:
 	 * To be set in XML:
 	 * 'static'      One cache file for all pages with the same module parameters
+	 * 'oldstatic'   1.5 definition of module caching, one cache file for all pages
+	 *               with the same module id and user aid,
 	 * 'itemid'      Changes on itemid change, to be called from inside the module:
 	 * 'safeuri'     Id created from $cacheparams->modeparams array,
 	 * 'id'          Module sets own cache id's
@@ -477,12 +485,23 @@ abstract class JModuleHelper
 				);
 				break;
 
+			// Provided for backward compatibility, not really useful.
+			case 'oldstatic':
+				$ret = $cache->get(
+					array($cacheparams->class, $cacheparams->method),
+					$cacheparams->methodparams,
+					$module->id . $view_levels,
+					$wrkarounds,
+					$wrkaroundoptions
+				);
+				break;
+
 			case 'itemid':
 			default:
 				$ret = $cache->get(
 					array($cacheparams->class, $cacheparams->method),
 					$cacheparams->methodparams,
-					$module->id . $view_levels . JRequest::getVar('Itemid', null, 'default', 'INT'),
+					$module->id . $view_levels . JFactory::getApplication()->input->getInt('Itemid', null),
 					$wrkarounds,
 					$wrkaroundoptions
 				);

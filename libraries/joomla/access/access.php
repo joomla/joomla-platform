@@ -464,7 +464,7 @@ class JAccess
 		JLog::add(__METHOD__ . ' is deprecated. Use JAccess::getActionsFromFile or JAcces::getActionsFromData instead.', JLog::WARNING, 'deprecated');
 		$actions = self::getActionsFromFile(
 			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml',
-			"/access/section[@name='" . $section . "']"
+			"/access/section[@name='" . $section . "']/"
 		);
 		if (empty($actions))
 		{
@@ -488,7 +488,7 @@ class JAccess
 	 */
 	public static function getActionsFromFile($file, $xpath = "/access/section[@name='component']/")
 	{
-		if (!is_file($file))
+		if (!is_file($file) || !is_readable($file))
 		{
 			// If unable to find the file return false.
 			return false;
@@ -496,7 +496,8 @@ class JAccess
 		else
 		{
 			// Else return the actions from the xml.
-			return self::getActionsFromData(JFactory::getXML($file, true), $xpath);
+			$xml = simplexml_load_file($file);
+			return self::getActionsFromData($xml, $xpath);
 		}
 	}
 
@@ -521,7 +522,14 @@ class JAccess
 		// Attempt to load the XML if a string.
 		if (is_string($data))
 		{
-			$data = JFactory::getXML($data, false);
+			try
+			{
+				$data = new SimpleXMLElement($data);
+			}
+			catch (Exception $e)
+			{
+				return false;
+			}
 
 			// Make sure the XML loaded correctly.
 			if (!$data)

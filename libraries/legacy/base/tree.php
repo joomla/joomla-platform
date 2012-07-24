@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Base
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Tree Class.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Base
  * @since       11.1
  * @deprecated  12.3
@@ -43,7 +43,6 @@ class JTree extends JObject
 	 */
 	public function __construct()
 	{
-		// Deprecation warning.
 		JLog::add('JTree::__construct() is deprecated.', JLog::WARNING, 'deprecated');
 
 		$this->_root = new JNode('ROOT');
@@ -62,7 +61,6 @@ class JTree extends JObject
 	 */
 	public function addChild(&$node, $setCurrent = false)
 	{
-		// Deprecation warning.
 		JLog::add('JTree::addChild() is deprecated.', JLog::WARNING, 'deprecated');
 
 		$this->_current->addChild($node);
@@ -81,7 +79,6 @@ class JTree extends JObject
 	 */
 	public function getParent()
 	{
-		// Deprecation warning.
 		JLog::add('JTree::getParent() is deprecated.', JLog::WARNING, 'deprecated');
 
 		$this->_current = &$this->_current->getParent();
@@ -96,7 +93,6 @@ class JTree extends JObject
 	 */
 	public function reset()
 	{
-		// Deprecation warning.
 		JLog::add('JTree::reset() is deprecated.', JLog::WARNING, 'deprecated');
 
 		$this->_current = &$this->_root;

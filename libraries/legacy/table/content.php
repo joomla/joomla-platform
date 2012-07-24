@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Database
+ * @package     Joomla.Legacy
+ * @subpackage  Table
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Content table
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Table
  * @since       11.1
  */
@@ -188,12 +188,6 @@ class JTableContent extends JTable
 			$this->fulltext = '';
 		}
 
-		if (trim($this->introtext) == '' && trim($this->fulltext) == '')
-		{
-			$this->setError(JText::_('JGLOBAL_ARTICLE_MUST_HAVE_TEXT'));
-			return false;
-		}
-
 		// Check the publish down date is not earlier than publish up.
 		if ($this->publish_down > $this->_db->getNullDate() && $this->publish_down < $this->publish_up)
 		{
@@ -259,7 +253,7 @@ class JTableContent extends JTable
 		{
 			// New article. An article created and created_by field can be set by the user,
 			// so we don't touch either of these if they are set.
-			if (!intval($this->created))
+			if (!(int) $this->created)
 			{
 				$this->created = $date->toSql();
 			}
@@ -338,12 +332,14 @@ class JTableContent extends JTable
 		$query->set($this->_db->quoteName('state') . ' = ' . (int) $state);
 		$query->where('(' . $where . ')' . $checkin);
 		$this->_db->setQuery($query);
-		$this->_db->execute();
 
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
+		try
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->_db->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 

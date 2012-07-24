@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Toolbar
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -12,11 +12,11 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Renders a help popup window button
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Toolbar
  * @since       12.1
  */
-class JToolbarButtonHelp extends JButton
+class JToolbarButtonHelp extends JToolbarButton
 {
 	/**
 	 * @var    string	Button type
@@ -42,7 +42,7 @@ class JToolbarButtonHelp extends JButton
 		$class = $this->fetchIconClass('help');
 		$doTask = $this->_getCommand($ref, $com, $override, $component);
 
-		$html = "<a href=\"#\" onclick=\"$doTask\" rel=\"help\" class=\"toolbar\">\n";
+		$html = "<a href=\"javascript:void(0)\" onclick=\"$doTask\" rel=\"help\" class=\"toolbar\">\n";
 		$html .= "<span class=\"$class\">\n";
 		$html .= "</span>\n";
 		$html .= "$text\n";

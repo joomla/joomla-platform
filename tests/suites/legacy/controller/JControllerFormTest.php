@@ -1,8 +1,10 @@
 <?php
 /**
- * @version		$Id: JControllerFormTest.php 20196 2011-01-09 02:40:25Z ian $
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.UnitTest
+ * @subpackage  Controller
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once __DIR__ . '/stubs/controllerform.php';
@@ -12,8 +14,29 @@ require_once __DIR__ . '/stubs/controllerform.php';
  *
  * @since  11.1
  */
-class JControllerFormTest extends PHPUnit_Framework_TestCase
+class JControllerFormTest extends TestCase
 {
+	/**
+     * Sets up the fixture, for example, opens a network connection.
+     * This method is called before a test is executed.
+     */
+	protected function setUp()
+	{
+		$this->saveFactoryState();
+
+		JFactory::$application = $this->getMockApplication();
+		JFactory::$config = $this->getMockConfig();
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 */
+	protected function tearDown()
+	{
+		$this->restoreFactoryState();
+	}
+
 	/**
 	 * Tests the JControllerForm constructor.
 	 *

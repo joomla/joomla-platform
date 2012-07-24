@@ -907,7 +907,7 @@ class JInstaller extends JAdapter
 				}
 
 				// Create an array of queries from the sql file
-				$queries = JInstallerHelper::splitSql($buffer);
+				$queries = JDatabaseDriver::splitSql($buffer);
 
 				if (count($queries) == 0)
 				{
@@ -1082,7 +1082,7 @@ class JInstaller extends JAdapter
 								}
 
 								// Create an array of queries from the sql file
-								$queries = JInstallerHelper::splitSql($buffer);
+								$queries = JDatabaseDriver::splitSql($buffer);
 
 								if (count($queries) == 0)
 								{
@@ -1878,7 +1878,7 @@ class JInstaller extends JAdapter
 		else
 		{
 			// No XML files were found in the install folder
-			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR'), JLog::WARNING, 'jerror');
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), JLog::WARNING, 'jerror');
 			return false;
 		}
 	}
@@ -1888,14 +1888,13 @@ class JInstaller extends JAdapter
 	 *
 	 * @param   string  $file  An xmlfile path to check
 	 *
-	 * @return  mixed  A JXMLElement, or null if the file failed to parse
+	 * @return  mixed  A SimpleXMLElement, or null if the file failed to parse
 	 *
 	 * @since   11.1
 	 */
 	public function isManifest($file)
 	{
-		// Initialise variables.
-		$xml = JFactory::getXML($file);
+		$xml = simplexml_load_file($file);
 
 		// If we cannot load the XML file return null
 		if (!$xml)
@@ -1945,7 +1944,7 @@ class JInstaller extends JAdapter
 		$query->where('type = ' . $dbo->Quote($type));
 		$query->where('element = ' . $dbo->Quote($element));
 		$query->where('folder = ' . $dbo->Quote($folder));
-		$query->where('client_id = ' . intval($client));
+		$query->where('client_id = ' . (int) $client);
 		$query->where('state = -1');
 
 		return $dbo->execute();
@@ -2104,7 +2103,8 @@ class JInstaller extends JAdapter
 	public static function parseXMLInstallFile($path)
 	{
 		// Read the file to see if it's a valid component XML file
-		if (!$xml = JFactory::getXML($path))
+		$xml = simplexml_load_file($path);
+		if (!$xml)
 		{
 			return false;
 		}
@@ -2120,8 +2120,6 @@ class JInstaller extends JAdapter
 		}
 
 		$data = array();
-
-		$data['legacy'] = ($xml->getName() == 'install');
 
 		$data['name'] = (string) $xml->name;
 

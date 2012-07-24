@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Utilities
  * @since       11.1
  */
-class JArrayHelper
+abstract class JArrayHelper
 {
 	/**
 	 * Option to perform case-sensitive sorts.
@@ -242,12 +242,8 @@ class JArrayHelper
 
 		if (is_array($array))
 		{
-			$n = count($array);
-
-			for ($i = 0; $i < $n; $i++)
+			foreach ($array as $key => &$item)
 			{
-				$item = &$array[$i];
-
 				if (is_array($item) && isset($item[$index]))
 				{
 					$result[] = $item[$index];
@@ -370,7 +366,7 @@ class JArrayHelper
 	 *
 	 * @since   11.3
 	 */
-	public function pivot($source, $key = null)
+	public static function pivot($source, $key = null)
 	{
 		$result = array();
 		$counter = array();

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Application
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Application helper functions
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Application
  * @since       11.1
  */
@@ -167,7 +167,7 @@ class JApplicationHelper
 	 * @return  array  XML metadata.
 	 *
 	 * @since   11.1
-	 * @deprecated  13.3
+	 * @deprecated  13.3 Use JInstaller::parseXMLInstallFile instead.
 	 */
 	public static function parseXMLInstallFile($path)
 	{
@@ -183,11 +183,15 @@ class JApplicationHelper
 	 * @param   string  $path  Full path to XML file.
 	 *
 	 * @return  array  XML metadata.
+	 *
+	 * @deprecated  13.3 Use JInstaller::parseXMLInstallFile instead.
 	 */
 	public static function parseXMLLangMetaFile($path)
 	{
+		JLog::add('JApplicationHelper::parseXMLLangMetaFile is deprecated. Use JInstaller::parseXMLInstallFile instead.', JLog::WARNING, 'deprecated');
+
 		// Read the file to see if it's a valid component XML file
-		$xml = JFactory::getXML($path);
+		$xml = simplexml_load_file($path);
 
 		if (!$xml)
 		{

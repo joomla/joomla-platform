@@ -23,6 +23,7 @@ defined('JPATH_PLATFORM') or die;
  * @property-read  string   $acceptEncoding  The web client's accepted encoding string.
  * @property-read  string   $acceptLanguage  The web client's accepted languages string.
  * @property-read  array    $detection       An array of flags determining whether or not a detection routine has been run.
+ * @property-read  boolean  $robot           True if the web client is a robot
  *
  * @package     Joomla.Platform
  * @subpackage  Application
@@ -114,6 +115,12 @@ class JApplicationWebClient
 	protected $acceptLanguage;
 
 	/**
+	 * @var    boolean  True if the web client is a robot.
+	 * @since  12.3
+	 */
+	protected $robot = false;
+
+	/**
 	 * @var    array  An array of flags determining whether or not a detection routine has been run.
 	 * @since  12.1
 	 */
@@ -122,9 +129,9 @@ class JApplicationWebClient
 	/**
 	 * Class constructor.
 	 *
-	 * @param   mixed  $userAgent       The optional user-agent string to parse.
-	 * @param   mixed  $acceptEncoding  The optional client accept encoding string to parse.
-	 * @param   mixed  $acceptLanguage  The optional client accept language string to parse.
+	 * @param   string  $userAgent       The optional user-agent string to parse.
+	 * @param   string  $acceptEncoding  The optional client accept encoding string to parse.
+	 * @param   string  $acceptLanguage  The optional client accept language string to parse.
 	 *
 	 * @since   12.1
 	 */
@@ -208,6 +215,13 @@ class JApplicationWebClient
 				if (empty($this->detection['acceptEncoding']))
 				{
 					$this->detectEncoding($this->acceptEncoding);
+				}
+				break;
+
+			case 'robot':
+				if (empty($this->detection['robot']))
+				{
+					$this->detectRobot($this->userAgent);
 				}
 				break;
 		}
@@ -473,5 +487,28 @@ class JApplicationWebClient
 
 		// Mark this detection routine as run.
 		$this->detection['platform'] = true;
+	}
+
+	/**
+	 * Determines if the browser is a robot or not.
+	 *
+	 * @param   string  $userAgent  The user-agent string to parse.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	protected function detectRobot($userAgent)
+	{
+		if (preg_match('/http|bot|robot|spider|crawler|curl|^$/i', $userAgent))
+		{
+			$this->robot = true;
+		}
+		else
+		{
+			$this->robot = false;
+		}
+
+		$this->detection['robot'] = true;
 	}
 }

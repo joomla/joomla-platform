@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Toolbar
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -12,11 +12,11 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Renders a standard button with a confirm dialog
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Toolbar
  * @since       12.1
  */
-class JToolbarButtonConfirm extends JButton
+class JToolbarButtonConfirm extends JToolbarButton
 {
 	/**
 	 * Button type
@@ -47,7 +47,7 @@ class JToolbarButtonConfirm extends JButton
 		$class = $this->fetchIconClass($name);
 		$doTask = $this->_getCommand($msg, $name, $task, $list);
 
-		$html = "<a href=\"#\" onclick=\"$doTask\" class=\"toolbar\">\n";
+		$html = "<a href=\"javascript:void(0)\" onclick=\"$doTask\" class=\"toolbar\">\n";
 		$html .= "<span class=\"$class\">\n";
 		$html .= "</span>\n";
 		$html .= "$text\n";

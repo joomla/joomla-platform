@@ -84,6 +84,17 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	}
 
 	/**
+	 * Destructor.
+	 *
+	 * @since   12.1
+	 */
+	public function __destruct()
+	{
+		$this->freeResult();
+		unset($this->connection);
+	}
+
+	/**
 	 * Connects to the database if needed.
 	 *
 	 * @return  void  Returns void if the database connected successfully.
@@ -290,11 +301,13 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	}
 
 	/**
-	 * Destructor.
+	 * Disconnects the database.
+	 *
+	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	public function __destruct()
+	public function disconnect()
 	{
 		$this->freeResult();
 		unset($this->connection);
@@ -330,7 +343,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 		$text = str_replace("'", "''", $text);
 
-		return "'" . addcslashes($text, "\000\n\r\\\032") . "'";
+		return addcslashes($text, "\000\n\r\\\032");
 	}
 
 	/**
@@ -394,6 +407,10 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		// If an error occurred handle it.
 		if (!$this->executed)
 		{
+			// Get the error number and message before we execute any more queries.
+			$errorNum = (int) $this->connection->errorCode();
+			$errorMsg = (string) 'SQL: ' . implode(", ", $this->connection->errorInfo());
+
 			// Check if the server was disconnected.
 			if (!$this->connected())
 			{
@@ -421,9 +438,9 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 			// The server was not disconnected.
 			else
 			{
-				// Get the error number and message.
-				$this->errorNum = (int) $this->connection->errorCode();
-				$this->errorMsg = (string) 'SQL: ' . implode(", ", $this->connection->errorInfo());
+				// Get the error number and message from before we tried to reconnect.
+				$this->errorNum = $errorNum;
+				$this->errorMsg = $errorMsg;
 
 				// Throw the normal query exception.
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
@@ -451,6 +468,18 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		$this->connect();
 
 		return $this->connection->getAttribute($key);
+	}
+
+	/**
+	 * Get a query to run and verify the database is operational.
+	 *
+	 * @return  string  The query to check the health of the DB.
+	 *
+	 * @since   12.2
+	 */
+	public function getConnectedQuery()
+	{
+		return 'SELECT 1';
 	}
 
 	/**
@@ -497,6 +526,16 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 */
 	public function connected()
 	{
+		// Flag to prevent recursion into this function.
+		static $checkingConnected = false;
+
+		if ($checkingConnected)
+		{
+			// Reset this flag and throw an exception.
+			$checkingConnected = true;
+			die('Recursion trying to check if connected.');
+		}
+
 		// Backup the query state.
 		$sql = $this->sql;
 		$limit = $this->limit;
@@ -505,8 +544,11 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 		try
 		{
+			// Set the checking connection flag.
+			$checkingConnected = true;
+
 			// Run a simple query to check the connection.
-			$this->setQuery('SELECT 1');
+			$this->setQuery($this->getConnectedQuery());
 			$status = (bool) $this->loadResult();
 		}
 		// If we catch an exception here, we must not be connected.
@@ -520,6 +562,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		$this->limit = $limit;
 		$this->offset = $offset;
 		$this->prepared = $prepared;
+		$checkingConnected = false;
 
 		return $status;
 	}
@@ -584,7 +627,8 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	{
 		$this->connect();
 
-		return $this->connection->lastInsertId();
+		// Error suppress this to prevent PDO warning us that the driver doesn't support this operation.
+		return @$this->connection->lastInsertId();
 	}
 
 	/**
@@ -888,5 +932,49 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		$this->freeResult();
 
 		return false;
+	}
+
+	/**
+	 * PDO does not support serialize
+	 *
+	 * @return  array
+	 *
+	 * @since   12.3
+	 */
+	public function __sleep()
+	{
+		$serializedProperties = array();
+
+		$reflect = new ReflectionClass($this);
+
+		// Get properties of the current class
+		$properties = $reflect->getProperties();
+
+		// Static properties of the current class
+		$staticProperties = $reflect->getStaticProperties();
+
+		foreach ($properties as $key => $property)
+		{
+			// Do not serialize properties that are PDO
+			if ($property->isStatic() == false && !($this->{$property->name} instanceof PDO))
+			{
+				array_push($serializedProperties, $property->name);
+			}
+		}
+
+		return $serializedProperties;
+	}
+
+	/**
+	 * Wake up after serialization
+	 *
+	 * @return  array
+	 *
+	 * @since   12.3
+	 */
+	public function __wakeup()
+	{
+		// Get connection back
+		$this->__construct($this->options);
 	}
 }

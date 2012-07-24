@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Component
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Component helper class
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Component
  * @since       11.1
  */
@@ -24,7 +24,7 @@ class JComponentHelper
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected static $_components = array();
+	protected static $components = array();
 
 	/**
 	 * Get the component information.
@@ -365,7 +365,7 @@ class JComponentHelper
 	}
 
 	/**
-	 * Load the installed components into the _components property.
+	 * Load the installed components into the components property.
 	 *
 	 * @param   string  $option  The element value for the extension
 	 *
@@ -385,9 +385,18 @@ class JComponentHelper
 
 		$cache = JFactory::getCache('_system', 'callback');
 
-		self::$components[$option] = $cache->get(array($db, 'loadObject'), null, $option, false);
+		try
+		{
+			self::$components[$option] = $cache->get(array($db, 'loadObject'), null, $option, false);
+		}
+		catch (RuntimeException $e)
+		{
+			// Fatal error.
+			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $error), JLog::WARNING, 'jerror');
+			return false;
+		}
 
-		if ($error = $db->getErrorMsg() || empty(self::$components[$option]))
+		if (empty(self::$components[$option]))
 		{
 			// Fatal error.
 			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $error), JLog::WARNING, 'jerror');

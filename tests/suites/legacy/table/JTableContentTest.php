@@ -59,7 +59,7 @@ class JTableContentTest extends TestCaseDatabase
 		$stubpath = JPATH_TESTS . '/suites/unit/joomla/table/stubs';
 
 		$dataSet->addTable('jos_assets', $stubpath . '/jos_assets.csv');
-		$dataSet->addTable('jos_categories', $stubpath . '/jos_categories.csv');
+		$dataSet->addTable('jos_categories', __DIR__ . '/stubs/jos_categories.csv');
 		$dataSet->addTable('jos_content', __DIR__ . '/stubs/jos_content.csv');
 
 		return $dataSet;
@@ -96,8 +96,8 @@ class JTableContentTest extends TestCaseDatabase
 		$table->title = 'Test Title';
 		$this->assertThat(
 			$table->check(),
-			$this->isFalse(),
-			'Line: '.__LINE__.' Checking the table with just the title should fail.'
+			$this->isTrue(),
+			'Line: '.__LINE__.' Checking the table with just the title should pass.'
 		);
 
 		$this->assertThat(
@@ -109,8 +109,8 @@ class JTableContentTest extends TestCaseDatabase
 		$table->introtext = '';
 		$this->assertThat(
 			$table->check(),
-			$this->isFalse(),
-			'Line: '.__LINE__.' Checking with an empty introtext should fail.'
+			$this->isTrue(),
+			'Line: '.__LINE__.' Checking with an empty introtext should pass.'
 		);
 
 		$table->introtext = 'The intro text object.';
