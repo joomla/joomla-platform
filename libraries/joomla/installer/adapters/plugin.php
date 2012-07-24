@@ -439,7 +439,7 @@ class JInstallerPlugin extends JAdapterInstance
 
 			// Since we have created a plugin item, we add it to the installation step stack
 			// so that if we have to rollback the changes we can undo it.
-			$this->parent->pushStep(array('type' => 'extension', 'id' => $row->extension_id));
+			$this->parent->pushStep(array('type' => 'extension', 'extension_id' => $row->extension_id));
 			$id = $row->extension_id;
 		}
 
