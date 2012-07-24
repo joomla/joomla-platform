@@ -19,6 +19,8 @@ defined('JPATH_PLATFORM') or die;
 abstract class JMediaCombiner
 {
 	public $sources = array();
+	
+	public $sourceCount = 0 ;
 
 	protected $_combined = null;
 
@@ -53,6 +55,7 @@ abstract class JMediaCombiner
 			if(JFile::getExt($file) == $type)
 			{
 				$this->sources[] = $file;
+				$this->sourceCount++;	
 			}
 			else
 			{
@@ -125,7 +128,8 @@ abstract class JMediaCombiner
 		if ($destination === null)
 		{
 			$type = $extension = pathinfo($files[0], PATHINFO_EXTENSION);
-		
+			
+			//check for the file prefix in options, assign default prefix if not dound	
 			if (array_key_exists('PREFIX', $options) && !empty($options['PREFIX']))
 			{
 				$destination = str_ireplace('.' . $type, '.' . $options['PREFIX'] . '.' . $type, $files[0]);

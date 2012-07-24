@@ -65,7 +65,9 @@ class JMediaCombinerCss extends JMediaCombiner
 			{
 				$this->_combined .= '/* File : ' . JFile::getName($file) . ' : End */' . "\n\n";
 			}
-		}	
+		}
+
+		$this->_combined .= '/* ' . $this->sourceCount . ' css files are combined */';
 		
 	}
 }

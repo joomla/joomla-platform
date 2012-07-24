@@ -57,6 +57,8 @@ class JMediaCombinerJs
 			{
 				$this->_combined .= '// File : ' . JFile::getName($file) . ' : End' . "\n\n";
 			}
-		}	
+		}
+
+		$this->_combined .= '// ' . $this->sourceCount . ' js files are combined';
 	}
 }

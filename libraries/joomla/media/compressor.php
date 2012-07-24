@@ -69,22 +69,22 @@ abstract class JMediaCompressor
 		$this->_uncompressedSize	= strlen($this->_uncompressed);
 	}
 
-    /**
+	/**
      * Method to get uncompressed code.
      *
      * @return  String  uncompressed code.
      *
      * @since  12.1
      */
-    public function getUncompressed()
-    {
-        return $this->_uncompressed;
-    }
+	public function getUncompressed()
+	{
+		return $this->_uncompressed;
+	}
 
-    /**
+	/**
      * Method to set uncompressed code.
      *
-     * @param   string  $uncompressed  Uncomressed Code.
+	 * @param   string  $compressed  compressed Code.
      *
      * @return  void
      *
