@@ -206,29 +206,4 @@ class JDatabaseQueryMysql extends JDatabaseQuery implements JDatabaseQueryPrepar
 
 		return $this;
 	}
-
-	/**
-	 * Add a single column, or array of columns to the SELECT clause of the query.
-	 *
-	 * Note that you must not mix insert, update, delete and select method calls when building a query.
-	 * The select method can, however, be called multiple times in the same query.
-	 *
-	 * Usage:
-	 * $query->select('a.*')->select('b.id');
-	 * $query->select(array('a.*', 'b.id'));
-	 *
-	 * @param   mixed  $columns  A string or an array of field names.
-	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
-	 *
-	 * @since   11.1
-	 */
-	public function show($entity)
-	{
-		$this->type = 'element';
-
-		$this->element = newJDatabaseQueryElement('SHOW', $entity);
-
-		return $this;
-	}
 }

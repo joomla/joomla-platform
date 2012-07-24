@@ -206,6 +206,8 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 				$replace = array('#HOST#', '#PORT#', '#DBNAME#');
 				$with = array($this->options['host'], $this->options['port'], $this->options['database']);
 
+				$format .= ';charset=' . $this->options['charset'];
+
 				break;
 
 			case 'oci':

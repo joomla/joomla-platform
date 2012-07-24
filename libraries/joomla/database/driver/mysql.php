@@ -64,7 +64,13 @@ class JDatabaseDriverMysql extends JDatabaseDriverPdo
 	{
 		// Get some basic values from the options.
 		$options['driver'] = 'mysql';
-		$options['charset']    = (isset($options['charset'])) ? $options['charset']   : 'UTF-8';
+		$options['charset']    = (isset($options['charset'])) ? $options['charset']   : 'utf8';
+
+		// Setting the charset in the DSN doesn't work until PHP 5.3.6
+		if (version_compare(PHP_VERSION, '5.3.6', '<'))
+		{
+			$options['driverOptions'] = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
+		}
 
 		$this->charset = $options['charset'];
 
@@ -72,12 +78,20 @@ class JDatabaseDriverMysql extends JDatabaseDriverPdo
 		parent::__construct($options);
 	}
 
+	/**
+	 * Connects to the database if needed.
+	 *
+	 * @return  void  Returns void if the database connected successfully.
+	 *
+	 * @since   12.2
+	 * @throws  RuntimeException
+	 */
 	public function connect()
 	{
 		parent::connect();
 
 		$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES,true);
+		$this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
 	}
 
 	/**
