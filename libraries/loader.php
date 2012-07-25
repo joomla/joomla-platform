@@ -238,38 +238,42 @@ abstract class JLoader
 			return true;
 		}
 
-		foreach (self::$namespaces as $namespace => $basePath)
+		// Explode the class name (containing namespace).
+		$parts = explode('\\', $class);
+
+		// Get and remove the namespace from the parts.
+		$namespace = array_shift($parts);
+
+		// If we find the namespace in the stack.
+		if (isset(self::$namespaces[$namespace]))
 		{
-			// If we find the class namespace.
-			if (strpos($class, $namespace) !== false)
+			// Reimplode the path with the directory separator.
+			$relativePath = implode('/', $parts);
+
+			// Create a lower case path.
+			$relativeLowPath = strtolower($relativePath);
+
+			$rootPaths = self::$namespaces[$namespace];
+
+			// Iterate the registered root paths.
+			foreach ($rootPaths as $rootPath)
 			{
-				foreach ($basePath as $bPath)
+				// Try to include the low case path.
+				$lowerPath = $rootPath . '/' . $relativeLowPath . '.php';
+
+				if (file_exists($lowerPath))
 				{
-					// Remove the namespace from the class.
-					$path = str_replace($namespace, '', $class);
+					include $lowerPath;
+					return true;
+				}
 
-					// Replace the namespace separator by the directory separator.
-					$path = str_replace('\\', '/', $path);
+				// Try to include the path that may contain upper case letters.
+				$upperPath = $rootPath . '/' . $relativePath . '.php';
 
-					// Create a path for low case file and directory names.
-					$lowerPath = $bPath . strtolower($path) . '.php';
-
-					// Create a path for directory and file names matching the namespace case.
-					$upperPath = $bPath . $path . '.php';
-
-					// Try to include the low case path.
-					if (file_exists($lowerPath))
-					{
-						include $lowerPath;
-						return true;
-					}
-
-					// Try to include the path that may contains upper case letters.
-					if (file_exists($upperPath))
-					{
-						include $upperPath;
-						return true;
-					}
+				if (file_exists($upperPath))
+				{
+					include $upperPath;
+					return true;
 				}
 			}
 		}
@@ -361,7 +365,7 @@ abstract class JLoader
 		}
 
 		// If the namespace is not yet registered or we have an explicit reset flag then set the path.
-		if (empty(self::$namespaces[$namespace]) || $reset)
+		if (!isset(self::$namespaces[$namespace]) || $reset)
 		{
 			self::$namespaces[$namespace] = array($path);
 		}
