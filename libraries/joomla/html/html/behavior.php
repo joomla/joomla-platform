@@ -889,20 +889,29 @@ abstract class JHtmlBehavior
 
 		// To keep the code simple here, run strings through JText::_() using array_map()
 		$callback = array('JText','_');
-		$weekdays_full = array_map($callback, array(
-			'SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'
-		));
-		$weekdays_short = array_map($callback, array(
-			'SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'
-		));
-		$months_long = array_map($callback, array(
-			'JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE',
-			'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'
-		));
-		$months_short = array_map($callback, array(
-			'JANUARY_SHORT', 'FEBRUARY_SHORT', 'MARCH_SHORT', 'APRIL_SHORT', 'MAY_SHORT', 'JUNE_SHORT',
-			'JULY_SHORT', 'AUGUST_SHORT', 'SEPTEMBER_SHORT', 'OCTOBER_SHORT', 'NOVEMBER_SHORT', 'DECEMBER_SHORT'
-		));
+		$weekdays_full = array_map(
+			$callback, array(
+				'SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'
+			)
+		);
+		$weekdays_short = array_map(
+			$callback,
+			array(
+				'SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'
+			)
+		);
+		$months_long = array_map(
+			$callback, array(
+				'JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE',
+				'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'
+			)
+		);
+		$months_short = array_map(
+			$callback, array(
+				'JANUARY_SHORT', 'FEBRUARY_SHORT', 'MARCH_SHORT', 'APRIL_SHORT', 'MAY_SHORT', 'JUNE_SHORT',
+				'JULY_SHORT', 'AUGUST_SHORT', 'SEPTEMBER_SHORT', 'OCTOBER_SHORT', 'NOVEMBER_SHORT', 'DECEMBER_SHORT'
+			)
+		);
 
 		// This will become an object in Javascript but define it first in PHP for readability
 		$text = array(
