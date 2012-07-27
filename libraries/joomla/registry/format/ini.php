@@ -137,7 +137,7 @@ class JRegistryFormatINI extends JRegistryFormat
 			list ($key, $value) = explode('=', $line, 2);
 
 			// Validate the key.
-			if (preg_match('/[^A-Z0-9_]/i', $key))
+			if (!preg_match('/[^A-Z0-9_]/i', $key))
 			{
 				// Maybe throw exception?
 				continue;
