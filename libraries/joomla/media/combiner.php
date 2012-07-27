@@ -71,6 +71,52 @@ abstract class JMediaCombiner
 	}
 
 	/**
+	 * Get a list of available combiners
+	 *
+	 * @return  array  An array of available combiners
+	 *
+	 * @since   12.1
+	 */
+	public static function getCombiners()
+	{
+		// Instantiate variables.
+		$combiners = array();
+	
+		// Get a list of types.
+		$types = JFolder::files(__DIR__ . '/combiner');
+	
+		// Loop through the types and find the ones that are available.
+		foreach ($types as $type)
+		{
+			// Ignore some files.
+			if ($type == 'index.html')
+			{
+				continue;
+			}
+	
+			// Derive the class name from the type.
+			$class = str_ireplace('.php', '', trim($type));
+	
+			// Load the class
+			jimport('joomla.media.combiner.' . $class);
+	
+			// If the class doesn't exist we have nothing left to do but look at the next type.  We did our best.
+			if (!class_exists('JMediaCombiner' . ucfirst($class)))
+			{
+				continue;
+			}
+	
+			// Sweet!  Our class exists, so now we just need to know if it passes its test method.
+			if ($class::isSupported())
+			{
+				// Connector names should not have file extensions.
+				$combiners[] = $class;
+			}
+		}
+	
+		return $combiners;
+	}
+	/**
 	 * Gives a combiner object for CSS/JS
 	 *
 	 * @param   string  $type     Type of compressor needed
@@ -163,6 +209,32 @@ abstract class JMediaCombiner
 		else
 		{
 			return false;
+		}
+	}
+	
+	/**
+	 * Method to test if supported
+	 *
+	 * @param   string  $sourceFile  file to test
+	 *
+	 * @return  boolean   true or false
+	 *
+	 * @since  12.1
+	 */
+	public static function isSupported($sourceFile)
+	{
+		$combiners = self::getCombiners();
+	
+		foreach ($combiners as $class)
+		{
+			if (strtolower(str_ireplace('JMediaCombiner', '', $class)) === strtolower(JFile::getExt($sourceFile)))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 	}
 }
