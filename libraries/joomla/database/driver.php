@@ -517,13 +517,13 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	}
 
 	/**
-	 * Gets the name of the database used by this conneciton.
+	 * Gets the name of the database used by this connection.
 	 *
 	 * @return  string
 	 *
 	 * @since   11.4
 	 */
-	protected function getDatabase()
+	public function getDatabase()
 	{
 		return $this->_database;
 	}
