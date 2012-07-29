@@ -227,7 +227,7 @@ abstract class JMediaCompressor
 	 * Compress a CSS/JS file with given options
 	 *
 	 * @param   string  $sourcefile   The full file path of the source file.
-	 * @param   array   $options      An asssociative array with options. Eg: force overwirte, prefix for minified files
+	 * @param   array   $options      An asssociative array with options. Eg: type, force overwirte, prefix for minified files
 	 * @param   string  $destination  The full file path of the destination file. If left empty the compressed file will be returned as string
 	 * 
 	 * @return  boolean  false on failure.
@@ -236,6 +236,12 @@ abstract class JMediaCompressor
 	 */
 	public static function compressFile( $sourcefile, $options = array(),  $destination = null )
 	{
+		$options['type'] = strtolower(JFile::getExt($sourcefile));
+
+		if (!self::isSupported($sourcefile))
+		{
+			throw new RuntimeException(JText::sprintf('JMEDIA_ERROR_FILE_TYPE_NOT_SUPPORTED'));
+		}
 		$compressor = self::getInstance($options);
 		$uncompressed = JFile::read($sourcefile);
 
