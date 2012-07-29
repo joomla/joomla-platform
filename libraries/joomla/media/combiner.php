@@ -255,7 +255,7 @@ abstract class JMediaCombiner
 				return true;
 			}
 		}
-		
+
 		return true;
 	}
 }
