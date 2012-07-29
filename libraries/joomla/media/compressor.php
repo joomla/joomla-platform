@@ -30,17 +30,17 @@ abstract class JMediaCompressor
      */
 	public $_uncompressedSize = null;
 
-    /**
+	/**
      * @var    String  To hold compressed Code.
      * @since  12.1
      */
-    protected  $_compressed = null;
+	protected  $_compressed = null;
 
-    /**
+	/**
      * @var    int  size of compressed Code.
      * @since  12.1
      */
-    public $_compressedSize = null;
+	public $_compressedSize = null;
 
 	/**
      * @var    Array  Compression options for CSS Minifier.
@@ -48,11 +48,11 @@ abstract class JMediaCompressor
      */
 	protected  $_options = array();
 
-    /**
+	/**
      * @var    array  JMediaCompressor instances container.
      * @since  11.1
      */
-    protected static $instances = array();
+	protected static $instances = array();
 
 	/**
      * Method to set uncompressed code.
@@ -90,23 +90,23 @@ abstract class JMediaCompressor
      *
      * @since  12.1
      */
-    public function setCompressed($compressed)
-    {
-        $this->_compressed = $compressed;
-        $this->_compressedSize	= strlen($this->_compressed);
-    }
+	public function setCompressed($compressed)
+	{
+		$this->_compressed = $compressed;
+		$this->_compressedSize	= strlen($this->_compressed);
+	}
 
-    /**
+	/**
      * Method to get compressed code.
      *
      * @return  String  compressed code.
      *
      * @since  12.1
      */
-    public function getCompressed()
-    {
-        return $this->_compressed;
-    }
+	public function getCompressed()
+	{
+		return $this->_compressed;
+	}
 
 	/**
      * Method to set compression options.
@@ -136,7 +136,6 @@ abstract class JMediaCompressor
 		$this->_options = array_merge($options, $this->_options);
 	}
 
-
 	/**
      * Method to get compressed ratio.
      *
@@ -146,7 +145,7 @@ abstract class JMediaCompressor
      */
 	public function getRatio()
 	{
-		return round(($this->_compressedSize / $this->_uncompressedSize * 100),2);
+		return round(($this->_compressedSize / $this->_uncompressedSize * 100), 2);
 	}
 
 	/**
@@ -196,32 +195,31 @@ abstract class JMediaCompressor
 		return $compressors;
 	}
 
-    /**
+	/**
      * Compress a CSS/JS file with given options
      *
-     * @param   string  $sourcefile   The full file path of the source file.
-     * @param   array   $options      An asssociative array with options. Eg: force overwirte, prefix for minified files
-     * @param   string  $destination  The full file path of the destination file.
+	 * @param   string  $uncompressed  The full file path of the source file.
+     * @param   array   $options       An asssociative array with options. Eg: force overwirte, prefix for minified files
      *
-     * @return  boolean  false on failure.
+     * @return  string  compressed string
      *
      * @since  12.1
      */
-    public static function compressString( $uncompressed, $options = array())
-    {
-        $compressor = self::getInstance( $options );
-        $compressor->setUncompressed ($uncompressed );
+	public static function compressString( $uncompressed, $options = array())
+	{
+		$compressor = self::getInstance($options);
+		$compressor->setUncompressed($uncompressed);
 
-        try
-        {
-            $compressor->compress();
-        }
-        catch (Exception $e)
-        {
-            return false;
-        }
-        return $compressor->getCompressed;
-    }
+		try
+		{
+			$compressor->compress();
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
+		return $compressor->getCompressed;
+	}
 
 	/**
 	 * Compress a CSS/JS file with given options
@@ -236,15 +234,13 @@ abstract class JMediaCompressor
 	 */
 	public static function compressFile( $sourcefile, $options = array(),  $destination = null )
 	{
-		$compressor = self::getInstance( $options);
+		$compressor = self::getInstance($options);
 		$uncompressed = JFile::read($sourcefile);
-
-	
 
 		if ($destination === null)
 		{
-            $type = $extension = pathinfo($sourcefile, PATHINFO_EXTENSION);
-            if (array_key_exists('PREFIX', $options) && !empty($options['PREFIX']))
+			$type = $extension = pathinfo($sourcefile, PATHINFO_EXTENSION);
+			if (array_key_exists('PREFIX', $options) && !empty($options['PREFIX']))
 			{
 				$destination = str_ireplace('.' . $type, '.' . $options['PREFIX'] . '.' . $type, $sourcefile);
 			}
@@ -259,42 +255,41 @@ abstract class JMediaCompressor
 			throw new JMediaException("Error reading the file (" . $sourcefile . ") contents");
 		}
 
-        $compressor->setUncompressed($uncompressed);
+		$compressor->setUncompressed($uncompressed);
 
-        try
-        {
-            $compressor->compress();
-        }
-        catch (Exception $e)
-        {
-            return false;
-        }
-        
-       // Sets force overwrite option
-        $force = array_key_exists('overwrite', $options) && !empty($options['overwrite']) ? $options['overwrite'] : false;
+		try
+		{
+			$compressor->compress();
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
 
-			if(!JFile::exists($destination) || (JFile::exists($destination) && $force))
+		// Sets force overwrite option
+		$force = array_key_exists('overwrite', $options) && !empty($options['overwrite']) ? $options['overwrite'] : false;
+
+		if (!JFile::exists($destination) || (JFile::exists($destination) && $force))
+		{
+			if (JFile::write($destination, $compressor->getCompressed()))
 			{
-				if(JFile::write($destination, $compressor->getCompressed()))
-				{
-					return true;
-				}
-				else
-				{
-					return false;
-				}
+				return true;
 			}
 			else
 			{
 				return false;
 			}
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/**
 	 * Gives a compressor object for CSS/JS
 	 * 
-	 * @param   string  $type     Type of compressor needed
-	 * @param   array   $options  options for the compressor
+	 * @param   array  $options  options for the compressor
 	 * 
 	 * @return  JMediaCompressor  Returns a JMediaCompressor object
 	 * 
@@ -303,12 +298,12 @@ abstract class JMediaCompressor
 	public static function getInstance($options = array())
 	{
 
-        // Get the options signature for the database connector.
-        $signature = md5(serialize($options));
+		// Get the options signature for the database connector.
+		$signature = md5(serialize($options));
 
-        // If we already have a database connector instance for these options then just use that.
-        if (empty(self::$instances[$signature]))
-        {
+		// If we already have a database connector instance for these options then just use that.
+		if (empty(self::$instances[$signature]))
+		{
 			// Derive the class name from the type.
 			$class = 'JMediaCompressor' . ucfirst(strtolower($options['type']));
 
@@ -331,12 +326,12 @@ abstract class JMediaCompressor
 				throw new RuntimeException(JText::sprintf('JLIB_DATABASE_ERROR_CONNECT_DATABASE', $e->getMessage()));
 			}
 
-            // Set the new connector to the global instances based on signature.
-            self::$instances[$signature] = $instance;
-        }
+			// Set the new connector to the global instances based on signature.
+			self::$instances[$signature] = $instance;
+		}
 
-        return self::$instances[$signature];
-    }
+		return self::$instances[$signature];
+	}
 
 	/**
 	 * Method to test if supported

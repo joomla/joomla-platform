@@ -19,8 +19,8 @@ defined('JPATH_PLATFORM') or die;
 abstract class JMediaCombiner
 {
 	public $sources = array();
-	
-	public $sourceCount = 0 ;
+
+	public $sourceCount = 0;
 
 	protected $_combined = null;
 
@@ -31,6 +31,7 @@ abstract class JMediaCombiner
 	 * @since  11.1
 	 */
 	protected static $instances = array();
+
 	/**
 	 * Constructor
 	 * 
@@ -43,28 +44,44 @@ abstract class JMediaCombiner
 		// Merge user defined options with default options
 		$this->_options = array_merge($options, $this->_options);
 	}
-	
+
+	/**
+	 * Method to set source files to combine
+	 * 
+	 * @param   array  $files  array of source files
+	 * 
+	 * @throws RuntimeException
+	 * 
+	 * @return  void
+	 * 
+	 * @since  12.1
+	 */
 	public function setSources($files =array())
 	{
-		//get combiner object type
+		// Get combiner object type
 		$type = $this->_options['type'];
-		
+
 		foreach ($files as $file)
 		{
-			//Check file ext for compability
-			if(JFile::getExt($file) == $type)
+			// Check file ext for compability
+			if (JFile::getExt($file) == $type)
 			{
 				$this->sources[] = $file;
-				$this->sourceCount++;	
+				$this->sourceCount++;
 			}
 			else
 			{
 				throw new RuntimeException(JText::sprintf('JMEDIA_COMBINE_ERROR_MULTIPLE_FILE_TYPES'), $type);
 			}
-			
+
 		}
 	}
-	
+
+	/**
+	 * Method to get combined string
+	 * 
+	 * @return  String  Combined String
+	 */
 	public function getCombined()
 	{
 		return  $this->_combined;
@@ -81,10 +98,10 @@ abstract class JMediaCombiner
 	{
 		// Instantiate variables.
 		$combiners = array();
-	
+
 		// Get a list of types.
 		$types = JFolder::files(__DIR__ . '/combiner');
-	
+
 		// Loop through the types and find the ones that are available.
 		foreach ($types as $type)
 		{
@@ -93,19 +110,19 @@ abstract class JMediaCombiner
 			{
 				continue;
 			}
-	
+
 			// Derive the class name from the type.
 			$class = str_ireplace('.php', '', trim($type));
-	
+
 			// Load the class
 			jimport('joomla.media.combiner.' . $class);
-	
+
 			// If the class doesn't exist we have nothing left to do but look at the next type.  We did our best.
 			if (!class_exists('JMediaCombiner' . ucfirst($class)))
 			{
 				continue;
 			}
-	
+
 			// Sweet!  Our class exists, so now we just need to know if it passes its test method.
 			if ($class::isSupported())
 			{
@@ -113,14 +130,13 @@ abstract class JMediaCombiner
 				$combiners[] = $class;
 			}
 		}
-	
+
 		return $combiners;
 	}
 	/**
 	 * Gives a combiner object for CSS/JS
 	 *
-	 * @param   string  $type     Type of compressor needed
-	 * @param   array   $options  options for the compressor
+	 * @param   array  $options  options for the compressor
 	 *
 	 * @return  JMediaCombiner  Returns a JMediaCombiner object
 	 *
@@ -130,11 +146,11 @@ abstract class JMediaCombiner
 	{
 
 		// Get the options signature for the database connector.
-        $signature = md5(serialize($options));
+		$signature = md5(serialize($options));
 
-        // If we already have a database connector instance for these options then just use that.
-        if (empty(self::$instances[$signature]))
-        {
+		// If we already have a database connector instance for these options then just use that.
+		if (empty(self::$instances[$signature]))
+		{
 			// Derive the class name from the type.
 			$class = 'JMediaCompressor' . ucfirst(strtolower($options['type']));
 
@@ -157,25 +173,35 @@ abstract class JMediaCombiner
 				throw new RuntimeException(JText::sprintf('JLIB_DATABASE_ERROR_CONNECT_DATABASE', $e->getMessage()));
 			}
 
-            // Set the new connector to the global instances based on signature.
-            self::$instances[$signature] = $instance;
-        }
+			// Set the new connector to the global instances based on signature.
+			self::$instances[$signature] = $instance;
+		}
 
-        return self::$instances[$signature];
+		return self::$instances[$signature];
 	}
 
-	
+	/**
+	 * Static method to get a set of files combined
+	 * 
+	 * @param   array   $files        Set of source files
+	 * @param   array   $options      Options for combiner
+	 * @param   string  $destination  Destination file
+	 * 
+	 * @return  boolean  True on success
+	 * 
+	 * @since  12.1
+	 */
 	public static function combineFiles($files, $options = array(), $destination = null)
 	{
-		//Detect file type
+		// Detect file type
 		$type = JFile::getExt($files[0]);
-		
-		//Checks for the destination
+
+		// Checks for the destination
 		if ($destination === null)
 		{
 			$type = $extension = pathinfo($files[0], PATHINFO_EXTENSION);
-			
-			//check for the file prefix in options, assign default prefix if not dound	
+
+			// Check for the file prefix in options, assign default prefix if not dound
 			if (array_key_exists('PREFIX', $options) && !empty($options['PREFIX']))
 			{
 				$destination = str_ireplace('.' . $type, '.' . $options['PREFIX'] . '.' . $type, $files[0]);
@@ -185,18 +211,18 @@ abstract class JMediaCombiner
 				$destination = str_ireplace('.' . $type, '.combined.' . $type, $files[0]);
 			}
 		}
-		
+
 		$options['type'] = $type;
 
 		$combiner = self::getInstance($options);
-		
+
 		$combiner->setSources($files);
 
-		if (!empty($combiner->combine())
+		if (!empty($combiner->combine()))
 		{
 			$force = array_key_exists('overwrite', $options) && !empty($options['overwrite']) ? $options['overwrite'] : false;
-			
-			if(!JFile::exists($destination) || (JFile::exists($destination) && $force))
+
+			if (!JFile::exists($destination) || (JFile::exists($destination) && $force))
 			{
 				JFile::write($destination, $combiner->getCombined());
 				return true;
@@ -211,7 +237,7 @@ abstract class JMediaCombiner
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Method to test if supported
 	 *
@@ -224,7 +250,7 @@ abstract class JMediaCombiner
 	public static function isSupported($sourceFile)
 	{
 		$combiners = self::getCombiners();
-	
+
 		foreach ($combiners as $class)
 		{
 			if (strtolower(str_ireplace('JMediaCombiner', '', $class)) === strtolower(JFile::getExt($sourceFile)))

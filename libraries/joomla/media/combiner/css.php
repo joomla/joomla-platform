@@ -34,9 +34,6 @@ class JMediaCombinerCss extends JMediaCombiner
 	/**
 	 * Method to combine a set of files and save to single file.
 	 * 
-	 * @param   Array   $files        Paths of files to combine.
-	 * @param   string  $destination  Path to the destination file.
-	 *
 	 * @return  string  Combined css code
 	 * 
 	 * @since  12.1
@@ -45,29 +42,29 @@ class JMediaCombinerCss extends JMediaCombiner
 	{
 		foreach ($this->sources as $file)
 		{
-			if($this->_options['FILE_COMMENTS'])
+			if ($this->_options['FILE_COMMENTS'])
 			{
 				$this->_combined .= '/* File : ' . JFile::getName($file) . ' : Start */' . "\n\n";
 			}
-			
+
 			if ($this->_options['COMPRESS'])
 			{
 				$this->_options['COMPRESS_OPTIONS']['type'] = 'css';
-					
+
 				$this->_combined .= JMediaCompressor::compressString(JFile::read($file), $this->_options['COMPRESS_OPTIONS']) . "\n\n";
 			}
-			else 
+			else
 			{
-				$this->_combined .= JFile::read($file)."\n\n";
+				$this->_combined .= JFile::read($file) . "\n\n";
 			}
-			
-			if($this->_options['FILE_COMMENTS'])
+
+			if ($this->_options['FILE_COMMENTS'])
 			{
 				$this->_combined .= '/* File : ' . JFile::getName($file) . ' : End */' . "\n\n";
 			}
 		}
 
 		$this->_combined .= '/* ' . $this->sourceCount . ' css files are combined */';
-		
+
 	}
 }
