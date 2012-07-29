@@ -80,7 +80,7 @@ class JMediaCompressorCss extends JMediaCompressor
 		}
 
 		$this->_compressed = preg_replace('/:first-l(etter|ine)\\{/', ':first-l$1 {', $this->_compressed);
-		
+
 		$this->_compressed = trim($this->_compressed);
 
 		$this->_compressedSize = strlen($this->_compressed);
@@ -245,7 +245,7 @@ class JMediaCompressorCss extends JMediaCompressor
 								);
 		return $source;
 	}
-	
+
 	/**
 	 * Method to clear compressor data
 	 *
@@ -256,7 +256,7 @@ class JMediaCompressorCss extends JMediaCompressor
 	public function clear()
 	{
 		parent::clear();
-		
+
 		$this->_inHack = false;
 	}
 
