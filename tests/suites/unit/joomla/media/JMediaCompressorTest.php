@@ -72,18 +72,24 @@ class JMediaCompressorTest extends TestCase
     	$this->object->clear();
     }
     
-    public function testCompressString()
+   public function testCompressString()
     {
+    	$source = JPATH_BASE . '/test_files/css/comments.css';
+    	$expected = JFile::read(str_ireplace('.css', '.min.css', $source));
     	
+    	$test = JMediaCompressor::compressString(JFile::read($source), array('type'=>'css'));
+    	
+    	
+    	$this->assertEquals($expected, $test);
     }
     
-    public function  testIsSupported()
+   public function  testIsSupported()
     {
     	$file1 = JPATH_BASE . '/test_files/css/comments.css';
     	
     	$this->assertTrue(JMediaCompressor::isSupported($file1));
     	
-    	$file2 = JPATH_BASE . '/test_files/js/case1.js';
+    	$file2 = JPATH_BASE . '/test_files/js/case2.js';
     	 
     	$this->assertTrue(JMediaCompressor::isSupported($file2));
     }
