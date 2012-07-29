@@ -1,3 +1,4 @@
+
 <?php
 /**
  * @package     Joomla.UnitTest
@@ -30,12 +31,23 @@ class JMediaCompressorTest extends TestCase
         $this->object = JMediaCompressor::getInstance(array('type' => 'css'));
     }
 
+    public function testGetInstance()
+    {
+    	$compressor1 = JMediaCompressor::getInstance(array('type'=>'css'));
+    	
+    	$this->assertInstanceOf('JMediaCompressorCss', $compressor1);
+    	
+    	$compressor2 = JMediaCompressor::getInstance(array('type'=>'js'));
+    	
+    	$this->assertInstanceOf('JMediaCompressorJs', $compressor2);
+    }
     public function testSetCompressed()
     {
         $random = rand();
         $this->object->setCompressed($random);
         $test = $this->object->getCompressed();
         $this->assertEquals($random,$test);
+        $this->object->clear();
     }
 
     public function testSetUncompressed()
@@ -44,32 +56,36 @@ class JMediaCompressorTest extends TestCase
         $this->object->setUncompressed($random);
         $test = $this->object->getUncompressed();
         $this->assertEquals($random,$test);
+        $this->object->clear();
     }
-
-    public function testCompress()
+    
+    public function testGetRatio()
     {
-
-        echo 'Starting Media Compression Test';
-
-        $path = dirname(JPATH_PLATFORM).'\media\system\css';
-        $files = JFolder::files($path,'.',false,true);
-        foreach($files as $file)
-        {
-            $start = microtime();
-            echo ' File: ' . basename($file);
-            $uncompressed= JFile::read($file);
-            $uncompressed_size = strlen($uncompressed);
-            echo ' Before: ' . $uncompressed_size . ' bytes';
-            $this->object->setUncompressed($uncompressed);
-            $this->object->compress();
-            $compressed = $this->object->getCompressed();
-            $compressed_size = strlen($compressed);
-            echo ' After: ' . $compressed_size . ' bytes';
-            echo ' Ratio: ' . round(($compressed_size / $uncompressed_size),2);
-            echo ' Time: '. round((microtime()-$start),4). ' ms';
-            echo '';
-        }
-        
-  
+    	$this->object->setUncompressed("TestUncompressed");
+    	$this->object->setCompressed("TestCompressed");
+    	
+    	$expected = round ((14/16)*100 , 2);
+    	$test = $this->object->getRatio();
+    	
+    	$this->assertEquals($expected, $test);
+    	
+    	$this->object->clear();
     }
+    
+    public function testCompressString()
+    {
+    	
+    }
+    
+    public function  testIsSupported()
+    {
+    	$file1 = JPATH_BASE . '/test_files/css/comments.css';
+    	
+    	$this->assertTrue(JMediaCompressor::isSupported($file1));
+    	
+    	$file2 = JPATH_BASE . '/test_files/js/case1.js';
+    	 
+    	$this->assertTrue(JMediaCompressor::isSupported($file2));
+    }
+
 }

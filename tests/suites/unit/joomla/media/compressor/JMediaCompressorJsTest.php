@@ -9,6 +9,7 @@
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
+jimport('joomla.filesystem.path');
 
 /**
  * Test class for JMediaCompressor.
@@ -27,7 +28,7 @@ class JMediaCompressorTest extends TestCase
      */
     protected function setUp()
     {
-        $this->object = JMediaCompressor::getInstance(array('type' => 'css'));
+        $this->object = JMediaCompressor::getInstance(array('type' => 'js'));
     }
 
     public function testSetCompressed()
@@ -36,6 +37,7 @@ class JMediaCompressorTest extends TestCase
         $this->object->setCompressed($random);
         $test = $this->object->getCompressed();
         $this->assertEquals($random,$test);
+        $this->object->clear();
     }
 
     public function testSetUncompressed()
@@ -44,32 +46,41 @@ class JMediaCompressorTest extends TestCase
         $this->object->setUncompressed($random);
         $test = $this->object->getUncompressed();
         $this->assertEquals($random,$test);
+        $this->object->clear();
+    }
+    
+    public function  testGetCompressed()
+    {
+    	$random = rand();
+    	$this->object->setCompressed($random);
+    	$test = $this->object->getCompressed();
+    	$this->assertEquals($random,$test);
+    	$this->object->clear();
     }
 
     public function testCompress()
     {
 
-        echo 'Starting Media Compression Test';
-
-        $path = dirname(JPATH_PLATFORM).'\media\system\css';
-        $files = JFolder::files($path,'.',false,true);
-        foreach($files as $file)
-        {
-            $start = microtime();
-            echo ' File: ' . basename($file);
-            $uncompressed= JFile::read($file);
-            $uncompressed_size = strlen($uncompressed);
-            echo ' Before: ' . $uncompressed_size . ' bytes';
-            $this->object->setUncompressed($uncompressed);
-            $this->object->compress();
-            $compressed = $this->object->getCompressed();
-            $compressed_size = strlen($compressed);
-            echo ' After: ' . $compressed_size . ' bytes';
-            echo ' Ratio: ' . round(($compressed_size / $uncompressed_size),2);
-            echo ' Time: '. round((microtime()-$start),4). ' ms';
-            echo '';
-        }
-        
+    	//Put the path to test files for java script compressor.    	
+    	$path = JPATH_BASE . '/test_files/js';
+    	    	
+    	$files = JFolder::files($path,'.',false,true, array(),array('.min.js','.php','.html'));
+  
+  		foreach ($files as $file)
+    	{ 			
+    		$this->object->setUncompressed(JFile::read($file));
+    		
+    		// Getting the expected result from filename.min.js file.
+    		$expected = JFile::read(str_ireplace('.js', '.min.js', $file));
+    		
+    		$this->object->compress();
+    		
+    		$result = $this->object->getCompressed();
+    		
+    		$this->assertEquals($expected, $result);
+    		
+    		$this->object->clear();
+    	}
   
     }
 }
