@@ -193,6 +193,11 @@ abstract class JMediaCombiner
 		// Detect file type
 		$type = JFile::getExt($files[0]);
 
+		if (!self::isSupported($files[0]))
+		{
+			throw new RuntimeException(JText::sprintf('JMEDIA_ERROR_FILE_TYPE_NOT_SUPPORTED'));
+		}
+
 		// Checks for the destination
 		if ($destination === null)
 		{
