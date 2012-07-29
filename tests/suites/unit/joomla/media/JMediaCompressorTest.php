@@ -72,6 +72,16 @@ class JMediaCompressorTest extends TestCase
     	$this->object->clear();
     }
     
+    public function testGetCompressors()
+    {
+    	$expected = array('css','js');
+    	
+    	$test = JMediaCompressor::getCompressors();
+    	
+    	$this->assertEquals($expected, $test);
+    
+    }
+    
    public function testCompressString()
     {
     	$source = JPATH_BASE . '/test_files/css/comments.css';
