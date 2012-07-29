@@ -184,12 +184,9 @@ abstract class JMediaCompressor
 				continue;
 			}
 
-			// Sweet!  Our class exists, so now we just need to know if it passes its test method.
-			if ($class::isSupported())
-			{
-				// Connector names should not have file extensions.
-				$compressors[] = $class;
-			}
+			// Compressor names should not have file extensions.
+			$compressors[] = $class;
+
 		}
 
 		return $compressors;
@@ -198,16 +195,21 @@ abstract class JMediaCompressor
 	/**
      * Compress a CSS/JS file with given options
      *
-	 * @param   string  $uncompressed  The full file path of the source file.
-     * @param   array   $options       An asssociative array with options. Eg: force overwirte, prefix for minified files
+	 * @param   string  $uncompressed  The String to be compressed
+     * @param   array   $options       An asssociative array with options. Eg: type, force overwirte, prefix for minified files
      *
      * @return  string  compressed string
      *
      * @since  12.1
      */
-	public static function compressString( $uncompressed, $options = array())
+	public static function compressString( $uncompressed, $options)
 	{
+		if (!array_key_exists('type', $options))
+		{
+			throw new RuntimeException(JText::sprintf('JMEDIA_ERROR_COMPRESSOR_TYPE_NOT_DEFINED'));
+		}
 		$compressor = self::getInstance($options);
+		$compressor->clear();
 		$compressor->setUncompressed($uncompressed);
 
 		try
@@ -218,7 +220,7 @@ abstract class JMediaCompressor
 		{
 			return false;
 		}
-		return $compressor->getCompressed;
+		return $compressor->getCompressed();
 	}
 
 	/**
@@ -357,11 +359,9 @@ abstract class JMediaCompressor
 			{
 				return true;
 			}
-			else
-			{
-				return false;
-			}
 		}
+
+		return false;
 	}
 
 	/**

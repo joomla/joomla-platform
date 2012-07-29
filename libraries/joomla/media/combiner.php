@@ -123,12 +123,9 @@ abstract class JMediaCombiner
 				continue;
 			}
 
-			// Sweet!  Our class exists, so now we just need to know if it passes its test method.
-			if ($class::isSupported())
-			{
-				// Connector names should not have file extensions.
-				$combiners[] = $class;
-			}
+			// Combiner names should not have file extensions.
+			$combiners[] = $class;
+
 		}
 
 		return $combiners;
@@ -257,10 +254,8 @@ abstract class JMediaCombiner
 			{
 				return true;
 			}
-			else
-			{
-				return false;
-			}
 		}
+		
+		return true;
 	}
 }
