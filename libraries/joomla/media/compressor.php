@@ -298,10 +298,10 @@ abstract class JMediaCompressor
 	public static function getInstance($options = array())
 	{
 
-		// Get the options signature for the database connector.
+		// Get the options signature for the compressor.
 		$signature = md5(serialize($options));
 
-		// If we already have a database connector instance for these options then just use that.
+		// If we already have a compressor instance for these options then just use that.
 		if (empty(self::$instances[$signature]))
 		{
 			// Derive the class name from the type.
@@ -328,6 +328,11 @@ abstract class JMediaCompressor
 
 			// Set the new connector to the global instances based on signature.
 			self::$instances[$signature] = $instance;
+		}
+		else
+		{
+			$instance = self::$instances[$signature];
+			$instance->clear();
 		}
 
 		return self::$instances[$signature];
@@ -357,5 +362,20 @@ abstract class JMediaCompressor
 				return false;
 			}
 		}
+	}
+
+	/**
+	 * Method to clear compressor data
+	 * 
+	 * @return  void
+	 * 
+	 * @since  12.1
+	 */
+	public function clear()
+	{
+		$this->_compressed = null;
+		$this->_compressedSize = null;
+		$this->_uncompressed = null;
+		$this->_uncompressedSize = null;
 	}
 }

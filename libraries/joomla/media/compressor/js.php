@@ -471,4 +471,24 @@ class JMediaCompressorJs extends JMediaCompressor
 
 		return $comment;
 	}
+	
+	/**
+	 * Method to clear compressor data
+	 *
+	 * @return  void
+	 *
+	 * @since  12.1
+	 */
+	public function clear()
+	{
+		parent::clear();
+		
+		$this->_a = "\n";
+		$this->_b = '';
+		$this->_nextIndex = 0;
+		$this->_startLength = 0;
+		$this->_preLoaded = '';
+		$this->_previousChar = '';
+		
+	}
 }

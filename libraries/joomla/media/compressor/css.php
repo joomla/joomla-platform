@@ -245,5 +245,19 @@ class JMediaCompressorCss extends JMediaCompressor
 								);
 		return $source;
 	}
+	
+	/**
+	 * Method to clear compressor data
+	 *
+	 * @return  void
+	 *
+	 * @since  12.1
+	 */
+	public function clear()
+	{
+		parent::clear();
+		
+		$this->_inHack = false;
+	}
 
 }
