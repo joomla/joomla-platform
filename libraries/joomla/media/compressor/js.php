@@ -150,7 +150,9 @@ class JMediaCompressorJs extends JMediaCompressor
 		{
 			mb_internal_encoding($encoding);
 		}
-
+		
+		$this->_compressed = trim($this->_compressed);
+		$this->_compressedSize = strlen($this->_compressed);
 	}
 
 	/**

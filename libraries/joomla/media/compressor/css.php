@@ -80,7 +80,10 @@ class JMediaCompressorCss extends JMediaCompressor
 		}
 
 		$this->_compressed = preg_replace('/:first-l(etter|ine)\\{/', ':first-l$1 {', $this->_compressed);
+		
+		$this->_compressed = trim($this->_compressed);
 
+		$this->_compressedSize = strlen($this->_compressed);
 	}
 
 	/**
