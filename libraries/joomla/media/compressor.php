@@ -25,43 +25,43 @@ abstract class JMediaCompressor
 	public $_uncompressed = null;
 
 	/**
-     * @var    int  size of uncompressed Code.
-     * @since  12.1
-     */
+	 * @var    int  size of uncompressed Code.
+	 * @since  12.1
+	 */
 	public $_uncompressedSize = null;
 
 	/**
-     * @var    String  To hold compressed Code.
-     * @since  12.1
-     */
+	 * @var    String  To hold compressed Code.
+	 * @since  12.1
+	 */
 	protected  $_compressed = null;
 
 	/**
-     * @var    int  size of compressed Code.
-     * @since  12.1
-     */
+	 * @var    int  size of compressed Code.
+	 * @since  12.1
+	 */
 	public $_compressedSize = null;
 
 	/**
-     * @var    Array  Compression options for CSS Minifier.
-     * @since  12.1
-     */
+	 * @var    Array  Compression options for CSS Minifier.
+	 * @since  12.1
+	 */
 	protected  $_options = array();
 
 	/**
-     * @var    array  JMediaCompressor instances container.
-     * @since  11.1
-     */
+	 * @var    array  JMediaCompressor instances container.
+	 * @since  11.1
+	 */
 	protected static $instances = array();
 
 	/**
-     * Method to set uncompressed code.
-     *
+	 * Method to set uncompressed code.
+	 *
 	 * @param   string  $uncompressed  Uncomressed Code.
-     *
-     * @return  void
-     * 
-     * @since  12.1
+	 *
+	 * @return  void
+	 * 
+	 * @since  12.1
 	*/
 	public function setUncompressed($uncompressed)
 	{
@@ -70,26 +70,26 @@ abstract class JMediaCompressor
 	}
 
 	/**
-     * Method to get uncompressed code.
-     *
-     * @return  String  uncompressed code.
-     *
-     * @since  12.1
-     */
+	 * Method to get uncompressed code.
+	 *
+	 * @return  String  uncompressed code.
+	 *
+	 * @since  12.1
+	 */
 	public function getUncompressed()
 	{
 		return $this->_uncompressed;
 	}
 
 	/**
-     * Method to set uncompressed code.
-     *
+	 * Method to set uncompressed code.
+	 *
 	 * @param   string  $compressed  compressed Code.
-     *
-     * @return  void
-     *
-     * @since  12.1
-     */
+	 *
+	 * @return  void
+	 *
+	 * @since  12.1
+	 */
 	public function setCompressed($compressed)
 	{
 		$this->_compressed = $compressed;
@@ -97,26 +97,26 @@ abstract class JMediaCompressor
 	}
 
 	/**
-     * Method to get compressed code.
-     *
-     * @return  String  compressed code.
-     *
-     * @since  12.1
-     */
+	 * Method to get compressed code.
+	 *
+	 * @return  String  compressed code.
+	 *
+	 * @since  12.1
+	 */
 	public function getCompressed()
 	{
 		return $this->_compressed;
 	}
 
 	/**
-     * Method to set compression options.
-     *
-     * @param   Array  $options  options to compress.
-     *
-     * @return  void
-     * 
-     * @since  12.1
-     */
+	 * Method to set compression options.
+	 *
+	 * @param   Array  $options  options to compress.
+	 *
+	 * @return  void
+	 * 
+	 * @since  12.1
+	 */
 	public function setOptions($options)
 	{
 		// Merge user defined options with default options
@@ -124,12 +124,12 @@ abstract class JMediaCompressor
 	}
 
 	/**
-     * Object Constructor takes two parameters.
-     *
-     * @param   Array  $options  Compression options for Minifier.
-     *
-     * @since  12.1
-     */
+	 * Object Constructor takes two parameters.
+	 *
+	 * @param   Array  $options  Compression options for Minifier.
+	 *
+	 * @since  12.1
+	 */
 	public function __construct($options = array())
 	{
 		// Merge user defined options with default options
@@ -137,24 +137,24 @@ abstract class JMediaCompressor
 	}
 
 	/**
-     * Method to get compressed ratio.
-     *
-     * @return  double  Compressed ratio.
-     *
-     * @since  12.1
-     */
+	 * Method to get compressed ratio.
+	 *
+	 * @return  double  Compressed ratio.
+	 *
+	 * @since  12.1
+	 */
 	public function getRatio()
 	{
 		return round(($this->_compressedSize / $this->_uncompressedSize * 100), 2);
 	}
 
 	/**
-     * Get a list of available compressors
-     *
-     * @return  array  An array of available compressors
-     *
-     * @since   11.1
-     */
+	 * Get a list of available compressors
+	 *
+	 * @return  array  An array of available compressors
+	 *
+	 * @since   11.1
+	 */
 	public static function getCompressors()
 	{
 		// Instantiate variables.
@@ -193,15 +193,27 @@ abstract class JMediaCompressor
 	}
 
 	/**
-     * Compress a CSS/JS file with given options
-     *
+	 * Method to get compressor options
+	 * 
+	 * @return  array  Options for the compressor
+	 * 
+	 * @since   12.1
+	 */
+	public function getOptions()
+	{
+		return $this->_options;
+	}
+
+	/**
+	 * Compress a CSS/JS file with given options
+	 *
 	 * @param   string  $uncompressed  The String to be compressed
-     * @param   array   $options       An asssociative array with options. Eg: type, force overwirte, prefix for minified files
-     *
-     * @return  string  compressed string
-     *
-     * @since  12.1
-     */
+	 * @param   array   $options       An asssociative array with options. Eg: type, force overwirte, prefix for minified files
+	 *
+	 * @return  string  compressed string
+	 *
+	 * @since  12.1
+	 */
 	public static function compressString( $uncompressed, $options)
 	{
 		if (!array_key_exists('type', $options))

@@ -130,6 +130,19 @@ abstract class JMediaCombiner
 
 		return $combiners;
 	}
+
+	/**
+	 * Method to get combiner options
+	 *
+	 * @return  array  Options for the combinor
+	 *
+	 * @since   12.1
+	 */
+	public function getOptions()
+	{
+		return $this->_options;
+	}
+
 	/**
 	 * Gives a combiner object for CSS/JS
 	 *
@@ -170,7 +183,7 @@ abstract class JMediaCombiner
 				throw new RuntimeException(JText::sprintf('JLIB_DATABASE_ERROR_CONNECT_DATABASE', $e->getMessage()));
 			}
 
-			// Set the new connector to the global instances based on signature.
+			// Set the new combinerr to the global instances based on signature.
 			self::$instances[$signature] = $instance;
 		}
 
