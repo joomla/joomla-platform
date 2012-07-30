@@ -120,7 +120,7 @@ abstract class JMediaCompressor
 	public function setOptions($options)
 	{
 		// Merge user defined options with default options
-		$this->_options = array_merge($options, $this->_options);
+		$this->_options = array_merge($this->_options, $options);
 	}
 
 	/**
@@ -133,7 +133,7 @@ abstract class JMediaCompressor
 	public function __construct($options = array())
 	{
 		// Merge user defined options with default options
-		$this->_options = array_merge($options, $this->_options);
+		$this->_options = array_merge($this->_options, $options);
 	}
 
 	/**

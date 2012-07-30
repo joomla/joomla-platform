@@ -42,7 +42,22 @@ abstract class JMediaCombiner
 	public function __construct($options = array())
 	{
 		// Merge user defined options with default options
-		$this->_options = array_merge($options, $this->_options);
+		$this->_options = array_merge($this->_options, $options);
+	}
+
+	/**
+	 * Method to set combiner options.
+	 *
+	 * @param   Array  $options  options to combiner.
+	 *
+	 * @return  void
+	 *
+	 * @since  12.1
+	 */
+	public function setOptions($options)
+	{
+		// Merge user defined options with default options
+		$this->_options = array_merge($this->_options, $options);
 	}
 
 	/**
