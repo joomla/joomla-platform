@@ -760,7 +760,6 @@ class JImage
 	 *
 	 * @throws LogicException
 	 * @return bool
-	 *
 	 * @see http://de2.php.net/imagedestroy
 	 */
 	public function destroy()
