@@ -30,29 +30,9 @@ class JMediaCombinerTest extends TestCase
 		$this->object = JMediaCombiner::getInstance(array('type' => 'css'));
 	}
 
-	public function testGetInstance()
-	{
-		$Combiner1 = JMediaCombiner::getInstance(array('type'=>'css'));
-
-		$this->assertInstanceOf('JMediaCombinerCss', $Combiner1);
-
-		$Combiner2 = JMediaCombiner::getInstance(array('type'=>'js'));
-
-		$this->assertInstanceOf('JMediaCombinerJs', $Combiner2);
-	}
 
 	public function testCombineFiles()
 	{
 	}
 
-	public function  testIsSupported()
-	{
-		$file1 = JPATH_BASE . '/test_files/css/comments.css';
-
-		$this->assertTrue(JMediaCombiner::isSupported($file1));
-
-		$file2 = JPATH_BASE . '/test_files/js/case2.js';
-
-		$this->assertTrue(JMediaCombiner::isSupported($file2));
-	}
 }

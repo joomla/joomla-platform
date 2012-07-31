@@ -48,7 +48,7 @@ class JMediaCompressorTest extends TestCase
 		$this->object->clear();
 	}
 
-	public function testCompress()
+	/*public function testCompress()
 	{
 
 		// Put the path to test files for css compressor. (Include expected result in filename.min.css file)    	
@@ -72,5 +72,20 @@ class JMediaCompressorTest extends TestCase
 			$this->object->clear();
 		}
 
+	}*/
+
+	public function testClear()
+	{
+		$sourceCss = JPATH_BASE . '/test_files/css/comments.css';
+		
+		$this->object->setUncompressed(JFile::read($sourceCss));
+		$this->object->compress();
+		$this->object->clear();
+		
+		$this->assertEquals(null, $this->object->getUncompressed());
+		$this->assertEquals(null, $this->object->getcompressed());
+		$this->assertAttributeEquals(null, '_compressedSize', $this->object);
+		$this->assertAttributeEquals(null, '_uncompressedSize', $this->object);
+		$this->assertAttributeEquals(false, '_inHack', $this->object);
 	}
 }
