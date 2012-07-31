@@ -48,7 +48,26 @@ class JMediaCompressorTest extends TestCase
 		$this->object->clear();
 	}
 
-	/*public function testCompress()
+	public function testSetOptions()
+	{
+		$existing_options = $this->object->getOptions();
+
+		$expected = array('REMOVE_COMMENTS' => false, 'MIN_COLOR_CODES' => false, 'LIMIT_LINE_LENGTH' => false);
+	
+		$this->object->setOptions($expected);
+	
+		$test = $this->object->getOptions();
+	
+		foreach ($expected as $key => $value)
+		{
+			$this->arrayHasKey($key, $test);
+			$this->assertEquals($value, $test[$key]);
+		}
+		// Replace the existed options to avoid any harm to other tests
+		$this->object->setOptions($existing_options);
+	}
+
+	public function testCompress()
 	{
 
 		// Put the path to test files for css compressor. (Include expected result in filename.min.css file)    	
@@ -72,7 +91,7 @@ class JMediaCompressorTest extends TestCase
 			$this->object->clear();
 		}
 
-	}*/
+	}
 
 	public function testClear()
 	{

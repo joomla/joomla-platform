@@ -87,6 +87,8 @@ class JMediaCompressorTest extends TestCase
 
 	public function testSetOptions()
 	{
+		$existing_options = $this->object->getOptions();
+
 		$expected = array('REMOVE_COMMENTS' => false, 'MIN_COLOR_CODES' => false, 'LIMIT_LINE_LENGTH' => false);
 
 		$this->object->setOptions($expected);
@@ -98,6 +100,8 @@ class JMediaCompressorTest extends TestCase
 			$this->arrayHasKey($key, $test);
 			$this->assertEquals($value, $test[$key]);
 		}
+		// Replace the existed options to avoid any harm to other tests
+		$this->object->setOptions($existing_options);
 
 	}
 
