@@ -177,10 +177,10 @@ abstract class JMediaCombiner
 		if (empty(self::$instances[$signature]))
 		{
 			// Derive the class name from the type.
-			$class = 'JMediaCompressor' . ucfirst(strtolower($options['type']));
+			$class = 'JMediaCombiner' . ucfirst(strtolower($options['type']));
 
 			// Load the class
-			jimport('joomla.media.compressor.' . $class);
+			jimport('joomla.media.combiner.' . $class);
 
 			// If the class still doesn't exist we have nothing left to do but throw an exception.  We did our best.
 			if (!class_exists($class))

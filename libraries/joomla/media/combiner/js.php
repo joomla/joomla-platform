@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Compress
  * @since  12.1 
  */
-class JMediaCombinerJs
+class JMediaCombinerJs extends JMediaCombiner
 {
 	
 	public function __construct($options = array())
