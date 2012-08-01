@@ -40,6 +40,8 @@ class JMediaCombinerCss extends JMediaCombiner
 	 */
 	public function combine()
 	{
+		$this->_combined = '';
+
 		foreach ($this->sources as $file)
 		{
 			if ($this->_options['FILE_COMMENTS'])
