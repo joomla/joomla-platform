@@ -93,6 +93,18 @@ abstract class JMediaCombiner
 	}
 
 	/**
+	 * Method to get source files
+	 * 
+	 * @return  array  Source File
+	 * 
+	 * @since   12.1
+	 */
+	public function getSources()
+	{
+		return $this->sources;
+	}
+
+	/**
 	 * Method to get combined string
 	 * 
 	 * @return  String  Combined String
@@ -201,6 +213,11 @@ abstract class JMediaCombiner
 			// Set the new combinerr to the global instances based on signature.
 			self::$instances[$signature] = $instance;
 		}
+		else
+		{
+			$instance = self::$instances[$signature];
+			$instance->clear();
+		}
 
 		return self::$instances[$signature];
 	}
@@ -290,5 +307,19 @@ abstract class JMediaCombiner
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method to clear combiner data
+	 *
+	 * @return  void
+	 *
+	 * @since  12.1
+	 */
+	public function clear()
+	{
+		$this->sources = array();
+		$this->sourceCount = 0;
+		$this->_combined = null;
 	}
 }
