@@ -73,7 +73,7 @@ class JMediaCompressorTest extends TestCase
 		// Put the path to test files for css compressor. (Include expected result in filename.min.css file)    	
 		$path = JPATH_BASE . '/test_files/css';
 
-		$files = JFolder::files($path,'.',false,true, array(),array('.min.css','.php','.html'));
+		$files = JFolder::files($path,'.',false,true, array(),array('.min.css','.php','.html','.combined.css'));
 
 		foreach ($files as $file)
 		{

@@ -84,7 +84,7 @@ class JMediaCompressorTest extends TestCase
 		//Put the path to test files for java script compressor.    	
 		$path = JPATH_BASE . '/test_files/js';
 
-		$files = JFolder::files($path,'.',false,true, array(),array('.min.js','.php','.html'));
+		$files = JFolder::files($path,'.',false,true, array(),array('.min.js','.php','.html','.combined.js'));
 
 		foreach ($files as $file)
 		{

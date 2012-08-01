@@ -116,9 +116,9 @@ class JMediaCompressorTest extends TestCase
 
 		$sourceJs = JPATH_BASE . '/test_files/js/case1.js';
 		$expectedJs = JFile::read(str_ireplace('.js', '.min.js', $sourceJs));
-		
+
 		$testJs = JMediaCompressor::compressString(JFile::read($sourceJs), array('type' => 'js'));
-		
+
 		$this->assertEquals($expectedJs, $testJs);
 	}
 
