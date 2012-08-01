@@ -125,7 +125,25 @@ class JMediaCompressorCss extends JMediaCompressor
 		// Do not replace the preserved and need to keep comments
 		if ($matches[1] === 'keep')
 		{
-			return '/*';
+			return '/**/';
+		}
+
+		// Replacement for css mid pass filters
+		if ($matches[1] === '" "')
+		{
+			return '/*" "*/';
+		}
+
+		// Replacement for css mid pass filters
+		if (preg_match('@";\\}\\s*\\}/\\*\\s+@', $matches[1]))
+		{
+			return '/*";}}/* */';
+		}
+
+		// Keep any surrounding white space
+		if ((trim($matches[0]) !== $matches[1]))
+		{
+			return ' ';
 		}
 
 		return '';
