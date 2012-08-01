@@ -81,8 +81,12 @@ abstract class JMediaCombiner
 			// Check file ext for compability
 			if (JFile::getExt($file) == $type)
 			{
-				$this->sources[] = $file;
-				$this->sourceCount++;
+				// Check whether file already registered
+				if (!in_array($file, $this->sources))
+				{
+					$this->sources[] = $file;
+					$this->sourceCount++;
+				}
 			}
 			else
 			{
