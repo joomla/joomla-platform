@@ -16,31 +16,31 @@ jimport('joomla.environment.uri');
  *
  * @package     Joomla.Platform
  * @subpackage  Oauth
- * @since       1234
+ * @since       12.2
  */
 class JOauthOauth2client
 {
 	/**
 	 * @var    JRegistry  Options for the OAuth2Client object.
-	 * @since  1234
+	 * @since  12.2
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttpTransport  The HTTP transport object to use in sending HTTP requests.
-	 * @since  1234
+	 * @since  12.2
 	 */
 	protected $client;
 
 	/**
 	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
-	 * @since  1234
+	 * @since  12.2
 	 */
 	protected $http;
 
 	/**
 	 * @var    JInput  The input object to use in retrieving GET/POST data.
-	 * @since  1234
+	 * @since  12.2
 	 */
 	protected $input;
 
@@ -51,7 +51,7 @@ class JOauthOauth2client
 	 * @param   JHttpTransport  $client   The HTTP client object
 	 * @param   JInput          $input    The input object
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function __construct(JRegistry $options = null, JHttpTransport $client = null, JInput $input = null)
 	{
@@ -66,7 +66,7 @@ class JOauthOauth2client
 	 *
 	 * @return  string  The access token
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function auth()
 	{
@@ -113,7 +113,7 @@ class JOauthOauth2client
 	 *
 	 * @return  bool  Is authenticated
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function isAuth()
 	{
@@ -126,7 +126,7 @@ class JOauthOauth2client
 	 *
 	 * @return  JHttpResponse  The HTTP response
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function createUrl()
 	{
@@ -186,7 +186,7 @@ class JOauthOauth2client
 	 *
 	 * @return  string  The URL.
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function query($url, $data = null, $headers = array(), $method = 'get', $timeout = null)
 	{
@@ -234,7 +234,7 @@ class JOauthOauth2client
 	 *
 	 * @return  mixed  The option value
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function getOption($key)
 	{
@@ -249,7 +249,7 @@ class JOauthOauth2client
 	 *
 	 * @return  JOauth2client  This object for method chaining
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function setOption($key, $value)
 	{
@@ -262,7 +262,7 @@ class JOauthOauth2client
 	 *
 	 * @return  array  The access token
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function getToken()
 	{
@@ -276,7 +276,7 @@ class JOauthOauth2client
 	 *
 	 * @return  JOauth2client  This object for method chaining
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function setToken($value)
 	{
@@ -296,7 +296,7 @@ class JOauthOauth2client
 	 *
 	 * @return  array  The new access token
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function refreshToken($token = null)
 	{
