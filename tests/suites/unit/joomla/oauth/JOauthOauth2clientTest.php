@@ -44,7 +44,8 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 	protected function setUp()
 	{
 		$this->options = new JRegistry;
-		$this->client = $this->getMock('JHttpTransportStream', array('request'), array($this->options));
+		$client = JHttpFactory::getAvailableDriver($this->options);
+		$this->client = $this->getMock(get_class($client), array('request'), array($this->options));
 		$this->input = new JInput;
 		$this->object = new JOauthOauth2client($this->options, $this->client, $this->input);
 	}
