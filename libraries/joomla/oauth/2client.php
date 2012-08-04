@@ -26,12 +26,6 @@ class JOauth2client
 	protected $options;
 
 	/**
-	 * @var    JHttpTransport  The HTTP transport object to use in sending HTTP requests.
-	 * @since  12.2
-	 */
-	protected $client;
-
-	/**
 	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
 	 * @since  12.2
 	 */
@@ -46,17 +40,16 @@ class JOauth2client
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry       $options  OAuth2Client options object
-	 * @param   JHttpTransport  $client   The HTTP client object
-	 * @param   JInput          $input    The input object
+	 * @param   JRegistry   $options  OAuth2Client options object
+	 * @param   JOauthHttp  $http     The HTTP client object
+	 * @param   JInput      $input    The input object
 	 *
 	 * @since   12.2
 	 */
-	public function __construct(JRegistry $options = null, JHttpTransport $client = null, JInput $input = null)
+	public function __construct(JRegistry $options = null, JOauthHttp $http = null, JInput $input = null)
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
-		$this->client  = isset($client) ? $client : JHttpFactory::getAvailableDriver($this->options);
-		$this->http = new JHttp($this->options, $this->client);
+		$this->http = isset($http) ? $http : new JHttp($this->options, $this->client);
 		$this->input = isset($input) ? $input : JFactory::getApplication()->input;
 	}
 
@@ -217,7 +210,22 @@ class JOauth2client
 			$url .= '=' . $token['access_token'];
 		}
 
-		$response = $this->client->request($method, new JURI($url), $data, $headers, $timeout);
+		switch ($method)
+		{
+			case 'head':
+			case 'get':
+			case 'delete':
+			case 'trace':
+			$response = $this->http->$method($url, $headers, $timeout);
+			break;
+			case 'post':
+			case 'put':
+			case 'patch':
+			$response = $this->http->$method($url, $data, $headers, $timeout);
+			break;
+			default:
+			throw new InvalidArgumentException('Unknown HTTP request method: ' . $method . '.');
+		}
 
 		if ($response->code < 200 || $response->code >= 400)
 		{
