@@ -17,7 +17,7 @@ jimport('joomla.environment.response');
  * @subpackage  Oauth
  * @since       12.2
  */
-class JOauthOauth2client
+class JOauth2client
 {
 	/**
 	 * @var    JRegistry  Options for the OAuth2Client object.

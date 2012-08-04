@@ -7,10 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/oauth/oauth2client.php';
+require_once JPATH_PLATFORM . '/joomla/oauth/2client.php';
 
 /**
  * Test class for JOauth2client.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Oauth
+ * @since       12.2
  */
 class JOauth2clientTest extends PHPUnit_Framework_TestCase
 {
@@ -47,7 +51,7 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 		$client = JHttpFactory::getAvailableDriver($this->options);
 		$this->client = $this->getMock(get_class($client), array('request'), array($this->options));
 		$this->input = new JInput;
-		$this->object = new JOauthOauth2client($this->options, $this->client, $this->input);
+		$this->object = new JOauth2client($this->options, $this->client, $this->input);
 	}
 
 	/**
