@@ -318,15 +318,15 @@ abstract class JLoader
 		// Split the class name into parts separated by camelCase.
 		$parts = preg_split('/(?<=[a-z0-9])(?=[A-Z])/x', $class);
 
-		$className = false;
+		$fileName = false;
 
 		// If there is only one part.
 		if (count($parts == 1))
 		{
-			// Keep the possible class name.
-			$className = $parts[0];
+			// Keep the possible file name.
+			$fileName = $parts[0];
 
-			// Try to duplicate that part for generating the path.
+			// Duplicate that part for generating the path.
 			$parts = array($parts[0], $parts[0]);
 		}
 
@@ -342,10 +342,10 @@ abstract class JLoader
 			}
 
 			// If there is only one part.
-			if ($className)
+			if ($fileName)
 			{
 				// Try to include the class that might be located in the root folder.
-				$path = $base . '/' . strtolower($className) . '.php';
+				$path = $base . '/' . strtolower($fileName) . '.php';
 
 				// Load the file if it exists.
 				if (file_exists($path))
