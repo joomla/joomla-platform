@@ -808,7 +808,7 @@ abstract class JHtmlBehavior
 
 	/**
 	 * Internal method to get a JavaScript object notation string from an array
-	 * 
+	 *
 	 * This function differs from json_encode() in two important ways:
 	 *	1) If the array contains a key 'fullScreen', the resulting object will have a property 'size' which will be an object with properties 'x' and 'y'
 	 *	2) Any elements in the array beginning with '\' will not be encoded, '\' will be stripped and they will be inserted as-is
