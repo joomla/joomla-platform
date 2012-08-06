@@ -7,19 +7,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/oauth/2client.php';
+require_once JPATH_PLATFORM . '/joomla/oauth/v2client.php';
 
 /**
- * Test class for JOauth2client.
+ * Test class for JOauthV2client.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Oauth
  * @since       12.2
  */
-class JOauth2clientTest extends PHPUnit_Framework_TestCase
+class JOauthV2clientTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the JOauth2client object.
+	 * @var    JRegistry  Options for the JOauthV2client object.
 	 */
 	protected $options;
 
@@ -34,7 +34,7 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 	protected $input;
 
 	/**
-	 * @var    JOauth2client  Object under test.
+	 * @var    JOauthV2client  Object under test.
 	 */
 	protected $object;
 
@@ -50,7 +50,7 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 		$this->options = new JRegistry;
 		$this->http = $this->getMock('JOauthHttp', array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'), array($this->options));
 		$this->input = new JInput;
-		$this->object = new JOauth2client($this->options, $this->http, $this->input);
+		$this->object = new JOauthV2client($this->options, $this->http, $this->input);
 	}
 
 	/**
