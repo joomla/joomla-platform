@@ -19,14 +19,6 @@ defined('JPATH_PLATFORM') or die;
 class JMediaCompressorCss extends JMediaCompressor
 {
 	/**
-	 * CSS hack for a browser
-	 * @var    boolean
-	 * 
-	 * @since  12.1 
-	 */
-	private $_inHack = false;
-
-	/**
 	 * Object constructor
 	 * 
 	 * @param   Array  $options  Compression options for CSS Minifier.
@@ -274,8 +266,6 @@ class JMediaCompressorCss extends JMediaCompressor
 	public function clear()
 	{
 		parent::clear();
-
-		$this->_inHack = false;
 	}
 
 }
