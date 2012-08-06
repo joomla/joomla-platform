@@ -808,6 +808,10 @@ abstract class JHtmlBehavior
 
 	/**
 	 * Internal method to get a JavaScript object notation string from an array
+	 * 
+	 * This function differs from json_encode() in two important ways:
+	 *	1) If the array contains a key 'fullScreen', the resulting object will have a property 'size' which will be an object with properties 'x' and 'y'
+	 *	2) Any elements in the array beginning with '\' will not be encoded, '\' will be stripped and they will be inserted as-is
 	 *
 	 * @param   array  $array  The array to convert to JavaScript object notation
 	 *
@@ -817,57 +821,56 @@ abstract class JHtmlBehavior
 	 */
 	protected static function _getJSObject($array = array())
 	{
-		// Initialise variables.
-		$object = '{';
+		// Make sure we have an array
+		$array = (array) $array;
 
-		// Iterate over array to build objects
-		foreach ((array) $array as $k => $v)
+		// Handle special case: fullScreen
+		if (isset($array['fullScreen']) && $array['fullScreen'])
 		{
-			if (is_null($v))
+			$array['size'] = '\\{"x": window.getSize().x-80, "y": window.getSize().y-80}';
+			$array['fullScreen'] = null;
+		}
+
+		$elements = array();
+		foreach ($array as $k => $v)
+		{
+			// Don't encode either of these types
+			if (is_null($v) || is_resource($v))
 			{
 				continue;
 			}
 
+			// Safely encode as a Javascript string
+			$key = json_encode((string) $k);
+
 			if (is_bool($v))
 			{
-				if ($k === 'fullScreen')
+				$elements[] = $key . ': ' . ($v ? 'true' : 'false');
+			}
+			elseif (is_numeric($v))
+			{
+				$elements[] = $key . ': ' . ($v + 0);
+			}
+			elseif (is_string($v))
+			{
+				if (strpos($v, '\\') === 0)
 				{
-					$object .= 'size: { ';
-					$object .= 'x: ';
-					$object .= 'window.getSize().x-80';
-					$object .= ',';
-					$object .= 'y: ';
-					$object .= 'window.getSize().y-80';
-					$object .= ' }';
-					$object .= ',';
+					// Items such as functions and JSON objects are prefixed with \, strip the prefix and don't encode them
+					$elements[] = $key . ': ' . substr($v, 1);
 				}
 				else
 				{
-					$object .= ' ' . $k . ': ';
-					$object .= ($v) ? 'true' : 'false';
-					$object .= ',';
+					// The safest way to insert a string
+					$elements[] = $key . ': ' . json_encode((string) $v);
 				}
-			}
-			elseif (!is_array($v) && !is_object($v))
-			{
-				$object .= ' ' . $k . ': ';
-				$object .= (is_numeric($v) || strpos($v, '\\') === 0) ? (is_numeric($v)) ? $v : substr($v, 1) : "'" . $v . "'";
-				$object .= ',';
 			}
 			else
 			{
-				$object .= ' ' . $k . ': ' . self::_getJSObject($v) . ',';
+				$elements[] = $key . ': ' . self::_getJSObject($v);
 			}
 		}
 
-		if (substr($object, -1) == ',')
-		{
-			$object = substr($object, 0, -1);
-		}
-
-		$object .= '}';
-
-		return $object;
+		return '{' . implode(',', $elements) . '}';
 	}
 
 	/**
