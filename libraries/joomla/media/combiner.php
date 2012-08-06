@@ -269,6 +269,8 @@ abstract class JMediaCombiner
 
 		$combiner->setSources($files);
 
+		$combiner->combine();
+
 		if (!empty($combiner->_combined))
 		{
 			$force = array_key_exists('overwrite', $options) && !empty($options['overwrite']) ? $options['overwrite'] : false;
