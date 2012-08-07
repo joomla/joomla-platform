@@ -263,7 +263,7 @@ abstract class JMediaCombiner
 			}
 		}
 
-		$options['type'] = $type;
+		$options['type'] ? $options['type']: $type;
 
 		$combiner = self::getInstance($options);
 
