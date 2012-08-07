@@ -321,7 +321,7 @@ abstract class JLoader
 		$fileName = false;
 
 		// If there is only one part.
-		if (count($parts == 1))
+		if (count($parts) == 1)
 		{
 			// Keep the possible file name.
 			$fileName = $parts[0];
