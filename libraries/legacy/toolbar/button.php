@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Toolbar
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * The JButton is the base class for all JButton types
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Toolbar
  * @since       12.1
  */
@@ -117,10 +117,10 @@ abstract class JToolbarButton
 /**
  * Deprecated class placeholder. You should use JToolbarButton instead.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Toolbar
  * @since       11.1
- * @deprecated  12.3
+ * @deprecated  13.3  Use JToolbarButton instead.
  */
 abstract class JButton extends JToolbarButton
 {
@@ -128,9 +128,12 @@ abstract class JButton extends JToolbarButton
 	 * Constructor
 	 *
 	 * @param   object  $parent  The parent
+	 *
+	 * @deprecated  13.3  Use JToolbarButton instead.
 	 */
 	public function __construct($parent = null)
 	{
+		JLog::add('JButton is deprecated. Use JToolbarButton instead.', JLog::WARNING, 'deprecated');
 		parent::__construct($parent);
 	}
 }

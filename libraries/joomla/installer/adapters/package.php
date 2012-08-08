@@ -102,6 +102,24 @@ class JInstallerPackage extends JAdapterInstance
 			return false;
 		}
 
+		/*
+		 * If the package manifest already exists, then we will assume that the package is already
+		 * installed.
+		 */
+
+		if (file_exists(JPATH_MANIFESTS . '/packages/' . basename($this->parent->getPath('manifest'))))
+		{
+			// Look for an update function or update tag
+			$updateElement = $this->manifest->update;
+
+			// If $this->upgrade has already been set, or an update property exists in the manifest, update the extensions
+			if ($this->parent->isUpgrade() || $updateElement)
+			{
+				// Use the update route for all packaged extensions
+				$this->route = 'update';
+			}
+		}
+
 		/**
 		 * ---------------------------------------------------------------------------------------------
 		 * Installer Trigger Loading
@@ -143,7 +161,7 @@ class JInstallerPackage extends JAdapterInstance
 		{
 			if ($this->parent->manifestClass->preflight($this->route, $this) === false)
 			{
-				// Install failed, rollback changes
+				// Preflight failed, rollback changes
 				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_PACKAGE_INSTALL_CUSTOM_INSTALL_FAILURE'));
 
 				return false;
@@ -189,7 +207,7 @@ class JInstallerPackage extends JAdapterInstance
 					$package = JInstallerHelper::unpack($file);
 				}
 				$tmpInstaller = new JInstaller;
-				$installResult = $tmpInstaller->install($package['dir']);
+				$installResult = $tmpInstaller->{$this->route}($package['dir']);
 				if (!$installResult)
 				{
 					$this->parent->abort(
@@ -396,7 +414,7 @@ class JInstallerPackage extends JAdapterInstance
 
 		}
 
-		$xml = JFactory::getXML($manifestFile);
+		$xml = simplexml_load_file($manifestFile);
 
 		// If we cannot load the XML file return false
 		if (!$xml)
@@ -450,6 +468,11 @@ class JInstallerPackage extends JAdapterInstance
 
 		$msg = ob_get_contents();
 		ob_end_clean();
+
+		if ($msg != '')
+		{
+			$this->parent->set('extension_message', $msg);
+		}
 
 		$error = false;
 		foreach ($manifest->filelist as $extension)

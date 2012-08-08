@@ -87,7 +87,7 @@ abstract class JInstallerHelper
 	 *
 	 * @param   string  $p_filename  The uploaded package filename or install directory
 	 *
-	 * @return  array  Two elements: extractdir and packagefile
+	 * @return  mixed  Array on success or boolean false on failure
 	 *
 	 * @since   11.1
 	 */
@@ -180,12 +180,13 @@ abstract class JInstallerHelper
 
 		foreach ($files as $file)
 		{
-			if (!$xml = JFactory::getXML($file))
+			$xml = simplexml_load_file($file);
+			if (!$xml)
 			{
 				continue;
 			}
 
-			if ($xml->getName() != 'install' && $xml->getName() != 'extension')
+			if ($xml->getName() != 'extension')
 			{
 				unset($xml);
 				continue;
@@ -265,9 +266,11 @@ abstract class JInstallerHelper
 	 * @return  array  Array of queries
 	 *
 	 * @since   11.1
+	 * @deprecated  13.3  Use JDatabaseDriver::splitSql() directly
 	 */
 	public static function splitSql($sql)
 	{
+		JLog::add('JInstallerHelper::splitSql() is deprecated. Use JDatabaseDriver::splitSql() instead.', JLog::WARNING, 'deprecated');
 		$db = JFactory::getDbo();
 		return $db->splitSql($sql);
 	}

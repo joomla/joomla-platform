@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class working with menu select lists
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  HTML
  * @since       11.1
  */
@@ -193,7 +193,7 @@ abstract class JHtmlMenu
 			$order = JHtml::_('list.genericordering', $query);
 			$ordering = JHtml::_(
 				'select.genericlist', $order, 'ordering',
-				array('list.attr' => 'class="inputbox" size="1"', 'list.select' => intval($row->ordering))
+				array('list.attr' => 'class="inputbox" size="1"', 'list.select' => (int) $row->ordering)
 			);
 		}
 		else
@@ -245,7 +245,7 @@ abstract class JHtmlMenu
 			$children[$pt] = $list;
 		}
 		// Second pass - get an indent list of the items
-		$list = self::TreeRecurse(intval($mitems[0]->parent_id), '', array(), $children, 9999, 0, 0);
+		$list = self::TreeRecurse((int) $mitems[0]->parent_id, '', array(), $children, 9999, 0, 0);
 
 		// Code that adds menu name to Display of Page(s)
 

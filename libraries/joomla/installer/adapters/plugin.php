@@ -633,7 +633,20 @@ class JInstallerPlugin extends JAdapterInstance
 			}
 		}
 
-		// Create msg object; first use here
+		// Run preflight if possible (since we know we're not an update)
+		ob_start();
+		ob_implicit_flush(false);
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'preflight'))
+		{
+			if ($this->parent->manifestClass->preflight($this->route, $this) === false)
+			{
+				// Preflight failed, rollback changes
+				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_PLG_INSTALL_CUSTOM_INSTALL_FAILURE'));
+				return false;
+			}
+		}
+
+		// Create the $msg object and append messages from preflight
 		$msg = ob_get_contents();
 		ob_end_clean();
 
@@ -655,7 +668,7 @@ class JInstallerPlugin extends JAdapterInstance
 		}
 
 		// Append messages
-		$msg = ob_get_contents();
+		$msg .= ob_get_contents();
 		ob_end_clean();
 
 		// Remove the plugin files
@@ -678,7 +691,7 @@ class JInstallerPlugin extends JAdapterInstance
 		// Remove the plugin's folder
 		JFolder::delete($this->parent->getPath('extension_root'));
 
-		if ($msg)
+		if ($msg != '')
 		{
 			$this->parent->set('extension_message', $msg);
 		}

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Error
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -10,13 +10,13 @@
 defined('JPATH_PLATFORM') or die;
 
 // Error Definition: Illegal Options
-define('JERROR_ILLEGAL_OPTIONS', 1);
+const JERROR_ILLEGAL_OPTIONS = 1;
 
 // Error Definition: Callback does not exist
-define('JERROR_CALLBACK_NOT_CALLABLE', 2);
+const JERROR_CALLBACK_NOT_CALLABLE = 2;
 
 // Error Definition: Illegal Handler
-define('JERROR_ILLEGAL_MODE', 3);
+const JERROR_ILLEGAL_MODE = 3;
 
 /**
  * Error Handling Class
@@ -28,7 +28,7 @@ define('JERROR_ILLEGAL_MODE', 3);
  * - Sebastian Mordziol	<argh@php-tools.net>
  * - Stephan Schmidt		<scst@php-tools.net>
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Error
  * @since       11.1
  * @deprecated  12.1   Use PHP Exception
@@ -60,6 +60,23 @@ abstract class JError
 	);
 
 	protected static $stack = array();
+
+	/**
+	 * Method to determine if a value is an exception object.
+	 *
+	 * @param   mixed  $object  Object to check.
+	 *
+	 * @return  boolean  True if argument is an exception, false otherwise.
+	 *
+	 * @deprecated  12.1
+	 * @since   11.1
+	 */
+	public static function isError($object)
+	{
+		JLog::add('JError::isError() is deprecated.', JLog::WARNING, 'deprecated');
+
+		return $object instanceof Exception;
+	}
 
 	/**
 	 * Method for retrieving the last exception object in the error stack

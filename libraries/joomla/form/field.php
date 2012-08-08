@@ -208,7 +208,7 @@ abstract class JFormField
 		// Detect the field type if not set
 		if (!isset($this->type))
 		{
-			$parts = JString::splitCamelCase(get_called_class());
+			$parts = JStringNormalise::fromCamelCase(get_called_class(), true);
 			if ($parts[0] == 'J')
 			{
 				$this->type = JString::ucfirst($parts[count($parts) - 1], '_');
@@ -233,7 +233,6 @@ abstract class JFormField
 	{
 		switch ($name)
 		{
-			case 'class':
 			case 'description':
 			case 'formControl':
 			case 'hidden':
@@ -248,7 +247,6 @@ abstract class JFormField
 			case 'fieldname':
 			case 'group':
 				return $this->$name;
-				break;
 
 			case 'input':
 				// If the input hasn't yet been generated, generate it.
@@ -258,7 +256,6 @@ abstract class JFormField
 				}
 
 				return $this->input;
-				break;
 
 			case 'label':
 				// If the label hasn't yet been generated, generate it.
@@ -268,10 +265,9 @@ abstract class JFormField
 				}
 
 				return $this->label;
-				break;
+
 			case 'title':
 				return $this->getTitle();
-				break;
 		}
 
 		return null;

@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-// Almost everything must be public here to allow overloading.
-
 /**
  * Joomla! Cache base object
  *
@@ -18,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Cache
  * @since       11.1
  */
-class JCache extends JObject
+class JCache
 {
 	/**
 	 * @var    object  Storage handler
@@ -93,26 +91,43 @@ class JCache extends JObject
 	 */
 	public static function getStores()
 	{
-		jimport('joomla.filesystem.folder');
-		$handlers = JFolder::files(__DIR__ . '/storage', '.php', false, false, array('helper.php'));
+		$handlers = array();
+
+		// Get an iterator and loop trough the driver classes.
+		$iterator = new DirectoryIterator(__DIR__ . '/storage');
 
 		$names = array();
-		foreach ($handlers as $handler)
+		foreach ($iterator as $file)
 		{
-			$name = substr($handler, 0, strrpos($handler, '.'));
-			$class = 'JCacheStorage' . ucfirst(trim($name));
+			$fileName = $file->getFilename();
 
-			if (class_exists($class))
+			// Only load for php files.
+			// Note: DirectoryIterator::getExtension only available PHP >= 5.3.6
+			if (!$file->isFile()
+				|| substr($fileName, strrpos($fileName, '.') + 1) != 'php'
+				|| $fileName == 'helper.php')
 			{
-				// @deprecated 12.3 Stop checking with test()
-				if ($class::isSupported() || $class::test())
-				{
-					$names[] = $name;
-				}
+				continue;
+			}
+
+			// Derive the class name from the type.
+			$class = str_ireplace('.php', '', 'JCacheStorage' . ucfirst(trim($fileName)));
+
+			// If the class doesn't exist we have nothing left to do but look at the next type. We did our best.
+			if (!class_exists($class))
+			{
+				continue;
+			}
+
+			// Sweet!  Our class exists, so now we just need to know if it passes its test method.
+			if ($class::isSupported())
+			{
+				// Connector names should not have file extensions.
+				$handlers[] = str_ireplace('.php', '', $fileName);
 			}
 		}
 
-		return $names;
+		return $handlers;
 	}
 
 	/**
@@ -575,7 +590,19 @@ class JCache extends JObject
 				// Only store what this module has added
 				foreach ($headnow as $now => $value)
 				{
-					$newvalue = array_diff_assoc($headnow[$now], isset($options['headerbefore'][$now]) ? $options['headerbefore'][$now] : array());
+					if (isset($options['headerbefore'][$now]))
+					{
+						// We have to serialize the content of the arrays because the may contain other arrays which is a notice in PHP 5.4 and newer
+						$nowvalue = array_map('serialize', $headnow[$now]);
+						$beforevalue = array_map('serialize', $options['headerbefore'][$now]);
+						$newvalue = array_diff_assoc($nowvalue, $beforevalue);
+						$newvalue = array_map('unserialize', $newvalue);
+					}
+					else
+					{
+						$newvalue = $headnow[$now];
+					}
+
 					if (!empty($newvalue))
 					{
 						$cached['head'][$now] = $newvalue;
@@ -631,7 +658,7 @@ class JCache extends JObject
 		$app = JFactory::getApplication();
 
 		// Get url parameters set by plugins
-		$registeredurlparams = $app->get('registeredurlparams');
+		$registeredurlparams = $app->registeredurlparams;
 
 		// Platform defaults
 		$registeredurlparams->format = 'WORD';

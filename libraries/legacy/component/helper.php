@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Component
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Component helper class
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Component
  * @since       11.1
  */
@@ -385,9 +385,18 @@ class JComponentHelper
 
 		$cache = JFactory::getCache('_system', 'callback');
 
-		self::$components[$option] = $cache->get(array($db, 'loadObject'), null, $option, false);
+		try
+		{
+			self::$components[$option] = $cache->get(array($db, 'loadObject'), null, $option, false);
+		}
+		catch (RuntimeException $e)
+		{
+			// Fatal error.
+			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $error), JLog::WARNING, 'jerror');
+			return false;
+		}
 
-		if ($error = $db->getErrorMsg() || empty(self::$components[$option]))
+		if (empty(self::$components[$option]))
 		{
 			// Fatal error.
 			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $error), JLog::WARNING, 'jerror');

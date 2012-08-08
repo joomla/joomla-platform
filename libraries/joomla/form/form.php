@@ -57,7 +57,7 @@ class JForm
 
 	/**
 	 * The form XML definition.
-	 * @var    object
+	 * @var    SimpleXMLElement
 	 * @since  11.1
 	 */
 	protected $xml;
@@ -650,7 +650,14 @@ class JForm
 		// Attempt to load the XML if a string.
 		if (is_string($data))
 		{
-			$data = JFactory::getXML($data, false);
+			try
+			{
+				$data = new SimpleXMLElement($data);
+			}
+			catch (Exception $e)
+			{
+				return false;
+			}
 
 			// Make sure the XML loaded correctly.
 			if (!$data)
@@ -675,7 +682,7 @@ class JForm
 			// Create a root element for the form.
 			else
 			{
-				$this->xml = new JXMLElement('<form></form>');
+				$this->xml = new SimpleXMLElement('<form></form>');
 			}
 		}
 
@@ -770,7 +777,7 @@ class JForm
 			}
 		}
 		// Attempt to load the XML file.
-		$xml = JFactory::getXML($file, true);
+		$xml = simplexml_load_file($file);
 
 		return $this->load($xml, $reset, $xpath);
 	}
@@ -853,7 +860,7 @@ class JForm
 		if ($xml)
 		{
 			unset($this->xml);
-			$this->xml = new JXMLElement('<form></form>');
+			$this->xml = new SimpleXMLElement('<form></form>');
 		}
 
 		return true;
@@ -1187,7 +1194,7 @@ class JForm
 
 			// Convert a date to UTC based on the server timezone offset.
 			case 'SERVER_UTC':
-				if (intval($value) > 0)
+				if ((int) $value > 0)
 				{
 					// Get the server timezone setting.
 					$offset = JFactory::getConfig()->get('offset');
@@ -1203,7 +1210,7 @@ class JForm
 
 			// Convert a date to UTC based on the user timezone offset.
 			case 'USER_UTC':
-				if (intval($value) > 0)
+				if ((int) $value > 0)
 				{
 					// Get the user timezone setting defaulting to the server timezone setting.
 					$offset = JFactory::getUser()->getParam('timezone', JFactory::getConfig()->get('offset'));
@@ -1829,23 +1836,15 @@ class JForm
 			// If the field is required and the value is empty return an error message.
 			if (($value === '') || ($value === null))
 			{
-				// Does the field have a defined error message?
-				if ($element['message'])
+				if ($element['label'])
 				{
-					$message = $element['message'];
+					$message = JText::_($element['label']);
 				}
 				else
 				{
-					if ($element['label'])
-					{
-						$message = JText::_($element['label']);
-					}
-					else
-					{
-						$message = JText::_($element['name']);
-					}
-					$message = sprintf('Field required: %s', $message);
+					$message = JText::_($element['name']);
 				}
+				$message = JText::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', $message);
 
 				return new RuntimeException($message);
 			}
@@ -1881,11 +1880,14 @@ class JForm
 
 			if ($message)
 			{
+				$message = JText::_($element['message']);
 				return new UnexpectedValueException($message);
 			}
 			else
 			{
-				return new UnexpectedValueException((string) $element['label']);
+				$message = JText::_($element['label']);
+				$message = JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $message);
+				return new UnexpectedValueException($message);
 			}
 		}
 
@@ -2019,10 +2021,10 @@ class JForm
 	}
 
 	/**
-	 * Adds a new child SimpleXMLElement node to the source.
+	 * Update the attributes of a child node
 	 *
-	 * @param   SimpleXMLElement  $source  The source element on which to append.
-	 * @param   SimpleXMLElement  $new     The new element to append.
+	 * @param   SimpleXMLElement  $source  The source element on which to append the attributes
+	 * @param   SimpleXMLElement  $new     The new element to append
 	 *
 	 * @return  void
 	 *
@@ -2042,8 +2044,6 @@ class JForm
 				$source->addAttribute($name, $value);
 			}
 		}
-
-		// What to do with child elements?
 	}
 
 	/**

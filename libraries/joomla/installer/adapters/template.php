@@ -21,10 +21,37 @@ jimport('joomla.base.adapterinstance');
  */
 class JInstallerTemplate extends JAdapterInstance
 {
+	/**
+	 * Copy of the XML manifest file
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
+	protected $manifest = null;
+
+	/**
+	 * Name of the extension
+	 *
+	 * @var    string
+	 * @since  11.1
+	 * */
 	protected $name = null;
 
+	/**
+	 * The unique identifier for the extension (e.g. mod_login)
+	 *
+	 * @var    string
+	 * @since  11.1
+	 * */
 	protected $element = null;
 
+	/**
+	 * Method of system
+	 *
+	 * @var    string
+	 *
+	 * @since  11.1
+	 */
 	protected $route = 'install';
 
 	/**
@@ -49,7 +76,6 @@ class JInstallerTemplate extends JAdapterInstance
 			);
 		}
 
-		$clientId = isset($this->parent->extension) ? $this->parent->extension->client_id : 0;
 		$this->manifest = $this->parent->getManifest();
 		$name = strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd'));
 		$client = (string) $this->manifest->attributes()->client;
@@ -322,6 +348,7 @@ class JInstallerTemplate extends JAdapterInstance
 	 */
 	public function update()
 	{
+		$this->route = 'update';
 		return $this->install();
 	}
 
@@ -503,8 +530,6 @@ class JInstallerTemplate extends JAdapterInstance
 	 */
 	public function discover_install()
 	{
-		$lang = JFactory::getLanguage();
-
 		// Templates are one of the easiest
 		// If its not in the extensions table we just add it
 		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
@@ -543,6 +568,7 @@ class JInstallerTemplate extends JAdapterInstance
 			$db = $this->parent->getDbo();
 			$query = $db->getQuery(true);
 			$query->insert($db->quoteName('#__template_styles'));
+			$lang = JFactory::getLanguage();
 			$debug = $lang->setDebug(false);
 			$columns = array($db->quoteName('template'),
 				$db->quoteName('client_id'),

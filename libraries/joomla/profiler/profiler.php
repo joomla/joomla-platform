@@ -50,12 +50,6 @@ class JProfiler
 	protected $previousMem = 0.0;
 
 	/**
-	 * @var    boolean  Boolean if the OS is Windows.
-	 * @since  12.1
-	 */
-	protected $isWin = false;
-
-	/**
 	 * @var    array  JProfiler instances container.
 	 * @since  11.3
 	 */
@@ -73,7 +67,6 @@ class JProfiler
 		$this->start = $this->getmicrotime();
 		$this->prefix = $prefix;
 		$this->buffer = array();
-		$this->isWin = (substr(PHP_OS, 0, 3) == 'WIN');
 	}
 
 	/**
@@ -113,23 +106,16 @@ class JProfiler
 		$current = self::getmicrotime() - $this->start;
 		$currentMem = 0;
 
-		if (function_exists('memory_get_usage'))
-		{
-			$currentMem = memory_get_usage() / 1048576;
-			$mark = sprintf(
-				'<code>%s %.3f seconds (+%.3f); %0.2f MB (%s%0.3f) - %s</code>',
-				$this->prefix,
-				$current,
-				$current - $this->previousTime,
-				$currentMem,
-				($currentMem > $this->previousMem) ? '+' : '', $currentMem - $this->previousMem,
-				$label
-			);
-		}
-		else
-		{
-			$mark = sprintf('<code>%s %.3f seconds (+%.3f) - %s</code>', $this->prefix, $current, $current - $this->previousTime, $label);
-		}
+		$currentMem = memory_get_usage() / 1048576;
+		$mark = sprintf(
+			'<code>%s %.3f seconds (+%.3f); %0.2f MB (%s%0.3f) - %s</code>',
+			$this->prefix,
+			$current,
+			$current - $this->previousTime,
+			$currentMem,
+			($currentMem > $this->previousMem) ? '+' : '', $currentMem - $this->previousMem,
+			$label
+		);
 
 		$this->previousTime = $current;
 		$this->previousMem = $currentMem;
@@ -159,35 +145,11 @@ class JProfiler
 	 *
 	 * @link    PHP_MANUAL#memory_get_usage
 	 * @since   11.1
+	 * @deprecated  12.3  Use PHP's native memory_get_usage()
 	 */
 	public function getMemory()
 	{
-		if (function_exists('memory_get_usage'))
-		{
-			return memory_get_usage();
-		}
-		else
-		{
-			// Initialise variables.
-			$output = array();
-			$pid = getmypid();
-
-			if ($this->isWin)
-			{
-				// Windows workaround
-				@exec('tasklist /FI "PID eq ' . $pid . '" /FO LIST', $output);
-				if (!isset($output[5]))
-				{
-					$output[5] = null;
-				}
-				return substr($output[5], strpos($output[5], ':') + 1);
-			}
-			else
-			{
-				@exec("ps -o rss -p $pid", $output);
-				return $output[1] * 1024;
-			}
-		}
+		return memory_get_usage();
 	}
 
 	/**
