@@ -47,7 +47,7 @@ class JOauthHttpTest extends PHPUnit_Framework_TestCase
 	protected function setUp()
 	{
 		$this->options = new JRegistry;
-		$this->transport = $this->getMock('JHttpTransportStream', array('request'), array($this->options), 'CustomTransport', false);
+		$this->transport = $this->getMock('JHttpTransportStream', array('request'), array($this->options), null, false);
 
 		$this->object = new JOauthHttp($this->options, $this->transport);
 	}

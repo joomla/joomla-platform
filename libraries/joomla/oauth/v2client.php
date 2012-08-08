@@ -49,7 +49,7 @@ class JOauthV2client
 	public function __construct(JRegistry $options = null, JOauthHttp $http = null, JInput $input = null)
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
-		$this->http = isset($http) ? $http : new JHttp($this->options, $this->client);
+		$this->http = isset($http) ? $http : new JOauthHttp($this->options);
 		$this->input = isset($input) ? $input : JFactory::getApplication()->input;
 	}
 
