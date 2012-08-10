@@ -158,7 +158,7 @@ class JToolbar
 		$html = array();
 
 		// Start toolbar div.
-		$html[] = '<div class="toolbar-list" id="' . $this->_name . '">';
+		$html[] = '<div role="toolbar" class="toolbar-list" id="' . $this->_name . '">';
 		$html[] = '<ul>';
 
 		// Render each button in the toolbar.
