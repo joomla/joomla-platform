@@ -71,7 +71,7 @@ abstract class JMediawikiObject
 			$uri->setPass($this->options->get('api.password'));
 		}
 
-		return (string) $uri;
+		return urlencode((string) $uri);
 	}
 
 	/**
