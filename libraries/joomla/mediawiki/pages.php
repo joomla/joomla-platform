@@ -401,13 +401,42 @@ class JMediawikiPages extends JMediawikiObject
 	/**
      * Method to get a list of revisions.
      *
+	 * @param   array    $titles   Page titles to retrieve revisions.
+	 * @param   array    $rvprop   Which properties to get for each revision.
+	 * @param   boolean  $rvparse  Parse revision content.
+	 * @param   int      $rvlimit  Limit how many revisions will be returned.
+	 *
      * @return  object
      *
      * @since   12.1
      */
-	public function getRevisions()
+	public function getRevisions(array $titles, array $rvprop, $rvparse, $rvlimit)
 	{
-		// TODO hold this at the moment. too many parameters
+		// Build the request
+		$path = '?action=query&prop=revisions';
+
+		// Append titles to the request.
+		$path .= '&titles=' . $this->buildParameter($titles);
+
+		if (isset($rvprop))
+		{
+			$path .= '&rvprop=' . $this->buildParameter($rvprop);
+		}
+
+		if ($rvparse)
+		{
+			$path .= '&rvparse=';
+		}
+
+		if (isset($rvlimit))
+		{
+			$path .= '&rvlimit=' . $rvlimit;
+		}
+
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path));
+
+		return $this->validateResponse($response);
 	}
 
 	/**
