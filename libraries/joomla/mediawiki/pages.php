@@ -410,7 +410,7 @@ class JMediawikiPages extends JMediawikiObject
      *
      * @since   12.1
      */
-	public function getRevisions(array $titles, array $rvprop, $rvparse, $rvlimit)
+	public function getRevisions(array $titles, array $rvprop = null, $rvparse = null, $rvlimit = null)
 	{
 		// Build the request
 		$path = '?action=query&prop=revisions';
