@@ -61,6 +61,6 @@ class JMediaCombinerJs extends JMediaCombiner
 			}
 		}
 
-		$this->_combined .= '/** ' . $this->sourceCount . ' js files are combined';
+		$this->_combined .= '/** ' . $this->sourceCount . ' js files are combined **/';
 	}
 }
