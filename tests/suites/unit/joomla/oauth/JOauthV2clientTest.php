@@ -48,8 +48,9 @@ class JOauthV2clientTest extends PHPUnit_Framework_TestCase
 	protected function setUp()
 	{
 		$this->options = new JRegistry;
-		$this->http = $this->getMock('JOauthHttp', array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'), array($this->options));
-		$this->input = new JInput;
+		$this->http = $this->getMock('JHttp', array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'), array($this->options));
+		$array = array();
+		$this->input = new JInput($array);
 		$this->object = new JOauthV2client($this->options, $this->http, $this->input);
 	}
 
