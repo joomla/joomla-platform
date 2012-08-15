@@ -145,9 +145,6 @@ abstract class JMediaCombiner
 			// Derive the class name from the type.
 			$class = str_ireplace('.php', '', trim($type));
 
-			// Load the class
-			jimport('joomla.media.combiner.' . $class);
-
 			// If the class doesn't exist we have nothing left to do but look at the next type.  We did our best.
 			if (!class_exists('JMediaCombiner' . ucfirst($class)))
 			{
@@ -194,9 +191,6 @@ abstract class JMediaCombiner
 		{
 			// Derive the class name from the type.
 			$class = 'JMediaCombiner' . ucfirst(strtolower($options['type']));
-
-			// Load the class
-			jimport('joomla.media.combiner.' . $class);
 
 			// If the class still doesn't exist we have nothing left to do but throw an exception.  We did our best.
 			if (!class_exists($class))
