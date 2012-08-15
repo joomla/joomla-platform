@@ -445,10 +445,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	{
 		self::$driver->setQuery("REPLACE INTO `jos_dbtest` SET `id` = 5, `title` = 'testTitle'");
 
-		$this->assertThat(self::$driver->execute(), $this->isTrue(), __LINE__);
+		$this->assertThat((bool)self::$driver->execute(), $this->isTrue(), __LINE__);
 
 		$this->assertThat(self::$driver->insertid(), $this->equalTo(5), __LINE__);
-
 	}
 
 	/**
