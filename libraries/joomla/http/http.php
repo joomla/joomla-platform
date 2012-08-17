@@ -111,15 +111,16 @@ class JHttp
 	/**
 	 * Method to send the HEAD command to the server.
 	 *
-	 * @param   string   $url      Path to the resource.
-	 * @param   array    $headers  An array of name-value pairs to include in the header of the request.
-	 * @param   integer  $timeout  Read timeout in seconds.
+	 * @param   string   $url          Path to the resource.
+	 * @param   array    $headers      An array of name-value pairs to include in the header of the request.
+	 * @param   integer  $timeout      Read timeout in seconds.
+	 * @param   array    $curlOptions  An array used to specify additional options for a cURL transfer.
 	 *
 	 * @return  JHttpResponse
 	 *
 	 * @since   11.3
 	 */
-	public function head($url, array $headers = null, $timeout = null)
+	public function head($url, array $headers = null, $timeout = null, $curlOptions = array())
 	{
 		// Look for headers set in the options.
 		$temp = (array) $this->options->get('headers');
@@ -137,21 +138,22 @@ class JHttp
 			$timeout = $this->options->get('timeout');
 		}
 
-		return $this->transport->request('HEAD', new JUri($url), null, $headers, $timeout, $this->options->get('userAgent', null));
+		return $this->transport->request('HEAD', new JUri($url), null, $headers, $timeout, $this->options->get('userAgent', null), $curlOptions);
 	}
 
 	/**
 	 * Method to send the GET command to the server.
 	 *
-	 * @param   string   $url      Path to the resource.
-	 * @param   array    $headers  An array of name-value pairs to include in the header of the request.
-	 * @param   integer  $timeout  Read timeout in seconds.
+	 * @param   string   $url          Path to the resource.
+	 * @param   array    $headers      An array of name-value pairs to include in the header of the request.
+	 * @param   integer  $timeout      Read timeout in seconds.
+	 * @param   array    $curlOptions  An array used to specify additional options for a cURL transfer.
 	 *
 	 * @return  JHttpResponse
 	 *
 	 * @since   11.3
 	 */
-	public function get($url, array $headers = null, $timeout = null)
+	public function get($url, array $headers = null, $timeout = null, $curlOptions = array())
 	{
 		// Look for headers set in the options.
 		$temp = (array) $this->options->get('headers');
@@ -169,22 +171,23 @@ class JHttp
 			$timeout = $this->options->get('timeout');
 		}
 
-		return $this->transport->request('GET', new JUri($url), null, $headers, $timeout, $this->options->get('userAgent', null));
+		return $this->transport->request('GET', new JUri($url), null, $headers, $timeout, $this->options->get('userAgent', null), $curlOptions);
 	}
 
 	/**
 	 * Method to send the POST command to the server.
 	 *
-	 * @param   string   $url      Path to the resource.
-	 * @param   mixed    $data     Either an associative array or a string to be sent with the request.
-	 * @param   array    $headers  An array of name-value pairs to include in the header of the request
-	 * @param   integer  $timeout  Read timeout in seconds.
+	 * @param   string   $url          Path to the resource.
+	 * @param   mixed    $data         Either an associative array or a string to be sent with the request.
+	 * @param   array    $headers      An array of name-value pairs to include in the header of the request
+	 * @param   integer  $timeout      Read timeout in seconds.
+	 * @param   array    $curlOptions  An array used to specify additional options for a cURL transfer.
 	 *
 	 * @return  JHttpResponse
 	 *
 	 * @since   11.3
 	 */
-	public function post($url, $data, array $headers = null, $timeout = null)
+	public function post($url, $data, array $headers = null, $timeout = null, $curlOptions = array())
 	{
 		// Look for headers set in the options.
 		$temp = (array) $this->options->get('headers');
@@ -202,22 +205,23 @@ class JHttp
 			$timeout = $this->options->get('timeout');
 		}
 
-		return $this->transport->request('POST', new JUri($url), $data, $headers, $timeout, $this->options->get('userAgent', null));
+		return $this->transport->request('POST', new JUri($url), $data, $headers, $timeout, $this->options->get('userAgent', null), $curlOptions);
 	}
 
 	/**
 	 * Method to send the PUT command to the server.
 	 *
-	 * @param   string   $url      Path to the resource.
-	 * @param   mixed    $data     Either an associative array or a string to be sent with the request.
-	 * @param   array    $headers  An array of name-value pairs to include in the header of the request.
-	 * @param   integer  $timeout  Read timeout in seconds.
+	 * @param   string   $url          Path to the resource.
+	 * @param   mixed    $data         Either an associative array or a string to be sent with the request.
+	 * @param   array    $headers      An array of name-value pairs to include in the header of the request.
+	 * @param   integer  $timeout      Read timeout in seconds.
+	 * @param   array    $curlOptions  An array used to specify additional options for a cURL transfer.
 	 *
 	 * @return  JHttpResponse
 	 *
 	 * @since   11.3
 	 */
-	public function put($url, $data, array $headers = null, $timeout = null)
+	public function put($url, $data, array $headers = null, $timeout = null, $curlOptions = array())
 	{
 		// Look for headers set in the options.
 		$temp = (array) $this->options->get('headers');
@@ -235,21 +239,22 @@ class JHttp
 			$timeout = $this->options->get('timeout');
 		}
 
-		return $this->transport->request('PUT', new JUri($url), $data, $headers, $timeout, $this->options->get('userAgent', null));
+		return $this->transport->request('PUT', new JUri($url), $data, $headers, $timeout, $this->options->get('userAgent', null), $curlOptions);
 	}
 
 	/**
 	 * Method to send the DELETE command to the server.
 	 *
-	 * @param   string   $url      Path to the resource.
-	 * @param   array    $headers  An array of name-value pairs to include in the header of the request.
-	 * @param   integer  $timeout  Read timeout in seconds.
+	 * @param   string   $url          Path to the resource.
+	 * @param   array    $headers      An array of name-value pairs to include in the header of the request.
+	 * @param   integer  $timeout      Read timeout in seconds.
+	 * @param   array    $curlOptions  An array used to specify additional options for a cURL transfer.
 	 *
 	 * @return  JHttpResponse
 	 *
 	 * @since   11.3
 	 */
-	public function delete($url, array $headers = null, $timeout = null)
+	public function delete($url, array $headers = null, $timeout = null, $curlOptions = array())
 	{
 		// Look for headers set in the options.
 		$temp = (array) $this->options->get('headers');
@@ -267,21 +272,22 @@ class JHttp
 			$timeout = $this->options->get('timeout');
 		}
 
-		return $this->transport->request('DELETE', new JUri($url), null, $headers, $timeout, $this->options->get('userAgent', null));
+		return $this->transport->request('DELETE', new JUri($url), null, $headers, $timeout, $this->options->get('userAgent', null), $curlOptions);
 	}
 
 	/**
 	 * Method to send the TRACE command to the server.
 	 *
-	 * @param   string   $url      Path to the resource.
-	 * @param   array    $headers  An array of name-value pairs to include in the header of the request.
-	 * @param   integer  $timeout  Read timeout in seconds.
+	 * @param   string   $url          Path to the resource.
+	 * @param   array    $headers      An array of name-value pairs to include in the header of the request.
+	 * @param   integer  $timeout      Read timeout in seconds.
+	 * @param   array    $curlOptions  An array used to specify additional options for a cURL transfer.
 	 *
 	 * @return  JHttpResponse
 	 *
 	 * @since   11.3
 	 */
-	public function trace($url, array $headers = null, $timeout = null)
+	public function trace($url, array $headers = null, $timeout = null, $curlOptions = array())
 	{
 		// Look for headers set in the options.
 		$temp = (array) $this->options->get('headers');
@@ -299,7 +305,7 @@ class JHttp
 			$timeout = $this->options->get('timeout');
 		}
 
-		return $this->transport->request('TRACE', new JUri($url), null, $headers, $timeout, $this->options->get('userAgent', null));
+		return $this->transport->request('TRACE', new JUri($url), null, $headers, $timeout, $this->options->get('userAgent', null), $curlOptions);
 	}
 
 	/**

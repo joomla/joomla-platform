@@ -45,18 +45,19 @@ class JHttpTransportCurl implements JHttpTransport
 	/**
 	 * Send a request to the server and return a JHttpResponse object with the response.
 	 *
-	 * @param   string   $method     The HTTP method for sending the request.
-	 * @param   JUri     $uri        The URI to the resource to request.
-	 * @param   mixed    $data       Either an associative array or a string to be sent with the request.
-	 * @param   array    $headers    An array of request headers to send with the request.
-	 * @param   integer  $timeout    Read timeout in seconds.
-	 * @param   string   $userAgent  The optional user agent string to send with the request.
+	 * @param   string   $method       The HTTP method for sending the request.
+	 * @param   JUri     $uri          The URI to the resource to request.
+	 * @param   mixed    $data         Either an associative array or a string to be sent with the request.
+	 * @param   array    $headers      An array of request headers to send with the request.
+	 * @param   integer  $timeout      Read timeout in seconds.
+	 * @param   string   $userAgent    The optional user agent string to send with the request.
+	 * @param   array    $curlOptions  An array used to specify additional options for a cURL transfer.
 	 *
 	 * @return  JHttpResponse
 	 *
 	 * @since   11.3
 	 */
-	public function request($method, JUri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
+	public function request($method, JUri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null, $curlOptions = array())
 	{
 		// Setup the cURL handle.
 		$ch = curl_init();
@@ -135,8 +136,11 @@ class JHttpTransportCurl implements JHttpTransport
 		// Link: http://the-stickman.com/web-development/php-and-curl-disabling-100-continue-header/
 		$options[CURLOPT_HTTPHEADER][] = 'Expect:';
 
-		// Follow redirects.
-		$options[CURLOPT_FOLLOWLOCATION] = true;
+		// Add additional options to the curl transfer.
+		foreach ($curlOptions as $key => $value)
+		{
+			$options[$key] = $value;
+		}
 
 		// Set the cURL options.
 		curl_setopt_array($ch, $options);
