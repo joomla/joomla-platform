@@ -46,9 +46,8 @@ class JSessionStorageDatabase extends JSessionStorage
 			$result = (string) $db->loadResult();
 
 			$result = str_replace('\0\0\0', chr(0).'*'.chr(0), $result);
-			
-			return $result;
 
+			return $result;
 		}
 		catch (Exception $e)
 		{
@@ -77,9 +76,9 @@ class JSessionStorageDatabase extends JSessionStorage
 		{
 			$query = $db->getQuery(true);
 			$query->update($db->quoteName('#__session'))
-			->set($db->quoteName('data') . ' = ' . $db->quote($data))
-			->set($db->quoteName('time') . ' = ' . $db->quote((int) time()))
-			->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
+				->set($db->quoteName('data') . ' = ' . $db->quote($data))
+				->set($db->quoteName('time') . ' = ' . $db->quote((int) time()))
+				->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
 
 			// Try to update the session data in the database table.
 			$db->setQuery($query);
