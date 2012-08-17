@@ -12,8 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Set the available masks for the routing mode
  */
-define('JROUTER_MODE_RAW', 0);
-define('JROUTER_MODE_SEF', 1);
+const JROUTER_MODE_RAW = 0;
+const JROUTER_MODE_SEF = 1;
 
 /**
  * Class to create and parse routes
@@ -22,7 +22,7 @@ define('JROUTER_MODE_SEF', 1);
  * @subpackage  Application
  * @since       11.1
  */
-class JRouter extends JObject
+class JRouter
 {
 	/**
 	 * The rewrite mode
@@ -116,30 +116,40 @@ class JRouter extends JObject
 	 * @return  JRouter A JRouter object.
 	 *
 	 * @since   11.1
-	 * @throws  Exception
+	 * @throws  RuntimeException
 	 */
 	public static function getInstance($client, $options = array())
 	{
 		if (empty(self::$instances[$client]))
 		{
-			// Load the router object
-			$info = JApplicationHelper::getClientInfo($client, true);
+			// Create a JRouter object
+			$classname = 'JRouter' . ucfirst($client);
 
-			$path = $info->path . '/includes/router.php';
-			if (file_exists($path))
+			if (!class_exists($classname))
 			{
-				include_once $path;
+				JLog::add('Non-autoloadable JRouter subclasses are deprecated.', JLog::WARNING, 'deprecated');
 
-				// Create a JRouter object
-				$classname = 'JRouter' . ucfirst($client);
-				$instance = new $classname($options);
+				// Load the router object
+				$info = JApplicationHelper::getClientInfo($client, true);
+
+				if (is_object($info))
+				{
+					$path = $info->path . '/includes/router.php';
+					if (file_exists($path))
+					{
+						include_once $path;
+					}
+				}
+			}
+
+			if (class_exists($classname))
+			{
+				self::$instances[$client] = new $classname($options);
 			}
 			else
 			{
-				throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client), 500);
+				throw new RuntimeException(JText::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client), 500);
 			}
-
-			self::$instances[$client] = & $instance;
 		}
 
 		return self::$instances[$client];

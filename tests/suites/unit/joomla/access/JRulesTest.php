@@ -7,12 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/access/rules.php';
-
 /**
  * @package     Joomla.Platform
  */
-class JRulesTest extends PHPUnit_Framework_TestCase
+class JAccessRulesTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * This method tests both the contructor and the __toString magic method.
@@ -24,8 +22,49 @@ class JRulesTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JAccessRules::__construct
+	 * @covers  JAccessRules::__toString
 	 */
-	public function test__construct()
+	public function test__constructString()
+	{
+		$array = array(
+			'edit' => array(
+				-42	=> 1,
+				2	=> 1,
+				3	=> 0
+			)
+		);
+
+		$string = json_encode($array);
+
+		// Test input as string.
+		$rules = new JAccessRules($string);
+		$this->assertThat(
+			(string) $rules,
+			$this->equalTo($string),
+			'Checks input as an string.'
+		);
+	}
+	public function test__constructArray()
+		{
+			$array = array(
+				'edit' => array(
+					-42	=> 1,
+					2	=> 1,
+					3	=> 0
+				)
+			);
+
+			$string = json_encode($array);
+
+			$rules = new JAccessRules($array);
+			$this->assertThat(
+				(string) $rules,
+				$this->equalTo($string),
+				'Checks input as an array.'
+			);
+	}
+	public function test__constructObject()
 	{
 		$array = array(
 			'edit' => array(
@@ -39,22 +78,7 @@ class JRulesTest extends PHPUnit_Framework_TestCase
 
 		$object = (object) $array;
 
-		// Test input as string.
-		$rules = new JRules($string);
-		$this->assertThat(
-			(string) $rules,
-			$this->equalTo($string),
-			'Checks input as an string.'
-		);
-
-		$rules = new JRules($array);
-		$this->assertThat(
-			(string) $rules,
-			$this->equalTo($string),
-			'Checks input as an array.'
-		);
-
-		$rules = new JRules($object);
+		$rules = new JAccessRules($object);
 		$this->assertThat(
 			(string) $rules,
 			$this->equalTo($string),
@@ -63,11 +87,12 @@ class JRulesTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the JRules::mergeRule method.
+	 * Tests the JAccessRules::mergeAction method.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JAccessRules::mergeAction
 	 */
 	public function testMergeRule()
 	{
@@ -85,8 +110,8 @@ class JRulesTest extends PHPUnit_Framework_TestCase
 			)
 		);
 
-		// Construct and empty JRules.
-		$rules = new JRules('');
+		// Construct and empty JAccessRules.
+		$rules = new JAccessRules('');
 		$rules->mergeAction('edit', $identities);
 
 		$this->assertThat(
@@ -121,11 +146,12 @@ class JRulesTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the JRules::merge method.
+	 * Tests the JAccessRules::merge method.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JAccessRules::merge
 	 */
 	public function testMerge()
 	{
@@ -162,43 +188,107 @@ class JRulesTest extends PHPUnit_Framework_TestCase
 		);
 
 		// Test construction by string
-		$rules1 = new JRules($string1);
+		$rules1 = new JAccessRules($string1);
 		$this->assertThat(
 			(string) $rules1,
-			$this->equalTo($string1)
+			$this->equalTo($string1),
+			'Input as a string'
 		);
+	}
+
+	public function testMergeArray()
+	{
+		$array1 = array(
+			'edit' => array(
+				-42	=> 1
+			),
+			'delete' => array(
+				-42	=> 0
+			)
+		);
+		$string1 = json_encode($array1);
 
 		// Test construction by array.
-		$rules1 = new JRules($array1);
+		$rules1 = new JAccessRules($array1);
 		$this->assertThat(
 			(string) $rules1,
-			$this->equalTo($string1)
+			$this->equalTo($string1),
+			'Input as a array'
 		);
+	}
+	public function testMergeRulesNull()
+	{
+		$array1 = array(
+			'edit' => array(
+				-42	=> 1
+			),
+			'delete' => array(
+				-42	=> 0
+			)
+		);
+		$string1 = json_encode($array1);
 
-		// Test merge by JRules.
-		$rules1 = new JRules($array1);
-		$rules2 = new JRules('');
+		// Test merge by JAccessRules.
+		$rules1 = new JAccessRules($array1);
+		$rules2 = new JAccessRules('');
 		$rules2->merge($rules1);
 		$this->assertThat(
 			(string) $rules2,
-			$this->equalTo($string1)
+			$this->equalTo($string1),
+			'Merge by JRules where second rules are empty'
+		);
+	}
+	public function testMergeRules()
+	{
+		$array1 = array(
+			'edit' => array(
+				-42	=> 1
+			),
+			'delete' => array(
+				-42	=> 0
+			)
+		);
+		$string1 = json_encode($array1);
+
+		$array2 = array(
+			'create' => array(
+				2	=> 1
+			),
+			'delete' => array(
+				2	=> 0
+			)
 		);
 
-		$rules1 = new JRules($array1);
+		$result2 = array(
+			'edit' => array(
+				-42	=> 1
+			),
+			'delete' => array(
+				-42	=> 0,
+				2	=> 0
+			),
+			'create' => array(
+				2	=> 1
+			),
+		);
+
+		$rules1 = new JAccessRules($array1);
 		$rules1->merge($array2);
 		$this->assertThat(
 			(string) $rules1,
-			$this->equalTo(json_encode($result2))
+			$this->equalTo(json_encode($result2)),
+			'Input as a JRules'
 		);
 
 	}
 
 	/**
-	 * Tests the JRules::allow method.
+	 * Tests the JAccessRules::allow method.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JAccessRules::allow
 	 */
 	function testAllow()
 	{
@@ -212,7 +302,7 @@ class JRulesTest extends PHPUnit_Framework_TestCase
 			)
 		);
 
-		$rules = new JRules($array1);
+		$rules = new JAccessRules($array1);
 
 		// Explicit allow.
 		$this->assertTrue(
@@ -246,11 +336,12 @@ class JRulesTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the JRules::getAllowed method.
+	 * Tests the JAccessRules::getAllowed method.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JAccessRules::getAllowed
 	 */
 	function testGetAllowed()
 	{
@@ -271,9 +362,8 @@ class JRulesTest extends PHPUnit_Framework_TestCase
 		$result->set('create', true);
 		$result->set('edit', true);
 
-		$rules		= new JRules($array1);
-		$allowed	= $rules->getAllowed(-42);
-
+		$rules   = new JAccessRules($array1);
+		$allowed = $rules->getAllowed(-42);
 
 		$this->assertThat(
 			$result,

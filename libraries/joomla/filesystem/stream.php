@@ -28,7 +28,7 @@ defined('JPATH_PLATFORM') or die;
  * @see         http://php.net/manual/en/transports.php Socket Transports (used by some options, particularly HTTP proxy)
  * @since       11.1
  */
-class JStream extends JObject
+class JStream
 {
 	// Publicly settable vars (protected to let our parent read them)
 	/**
@@ -773,12 +773,13 @@ class JStream extends JObject
 		$track_errors = ini_get('track_errors');
 		ini_set('track_errors', true);
 		$remaining = $length;
+		$start = 0;
 
 		do
 		{
 			// If the amount remaining is greater than the chunk size, then use the chunk
 			$amount = ($remaining > $chunk) ? $chunk : $remaining;
-			$res = fwrite($this->fh, $string, $amount);
+			$res = fwrite($this->fh, substr($string, $start), $amount);
 
 			// Returns false on error or the number of bytes written
 			if ($res === false)
@@ -797,6 +798,7 @@ class JStream extends JObject
 			else
 			{
 				// Wrote something
+				$start += $amount;
 				$remaining -= $res;
 			}
 		}

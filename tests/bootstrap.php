@@ -18,8 +18,7 @@ define('_JEXEC', 1);
 @ini_set('magic_quotes_runtime', 0);
 
 // Maximise error reporting.
-@ini_set('zend.ze1_compatibility_mode', '0');
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_STRICT);
 ini_set('display_errors', 1);
 
 /*
@@ -68,3 +67,6 @@ require_once JPATH_PLATFORM . '/import.php';
 
 // Register the core Joomla test classes.
 JLoader::registerPrefix('Test', __DIR__ . '/core');
+
+// We need this to test JSession
+ob_start();

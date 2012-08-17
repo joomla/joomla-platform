@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Application
+ * @package     Joomla.Legacy
+ * @subpackage  Controller
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -15,17 +15,17 @@ defined('JPATH_PLATFORM') or die;
  * Controller (controllers are where you put all the actual code) Provides basic
  * functionality, such as rendering views (aka displaying templates).
  *
- * @package     Joomla.Platform
- * @subpackage  Application
- * @since       11.1
+ * @package     Joomla.Legacy
+ * @subpackage  Controller
+ * @since       12.2
  */
-class JControllerAdmin extends JController
+class JControllerAdmin extends JControllerLegacy
 {
 	/**
 	 * The URL option for the component.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $option;
 
@@ -33,7 +33,7 @@ class JControllerAdmin extends JController
 	 * The prefix to use with controller messages.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $text_prefix;
 
@@ -41,7 +41,7 @@ class JControllerAdmin extends JController
 	 * The URL view list variable.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $view_list;
 
@@ -50,8 +50,8 @@ class JControllerAdmin extends JController
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JController
-	 * @since   11.1
+	 * @see     JControllerLegacy
+	 * @since   12.2
 	 * @throws  Exception
 	 */
 	public function __construct($config = array())
@@ -103,7 +103,7 @@ class JControllerAdmin extends JController
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function delete()
 	{
@@ -111,7 +111,7 @@ class JControllerAdmin extends JController
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Get items to remove from the request.
-		$cid = JRequest::getVar('cid', array(), '', 'array');
+		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -146,9 +146,9 @@ class JControllerAdmin extends JController
 	 * @param   boolean  $cachable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JController  A JController object to support chaining.
+	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
@@ -160,17 +160,15 @@ class JControllerAdmin extends JController
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function publish()
 	{
 		// Check for request forgeries
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
-		$input = JFactory::getApplication()->input;
-
 		// Get items to publish from the request.
-		$cid = JRequest::getVar('cid', array(), '', 'array');
+		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
 		$data = array('publish' => 1, 'unpublish' => 0, 'archive' => 2, 'trash' => -2, 'report' => -3);
 		$task = $this->getTask();
 		$value = JArrayHelper::getValue($data, $task, 0, 'int');
@@ -213,7 +211,7 @@ class JControllerAdmin extends JController
 				$this->setMessage(JText::plural($ntext, count($cid)));
 			}
 		}
-		$extension = $input->get('extension');
+		$extension = $this->input->get('extension');
 		$extensionURL = ($extension) ? '&extension=' . $extension : '';
 		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $extensionURL, false));
 	}
@@ -223,15 +221,14 @@ class JControllerAdmin extends JController
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function reorder()
 	{
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
-		$ids = JRequest::getVar('cid', null, 'post', 'array');
+		$ids = JFactory::getApplication()->input->post->get('cid', array(), 'array');
 		$inc = ($this->getTask() == 'orderup') ? -1 : +1;
 
 		$model = $this->getModel();
@@ -257,7 +254,7 @@ class JControllerAdmin extends JController
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function saveorder()
 	{
@@ -265,8 +262,8 @@ class JControllerAdmin extends JController
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the input
-		$pks = JRequest::getVar('cid', null, 'post', 'array');
-		$order = JRequest::getVar('order', null, 'post', 'array');
+		$pks = $this->input->post->get('cid', array(), 'array');
+		$order = $this->input->post->get('order', array(), 'array');
 
 		// Sanitize the input
 		JArrayHelper::toInteger($pks);
@@ -299,15 +296,14 @@ class JControllerAdmin extends JController
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function checkin()
 	{
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
-		$ids = JRequest::getVar('cid', null, 'post', 'array');
+		$ids = JFactory::getApplication()->input->post->get('cid', array(), 'array');
 
 		$model = $this->getModel();
 		$return = $model->checkin($ids);

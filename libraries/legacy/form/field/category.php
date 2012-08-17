@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Form
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -15,7 +15,7 @@ JFormHelper::loadFieldClass('list');
  * Form Field class for the Joomla Platform.
  * Supports an HTML select list of categories
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Form
  * @since       11.1
  */
@@ -41,7 +41,6 @@ class JFormFieldCategory extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		// Initialise variables.
 		$options = array();
 		$extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $this->element['scope'];
 		$published = (string) $this->element['published'];
@@ -49,7 +48,6 @@ class JFormFieldCategory extends JFormFieldList
 		// Load the category options for a given extension.
 		if (!empty($extension))
 		{
-
 			// Filter over published state or not depending upon if it is present.
 			if ($published)
 			{

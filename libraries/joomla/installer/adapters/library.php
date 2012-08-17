@@ -260,7 +260,6 @@ class JInstallerLibrary extends JAdapterInstance
 	 */
 	public function uninstall($id)
 	{
-		// Initialise variables.
 		$retval = true;
 
 		// First order of business will be to load the module object table from the database.
@@ -290,7 +289,7 @@ class JInstallerLibrary extends JAdapterInstance
 			// Set the library root path
 			$this->parent->setPath('extension_root', JPATH_PLATFORM . '/' . $manifest->libraryname);
 
-			$xml = JFactory::getXML($manifestFile);
+			$xml = simplexml_load_file($manifestFile);
 
 			// If we cannot load the XML file return null
 			if (!$xml)

@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/input/input.php';
-
 /**
  * Test class for JInput.
  *
@@ -58,7 +56,50 @@ class JInputTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test__get()
 	{
+		$_POST['foo'] = 'bar';
+
+		// Test the get method.
+		$this->assertThat(
+			$this->class->post->get('foo'),
+			$this->equalTo('bar'),
+			'Line: '.__LINE__.'.'
+		);
+
+		// Test the set method.
+		$this->class->post->set('foo', 'notbar');
+		$this->assertThat(
+			$_POST['foo'],
+			$this->equalTo('bar'),
+			'Line: '.__LINE__.'.'
+		);
+
 		$this->markTestIncomplete();
+	}
+
+	/**
+	 * Test the JInput::count method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 * @covers  JInput::count
+	 */
+	public function testCount()
+	{
+		$this->assertEquals(
+			count($_REQUEST),
+			count($this->class)
+		);
+
+		$this->assertEquals(
+			count($_POST),
+			count($this->class->post)
+		);
+
+		$this->assertEquals(
+			count($_GET),
+			count($this->class->get)
+		);
 	}
 
 	/**
@@ -155,12 +196,13 @@ class JInputTest extends PHPUnit_Framework_TestCase
 	{
 		$filterMock = new JFilterInputMockTracker();
 
+		$array = array(
+			'var1' => 'value1',
+			'var2' => 34,
+			'var3' => array('test')
+		);
 		$input = new JInput(
-			array(
-				'var1' => 'value1',
-				'var2' => 34,
-				'var3' => array('test')
-			),
+			$array,
 			array('filter' => $filterMock)
 		);
 
@@ -202,12 +244,13 @@ class JInputTest extends PHPUnit_Framework_TestCase
 	{
 		$filterMock = new JFilterInputMockTracker();
 
+		$array = array(
+			'var2' => 34,
+			'var3' => array('var2' => 'test'),
+			'var4' => array('var1' => array('var2' => 'test'))
+		);
 		$input = new JInput(
-			array(
-				'var2' => 34,
-				'var3' => array('var2' => 'test'),
-				'var4' => array('var1' => array('var2' => 'test'))
-			),
+			$array,
 			array('filter' => $filterMock)
 		);
 
@@ -343,6 +386,7 @@ class JInputTest extends PHPUnit_Framework_TestCase
 		include_once __DIR__ . '/stubs/JFilterInputMock.php';
 		include_once __DIR__ . '/stubs/JFilterInputMockTracker.php';
 
-		$this->class = new JInputInspector(null, array('filter' => new JFilterInputMock()));
+		$array = null;
+		$this->class = new JInputInspector($array, array('filter' => new JFilterInputMock()));
 	}
 }

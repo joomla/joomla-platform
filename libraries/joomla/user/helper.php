@@ -164,7 +164,7 @@ abstract class JUserHelper
 		// Set the titles for the user groups.
 		for ($i = 0, $n = count($results); $i < $n; $i++)
 		{
-			$user->groups[$results[$i]->id] = $results[$i]->title;
+			$user->groups[$results[$i]->id] = $results[$i]->id;
 		}
 
 		// Store the user object.
@@ -193,7 +193,7 @@ abstract class JUserHelper
 	 *
 	 * @since   11.1
 	 */
-	public function getProfile($userId = 0)
+	public static function getProfile($userId = 0)
 	{
 		if ($userId == 0)
 		{
@@ -236,7 +236,7 @@ abstract class JUserHelper
 		$query->where($db->quoteName('block') . ' = 1');
 		$query->where($db->quoteName('lastvisitDate') . ' = ' . $db->quote('0000-00-00 00:00:00'));
 		$db->setQuery($query);
-		$id = intval($db->loadResult());
+		$id = (int) $db->loadResult();
 
 		// Is it a valid user to activate?
 		if ($id)

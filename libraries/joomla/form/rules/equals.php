@@ -39,7 +39,6 @@ class JFormRuleEquals extends JFormRule
 	 */
 	public function test(SimpleXMLElement $element, $value, $group = null, JRegistry $input = null, JForm $form = null)
 	{
-		// Initialize variables.
 		$field = (string) $element['field'];
 
 		// Check that a validation field is set.
@@ -51,6 +50,11 @@ class JFormRuleEquals extends JFormRule
 		if (is_null($form))
 		{
 			throw new InvalidArgumentException(sprintf('The value for $form must not be null in %s', get_class($this)));
+		}
+
+		if (is_null($input))
+		{
+			throw new InvalidArgumentException(sprintf('The value for $input must not be null in %s', get_class($this)));
 		}
 
 		// Test the two values against each other.
