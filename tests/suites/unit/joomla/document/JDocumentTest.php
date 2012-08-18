@@ -8,7 +8,6 @@
  */
 
 require_once JPATH_PLATFORM.'/joomla/document/document.php';
-require_once JPATH_PLATFORM.'/joomla/environment/response.php';
 
 /**
  * Test class for JDocument.
