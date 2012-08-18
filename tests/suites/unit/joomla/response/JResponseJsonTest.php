@@ -16,7 +16,7 @@
 class JResponseJsonTest extends TestCase
 {
 	/**
-	 * set up for testing
+	 * Set up for testing
 	 *
 	 * @return void
 	 */
@@ -36,9 +36,10 @@ class JResponseJsonTest extends TestCase
 	}
 
 	/**
-	 * Tests the JForm::addFieldPath method.
+	 * Tests a simple success response where only the JResponseJson
+	 * class is instantiated and send
 	 *
-	 * This method is used to add additional lookup paths for field helpers.
+	 * @return void
 	 */
 	public function testSimpleSuccess()
 	{
@@ -52,9 +53,9 @@ class JResponseJsonTest extends TestCase
 	}
 
 	/**
-	 * Tests the JForm::addFieldPath method.
+	 * Tests a success response with data to send back
 	 *
-	 * This method is used to add additional lookup paths for field helpers.
+	 * @return void
 	 */
 	public function testSuccessWithData()
 	{
@@ -74,9 +75,12 @@ class JResponseJsonTest extends TestCase
 	}
 
 	/**
-	 * Tests the JForm::addFieldPath method.
+	 * Tests a response indicating an error where an exception
+	 * is passed into the object in order to set 'success' to false.
 	 *
-	 * This method is used to add additional lookup paths for field helpers.
+	 * The message of the exception is automatically sent back in 'message'.
+	 *
+	 * @return void
 	 */
 	public function testFailureWithException()
 	{
@@ -91,9 +95,12 @@ class JResponseJsonTest extends TestCase
 	}
 
 	/**
-	 * Tests the JForm::addFieldPath method.
+	 * Tests a response indicating an error where the third argument
+	 * is used to set 'success' to false and the second to set the message
 	 *
-	 * This method is used to add additional lookup paths for field helpers.
+	 * This way data can also be send back using the first argument.
+	 *
+	 * @return void
 	 */
 	public function testFailureWithData()
 	{
@@ -114,9 +121,10 @@ class JResponseJsonTest extends TestCase
 	}
 
 	/**
-	 * Tests the JForm::addFieldPath method.
+	 * Tests a response indicating an error where more messages
+	 * are sent back besides the main response message of the exception
 	 *
-	 * This method is used to add additional lookup paths for field helpers.
+	 * @return void
 	 */
 	public function testFailureWithMessages()
 	{
@@ -140,9 +148,10 @@ class JResponseJsonTest extends TestCase
 	}
 
 	/**
-	 * Tests the JForm::addFieldPath method.
+	 * Tests a simple success response where only the JResponseJson
+	 * class is instantiated and send, but this time with additional messages
 	 *
-	 * This method is used to add additional lookup paths for field helpers.
+	 * @return void
 	 */
 	public function testSuccessWithMessages()
 	{
