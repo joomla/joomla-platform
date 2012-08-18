@@ -43,7 +43,7 @@ class JFormRuleUrl extends JFormRule
 		{
 			return true;
 		}
-		$urlParts = JString::parse_url($value);
+		$urlParts = parse_url($value);
 
 		// See http://www.w3.org/Addressing/URL/url-spec.txt
 		// Use the full list or optionally specify a list of permitted schemes.

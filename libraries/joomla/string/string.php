@@ -958,6 +958,8 @@ abstract class JString
 	 *
 	 * @see     http://us3.php.net/manual/en/function.parse-url.php
 	 * @since   11.1
+	 *
+	 * @deprecated  12.3
 	 */
 	public static function parse_url($url)
 	{
