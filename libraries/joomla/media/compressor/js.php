@@ -323,7 +323,7 @@ class JMediaCompressorJs extends JMediaCompressor
 	{
 		$encoding = mb_internal_encoding();
 
-		if (function_exists('mb_strlen') && (ini_get('mbstring.func_overload') == 2) && $this->_options['CHANGE_ENCODING'])
+		if (function_exists('mb_strlen') && (ini_get('mbstring.func_overload') == 2) )
 		{
 			mb_internal_encoding('8bit');
 		}
