@@ -46,7 +46,7 @@ class JMediaCombinerCss extends JMediaCombiner
 		{
 			if ($this->_options['FILE_COMMENTS'])
 			{
-				$this->_combined .= '/* File : ' . JFile::getName($file) . ' : Start */' . "\n\n";
+				$this->_combined .= '/** File : ' . JFile::getName($file) . ' : Start **/' . "\n\n";
 			}
 
 			if ($this->_options['COMPRESS'])
@@ -62,11 +62,11 @@ class JMediaCombinerCss extends JMediaCombiner
 
 			if ($this->_options['FILE_COMMENTS'])
 			{
-				$this->_combined .= '/* File : ' . JFile::getName($file) . ' : End */' . "\n\n";
+				$this->_combined .= '/** File : ' . JFile::getName($file) . ' : End **/' . "\n\n";
 			}
 		}
 
-		$this->_combined .= '/* ' . $this->sourceCount . ' css files are combined */';
+		$this->_combined .= '/** ' . $this->sourceCount . ' css files are combined **/';
 
 	}
 }
