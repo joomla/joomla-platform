@@ -52,9 +52,17 @@ class JDocumentRendererHead extends JDocumentRenderer
 	 */
 	public function fetchHead($document)
 	{
-		// Trigger the onBeforeCompileHead event (skip for installation, since it causes an error)
+		// Trigger the onBeforeCompileHead event
 		$app = JFactory::getApplication();
 		$app->triggerEvent('onBeforeCompileHead');
+
+		$urlKeyedLibraries = array();
+
+		foreach ($document->libraries as $library => $info) {
+			$urlKeyedLibraries[$info['url']] = $info;
+		}
+
+		$scripts = array_merge($document->_scripts, $urlKeyedLibraries);
 
 		// Get line endings
 		$lnEnd = $document->_getLineEnd();
@@ -155,22 +163,30 @@ class JDocumentRendererHead extends JDocumentRenderer
 		}
 
 		// Generate script file links
-		foreach ($document->_scripts as $strSrc => $strAttr)
+		foreach ($scripts as $url => $script)
 		{
-			$buffer .= $tab . '<script src="' . $strSrc . '"';
-			if (!is_null($strAttr['mime']))
-			{
-				$buffer .= ' type="' . $strAttr['mime'] . '"';
+			if (isset($script['pre'])) {
+				$buffer .= $tab . '<script type="' . $script['mime'] . '">' . $script['pre'] . '</script>' . $lnEnd;
 			}
-			if ($strAttr['defer'])
+
+			$buffer .= $tab . '<script src="' . $url . '"';
+			if (!is_null($script['mime']))
+			{
+				$buffer .= ' type="' . $script['mime'] . '"';
+			}
+			if ($script['defer'])
 			{
 				$buffer .= ' defer="defer"';
 			}
-			if ($strAttr['async'])
+			if ($script['async'])
 			{
 				$buffer .= ' async="async"';
 			}
 			$buffer .= '></script>' . $lnEnd;
+
+			if (isset($script['post'])) {
+				$buffer .= $tab . '<script type="' . $script['mime'] . '">' . $script['post'] . '</script>' . $lnEnd;
+			}
 		}
 
 		// Generate script declarations
