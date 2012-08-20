@@ -7,11 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+require_once __DIR__ . '/stubs/mock.application.php';
+
 /**
  * Test class for JResponseJson.
  *
- * @package			Joomla.UnitTest
- * @subpackage	JResponseJson
+ * @package     Joomla.UnitTest
+ * @subpackage  JResponseJson
+ * @since       12.2
  */
 class JResponseJsonTest extends TestCase
 {
@@ -19,20 +22,25 @@ class JResponseJsonTest extends TestCase
 	 * Set up for testing
 	 *
 	 * @return void
+	 *
+	 * @since  12.2
 	 */
 	public function setUp()
 	{
-		$this->saveFactoryState();
+		$this->app = JFactory::$application;
+		JFactory::$application = null;
 	}
 
 	/**
 	 * Tear down test
 	 *
 	 * @return void
+	 *
+	 * @since  12.2
 	 */
-	function tearDown()
+	public function tearDown()
 	{
-		$this->restoreFactoryState();
+		JFactory::$application = $this->app;
 	}
 
 	/**
@@ -40,11 +48,13 @@ class JResponseJsonTest extends TestCase
 	 * class is instantiated and send
 	 *
 	 * @return void
+	 *
+	 * @since  12.2
 	 */
 	public function testSimpleSuccess()
 	{
 		ob_start();
-		echo new JResponseJson();
+		echo new JResponseJson;
 		$output = ob_get_clean();
 
 		$response = json_decode($output);
@@ -56,10 +66,12 @@ class JResponseJsonTest extends TestCase
 	 * Tests a success response with data to send back
 	 *
 	 * @return void
+	 *
+	 * @since  12.2
 	 */
 	public function testSuccessWithData()
 	{
-		$data = new stdClass();
+		$data = new stdClass;
 		$data->value 		= 5;
 		$data->average	= 7.9;
 
@@ -81,6 +93,8 @@ class JResponseJsonTest extends TestCase
 	 * The message of the exception is automatically sent back in 'message'.
 	 *
 	 * @return void
+	 *
+	 * @since  12.2
 	 */
 	public function testFailureWithException()
 	{
@@ -101,10 +115,12 @@ class JResponseJsonTest extends TestCase
 	 * This way data can also be send back using the first argument.
 	 *
 	 * @return void
+	 *
+	 * @since  12.2
 	 */
 	public function testFailureWithData()
 	{
-		$data = new stdClass();
+		$data = new stdClass;
 		$data->value		= 6;
 		$data->average	= 8.9;
 
@@ -125,12 +141,12 @@ class JResponseJsonTest extends TestCase
 	 * are sent back besides the main response message of the exception
 	 *
 	 * @return void
+	 *
+	 * @since  12.2
 	 */
 	public function testFailureWithMessages()
 	{
-		require_once JPATH_PLATFORM.'/legacy/application/application.php';
-
-		$app = new JApplication(array('session' => false));
+		$app = new JApplicationResponseJsonMock;
 		$app->enqueueMessage('This part was successful');
 		$app->enqueueMessage('You should not do that', 'warning');
 		JFactory::$application = $app;
@@ -148,22 +164,51 @@ class JResponseJsonTest extends TestCase
 	}
 
 	/**
+	 * Tests a response indicating an error where messages
+	 * of the message queue should be ignored
+	 *
+	 * Note: The third parameter $error will be ignored
+	 * if an exception is used for indicating an error
+	 *
+	 * @return void
+	 *
+	 * @since  12.2
+	 */
+	public function testFailureWithIgnoreMessages()
+	{
+		$app = new JApplicationResponseJsonMock;
+		$app->enqueueMessage('This part was successful');
+		$app->enqueueMessage('You should not do that', 'warning');
+		JFactory::$application = $app;
+
+		ob_start();
+		echo new JResponseJson(new Exception('A major error occured'), null, false, true);
+		$output = ob_get_clean();
+
+		$response = json_decode($output);
+
+		$this->assertEquals(false, $response->success);
+		$this->assertEquals('A major error occured', $response->message);
+		$this->assertEquals(null, $response->messages);
+	}
+
+	/**
 	 * Tests a simple success response where only the JResponseJson
 	 * class is instantiated and send, but this time with additional messages
 	 *
 	 * @return void
+	 *
+	 * @since  12.2
 	 */
 	public function testSuccessWithMessages()
 	{
-		require_once JPATH_PLATFORM.'/legacy/application/application.php';
-
-		$app = new JApplication(array('session' => false));
+		$app = new JApplicationResponseJsonMock;
 		$app->enqueueMessage('This part was successful');
 		$app->enqueueMessage('This one was also successful');
 		JFactory::$application = $app;
 
 		ob_start();
-		echo new JResponseJson();
+		echo new JResponseJson;
 		$output = ob_get_clean();
 
 		$response = json_decode($output);

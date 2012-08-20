@@ -48,7 +48,7 @@ class JResponseJson
 	/**
 	 * The response data
 	 *
-	 * var		array/object
+	 * var		mixed
 	 * @since	12.2
 	 */
 	public $data			= null;
@@ -56,20 +56,22 @@ class JResponseJson
 	/**
 	 * Constructor
 	 *
-	 * @param   array/object  $response  The Response data
-	 * @param   string        $message   The main response message
-	 * @param   boolean       $error     True, if the success flag shall be set to false, defaults to false
+	 * @param   mixed    $response       The Response data
+	 * @param   string   $message        The main response message
+	 * @param   boolean  $error          True, if the success flag shall be set to false, defaults to false
+	 * @param   boolean  $ignoreMessage  True, if the message queue shouldn't be included, defaults to false
 	 *
-	 * @since		12.2
+	 * @since   12.2
 	 */
-	public function __construct($response = null, $message = null, $error = false)
+	public function __construct($response = null, $message = null, $error = false, $ignoreMessage = false)
 	{
 		$this->message = $message;
 
-		// Get the message queue if available
-		if (!is_null(JFactory::$application) && is_callable(array(JFactory::$application, 'getMessageQueue')))
+		// Get the message queue if requested and available
+		$app = JFactory::$application;
+		if (!$ignoreMessage && !is_null($app) && is_callable(array($app, 'getMessageQueue')))
 		{
-			$messages = JFactory::getApplication()->getMessageQueue();
+			$messages = $app->getMessageQueue();
 
 			// Build the sorted messages list
 			if (is_array($messages) && count($messages))
