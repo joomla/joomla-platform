@@ -56,20 +56,20 @@ class JResponseJson
 	/**
 	 * Constructor
 	 *
-	 * @param   mixed    $response       The Response data
-	 * @param   string   $message        The main response message
-	 * @param   boolean  $error          True, if the success flag shall be set to false, defaults to false
-	 * @param   boolean  $ignoreMessage  True, if the message queue shouldn't be included, defaults to false
+	 * @param   mixed    $response        The Response data
+	 * @param   string   $message         The main response message
+	 * @param   boolean  $error           True, if the success flag shall be set to false, defaults to false
+	 * @param   boolean  $ignoreMessages  True, if the message queue shouldn't be included, defaults to false
 	 *
 	 * @since   12.2
 	 */
-	public function __construct($response = null, $message = null, $error = false, $ignoreMessage = false)
+	public function __construct($response = null, $message = null, $error = false, $ignoreMessages = false)
 	{
 		$this->message = $message;
 
 		// Get the message queue if requested and available
 		$app = JFactory::$application;
-		if (!$ignoreMessage && !is_null($app) && is_callable(array($app, 'getMessageQueue')))
+		if (!$ignoreMessages && !is_null($app) && is_callable(array($app, 'getMessageQueue')))
 		{
 			$messages = $app->getMessageQueue();
 
