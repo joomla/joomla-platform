@@ -845,10 +845,11 @@ abstract class JHtml
 		}
 
 		$timestamp = strtotime($value);
-		if ($timestamp){
+		if ($timestamp)
+		{
 			// JHtml::date() uses dateTime->format() and can't make use of the given strftime $format
 			// As we still want to format the output date/time we use strftime here
-			$value =  strftime($format, $timestamp);
+			$value = strftime($format, $timestamp);
 		}
 
 		if (!$readonly && !$disabled)
@@ -885,8 +886,8 @@ abstract class JHtml
 		else
 		{
 			return '<input type="text" title="' . $value
-				. '" value="' .  htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs. ' />'
-				.'<input type="hidden" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" />';
+				. '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
+				. '<input type="hidden" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" />';
 		}
 	}
 	/**
