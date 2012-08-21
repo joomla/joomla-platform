@@ -1368,7 +1368,7 @@ class JHtmlTest extends TestCase
 
 		// two sets of test data
 		$test_data = array('date' => '2010-05-28 00:00:00', 'friendly_date' => 'Friday, 28 May 2010',
-					  'name' => 'cal1_name', 'id' => 'cal1_id', 'format' => '%Y-%m-%d',
+					  'name' => 'cal1_name', 'id' => 'cal1_id', 'format' => '%Y-%m-%d %H:%M:%i',
 					  'attribs' => array()
 				);
 
