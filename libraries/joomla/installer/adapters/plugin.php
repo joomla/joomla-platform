@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.base.adapterinstance');
-
 /**
  * Plugin installer
  *
@@ -18,7 +16,7 @@ jimport('joomla.base.adapterinstance');
  * @subpackage  Installer
  * @since       11.1
  */
-class JInstallerPlugin extends JAdapterInstance
+class JInstallerPlugin extends JInstallerAdapter
 {
 	/**
 	 * Install function routing
@@ -29,14 +27,6 @@ class JInstallerPlugin extends JAdapterInstance
 	protected $route = 'install';
 
 	/**
-	 * The installation manifest XML object
-	 *
-	 * @var
-	 * @since  11.1
-	 * */
-	protected $manifest = null;
-
-	/**
 	 * A path to the PHP file that the scriptfile declaration in
 	 * the manifest refers to.
 	 *
@@ -44,14 +34,6 @@ class JInstallerPlugin extends JAdapterInstance
 	 * @since  11.1
 	 * */
 	protected $manifest_script = null;
-
-	/**
-	 * Name of the extension
-	 *
-	 * @var
-	 * @since  11.1
-	 * */
-	protected $name = null;
 
 	/**
 	 *
@@ -68,9 +50,9 @@ class JInstallerPlugin extends JAdapterInstance
 	protected $oldFiles = null;
 
 	/**
-	 * Custom loadLanguage method
+	 * Load language from a path
 	 *
-	 * @param   string  $path  The path where to find language files.
+	 * @param   string  $path  The path language files are on.
 	 *
 	 * @return  void
 	 *
@@ -110,10 +92,7 @@ class JInstallerPlugin extends JAdapterInstance
 				{
 					$source = "$path/$folder";
 				}
-				$lang->load($extension . '.sys', $source, null, false, false)
-					|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, false)
-					|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
-					|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false);
+				$this->doLoadLanguage($extension, $source);
 			}
 		}
 	}
@@ -127,11 +106,10 @@ class JInstallerPlugin extends JAdapterInstance
 	 */
 	public function install()
 	{
+		parent::install();
+
 		// Get a database connector object
 		$db = $this->parent->getDbo();
-
-		// Get the extension manifest object
-		$this->manifest = $this->parent->getManifest();
 
 		$xml = $this->manifest;
 
@@ -140,22 +118,6 @@ class JInstallerPlugin extends JAdapterInstance
 		 * Manifest Document Setup Section
 		 * ---------------------------------------------------------------------------------------------
 		 */
-
-		// Set the extension name
-		$name = (string) $xml->name;
-		$name = JFilterInput::getInstance()->clean($name, 'string');
-		$this->set('name', $name);
-
-		// Get the plugin description
-		$description = (string) $xml->description;
-		if ($description)
-		{
-			$this->parent->set('message', JText::_($description));
-		}
-		else
-		{
-			$this->parent->set('message', '');
-		}
 
 		/*
 		 * Backward Compatibility
@@ -718,12 +680,6 @@ class JInstallerPlugin extends JAdapterInstance
 				$manifest_details = JInstaller::parseXMLInstallFile(JPATH_SITE . '/plugins/' . $folder . '/' . $file);
 				$file = JFile::stripExt($file);
 
-				// Ignore example plugins
-				if ($file == 'example')
-				{
-					continue;
-				}
-
 				$extension = JTable::getInstance('extension');
 				$extension->set('type', 'plugin');
 				$extension->set('client_id', 0);
@@ -745,12 +701,6 @@ class JInstallerPlugin extends JAdapterInstance
 					);
 					$file = JFile::stripExt($file);
 
-					if ($file == 'example')
-					{
-						continue;
-					}
-
-					// Ignore example plugins
 					$extension = JTable::getInstance('extension');
 					$extension->set('type', 'plugin');
 					$extension->set('client_id', 0);

@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.base.adapterinstance');
-
 /**
  * Component installer
  *
@@ -18,32 +16,8 @@ jimport('joomla.base.adapterinstance');
  * @subpackage  Installer
  * @since       11.1
  */
-class JInstallerComponent extends JAdapterInstance
+class JInstallerComponent extends JInstallerAdapter
 {
-	/**
-	 * Copy of the XML manifest file
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	protected $manifest = null;
-
-	/**
-	 * Name of the extension
-	 *
-	 * @var    string
-	 * @since  11.1
-	 * */
-	protected $name = null;
-
-	/**
-	 * The unique identifier for the extension (e.g. mod_login)
-	 *
-	 * @var    string
-	 * @since  11.1
-	 * */
-	protected $element = null;
-
 	/**
 	 * The list of current files fo the Joomla! CMS administrator that are installed and is read
 	 * from the manifest on disk in the update area to handle doing a diff
@@ -85,7 +59,7 @@ class JInstallerComponent extends JAdapterInstance
 	protected $install_script = null;
 
 	/**
-	 * Custom loadLanguage method
+	 * Load language from a path
 	 *
 	 * @param   string  $path  The path language files are on.
 	 *
@@ -119,7 +93,6 @@ class JInstallerComponent extends JAdapterInstance
 			$extension = 'com_' . $name;
 		}
 
-		$lang = JFactory::getLanguage();
 		$source = $path ? $path : ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/components/' . $extension;
 
 		if ($this->manifest->administration->files)
@@ -144,9 +117,7 @@ class JInstallerComponent extends JAdapterInstance
 				$source = $path . '/' . $folder;
 			}
 		}
-		$lang->load($extension . '.sys', $source, null, false, false) || $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, false)
-			|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
-			|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false);
+		$this->doLoadLanguage($extension, $source);
 	}
 
 	/**
@@ -158,11 +129,10 @@ class JInstallerComponent extends JAdapterInstance
 	 */
 	public function install()
 	{
+		parent::install();
+
 		// Get a database connector object
 		$db = $this->parent->getDbo();
-
-		// Get the extension manifest object
-		$this->manifest = $this->parent->getManifest();
 
 		/*
 		 * ---------------------------------------------------------------------------------------------
@@ -170,8 +140,6 @@ class JInstallerComponent extends JAdapterInstance
 		 * ---------------------------------------------------------------------------------------------
 		 */
 
-		// Set the extension's name
-		$name = strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd'));
 		if (substr($name, 0, 4) == 'com_')
 		{
 			$element = $name;
@@ -180,12 +148,7 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			$element = 'com_' . $name;
 		}
-
-		$this->set('name', $name);
-		$this->set('element', $element);
-
-		// Get the component description
-		$this->parent->set('message', JText::_((string) $this->manifest->description));
+		$this->element = $element;
 
 		// Set the installation target paths
 		$this->parent->setPath('extension_site', JPath::clean(JPATH_SITE . '/components/' . $this->get('element')));
@@ -573,8 +536,11 @@ class JInstallerComponent extends JAdapterInstance
 		 * ---------------------------------------------------------------------------------------------
 		 */
 
-		// Set the extension's name
-		$name = strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd'));
+		// Set the extensions name
+		$name = (string) $this->manifest->name;
+		$name = JFilterInput::getInstance()->clean($name, 'string');
+		$this->name = $name;
+
 		if (substr($name, 0, 4) == 'com_')
 		{
 			$element = $name;
@@ -583,9 +549,7 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			$element = 'com_' . $name;
 		}
-
-		$this->set('name', $name);
-		$this->set('element', $element);
+		$this->element = $element;
 
 		// Get the component description
 		$description = (string) $this->manifest->description;
@@ -1014,7 +978,10 @@ class JInstallerComponent extends JAdapterInstance
 		}
 
 		// Set the extensions name
-		$name = strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd'));
+		$name = (string) $this->manifest->name;
+		$name = JFilterInput::getInstance()->clean($name, 'string');
+		$this->name = $name;
+
 		if (substr($name, 0, 4) == 'com_')
 		{
 			$element = $name;
@@ -1023,9 +990,7 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			$element = 'com_' . $name;
 		}
-
-		$this->set('name', $name);
-		$this->set('element', $element);
+		$this->element = $element;
 
 		// Attempt to load the admin language file; might have uninstall strings
 		$this->loadLanguage(JPATH_ADMINISTRATOR . '/components/' . $element);
@@ -1573,7 +1538,10 @@ class JInstallerComponent extends JAdapterInstance
 		 */
 
 		// Set the extensions name
-		$name = strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd'));
+		$name = (string) $this->manifest->name;
+		$name = JFilterInput::getInstance()->clean($name, 'string');
+		$this->name = $name;
+
 		if (substr($name, 0, 4) == 'com_')
 		{
 			$element = $name;
@@ -1582,9 +1550,7 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			$element = 'com_' . $name;
 		}
-
-		$this->set('name', $name);
-		$this->set('element', $element);
+		$this->element = $element;
 
 		// Get the component description
 		$description = (string) $this->manifest->description;

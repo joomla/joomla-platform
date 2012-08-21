@@ -10,7 +10,6 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.installer.filemanifest');
-jimport('joomla.base.adapterinstance');
 
 /**
  * File installer
@@ -19,14 +18,14 @@ jimport('joomla.base.adapterinstance');
  * @subpackage  Installer
  * @since       11.1
  */
-class JInstallerFile extends JAdapterInstance
+class JInstallerFile extends JInstallerAdapter
 {
 	protected $route = 'install';
 
 	/**
-	 * Custom loadLanguage method
+	 * Load language from a path
 	 *
-	 * @param   string  $path  The path on which to find language files.
+	 * @param   string  $path  The path language files are on.
 	 *
 	 * @return  void
 	 *
@@ -36,12 +35,7 @@ class JInstallerFile extends JAdapterInstance
 	{
 		$this->manifest = $this->parent->getManifest();
 		$extension = 'files_' . str_replace('files_', '', strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd')));
-		$lang = JFactory::getLanguage();
-		$source = $path;
-		$lang->load($extension . '.sys', $source, null, false, false)
-			|| $lang->load($extension . '.sys', JPATH_SITE, null, false, false)
-			|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
-			|| $lang->load($extension . '.sys', JPATH_SITE, $lang->getDefault(), false, false);
+		$this->doLoadLanguage($extension, $path);
 	}
 
 	/**
@@ -53,8 +47,7 @@ class JInstallerFile extends JAdapterInstance
 	 */
 	public function install()
 	{
-		// Get the extension manifest object
-		$this->manifest = $this->parent->getManifest();
+		parent::install();
 
 		/*
 		 * ---------------------------------------------------------------------------------------------
@@ -62,25 +55,10 @@ class JInstallerFile extends JAdapterInstance
 		 * ---------------------------------------------------------------------------------------------
 		 */
 
-		// Set the extension's name
-		$name = JFilterInput::getInstance()->clean((string) $this->manifest->name, 'string');
-		$this->set('name', $name);
-
 		// Set element
 		$manifestPath = JPath::clean($this->parent->getPath('manifest'));
 		$element = preg_replace('/\.xml/', '', basename($manifestPath));
-		$this->set('element', $element);
-
-		// Get the component description
-		$description = (string) $this->manifest->description;
-		if ($description)
-		{
-			$this->parent->set('message', JText::_($description));
-		}
-		else
-		{
-			$this->parent->set('message', '');
-		}
+		$this->element = $element;
 
 		// Check if the extension by the same name is already installed
 		if ($this->extensionExistsInSystem($element))
@@ -410,9 +388,11 @@ class JInstallerFile extends JAdapterInstance
 		// Set the overwrite setting
 		$this->parent->setOverwrite(true);
 		$this->parent->setUpgrade(true);
+
+		// Set the route for the install
 		$this->route = 'update';
 
-		// ...and adds new files
+		// Go to install which handles updates properly
 		return $this->install();
 	}
 

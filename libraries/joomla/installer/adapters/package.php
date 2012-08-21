@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.base.adapterinstance');
 jimport('joomla.installer.packagemanifest');
 
 /**
@@ -19,7 +18,7 @@ jimport('joomla.installer.packagemanifest');
  * @subpackage  Installer
  * @since       11.1
  */
-class JInstallerPackage extends JAdapterInstance
+class JInstallerPackage extends JInstallerAdapter
 {
 	/**
 	 * Method of system
@@ -33,7 +32,7 @@ class JInstallerPackage extends JAdapterInstance
 	/**
 	 * Load language from a path
 	 *
-	 * @param   string  $path  The path of the language.
+	 * @param   string  $path  The path language files are on.
 	 *
 	 * @return  void
 	 *
@@ -43,12 +42,7 @@ class JInstallerPackage extends JAdapterInstance
 	{
 		$this->manifest = $this->parent->getManifest();
 		$extension = 'pkg_' . strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->packagename, 'cmd'));
-		$lang = JFactory::getLanguage();
-		$source = $path;
-		$lang->load($extension . '.sys', $source, null, false, false)
-			|| $lang->load($extension . '.sys', JPATH_SITE, null, false, false)
-			|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
-			|| $lang->load($extension . '.sys', JPATH_SITE, $lang->getDefault(), false, false);
+		$this->doLoadLanguage($extension, $path);
 	}
 
 	/**
@@ -60,8 +54,7 @@ class JInstallerPackage extends JAdapterInstance
 	 */
 	public function install()
 	{
-		// Get the extension manifest object
-		$this->manifest = $this->parent->getManifest();
+		parent::install();
 
 		/*
 		 * ---------------------------------------------------------------------------------------------
@@ -69,25 +62,8 @@ class JInstallerPackage extends JAdapterInstance
 		 * ---------------------------------------------------------------------------------------------
 		 */
 
-		// Set the extensions name
-		$filter = JFilterInput::getInstance();
-		$name = (string) $this->manifest->packagename;
-		$name = $filter->clean($name, 'cmd');
-		$this->set('name', $name);
-
 		$element = 'pkg_' . $filter->clean($this->manifest->packagename, 'cmd');
-		$this->set('element', $element);
-
-		// Get the component description
-		$description = (string) $this->manifest->description;
-		if ($description)
-		{
-			$this->parent->set('message', JText::_($description));
-		}
-		else
-		{
-			$this->parent->set('message', '');
-		}
+		$this->element = $element;
 
 		// Set the installation path
 		$files = $this->manifest->files;

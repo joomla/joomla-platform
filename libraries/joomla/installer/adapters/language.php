@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.base.adapterinstance');
-
 /**
  * Language installer
  *
@@ -18,16 +16,8 @@ jimport('joomla.base.adapterinstance');
  * @subpackage  Installer
  * @since       11.1
  */
-class JInstallerLanguage extends JAdapterInstance
+class JInstallerLanguage extends JInstallerAdapter
 {
-	/**
-	 * Core language pack flag
-	 *
-	 * @var    boolean
-	 * @since  12.1
-	 */
-	protected $core = false;
-
 	/**
 	 * Custom install method
 	 *
@@ -97,10 +87,10 @@ class JInstallerLanguage extends JAdapterInstance
 	{
 		$this->manifest = $this->parent->getManifest();
 
-		// Get the language name
 		// Set the extensions name
-		$name = JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd');
-		$this->set('name', $name);
+		$name = (string) $this->manifest->name;
+		$name = JFilterInput::getInstance()->clean($name, 'string');
+		$this->name = $name;
 
 		// Get the Language tag [ISO tag, eg. en-GB]
 		$tag = (string) $this->manifest->tag;
@@ -112,24 +102,10 @@ class JInstallerLanguage extends JAdapterInstance
 			return false;
 		}
 
-		$this->set('tag', $tag);
+		$this->tag = $tag;
 
 		// Set the language installation path
 		$this->parent->setPath('extension_site', $basePath . '/language/' . $tag);
-
-		// Do we have a meta file in the file list?  In other words... is this a core language pack?
-		if ($element && count($element->children()))
-		{
-			$files = $element->children();
-			foreach ($files as $file)
-			{
-				if ((string) $file->attributes()->file == 'meta')
-				{
-					$this->core = true;
-					break;
-				}
-			}
-		}
 
 		// If the language directory does not exist, let's create it
 		$created = false;
@@ -283,11 +259,10 @@ class JInstallerLanguage extends JAdapterInstance
 		$basePath = $client->path;
 		$clientId = $client->id;
 
-		// Get the language name
 		// Set the extensions name
 		$name = (string) $this->manifest->name;
-		$name = JFilterInput::getInstance()->clean($name, 'cmd');
-		$this->set('name', $name);
+		$name = JFilterInput::getInstance()->clean($name, 'string');
+		$this->name = $name;
 
 		// Get the Language tag [ISO tag, eg. en-GB]
 		$tag = (string) $xml->tag;
@@ -299,24 +274,11 @@ class JInstallerLanguage extends JAdapterInstance
 			return false;
 		}
 
-		$this->set('tag', $tag);
+		$this->tag = $tag;
 		$folder = $tag;
 
 		// Set the language installation path
 		$this->parent->setPath('extension_site', $basePath . '/language/' . $this->get('tag'));
-
-		// Do we have a meta file in the file list?  In other words... is this a core language pack?
-		if (count($xml->files->children()))
-		{
-			foreach ($xml->files->children() as $file)
-			{
-				if ((string) $file->attributes()->file == 'meta')
-				{
-					$this->core = true;
-					break;
-				}
-			}
-		}
 
 		// Copy all the necessary files
 		if ($this->parent->parseFiles($xml->files) === false)
