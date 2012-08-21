@@ -6,6 +6,6 @@
     "homepage": "https://github.com/joomla/joomla-platform",
     "license": "GNU Public License",
     "require": {
-        "php": ">=5.3.0"
+        "php": ">=5.3.1"
     }
 }
