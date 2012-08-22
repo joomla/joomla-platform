@@ -60,7 +60,7 @@ class JOauthV2client
 	 *
 	 * @since   12.2
 	 */
-	public function auth()
+	public function authenticated()
 	{
 		if ($data['code'] = $this->input->get('code', false, 'raw'))
 		{
@@ -103,11 +103,11 @@ class JOauthV2client
 	/**
 	 * Verify if the client has been authenticated
 	 *
-	 * @return  bool  Is authenticated
+	 * @return  boolean  Is authenticated
 	 *
 	 * @since   12.2
 	 */
-	public function isAuth()
+	public function isAuthenticated()
 	{
 		$token = $this->getToken();
 
