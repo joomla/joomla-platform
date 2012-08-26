@@ -69,13 +69,36 @@ class JSessionStorageDatabase extends JSessionStorage
 		try
 		{
 			$query = $db->getQuery(true);
-			$query->update($db->quoteName('#__session'))
-			->set($db->quoteName('data') . ' = ' . $db->quote($data))
-			->set($db->quoteName('time') . ' = ' . $db->quote((int) time()))
-			->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
 
-			// Try to update the session data in the database table.
+			$query->select('COUNT(session_id)')
+				->from($db->quoteName('#__session'))
+				->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
 			$db->setQuery($query);
+
+			$result = $db->loadResult();
+
+			if ($result)
+			{
+				$query->update($db->quoteName('#__session'))
+					->set($db->quoteName('data') . ' = ' . $db->quote($data))
+					->set($db->quoteName('time') . ' = ' . $db->quote((int) time()))
+					->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
+			}
+			else
+			{
+				$app = JFactory::getApplication();
+				$query->insert($db->quoteName('#__session'))
+					->columns(
+						$query->quoteName('session_id') . ', ' .
+						$query->quoteName('time') . ', ' .
+						$query->quoteName('data'))
+					->values(
+						$query->quote($id) . ', ' .
+						$query->quote((int) time()) . ', ' .
+						$query->quote($data));
+			}
+
+
 			if (!$db->execute())
 			{
 				return false;
