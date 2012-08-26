@@ -20,11 +20,11 @@ if (!defined('IS_WIN'))
 }
 if (!defined('IS_MAC'))
 {
-	define('IS_MAC', ($os === 'MAC') ? true : false);
+	define('IS_MAC', ($os === 'MAC' || $os === 'DAR') ? true : false);
 }
 if (!defined('IS_UNIX'))
 {
-	define('IS_UNIX', (($os !== 'MAC') && ($os !== 'WIN')) ? true : false);
+	define('IS_UNIX', (IS_MAC === false && IS_WIN === false) ? true : false);
 }
 
 // Import the platform version library if necessary.
