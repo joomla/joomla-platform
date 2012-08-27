@@ -347,12 +347,12 @@ class JAccess
 				// Add trigger to allow for external group assignment
 				// nesting prevention:
 				if (!self::$loaded) {
-					self::$loaded=true;
+					self::$loaded = true;
 					JPluginHelper::importPlugin('user');
 				}
-				$dispatcher = JDispatcher::getInstance(); 
+				$dispatcher = JEventDispatcher::getInstance();
 				$r = $dispatcher->trigger('onGetGroupsByUser', array($userId, $recursive));
-        
+
 				if (! empty($r)) {
 					// Collect result from all fired plugins
 					foreach ($r as $plugin_r) {
