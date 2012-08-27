@@ -346,7 +346,8 @@ class JAccess
         
 				// Add trigger to allow for external group assignment
 				// nesting prevention:
-				if (!self::$loaded) {
+				if (!self::$loaded) 
+        {
 					self::$loaded = true;
 					JPluginHelper::importPlugin('user');
 				}
