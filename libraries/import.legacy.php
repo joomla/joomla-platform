@@ -24,7 +24,7 @@ if (!defined('IS_UNIX'))
 }
 
 /**
- * @deprecated	12.1	Use IS_UNIX instead
+ * @deprecated	12.3	Use IS_UNIX instead
  */
 if (!defined('IS_MAC'))
 {
