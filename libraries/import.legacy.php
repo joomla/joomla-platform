@@ -28,7 +28,7 @@ if (!defined('IS_UNIX'))
  */
 if (!defined('IS_MAC'))
 {
-	define('IS_MAC', IS_UNIX);
+	define('IS_MAC', (IS_UNIX === true && ($os === 'DAR' || $os === 'MAC')) ? true : false);
 }
 
 // Import the platform version library if necessary.
