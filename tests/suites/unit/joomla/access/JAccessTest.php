@@ -110,6 +110,7 @@ class JAccessTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JAccess::getAuthorisedViewLevels
 	 */
 	public function testGetAuthorisedViewLevels()
 	{
@@ -148,7 +149,7 @@ class JAccessTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Test cases for testCheck and testCheckGroups
+	 * Test cases for testCheck
 	 *
 	 * Each test case provides
 	 * - integer		userid	a user id
@@ -165,12 +166,12 @@ class JAccessTest extends TestCaseDatabase
 	function casesCheck()
 	{
 		return array(
-           'valid_superuser_site_login' => array(
-			   42, 'core.login.site', 3, true,
+           'valid_admin_site_login' => array(
+			   45, 'core.login.site', 3, true,
                'Line:'.__LINE__.' Administrator group can login to site'
                ),
             'valid_editor_site_login' => array(
-               42, 'core.login.site', 1, true,
+               46, 'core.login.site', 1, true,
                'Line:'.__LINE__.' Editor group'
                ),
             'valid_manager_admin_login' => array(
@@ -187,7 +188,7 @@ class JAccessTest extends TestCaseDatabase
               ),
             'super_user_admin' => array(
                42, 'core.admin', null, true,
-              'Line:'.__LINE__.' Null asset should default to 1'
+              'Line:'.__LINE__.' Null asset should default to root'
               ),
             'publisher_create_banner' => array(
               43, 'core.create', 3, false,
@@ -229,6 +230,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @since   11.1
 	 * @dataProvider casesCheck()
+	 * @covers  JAccess::check
 	 */
 	public function testCheck($userId, $action, $assetId, $result, $message)
 	{
@@ -241,7 +243,7 @@ class JAccessTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Test cases for testCheck and testCheckGroups
+	 * Test cases for testCheckGroups
 	 *
 	 * Each test case provides
 	 * - integer		userid	a user id
@@ -258,7 +260,7 @@ class JAccessTest extends TestCaseDatabase
 	function casesCheckGroup()
 	{
 		return array(
-           'valid_superuser_site_login' => array(
+           'valid_admin_site_login' => array(
 			   7, 'core.login.site', 3, true,
                'Line:'.__LINE__.' Administrator group can login to site'
                ),
@@ -310,7 +312,7 @@ class JAccessTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests the JAccess::checkGroups method.
+	 * Tests the JAccess::checkGroup method.
 	 *
 	 * @param	integer		group id
 	 * @param	string		action to test
@@ -322,6 +324,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @since   11.1
 	 * @dataProvider casesCheckGroup()
+	 * @covers  JAccess::checkGroup
 	 */
 	public function testCheckGroup($groupId, $action, $assetId, $result, $message)
 	{
@@ -338,8 +341,9 @@ class JAccessTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JAccess::getAssetRules
 	 */
-	public function testGetAssetRules()
+	public function testGetAssetRulesValidTrue()
 	{
 		$access = new JAccess();
 		$ObjArrayJrules = $access->getAssetRules(3, True);
@@ -347,39 +351,67 @@ class JAccessTest extends TestCaseDatabase
 		$this->assertThat(
 			(string)$ObjArrayJrules,
 			$this->equalTo($string1),
-			'Line: ' . __LINE__
+			'Recursive rules from a valid asset. Line: ' . __LINE__
 		);
+	}
 
+	/**
+	 * @covers  JAccess::getAssetRules
+	 */
+	public function testGetAssetRulesValidFalse()
+	{
+		$access = new JAccess();
 		$ObjArrayJrules = $access->getAssetRules(3, False);
 		$string1 = '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"4":0},"core.delete":{"4":0,"5":1},"core.edit":[],"core.edit.state":[]}';
 		$this->assertThat(
 			(string) $ObjArrayJrules,
 			$this->equalTo($string1),
-			'Line: ' . __LINE__
+			'Non recursive rules from a valid asset. Line: ' . __LINE__
 		);
+	}
 
+	/**
+	 * @covers  JAccess::getAssetRules
+	 */
+	public function testGetAssetRulesInvalidFalse()
+	{
+		$access = new JAccess();
 		$ObjArrayJrules = $access->getAssetRules(1550, False);
-		$string1 = '[]';
-		$this->assertThat(
-			(string)$ObjArrayJrules,
-			$this->equalTo($string1),
-			'Line: ' . __LINE__
-		);
-
-		$ObjArrayJrules = $access->getAssetRules('testasset', False);
-		$string1 = '[]';
-		$this->assertThat(
-			(string)$ObjArrayJrules,
-			$this->equalTo($string1),
-			'Line: ' . __LINE__
-		);
-
-		$ObjArrayJrules = $access->getAssetRules('testasset', true);
 		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1,"10":1},"core.create":{"6":1},"core.delete":{"6":1},"core.edit":{"6":1},"core.edit.state":{"6":1}}';
 		$this->assertThat(
 			(string)$ObjArrayJrules,
 			$this->equalTo($string1),
-			'Line: ' . __LINE__
+			'Invalid asset uses rule from root. Line: ' . __LINE__
+		);
+	}
+
+	/**
+	 * @covers  JAccess::getAssetRules
+	 */
+	public function testGetAssetRulesTextFalse()
+	{
+		$access = new JAccess();
+		$ObjArrayJrules = $access->getAssetRules('testasset', False);
+		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1,"10":1},"core.create":{"6":1},"core.delete":{"6":1},"core.edit":{"6":1},"core.edit.state":{"6":1}}';
+		$this->assertThat(
+			(string)$ObjArrayJrules,
+			$this->equalTo($string1),
+			'Invalid asset uses rule from root. Line: ' . __LINE__
+		);
+	}
+
+	/**
+	 * @covers  JAccess::getAssetRules
+	 */
+	public function testGetAssetRulesTextTrue()
+	{
+		$access = new JAccess();
+		$ObjArrayJrules = $access->getAssetRules('testasset', True);
+		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1,"10":1},"core.create":{"6":1},"core.delete":{"6":1},"core.edit":{"6":1},"core.edit.state":{"6":1}}';
+		$this->assertThat(
+			(string)$ObjArrayJrules,
+			$this->equalTo($string1),
+			'Invalid asset uses rule from root. Line: ' . __LINE__
 		);
 	}
 
@@ -389,27 +421,52 @@ class JAccessTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JAccess::getUsersByGroup
 	 */
-	public function testGetUsersByGroup()
+	public function testGetUsersByGroupSimple()
 	{
 		$access = new JAccess();
 		$array1 = array(
 			0	=> 42
 		);
 		$this->assertThat(
-			$array1,
-			$this->equalTo($access->getUsersByGroup(8, True))
+			$access->getUsersByGroup(8, True),
+			$this->equalTo($array1),
+			'Get one user. Line: ' . __LINE__
 		);
+	}
 
-		$this->assertThat(
-			$array1,
-			$this->equalTo($access->getUsersByGroup(7, True))
+	/**
+	 * @covers  JAccess::getUsersByGroup
+	 */
+	public function testGetUsersByGroupTwoUsers()
+	{
+		$access = new JAccess();
+
+		$array3 = array(
+			0	=> 42,
+			1	=> 45,
+			2	=> 47
 		);
+		$this->assertThat(
+			$access->getUsersByGroup(7, True),
+			$this->equalTo($array3),
+			'Get multiple users. Line: ' . __LINE__
+		);
+	}
+
+	/**
+	 * @covers  JAccess::getUsersByGroup
+	 */
+	public function testGetUsersByGroupInvalidGroup()
+	{
+		$access = new JAccess();
 
 		$array2 = array();
 		$this->assertThat(
-			$array2,
-			$this->equalTo($access->getUsersByGroup(7, False))
+			$access->getUsersByGroup(15, False),
+			$this->equalTo($array2),
+			'No group specified. Line: ' . __LINE__
 		);
 	}
 
@@ -419,6 +476,7 @@ class JAccessTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JAccess::getGroupsByUser
 	 */
 	public function testGetGroupsByUser()
 	{
@@ -440,8 +498,6 @@ class JAccessTest extends TestCaseDatabase
 			$array2,
 			$this->equalTo(JAccess::getGroupsByUser(42, False))
 		);
-
-		jimport('joomla.application.component.helper');
 
 		$this->assertThat(
 			JAccess::getGroupsByUser(null),
@@ -523,7 +579,7 @@ class JAccessTest extends TestCaseDatabase
 				array(),
 				"/access/section[@name='component']/",
 				false,
-				'Getting actions from neither a string, neither an JXMLElement must return false.'
+				'Getting actions from neither a string, neither an SimpleXMLElement must return false.'
 			),
 		);
 	}
@@ -536,6 +592,7 @@ class JAccessTest extends TestCaseDatabase
 	 * @since   12.1
 	 *
 	 * @dataProvider casesGetActionsFromData
+	 * @covers  JAccess::getActionsFromData
 	 */
 	public function testGetActionsFromData($data, $xpath, $expected, $msg)
 	{
@@ -552,6 +609,7 @@ class JAccessTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   12.1
+	 * @covers  JAccess::getActionsFromFile
 	 */
 	public function testGetActionsFromFile()
 	{

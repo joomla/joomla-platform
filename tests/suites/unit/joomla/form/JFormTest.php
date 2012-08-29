@@ -32,7 +32,6 @@ class JFormTest extends TestCase
 	public function setUp()
 	{
 		$this->saveFactoryState();
-		jimport('joomla.utilities.xmlelement');
 		include_once 'inspectors.php';
 		include_once 'JFormDataHelper.php';
 	}
@@ -143,10 +142,10 @@ class JFormTest extends TestCase
 	public function testAddNode()
 	{
 		// The source data.
-		$xml1 = simplexml_load_string('<form><fields /></form>', 'JXMLElement');
+		$xml1 = simplexml_load_string('<form><fields /></form>');
 
 		// The new data for adding the field.
-		$xml2 = simplexml_load_string('<form><field name="foo" /></form>', 'JXMLElement');
+		$xml2 = simplexml_load_string('<form><field name="foo" /></form>');
 
 		if ($xml1 === false || $xml2 === false) {
 			$this->fail('Error in text XML data');
@@ -760,7 +759,7 @@ class JFormTest extends TestCase
 		);
 
 		$this->assertThat(
-			$errors[0] instanceof JException,
+			$errors[0] instanceof Exception,
 			$this->isTrue(),
 			'Line:'.__LINE__.' The errors should be exception objects.'
 		);
@@ -1242,9 +1241,9 @@ class JFormTest extends TestCase
 		);
 
 		$this->assertThat(
-			($form->getXML() instanceof JXMLElement),
+			($form->getXML() instanceof SimpleXMLElement),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The internal XML should be a JXMLElement object.'
+			'Line:'.__LINE__.' The internal XML should be a SimpleXMLElement object.'
 		);
 
 		// Test replace false.
@@ -1301,6 +1300,19 @@ class JFormTest extends TestCase
 			$this->equalTo(1),
 			'Line:'.__LINE__.' The show_title in the params group has been replaced by show_abstract.'
 		);
+
+		$originalform = new JFormInspector('form1');
+		$originalform->load(JFormDataHelper::$loadDocument);
+		$originalset = $originalform->getXML()->xpath('/form/fields/field');
+		$set = $form->getXML()->xpath('/form/fields/field');
+		for ($i = 0; $i < count($originalset); $i++)
+		{
+			$this->assertThat(
+				(string) ($originalset[$i]->attributes()->name) == (string) ($set[$i]->attributes()->name),
+				$this->isTrue(),
+				'Line:'.__LINE__.' Replace should leave fields in the original order.'
+			);
+		}
 	}
 
 	/**
@@ -1347,7 +1359,7 @@ class JFormTest extends TestCase
 		$form = new JFormInspector('form1');
 
 		$this->assertThat(
-			$form->load(JFactory::getXml('<notform><test /></notform>', false)),
+			$form->load(simplexml_load_string('<notform><test /></notform>')),
 			$this->isTrue(),
 			'Line:'.__LINE__.' Invalid root node name from XML object should still load.'
 		);
@@ -1491,7 +1503,7 @@ class JFormTest extends TestCase
 		);
 
 		$this->assertThat(
-			($form->getXML() instanceof JXMLElement),
+			($form->getXML() instanceof SimpleXMLElement),
 			$this->isTrue(),
 			'Line:'.__LINE__.' XML string should parse successfully.'
 		);
@@ -1508,7 +1520,7 @@ class JFormTest extends TestCase
 		);
 
 		$this->assertThat(
-			($form->getXML() instanceof JXMLElement),
+			($form->getXML() instanceof SimpleXMLElement),
 			$this->isTrue(),
 			'Line:'.__LINE__.' XML string should parse successfully.'
 		);
@@ -1596,10 +1608,10 @@ class JFormTest extends TestCase
 	public function testMergeNode()
 	{
 		// The source data.
-		$xml1 = simplexml_load_string('<form><field name="foo" /></form>', 'JXMLElement');
+		$xml1 = simplexml_load_string('<form><field name="foo" /></form>');
 
 		// The new data for adding the field.
-		$xml2 = simplexml_load_string('<form><field name="bar" type="text" /></form>', 'JXMLElement');
+		$xml2 = simplexml_load_string('<form><field name="bar" type="text" /></form>');
 
 		if ($xml1 === false || $xml2 === false) {
 			$this->fail('Line:'.__LINE__.' Error in text XML data');
@@ -1621,10 +1633,10 @@ class JFormTest extends TestCase
 	public function testMergeNodes()
 	{
 		// The source data.
-		$xml1 = simplexml_load_string('<form><fields><field name="foo" /></fields></form>', 'JXMLElement');
+		$xml1 = simplexml_load_string('<form><fields><field name="foo" /></fields></form>');
 
 		// The new data for adding the field.
-		$xml2 = simplexml_load_string('<form><fields><field name="foo" type="text" /><field name="soap" /></fields></form>', 'JXMLElement');
+		$xml2 = simplexml_load_string('<form><fields><field name="foo" type="text" /><field name="soap" /></fields></form>');
 
 		if ($xml1 === false || $xml2 === false) {
 			$this->fail('Line:'.__LINE__.' Error in text XML data');
@@ -1813,7 +1825,7 @@ class JFormTest extends TestCase
 			'Line:'.__LINE__.' XML string should load successfully.'
 		);
 
-		$xml1 = simplexml_load_string('<form><field name="title" required="true" /></form>', 'JXMLElement');
+		$xml1 = simplexml_load_string('<form><field name="title" required="true" /></form>');
 
 		if ($xml1 === false) {
 			$this->fail('Error in text XML data');
@@ -1899,7 +1911,7 @@ class JFormTest extends TestCase
 			'Line:'.__LINE__.' XML string should load successfully.'
 		);
 
-		$xml1 = simplexml_load_string('<form><field name="title" required="true" /><field name="ordering" /></form>', 'JXMLElement');
+		$xml1 = simplexml_load_string('<form><field name="title" required="true" /><field name="ordering" /></form>');
 
 		if ($xml1 === false) {
 			$this->fail('Error in text XML data');
@@ -2104,6 +2116,11 @@ class JFormTest extends TestCase
 
 	/**
 	 * Test for JForm::validateField method.
+	 *
+	 * return   void
+	 *
+	 * @covers  JForm::validateField
+	 * @since   11.1
 	 */
 	public function testValidateField()
 	{
@@ -2119,59 +2136,20 @@ class JFormTest extends TestCase
 
 		// Test error handling.
 
-		$result = $form->validateField('wrong');
-		$this->assertThat(
-			$result instanceof Exception,
-			$this->isTrue(),
-			'Line:'.__LINE__.' Passing a non-JXmlElement should return an exception.'
-		);
-
-		$this->assertThat(
-			$result->getCode(),
-			$this->equalTo(-1),
-			'Line:'.__LINE__.' The correct exception should be returned.'
-		);
-
-		$field = array_pop($xml->xpath('fields/field[@name="missingrule"]'));
-		$result = $form->validateField($field, null, 'value');
-		$this->assertThat(
-			$result instanceof Exception,
-			$this->isTrue(),
-			'Line:'.__LINE__.' Having a missing validation rule should return an exception.'
-		);
-
-		$this->assertThat(
-			$result->getCode(),
-			$this->equalTo(-2),
-			'Line:'.__LINE__.' The correct exception should be returned.'
-		);
-
 		$field = array_pop($xml->xpath('fields/field[@name="boolean"]'));
 		$result = $form->validateField($field);
 		$this->assertThat(
-			$result instanceof Exception,
+			$result instanceof UnexpectedValueException,
 			$this->isTrue(),
 			'Line:'.__LINE__.' A failed validation should return an exception.'
-		);
-
-		$this->assertThat(
-			$result->getCode(),
-			$this->equalTo(1),
-			'Line:'.__LINE__.' The correct exception should be returned.'
 		);
 
 		$field = array_pop($xml->xpath('fields/field[@name="required"]'));
 		$result = $form->validateField($field);
 		$this->assertThat(
-			$result instanceof Exception,
+			$result instanceof RuntimeException,
 			$this->isTrue(),
 			'Line:'.__LINE__.' A required field missing a value should return an exception.'
-		);
-
-		$this->assertThat(
-			$result->getCode(),
-			$this->equalTo(2),
-			'Line:'.__LINE__.' The correct exception should be returned.'
 		);
 
 		// Test general usage.
@@ -2196,5 +2174,25 @@ class JFormTest extends TestCase
 			$this->isTrue(),
 			'Line:'.__LINE__.' A required field with a value should return true.'
 		);
+	}
+
+	/**
+	 * Test for JForm::validateField method for missing rule exception.
+	 *
+	 * return   void
+	 *
+	 * @covers  JForm::validateField
+	 * @since   12.1
+	 *
+	 * @expectedException  UnexpectedValueException
+	 */
+	public function testValidateField_missingRule()
+	{
+		$form = new JFormInspector('form1');
+		$form->load(JFormDataHelper::$validateFieldDocument);
+		$xml = $form->getXML();
+
+		$field = array_pop($xml->xpath('fields/field[@name="missingrule"]'));
+		$result = $form->validateField($field, null, 'value');
 	}
 }

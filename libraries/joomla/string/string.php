@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 // PHP mbstring and iconv local configuration
 
 // Check if mbstring extension is loaded and attempt to load it if not present except for windows
-if (extension_loaded('mbstring') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && dl('mbstring.so'))))
+if (extension_loaded('mbstring'))
 {
 	// Make sure to suppress the output in case ini_set is disabled
 	@ini_set('mbstring.internal_encoding', 'UTF-8');
@@ -21,7 +21,7 @@ if (extension_loaded('mbstring') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN
 }
 
 // Same for iconv
-if (function_exists('iconv') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && dl('iconv.so'))))
+if (function_exists('iconv'))
 {
 	// These are settings that can be set inside code
 	iconv_set_encoding("internal_encoding", "UTF-8");
@@ -78,11 +78,14 @@ abstract class JString
 	 *
 	 * @return  array   The splitted string.
 	 *
+	 * @deprecated  12.3 Use JStringNormalise::fromCamelCase()
 	 * @since   11.3
 	 */
 	public static function splitCamelCase($string)
 	{
-		return preg_split('/(?<=[^A-Z_])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][^A-Z_])/x', $string);
+		JLog::add('JString::splitCamelCase has been deprecated. Use JStringNormalise::fromCamelCase.', JLog::WARNING, 'deprecated');
+
+		return JStringNormalise::fromCamelCase($string, true);
 	}
 
 	/**
@@ -346,7 +349,7 @@ abstract class JString
 			{
 				$encoding = 'CP' . $m[1];
 			}
-			elseif (stristr($locale, 'UTF-8'))
+			elseif (stristr($locale, 'UTF-8') || stristr($locale, 'utf8'))
 			{
 				$encoding = 'UTF-8';
 			}
@@ -405,7 +408,7 @@ abstract class JString
 			{
 				$encoding = 'CP' . $m[1];
 			}
-			elseif (stristr($locale, 'UTF-8'))
+			elseif (stristr($locale, 'UTF-8') || stristr($locale, 'utf8'))
 			{
 				$encoding = 'UTF-8';
 			}
@@ -707,23 +710,6 @@ abstract class JString
 	}
 
 	/**
-	 * Catch an error and throw an exception.
-	 *
-	 * @param   integer  $number   Error level
-	 * @param   string   $message  Error message
-	 *
-	 * @return  void
-	 *
-	 * @link    https://bugs.php.net/bug.php?id=48147
-	 *
-	 * @throw   ErrorException
-	 */
-	private static function _iconvErrorHandler($number, $message)
-	{
-		throw new ErrorException($message, 0, $number);
-	}
-
-	/**
 	 * Transcode a string.
 	 *
 	 * @param   string  $source         The string to transcode.
@@ -740,26 +726,14 @@ abstract class JString
 	{
 		if (is_string($source))
 		{
-			set_error_handler(array(__CLASS__, '_iconvErrorHandler'), E_NOTICE);
-			try
+			switch (ICONV_IMPL)
 			{
-				/*
-				 * "//TRANSLIT//IGNORE" is appended to the $to_encoding to ensure that when iconv comes
-				 * across a character that cannot be represented in the target charset, it can
-				 * be approximated through one or several similarly looking characters or ignored.
-				 */
-				$iconv = iconv($from_encoding, $to_encoding . '//TRANSLIT//IGNORE', $source);
+				case 'glibc':
+				return @iconv($from_encoding, $to_encoding . '//TRANSLIT,IGNORE', $source);
+				case 'libiconv':
+				default:
+				return iconv($from_encoding, $to_encoding . '//IGNORE//TRANSLIT', $source);
 			}
-			catch (ErrorException $e)
-			{
-				/*
-				 * "//IGNORE" is appended to the $to_encoding to ensure that when iconv comes
-				 * across a character that cannot be represented in the target charset, it is ignored.
-				 */
-				$iconv = iconv($from_encoding, $to_encoding . '//IGNORE', $source);
-			}
-			restore_error_handler();
-			return $iconv;
 		}
 
 		return null;
@@ -958,12 +932,11 @@ abstract class JString
 	 */
 	public static function parse_url($url)
 	{
-		$result = array();
+		$result = false;
 
 		// Build arrays of values we need to decode before parsing
-		$entities = array('%21', '%2A', '%27', '%28', '%29', '%3B', '%3A', '%40', '%26', '%3D', '%24', '%2C', '%2F', '%3F', '%25', '%23', '%5B',
-			'%5D');
-		$replacements = array('!', '*', "'", "(", ")", ";", ":", "@", "&", "=", "$", ",", "/", "?", "%", "#", "[", "]");
+		$entities = array('%21', '%2A', '%27', '%28', '%29', '%3B', '%3A', '%40', '%26', '%3D', '%24', '%2C', '%2F', '%3F', '%23', '%5B', '%5D');
+		$replacements = array('!', '*', "'", "(", ")", ";", ":", "@", "&", "=", "$", ",", "/", "?", "#", "[", "]");
 
 		// Create encoded URL with special URL characters decoded so it can be parsed
 		// All other characters will be encoded
@@ -973,9 +946,12 @@ abstract class JString
 		$encodedParts = parse_url($encodedURL);
 
 		// Now, decode each value of the resulting array
-		foreach ($encodedParts as $key => $value)
+		if ($encodedParts)
 		{
-			$result[$key] = urldecode($value);
+			foreach ($encodedParts as $key => $value)
+			{
+				$result[$key] = urldecode(str_replace($replacements, $entities, $value));
+			}
 		}
 		return $result;
 	}

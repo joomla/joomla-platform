@@ -27,7 +27,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	/**
 	 * The database connector to use for exporting structure and/or data.
 	 *
-	 * @var    JDatabasePostgresql
+	 * @var    JDatabaseDriverPostgresql
 	 * @since  12.1
 	 */
 	protected $db = null;
@@ -51,7 +51,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	/**
 	 * An array of options for the exporter.
 	 *
-	 * @var    JObject
+	 * @var    object
 	 * @since  12.1
 	 */
 	protected $options = null;
@@ -65,7 +65,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 */
 	public function __construct()
 	{
-		$this->options = new JObject;
+		$this->options = new stdClass;
 
 		$this->cache = array('columns' => array(), 'keys' => array());
 
@@ -105,7 +105,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	public function check()
 	{
 		// Check if the db connector has been set.
-		if (!($this->db instanceof JDatabasePostgresql))
+		if (!($this->db instanceof JDatabaseDriverPostgresql))
 		{
 			throw new Exception('JPLATFORM_ERROR_DATABASE_CONNECTOR_WRONG_TYPE');
 		}
@@ -177,7 +177,6 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 */
 	protected function getAlterTableSQL(SimpleXMLElement $structure)
 	{
-		// Initialise variables.
 		$table = $this->getRealTableName($structure['name']);
 		$oldFields = $this->db->getTableColumns($table);
 		$oldKeys = $this->db->getTableKeys($table);
@@ -450,7 +449,6 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 */
 	protected function getAlterColumnSQL($table, $field)
 	{
-		// Initialise variables.
 		// TODO Incorporate into parent class and use $this.
 		$blobs = array('text', 'smalltext', 'mediumtext', 'largetext');
 
@@ -505,7 +503,6 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 */
 	protected function getColumnSQL(SimpleXMLElement $field)
 	{
-		// Initialise variables.
 		// TODO Incorporate into parent class and use $this.
 		$blobs = array('text', 'smalltext', 'mediumtext', 'largetext');
 
@@ -698,7 +695,6 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 */
 	protected function mergeStructure()
 	{
-		// Initialise variables.
 		$prefix = $this->db->getPrefix();
 		$tables = $this->db->getTableList();
 
@@ -729,15 +725,17 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 					foreach ($queries as $query)
 					{
 						$this->db->setQuery((string) $query);
-						if (!$this->db->query())
+
+						try
+						{
+							$this->db->execute();
+						}
+						catch (RuntimeException $e)
 						{
 							$this->addLog('Fail: ' . $this->db->getQuery());
-							throw new Exception($this->db->getErrorMsg());
+							throw $e;
 						}
-						else
-						{
-							$this->addLog('Pass: ' . $this->db->getQuery());
-						}
+						$this->addLog('Pass: ' . $this->db->getQuery());
 					}
 
 				}
@@ -748,15 +746,16 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 				$sql = $this->xmlToCreate($table);
 
 				$this->db->setQuery((string) $sql);
-				if (!$this->db->query())
+				try
+				{
+					$this->db->execute();
+				}
+				catch (RuntimeException $e)
 				{
 					$this->addLog('Fail: ' . $this->db->getQuery());
-					throw new Exception($this->db->getErrorMsg());
+					throw $e;
 				}
-				else
-				{
-					$this->addLog('Pass: ' . $this->db->getQuery());
-				}
+				$this->addLog('Pass: ' . $this->db->getQuery());
 			}
 		}
 	}
@@ -764,13 +763,13 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	/**
 	 * Sets the database connector to use for exporting structure and/or data from PostgreSQL.
 	 *
-	 * @param   JDatabasePostgresql  $db  The database connector.
+	 * @param   JDatabaseDriverPostgresql  $db  The database connector.
 	 *
 	 * @return  JDatabaseImporterPostgresql  Method supports chaining.
 	 *
 	 * @since   12.1
 	 */
-	public function setDbo(JDatabasePostgresql $db)
+	public function setDbo(JDatabaseDriverPostgresql $db)
 	{
 		$this->db = $db;
 
@@ -788,7 +787,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 */
 	public function withStructure($setting = true)
 	{
-		$this->options->set('with-structure', (boolean) $setting);
+		$this->options->withStructure = (boolean) $setting;
 
 		return $this;
 	}

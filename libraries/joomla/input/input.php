@@ -18,20 +18,20 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Input
  * @since       11.1
  *
- * @method      integer  getInt()       getInt($name, $default)    Get a signed integer.
- * @method      integer  getUint()      getUint($name, $default)   Get an unsigned integer.
- * @method      float    getFloat()     getFloat($name, $default)  Get a floating-point number.
- * @method      boolean  getBool()      getBool($name, $default)   Get a boolean.
- * @method      string   getWord()      getWord($name, $default)
- * @method      string   getAlnum()     getAlnum($name, $default)
- * @method      string   getCmd()       getCmd($name, $default)
- * @method      string   getBase64()    getBase64($name, $default)
- * @method      string   getString()    getString($name, $default)
- * @method      string   getHtml()      getHtml($name, $default)
- * @method      string   getPath()      getPath($name, $default)
- * @method      string   getUsername()  getUsername($name, $default)
+ * @method      integer  getInt()       getInt($name, $default = null)    Get a signed integer.
+ * @method      integer  getUint()      getUint($name, $default = null)   Get an unsigned integer.
+ * @method      float    getFloat()     getFloat($name, $default = null)  Get a floating-point number.
+ * @method      boolean  getBool()      getBool($name, $default = null)   Get a boolean.
+ * @method      string   getWord()      getWord($name, $default = null)
+ * @method      string   getAlnum()     getAlnum($name, $default = null)
+ * @method      string   getCmd()       getCmd($name, $default = null)
+ * @method      string   getBase64()    getBase64($name, $default = null)
+ * @method      string   getString()    getString($name, $default = null)
+ * @method      string   getHtml()      getHtml($name, $default = null)
+ * @method      string   getPath()      getPath($name, $default = null)
+ * @method      string   getUsername()  getUsername($name, $default = null)
  */
-class JInput implements Serializable
+class JInput implements Serializable, Countable
 {
 	/**
 	 * Options array for the JInput instance.
@@ -86,11 +86,11 @@ class JInput implements Serializable
 
 		if (is_null($source))
 		{
-			$this->data = & $_REQUEST;
+			$this->data = &$_REQUEST;
 		}
 		else
 		{
-			$this->data = & $source;
+			$this->data = $source;
 		}
 
 		// Set the options for the class.
@@ -128,6 +128,19 @@ class JInput implements Serializable
 		}
 
 		// TODO throw an exception
+	}
+
+	/**
+	 * Get the number of variables.
+	 *
+	 * @return  integer  The number of variables in the input.
+	 *
+	 * @since   12.2
+	 * @see     Countable::count()
+	 */
+	public function count()
+	{
+		return count($this->data);
 	}
 
 	/**
@@ -184,12 +197,17 @@ class JInput implements Serializable
 				{
 					$results[$k] = $this->get($k, null, $v);
 				}
-				else
+				elseif (isset($datasource[$k]))
 				{
 					$results[$k] = $this->filter->clean($datasource[$k], $v);
 				}
+				else
+				{
+					$results[$k] = $this->filter->clean(null, $v);
+				}
 			}
 		}
+
 		return $results;
 	}
 
@@ -231,10 +249,10 @@ class JInput implements Serializable
 	/**
 	 * Magic method to get filtered input data.
 	 *
-	 * @param   mixed   $name       Name of the value to get.
-	 * @param   string  $arguments  Default value to return if variable does not exist.
+	 * @param   string  $name       Name of the filter type prefixed with 'get'.
+	 * @param   array   $arguments  [0] The name of the variable [1] The default value.
 	 *
-	 * @return  boolean  The filtered boolean input value.
+	 * @return  mixed   The filtered input value.
 	 *
 	 * @since   11.1
 	 */

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Application
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -18,7 +18,7 @@ jimport('joomla.environment.response');
  * supporting API functions. Derived clases should supply the route(), dispatch()
  * and render() functions.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Application
  * @since       11.1
  */
@@ -30,15 +30,6 @@ class JApplication extends JApplicationBase
 	 * @var    integer
 	 * @since  11.1
 	 */
-	protected $clientId = null;
-
-	/**
-	 * The client identifier.
-	 *
-	 * @var    integer
-	 * @since  11.1
-	 * @deprecated use $clientId or declare as private
-	 */
 	protected $_clientId = null;
 
 	/**
@@ -47,15 +38,6 @@ class JApplication extends JApplicationBase
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $messageQueue = array();
-
-	/**
-	 * The application message queue.
-	 *
-	 * @var    array
-	 * @since  11.1
-	 * @deprecated use $messageQueue or declare as private
-	 */
 	protected $_messageQueue = array();
 
 	/**
@@ -63,15 +45,6 @@ class JApplication extends JApplicationBase
 	 *
 	 * @var    array
 	 * @since  11.1
-	 */
-	protected $name = null;
-
-	/**
-	 * The name of the application.
-	 *
-	 * @var    array
-	 * @since  11.1
-	 * @deprecated use $name or declare as private
 	 */
 	protected $_name = null;
 
@@ -100,6 +73,12 @@ class JApplication extends JApplicationBase
 	public $startTime = null;
 
 	/**
+	 * @var    JApplicationWebClient  The application client object.
+	 * @since  12.2
+	 */
+	public $client;
+
+	/**
 	 * @var    array  JApplication instances container.
 	 * @since  11.3
 	 */
@@ -115,8 +94,6 @@ class JApplication extends JApplicationBase
 	 */
 	public function __construct($config = array())
 	{
-		jimport('joomla.error.profiler');
-
 		// Set the view name.
 		$this->_name = $this->getName();
 
@@ -133,10 +110,11 @@ class JApplication extends JApplicationBase
 		}
 
 		// Create the input object
-		if (class_exists('JInput'))
-		{
-			$this->input = new JInput;
-		}
+		$this->input = new JInput;
+
+		$this->client = new JApplicationWebClient;
+
+		$this->loadDispatcher();
 
 		// Set the session default name.
 		if (!isset($config['session_name']))
@@ -162,12 +140,10 @@ class JApplication extends JApplicationBase
 			$this->_createSession(self::getHash($config['session_name']));
 		}
 
-		$this->loadDispatcher();
-
-		$this->set('requestTime', gmdate('Y-m-d H:i'));
+		$this->requestTime = gmdate('Y-m-d H:i');
 
 		// Used by task system to ensure that the system doesn't go over time.
-		$this->set('startTime', JProfiler::getmicrotime());
+		$this->startTime = JProfiler::getmicrotime();
 	}
 
 	/**
@@ -194,7 +170,7 @@ class JApplication extends JApplicationBase
 			{
 				include_once $path;
 
-				// Create a JRouter object.
+				// Create a JApplication object.
 				$classname = $prefix . ucfirst($client);
 				$instance = new $classname($config);
 			}
@@ -295,9 +271,6 @@ class JApplication extends JApplicationBase
 	public function dispatch($component = null)
 	{
 		$document = JFactory::getDocument();
-
-		$document->setTitle($this->getCfg('sitename') . ' - ' . JText::_('JADMINISTRATION'));
-		$document->setDescription($this->getCfg('MetaDesc'));
 
 		$contents = JComponentHelper::renderComponent($component);
 		$document->setBuffer($contents, 'component');
@@ -417,21 +390,13 @@ class JApplication extends JApplicationBase
 		else
 		{
 			$document = JFactory::getDocument();
-			jimport('joomla.environment.browser');
-			$navigator = JBrowser::getInstance();
+
 			jimport('phputf8.utils.ascii');
-			if ($navigator->isBrowser('msie') && !utf8_is_ascii($url))
+			if (($this->client->engine == JApplicationWebClient::TRIDENT) && !utf8_is_ascii($url))
 			{
 				// MSIE type browser and/or server cause issues when url contains utf8 character,so use a javascript redirect method
 				echo '<html><head><meta http-equiv="content-type" content="text/html; charset=' . $document->getCharset() . '" />'
 					. '<script>document.location.href=\'' . htmlspecialchars($url) . '\';</script></head></html>';
-			}
-			elseif (!$moved && $navigator->isBrowser('konqueror'))
-			{
-				// WebKit browser (identified as konqueror by Joomla!) - Do not use 303, as it causes subresources
-				// reload (https://bugs.webkit.org/show_bug.cgi?id=38690)
-				echo '<html><head><meta http-equiv="content-type" content="text/html; charset=' . $document->getCharset() . '" />'
-					. '<meta http-equiv="refresh" content="0; url=' . htmlspecialchars($url) . '" /></head></html>';
 			}
 			else
 			{
@@ -700,12 +665,11 @@ class JApplication extends JApplicationBase
 				// Set the remember me cookie if enabled.
 				if (isset($options['remember']) && $options['remember'])
 				{
-					jimport('joomla.utilities.simplecrypt');
-
 					// Create the encryption key, apply extra hardening using the user agent string.
-					$key = self::getHash(@$_SERVER['HTTP_USER_AGENT']);
+					$privateKey = self::getHash(@$_SERVER['HTTP_USER_AGENT']);
 
-					$crypt = new JSimpleCrypt($key);
+					$key = new JCryptKey('simple', $privateKey, $privateKey);
+					$crypt = new JCrypt(new JCryptCipherSimple, $key);
 					$rcookie = $crypt->encrypt(serialize($credentials));
 					$lifetime = time() + 365 * 24 * 60 * 60;
 
@@ -826,9 +790,12 @@ class JApplication extends JApplicationBase
 		}
 
 		jimport('joomla.application.router');
-		$router = JRouter::getInstance($name, $options);
 
-		if ($router instanceof Exception)
+		try
+		{
+			$router = JRouter::getInstance($name, $options);
+		}
+		catch (Exception $e)
 		{
 			return null;
 		}
@@ -878,10 +845,11 @@ class JApplication extends JApplicationBase
 			$name = $this->_name;
 		}
 
-		jimport('joomla.application.pathway');
-		$pathway = JPathway::getInstance($name, $options);
-
-		if ($pathway instanceof Exception)
+		try
+		{
+			$pathway = JPathway::getInstance($name, $options);
+		}
+		catch (Exception $e)
 		{
 			return null;
 		}
@@ -906,10 +874,11 @@ class JApplication extends JApplicationBase
 			$name = $this->_name;
 		}
 
-		jimport('joomla.application.menu');
-		$menu = JMenu::getInstance($name, $options);
-
-		if ($menu instanceof Exception)
+		try
+		{
+			$menu = JMenu::getInstance($name, $options);
+		}
+		catch (Exception $e)
 		{
 			return null;
 		}
@@ -992,7 +961,11 @@ class JApplication extends JApplicationBase
 				break;
 		}
 
+		$this->registerEvent('onAfterSessionStart', array($this, 'afterSessionStart'));
+
 		$session = JFactory::getSession($options);
+		$session->initialise($this->input, $this->dispatcher);
+		$session->start();
 
 		// TODO: At some point we need to get away from having session data always in the db.
 
@@ -1013,8 +986,9 @@ class JApplication extends JApplicationBase
 		}
 
 		// Check to see the the session already exists.
-		if (($this->getCfg('session_handler') != 'database' && ($time % 2 || $session->isNew()))
-			|| ($this->getCfg('session_handler') == 'database' && $session->isNew()))
+		$handler = $this->getCfg('session_handler');
+		if (($handler != 'database' && ($time % 2 || $session->isNew()))
+			|| ($handler == 'database' && $session->isNew()))
 		{
 			$this->checkSession();
 		}
@@ -1073,17 +1047,31 @@ class JApplication extends JApplicationBase
 			}
 
 			// If the insert failed, exit the application.
-			if (!$db->execute())
+			try
 			{
-				jexit($db->getErrorMSG());
+				$db->execute();
 			}
+			catch (RuntimeException $e)
+			{
+				jexit($e->getMessage());
+			}
+		}
+	}
 
-			// Session doesn't exist yet, so create session variables
-			if ($session->isNew())
-			{
-				$session->set('registry', new JRegistry('session'));
-				$session->set('user', new JUser);
-			}
+	/**
+	 * After the session has been started we need to populate it with some default values.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 */
+	public function afterSessionStart()
+	{
+		$session = JFactory::getSession();
+		if ($session->isNew())
+		{
+			$session->set('registry', new JRegistry('session'));
+			$session->set('user', new JUser);
 		}
 	}
 
@@ -1129,10 +1117,25 @@ class JApplication extends JApplicationBase
 	 * @return  boolean  True if Windows OS
 	 *
 	 * @since   11.1
+	 * @deprecated  13.3 Use the IS_WIN constant instead.
 	 */
 	public static function isWinOS()
 	{
-		return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+		JLog::add('JApplication::isWinOS() is deprecated. Use the IS_WIN constant instead.', JLog::WARNING, 'deprecated');
+
+		return IS_WIN;
+	}
+
+	/**
+	 * Determine if we are using a secure (SSL) connection.
+	 *
+	 * @return  boolean  True if using SSL, false if not.
+	 *
+	 * @since   12.2
+	 */
+	public function isSSLConnection()
+	{
+		return ((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION'));
 	}
 
 	/**

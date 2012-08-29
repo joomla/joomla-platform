@@ -94,8 +94,12 @@ class JHttpTransportSocket implements JHttpTransport
 				$data = http_build_query($data);
 			}
 
+			if (!isset($headers['Content-Type']))
+			{
+				$headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=utf-8';
+			}
+
 			// Add the relevant headers.
-			$headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=utf-8';
 			$headers['Content-Length'] = strlen($data);
 		}
 
@@ -200,7 +204,6 @@ class JHttpTransportSocket implements JHttpTransport
 	 */
 	protected function connect(JUri $uri, $timeout = null)
 	{
-		// Initialize variables.
 		$errno = null;
 		$err = null;
 
@@ -265,9 +268,9 @@ class JHttpTransportSocket implements JHttpTransport
 
 	/**
 	 * method to check if http transport socket available for using
-	 * 
+	 *
 	 * @return bool true if available else false
-	 * 
+	 *
 	 * @since   12.1
 	 */
 	static public function isSupported()

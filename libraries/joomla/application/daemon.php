@@ -100,14 +100,14 @@ class JApplicationDaemon extends JApplicationCli
 	 *                              config object.  If the argument is a JRegistry object that object will become
 	 *                              the application's config object, otherwise a default config object is created.
 	 * @param   mixed  $dispatcher  An optional argument to provide dependency injection for the application's
-	 *                              event dispatcher.  If the argument is a JDispatcher object that object will become
+	 *                              event dispatcher.  If the argument is a JEventDispatcher object that object will become
 	 *                              the application's event dispatcher, if it is null then the default event dispatcher
 	 *                              will be created based on the application's loadDispatcher() method.
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
 	 */
-	public function __construct(JInputCli $input = null, JRegistry $config = null, JDispatcher $dispatcher = null)
+	public function __construct(JInputCli $input = null, JRegistry $config = null, JEventDispatcher $dispatcher = null)
 	{
 		// Verify that the process control extension for PHP is available.
 		// @codeCoverageIgnoreStart
@@ -230,7 +230,7 @@ class JApplicationDaemon extends JApplicationCli
 		// Read the contents of the process id file as an integer.
 		$fp = fopen($pidFile, 'r');
 		$pid = fread($fp, filesize($pidFile));
-		$pid = intval($pid);
+		$pid = (int) $pid;
 		fclose($fp);
 
 		// Check to make sure that the process id exists as a positive integer.
@@ -362,11 +362,8 @@ class JApplicationDaemon extends JApplicationCli
 		// Trigger the onBeforeExecute event.
 		$this->triggerEvent('onBeforeExecute');
 
-		// Enable basic garbage collection.  Only available in PHP 5.3+
-		if (function_exists('gc_enable'))
-		{
-			gc_enable();
-		}
+		// Enable basic garbage collection.
+		gc_enable();
 
 		JLog::add('Starting ' . $this->name, JLog::INFO);
 
@@ -663,11 +660,8 @@ class JApplicationDaemon extends JApplicationCli
 	 */
 	protected function gc()
 	{
-		// Perform generic garbage collection.  Only available in PHP 5.3+
-		if (function_exists('gc_collect_cycles'))
-		{
-			gc_collect_cycles();
-		}
+		// Perform generic garbage collection.
+		gc_collect_cycles();
 
 		// Clear the stat cache so it doesn't blow up memory.
 		clearstatcache();
@@ -745,7 +739,7 @@ class JApplicationDaemon extends JApplicationCli
 			// Read the contents of the process id file as an integer.
 			$fp = fopen($this->config->get('application_pid_file'), 'r');
 			$pid = fread($fp, filesize($this->config->get('application_pid_file')));
-			$pid = intval($pid);
+			$pid = (int) $pid;
 			fclose($fp);
 
 			// Remove the process id file.

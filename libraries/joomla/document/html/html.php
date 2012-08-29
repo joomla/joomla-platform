@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.application.module.helper');
 jimport('joomla.utilities.utility');
 
 /**
@@ -386,7 +385,7 @@ class JDocumentHTML extends JDocument
 				$options['modulemode'] = 1;
 
 				$this->setBuffer($renderer->render($name, $attribs, null), $type, $name);
-				$data = parent::$_buffer[$type][$name];
+				$data = parent::$_buffer[$type][$name][$title];
 
 				$tmpdata = JCache::setWorkarounds($data, $options);
 

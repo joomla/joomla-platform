@@ -71,11 +71,6 @@ class JFormFieldRules extends JFormField
 			$query->where($db->quoteName('name') . ' = ' . $db->quote($component));
 			$db->setQuery($query);
 			$assetId = (int) $db->loadResult();
-
-			if ($error = $db->getErrorMsg())
-			{
-				JLog::add($error, JLog::WARNING, 'jerror');
-			}
 		}
 		else
 		{
@@ -308,7 +303,6 @@ class JFormFieldRules extends JFormField
 	 */
 	protected function getUserGroups()
 	{
-		// Initialise variables.
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 		$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level, a.parent_id')

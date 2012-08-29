@@ -44,7 +44,6 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		// Initialize variables.
 		// This gets the connectors available in the platform and supported by the server.
 		$available = JDatabaseDriver::getConnectors();
 
@@ -62,7 +61,7 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 			{
 				if (in_array($support, $available))
 				{
-					$options[$support] = ucfirst($support);
+					$options[$support] = JText::_(ucfirst($support));
 				}
 			}
 		}
@@ -70,7 +69,7 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 		{
 			foreach ($available as $support)
 			{
-				$options[$support] = ucfirst($support);
+				$options[$support] = JText::_(ucfirst($support));
 			}
 		}
 

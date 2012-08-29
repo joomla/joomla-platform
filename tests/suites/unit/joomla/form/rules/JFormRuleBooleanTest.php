@@ -23,7 +23,6 @@ class JFormRuleBooleanTest extends TestCase
 	 */
 	public function setUp()
 	{
-		jimport('joomla.utilities.xmlelement');
 		require_once JPATH_PLATFORM.'/joomla/form/rules/boolean.php';
 	}
 
@@ -32,10 +31,8 @@ class JFormRuleBooleanTest extends TestCase
 	 */
 	public function testBoolean()
 	{
-		// Initialise variables.
-
 		$rule = new JFormRuleBoolean;
-		$xml = simplexml_load_string('<form><field name="foo" /></form>', 'JXMLElement');
+		$xml = simplexml_load_string('<form><field name="foo" /></form>');
 
 		// Test fail conditions.
 

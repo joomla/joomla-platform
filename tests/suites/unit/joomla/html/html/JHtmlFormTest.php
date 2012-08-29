@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/html/html/form.php';
+require_once JPATH_PLATFORM.'/joomla/html/form.php';
 
 /**
  * Test class for JHtmlForm.
@@ -58,6 +58,8 @@ class JHtmlFormTest extends TestCase
 	 */
 	public function testToken()
 	{
+		JFactory::$application = $this->getMockWeb();
+
 		$token = JSession::getFormToken();
 
 		$this->assertThat(

@@ -38,7 +38,6 @@ class JClientHelper
 
 		if (!isset($credentials[$client]) || $force)
 		{
-			// Initialise variables.
 			$config = JFactory::getConfig();
 
 			// Fetch the client layer configuration options for the specific client
@@ -198,15 +197,17 @@ class JClientHelper
 	 *
 	 * @param   string  $client  The name of the client.
 	 *
-	 * @return  mixed  True, if FTP settings should be shown or an exception
+	 * @return  mixed  True, if FTP settings; JError if using legacy tree.
 	 *
 	 * @since   11.1
+	 * @throws  InvalidArgumentException if credentials invalid
 	 */
 	public static function setCredentialsFromRequest($client)
 	{
 		// Determine whether FTP credentials have been passed along with the current request
-		$user = JRequest::getString('username', null, 'POST', JREQUEST_ALLOWRAW);
-		$pass = JRequest::getString('password', null, 'POST', JREQUEST_ALLOWRAW);
+		$input = JFactory::getApplication()->input;
+		$user = $input->post->getString('username', null);
+		$pass = $input->post->getString('password', null);
 		if ($user != '' && $pass != '')
 		{
 			// Add credentials to the session
@@ -216,7 +217,14 @@ class JClientHelper
 			}
 			else
 			{
-				$return = JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_CLIENT_ERROR_HELPER_SETCREDENTIALSFROMREQUEST_FAILED'));
+				if (class_exists('JError'))
+				{
+					$return = JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_CLIENT_ERROR_HELPER_SETCREDENTIALSFROMREQUEST_FAILED'));
+				}
+				else
+				{
+					throw new InvalidArgumentException('Invalid user credentials');
+				}
 			}
 		}
 		else

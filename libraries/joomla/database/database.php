@@ -29,7 +29,7 @@ abstract class JDatabase
 	 */
 	public function query()
 	{
-		JLog::add('JDatabase::query() is deprecated, use JDatabaseDriver::execute() instead.', JLog::NOTICE, 'deprecated');
+		JLog::add('JDatabase::query() is deprecated, use JDatabaseDriver::execute() instead.', JLog::WARNING, 'deprecated');
 
 		return $this->execute();
 	}
@@ -46,8 +46,7 @@ abstract class JDatabase
 	 */
 	public static function getConnectors()
 	{
-		// Deprecation warning.
-		JLog::add('JDatabase::getConnectors() is deprecated, use JDatabaseDriver::getConnectors() instead.', JLog::NOTICE, 'deprecated');
+		JLog::add('JDatabase::getConnectors() is deprecated, use JDatabaseDriver::getConnectors() instead.', JLog::WARNING, 'deprecated');
 
 		return JDatabaseDriver::getConnectors();
 	}
@@ -94,7 +93,7 @@ abstract class JDatabase
 	/**
 	 * Method to return a JDatabaseDriver instance based on the given options.  There are three global options and then
 	 * the rest are specific to the database driver.  The 'driver' option defines which JDatabaseDriver class is
-	 * used for the connection -- the default is 'mysql'.  The 'database' option determines which database is to
+	 * used for the connection -- the default is 'mysqli'.  The 'database' option determines which database is to
 	 * be used for the connection.  The 'select' option determines whether the connector should automatically select
 	 * the chosen database.
 	 *
@@ -110,9 +109,26 @@ abstract class JDatabase
 	 */
 	public static function getInstance($options = array())
 	{
-		JLog::add('JDatabase::getInstance() is deprecated, use JDatabaseDriver::getInstance() instead.', JLog::NOTICE, 'deprecated');
+		JLog::add('JDatabase::getInstance() is deprecated, use JDatabaseDriver::getInstance() instead.', JLog::WARNING, 'deprecated');
 
 		return JDatabaseDriver::getInstance($options);
+	}
+
+	/**
+	 * Splits a string of multiple queries into an array of individual queries.
+	 *
+	 * @param   string  $sql  Input SQL string with which to split into individual queries.
+	 *
+	 * @return  array  The queries from the input string separated into an array.
+	 *
+	 * @since   11.1
+	 * @deprecated  13.1
+	 */
+	public static function splitSql($sql)
+	{
+		JLog::add('JDatabase::splitSql() is deprecated, use JDatabaseDriver::splitSql() instead.', JLog::WARNING, 'deprecated');
+
+		return JDatabaseDriver::splitSql($sql);
 	}
 
 	/**

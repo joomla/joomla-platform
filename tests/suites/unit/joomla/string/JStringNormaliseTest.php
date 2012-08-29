@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/string/normalise.php';
 
 /**
  * JStringNormaliseTest
@@ -19,7 +18,26 @@ require_once JPATH_PLATFORM . '/joomla/string/normalise.php';
 class JStringNormaliseTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * Method to test JStringNormalise::fromCamelCase().
+	 * @return  array
+	 *
+	 * @since   11.3
+	 */
+	public function getFromCamelCaseData()
+	{
+		return array(
+			// string, expected
+			array('FooBarABCDef', array('Foo', 'Bar', 'ABC', 'Def')),
+			array('JFooBar', array('J', 'Foo', 'Bar')),
+			array('J001FooBar002', array('J001', 'Foo', 'Bar002')),
+			array('abcDef', array('abc', 'Def')),
+			array('abc_defGhi_Jkl', array('abc_def', 'Ghi_Jkl')),
+			array('ThisIsA_NASAAstronaut', array('This', 'Is', 'A_NASA', 'Astronaut')),
+			array('JohnFitzgerald_Kennedy', array('John', 'Fitzgerald_Kennedy')),
+		);
+	}
+
+	/**
+	 * Method to test JStringNormalise::fromCamelCase(string, false).
 	 *
 	 * @param   string  $expected  The expected value from the method.
 	 * @param   string  $input     The input value for the method.
@@ -28,10 +46,28 @@ class JStringNormaliseTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  seedFromCamelCase
 	 * @since   11.3
+	 * @covers  JStringNormalise::fromCamelcase
 	 */
-	public function testFromCamelCase($expected, $input)
+	public function testFromCamelCase_nongrouped($expected, $input)
 	{
 		$this->assertEquals($expected, JStringNormalise::fromCamelcase($input));
+	}
+
+	/**
+	 * Method to test JStringNormalise::fromCamelCase(string, true).
+	 *
+	 * @param   string  $expected  The expected value from the method.
+	 * @param   string  $input     The input value for the method.
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider  getFromCamelCaseData
+	 * @since   11.3
+	 * @covers  JStringNormalise::fromCamelcase
+	 */
+	public function testFromCamelCase_grouped($input, $expected)
+	{
+		$this->assertEquals($expected, JStringNormalise::fromCamelcase($input, true));
 	}
 
 	/**
@@ -44,6 +80,7 @@ class JStringNormaliseTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  seedToCamelCase
 	 * @since   11.3
+	 * @covers  JStringNormalise::toCamelcase
 	 */
 	public function testToCamelCase($expected, $input)
 	{
@@ -60,6 +97,7 @@ class JStringNormaliseTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  seedToDashSeparated
 	 * @since   11.3
+	 * @covers  JStringNormalise::toDashSeparated
 	 */
 	public function testToDashSeparated($expected, $input)
 	{
@@ -76,6 +114,7 @@ class JStringNormaliseTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  seedToSpaceSeparated
 	 * @since   11.3
+	 * @covers  JStringNormalise::toSpaceSeparated
 	 */
 	public function testToSpaceSeparated($expected, $input)
 	{
@@ -92,6 +131,7 @@ class JStringNormaliseTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  seedToUnderscoreSeparated
 	 * @since   11.3
+	 * @covers  JStringNormalise::toUnderscoreSeparated
 	 */
 	public function testToUnderscoreSeparated($expected, $input)
 	{
@@ -108,6 +148,7 @@ class JStringNormaliseTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  seedToVariable
 	 * @since   11.3
+	 * @covers  JStringNormalise::toVariable
 	 */
 	public function testToVariable($expected, $input)
 	{
@@ -124,6 +165,7 @@ class JStringNormaliseTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  seedToKey
 	 * @since   11.3
+	 * @covers  JStringNormalise::toKey
 	 */
 	public function testToKey($expected, $input)
 	{

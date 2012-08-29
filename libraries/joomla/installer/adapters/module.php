@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.base.adapterinstance');
+jimport('joomla.filesystem.folder');
 
 /**
  * Module installer
@@ -324,7 +325,7 @@ class JInstallerModule extends JAdapterInstance
 		{
 			if ($this->parent->manifestClass->preflight($this->route, $this) === false)
 			{
-				// Install failed, rollback changes
+				// Preflight failed, rollback changes
 				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_MOD_INSTALL_CUSTOM_INSTALL_FAILURE'));
 
 				return false;
@@ -457,9 +458,6 @@ class JInstallerModule extends JAdapterInstance
 				return false;
 			}
 
-			// Set the insert id
-			$row->extension_id = $db->insertid();
-
 			// Since we have created a module item, we add it to the installation step stack
 			// so that if we have to rollback the changes we can undo it.
 			$this->parent->pushStep(array('type' => 'extension', 'extension_id' => $row->extension_id));
@@ -584,7 +582,7 @@ class JInstallerModule extends JAdapterInstance
 		$this->parent->setUpgrade(true);
 
 		// Set the route for the install
-		$this->route = 'Update';
+		$this->route = 'update';
 
 		// Go to install which handles updates properly
 		return $this->install();
@@ -718,7 +716,6 @@ class JInstallerModule extends JAdapterInstance
 	 */
 	public function uninstall($id)
 	{
-		// Initialise variables.
 		$row = null;
 		$retval = true;
 		$db = $this->parent->getDbo();
@@ -801,7 +798,12 @@ class JInstallerModule extends JAdapterInstance
 		$msg = ob_get_contents();
 		ob_end_clean();
 
-		if (!($this->manifest instanceof JXMLElement))
+		if ($msg != '')
+		{
+			$this->parent->set('extension_message', $msg);
+		}
+
+		if (!($this->manifest instanceof SimpleXMLElement))
 		{
 			// Make sure we delete the folders
 			JFolder::delete($this->parent->getPath('extension_root'));

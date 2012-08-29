@@ -32,7 +32,6 @@ class JUtilityTest extends TestCase
 	 */
 	protected function setUp()
 	{
-		$this->saveFactoryState();
 	}
 
 	/**
@@ -43,7 +42,6 @@ class JUtilityTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		$this->restoreFactoryState();
 	}
 
 	/**
@@ -70,9 +68,10 @@ class JUtilityTest extends TestCase
 	 * @param   string	tag to be parsed
 	 * @param   array	resulting array of attribute values
 	 *
-	 * @return void
+	 * @return  void
 	 *
 	 * @dataProvider casesParseAttributes
+	 * @covers  JUtility::parseAttributes
 	 */
 	public function testParseAttributes( $tag, $expected )
 	{
@@ -80,13 +79,5 @@ class JUtilityTest extends TestCase
 			JUtility::parseAttributes($tag),
 			$this->equalTo($expected)
 		);
-	}
-}
-
-class Mock_Session
-{
-	function getFormToken($data)
-	{
-		return (bool) $data;
 	}
 }

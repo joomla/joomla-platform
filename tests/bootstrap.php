@@ -18,8 +18,7 @@ define('_JEXEC', 1);
 @ini_set('magic_quotes_runtime', 0);
 
 // Maximise error reporting.
-@ini_set('zend.ze1_compatibility_mode', '0');
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_STRICT);
 ini_set('display_errors', 1);
 
 /*
@@ -64,7 +63,14 @@ if (!defined('JPATH_THEMES'))
 }
 
 // Import the platform.
-require_once JPATH_PLATFORM . '/import.legacy.php';
+require_once JPATH_PLATFORM . '/import.php';
 
 // Register the core Joomla test classes.
 JLoader::registerPrefix('Test', __DIR__ . '/core');
+
+// Some classes still dependen on JVersion
+// until that's fixed we need to load it
+require_once __DIR__ . '/version.php';
+
+// We need this to test JSession
+ob_start();

@@ -18,7 +18,7 @@ jimport('joomla.environment.response');
  * @subpackage  Document
  * @since       11.1
  */
-class JDocument extends JObject
+class JDocument
 {
 	/**
 	 * Document title
@@ -210,8 +210,6 @@ class JDocument extends JObject
 	 */
 	public function __construct($options = array())
 	{
-		parent::__construct();
-
 		if (array_key_exists('lineend', $options))
 		{
 			$this->setLineEnd($options['lineend']);
@@ -258,7 +256,7 @@ class JDocument extends JObject
 	 * @return  object  The document object.
 	 *
 	 * @since   11.1
-	 * @throws  Exception
+	 * @throws  RuntimeException
 	 */
 	public static function getInstance($type = 'html', $attributes = array())
 	{
@@ -289,7 +287,7 @@ class JDocument extends JObject
 				}
 				else
 				{
-					throw new Exception(JText::_('JLIB_DOCUMENT_ERROR_UNABLE_LOAD_DOC_CLASS'), 500);
+					throw new RuntimeException('Invalid JDocument Class', 500);
 				}
 			}
 
@@ -900,7 +898,7 @@ class JDocument extends JObject
 	 * @return  JDocumentRenderer  Object or null if class does not exist
 	 *
 	 * @since   11.1
-	 * @throws  Exception
+	 * @throws  RuntimeException
 	 */
 	public function loadRenderer($type)
 	{
@@ -916,7 +914,7 @@ class JDocument extends JObject
 			}
 			else
 			{
-				throw new Exception(JText::_('Unable to load renderer class'), 500);
+				throw new RuntimeException('Unable to load renderer class', 500);
 			}
 		}
 

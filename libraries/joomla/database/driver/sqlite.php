@@ -39,24 +39,24 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	protected $nameQuote = '`';
 
 	/**
-	 * Constructor.
-	 *
-	 * @param   array  $options  List of options used to configure the connection
-	 *
-	 * @since   12.1
-	 */
-	public function __construct($options)
-	{
-		// Finalize initialisation
-		parent::__construct($options);
-	}
-
-	/**
 	 * Destructor.
 	 *
 	 * @since   12.1
 	 */
 	public function __destruct()
+	{
+		$this->freeResult();
+		unset($this->connection);
+	}
+
+	/**
+	 * Disconnects the database.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function disconnect()
 	{
 		$this->freeResult();
 		unset($this->connection);
@@ -256,11 +256,12 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 		$query = $this->getQuery(true);
 
 		$tables = array();
+		$type = 'table';
 
 		$query->select('name');
 		$query->from('sqlite_master');
 		$query->where('type = :type');
-		$query->bind(':type', 'table');
+		$query->bind(':type', $type);
 		$query->order('name');
 
 		$this->setQuery($query);
@@ -325,7 +326,7 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	 *
 	 * @param   string  $table  The name of the table to unlock.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriverSqlite  Returns this object to support chaining.
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
@@ -343,7 +344,7 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	 * @param   string  $backup    Not used by Sqlite.
 	 * @param   string  $prefix    Not used by Sqlite.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriverSqlite  Returns this object to support chaining.
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
@@ -358,7 +359,7 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	/**
 	 * Unlocks tables in the database.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriverSqlite  Returns this object to support chaining.
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
@@ -377,6 +378,6 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	 */
 	public static function isSupported()
 	{
-		return in_array('sqlite', PDO::getAvailableDrivers());
+		return class_exists('PDO') && in_array('sqlite', PDO::getAvailableDrivers());
 	}
 }

@@ -9,9 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JHtml::addIncludePath(JPATH_PLATFORM . '/joomla/html/html');
-
-jimport('joomla.environment.uri');
 jimport('joomla.environment.browser');
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.path');
@@ -209,7 +206,7 @@ abstract class JHtml
 	 *
 	 * @see     http://php.net/manual/en/function.call-user-func-array.php
 	 * @since   11.1
-	 * @throws  Exception
+	 * @throws  InvalidArgumentException
 	 */
 	protected static function call($function, $args)
 	{
@@ -225,7 +222,7 @@ abstract class JHtml
 		}
 		else
 		{
-			throw new Exception(JText::_('JLIB_HTML_ERROR_FUNCTION_NOT_SUPPORTED'), 500);
+			throw new InvalidArgumentException('Function not supported', 500);
 		}
 	}
 
@@ -299,6 +296,9 @@ abstract class JHtml
 			$strip		= JFile::stripExt($file);
 			$ext		= JFile::getExt($file);
 
+			// Prepare array of files
+			$includes = array();
+
 			// Detect browser and compute potential files
 			if ($detect_browser)
 			{
@@ -320,13 +320,9 @@ abstract class JHtml
 			// If relative search in template directory or media directory
 			if ($relative)
 			{
-
 				// Get the template
 				$app = JFactory::getApplication();
 				$template = $app->getTemplate();
-
-				// Prepare array of files
-				$includes = array();
 
 				// For each potential files
 				foreach ($potential as $strip)
@@ -336,17 +332,37 @@ abstract class JHtml
 					// Detect debug mode
 					if ($detect_debug && JFactory::getConfig()->get('debug'))
 					{
-						$files[] = $strip . '-uncompressed.' . $ext;
+						/*
+						 * Detect if we received a file in the format name.min.ext
+						 * If so, strip the .min part out, otherwise append -uncompressed
+						 */
+						if (strrpos($strip, '.min', '-4'))
+						{
+							$position = strrpos($strip, '.min', '-4');
+							$filename = str_replace('.min', '.', $strip, $position);
+							$files[]  = $filename . $ext;
+						}
+						else
+						{
+							$files[] = $strip . '-uncompressed.' . $ext;
+						}
 					}
 					$files[] = $strip . '.' . $ext;
 
-					// Loop on 1 or 2 files and break on first found
+					/*
+					 * Loop on 1 or 2 files and break on first found.
+					 * Add the content of the MD5SUM file located in the same folder to url to ensure cache browser refresh
+					 * This MD5SUM file must represent the signature of the folder content
+					 */
 					foreach ($files as $file)
 					{
 						// If the file is in the template folder
-						if (file_exists(JPATH_THEMES . "/$template/$folder/$file"))
+						$path = JPATH_THEMES . "/$template/$folder/$file";
+						if (file_exists($path))
 						{
-							$includes[] = JURI::base(true) . "/templates/$template/$folder/$file";
+							$md5 = dirname($path) . '/MD5SUM';
+							$includes[] = JURI::base(true) . "/templates/$template/$folder/$file" .
+								(file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
 							break;
 						}
 						else
@@ -364,54 +380,89 @@ abstract class JHtml
 									list($element, $file) = explode('/', $file, 2);
 
 									// Try to deal with plugins group in the media folder
-									if (file_exists(JPATH_ROOT . "/media/$extension/$element/$folder/$file"))
+									$path = JPATH_ROOT . "/media/$extension/$element/$folder/$file";
+									if (file_exists($path))
 									{
-										$includes[] = JURI::root(true) . "/media/$extension/$element/$folder/$file";
+										$md5 = dirname($path) . '/MD5SUM';
+										$includes[] = JURI::root(true) . "/media/$extension/$element/$folder/$file" .
+											(file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
 										break;
 									}
+
 									// Try to deal with classical file in a a media subfolder called element
-									elseif (file_exists(JPATH_ROOT . "/media/$extension/$folder/$element/$file"))
+									$path = JPATH_ROOT . "/media/$extension/$folder/$element/$file";
+									if (file_exists($path))
 									{
-										$includes[] = JURI::root(true) . "/media/$extension/$folder/$element/$file";
+										$md5 = dirname($path) . '/MD5SUM';
+										$includes[] = JURI::root(true) . "/media/$extension/$folder/$element/$file" .
+											(file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
 										break;
 									}
+
 									// Try to deal with system files in the template folder
-									elseif (file_exists(JPATH_THEMES . "/$template/$folder/system/$element/$file"))
+									$path = JPATH_THEMES . "/$template/$folder/system/$element/$file";
+									if (file_exists($path))
 									{
-										$includes[] = JURI::root(true) . "/templates/$template/$folder/system/$element/$file";
+										$md5 = dirname($path) . '/MD5SUM';
+										$includes[] = JURI::root(true) . "/templates/$template/$folder/system/$element/$file" .
+											(file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
 										break;
 									}
+
 									// Try to deal with system files in the media folder
-									elseif (file_exists(JPATH_ROOT . "/media/system/$folder/$element/$file"))
+									$path = JPATH_ROOT . "/media/system/$folder/$element/$file";
+									if (file_exists($path))
 									{
-										$includes[] = JURI::root(true) . "/media/system/$folder/$element/$file";
+										$md5 = dirname($path) . '/MD5SUM';
+										$includes[] = JURI::root(true) . "/media/system/$folder/$element/$file" .
+											(file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
 										break;
 									}
 								}
-								// Try to deals in the extension media folder
-								elseif (file_exists(JPATH_ROOT . "/media/$extension/$folder/$file"))
+								else
 								{
-									$includes[] = JURI::root(true) . "/media/$extension/$folder/$file";
-									break;
-								}
-								// Try to deal with system files in the template folder
-								elseif (file_exists(JPATH_THEMES . "/$template/$folder/system/$file"))
-								{
-									$includes[] = JURI::root(true) . "/templates/$template/$folder/system/$file";
-									break;
-								}
-								// Try to deal with system files in the media folder
-								elseif (file_exists(JPATH_ROOT . "/media/system/$folder/$file"))
-								{
-									$includes[] = JURI::root(true) . "/media/system/$folder/$file";
-									break;
+									// Try to deals in the extension media folder
+									$path = JPATH_ROOT . "/media/$extension/$folder/$file";
+									if (file_exists($path))
+									{
+										$md5 = dirname($path) . '/MD5SUM';
+										$includes[] = JURI::root(true) . "/media/$extension/$folder/$file" .
+											(file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
+										break;
+									}
+
+									// Try to deal with system files in the template folder
+									$path = JPATH_THEMES . "/$template/$folder/system/$file";
+									if (file_exists($path))
+									{
+										$md5 = dirname($path) . '/MD5SUM';
+										$includes[] = JURI::root(true) . "/templates/$template/$folder/system/$file" .
+											(file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
+										break;
+									}
+
+									// Try to deal with system files in the media folder
+									$path = JPATH_ROOT . "/media/system/$folder/$file";
+									if (file_exists($path))
+									{
+										$md5 = dirname($path) . '/MD5SUM';
+										$includes[] = JURI::root(true) . "/media/system/$folder/$file" .
+											(file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
+										break;
+									}
 								}
 							}
 							// Try to deal with system files in the media folder
-							elseif (file_exists(JPATH_ROOT . "/media/system/$folder/$file"))
+							else
 							{
-								$includes[] = JURI::root(true) . "/media/system/$folder/$file";
-								break;
+								$path = JPATH_ROOT . "/media/system/$folder/$file";
+								if (file_exists($path))
+								{
+									$md5 = dirname($path) . '/MD5SUM';
+									$includes[] = JURI::root(true) . "/media/system/$folder/$file" .
+											(file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
+									break;
+								}
 							}
 						}
 					}
@@ -420,17 +471,32 @@ abstract class JHtml
 			// If not relative and http is not present in filename
 			else
 			{
-				$includes = array();
 				foreach ($potential as $strip)
 				{
+					$files = array();
+
 					// Detect debug mode
-					if ($detect_debug && JFactory::getConfig()->get('debug') && file_exists(JPATH_ROOT . "/$strip-uncompressed.$ext"))
+					if ($detect_debug && JFactory::getConfig()->get('debug'))
 					{
-						$includes[] = JURI::root(true) . "/$strip-uncompressed.$ext";
+						$files[] = $strip . '-uncompressed.' . $ext;
 					}
-					elseif (file_exists(JPATH_ROOT . "/$strip.$ext"))
+					$files[] = $strip . '.' . $ext;
+
+					/*
+					 * Loop on 1 or 2 files and break on first found.
+					 * Add the content of the MD5SUM file located in the same folder to url to ensure cache browser refresh
+					 * This MD5SUM file must represent the signature of the folder content
+					 */
+					foreach ($files as $file)
 					{
-						$includes[] = JURI::root(true) . "/$strip.$ext";
+						$path = JPATH_ROOT . "/$file";
+						if (file_exists($path))
+						{
+							$md5 = dirname($path) . '/MD5SUM';
+							$includes[] = JURI::root(true) . "/$file" .
+								(file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
+							break;
+						}
 					}
 				}
 			}
@@ -627,7 +693,7 @@ abstract class JHtml
 	 * Returns formated date according to a given format and time zone.
 	 *
 	 * @param   string   $input      String in a format accepted by date(), defaults to "now".
-	 * @param   string   $format     Format optional format for strftime
+	 * @param   string   $format     The date format specification string (see {@link PHP_MANUAL#date})
 	 * @param   mixed    $tz         Time zone to be used for the date.  Special cases: boolean true for user
 	 *                               setting, boolean false for server setting.
 	 * @param   boolean  $gregorian  True to use Gregorian calenar
@@ -717,25 +783,12 @@ abstract class JHtml
 	{
 		if (is_array($title))
 		{
-			if (isset($title['image']))
+			foreach (array('image', 'text', 'href', 'alt', 'class') as $param)
 			{
-				$image = $title['image'];
-			}
-			if (isset($title['text']))
-			{
-				$text = $title['text'];
-			}
-			if (isset($title['href']))
-			{
-				$href = $title['href'];
-			}
-			if (isset($title['alt']))
-			{
-				$alt = $title['alt'];
-			}
-			if (isset($title['class']))
-			{
-				$class = $title['class'];
+				if (isset($title[$param]))
+				{
+					$$param = $title[$param];
+				}
 			}
 			if (isset($title['title']))
 			{
@@ -829,14 +882,14 @@ abstract class JHtml
 				);
 				$done[] = $id;
 			}
-			return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value) : '') . '" name="' . $name . '" id="' . $id
+			return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value, null, null) : '') . '" name="' . $name . '" id="' . $id
 				. '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
 				. self::_('image', 'system/calendar.png', JText::_('JLIB_HTML_CALENDAR'), array('class' => 'calendar', 'id' => $id . '_img'), true);
 		}
 		else
 		{
-			return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value) : '')
-				. '" value="' . (0 !== (int) $value ? self::_('date', $value, JFactory::getDbo()->getDateFormat()) : '') . '" ' . $attribs
+			return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value, null, null) : '')
+				. '" value="' . (0 !== (int) $value ? self::_('date', $value, 'Y-m-d H:i:s', null) : '') . '" ' . $attribs
 				. ' /><input type="hidden" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" />';
 		}
 	}

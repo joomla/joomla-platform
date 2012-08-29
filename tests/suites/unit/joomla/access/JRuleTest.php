@@ -7,19 +7,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/access/rule.php';
-
 /**
  * @package     Joomla.Platform
  */
-class JRuleTest extends PHPUnit_Framework_TestCase
+class JAccessRuleTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * Tests the JRule::__construct method.
+	 * Tests the JAccessRule::__construct and JAccessRule::__toString methods.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JAccessRule::__construct
+	 * @covers  JAccessRule::__toString
 	 */
 	public function test__construct()
 	{
@@ -33,7 +33,7 @@ class JRuleTest extends PHPUnit_Framework_TestCase
 		$string = json_encode($array);
 
 		// Test constructor with array.
-		$rule1 = new JRule($array);
+		$rule1 = new JAccessRule($array);
 
 		// Check that import equals export.
 		$this->assertEquals(
@@ -55,7 +55,7 @@ class JRuleTest extends PHPUnit_Framework_TestCase
 		);
 
 		$string_A = json_encode($array_A);
-        $rule_A	= new JRule($string_A);
+        $rule_A	= new JAccessRule($string_A);
 		$this->assertNotEquals(
 			$string,
 			(string) $rule_A
@@ -63,16 +63,41 @@ class JRuleTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the JRule::mergeIdentity method.
+	 * Tests the JAccessRule::getData method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 * @covers  JAccessRule::getData
+	 */
+	public function testGetData()
+	{
+		$array = array(
+			-42	=> 1,
+			2	=> 1,
+			3	=> 0
+		);
+
+		$rule = new JAccessRule($array);
+
+		$this->assertEquals(
+			$array,
+			$rule->getData()
+		);
+	}
+
+	/**
+	 * Tests the JAccessRule::mergeIdentity method.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JAccessRule::mergeIdentity
 	 */
 	public function testMergeIdentity()
 	{
 		// Construct an rule with no identities.
-		$rule = new JRule('');
+		$rule = new JAccessRule('');
 
 		// Add the identity with allow.
 		$rule->mergeIdentity(-42, true);
@@ -97,11 +122,12 @@ class JRuleTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the JRule::mergeIdentities method.
+	 * Tests the JAccessRule::mergeIdentities method.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JAccessRule::mergeIdentities
 	 */
 	public function testMergeIdentities()
 	{
@@ -112,7 +138,7 @@ class JRuleTest extends PHPUnit_Framework_TestCase
 		);
 
 		// Construct an rule with no identities.
-		$rule = new JRule('');
+		$rule = new JAccessRule('');
 
 		$rule->mergeIdentities($array);
 		$this->assertEquals(
@@ -124,7 +150,7 @@ class JRuleTest extends PHPUnit_Framework_TestCase
 
 		// Test testMergeIdentities with object
 
-		$rule_A = new JRule($array);
+		$rule_A = new JAccessRule($array);
 		$rule->mergeIdentities($rule_A);
 		$this->assertEquals(
 			json_encode($array),
@@ -159,11 +185,12 @@ class JRuleTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the JRule::allow method.
+	 * Tests the JAccessRule::allow method.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JAccessRule::allow
 	 */
 	public function testAllow()
 	{
@@ -172,7 +199,7 @@ class JRuleTest extends PHPUnit_Framework_TestCase
 			-42	=> 0,
 			2	=> 1
 		);
-		$rule = new JRule($array);
+		$rule = new JAccessRule($array);
 
 		// This one should be denied.
 		$this->assertFalse(

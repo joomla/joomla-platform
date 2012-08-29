@@ -22,7 +22,7 @@ class JHttpFactory
 	 * method to recieve Http instance.
 	 *
 	 * @param   JRegistry  $options   Client options object.
-	 * @param   mixed      $adapters  Adapter (string) or queue of adapters (array) to use for communication
+	 * @param   mixed      $adapters  Adapter (string) or queue of adapters (array) to use for communication.
 	 *
 	 * @return  JHttp      Joomla Http class
 	 *
@@ -66,10 +66,7 @@ class JHttpFactory
 		foreach ($availableAdapters as $adapter)
 		{
 			$class = 'JHttpTransport' . ucfirst($adapter);
-			/**
-			 * on J!2.5 (PHP 5.2) the condition should be:
-			 * call_user_func_array(array($class, 'isSupported'), array())
-			 */
+
 			if ($class::isSupported())
 			{
 				return new $class($options);
@@ -84,7 +81,6 @@ class JHttpFactory
 	 * @return  array  An array of available transport handlers
 	 *
 	 * @since   12.1
-	 * @todo    Make this function more generic cause the behaviour taken from cache (getStores)
 	 */
 	public static function getHttpTransports()
 	{

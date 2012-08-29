@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once __DIR__.'/stubs/JApplicationWebInspector.php';
+include_once __DIR__ . '/stubs/JApplicationWebInspector.php';
 
 /**
  * Test class for JApplicationWeb.
@@ -108,7 +108,6 @@ class JApplicationWebTest extends TestCase
 
 		JFactory::$document = $this->getMockDocument();
 		JFactory::$language = $this->getMockLanguage();
-
 	}
 
 	/**
@@ -122,7 +121,7 @@ class JApplicationWebTest extends TestCase
 	protected function tearDown()
 	{
 		// Reset the dispatcher instance.
-		TestReflection::setValue('JDispatcher', 'instance', null);
+		TestReflection::setValue('JEventDispatcher', 'instance', null);
 
 		// Reset some web inspector static settings.
 		JApplicationWebInspector::$headersSent = false;
@@ -198,7 +197,7 @@ class JApplicationWebTest extends TestCase
 				$this->returnValue('ok')
 			);
 
-		$mockConfig = $this->getMock('JRegistry', array('test'), array(), '', false);
+		$mockConfig = $this->getMock('JRegistry', array('test'), array(null), '', true);
 		$mockConfig
 			->expects($this->any())
 			->method('test')
@@ -285,12 +284,12 @@ class JApplicationWebTest extends TestCase
 			'Checks the body array has been appended.'
 		);
 
-		$this->class->appendBody(array('goo'));
+		$this->class->appendBody(true);
 
 		$this->assertThat(
 			TestReflection::getValue($this->class, 'response')->body,
 			$this->equalTo(
-				array('foo', 'bar', 'Array')
+				array('foo', 'bar', '1')
 			),
 			'Checks that non-strings are converted to strings.'
 		);
@@ -963,7 +962,7 @@ class JApplicationWebTest extends TestCase
 		);
 
 		$this->assertInstanceOf(
-			'JDispatcher',
+			'JEventDispatcher',
 			TestReflection::getValue($this->class, 'dispatcher'),
 			'Test that deafult dispatcher was initialised.'
 		);
@@ -1032,12 +1031,12 @@ class JApplicationWebTest extends TestCase
 				$this->returnValue('JLanguage')
 			);
 
-		$mockDispatcher = $this->getMock('JDispatcher', array('test'), array(), '', false);
+		$mockDispatcher = $this->getMock('JEventDispatcher', array('test'), array(), '', false);
 		$mockDispatcher
 			->expects($this->any())
 			->method('test')
 			->will(
-				$this->returnValue('JDispatcher')
+				$this->returnValue('JEventDispatcher')
 			);
 
 		$this->class->initialise($mockSession, $mockDocument, $mockLanguage, $mockDispatcher);
@@ -1062,7 +1061,7 @@ class JApplicationWebTest extends TestCase
 
 		$this->assertThat(
 			TestReflection::getValue($this->class, 'dispatcher')->test(),
-			$this->equalTo('JDispatcher'),
+			$this->equalTo('JEventDispatcher'),
 			'Tests dispatcher injection.'
 		);
 	}
@@ -1106,18 +1105,6 @@ class JApplicationWebTest extends TestCase
 	}
 
 	/**
-	 * Tests the JApplicationWeb::loadDispatcher method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testLoadDispatcher()
-	{
-		$this->markTestIncomplete();
-	}
-
-	/**
 	 * Tests the JApplicationWeb::loadDocument method.
 	 *
 	 * @return  void
@@ -1126,10 +1113,10 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testLoadDocument()
 	{
-		// Inject the mock dispatcher into the JDispatcher singleton.
-		TestReflection::setValue('JDispatcher', 'instance', $this->getMockDispatcher());
+		// Inject the mock dispatcher into the JEventDispatcher singleton.
+		TestReflection::setValue('JEventDispatcher', 'instance', $this->getMockDispatcher());
 
-		TestReflection::invoke($this->class, 'loadDocument');
+		$this->class->loadDocument();
 
 		$this->assertInstanceOf(
 			'JDocument',
@@ -1153,7 +1140,7 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testLoadLanguage()
 	{
-		TestReflection::invoke($this->class, 'loadLanguage');
+		$this->class->loadLanguage();
 
 		$this->assertInstanceOf(
 			'JLanguage',
@@ -1384,12 +1371,12 @@ class JApplicationWebTest extends TestCase
 			'Checks the body array has been prepended.'
 		);
 
-		$this->class->prependBody(array('goo'));
+		$this->class->prependBody(true);
 
 		$this->assertThat(
 			TestReflection::getValue($this->class, 'response')->body,
 			$this->equalTo(
-				array('Array', 'bar', 'foo')
+				array('1', 'bar', 'foo')
 			),
 			'Checks that non-strings are converted to strings.'
 		);
@@ -1575,43 +1562,6 @@ class JApplicationWebTest extends TestCase
 	}
 
 	/**
-	 * Tests the JApplicationWeb::redirect method with webkit bug.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testRedirectWithWebkitBug()
-	{
-		$url = 'http://j.org/index.php';
-
-		// Inject the client information.
-		TestReflection::setValue(
-			$this->class,
-			'client',
-			(object) array(
-				'engine' => JApplicationWebClient::WEBKIT,
-			)
-		);
-
-		// Capture the output for this test.
-		ob_start();
-		$this->class->redirect($url);
-		$buffer = ob_get_contents();
-		ob_end_clean();
-
-		$this->assertThat(
-			trim($buffer),
-			$this->equalTo(
-				'<html><head>' .
-				'<meta http-equiv="refresh" content="0; url=' . $url . '" />' .
-				'<meta http-equiv="content-type" content="text/html; charset=utf-8" />' .
-				'</head><body></body></html>'
-			)
-		);
-	}
-
-	/**
 	 * Tests the JApplicationWeb::registerEvent method.
 	 *
 	 * @return  void
@@ -1750,12 +1700,12 @@ class JApplicationWebTest extends TestCase
 			'Checks the body array has been reset.'
 		);
 
-		$this->class->setBody(array('goo'));
+		$this->class->setBody(true);
 
 		$this->assertThat(
 			TestReflection::getValue($this->class, 'response')->body,
 			$this->equalTo(
-				array('Array')
+				array('1')
 			),
 			'Checks reset and that non-strings are converted to strings.'
 		);
@@ -1808,30 +1758,22 @@ class JApplicationWebTest extends TestCase
 	}
 
 	/**
-	 * Tests the JApplicationWeb::triggerEvents method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
+	 * @covers JApplicationWeb::isSSLConnection
 	 */
-	public function testTriggerEvents()
+	public function testIsSSLConnection()
 	{
-		TestReflection::setValue($this->class, 'dispatcher', null);
+		unset($_SERVER['HTTPS']);
+
 		$this->assertThat(
-			$this->class->triggerEvent('onJWebTriggerEvent'),
-			$this->isNull(),
-			'Checks that for a non-dispatcher object, null is returned.'
+			$this->class->isSSLConnection(),
+			$this->equalTo(false)
 		);
 
-		TestReflection::setValue($this->class, 'dispatcher', $this->getMockDispatcher());
-		$this->class->registerEvent('onJWebTriggerEvent', 'function');
+		$_SERVER['HTTPS'] = 'on';
 
 		$this->assertThat(
-			$this->class->triggerEvent('onJWebTriggerEvent'),
-			$this->equalTo(
-				array('function' => null)
-			),
-			'Checks the correct dispatcher method is called.'
+			$this->class->isSSLConnection(),
+			$this->equalTo(true)
 		);
 	}
 }

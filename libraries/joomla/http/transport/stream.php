@@ -68,7 +68,7 @@ class JHttpTransportStream implements JHttpTransport
 		// Create the stream context options array with the required method offset.
 		$options = array('method' => strtoupper($method));
 
-		// If data exists let's encode it and make sure our Content-type header is set.
+		// If data exists let's encode it and make sure our Content-Type header is set.
 		if (isset($data))
 		{
 			// If the data is a scalar value simply add it to the stream context options.
@@ -82,12 +82,13 @@ class JHttpTransportStream implements JHttpTransport
 				$options['content'] = http_build_query($data);
 			}
 
-			if (!isset($headers['Content-type']))
+			if (!isset($headers['Content-Type']))
 			{
-				$headers['Content-type'] = 'application/x-www-form-urlencoded';
+				$headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=utf-8';
 			}
 
-			$headers['Content-length'] = strlen($options['content']);
+			// Add the relevant headers.
+			$headers['Content-Length'] = strlen($options['content']);
 		}
 
 		// Build the headers string for the request.
@@ -122,7 +123,13 @@ class JHttpTransportStream implements JHttpTransport
 		$context = stream_context_create(array('http' => $options));
 
 		// Open the stream for reading.
-		$stream = fopen((string) $uri, 'r', false, $context);
+		$stream = @fopen((string) $uri, 'r', false, $context);
+
+		// Check if the stream is open.
+		if (!$stream)
+		{
+			throw new RuntimeException(sprintf('Could not connect to resource: %s', $uri));
+		}
 
 		// Get the metadata for the stream, including response headers.
 		$metadata = stream_get_meta_data($stream);
@@ -180,9 +187,9 @@ class JHttpTransportStream implements JHttpTransport
 
 	/**
 	 * method to check if http transport stream available for using
-	 * 
+	 *
 	 * @return bool true if available else false
-	 * 
+	 *
 	 * @since   12.1
 	 */
 	static public function isSupported()

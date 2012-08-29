@@ -86,6 +86,19 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	}
 
 	/**
+	 * Destructor.
+	 *
+	 * @since   12.1
+	 */
+	public function __destruct()
+	{
+		if (is_resource($this->connection))
+		{
+			sqlsrv_close($this->connection);
+		}
+	}
+
+	/**
 	 * Connects to the database if needed.
 	 *
 	 * @return  void  Returns void if the database connected successfully.
@@ -111,13 +124,13 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		// Make sure the SQLSRV extension for PHP is installed and enabled.
 		if (!function_exists('sqlsrv_connect'))
 		{
-			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_ADAPTER_SQLSRV'));
+			throw new RuntimeException('PHP extension sqlsrv_connect is not available.');
 		}
 
 		// Attempt to connect to the server.
 		if (!($this->connection = @ sqlsrv_connect($this->options['host'], $config)))
 		{
-			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_CONNECT_SQLSRV'));
+			throw new RuntimeException('Database sqlsrv_connect failed');
 		}
 
 		// Make sure that DB warnings are not returned as errors.
@@ -131,16 +144,21 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	}
 
 	/**
-	 * Destructor.
+	 * Disconnects the database.
+	 *
+	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	public function __destruct()
+	public function disconnect()
 	{
+		// Close the connection.
 		if (is_resource($this->connection))
 		{
 			sqlsrv_close($this->connection);
 		}
+
+		$this->connection = null;
 	}
 
 	/**
@@ -317,7 +335,6 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	public function getTableColumns($table, $typeOnly = true)
 	{
-		// Initialise variables.
 		$result = array();
 
 		$table_temp = $this->replacePrefix((string) $table);
@@ -499,7 +516,6 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	public function loadResult()
 	{
-		// Initialise variables.
 		$ret = null;
 
 		// Execute the query and get the result set cursor.
@@ -548,12 +564,13 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 			$sql = $this->limit($sql, $this->limit, $this->offset);
 		}
 
+		// Increment the query counter.
+		$this->count++;
+
 		// If debugging is enabled then let's log the query.
 		if ($this->debug)
 		{
-
-			// Increment the query counter and add the query to the object queue.
-			$this->count++;
+			// Add the query to the object queue.
 			$this->log[] = $sql;
 
 			JLog::add($sql, JLog::DEBUG, 'databasequery');
@@ -636,7 +653,6 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	{
 		$tablePrefix = 'jos_';
 
-		// Initialize variables.
 		$escaped = false;
 		$startPos = 0;
 		$quoteChar = '';
@@ -739,19 +755,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 
 		if (!sqlsrv_query($this->connection, 'USE ' . $database, null, array('scrollable' => SQLSRV_CURSOR_STATIC)))
 		{
-
-			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  12.1
-			if (JError::$legacy)
-			{
-				$this->errorNum = 3;
-				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT');
-				return false;
-			}
-			else
-			{
-				throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'));
-			}
+			throw new RuntimeException('Could not connect to database');
 		}
 
 		return true;
@@ -939,7 +943,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 * @param   string  $backup    Table prefix
 	 * @param   string  $prefix    For the table - used to rename constraints in non-mysql databases
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriverSqlsrv  Returns this object to support chaining.
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
@@ -967,7 +971,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 *
 	 * @param   string  $tableName  The name of the table to lock.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriverSqlsrv  Returns this object to support chaining.
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
@@ -980,7 +984,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Unlocks tables in the database.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriverSqlsrv  Returns this object to support chaining.
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException

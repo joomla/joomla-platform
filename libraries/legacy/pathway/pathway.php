@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Application
+ * @package     Joomla.Legacy
+ * @subpackage  Pathway
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -14,35 +14,21 @@ defined('JPATH_PLATFORM') or die;
  *
  * The user's navigated path within the application.
  *
- * @package     Joomla.Platform
- * @subpackage  Application
+ * @package     Joomla.Legacy
+ * @subpackage  Pathway
  * @since       11.1
  */
-class JPathway extends JObject
+class JPathway
 {
 	/**
 	 * @var    array  Array to hold the pathway item objects
 	 * @since  11.1
-	 */
-	protected $pathway = array();
-
-	/**
-	 * @var    array  Array to hold the pathway item objects
-	 * @since  11.1
-	 * @deprecated use $pathway declare as private
 	 */
 	protected $_pathway = array();
 
 	/**
 	 * @var    integer  Integer number of items in the pathway
 	 * @since  11.1
-	 */
-	protected $count = 0;
-
-	/**
-	 * @var    integer  Integer number of items in the pathway
-	 * @since  11.1
-	 * @deprecated use $count declare as private
 	 */
 	protected $_count = 0;
 
@@ -72,6 +58,7 @@ class JPathway extends JObject
 	 * @return  JPathway  A JPathway object.
 	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
 	public static function getInstance($client, $options = array())
 	{
@@ -82,6 +69,8 @@ class JPathway extends JObject
 
 			if (!class_exists($classname))
 			{
+				JLog::add('Non-autoloadable JPathway subclasses are deprecated.', JLog::WARNING, 'deprecated');
+
 				// Load the pathway object
 				$info = JApplicationHelper::getClientInfo($client, true);
 
@@ -101,7 +90,7 @@ class JPathway extends JObject
 			}
 			else
 			{
-				throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_PATHWAY_LOAD', $client), 500);
+				throw new RuntimeException(JText::sprintf('JLIB_APPLICATION_ERROR_PATHWAY_LOAD', $client), 500);
 			}
 		}
 
@@ -151,7 +140,6 @@ class JPathway extends JObject
 	 */
 	public function getPathwayNames()
 	{
-		// Initialise variables.
 		$names = array();
 
 		// Build the names array using just the names of each pathway item
@@ -176,7 +164,6 @@ class JPathway extends JObject
 	 */
 	public function addItem($name, $link = '')
 	{
-		// Initialize variables
 		$ret = false;
 
 		if ($this->_pathway[] = $this->_makeItem($name, $link))
@@ -200,7 +187,6 @@ class JPathway extends JObject
 	 */
 	public function setItemName($id, $name)
 	{
-		// Initialize variables
 		$ret = false;
 
 		if (isset($this->_pathway[$id]))

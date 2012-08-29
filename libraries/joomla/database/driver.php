@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.folder');
-
 /**
  * Joomla Platform Database Interface
  *
@@ -37,8 +35,8 @@ interface JDatabaseInterface
  * @subpackage  Database
  * @since       12.1
  *
- * @method      string  q()   q($text, $escape)  Alias for quote method
- * @method      string  qn()  qs($name, $as)     Alias for quoteName method
+ * @method      string  q()   q($text, $escape = true)  Alias for quote method
+ * @method      string  qn()  qn($name, $as = null)     Alias for quoteName method
  */
 abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 {
@@ -177,36 +175,36 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	public static function getConnectors()
 	{
-		// Instantiate variables.
 		$connectors = array();
 
-		// Get a list of types.
-		$types = JFolder::files(__DIR__ . '/driver');
+		// Get an iterator and loop trough the driver classes.
+		$iterator = new DirectoryIterator(__DIR__ . '/driver');
 
-		// Loop through the types and find the ones that are available.
-		foreach ($types as $type)
+		foreach ($iterator as $file)
 		{
-			// Ignore some files.
-			if (($type == 'index.html') || stripos($type, 'importer') || stripos($type, 'exporter') || stripos($type, 'query') || stripos($type, 'exception'))
+			$fileName = $file->getFilename();
+
+			// Only load for php files.
+			// Note: DirectoryIterator::getExtension only available PHP >= 5.3.6
+			if (!$file->isFile() || substr($fileName, strrpos($fileName, '.') + 1) != 'php')
 			{
 				continue;
 			}
 
 			// Derive the class name from the type.
-			$class = str_ireplace('.php', '', 'JDatabaseDriver' . ucfirst(trim($type)));
+			$class = str_ireplace('.php', '', 'JDatabaseDriver' . ucfirst(trim($fileName)));
 
-			// If the class doesn't exist we have nothing left to do but look at the next type.  We did our best.
+			// If the class doesn't exist we have nothing left to do but look at the next type. We did our best.
 			if (!class_exists($class))
 			{
 				continue;
 			}
 
-			// Sweet!  Our class exists, so now we just need to know if it passes it's test method.
-			// @deprecated 12.3 Stop checking with test()
-			if ($class::isSupported() || $class::test())
+			// Sweet!  Our class exists, so now we just need to know if it passes its test method.
+			if ($class::isSupported())
 			{
 				// Connector names should not have file extensions.
-				$connectors[] = str_ireplace('.php', '', $type);
+				$connectors[] = str_ireplace('.php', '', $fileName);
 			}
 		}
 
@@ -216,7 +214,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	/**
 	 * Method to return a JDatabaseDriver instance based on the given options.  There are three global options and then
 	 * the rest are specific to the database driver.  The 'driver' option defines which JDatabaseDriver class is
-	 * used for the connection -- the default is 'mysql'.  The 'database' option determines which database is to
+	 * used for the connection -- the default is 'mysqli'.  The 'database' option determines which database is to
 	 * be used for the connection.  The 'select' option determines whether the connector should automatically select
 	 * the chosen database.
 	 *
@@ -232,9 +230,9 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	public static function getInstance($options = array())
 	{
 		// Sanitize the database connector options.
-		$options['driver'] = (isset($options['driver'])) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $options['driver']) : 'mysql';
+		$options['driver']   = (isset($options['driver'])) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $options['driver']) : 'mysqli';
 		$options['database'] = (isset($options['database'])) ? $options['database'] : null;
-		$options['select'] = (isset($options['select'])) ? $options['select'] : true;
+		$options['select']   = (isset($options['select'])) ? $options['select'] : true;
 
 		// Get the options signature for the database connector.
 		$signature = md5(serialize($options));
@@ -249,7 +247,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			// If the class still doesn't exist we have nothing left to do but throw an exception.  We did our best.
 			if (!class_exists($class))
 			{
-				throw new RuntimeException(JText::sprintf('JLIB_DATABASE_ERROR_LOAD_DATABASE_DRIVER', $options['driver']));
+				throw new RuntimeException(sprintf('Unable to load Database Driver: %s', $options['driver']));
 			}
 
 			// Create our new JDatabaseDriver connector based on the options given.
@@ -259,7 +257,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			}
 			catch (RuntimeException $e)
 			{
-				throw new RuntimeException(JText::sprintf('JLIB_DATABASE_ERROR_CONNECT_DATABASE', $e->getMessage()));
+				throw new RuntimeException(sprintf('Unable to connect to the Database: %s', $e->getMessage()));
 			}
 
 			// Set the new connector to the global instances based on signature.
@@ -395,12 +393,21 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	abstract public function connected();
 
 	/**
+	 * Disconnects the database.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	abstract public function disconnect();
+
+	/**
 	 * Drops a table from the database.
 	 *
 	 * @param   string   $table     The name of the database table to drop.
 	 * @param   boolean  $ifExists  Optionally specify that the table must exist before it is dropped.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriver     Returns this object to support chaining.
 	 *
 	 * @since   11.4
 	 * @throws  RuntimeException
@@ -607,7 +614,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		if (!class_exists($class))
 		{
 			// If it doesn't exist we are at an impasse so throw an exception.
-			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_MISSING_EXPORTER'));
+			throw new RuntimeException('Database Exporter not found.');
 		}
 
 		$o = new $class;
@@ -633,7 +640,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		if (!class_exists($class))
 		{
 			// If it doesn't exist we are at an impasse so throw an exception.
-			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_MISSING_IMPORTER'));
+			throw new RuntimeException('Database Importer not found');
 		}
 
 		$o = new $class;
@@ -663,7 +670,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			if (!class_exists($class))
 			{
 				// If it doesn't exist we are at an impasse so throw an exception.
-				throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
+				throw new RuntimeException('Database Query Class not found.');
 			}
 
 			return new $class($this);
@@ -672,6 +679,33 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		{
 			return $this->sql;
 		}
+	}
+
+	/**
+	 * Get a new iterator on the current query.
+	 *
+	 * @param   string  $column  An option column to use as the iterator key.
+	 * @param   string  $class   The class of object that is returned.
+	 *
+	 * @return  JDatabaseIterator  A new database iterator.
+	 *
+	 * @since   12.1
+	 * @throws  RuntimeException
+	 */
+	public function getIterator($column = null, $class = 'stdClass')
+	{
+		// Derive the class name from the driver.
+		$iteratorClass = 'JDatabaseIterator' . ucfirst($this->name);
+
+		// Make sure we have an iterator class for this driver.
+		if (!class_exists($iteratorClass))
+		{
+			// If it doesn't exist we are at an impasse so throw an exception.
+			throw new RuntimeException(sprintf('class *%s* is not defined', $iteratorClass));
+		}
+
+		// Return a new iterator
+		return new $iteratorClass($this->execute(), $column, $class);
 	}
 
 	/**
@@ -779,12 +813,8 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	public function insertObject($table, &$object, $key = null)
 	{
-		// Initialise variables.
 		$fields = array();
 		$values = array();
-
-		// Create the base insert statement.
-		$statement = 'INSERT INTO ' . $this->quoteName($table) . ' (%s) VALUES (%s)';
 
 		// Iterate over the object variables to build the query fields and values.
 		foreach (get_object_vars($object) as $k => $v)
@@ -806,8 +836,14 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			$values[] = $this->quote($v);
 		}
 
+		// Create the base insert statement.
+		$query = $this->getQuery(true);
+		$query->insert($this->quoteName($table))
+				->columns($fields)
+				->values(implode(',', $values));
+
 		// Set the query and execute the insert.
-		$this->setQuery(sprintf($statement, implode(',', $fields), implode(',', $values)));
+		$this->setQuery($query);
 		if (!$this->execute())
 		{
 			return false;
@@ -815,7 +851,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 		// Update the primary key if it exists.
 		$id = $this->insertid();
-		if ($key && $id)
+		if ($key && $id && is_string($key))
 		{
 			$object->$key = $id;
 		}
@@ -848,7 +884,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$ret = null;
 
 		// Execute the query and get the result set cursor.
@@ -890,7 +925,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$array = array();
 
 		// Execute the query and get the result set cursor.
@@ -934,7 +968,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$array = array();
 
 		// Execute the query and get the result set cursor.
@@ -967,6 +1000,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	public function loadNextObject($class = 'stdClass')
 	{
+		JLog::add(__METHOD__ . '() is deprecated. Use JDatabase::getIterator() instead.', JLog::WARNING, 'deprecated');
 		$this->connect();
 
 		static $cursor = null;
@@ -1003,6 +1037,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	public function loadNextRow()
 	{
+		JLog::add('JDatabase::loadNextRow() is deprecated. Use JDatabase::getIterator() instead.', JLog::WARNING, 'deprecated');
 		$this->connect();
 
 		static $cursor = null;
@@ -1043,7 +1078,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$ret = null;
 
 		// Execute the query and get the result set cursor.
@@ -1083,7 +1117,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$array = array();
 
 		// Execute the query and get the result set cursor.
@@ -1123,7 +1156,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$ret = null;
 
 		// Execute the query and get the result set cursor.
@@ -1157,7 +1189,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$ret = null;
 
 		// Execute the query and get the result set cursor.
@@ -1196,7 +1227,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$array = array();
 
 		// Execute the query and get the result set cursor.
@@ -1229,7 +1259,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @param   string  $tableName  The name of the table to unlock.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriver     Returns this object to support chaining.
 	 *
 	 * @since   11.4
 	 * @throws  RuntimeException
@@ -1350,7 +1380,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	public function replacePrefix($sql, $prefix = '#__')
 	{
-		// Initialize variables.
 		$escaped = false;
 		$startPos = 0;
 		$quoteChar = '';
@@ -1440,7 +1469,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @param   string  $backup    Table prefix
 	 * @param   string  $prefix    For the table - used to rename constraints in non-mysql databases
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriver    Returns this object to support chaining.
 	 *
 	 * @since   11.4
 	 * @throws  RuntimeException
@@ -1490,8 +1519,8 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	public function setQuery($query, $offset = 0, $limit = 0)
 	{
 		$this->sql = $query;
-		$this->limit = (int) $limit;
-		$this->offset = (int) $offset;
+		$this->limit = (int) max(0, $limit);
+		$this->offset = (int) max(0, $offset);
 
 		return $this;
 	}
@@ -1556,7 +1585,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @param   string   $table    The name of the database table to update.
 	 * @param   object   &$object  A reference to an object whose public properties match the table fields.
-	 * @param   string   $key      The name of the primary key.
+	 * @param   array    $key      The name of the primary key.
 	 * @param   boolean  $nulls    True to update null fields or false to ignore them.
 	 *
 	 * @return  boolean  True on success.
@@ -1566,9 +1595,18 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	public function updateObject($table, &$object, $key, $nulls = false)
 	{
-		// Initialise variables.
 		$fields = array();
-		$where = '';
+		$where = array();
+
+		if (is_string($key))
+		{
+			$key = array($key);
+		}
+
+		if (is_object($key))
+		{
+			$key = (array) $key;
+		}
 
 		// Create the base update statement.
 		$statement = 'UPDATE ' . $this->quoteName($table) . ' SET %s WHERE %s';
@@ -1583,9 +1621,9 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			}
 
 			// Set the primary key to the WHERE clause instead of a field to update.
-			if ($k == $key)
+			if (in_array($k, $key))
 			{
-				$where = $this->quoteName($k) . '=' . $this->quote($v);
+				$where[] = $this->quoteName($k) . '=' . $this->quote($v);
 				continue;
 			}
 
@@ -1620,7 +1658,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		}
 
 		// Set the query and execute the update.
-		$this->setQuery(sprintf($statement, implode(",", $fields), $where));
+		$this->setQuery(sprintf($statement, implode(",", $fields), implode(' AND ', $where)));
 		return $this->execute();
 	}
 
@@ -1637,7 +1675,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	/**
 	 * Unlocks tables in the database.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriver  Returns this object to support chaining.
 	 *
 	 * @since   11.4
 	 * @throws  RuntimeException
