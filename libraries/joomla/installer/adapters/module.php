@@ -659,7 +659,12 @@ class JInstallerModule extends JAdapterInstance
 
 		$this->parent->setPath('manifest', $manifestPath);
 		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
-
+		
+		$clientId = $client->id;
+		// Parse optional tags
+		$this->parent->parseMedia($this->manifest->media, $clientId);
+		$this->parent->parseLanguages($this->manifest->languages, $clientId);
+		
 		// TODO: Re-evaluate this; should we run installation triggers? postflight perhaps?
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->state = 0;
