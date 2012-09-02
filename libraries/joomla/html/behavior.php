@@ -49,7 +49,7 @@ abstract class JHtmlBehavior
 		if ($debug === null)
 		{
 			$config = JFactory::getConfig();
-			$debug = $config->get('debug');
+			$debug  = $config->get('debug');
 		}
 
 		if ($type != 'core' && empty(self::$loaded[__METHOD__]['core']))
@@ -58,7 +58,7 @@ abstract class JHtmlBehavior
 		}
 
 		JHtml::_('script', 'system/mootools-' . $type . '.js', false, true, false, false, $debug);
-		JHtml::_('script', 'system/core.js', false, true);
+		JHtml::_('script', 'system/core.js', false, true, false, false, $debug);
 		self::$loaded[__METHOD__][$type] = true;
 
 		return;

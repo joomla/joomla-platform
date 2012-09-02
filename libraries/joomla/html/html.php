@@ -293,8 +293,8 @@ abstract class JHtml
 		else
 		{
 			// Extract extension and strip the file
-			$strip		= JFile::stripExt($file);
-			$ext		= JFile::getExt($file);
+			$strip = JFile::stripExt($file);
+			$ext   = JFile::getExt($file);
 
 			// Prepare array of files
 			$includes = array();
@@ -303,9 +303,9 @@ abstract class JHtml
 			if ($detect_browser)
 			{
 				$navigator = JBrowser::getInstance();
-				$browser = $navigator->getBrowser();
-				$major = $navigator->getMajor();
-				$minor = $navigator->getMinor();
+				$browser   = $navigator->getBrowser();
+				$major     = $navigator->getMajor();
+				$minor     = $navigator->getMinor();
 
 				// Try to include files named filename.ext, filename_browser.ext, filename_browser_major.ext, filename_browser_major_minor.ext
 				// where major and minor are the browser version names
@@ -321,8 +321,7 @@ abstract class JHtml
 			if ($relative)
 			{
 				// Get the template
-				$app = JFactory::getApplication();
-				$template = $app->getTemplate();
+				$template = JFactory::getApplication()->getTemplate();
 
 				// For each potential files
 				foreach ($potential as $strip)
@@ -330,7 +329,7 @@ abstract class JHtml
 					$files = array();
 
 					// Detect debug mode
-					if ($detect_debug && JFactory::getConfig()->get('debug'))
+					if ($detect_debug || JFactory::getConfig()->get('debug'))
 					{
 						/*
 						 * Detect if we received a file in the format name.min.ext
@@ -476,9 +475,22 @@ abstract class JHtml
 					$files = array();
 
 					// Detect debug mode
-					if ($detect_debug && JFactory::getConfig()->get('debug'))
+					if ($detect_debug || JFactory::getConfig()->get('debug'))
 					{
-						$files[] = $strip . '-uncompressed.' . $ext;
+						/*
+						 * Detect if we received a file in the format name.min.ext
+						 * If so, strip the .min part out, otherwise append -uncompressed
+						 */
+						if (strrpos($strip, '.min', '-4'))
+						{
+							$position = strrpos($strip, '.min', '-4');
+							$filename = str_replace('.min', '.', $strip, $position);
+							$files[]  = $filename . $ext;
+						}
+						else
+						{
+							$files[] = $strip . '-uncompressed.' . $ext;
+						}
 					}
 					$files[] = $strip . '.' . $ext;
 
