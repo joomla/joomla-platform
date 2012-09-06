@@ -93,6 +93,7 @@ class JDatabaseQueryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JDatabaseQuery::__call
 	 */
 	public function test__call()
 	{
@@ -115,12 +116,22 @@ class JDatabaseQueryTest extends TestCase
 			$this->equalTo($q->quoteName('foo')),
 			'Tests the qn alias of quoteName.'
 		);
+	}
 
-		$this->assertThat(
-			$q->foo(),
-			$this->isNull(),
-			'Tests for an unknown method.'
-		);
+	/**
+	 * Test for the JDatabaseQuery::__call method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 * @covers  JDatabaseQuery::__call
+	 * @expectedException  PHPUnit_Framework_Error
+	 */
+	public function test__callError()
+	{
+		$q = new JDatabaseQueryInspector($this->dbo);
+
+		$q->foo();
 	}
 
 	/**

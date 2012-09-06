@@ -5,7 +5,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once JPATH_PLATFORM . '/joomla/database/database.php';
 require_once __DIR__ . '/stubs/nosqldriver.php';
 
 /**
@@ -44,11 +43,30 @@ class JDatabaseTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Test for the JDatabase::__call method.
+	 * Test for the JDatabaseDriver::__call method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 * @covers  JDatabaseDriver::__call
+	 * @expectedException  PHPUnit_Framework_Error
+	 */
+	public function test__callError()
+	{
+		$this->assertThat(
+			$this->db->foo(),
+			$this->isNull(),
+			'Tests for an unknown method.'
+		);
+	}
+
+	/**
+	 * Test for the JDatabaseDriver::__call method.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
+	 * @covers  JDatabaseDriver::__call
 	 */
 	public function test__call()
 	{
@@ -62,12 +80,6 @@ class JDatabaseTest extends TestCaseDatabase
 			$this->db->qn('foo'),
 			$this->equalTo($this->db->quoteName('foo')),
 			'Tests the qn alias of quoteName.'
-		);
-
-		$this->assertThat(
-			$this->db->foo(),
-			$this->isNull(),
-			'Tests for an unknown method.'
 		);
 	}
 

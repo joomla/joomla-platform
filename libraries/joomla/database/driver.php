@@ -338,7 +338,12 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		if (empty($args))
 		{
-			return;
+			// In dynamic methods we have to do the error handling ourself.
+			$trace = debug_backtrace();
+			trigger_error(
+				'Call to undefined method via __call(): ' . $method . ' in ' . $trace[0]['file'] . ' on line ' . $trace[0]['line'],
+				E_USER_ERROR
+			);
 		}
 
 		switch ($method)
@@ -350,6 +355,13 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 				return $this->quoteName($args[0], isset($args[1]) ? $args[1] : null);
 				break;
 		}
+
+		// In dynamic methods we have to do the error handling ourself.
+		$trace = debug_backtrace();
+		trigger_error(
+			'Call to undefined method via __call(): ' . $method . ' in ' . $trace[0]['file'] . ' on line ' . $trace[0]['line'],
+			E_USER_ERROR
+		);
 	}
 
 	/**

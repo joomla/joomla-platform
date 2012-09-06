@@ -131,6 +131,7 @@ class JGithubTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the magic __get method - refs
 	 * @since  11.3
+	 * @expectedException  PHPUnit_Framework_Error_Notice
 	 */
 	public function test__GetOther()
 	{
