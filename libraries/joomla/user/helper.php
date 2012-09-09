@@ -299,9 +299,12 @@ abstract class JUserHelper
 	 * @return  string  The encrypted password.
 	 *
 	 * @since   11.1
+	 * @deprecated  13.3  Use a class implementing JCryptPassword instead.
 	 */
 	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $show_encrypt = false)
 	{
+		JLog::add('JUserHelper::getCryptedPassword() is deprecated. Use a class implementing JCryptPassword instead.', JLog::WARNING, 'deprecated');
+
 		// Get the salt to use.
 		$salt = self::getSalt($encryption, $salt, $plaintext);
 
@@ -402,9 +405,12 @@ abstract class JUserHelper
 	 * @return  string  The generated or extracted salt.
 	 *
 	 * @since   11.1
+	 * @deprecated  13.3  Use a class implementing JCryptPassword instead.
 	 */
 	public static function getSalt($encryption = 'md5-hex', $seed = '', $plaintext = '')
 	{
+		JLog::add('JUserHelper::getSalt() is deprecated. Use a class implementing JCryptPassword instead.', JLog::WARNING, 'deprecated');
+
 		// Encrypt the password.
 		switch ($encryption)
 		{
@@ -501,29 +507,13 @@ abstract class JUserHelper
 	 * @return  string  Random Password
 	 *
 	 * @since   11.1
+	 * @deprecated  13.3  Use JCrypt::genRandomPassword instead.
 	 */
 	public static function genRandomPassword($length = 8)
 	{
-		$salt = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-		$base = strlen($salt);
-		$makepass = '';
+		JLog::add('JUserHelper::genRandomPassword() is deprecated. Use JCrypt::genRandomPassword() instead.', JLog::WARNING, 'deprecated');
 
-		/*
-		 * Start with a cryptographic strength random string, then convert it to
-		 * a string with the numeric base of the salt.
-		 * Shift the base conversion on each character so the character
-		 * distribution is even, and randomize the start shift so it's not
-		 * predictable.
-		 */
-		$random = JCrypt::genRandomBytes($length + 1);
-		$shift = ord($random[0]);
-		for ($i = 1; $i <= $length; ++$i)
-		{
-			$makepass .= $salt[($shift + ord($random[$i])) % $base];
-			$shift += ord($random[$i]);
-		}
-
-		return $makepass;
+		return JCrypt::genRandomPassword($length);
 	}
 
 	/**
