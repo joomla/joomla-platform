@@ -18,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  View
  * @since       12.2
  */
-class JViewLegacy extends JObject
+class JViewLegacy extends JObject implements JView
 {
 	/**
 	 * The name of the view
@@ -202,15 +202,42 @@ class JViewLegacy extends JObject
 	 * @see     fetch()
 	 * @since   12.2
 	 */
-	public function display($tpl = null)
+	public function display()
 	{
-		$result = $this->loadTemplate($tpl);
-		if ($result instanceof Exception)
+		try
 		{
-			return $result;
+			$result = $this->render();
+		}
+		catch (RuntimeException $e)
+		{
+			$prev = $e->getPrevious();
+			if ($prev instanceof Exception)
+			{
+				return $prev;
+			}
+			throw new RuntimeException('Error displaying the view', 0, $prev);
 		}
 
 		echo $result;
+	}
+
+	/**
+	 * Method to render the view.
+	 *
+	 * @return  string  The rendered view.
+	 *
+	 * @since   12.2
+	 * @throws  RuntimeException
+	 * @see     JView::render
+	 */
+	public function render()
+	{
+		$result = $this->loadTemplate();
+		if ($result instanceof Exception)
+		{
+			throw new RuntimeException('Error rendering the view', 0, $result);
+		}
+		return $result;
 	}
 
 	/**
