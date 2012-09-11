@@ -86,7 +86,9 @@ class JOauthV2clientTest extends PHPUnit_Framework_TestCase
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
 
 		$this->object->authenticate();
-		$headers = JResponse::getHeaders();
+		$application = JApplicationWeb::getInstance();
+		$headers = $application->getHeaders();
+
 		$location = false;
 		foreach ($headers as $header)
 		{
