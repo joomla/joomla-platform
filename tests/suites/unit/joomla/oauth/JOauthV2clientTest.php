@@ -80,6 +80,11 @@ class JOauthV2clientTest extends PHPUnit_Framework_TestCase
 		$this->object->setOption('requestparams', array('access_type' => 'offline', 'approval_prompt' => 'auto'));
 		$this->object->setOption('sendheaders', true);
 
+		$_SERVER['HTTP_HOST'] = 'mydomain.com';
+		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
+		$_SERVER['REQUEST_URI'] = '/index.php';
+		$_SERVER['SCRIPT_NAME'] = '/index.php';
+
 		$this->object->authenticate();
 		$headers = JResponse::getHeaders();
 		$location = false;

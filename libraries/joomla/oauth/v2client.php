@@ -94,8 +94,8 @@ class JOauthV2client
 
 		if ($this->getOption('sendheaders'))
 		{
-			JResponse::setHeader('Location', $this->createUrl(), true);
-			JResponse::sendHeaders();
+			$application = JApplicationWeb::getInstance();
+			$application->setHeader('Location', $this->createUrl(), true);
 		}
 		return false;
 	}
