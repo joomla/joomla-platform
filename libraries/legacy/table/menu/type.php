@@ -25,7 +25,7 @@ class JTableMenuType extends JTable
 	 *
 	 * @since  11.1
 	 */
-	public function __construct($db)
+	public function __construct(JDatabaseDriver $db)
 	{
 		parent::__construct('#__menu_types', 'id', $db);
 	}
@@ -163,7 +163,6 @@ class JTableMenuType extends JTable
 	 */
 	public function delete($pk = null)
 	{
-		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 

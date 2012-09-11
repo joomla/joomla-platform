@@ -18,13 +18,17 @@ if (!defined('IS_WIN'))
 {
 	define('IS_WIN', ($os === 'WIN') ? true : false);
 }
-if (!defined('IS_MAC'))
-{
-	define('IS_MAC', ($os === 'MAC') ? true : false);
-}
 if (!defined('IS_UNIX'))
 {
 	define('IS_UNIX', (($os !== 'MAC') && ($os !== 'WIN')) ? true : false);
+}
+
+/**
+ * @deprecated 13.3	Use IS_UNIX instead
+ */
+if (!defined('IS_MAC'))
+{
+	define('IS_MAC', (IS_UNIX === true && ($os === 'DAR' || $os === 'MAC')) ? true : false);
 }
 
 // Import the platform version library if necessary.
@@ -70,7 +74,6 @@ define('JPATH_ISMAC', IS_MAC);
 
 // Register classes where the names have been changed to fit the autoloader rules
 // @deprecated  12.3
-JLoader::register('JToolBar', JPATH_PLATFORM . '/legacy/toolbar/toolbar.php');
 JLoader::register('JSimpleCrypt', JPATH_PLATFORM . '/legacy/simplecrypt/simplecrypt.php');
 JLoader::register('JTree', JPATH_PLATFORM . '/legacy/base/tree.php');
 JLoader::register('JNode', JPATH_PLATFORM . '/legacy/base/node.php');

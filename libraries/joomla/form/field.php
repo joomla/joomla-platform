@@ -196,7 +196,7 @@ abstract class JFormField
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($form = null)
+	public function __construct(JForm $form = null)
 	{
 		// If there is a form passed into the constructor set the form and form control properties.
 		if ($form instanceof JForm)
@@ -394,7 +394,6 @@ abstract class JFormField
 	 */
 	protected function getId($fieldId, $fieldName)
 	{
-		// Initialise variables.
 		$id = '';
 
 		// If there is a form control set for the attached form add it first.
@@ -451,7 +450,6 @@ abstract class JFormField
 	 */
 	protected function getTitle()
 	{
-		// Initialise variables.
 		$title = '';
 
 		if ($this->hidden)
@@ -476,7 +474,6 @@ abstract class JFormField
 	 */
 	protected function getLabel()
 	{
-		// Initialise variables.
 		$label = '';
 
 		if ($this->hidden)
@@ -530,7 +527,6 @@ abstract class JFormField
 	 */
 	protected function getName($fieldName)
 	{
-		// Initialise variables.
 		$name = '';
 
 		// If there is a form control set for the attached form add it first.

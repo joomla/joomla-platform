@@ -209,7 +209,6 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$result = array();
 		$query = $this->getQuery(true);
 
@@ -422,6 +421,11 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 		$this->connect();
 
 		$this->setQuery("ALTER SESSION SET NLS_DATE_FORMAT = '$dateFormat'");
+		if (!$this->execute())
+		{
+			return false;
+		}
+
 		$this->setQuery("ALTER SESSION SET NLS_TIMESTAMP_FORMAT = '$dateFormat'");
 
 		if (!$this->execute())
@@ -511,7 +515,7 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	 */
 	public static function isSupported()
 	{
-		return in_array('oci', PDO::getAvailableDrivers());
+		return class_exists('PDO') && in_array('oci', PDO::getAvailableDrivers());
 	}
 
 	/**
@@ -527,7 +531,6 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	 */
 	public function replacePrefix($sql, $prefix = '#__')
 	{
-		// Initialize variables.
 		$escaped = false;
 		$startPos = 0;
 		$quoteChar = "'";

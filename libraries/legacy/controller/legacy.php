@@ -318,7 +318,6 @@ class JControllerLegacy extends JObject
 	 */
 	public function __construct($config = array())
 	{
-		// Initialise variables.
 		$this->methods = array();
 		$this->message = null;
 		$this->messageType = 'message';
@@ -654,8 +653,8 @@ class JControllerLegacy extends JObject
 		// Display the view
 		if ($cachable && $viewType != 'feed' && $conf->get('caching') >= 1)
 		{
-			$option = $this->input->get('layout');
-			$cache = JFactory::getCache($option, 'option');
+			$option = $this->input->get('option');
+			$cache = JFactory::getCache($option, 'view');
 
 			if (is_array($urlparams))
 			{
@@ -878,7 +877,6 @@ class JControllerLegacy extends JObject
 	 */
 	protected function holdEditId($context, $id)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 		$values = (array) $app->getUserState($context . '.id');
 

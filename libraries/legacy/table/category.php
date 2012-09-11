@@ -25,7 +25,7 @@ class JTableCategory extends JTableNested
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($db)
+	public function __construct(JDatabaseDriver $db)
 	{
 		parent::__construct('#__categories', 'id', $db);
 
@@ -71,7 +71,6 @@ class JTableCategory extends JTableNested
 	 */
 	protected function _getAssetParentId($table = null, $id = null)
 	{
-		// Initialise variables.
 		$assetId = null;
 
 		// This is a category under a category.
