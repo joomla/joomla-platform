@@ -43,7 +43,7 @@ class JMediawikiCategories extends JMediawikiObject
 
 		if (isset($clprop))
 		{
-		$path .= '&clprop=' . $this->buildParameter($clprop);
+		    $path .= '&clprop=' . $this->buildParameter($clprop);
 		}
 
 		if (isset($clshow))
