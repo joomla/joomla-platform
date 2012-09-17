@@ -34,6 +34,11 @@ class JOauthV2clientTest extends PHPUnit_Framework_TestCase
 	protected $input;
 
 	/**
+	 * @var    JApplicationWeb  The application object to send HTTP headers for redirects.
+	 */
+	protected $application;
+
+	/**
 	 * @var    JOauthV2client  Object under test.
 	 */
 	protected $object;
@@ -47,11 +52,17 @@ class JOauthV2clientTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
+		$_SERVER['HTTP_HOST'] = 'mydomain.com';
+		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
+		$_SERVER['REQUEST_URI'] = '/index.php';
+		$_SERVER['SCRIPT_NAME'] = '/index.php';
+
 		$this->options = new JRegistry;
 		$this->http = $this->getMock('JHttp', array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'), array($this->options));
 		$array = array();
 		$this->input = new JInput($array);
-		$this->object = new JOauthV2client($this->options, $this->http, $this->input);
+		$this->application = new JApplicationWebInspector;
+		$this->object = new JOauthV2client($this->options, $this->http, $this->input, $this->application);
 	}
 
 	/**
@@ -80,25 +91,8 @@ class JOauthV2clientTest extends PHPUnit_Framework_TestCase
 		$this->object->setOption('requestparams', array('access_type' => 'offline', 'approval_prompt' => 'auto'));
 		$this->object->setOption('sendheaders', true);
 
-		$_SERVER['HTTP_HOST'] = 'mydomain.com';
-		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
-		$_SERVER['REQUEST_URI'] = '/index.php';
-		$_SERVER['SCRIPT_NAME'] = '/index.php';
-
 		$this->object->authenticate();
-		$application = JApplicationWeb::getInstance();
-		$headers = $application->getHeaders();
-
-		$location = false;
-		foreach ($headers as $header)
-		{
-			if ($header['name'] == 'Location')
-			{
-				$location = true;
-				$this->assertEquals($this->object->createUrl(), $header['value']);
-			}
-		}
-		$this->assertEquals(true, $location);
+		$this->assertEquals(0, $this->application->closed);
 
 		$this->object->setOption('tokenurl', 'https://accounts.google.com/o/oauth2/token');
 		$this->object->setOption('clientsecret', 'jeDs8rKw_jDJW8MMf-ff8ejs');

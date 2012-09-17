@@ -38,19 +38,27 @@ class JOauthV2client
 	protected $input;
 
 	/**
+	 * @var    JApplicationWeb  The application object to send HTTP headers for redirects.
+	 * @since  12.2
+	 */
+	protected $application;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry  $options  JOauthV2client options object
-	 * @param   JHttp      $http     The HTTP client object
-	 * @param   JInput     $input    The input object
+	 * @param   JRegistry        $options      JOauthV2client options object
+	 * @param   JHttp            $http         The HTTP client object
+	 * @param   JInput           $input        The input object
+	 * @param   JApplicationWeb  $application  The application object
 	 *
 	 * @since   12.2
 	 */
-	public function __construct(JRegistry $options = null, JHttp $http = null, JInput $input = null)
+	public function __construct(JRegistry $options = null, JHttp $http = null, JInput $input = null, JApplicationWeb $application = null)
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
 		$this->http = isset($http) ? $http : new JHttp($this->options);
 		$this->input = isset($input) ? $input : JFactory::getApplication()->input;
+		$this->application = isset($application) ? $application : new JApplicationWeb;
 	}
 
 	/**
@@ -94,8 +102,7 @@ class JOauthV2client
 
 		if ($this->getOption('sendheaders'))
 		{
-			$application = JApplicationWeb::getInstance();
-			$application->setHeader('Location', $this->createUrl(), true);
+			$this->application->redirect($this->createUrl());
 		}
 		return false;
 	}
