@@ -147,10 +147,16 @@ abstract class JMailHelper
 
 		// Check the domain
 		$domain_array = explode(".", rtrim($domain, '.'));
+
+		// Domain must have at least one country code (except it is localhost)
+		if (count($domain_array) < 2 && $domain_array[0] != 'localhost')
+		{
+			return false;
+		}
+
 		$regex = '/^[A-Za-z0-9-]{0,63}$/';
 		foreach ($domain_array as $domain)
 		{
-
 			// Must be something
 			if (!$domain)
 			{
