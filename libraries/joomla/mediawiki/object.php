@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * MediaWiki API object class for the Joomla Platform.
  *
  * @package     Joomla.Platform
- * @subpackage  GitHub
+ * @subpackage  Mediawiki
  * @since       12.1
  */
 abstract class JMediawikiObject
@@ -34,7 +34,7 @@ abstract class JMediawikiObject
 	/**
      * Constructor.
      *
-     * @param   JRegistry       $options  GitHub options object.
+     * @param   JRegistry       $options  Mediawiki options object.
      * @param   JMediawikiHttp  $client   The HTTP client object.
      *
      * @since   11.3
