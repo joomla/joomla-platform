@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Joomla Platform class for interacting with a GitHub server instance.
+ * Joomla Platform class for interacting with a Mediawiki server instance.
  *
  * @property-read  JMediawikiSites          $sites          MediaWiki API object for sites.
  * @property-read  JMediawikiPages          $pages          MediaWiki API object for pages.
