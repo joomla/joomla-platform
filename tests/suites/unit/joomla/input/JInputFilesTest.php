@@ -14,19 +14,19 @@ include_once JPATH_PLATFORM . '/joomla/input/files.php';
  */
 class JInputFilesTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @var JInputFiles
-     */
-    protected $object;
+	/**
+	 * @var JInputFiles
+	 */
+	protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp()
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 */
+	protected function setUp()
 	{
-        $this->object = new JInputFiles;
-    }
+		$this->object = new JInputFiles;
+	}
 
 	/**
 	 * Test the JInputFiles::get method.
@@ -35,7 +35,7 @@ class JInputFilesTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 */
-    public function testGet()
+	public function testGet()
 	{
 		$value = array(
 			'name' => 'foo',
@@ -46,17 +46,16 @@ class JInputFilesTest extends PHPUnit_Framework_TestCase
 		);
 
 		$_FILES['test'] = $value;
-
 		$this->assertEquals($this->object->get('test'), $value);
-    }
+	}
 
-    /**
-     * Test the JInputFiles::set method.
+	/**
+	 * Test the JInputFiles::set method.
 	 *
 	 * @since   12.2
 	 *
 	 * @return  void
-     */
+	 */
     public function testSet()
 	{
 		// Test with a correct value.
