@@ -110,10 +110,30 @@ class JInputFiles extends JInput
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @throws  InvalidArgumentException
+	 *
+	 * @since   12.2
 	 */
 	public function set($name, $value)
 	{
+		$pattern = array(
+			'name' => 0,
+			'type' => 0,
+			'tmp_name' => 0,
+			'error' => 0,
+			'size' => 0
+		);
 
+		// We just consider the needed keys.
+		$intersection = array_intersect_key((array) $value, $pattern);
+
+		// If there are less keys (or value is not an array) we throw an exception.
+		if (count($intersection) !== 5)
+		{
+			throw new InvalidArgumentException('The files value is not formatted correctly.');
+		}
+
+		// If there are more keys we ignore them.
+		$this->data[$name] = $intersection;
 	}
 }
