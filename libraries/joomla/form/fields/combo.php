@@ -39,16 +39,15 @@ class JFormFieldCombo extends JFormFieldList
 	protected function getInput()
 	{
 		$html = array();
-		$attr = '';
+		$attr = array();
 
 		// Initialize some field attributes.
-		$attr .= $this->element['class'] ? ' class="combobox ' . (string) $this->element['class'] . '"' : ' class="combobox"';
-		$attr .= ((string) $this->element['readonly'] == 'true') ? ' readonly="readonly"' : '';
-		$attr .= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
-		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
+		$attr['class'] = $this->element['class'] ? 'combobox ' . $this->element['class'] : 'combobox';
+		((string) $this->element['readonly'] == 'true') ? $attr['readonly'] = 'readonly' : null;
+		((string) $this->element['disabled'] == 'true') ? $attr['disabled'] = 'disabled' : null;
 
 		// Initialize JavaScript field attributes.
-		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
+		($this->element['onchange']) ? $attr['onchange'] = (string) $this->element['onchange'] : null;
 
 		// Get the field options.
 		$options = $this->getOptions();
@@ -56,17 +55,8 @@ class JFormFieldCombo extends JFormFieldList
 		// Load the combobox behavior.
 		JHtml::_('behavior.combobox');
 
-		// Build the input for the combo box.
-		$html[] = '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
-			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $attr . '/>';
-
-		// Build the list for the combo box.
-		$html[] = '<ul id="combobox-' . $this->id . '" style="display:none;">';
-		foreach ($options as $option)
-		{
-			$html[] = '<li>' . $option->text . '</li>';
-		}
-		$html[] = '</ul>';
+		// Generate the list
+		$html[] = JHTML::_('select.genericlist', $options, $this->name, $attr, 'value', 'text', $this->value, $this->id);
 
 		return implode($html);
 	}
