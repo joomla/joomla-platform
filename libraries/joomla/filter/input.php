@@ -228,6 +228,11 @@ class JFilterInput
 				$result = (string) preg_replace('/[\x00-\x1F\x7F<>"\'%&]/', '', $source);
 				break;
 
+			case 'EMAIL':
+				// Remove all characters except letters, digits and !#$%&'*+-/=?^_`{|}~@.[].
+				$result = (string) filter_var($source, FILTER_SANITIZE_EMAIL);
+				break;
+
 			default:
 				// Are we dealing with an array?
 				if (is_array($source))

@@ -30,6 +30,7 @@ defined('JPATH_PLATFORM') or die;
  * @method      string   getHtml()      getHtml($name, $default = null)
  * @method      string   getPath()      getPath($name, $default = null)
  * @method      string   getUsername()  getUsername($name, $default = null)
+ * @method      string   getEmail()     getEmail($name, $default = null)
  */
 class JInput implements Serializable, Countable
 {
