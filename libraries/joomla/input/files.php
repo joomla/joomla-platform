@@ -130,7 +130,7 @@ class JInputFiles extends JInput
 		// If there are less keys (or value is not an array) we throw an exception.
 		if (count($intersection) !== 5)
 		{
-			throw new InvalidArgumentException('The files value is not formatted correctly.');
+			throw new InvalidArgumentException("The file's value is not formatted correctly.");
 		}
 
 		// If there are more keys we ignore them.
