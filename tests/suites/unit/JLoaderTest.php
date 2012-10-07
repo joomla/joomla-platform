@@ -177,6 +177,43 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the JLoader::loadByNamespace method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 * @covers  JLoader::loadByNamespace
+	 */
+	public function testLoadByNamespace()
+	{
+		// Try with a namespace matching the directory structure letter case.
+		$path = dirname(__FILE__) . '/stubs/Color';
+		JLoader::registerNamespace('Color', $path);
+
+		$this->assertTrue(JLoader::loadByNamespace('Color\\Rgb\\Red'));
+
+		// Try with a namespace containing upper case letters but lower case directory and file names.
+		$path = dirname(__FILE__) . '/stubs/chess';
+		JLoader::registerNamespace('Chess', $path);
+
+		$this->assertTrue(JLoader::loadByNamespace('Chess\\Piece\\Pawn'));
+
+		// Try with a namespace lookup in two paths.
+		$path = dirname(__FILE__) . '/stubs/animal1';
+		JLoader::registerNamespace('animal', $path);
+
+		$path = dirname(__FILE__) . '/stubs/animal2';
+		JLoader::registerNamespace('animal', $path);
+
+		$this->assertTrue(JLoader::loadByNamespace('animal\\Cat'));
+		$this->assertTrue(JLoader::loadByNamespace('animal\\Dog'));
+
+		// Test an unknown class or not found in namespace is ignored.
+		$this->assertFalse(JLoader::loadByNamespace('Random'));
+		$this->assertFalse(JLoader::loadByNamespace('animal\\Random'));
+	}
+
+	/**
 	 * The success of this test depends on some files being in the file system to be imported. If the FS changes, this test may need revisited.
 	 *
 	 * @param   string   $filePath     Path to object
@@ -245,6 +282,55 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the JLoader::registerNamespace method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 * @covers  JLoader::registerNamespace
+	 */
+	public function testRegisterNamespace()
+	{
+		// Try with a valid path.
+		$path = dirname(__FILE__) . '/stubs/discover1';
+		JLoader::registerNamespace('discover', $path);
+
+		$namespaces = JLoader::getNamespaces();
+
+		$this->assertContains($path, $namespaces['discover']);
+
+		// Try to add an other path for the namespace.
+		$path = dirname(__FILE__) . '/stubs/discover2';
+		JLoader::registerNamespace('discover', $path);
+		$namespaces = JLoader::getNamespaces();
+
+		$this->assertCount(2, $namespaces['discover']);
+		$this->assertContains($path, $namespaces['discover']);
+
+		// Reset the path.
+		$path = dirname(__FILE__) . '/stubs/discover1';
+		JLoader::registerNamespace('discover', $path, true);
+
+		$namespaces = JLoader::getNamespaces();
+		$this->assertCount(1, $namespaces['discover']);
+		$this->assertContains($path, $namespaces['discover']);
+	}
+
+	/**
+	 * Tests the exception thrown by the JLoader::registerNamespace method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 * @covers  JLoader::registerNamespace
+	 * @expectedException RuntimeException
+	 */
+	public function testRegisterNamespaceException()
+	{
+		JLoader::registerNamespace('Color', 'dummy');
+	}
+
+	/**
 	* Tests the JLoader::registerPrefix method.
 	*
 	* @return  void
@@ -290,7 +376,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 		// We unregister the two loaders in case they are missing
 		foreach ($loaders as $loader)
 		{
-			if ($loader[0] == 'JLoader' && ($loader[1] == 'load' || $loader[1] == '_autoload'))
+			if ($loader[0] == 'JLoader' && ($loader[1] == 'load' || $loader[1] == '_autoload' || $loader[1] == 'loadByNamespace'))
 			{
 				spl_autoload_unregister($loader);
 			}
@@ -304,6 +390,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 
 		$foundLoad = false;
 		$foundAutoload = false;
+		$foundLoadByNamespace = false;
 
 		// We search the list of autoload functions to see if our methods are there.
 		foreach ($newLoaders as $loader)
@@ -317,10 +404,17 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 			{
 				$foundAutoload = true;
 			}
+
+			if ($loader[0] == 'JLoader' && $loader[1] == 'loadByNamespace')
+			{
+				$foundLoadByNamespace = true;
+			}
 		}
 
 		$this->assertThat($foundLoad, $this->isTrue());
 
 		$this->assertThat($foundAutoload, $this->isTrue());
+
+		$this->assertTrue($foundLoadByNamespace);
 	}
 }
