@@ -283,7 +283,12 @@ abstract class JDatabaseQuery
 	{
 		if (empty($args))
 		{
-			return;
+			// In dynamic methods we have to do the error handling ourself.
+			$trace = debug_backtrace();
+			trigger_error(
+				'Call to undefined method via __call(): ' . $method . ' in ' . $trace[0]['file'] . ' on line ' . $trace[0]['line'],
+				E_USER_ERROR
+			);
 		}
 
 		switch ($method)
@@ -300,6 +305,13 @@ abstract class JDatabaseQuery
 				return $this->escape($args[0], isset($args[1]) ? $args[1] : false);
 				break;
 		}
+
+		// In dynamic methods we have to do the error handling ourself.
+		$trace = debug_backtrace();
+		trigger_error(
+			'Call to undefined method via __call(): ' . $method . ' in ' . $trace[0]['file'] . ' on line ' . $trace[0]['line'],
+			E_USER_ERROR
+		);
 	}
 
 	/**
@@ -470,7 +482,18 @@ abstract class JDatabaseQuery
 	 */
 	public function __get($name)
 	{
-		return isset($this->$name) ? $this->$name : null;
+		if (isset($this->$name) || property_exists($this, $name))
+		{
+			return $this->$name;
+		}
+
+		// In dynamic methods we have to do the error handling ourself.
+		$trace = debug_backtrace();
+		trigger_error(
+			'Undefined property via __get(): ' . $name . ' in ' . $trace[0]['file'] . ' on line ' . $trace[0]['line'],
+			E_USER_NOTICE
+		);
+		return null;
 	}
 
 	/**

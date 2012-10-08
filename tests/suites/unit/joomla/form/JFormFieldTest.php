@@ -307,6 +307,25 @@ class JFormFieldTest extends TestCase
 	}
 
 	/**
+	 * Tests the JFormField::__get method
+	 *
+	 * @covers  JFormField::__get
+	 * @expectedException  PHPUnit_Framework_Error_Notice
+	 */
+	public function test__getUnexisting()
+	{
+		$form = new JFormInspector('form1');
+		$form->load(JFormDataHelper::$loadFieldDocument);
+		$field = new JFormFieldInspector($form);
+
+		$this->assertThat(
+			$field->unexisting,
+			$this->equalTo(null),
+			'Line:'.__LINE__.' The property should be computed from the XML.'
+		);
+	}
+
+	/**
 	 * Tests the JFormField::setup method
 	 *
 	 * @covers JFormField::setup
@@ -315,13 +334,7 @@ class JFormFieldTest extends TestCase
 	public function testSetup()
 	{
 		$form = new JFormInspector('form1');
-
-		$this->assertThat(
-			$form->load(JFormDataHelper::$loadFieldDocument),
-			$this->isTrue(),
-			'Line:'.__LINE__.' XML string should load successfully.'
-		);
-
+		$form->load(JFormDataHelper::$loadFieldDocument);
 		$field = new JFormFieldInspector($form);
 
 		// Standard usage.
@@ -392,12 +405,6 @@ class JFormFieldTest extends TestCase
 		$this->assertThat(
 			$field->title,
 			$this->equalTo('Title'),
-			'Line:'.__LINE__.' The property should be computed from the XML.'
-		);
-
-		$this->assertThat(
-			$field->unexisting,
-			$this->equalTo(null),
 			'Line:'.__LINE__.' The property should be computed from the XML.'
 		);
 
