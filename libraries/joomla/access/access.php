@@ -60,7 +60,14 @@ class JAccess
 	 */
 	protected static $groupsByUser = array();
 
-	/**
+  /**
+	 * Semaphore to guard against nested calls of getUsersByGroup
+	 * When set to true, JPluginHelper::importPlugin() is not called again
+	 * @var boolean
+	 */
+	protected static $loaded = false;
+	
+  /**
 	 * Method for clearing static caches.
 	 *
 	 * @return  void
@@ -333,7 +340,28 @@ class JAccess
 				$db->setQuery($query);
 				$result = $db->loadColumn();
 
-				// Clean up any NULL or duplicate values, just in case
+        // Execute the query and load the rules from the result.
+        $db->setQuery($query);
+        $result = $db->loadColumn();
+        
+				// Add trigger to allow for external group assignment
+				// nesting prevention:
+				if (!self::$loaded) 
+        {
+					self::$loaded = true;
+					JPluginHelper::importPlugin('user');
+				}
+				$dispatcher = JEventDispatcher::getInstance();
+				$r = $dispatcher->trigger('onGetGroupsByUser', array($userId, $recursive));
+
+				if (! empty($r)) {
+					// Collect result from all fired plugins
+					foreach ($r as $plugin_r) {
+						$result = array_merge($result, $plugin_r);
+					}
+				}
+				
+        // Clean up any NULL or duplicate values, just in case
 				JArrayHelper::toInteger($result);
 
 				if (empty($result))
