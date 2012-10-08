@@ -24,7 +24,7 @@ class JLanguageHelper
 	 * @param   string   $actualLanguage  Client key for the area
 	 * @param   string   $basePath        Base path to use
 	 * @param   boolean  $caching         True if caching is used
-	 * @param   array    $installed       An array of arrays (text, value, selected)
+	 * @param   boolean  $installed       Get only installed languages
 	 *
 	 * @return  array  List of system languages
 	 *
@@ -137,8 +137,10 @@ class JLanguageHelper
 				$knownLangs = JLanguage::getKnownLanguages(JPATH_BASE);
 				foreach ($knownLangs as $metadata)
 				{
-					// take off 3 letters iso code languages as they can't match browsers' languages and default them to en
-					$languages[$key][] = new JObject(array('lang_code' => $metadata['tag']));
+					// Take off 3 letters iso code languages as they can't match browsers' languages and default them to en
+					$obj = new stdClass;
+					$obj->lang_code = $metadata['tag'];
+					$languages[$key][] = $obj;
 				}
 			}
 			else

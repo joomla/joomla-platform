@@ -21,7 +21,7 @@ class JDocumentRendererModule extends JDocumentRenderer
 	/**
 	 * Renders a module script and returns the results as a string
 	 *
-	 * @param   string  $module   The name of the module to render
+	 * @param   mixed   $module   The name of the module to render
 	 * @param   array   $attribs  Associative array of values
 	 * @param   string  $content  If present, module information from the buffer will be used
 	 *
@@ -84,6 +84,7 @@ class JDocumentRendererModule extends JDocumentRenderer
 		}
 
 		$contents = '';
+
 		// Default for compatibility purposes. Set cachemode parameter or use JModuleHelper::moduleCache from within the
 		// module instead
 		$cachemode = $params->get('cachemode', 'oldstatic');

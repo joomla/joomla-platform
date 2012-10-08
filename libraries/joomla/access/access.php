@@ -98,7 +98,10 @@ class JAccess
 		// Default to the root asset node.
 		if (empty($asset))
 		{
-			$asset = 1;
+			$db = JFactory::getDbo();
+			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
+			$rootId = $assets->getRootId();
+			$asset = $rootId;
 		}
 
 		// Get the rules for the asset recursively to root if not already retrieved.
@@ -138,7 +141,9 @@ class JAccess
 		// Default to the root asset node.
 		if (empty($asset))
 		{
-			$asset = 1;
+			$db = JFactory::getDbo();
+			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
+			$rootId = $assets->getRootId();
 		}
 
 		// Get the rules for the asset recursively to root if not already retrieved.
@@ -218,19 +223,18 @@ class JAccess
 		$query = $db->getQuery(true);
 		$query->select($recursive ? 'b.rules' : 'a.rules');
 		$query->from('#__assets AS a');
-		//sqlsrv change
+
+		// SQLsrv change
 		$query->group($recursive ? 'b.id, b.rules, b.lft' : 'a.id, a.rules, a.lft');
 
 		// If the asset identifier is numeric assume it is a primary key, else lookup by name.
 		if (is_numeric($asset))
 		{
-			// Get the root even if the asset is not found
-			$query->where('(a.id = ' . (int) $asset . ($recursive ? ' OR a.parent_id=0' : '') . ')');
+			$query->where('(a.id = ' . (int) $asset . ')');
 		}
 		else
 		{
-			// Get the root even if the asset is not found
-			$query->where('(a.name = ' . $db->quote($asset) . ($recursive ? ' OR a.parent_id=0' : '') . ')');
+			$query->where('(a.name = ' . $db->quote($asset) . ')');
 		}
 
 		// If we want the rules cascading up to the global asset node we need a self-join.
@@ -245,16 +249,19 @@ class JAccess
 		$result = $db->loadColumn();
 
 		// Get the root even if the asset is not found and in recursive mode
-		if ($recursive && empty($result))
+		if (empty($result))
 		{
+			$db = JFactory::getDbo();
+			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
+			$rootId = $assets->getRootId();
 			$query = $db->getQuery(true);
 			$query->select('rules');
 			$query->from('#__assets');
-			$query->where('parent_id = 0');
+			$query->where('id = ' . $db->quote($rootId));
 			$db->setQuery($query);
-			$result = $db->loadColumn();
+			$result = $db->loadResult();
+			$result = array($result);
 		}
-
 		// Instantiate and return the JAccessRules object for the asset rules.
 		$rules = new JAccessRules;
 		$rules->mergeCollection($result);
@@ -281,12 +288,22 @@ class JAccess
 
 		if (!isset(self::$groupsByUser[$storeId]))
 		{
-			// Guest user
-			if (empty($userId))
+			// TODO: Uncouple this from JComponentHelper and allow for a configuration setting or value injection.
+			if (class_exists('JComponentHelper'))
 			{
-				$result = array(JComponentHelper::getParams('com_users')->get('guest_usergroup', 1));
+				$guestUsergroup = JComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
 			}
-			// Registered user
+			else
+			{
+				$guestUsergroup = 1;
+			}
+
+			// Guest user (if only the actually assigned group is requested)
+			if (empty($userId) && !$recursive)
+			{
+				$result = array($guestUsergroup);
+			}
+			// Registered user and guest if all groups are requested
 			else
 			{
 				$db = JFactory::getDbo();
@@ -294,9 +311,17 @@ class JAccess
 				// Build the database query to get the rules for the asset.
 				$query = $db->getQuery(true);
 				$query->select($recursive ? 'b.id' : 'a.id');
-				$query->from('#__user_usergroup_map AS map');
-				$query->where('map.user_id = ' . (int) $userId);
-				$query->leftJoin('#__usergroups AS a ON a.id = map.group_id');
+				if (empty($userId))
+				{
+					$query->from('#__usergroups AS a');
+					$query->where('a.id = ' . (int) $guestUsergroup);
+				}
+				else
+				{
+					$query->from('#__user_usergroup_map AS map');
+					$query->where('map.user_id = ' . (int) $userId);
+					$query->leftJoin('#__usergroups AS a ON a.id = map.group_id');
+				}
 
 				// If we want the rules cascading up to the global asset node we need a self-join.
 				if ($recursive)
@@ -424,43 +449,88 @@ class JAccess
 	}
 
 	/**
-	 * Method to return a list of actions for which permissions can be set given a component and section.
+	 * Method to return a list of actions from a file for which permissions can be set.
 	 *
-	 * @param   string  $component  The component from which to retrieve the actions.
-	 * @param   string  $section    The name of the section within the component from which to retrieve the actions.
+	 * @param   string  $file   The path to the XML file.
+	 * @param   string  $xpath  An optional xpath to search for the fields.
 	 *
-	 * @return  array  List of actions available for the given component and section.
+	 * @return  boolean|array   False if case of error or the list of actions available.
 	 *
-	 * @since   11.1
-	 *
-	 * @todo    Need to decouple this method from the CMS. Maybe check if $component is a
-	 *          valid file (or create a getActionsFromFile method).
+	 * @since   12.1
 	 */
-	public static function getActions($component, $section = 'component')
+	public static function getActionsFromFile($file, $xpath = "/access/section[@name='component']/")
 	{
-		$actions = array();
-
-		if (defined('JPATH_ADMINISTRATOR') && is_file(JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml'))
+		if (!is_file($file) || !is_readable($file))
 		{
-			$xml = simplexml_load_file(JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml');
+			// If unable to find the file return false.
+			return false;
+		}
+		else
+		{
+			// Else return the actions from the xml.
+			$xml = simplexml_load_file($file);
+			return self::getActionsFromData($xml, $xpath);
+		}
+	}
 
-			foreach ($xml->children() as $child)
+	/**
+	 * Method to return a list of actions from a string or from an xml for which permissions can be set.
+	 *
+	 * @param   string|SimpleXMLElement  $data   The XML string or an XML element.
+	 * @param   string                   $xpath  An optional xpath to search for the fields.
+	 *
+	 * @return  boolean|array   False if case of error or the list of actions available.
+	 *
+	 * @since   12.1
+	 */
+	public static function getActionsFromData($data, $xpath = "/access/section[@name='component']/")
+	{
+		// If the data to load isn't already an XML element or string return false.
+		if ((!($data instanceof SimpleXMLElement)) && (!is_string($data)))
+		{
+			return false;
+		}
+
+		// Attempt to load the XML if a string.
+		if (is_string($data))
+		{
+			try
 			{
-				if ($section == (string) $child['name'])
-				{
-					foreach ($child->children() as $action)
-					{
-						$actions[] = (object) array(
-							'name' => (string) $action['name'],
-							'title' => (string) $action['title'],
-							'description' => (string) $action['description']);
-					}
+				$data = new SimpleXMLElement($data);
+			}
+			catch (Exception $e)
+			{
+				return false;
+			}
 
-					break;
-				}
+			// Make sure the XML loaded correctly.
+			if (!$data)
+			{
+				return false;
 			}
 		}
 
+		// Initialise the actions array
+		$actions = array();
+
+		// Get the elements from the xpath
+		$elements = $data->xpath($xpath . 'action[@name][@title][@description]');
+
+		// If there some elements, analyse them
+		if (!empty($elements))
+		{
+			foreach ($elements as $action)
+			{
+				// Add the action to the actions array
+				$actions[] = (object) array(
+					'name' => (string) $action['name'],
+					'title' => (string) $action['title'],
+					'description' => (string) $action['description']
+				);
+			}
+		}
+
+		// Finally return the actions array
 		return $actions;
 	}
 }
