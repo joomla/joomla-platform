@@ -830,7 +830,7 @@ abstract class JHtml
 	 * @param   string  $value    The date value
 	 * @param   string  $name     The name of the text field
 	 * @param   string  $id       The id of the text field
-	 * @param   string  $format   The date format
+	 * @param   string  $format   The date format (strftime)
 	 * @param   array   $attribs  Additional HTML attributes
 	 *
 	 * @return  string  HTML markup for a calendar field
@@ -851,6 +851,14 @@ abstract class JHtml
 		if (is_array($attribs))
 		{
 			$attribs = JArrayHelper::toString($attribs);
+		}
+
+		$timestamp = strtotime($value);
+		if ($timestamp)
+		{
+			// JHtml::date() uses dateTime->format() and can't make use of the given strftime $format
+			// As we still want to format the output date/time we use strftime here
+			$value = strftime($format, $timestamp);
 		}
 
 		if (!$readonly && !$disabled)
@@ -880,15 +888,15 @@ abstract class JHtml
 				);
 				$done[] = $id;
 			}
-			return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value, null, null) : '') . '" name="' . $name . '" id="' . $id
+			return '<input type="text" title="' . $value . '" name="' . $name . '" id="' . $id
 				. '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
 				. self::_('image', 'system/calendar.png', JText::_('JLIB_HTML_CALENDAR'), array('class' => 'calendar', 'id' => $id . '_img'), true);
 		}
 		else
 		{
-			return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value, null, null) : '')
-				. '" value="' . (0 !== (int) $value ? self::_('date', $value, 'Y-m-d H:i:s', null) : '') . '" ' . $attribs
-				. ' /><input type="hidden" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" />';
+			return '<input type="text" title="' . $value
+				. '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
+				. '<input type="hidden" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" />';
 		}
 	}
 	/**

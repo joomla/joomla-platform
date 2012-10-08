@@ -1367,8 +1367,8 @@ class JHtmlTest extends TestCase
 		$_SERVER['HTTP_USER_AGENT'] = 'Test Browser';
 
 		// two sets of test data
-		$test_data = array('date' => '2010-05-28 00:00:00', 'friendly_date' => 'Friday, 28 May 2010',
-					  'name' => 'cal1_name', 'id' => 'cal1_id', 'format' => '%Y-%m-%d',
+		$test_data = array('date' => '2010-05-28 14:12:34', 'friendly_date' => 'Friday, 28 May 2010',
+					  'name' => 'cal1_name', 'id' => 'cal1_id', 'format' => '%Y-%m-%d %H:%M:%S',
 					  'attribs' => array()
 				);
 
