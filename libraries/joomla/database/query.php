@@ -372,6 +372,11 @@ abstract class JDatabaseQuery
 
 			case 'union':
 				$query .= (string) $this->union;
+				if ($this->order)
+				{
+					$query .= (string) $this->order;
+				}
+
 				break;
 
 			case 'delete':
@@ -1510,6 +1515,8 @@ abstract class JDatabaseQuery
 	 */
 	public function union($query, $distinct = false, $glue = '')
 	{
+
+		$this->type= 'union';
 
 		// Clear any ORDER BY clause in UNION query
 		// See http://dev.mysql.com/doc/refman/5.0/en/union.html
