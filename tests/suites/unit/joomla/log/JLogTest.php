@@ -388,7 +388,7 @@ class JLogTest extends PHPUnit_Framework_TestCase
 
 		// Get the expected lookup array after adding the single logger.
 		$expectedLookup = array(
-			'55202c195e23298813df4292c827b241' => (object) array('priorities' => JLog::ALL, 'categories' => array())
+			'55202c195e23298813df4292c827b241' => (object) array('priorities' => JLog::ALL, 'categories' => array(), 'exclude' => false)
 		);
 
 		// Get the expected loggers array after adding the single logger (hasn't been instantiated yet so null).
@@ -426,7 +426,7 @@ class JLogTest extends PHPUnit_Framework_TestCase
 
 		// Get the expected lookup array after adding the single logger.
 		$expectedLookup = array(
-			'b67483f5ba61450d173aae527fa4163f' => (object) array('priorities' => JLog::ERROR, 'categories' => array())
+			'b67483f5ba61450d173aae527fa4163f' => (object) array('priorities' => JLog::ERROR, 'categories' => array(), 'exclude' => false)
 		);
 
 		// Get the expected loggers array after adding the single logger (hasn't been instantiated yet so null).
