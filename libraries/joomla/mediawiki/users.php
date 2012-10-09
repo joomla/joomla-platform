@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  MediaWiki
- * @since       12.3
+ * @since       12.1
  */
 class JMediawikiUsers extends JMediawikiObject
 {
