@@ -531,14 +531,11 @@ class JUser extends JObject
 				return false;
 			}
 
+			$pwCrypt = new JCryptPasswordSimple;
 			$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
-
-			$salt = JUserHelper::genRandomPassword(32);
-			$crypt = JUserHelper::getCryptedPassword($array['password'], $salt);
-			$array['password'] = $crypt . ':' . $salt;
+			$array['password'] = $pwCrypt->create($array['password'], JCryptPassword::JOOMLA);
 
 			// Set the registration timestamp
-
 			$this->set('registerDate', JFactory::getDate()->toSql());
 
 			// Check that username is not greater than 150 characters
@@ -569,10 +566,8 @@ class JUser extends JObject
 				}
 
 				$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
-
-				$salt = JUserHelper::genRandomPassword(32);
-				$crypt = JUserHelper::getCryptedPassword($array['password'], $salt);
-				$array['password'] = $crypt . ':' . $salt;
+				$pwCrypt = new JCryptPasswordSimple;
+				$array['password'] = $pwCrypt->create($array['password'], JCryptPassword::JOOMLA);
 			}
 			else
 			{

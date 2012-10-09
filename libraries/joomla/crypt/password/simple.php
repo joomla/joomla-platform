@@ -97,11 +97,7 @@ class JCryptPasswordSimple implements JCryptPassword
 	 */
 	protected function getSalt($length)
 	{
-		$bytes = ceil($length * 6 / 8);
-
-		$randomData = str_replace('+', '.', base64_encode(JCrypt::getRandomBytes($bytes)));
-
-		return substr($randomData, 0, $length);
+		return JCrypt::genRandomPassword($length);
 	}
 
 	/**
