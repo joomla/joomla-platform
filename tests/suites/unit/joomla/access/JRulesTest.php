@@ -8,7 +8,11 @@
  */
 
 /**
- * @package     Joomla.Platform
+ * Test class for JAccessRules.
+ *
+ * @package  Joomla.Platform
+ *
+ * @since    11.1
  */
 class JAccessRulesTest extends PHPUnit_Framework_TestCase
 {
@@ -29,9 +33,9 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 	{
 		$array = array(
 			'edit' => array(
-				-42	=> 1,
-				2	=> 1,
-				3	=> 0
+				-42 => 1,
+				2 => 1,
+				3 => 0
 			)
 		);
 
@@ -45,32 +49,83 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 			'Checks input as an string.'
 		);
 	}
-	public function test__constructArray()
-		{
-			$array = array(
-				'edit' => array(
-					-42	=> 1,
-					2	=> 1,
-					3	=> 0
-				)
-			);
 
-			$string = json_encode($array);
+	/**
+	 * Tests the JAccessRules::getData method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 * @covers  JAccessRules::getData
+	 */
+	public function testGetData()
+	{
+		$array = array(
+			'edit' => array(
+				-42 => 1,
+				2 => 1,
+				3 => 0
+			)
+		);
 
-			$rules = new JAccessRules($array);
-			$this->assertThat(
-				(string) $rules,
-				$this->equalTo($string),
-				'Checks input as an array.'
-			);
+		$rule = new JAccessRules($array);
+
+		$data = $rule->getData();
+
+		$this->assertArrayHasKey(
+			'edit',
+			$data
+		);
+
+		$this->assertInstanceOf(
+			'JAccessRule',
+			$data['edit']
+		);
 	}
+
+	/**
+	 * Test...
+	 *
+	 * @covers  JAccessRules::__construct
+	 * @covers  JAccessRules::__toString
+	 *
+	 * @return  void
+	 */
+	public function test__constructArray()
+	{
+		$array = array(
+			'edit' => array(
+				-42 => 1,
+				2 => 1,
+				3 => 0
+			)
+		);
+
+		$string = json_encode($array);
+
+		$rules = new JAccessRules($array);
+		$this->assertThat(
+			(string) $rules,
+			$this->equalTo($string),
+			'Checks input as an array.'
+		);
+	}
+
+	/**
+	 * Test...
+	 *
+	 * @covers  JAccessRules::__construct
+	 * @covers  JAccessRules::__toString
+	 *
+	 * @return  void
+	 */
 	public function test__constructObject()
 	{
 		$array = array(
 			'edit' => array(
-				-42	=> 1,
-				2	=> 1,
-				3	=> 0
+				-42 => 1,
+				2 => 1,
+				3 => 0
 			)
 		);
 
@@ -97,16 +152,16 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 	public function testMergeRule()
 	{
 		$identities = array(
-			-42	=> 1,
-			2	=> 1,
-			3	=> 0
+			-42 => 1,
+			2 => 1,
+			3 => 0
 		);
 
 		$result = array(
 			'edit' => array(
-				-42	=> 1,
-				2	=> 1,
-				3	=> 0
+				-42 => 1,
+				2 => 1,
+				3 => 0
 			)
 		);
 
@@ -121,19 +176,19 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 
 		// Merge a new set, flipping some bits.
 		$identities = array(
-			-42	=> 0,
-			2	=> 1,
-			3	=> 1,
-			4	=> 1
+			-42 => 0,
+			2 => 1,
+			3 => 1,
+			4 => 1
 		);
 
 		// Ident 3 should remain false, 4 should be added.
 		$result = array(
 			'edit' => array(
-				-42	=> 0,
-				2	=> 1,
-				3	=> 0,
-				4	=> 1
+				-42 => 0,
+				2 => 1,
+				3 => 0,
+				4 => 1
 			)
 		);
 
@@ -157,33 +212,33 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 	{
 		$array1 = array(
 			'edit' => array(
-				-42	=> 1
+				-42 => 1
 			),
 			'delete' => array(
-				-42	=> 0
+				-42 => 0
 			)
 		);
 		$string1 = json_encode($array1);
 
 		$array2 = array(
 			'create' => array(
-				2	=> 1
+				2 => 1
 			),
 			'delete' => array(
-				2	=> 0
+				2 => 0
 			)
 		);
 
 		$result2 = array(
 			'edit' => array(
-				-42	=> 1
+				-42 => 1
 			),
 			'delete' => array(
-				-42	=> 0,
-				2	=> 0
+				-42 => 0,
+				2 => 0
 			),
 			'create' => array(
-				2	=> 1
+				2 => 1
 			),
 		);
 
@@ -196,14 +251,21 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * Test...
+	 *
+	 * @covers  JAccessRules::merge
+	 *
+	 * @return  void
+	 */
 	public function testMergeArray()
 	{
 		$array1 = array(
 			'edit' => array(
-				-42	=> 1
+				-42 => 1
 			),
 			'delete' => array(
-				-42	=> 0
+				-42 => 0
 			)
 		);
 		$string1 = json_encode($array1);
@@ -216,14 +278,22 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 			'Input as a array'
 		);
 	}
+
+	/**
+	 * Test...
+	 *
+	 * @covers  JAccessRules::merge
+	 *
+	 * @return  void
+	 */
 	public function testMergeRulesNull()
 	{
 		$array1 = array(
 			'edit' => array(
-				-42	=> 1
+				-42 => 1
 			),
 			'delete' => array(
-				-42	=> 0
+				-42 => 0
 			)
 		);
 		$string1 = json_encode($array1);
@@ -238,37 +308,45 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 			'Merge by JRules where second rules are empty'
 		);
 	}
+
+	/**
+	 * Test...
+	 *
+	 * @covers  JAccessRules::merge
+	 *
+	 * @return void
+	 */
 	public function testMergeRules()
 	{
 		$array1 = array(
 			'edit' => array(
-				-42	=> 1
+				-42 => 1
 			),
 			'delete' => array(
-				-42	=> 0
+				-42 => 0
 			)
 		);
 		$string1 = json_encode($array1);
 
 		$array2 = array(
 			'create' => array(
-				2	=> 1
+				2 => 1
 			),
 			'delete' => array(
-				2	=> 0
+				2 => 0
 			)
 		);
 
 		$result2 = array(
 			'edit' => array(
-				-42	=> 1
+				-42 => 1
 			),
 			'delete' => array(
-				-42	=> 0,
-				2	=> 0
+				-42 => 0,
+				2 => 0
 			),
 			'create' => array(
-				2	=> 1
+				2 => 1
 			),
 		);
 
@@ -294,11 +372,11 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 	{
 		$array1 = array(
 			'edit' => array(
-				-42	=> 1
+				-42 => 1
 			),
 			'delete' => array(
-				-42	=> 0,
-				2	=> 1
+				-42 => 0,
+				2 => 1
 			)
 		);
 
@@ -333,6 +411,11 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse(
 			$rules->allow('delete', array(-42, 2))
 		);
+
+		// This should be null, the action doesn't exist.
+		$this->assertNull(
+			$rules->allow('unknown', array(-42, 2))
+		);
 	}
 
 	/**
@@ -347,14 +430,14 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 	{
 		$array1 = array(
 			'create' => array(
-				-42	=> 1
+				-42 => 1
 			),
 			'edit' => array(
-				-42	=> 1
+				-42 => 1
 			),
 			'delete' => array(
-				-42	=> 0,
-				2	=> 1
+				-42 => 0,
+				2 => 1
 			)
 		);
 
@@ -362,7 +445,7 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 		$result->set('create', true);
 		$result->set('edit', true);
 
-		$rules   = new JAccessRules($array1);
+		$rules = new JAccessRules($array1);
 		$allowed = $rules->getAllowed(-42);
 
 		$this->assertThat(

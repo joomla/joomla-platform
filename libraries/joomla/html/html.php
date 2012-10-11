@@ -199,8 +199,8 @@ abstract class JHtml
 	/**
 	 * Function caller method
 	 *
-	 * @param   string  $function  Function or method to call
-	 * @param   array   $args      Arguments to be passed to function
+	 * @param   callable  $function  Function or method to call
+	 * @param   array     $args      Arguments to be passed to function
 	 *
 	 * @return  mixed   Function result or false on error.
 	 *
@@ -210,20 +210,18 @@ abstract class JHtml
 	 */
 	protected static function call($function, $args)
 	{
-		if (is_callable($function))
-		{
-			// PHP 5.3 workaround
-			$temp = array();
-			foreach ($args as &$arg)
-			{
-				$temp[] = &$arg;
-			}
-			return call_user_func_array($function, $temp);
-		}
-		else
+		if (!is_callable($function))
 		{
 			throw new InvalidArgumentException('Function not supported', 500);
 		}
+
+		// PHP 5.3 workaround
+		$temp = array();
+		foreach ($args as &$arg)
+		{
+			$temp[] = &$arg;
+		}
+		return call_user_func_array($function, $temp);
 	}
 
 	/**
@@ -332,7 +330,20 @@ abstract class JHtml
 					// Detect debug mode
 					if ($detect_debug && JFactory::getConfig()->get('debug'))
 					{
-						$files[] = $strip . '-uncompressed.' . $ext;
+						/*
+						 * Detect if we received a file in the format name.min.ext
+						 * If so, strip the .min part out, otherwise append -uncompressed
+						 */
+						if (strrpos($strip, '.min', '-4'))
+						{
+							$position = strrpos($strip, '.min', '-4');
+							$filename = str_replace('.min', '.', $strip, $position);
+							$files[]  = $filename . $ext;
+						}
+						else
+						{
+							$files[] = $strip . '-uncompressed.' . $ext;
+						}
 					}
 					$files[] = $strip . '.' . $ext;
 
@@ -906,5 +917,59 @@ abstract class JHtml
 		}
 
 		return self::$includePaths;
+	}
+
+	/**
+	 * Internal method to get a JavaScript object notation string from an array
+	 *
+	 * @param   array  $array  The array to convert to JavaScript object notation
+	 *
+	 * @return  string  JavaScript object notation representation of the array
+	 *
+	 * @since   12.2
+	 */
+	public static function getJSObject(array $array = array())
+	{
+		$elements = array();
+		foreach ($array as $k => $v)
+		{
+			// Don't encode either of these types
+			if (is_null($v) || is_resource($v))
+			{
+				continue;
+			}
+
+			// Safely encode as a Javascript string
+			$key = json_encode((string) $k);
+
+			if (is_bool($v))
+			{
+				$elements[] = $key . ': ' . ($v ? 'true' : 'false');
+			}
+			elseif (is_numeric($v))
+			{
+				$elements[] = $key . ': ' . ($v + 0);
+			}
+			elseif (is_string($v))
+			{
+				if (strpos($v, '\\') === 0)
+				{
+					// Items such as functions and JSON objects are prefixed with \, strip the prefix and don't encode them
+					$elements[] = $key . ': ' . substr($v, 1);
+				}
+				else
+				{
+					// The safest way to insert a string
+					$elements[] = $key . ': ' . json_encode((string) $v);
+				}
+			}
+			else
+			{
+				$elements[] = $key . ': ' . self::getJSObject(is_object($v) ? get_object_vars($v) : $v);
+			}
+		}
+
+		return '{' . implode(',', $elements) . '}';
+
 	}
 }

@@ -211,14 +211,15 @@ abstract class JModelLegacy extends JObject
 		// Guess the option from the class name (Option)Model(View).
 		if (empty($this->option))
 		{
-			$r = null;
+			$classname = get_class($this);
+			$modelpos = strpos($classname, 'Model');
 
-			if (!preg_match('/(.*)Model/i', get_class($this), $r))
+			if ($modelpos === false)
 			{
 				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 
-			$this->option = 'com_' . strtolower($r[1]);
+			$this->option = 'com_' . strtolower(substr($classname, 0, $modelpos));
 		}
 
 		// Set the view name
@@ -313,10 +314,26 @@ abstract class JModelLegacy extends JObject
 	 */
 	protected function _getListCount($query)
 	{
-		$this->_db->setQuery($query);
-		$this->_db->execute();
+		if ($query instanceof JDatabaseQuery)
+		{
+			// Create COUNT(*) query to allow database engine to optimize the query.
+			$query = clone $query;
+			$query->clear('select')->clear('order')->select('COUNT(*)');
+			$this->_db->setQuery($query);
 
-		return $this->_db->getNumRows();
+			return (int) $this->_db->loadResult();
+		}
+		else
+		{
+			/* Performance of this query is very bad as it forces database engine to go
+			 * through all items in the database. If you don't use JDatabaseQuery object,
+			 * you should override this function in your model.
+			 */
+			$this->_db->setQuery($query);
+			$this->_db->execute();
+
+			return $this->_db->getNumRows();
+		}
 	}
 
 	/**
@@ -371,12 +388,15 @@ abstract class JModelLegacy extends JObject
 	{
 		if (empty($this->name))
 		{
-			$r = null;
-			if (!preg_match('/Model(.*)/i', get_class($this), $r))
+			$classname = get_class($this);
+			$modelpos = strpos($classname, 'Model');
+
+			if ($modelpos === false)
 			{
 				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
-			$this->name = strtolower($r[1]);
+
+			$this->name = strtolower(substr($classname, $modelpos + 5));
 		}
 
 		return $this->name;
