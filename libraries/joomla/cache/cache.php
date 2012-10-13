@@ -654,8 +654,13 @@ class JCache
 	{
 		$app = JFactory::getApplication();
 
+		$registeredurlparams = new stdClass;
+
 		// Get url parameters set by plugins
-		$registeredurlparams = $app->registeredurlparams;
+		if (!empty($app->registeredurlparams))
+		{
+			$registeredurlparams = $app->registeredurlparams;
+		}
 
 		// Platform defaults
 		$registeredurlparams->format = 'WORD';
