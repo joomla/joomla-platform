@@ -1754,4 +1754,16 @@ abstract class JDatabaseQuery
 		 */
 		return preg_replace_callback('#%(((([\d]+)\$)?([aeEnqQryYmMdDhHiIsStzZ]))|(%))#', $func, $format);
 	}
+
+	/**
+	 * Generates a Globally Unique Identifier (32 hexadecimal digits separated by hyphens as 8-4-4-4-12).
+	 *
+	 * Usage:
+	 * $query->set('guid = ' . $query->GUID());
+	 *
+	 * @return  string
+	 *
+	 * @since   12.3
+	 */
+	abstract public function GUID();
 }
