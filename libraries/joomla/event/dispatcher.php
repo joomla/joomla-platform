@@ -10,42 +10,28 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Class to handle dispatching of events.
- *
- * This is the Observable part of the Observer design pattern
- * for the event architecture.
+ * Class managing the registration of events and their listeners
+ * and the triggering of events.
  *
  * @package     Joomla.Platform
  * @subpackage  Event
- * @link        http://docs.joomla.org/Tutorial:Plugins Plugin tutorials
- * @see         JPlugin
- * @since       12.1
  */
-class JEventDispatcher extends JObject
+class JEventDispatcher
 {
 	/**
-	 * An array of Observer objects to notify
+	 * An array of registered JEvent objects.
 	 *
-	 * @var    array
-	 * @since  11.3
+	 * @var  array
 	 */
-	protected $_observers = array();
+	protected $events = array();
 
 	/**
-	 * The state of the observable object
+	 * An array of registered listeners containing
+	 * the event names as keys and JEventListenerQueue objects as values.
 	 *
-	 * @var    mixed
-	 * @since  11.3
+	 * @var  array
 	 */
-	protected $_state = null;
-
-	/**
-	 * A multi dimensional array of [function][] = key for observers
-	 *
-	 * @var    array
-	 * @since  11.3
-	 */
-	protected $_methods = array();
+	protected $listeners = array();
 
 	/**
 	 * Stores the singleton instance of the dispatcher.
@@ -74,205 +60,342 @@ class JEventDispatcher extends JObject
 	}
 
 	/**
-	 * Get the state of the JEventDispatcher object
+	 * Register an event to the dispatcher.
+	 * This is useful when you want to register a custom event
+	 * and override the default created event object.
 	 *
-	 * @return  mixed    The state of the object.
+	 * It is also possible to do so when triggering the event, see JEventDispatcher::trigger.
 	 *
-	 * @since   11.3
+	 * @param   JEvent|string  $event  The event object or name.
+	 * @param   boolean        $reset  True to reset and existing event with the same name.
+	 *
+	 * @return  JEventDispatcher  This method is chainable.
 	 */
-	public function getState()
+	public function registerEvent(JEvent $event, $reset = false)
 	{
-		return $this->_state;
+		// If the event does not exist already or a reset flag is set.
+		if (!isset($this->events[$event->getName()]) || $reset)
+		{
+			// Register the event.
+			$this->events[$event->getName()] = $event;
+		}
+
+		return $this;
 	}
 
 	/**
-	 * Registers an event handler to the event dispatcher
+	 * Unregister an event from the dispatcher.
+	 * It will cause all its listeners to be unregistered.
 	 *
-	 * @param   string  $event    Name of the event to register handler for
-	 * @param   string  $handler  Name of the event handler
+	 * @param   JEvent|string  $event  The event object or name.
 	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 * @throws InvalidArgumentException
+	 * @return  JEventDispatcher  This method is chainable.
 	 */
-	public function register($event, $handler)
+	public function unregisterEvent($event)
 	{
-		// Are we dealing with a class or callback type handler?
-		if (is_callable($handler))
+		if ($event instanceof JEvent)
 		{
-			// Ok, function type event handler... let's attach it.
-			$method = array('event' => $event, 'handler' => $handler);
-			$this->attach($method);
+			$event = $event->getName();
 		}
-		elseif (class_exists($handler))
+
+		// Unregister the event.
+		if (isset($this->events[$event]))
 		{
-			// Ok, class type event handler... let's instantiate and attach it.
-			$this->attach(new $handler($this));
+			unset($this->events[$event]);
 		}
+
+		// Unregister all listeners.
+		if (isset($this->listeners[$event]))
+		{
+			unset($this->listeners[$event]);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Register a listener to the Dispatcher.
+	 *
+	 * @param   array    $events      An array of event names the listener wants to listen to.
+	 * @param   object   $listener    The event listener (can be any object or closure).
+	 * @param   array    $priorities  An array containing the event names as key and the corresponding
+	 *                                listener priority for that event as value.
+	 *
+	 * @return  JEventDispatcher  This method is chainable.
+	 *
+	 * @throws  InvalidArgumentException
+	 */
+	public function registerListener(array $events, $listener, array $priorities = array())
+	{
+		// If the listener is an object.
+		if (is_object($listener))
+		{
+			// We deal with a closure.
+			if ($listener instanceof Closure)
+			{
+				// Get the event he wants to register to.
+				if (isset($events[0]))
+				{
+					$eventName = $events[0];
+				}
+
+				else
+				{
+					throw new InvalidArgumentException('Invalid event name specified for the closure listener.');
+				}
+
+				// If we have no listeners for this event.
+				if (!isset($this->listeners[$eventName]))
+				{
+					// Create an empty queue.
+					$this->listeners[$eventName] = new JEventListenerQueue;
+				}
+
+				// If a priority is specified.
+				$priority = isset($priorities[$eventName]) ? $priorities[$eventName] : 0;
+
+				// Add the listener to the queue with its priority.
+				$this->listeners[$eventName]->attach($listener, $priority);
+			}
+
+			else
+			{
+				// Get all method names matching the specified event names.
+				$events = array_intersect($events, get_class_methods($listener));
+
+				foreach ($events as $eventName)
+				{
+					// If we have no listeners for this event.
+					if (!isset($this->listeners[$eventName]))
+					{
+						// Create an empty queue.
+						$this->listeners[$eventName] = new JEventListenerQueue;
+					}
+
+					// If a priority is specified.
+					$priority = isset($priorities[$eventName]) ? $priorities[$eventName] : 0;
+
+					// Add the listener to the queue with its priority.
+					$this->listeners[$eventName]->attach($listener, $priority);
+				}
+			}
+		}
+
 		else
 		{
-			throw new InvalidArgumentException('Invalid event handler.');
+			throw new InvalidArgumentException('Invalid specified event listener.');
 		}
+
+		return $this;
 	}
 
 	/**
-	 * Triggers an event by dispatching arguments to all observers that handle
-	 * the event and returning their return values.
+	 * Unregister a listener from the dispatcher.
 	 *
-	 * @param   string  $event  The event to trigger.
-	 * @param   array   $args   An array of arguments.
+	 * @param   object  $listener  The event listener (can be any object (including closures)).
+	 * @param   array   $events    An array containing the event names to detach the listener from.
+	 *                             If not specified, the listener will be unregistered from all events he is listening to.
 	 *
-	 * @return  array  An array of results from each function call.
+	 * @return  JEventDispatcher  This method is chainable.
 	 *
-	 * @since   11.1
+	 * @throws  InvalidArgumentException
 	 */
-	public function trigger($event, $args = array())
+	public function unregisterListener($listener, array $events = array())
 	{
-		$result = array();
-
-		/*
-		 * If no arguments were passed, we still need to pass an empty array to
-		 * the call_user_func_array function.
-		 */
-		$args = (array) $args;
-
-		$event = strtolower($event);
-
-		// Check if any plugins are attached to the event.
-		if (!isset($this->_methods[$event]) || empty($this->_methods[$event]))
+		if (is_object($listener))
 		{
-			// No Plugins Associated To Event!
-			return $result;
-		}
-		// Loop through all plugins having a method matching our event
-		foreach ($this->_methods[$event] as $key)
-		{
-			// Check if the plugin is present.
-			if (!isset($this->_observers[$key]))
+			// We deal with a closure.
+			if ($listener instanceof Closure)
 			{
-				continue;
-			}
-
-			// Fire the event for an object based observer.
-			if (is_object($this->_observers[$key]))
-			{
-				$args['event'] = $event;
-				$value = $this->_observers[$key]->update($args);
-			}
-			// Fire the event for a function based observer.
-			elseif (is_array($this->_observers[$key]))
-			{
-				$value = call_user_func_array($this->_observers[$key]['handler'], $args);
-			}
-			if (isset($value))
-			{
-				$result[] = $value;
-			}
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Attach an observer object
-	 *
-	 * @param   object  $observer  An observer object to attach
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function attach($observer)
-	{
-		if (is_array($observer))
-		{
-			if (!isset($observer['handler']) || !isset($observer['event']) || !is_callable($observer['handler']))
-			{
-				return;
-			}
-
-			// Make sure we haven't already attached this array as an observer
-			foreach ($this->_observers as $check)
-			{
-				if (is_array($check) && $check['event'] == $observer['event'] && $check['handler'] == $observer['handler'])
+				// If an event is specified, unregister it, otherwise do nothing.
+				if (isset($events[0]))
 				{
-					return;
+					$eventName = $events[0];
+
+					// Detach the listener.
+					if (isset($this->listeners[$eventName]))
+					{
+						$this->listeners[$eventName]->detach($listener);
+					}
 				}
 			}
 
-			$this->_observers[] = $observer;
-			end($this->_observers);
-			$methods = array($observer['event']);
+			// We deal with a 'normal' object.
+			else
+			{
+				// Get the object methods.
+				$methods = get_class_methods($listener);
+
+				// If no event is specified.
+				if (empty($events))
+				{
+					// Assume we want to unregister it from all events.
+					$events = $methods;
+				}
+
+				else
+				{
+					// Otherwise consider the specified events.
+					$events = array_intersect($methods, $events);
+				}
+
+				// Iterate the event names.
+				foreach ($events as $event)
+				{
+					// Deatch the listener.
+					if (isset($this->listeners[$event]))
+					{
+						$this->listeners[$event]->detach($listener);
+					}
+				}
+			}
 		}
+
 		else
 		{
-			if (!($observer instanceof JEvent))
-			{
-				return;
-			}
-
-			// Make sure we haven't already attached this object as an observer
-			$class = get_class($observer);
-
-			foreach ($this->_observers as $check)
-			{
-				if ($check instanceof $class)
-				{
-					return;
-				}
-			}
-
-			$this->_observers[] = $observer;
-			$methods = array_diff(get_class_methods($observer), get_class_methods('JPlugin'));
+			throw new InvalidArgumentException('Invalid listener type.');
 		}
 
-		$key = key($this->_observers);
-
-		foreach ($methods as $method)
-		{
-			$method = strtolower($method);
-
-			if (!isset($this->_methods[$method]))
-			{
-				$this->_methods[$method] = array();
-			}
-
-			$this->_methods[$method][] = $key;
-		}
+		return $this;
 	}
 
 	/**
-	 * Detach an observer object
+	 * Get the registered listeners for the given event.
 	 *
-	 * @param   object  $observer  An observer object to detach.
+	 * @param   JEvent|string  $event  The event object or name.
 	 *
-	 * @return  boolean  True if the observer object was detached.
-	 *
-	 * @since   11.3
+	 * @return  mixed  An array of listeners or false if no listener.
 	 */
-	public function detach($observer)
+	public function getListeners($event)
 	{
-		$retval = false;
-
-		$key = array_search($observer, $this->_observers);
-
-		if ($key !== false)
+		if ($event instanceof JEvent)
 		{
-			unset($this->_observers[$key]);
-			$retval = true;
+			$event = $event->getName();
+		}
 
-			foreach ($this->_methods as &$method)
+		if (isset($this->listeners[$event]))
+		{
+			return $this->listeners[$event]->getAll();
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get the number of listeners for a given event.
+	 *
+	 * @param   JEvent|string  $event  The event object or name.
+	 *
+	 * @return  integer  The number of listeners.
+	 */
+	public function countListeners($event)
+	{
+		if ($event instanceof JEvent)
+		{
+			$event = $event->getName();
+		}
+
+		if (isset($this->listeners[$event]))
+		{
+			return count($this->listeners[$event]);
+		}
+
+		return 0;
+	}
+
+	/**
+	 * Check if a listener is registered.
+	 *
+	 * @param   object         $listener  The event listener.
+	 * @param   JEvent|string  $event     The event object or name.
+	 *                                    If not specified, it will check if this listener is registered for any event.
+	 *
+	 * @return  boolean  True if the listener is registered, false otherwise.
+	 */
+	public function hasListener($listener, $event = null)
+	{
+		// If an event is specified.
+		if ($event)
+		{
+			if ($event instanceof JEvent)
 			{
-				$k = array_search($key, $method);
+				$event = $event->getName();
+			}
 
-				if ($k !== false)
+			// If there is any listener for that event.
+			if (isset($this->listeners[$event]))
+			{
+				return $this->listeners[$event]->contains($listener);
+			}
+		}
+
+		else
+		{
+			// Iterate all listeners.
+			foreach ($this->listeners as $queue)
+			{
+				if ($queue->contains($listener))
 				{
-					unset($method[$k]);
+					return true;
 				}
 			}
 		}
 
-		return $retval;
+		return false;
+	}
+
+	/**
+	 * Triggers the specified event.
+	 * All listeners will be called in a queue according to their priorty
+	 * and the event object passed as parameter.
+	 *
+	 * If you pass an event object in this method, it will override the default event object
+	 * or any registered event with the same name.
+	 *
+	 * @param   JEvent|string  $event  The event to trigger.
+	 *
+	 * @return  JEvent  The event after being passed through all listeners.
+	 */
+	public function triggerEvent($event)
+	{
+		// If the event is not an instance of JEvent.
+		if (!$event instanceof JEvent)
+		{
+			// Take a previously registered event with its name if any.
+			if (isset($this->events[$event]))
+			{
+				$event = $this->events[$event];
+			}
+
+			// Otherwise create a default event with its name.
+			else
+			{
+				$event = new JEvent($event);
+			}
+		}
+
+		// If any listener is registered for this event.
+		if (isset($this->listeners[$event->getName()]))
+		{
+			// Iterate the registered listeners.
+			foreach ($this->listeners[$event->getName()] as $listener)
+			{
+				// If the event propagation is not stopped.
+				if (!$event->isStopped())
+				{
+					if ($listener instanceof Closure)
+					{
+						call_user_func($listener, $event);
+					}
+
+					else
+					{
+						call_user_func(array($listener, $event->getName()), $event);
+					}
+				}
+			}
+		}
+
+		return $event;
 	}
 }
