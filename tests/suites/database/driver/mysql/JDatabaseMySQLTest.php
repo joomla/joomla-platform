@@ -21,7 +21,7 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   12.3
 	 */
 	public function dataGetCreateDbQuery()
 	{
