@@ -374,6 +374,24 @@ class JDatabaseQueryTest extends TestCase
 	}
 
 	/**
+	 * Test use of union clause produces a full select
+	 *
+	 * @return void
+	 */
+	public function test__toStringFullUnion()
+	{
+		$q = new JDatabaseQueryInspector($this->dbo);
+
+		$q->select('id FROM a')->union('SELECT id FROM b');
+
+		$this->assertThat(
+			(string) $q,
+			$this->equalTo("(\nSELECT id FROM a)\nUNION (SELECT id FROM b)"),
+			'Tests union for correct rendering.'
+		);
+	}
+
+	/**
 	 * Test for the castAsChar method.
 	 *
 	 * @return  void
@@ -1606,13 +1624,14 @@ class JDatabaseQueryTest extends TestCase
 
 	/**
 	 * Tests the JDatabaseQuery::union method.
+	 * does not clear the order clause
 	 *
 	 * @return  void
 	 *
 	 * @covers  JDatabaseQuery::union
 	 * @since   12.1
 	 */
-	public function testUnionClear()
+	public function testUnionNotClear()
 	{
 		$this->_instance->union = null;
 		$this->_instance->order = null;
@@ -1620,8 +1639,9 @@ class JDatabaseQueryTest extends TestCase
 		$this->_instance->union('SELECT name FROM foo');
 		$this->assertThat(
 			$this->_instance->order,
-			$this->equalTo(null),
-			'Tests that ORDER BY is cleared with union.'
+			$this->logicalNot(
+				$this->equalTo(null)),
+				'Tests that ORDER BY is cleared with union.'
 		);
 	}
 
