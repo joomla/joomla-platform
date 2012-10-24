@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Environment
+ * @subpackage  Response
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * response variables.  This includes header and body.
  *
  * @package     Joomla.Platform
- * @subpackage  Environment
+ * @subpackage  Response
  * @since       11.1
  */
 class JResponse
