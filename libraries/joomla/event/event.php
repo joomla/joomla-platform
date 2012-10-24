@@ -10,69 +10,165 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * JEvent Class
+ * Class representing an Event.
+ * The event can contain arguments and its listeners can manipulate them.
+ * Additionnaly, its propagation can be stopped.
  *
  * @package     Joomla.Platform
  * @subpackage  Event
- * @since       11.1
  */
-abstract class JEvent extends JObject
+class JEvent implements Serializable, Countable
 {
 	/**
-	 * Event object to observe.
+	 * The event name.
 	 *
-	 * @var    object
-	 * @since  11.3
+	 * @var  string
 	 */
-	protected $_subject = null;
+	protected $name;
 
 	/**
-	 * Constructor
+	 * The event arguments.
 	 *
-	 * @param   object  &$subject  The object to observe.
-	 *
-	 * @since   11.3
+	 * @var  array
 	 */
-	public function __construct(&$subject)
-	{
-		// Register the observer ($this) so we can be notified
-		$subject->attach($this);
+	protected $arguments;
 
-		// Set the subject to observe
-		$this->_subject = &$subject;
+	/**
+	 * A flag to see if the event propagation
+	 * is stopped.
+	 *
+	 * @var  boolean
+	 */
+	protected $stopped = false;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param   string  $name       The event name.
+	 * @param   array   $arguments  The event arguments.
+	 */
+	public function __construct($name, array $arguments = array())
+	{
+		$this->name = $name;
+		$this->arguments = $arguments;
 	}
 
 	/**
-	 * Method to trigger events.
-	 * The method first generates the even from the argument array. Then it unsets the argument
-	 * since the argument has no bearing on the event handler.
-	 * If the method exists it is called and returns its return value. If it does not exist it
-	 * returns null.
+	 * Get the event arguments.
 	 *
-	 * @param   array  &$args  Arguments
-	 *
-	 * @return  mixed  Routine return value
-	 *
-	 * @since   11.1
+	 * @return  array  The event arguments.
 	 */
-	public function update(&$args)
+	public function getArguments()
 	{
-		// First let's get the event from the argument array.  Next we will unset the
-		// event argument as it has no bearing on the method to handle the event.
-		$event = $args['event'];
-		unset($args['event']);
+		return $this->arguments;
+	}
 
-		/*
-		 * If the method to handle an event exists, call it and return its return
-		 * value.  If it does not exist, return null.
-		 */
-		if (method_exists($this, $event))
+	/**
+	 * Set the event arguments.
+	 *
+	 * @param   array  $arguments  The event arguments.
+	 *
+	 * @return  JEvent  This method is chainable.
+	 */
+	public function setArguments(array $arguments = array())
+	{
+		$this->arguments = $arguments;
+
+		return $this;
+	}
+
+	/**
+	 * Get an event argument.
+	 *
+	 * @param   string  $name     The argument name.
+	 * @param   mixed   $default  The default value if not found.
+	 *
+	 * @return  mixed  The argument value or the default value if not found.
+	 */
+	public function getArgument($name, $default = null)
+	{
+		if (isset($this->arguments[$name]))
 		{
-			return call_user_func_array(array($this, $event), $args);
+			return $this->arguments[$name];
 		}
-		else
-		{
-			return null;
-		}
+
+		return $default;
+	}
+
+	/**
+	 * Set the value of an event argument.
+	 *
+	 * @param   string  $name   The argument name.
+	 * @param   mixed   $value  The argument value.
+	 *
+	 * @return  JEvent  This method is chainable.
+	 */
+	public function setArgument($name, $value)
+	{
+		$this->arguments[$name] = $value;
+
+		return $this;
+	}
+
+	/**
+	 * Count the number of event arguments.
+	 *
+	 * @return  integer  The number of event arguments.
+	 */
+	public function count()
+	{
+		return count($this->arguments);
+	}
+
+	/**
+	 * Stop the event propagation.
+	 *
+	 * @return  void
+	 */
+	public function stopPropagation()
+	{
+		$this->stopped = true;
+	}
+
+	/**
+	 * Check if the event propagation is stopped.
+	 *
+	 * @return  boolean  True if stopped, false otherwise.
+	 */
+	public function isStopped()
+	{
+		return true === $this->stopped;
+	}
+
+	/**
+	 * Get the event name.
+	 *
+	 * @return  string  The event name.
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
+
+	/**
+	 * Serialize the event.
+	 *
+	 * @return  string  The serialized event.
+	 */
+	public function serialize()
+	{
+		return serialize(array($this->name, $this->arguments, $this->stopped));
+	}
+
+	/**
+	 * Unserialize the event.
+	 *
+	 * @param   string  $serialized  The serialized event.
+	 *
+	 * @return  void
+	 */
+	public function unserialize($serialized)
+	{
+		list($this->name, $this->arguments, $this->stopped) = unserialize($serialized);
 	}
 }
