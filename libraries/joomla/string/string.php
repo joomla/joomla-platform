@@ -15,9 +15,9 @@ defined('JPATH_PLATFORM') or die;
 if (extension_loaded('mbstring'))
 {
 	// Make sure to suppress the output in case ini_set is disabled
-	@ini_set('mbstring.internal_encoding', 'UTF-8');
-	@ini_set('mbstring.http_input', 'UTF-8');
-	@ini_set('mbstring.http_output', 'UTF-8');
+	ini_set('mbstring.internal_encoding', 'UTF-8');
+	ini_set('mbstring.http_input', 'UTF-8');
+	ini_set('mbstring.http_output', 'UTF-8');
 }
 
 // Same for iconv

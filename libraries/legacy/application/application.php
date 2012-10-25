@@ -663,10 +663,10 @@ class JApplication extends JApplicationBase
 			if (!in_array(false, $results, true))
 			{
 				// Set the remember me cookie if enabled.
-				if (isset($options['remember']) && $options['remember'])
+				if (isset($options['remember']) && $options['remember'] && isset($_SERVER['HTTP_USER_AGENT']))
 				{
 					// Create the encryption key, apply extra hardening using the user agent string.
-					$privateKey = self::getHash(@$_SERVER['HTTP_USER_AGENT']);
+					$privateKey = self::getHash($_SERVER['HTTP_USER_AGENT']);
 
 					$key = new JCryptKey('simple', $privateKey, $privateKey);
 					$crypt = new JCrypt(new JCryptCipherSimple, $key);
