@@ -71,7 +71,7 @@ abstract class JHtmlGrid
 	 *
 	 * @since   11.1
 	 */
-	public static function sort($title, $order, $direction = 'asc', $selected = 0, $task = null, $new_direction = 'asc')
+	public static function sort($title, $order, $direction = 'asc', $selected = 0, $task = null, $new_direction = 'asc', $form = null)
 	{
 		$direction = strtolower($direction);
 		$images = array('sort_asc.png', 'sort_desc.png');
@@ -86,7 +86,7 @@ abstract class JHtmlGrid
 			$direction = ($direction == 'desc') ? 'asc' : 'desc';
 		}
 
-		$html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\'); return false;" title="'
+		$html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\',\'' . $form . '\'); return false;" title="'
 			. JText::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN') . '">';
 		$html .= JText::_($title);
 
