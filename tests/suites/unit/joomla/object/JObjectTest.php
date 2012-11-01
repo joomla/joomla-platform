@@ -34,16 +34,6 @@ class JObjectTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @return void
-	 */
-	protected function tearDown()
-	{
-	}
-
-	/**
 	 * Tests the object constructor.
 	 *
 	 * @group    JObject
@@ -175,6 +165,7 @@ class JObjectTest extends PHPUnit_Framework_TestCase
 	public function testGetErrors()
 	{
 		$errors = array(1234, 'Second Test Error', 'Third Test Error');
+
 		foreach ($errors as $error)
 		{
 			$this->o->setError($error);

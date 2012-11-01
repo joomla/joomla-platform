@@ -50,7 +50,7 @@ class JBufferTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 */
-	function casesOpen()
+	public function casesOpen()
 	{
 		return array(
 			'basic' => array(
@@ -89,7 +89,7 @@ class JBufferTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 */
-	function casesRead()
+	public function casesRead()
 	{
 		return array(
 			'basic' => array(
@@ -131,7 +131,7 @@ class JBufferTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 */
-	function casesWrite()
+	public function casesWrite()
 	{
 		return array(
 			'basic' => array(
@@ -190,7 +190,7 @@ class JBufferTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 */
-	function casesEOF()
+	public function casesEOF()
 	{
 		return array(
 			'~EOF' => array(
@@ -236,7 +236,7 @@ class JBufferTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 */
-	function casesSeek()
+	public function casesSeek()
 	{
 		return array(
 			'basic' => array(
