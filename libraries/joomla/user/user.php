@@ -409,9 +409,12 @@ class JUser extends JObject
 			$this->_authLevels = array();
 		}
 
-		if (empty($this->_authLevels))
+		static $_authLevels = array();
+
+		if (!isset($_authLevels[$this->id]))
 		{
 			$this->_authLevels = JAccess::getAuthorisedViewLevels($this->id);
+			$_authLevels[$this->id] = $this->_authLevels;
 		}
 
 		return $this->_authLevels;
@@ -430,9 +433,12 @@ class JUser extends JObject
 			$this->_authGroups = array();
 		}
 
-		if (empty($this->_authGroups))
+		static $_authGroups = array();
+
+		if (!isset($_authGroups[$this->id]))
 		{
 			$this->_authGroups = JAccess::getGroupsByUser($this->id);
+			$_authGroups[$this->id] = $this->_authGroups;
 		}
 
 		return $this->_authGroups;
