@@ -293,13 +293,18 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 		$f2_def = '<field Field="title" Type="character varying(50)" Null="NO" Default="add default" Comments="" />';
 
 		$k1 = '<key Index="jos_dbtest_pkey" is_primary="TRUE" is_unique="TRUE" Query="ALTER TABLE jos_dbtest ADD PRIMARY KEY (id)" />';
-		$k2 = '<key Index="jos_dbtest_idx_name" is_primary="FALSE" is_unique="FALSE" Query="CREATE INDEX jos_dbtest_idx_name ON jos_dbtest USING btree (name)" />';
-		$k3 = '<key Index="jos_dbtest_idx_title" is_primary="FALSE" is_unique="FALSE" Query="CREATE INDEX jos_dbtest_idx_title ON jos_dbtest USING btree (title)" />';
-		$k4 = '<key Index="jos_dbtest_uidx_name" is_primary="FALSE" is_unique="TRUE" Query="CREATE UNIQUE INDEX jos_dbtest_uidx_name ON jos_dbtest USING btree (name)" />';
+		$k2 = '<key Index="jos_dbtest_idx_name" is_primary="FALSE" is_unique="FALSE" Query="CREATE INDEX jos_dbtest_idx_name ON jos_dbtest USING ' .
+			'btree (name)" />';
+		$k3 = '<key Index="jos_dbtest_idx_title" is_primary="FALSE" is_unique="FALSE" Query="CREATE INDEX jos_dbtest_idx_title ON jos_dbtest USING ' .
+			'btree (title)" />';
+		$k4 = '<key Index="jos_dbtest_uidx_name" is_primary="FALSE" is_unique="TRUE" Query="CREATE UNIQUE INDEX jos_dbtest_uidx_name ON jos_dbtest USING ' .
+			'btree (name)" />';
 		$pk = '<key Index="jos_dbtest_title_pkey" is_primary="TRUE" is_unique="TRUE" Query="ALTER TABLE jos_dbtest ADD PRIMARY KEY (title)" />';
 
-		$s1 = '<sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="1" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />';
-		$s2 = '<sequence Name="jos_dbtest_title_seq" Schema="public" Table="jos_dbtest" Column="title" Type="bigint" Start_Value="1" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />';
+		$s1 = '<sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="1" Min_Value="1" ' .
+			'Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />';
+		$s2 = '<sequence Name="jos_dbtest_title_seq" Schema="public" Table="jos_dbtest" Column="title" Type="bigint" Start_Value="1" Min_Value="1" ' .
+			'Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />';
 
 		return array(
 			array(
@@ -332,7 +337,8 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 			array( /* add sequence */
 				new SimpleXmlElement('<table_structure name="#__test">' . $s1 . $s2 . $f1 . $f2 . $k1 . $k2 . '</table_structure>'),
 				array(
-					'CREATE SEQUENCE jos_dbtest_title_seq INCREMENT BY 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 NO CYCLE OWNED BY "public.jos_dbtest.title"',
+					'CREATE SEQUENCE jos_dbtest_title_seq INCREMENT BY 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 NO CYCLE OWNED BY ' .
+					'"public.jos_dbtest.title"',
 				),
 				'getAlterTableSQL should add the new sequence.'
 			),
@@ -374,14 +380,16 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 			array( /* change col */
 				new SimpleXmlElement('<table_structure name="#__test">' . $s1 . $f1 . $f2_def . $k1 . $k2 . '</table_structure>'),
 				array(
-					"ALTER TABLE \"jos_test\" ALTER COLUMN \"title\"  TYPE character varying(50),\nALTER COLUMN \"title\" SET NOT NULL,\nALTER COLUMN \"title\" SET DEFAULT 'add default'",
+					"ALTER TABLE \"jos_test\" ALTER COLUMN \"title\"  TYPE character varying(50),\nALTER COLUMN \"title\" SET NOT NULL,\nALTER ' .
+					'COLUMN \"title\" SET DEFAULT 'add default'",
 				),
 				'getAlterTableSQL should change title field.'
 			),
 			array( /* change seq */
 				new SimpleXmlElement('<table_structure name="#__test">' . $s2 . $f1 . $f2 . $k1 . $k2 . '</table_structure>'),
 				array(
-					"CREATE SEQUENCE jos_dbtest_title_seq INCREMENT BY 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 NO CYCLE OWNED BY \"public.jos_dbtest.title\"",
+					"CREATE SEQUENCE jos_dbtest_title_seq INCREMENT BY 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 NO CYCLE OWNED BY " .
+						"\"public.jos_dbtest.title\"",
 					"DROP SEQUENCE \"jos_dbtest_id_seq\"",
 				),
 				'getAlterTableSQL should change sequence.'
