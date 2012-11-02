@@ -332,7 +332,7 @@ abstract class JLoader
 			// Load the file if it exists.
 			if (file_exists($path))
 			{
-				return include $path;
+				return include_once $path;
 			}
 		}
 	}
