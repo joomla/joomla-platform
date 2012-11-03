@@ -24,5 +24,7 @@
   <xi:include href="packages/log.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
   
   <xi:include href="packages/mvc.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-</chapter>
 
+  <xi:include href="packages/filesystem.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+</chapter>
