@@ -7,271 +7,258 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once __DIR__ . '/JEventInspector.php';
-require_once __DIR__ . '/JEventDispatcherInspector.php';
-require_once __DIR__ . '/JEventStub.php';
-
 /**
  * Test class for JEvent.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Event
- * @since       11.3
+ * @since       12.3
  */
 class JEventTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * Test JEvent::__construct().
+	 * @var  JEvent
+	 */
+	protected $object;
+
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
 	 *
-	 * @since 11.3
+	 * @return  void
 	 *
-	 * @return void
+	 * @since   12.3
+	 */
+	protected function setUp()
+	{
+		$this->object = new JEvent('test');
+	}
+
+	/**
+	 * Test the constructor.
+	 *
+	 * @since   12.3
+	 *
+	 * @covers  JEvent::__construct
 	 */
 	public function test__construct()
 	{
-		$dispatcher = new JEventDispatcherInspector;
-		$event = new JEventInspector($dispatcher);
+		$name = 'test';
+		$arguments = array(1, 2, 3);
 
-		$this->assertThat(
-			$event->_subject,
-			$this->equalTo($dispatcher)
-		);
+		$event = new JEvent($name, $arguments);
+
+		$this->assertEquals($name, $event->getName());
+		$this->assertEquals($arguments, $event->getArguments());
 	}
 
 	/**
-	 * Test JEvent::update().
+	 * Test the getArguments method.
 	 *
-	 * @since 11.3
+	 * @return  void
 	 *
-	 * @return void
+	 * @since   12.3
+	 *
+	 * @covers  JEvent::getArguments
 	 */
-	public function testUpdate()
+	public function testGetArguments()
 	{
-		$dispatcher = new JEventDispatcherInspector;
-		$event = new JEventInspector($dispatcher);
+		TestReflection::setValue($this->object, 'arguments', true);
 
-		$args = array('event' => 'onTestEvent');
-
-		$this->assertThat(
-			$event->update($args),
-			$this->equalTo('')
-		);
-
-		$args = array('event' => 'onTestEvent', 'test1');
-
-		$this->assertThat(
-			$event->update($args),
-			$this->equalTo('test1')
-		);
-
-		$args = array('event' => 'onTestEvent', 'test1', 'test2');
-
-		$this->assertThat(
-			$event->update($args),
-			$this->equalTo('test1test2')
-		);
-
-		$args = array('event' => 'onTestEvent', array('test3', 'test4'));
-
-		$this->assertThat(
-			$event->update($args),
-			$this->equalTo('test3test4')
-		);
-
-		$args = array('event' => 'onTestEvent2');
-
-		$this->assertThat(
-			$event->update($args),
-			$this->equalTo(null)
-		);
+		$this->assertTrue($this->object->getArguments());
 	}
 
 	/**
-	 * tests the firing of the update event with no arguments
+	 * Test the setArguments method.
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   12.3
+	 *
+	 * @covers  JEvent::setArguments
 	 */
-	public function testUpdateNoArgs()
+	public function testSetArguments()
 	{
-		// Get a mock for the
-		$observable = $this->getMock('Observable', array('attach'));
-
-		// We expect that the attach method of our mock object will be called because
-		// when we instantiate an observer it needs something observable to attach itself to
-		$observable->expects($this->once())
-			->method('attach');
-
-		// We create our object and pass our mock
-		$object = new JEventStub($observable);
-
-		// We reset the calls property.  Our stub method will populate this when it gets called
-		$object->calls = array();
-
-		// We setup the arguments to pass to update and call it.
-		$args = array(
-			'event' => 'myEvent'
+		$arguments = array(
+			'foo'   => 'bar',
+			'test'  => 'test',
+			'test1' => 'test1'
 		);
 
-		// We call update and assert that it returns true (the value from the stub)
-		$this->assertThat(
-			$object->update($args),
-			$this->equalTo(true)
-		);
+		$this->object->setArguments($arguments);
 
-		// First, we want to assert that myEvent was called
-		$this->assertThat(
-			$object->calls[0]['method'],
-			$this->equalTo('myEvent')
-		);
-
-		// With no arguments
-		$this->assertThat(
-			$object->calls[0]['args'],
-			$this->equalTo(array())
-		);
-
-		// Only once
-		$this->assertThat(
-			count($object->calls),
-			$this->equalTo(1)
-		);
+		$this->assertEquals($arguments, $this->object->getArguments());
 	}
 
 	/**
-	 * tests the firing of the update event with one argument
+	 * Test the getArgument method.
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   12.3
+	 *
+	 * @covers  JEvent::getArgument
 	 */
-	public function testUpdateOneArg()
+	public function testGetArgument()
 	{
-		// Get a mock for the
-		$observable = $this->getMock('Observable', array('attach'));
+		$arguments = array('foo' => 'bar', 'test' => 'test');
 
-		// We expect that the attach method of our mock object will be called because
-		// when we instantiate an observer it needs something observable to attach itself to
-		$observable->expects($this->once())
-			->method('attach');
+		TestReflection::setValue($this->object, 'arguments', $arguments);
 
-		// We create our object and pass our mock
-		$object = new JEventStub($observable);
-
-		// We reset the calls property.  Our stub method will populate this when it gets called
-		$object->calls = array();
-
-		// We setup the arguments to pass to update and call it.
-		$args = array('myFirstArgument');
-		$args['event'] = 'myEvent';
-
-		// We call update and assert that it returns true (the value from the stub)
-		$this->assertThat(
-			$object->update($args),
-			$this->equalTo(true)
-		);
-
-		// First, we want to assert that myEvent was called
-		$this->assertThat(
-			$object->calls[0]['method'],
-			$this->equalTo('myEvent')
-		);
-
-		// With one arguments
-		$this->assertThat(
-			$object->calls[0]['args'],
-			$this->equalTo(array('myFirstArgument'))
-		);
-
-		// Only once
-		$this->assertThat(
-			count($object->calls),
-			$this->equalTo(1)
-		);
+		$this->assertEquals('bar', $this->object->getArgument('foo'));
+		$this->assertEquals('test', $this->object->getArgument('test'));
 	}
 
 	/**
-	 * tests the firing of the update event with multiple arguments
+	 * Test the getArgument method when the argument doesn't exist.
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   12.3
+	 *
+	 * @covers  JEvent::getArgument
 	 */
-	public function testUpdateMultipleArgs()
+	public function testGetArgumentDefault()
 	{
-		// Get a mock for the
-		$observable = $this->getMock('Observable', array('attach'));
+		$this->assertNull($this->object->getArgument('non-existing'));
 
-		// We expect that the attach method of our mock object will be called because
-		// when we instantiate an observer it needs something observable to attach itself to
-		$observable->expects($this->once())
-			->method('attach');
-
-		// We create our object and pass our mock
-		$object = new JEventStub($observable);
-
-		// We reset the calls property.  Our stub method will populate this when it gets called
-		$object->calls = array();
-
-		// We setup the arguments to pass to update and call it.
-		$args = array('myFirstArgument', 5);
-		$args['event'] = 'myEvent';
-
-		// We call update and assert that it returns true (the value from the stub)
-		$this->assertThat(
-			$object->update($args),
-			$this->equalTo(true)
-		);
-
-		// First, we want to assert that myEvent was called
-		$this->assertThat(
-			$object->calls[0]['method'],
-			$this->equalTo('myEvent')
-		);
-
-		// With one arguments
-		$this->assertThat(
-			$object->calls[0]['args'],
-			$this->equalTo(array('myFirstArgument', 5))
-		);
-
-		// Only once
-		$this->assertThat(
-			count($object->calls),
-			$this->equalTo(1)
-		);
+		// Specify a default value.
+		$this->assertFalse($this->object->getArgument('non-existing', false));
 	}
 
 	/**
-	 * tests the firing of an event that does not exist
+	 * Test the setArgument method.
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   12.3
+	 *
+	 * @covers  JEvent::setArgument
 	 */
-	public function testUpdateBadEvent()
+	public function testSetArgument()
 	{
-		// Get a mock for the
-		$observable = $this->getMock('Observable', array('attach'));
+		$this->object->setArgument('foo', 'bar');
+		$this->object->setArgument('test', 'test');
 
-		// We expect that the attach method of our mock object will be called because
-		// when we instantiate an observer it needs something observable to attach itself to
-		$observable->expects($this->once())
-			->method('attach');
+		$this->assertEquals('bar', $this->object->getArgument('foo'));
+		$this->assertEquals('test', $this->object->getArgument('test'));
+	}
 
-		// We create our object and pass our mock
-		$object = new JEventStub($observable);
+	/**
+	 * Test the setArgument method when reseting an argument.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 *
+	 * @covers  JEvent::setArgument
+	 */
+	public function testSetArgumentReset()
+	{
+		// Specify the foo argument.
+		$this->object->setArgument('foo', 'bar');
 
-		// We reset the calls property.  Our stub method will populate this when it gets called
-		$object->calls = array();
+		// Reset it with an other value.
+		$this->object->setArgument('foo', 'test');
 
-		// We setup the arguments to pass to update and call it.
-		$args = array('myFirstArgument');
-		$args['event'] = 'myNonExistentEvent';
+		$this->assertEquals('test', $this->object->getArgument('foo'));
+	}
 
-		// We call update and assert that it returns null (the value from the stub)
-		$this->assertThat(
-			$object->update($args),
-			$this->equalTo(null)
+	/**
+	 * Test the count method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 *
+	 * @covers  JEvent::count
+	 */
+	public function testCount()
+	{
+		$this->assertCount(0, $this->object);
+
+		// Add a few arguments.
+		$this->object->setArgument('foo', 'bar');
+		$this->object->setArgument('test', 'test');
+
+		$this->assertCount(2, $this->object);
+	}
+
+	/**
+	 * Test the stopPropagation method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 *
+	 * @covers  JEvent::stopPropagation
+	 */
+	public function testStopPropagation()
+	{
+		$this->object->stopPropagation();
+
+		$this->assertTrue($this->object->isStopped());
+	}
+
+	/**
+	 * Test the isStopped method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 *
+	 * @covers  JEvent::isStopped
+	 */
+	public function testIsStopped()
+	{
+		TestReflection::setValue($this->object, 'stopped', 'foo');
+
+		$this->assertFalse($this->object->isStopped());
+
+		TestReflection::setValue($this->object, 'stopped', true);
+
+		$this->assertTrue($this->object->isStopped());
+	}
+
+	/**
+	 * Test the getName method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 *
+	 * @covers  JEvent::getName
+	 */
+	public function testGetName()
+	{
+		TestReflection::setValue($this->object, 'name', 'foo');
+
+		$this->assertEquals($this->object->getName(), 'foo');
+	}
+
+	/**
+	 * Test serialize, unserialize.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 *
+	 * @covers  JEvent::serialize
+	 * @covers  JEvent::unserialize
+	 */
+	public function testSerializeUnserialize()
+	{
+		$arguments = array(
+			'foo'   => 'bar',
+			'test'  => 'test',
+			'test1' => 'test1'
 		);
 
-		// First, we want to assert that no methods were called
-		$this->assertThat(
-			count($object->calls),
-			$this->equalTo(0)
-		);
+		$event = new JEvent('test', $arguments);
+
+		$serialized = serialize($event);
+		$event2 = unserialize($serialized);
+
+		$this->assertEquals($event, $event2);
 	}
 }
