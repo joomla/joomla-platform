@@ -79,6 +79,24 @@ class JText
 	}
 
 	/**
+	 * Translates a string into the current language, and echo's it back.
+	 *
+	 * @param   string   $string                The string to translate.
+	 * @param   mixed    $jsSafe                Boolean: Make the result javascript safe.
+	 * @param   boolean  $interpretBackSlashes  To interpret backslashes (\\=\, \n=carriage return, \t=tabulation)
+	 * @param   boolean  $script                To indicate that the string will be push in the javascript language store
+	 *
+	 * @return  string  The translated string or the key is $script is true
+	 *
+	 * @see     JText::_()
+	 * @since   12.3
+	 */
+	public static function _e($string, $jsSafe = false, $interpretBackSlashes = true, $script = false)
+	{
+		echo self::_($string, $jsSafe, $interpretBackSlashes, $script);
+	}
+
+	/**
 	 * Translates a string into the current language.
 	 *
 	 * Examples:

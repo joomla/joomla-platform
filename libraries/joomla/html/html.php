@@ -145,6 +145,24 @@ abstract class JHtml
 	}
 
 	/**
+	 * Class loader method that echo's back the returned value from the class.
+	 *
+	 * @param   string  $key  The name of helper method to load, (prefix).(class).function
+	 *                        prefix and class are optional and can be used to load custom
+	 *                        html helpers.
+	 *
+	 * @return  mixed  JHtml::call($function, $args) or False on error
+	 *
+	 * @see     JHtml::_()
+	 * @since   12.3
+	 * @throws  InvalidArgumentException
+	 */
+	public static function _e($key)
+	{
+		echo self::call(array('JHtml', '_'), func_get_args());
+	}
+
+	/**
 	 * Registers a function to be called with a specific key
 	 *
 	 * @param   string  $key       The name of the key
