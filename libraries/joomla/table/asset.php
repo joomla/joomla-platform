@@ -61,6 +61,7 @@ class JTableAsset extends JTableNested
 	public function __construct(JDatabaseDriver $db)
 	{
 		parent::__construct('#__assets', 'id', $db);
+		unset($this->alias);
 	}
 
 	/**
