@@ -1,0 +1,16 @@
+table
+{
+	border: 1px solid gray;
+}
+
+td
+{
+	border: 1px solid gray;
+	padding: 10px;
+}
+
+th
+{
+	border: 1px solid gray;
+	padding: 10px;
+}
