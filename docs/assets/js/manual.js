@@ -9,7 +9,6 @@ var populateWindow = function(link) {
 
 	$$('.nav-list li').each(
 		function(item) {
-			console.log(item.getElements('a').length);
 			if (item.getElements('a').length == 0) {
 				item.addClass('nav-header');
 			}
