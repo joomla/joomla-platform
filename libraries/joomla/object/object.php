@@ -7,17 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// @codeCoverageIgnoreStart
 defined('JPATH_PLATFORM') or die;
-// @codeCoverageIgnoreEnd
-
 
 /**
  * JObject is a 'smart' value object.
  *
  * @package     Joomla.Platform
  * @subpackage  Object
- * @since       12.3
+ * @since       11.1
  */
 class JObject implements IteratorAggregate, JsonSerializable
 {
@@ -144,7 +141,7 @@ class JObject implements IteratorAggregate, JsonSerializable
 		// Check the properties data type.
 		if (!is_array($properties) && !is_object($properties))
 		{
-			throw new InvalidArgumentException(JText::sprintf('JOBJECT_INVALID_BIND_DATA', gettype($properties)));
+			throw new InvalidArgumentException(sprintf('%s(%s)', __METHOD__, gettype($properties)));
 		}
 
 		// Check if the object is traversable.
@@ -274,7 +271,7 @@ class JObject implements IteratorAggregate, JsonSerializable
 	 *
 	 * @return  mixed  The value of the property or the default value.
 	 *
-	 * @deprecated  13.1  Access the property directly via `$value = $object->propertyName;`.
+	 * @deprecated  13.3  Access the property directly via `$value = $object->propertyName;`.
 	 * @since       11.1
 	 */
 	public function get($property, $default = null)
@@ -360,7 +357,7 @@ class JObject implements IteratorAggregate, JsonSerializable
 	 *
 	 * @return  array  An array of object properties.
 	 *
-	 * @deprecated  13.1  Use `JObject->dump()` instead.
+	 * @deprecated  13.3  Use `JObject->dump()` instead.
 	 * @since       11.1
 	 */
 	public function getProperties($public = true)
@@ -406,7 +403,7 @@ class JObject implements IteratorAggregate, JsonSerializable
 	 *
 	 * @return  mixed  The previous value of the property.
 	 *
-	 * @deprecated  13.1  Access the property directly via `$object->propertyName = $newvalue;`.
+	 * @deprecated  13.3  Access the property directly via `$object->propertyName = $newvalue;`.
 	 * @since       11.1
 	 */
 	public function set($property, $value)
@@ -442,7 +439,7 @@ class JObject implements IteratorAggregate, JsonSerializable
 	 *
 	 * @see         set()
 	 * @since       11.1
-	 * @deprecated  13.1  Use JObject->bind instead.
+	 * @deprecated  13.3  Use JObject->bind instead.
 	 */
 	public function setProperties($properties)
 	{
@@ -477,7 +474,7 @@ class JObject implements IteratorAggregate, JsonSerializable
 	/**
 	 * Get an object property.
 	 *
-	 * @param   string   $property   The property name.
+	 * @param   string  $property  The property name.
 	 *
 	 * @return  mixed  The property value.
 	 *
@@ -495,8 +492,8 @@ class JObject implements IteratorAggregate, JsonSerializable
 	/**
 	 * Set an object property.
 	 *
-	 * @param   string   $property   The property name.
-	 * @param   mixed    $value      The property value.
+	 * @param   string  $property  The property name.
+	 * @param   mixed   $value     The property value.
 	 *
 	 * @return  mixed  The property value.
 	 *

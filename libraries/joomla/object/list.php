@@ -7,9 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// @codeCoverageIgnoreStart
 defined('JPATH_PLATFORM') or die;
-// @codeCoverageIgnoreEnd
 
 /**
  * Joomla Platform Object List Class
