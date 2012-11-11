@@ -7,6 +7,15 @@ var populateWindow = function(link) {
 		}
 	}).send();
 
+	$$('.nav-list li').each(
+		function(item) {
+			console.log(item.getElements('a').length);
+			if (item.getElements('a').length == 0) {
+				item.addClass('nav-header');
+			}
+		}
+	);
+
 	$$('.nav-list a').each(
 		function(item, index)
 		{
@@ -22,11 +31,33 @@ var populateWindow = function(link) {
 	);
 }
 
+var populateMenu = function() {
+	var markdownRequest = new Request({
+		"url": here + 'docs/manual/en-US/menu.md',
+		"method": "get",
+		"onSuccess": function (response) {
+			$('doc-menu').set('html', marked(response));
+			$$('#doc-menu ul').each(function(el) {
+				el.addClass('nav');
+				el.addClass('nav-list');
+			});
+
+			$$('.nav-list li').each(
+				function(item) {
+					if (item.getElements('a').length == 0) {
+						item.addClass('nav-header');
+					}
+				}
+			);
+		}
+	}).send();
+}
+
 window.addEvent('domready', function() {
 	var urlParts = document.URL.split('?', 2);
 	state = {};
 	here = urlParts[0];
-	//here = 'https://api.github.com/repos/LouisLandry/joomla-platform/contents/docs/manual/en-US/';
+
 	if (urlParts.length > 1)
 	{
 		var currentDoc = urlParts[1];
@@ -46,7 +77,7 @@ window.addEvent('domready', function() {
 			return that;
 		}
 	})
-
+	populateMenu();
 	populateWindow(currentDoc);
 
 	document.id('main').addEvent('click:relay(a)', function (event, target) {
