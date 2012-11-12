@@ -22,7 +22,6 @@ JFormHelper::loadFieldClass('list');
  */
 class JFormFieldFileList extends JFormFieldList
 {
-
 	/**
 	 * The form field type.
 	 *

@@ -30,6 +30,40 @@ class JFormFieldText extends JFormField
 	protected $type = 'Text';
 
 	/**
+	 * The HTML5 placeholder for this field.
+	 *
+	 * @var    string
+	 * @since  12.3
+	 */
+	protected $placeholder;
+
+	/**
+	 * Method to attach a JForm object to the field.
+	 *
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                      full field name would end up being "bar[foo]".
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @see     JFormField::setup()
+	 * @since   12.3
+	 */
+	public function setup(SimpleXMLElement $element, $value, $group = null)
+	{
+		parent::setup($element, $value, $group);
+
+		if (!empty($element['placeholder']))
+		{
+			$this->placeholder = (string) $element['placeholder'];
+		}
+
+		return true;
+	}
+
+	/**
 	 * Method to get the field input markup.
 	 *
 	 * @return  string  The field input markup.
@@ -39,16 +73,15 @@ class JFormFieldText extends JFormField
 	protected function getInput()
 	{
 		// Initialize some field attributes.
-		$size = $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
-		$maxLength = $this->element['maxlength'] ? ' maxlength="' . (int) $this->element['maxlength'] . '"' : '';
-		$class = $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
-		$readonly = ((string) $this->element['readonly'] == 'true') ? ' readonly="readonly"' : '';
-		$disabled = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
+		$size = !empty($this->size) ? ' size="' . $this->size . '"' : '';
+		$readonly = !empty($this->readonly) ? ' readonly="readonly"' : '';
+		$disabled = !empty($this->disabled) ? ' disabled="disabled"' : '';
+		$class = !empty($this->class) ? ' class="' . $this->class . '"' : '';
+		$onchange = !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
+		$maxLength = !empty($this->maxlength) ? ' maxlength="' . $this->maxlength . '"' : '';
+		$placeholder = !empty($this->placeholder) ? ' placeholder="' . $this->placeholder . '"' : '';
 
-		// Initialize JavaScript field attributes.
-		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
-
-		return '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
-			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $class . $size . $disabled . $readonly . $onchange . $maxLength . '/>';
+		return '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . ' value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8')
+			. '"' . $class . $size . $disabled . $readonly . $onchange . $maxLength . $placeholder . '/>';
 	}
 }

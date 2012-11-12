@@ -41,25 +41,23 @@ class JFormFieldList extends JFormField
 		$attr = '';
 
 		// Initialize some field attributes.
-		$attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
+		$attr .= !empty($this->class) ? ' class="' . $this->class . '"' : '';
 
 		// To avoid user's confusion, readonly="true" should imply disabled="true".
-		if ((string) $this->element['readonly'] == 'true' || (string) $this->element['disabled'] == 'true')
+		if ($this->readonly || $this->disabled)
 		{
 			$attr .= ' disabled="disabled"';
 		}
 
-		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
-		$attr .= $this->multiple ? ' multiple="multiple"' : '';
-
-		// Initialize JavaScript field attributes.
-		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
+		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
+		$attr .= !empty($this->multiple) ? ' multiple="multiple"' : '';
+		$attr .= !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
 
 		// Get the field options.
 		$options = (array) $this->getOptions();
 
 		// Create a read-only list (no name) with a hidden input to store the value.
-		if ((string) $this->element['readonly'] == 'true')
+		if ($this->readonly)
 		{
 			$html[] = JHtml::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $this->value, $this->id);
 			$html[] = '<input type="hidden" name="' . $this->name . '" value="' . $this->value . '"/>';

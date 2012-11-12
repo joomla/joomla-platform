@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+JFormHelper::loadFieldClass('checkbox');
+
 /**
  * Form Field class for the Joomla Platform.
  * Displays options as a list of check boxes.
@@ -19,7 +21,7 @@ defined('JPATH_PLATFORM') or die;
  * @see         JFormFieldCheckbox
  * @since       11.1
  */
-class JFormFieldCheckboxes extends JFormField
+class JFormFieldCheckboxes extends JFormFieldCheckbox
 {
 	/**
 	 * The form field type.
@@ -35,7 +37,15 @@ class JFormFieldCheckboxes extends JFormField
 	 * @var    boolean
 	 * @since  11.1
 	 */
-	protected $forceMultiple = true;
+	protected $multiple = true;
+
+	/**
+	 * The text to prepend to class for the form field.
+	 *
+	 * @var    string
+	 * @since  12.3
+	 */
+	protected $prependToClass = 'checkboxes';
 
 	/**
 	 * Method to get the field input markup for check boxes.
@@ -49,8 +59,8 @@ class JFormFieldCheckboxes extends JFormField
 		$html = array();
 
 		// Initialize some field attributes.
-		$class = $this->element['class'] ? ' class="checkboxes ' . (string) $this->element['class'] . '"' : ' class="checkboxes"';
-		$checkedOptions = explode(',', (string) $this->element['checked']);
+		$class = !empty($this->class) ? ' class="' . $this->class . '"' : '';
+		$checkedOptions = explode(',', $this->checked);
 
 		// Start the checkbox field output.
 		$html[] = '<fieldset id="' . $this->id . '"' . $class . '>';
@@ -107,7 +117,6 @@ class JFormFieldCheckboxes extends JFormField
 
 		foreach ($this->element->children() as $option)
 		{
-
 			// Only add <option /> elements.
 			if ($option->getName() != 'option')
 			{

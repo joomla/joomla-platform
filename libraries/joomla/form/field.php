@@ -19,6 +19,13 @@ defined('JPATH_PLATFORM') or die;
 abstract class JFormField
 {
 	/**
+	 * The autocomplete setting for the form field.
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
+	protected $autocomplete;
+	/**
 	 * The description text for the form field.  Usually used in tooltips.
 	 *
 	 * @var    string
@@ -99,6 +106,28 @@ abstract class JFormField
 	protected $label;
 
 	/**
+	 * The text to prepend to class for the form field.
+	 *
+	 * Usage:
+	 * In JFormFieldEmail, this is used to prepend "validate-email"
+	 * to the form field class, for validation. Using this, we don't
+	 * need to completely rewrite the getInput() method to add in
+	 * the required class definition.
+	 *
+	 * @var    string
+	 * @since  12.3
+	 */
+	protected $prependToClass;
+
+	/**
+	 * The class for the form field.
+	 *
+	 * @var    string
+	 * @since  12.3
+	 */
+	protected $class;
+
+	/**
 	 * The multiple state for the form field.  If true then multiple values are allowed for the
 	 * field.  Most often used for list field types.
 	 *
@@ -108,12 +137,38 @@ abstract class JFormField
 	protected $multiple = false;
 
 	/**
+	 * Flag to tell the field to always be in multiple values mode.
+	 *
+	 * @var         boolean
+	 *
+	 * @deprecated  13.3  Use $multiple instead
+	 * @since       11.1
+	 */
+	protected $forceMultiple = false;
+
+	/**
 	 * The name of the form field.
 	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $name;
+
+	/**
+	 * The javascript onchange of the form field.
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
+	protected $onchange;
+
+	/**
+	 * The javascript onclick of the form field.
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
+	protected $onclick;
 
 	/**
 	 * The name of the field.
@@ -184,6 +239,14 @@ abstract class JFormField
 	protected $value;
 
 	/**
+	 * The maxlength of the form field.
+	 *
+	 * @var    mixed
+	 * @since  12.3
+	 */
+	protected $maxlength;
+
+	/**
 	 * The label's CSS class of the form field
 	 *
 	 * @var    mixed
@@ -252,21 +315,26 @@ abstract class JFormField
 	{
 		switch ($name)
 		{
+			case 'class':
 			case 'description':
+			case 'disabled':
+			case 'element':
+			case 'fieldname':
 			case 'formControl':
+			case 'group':
 			case 'hidden':
 			case 'id':
+			case 'labelClass':
+			case 'maxlength':
 			case 'multiple':
 			case 'name':
+			case 'onchange':
+			case 'prependToClass':
 			case 'required':
-			case 'disabled':
 			case 'readonly':
 			case 'type':
 			case 'validate':
 			case 'value':
-			case 'labelClass':
-			case 'fieldname':
-			case 'group':
 				return $this->$name;
 
 			case 'input':
@@ -336,23 +404,27 @@ abstract class JFormField
 		$this->input = null;
 		$this->label = null;
 
-		// Set the XML element object.
-		$this->element = $element;
-
 		// Get some important attributes from the form field element.
-		$class = (string) $element['class'];
 		$id = (string) $element['id'];
-		$multiple = (string) $element['multiple'];
 		$name = (string) $element['name'];
-		$required = (string) $element['required'];
+		$class = (string) $element['class'];
 		$disabled = (string) $element['disabled'];
+		$multiple = (string) $element['multiple'];
 		$readonly = (string) $element['readonly'];
+		$required = (string) $element['required'];
+		$translateLabel = (string) $element['translate_label'];
+		$translateDescription = (string) $element['translate_description'];
 
-		// Set the required, disabled and validation options.
-		$this->required = ($required == 'true' || $required == 'required' || $required == '1');
+		// Set the disabled, readonly and required options.
 		$this->disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
 		$this->readonly = ($readonly == 'true' || $readonly == 'readonly' || $readonly == '1');
-		$this->validate = (string) $element['validate'];
+		$this->required = ($required == 'true' || $required == 'required' || $required == '1');
+
+		// Calculate the hidden attribute
+		$this->hidden = ((string) $element['type'] == 'hidden' || (string) $element['hidden'] == 'true');
+
+		// Set the multiple values option. Remove $this->forceMultiple when releaseing 13.3
+		$this->multiple = ($this->multiple || ($multiple === 'true' || $multiple === 'multiple') || $this->forceMultiple);
 
 		// Add the required class if the field is required.
 		if ($this->required)
@@ -361,48 +433,44 @@ abstract class JFormField
 			{
 				if (strpos($class, 'required') === false)
 				{
-					$this->element['class'] = $class . ' required';
+					$element['class'] = $class . ' required';
 				}
 			}
 			else
 			{
-				$this->element->addAttribute('class', 'required');
+				$element->addAttribute('class', 'required');
 			}
+
+			// Redefine the $class variable, to reflect change.
+			$class = (string) $element['class'];
 		}
-
-		// Set the multiple values option.
-		$this->multiple = ($multiple == 'true' || $multiple == 'multiple');
-
-		// Allow for field classes to force the multiple values option.
-		if (isset($this->forceMultiple))
-		{
-			$this->multiple = (bool) $this->forceMultiple;
-		}
-
-		// Set the field description text.
-		$this->description = (string) $element['description'];
-
-		// Set the visibility.
-		$this->hidden = ((string) $element['type'] == 'hidden' || (string) $element['hidden'] == 'true');
 
 		// Determine whether to translate the field label and/or description.
-		$this->translateLabel = !((string) $this->element['translate_label'] == 'false' || (string) $this->element['translate_label'] == '0');
-		$this->translateDescription = !((string) $this->element['translate_description'] == 'false'
-			|| (string) $this->element['translate_description'] == '0');
+		$this->translateLabel = !($translateLabel == 'false' || $translateLabel == 0);
+		$this->translateDescription = !($translateDescription == 'false' || $translateDescription == '0');
 
-		// Set the group of the field.
+		// Build the class string.
+		$this->class = trim($this->prependToClass . ' ' . $class);
+
+		// Set other obvious properties
+		$this->value = $value;
 		$this->group = $group;
+		$this->size = (int) $element['size'];
+		$this->onclick = (string) $element['onclick'];
+		$this->maxlength = (int) $element['maxlength'];
+		$this->onchange = (string) $element['onchange'];
+		$this->validate = (string) $element['validate'];
+		$this->labelClass = (string) $element['labelclass'];
+		$this->description = (string) $element['description'];
+		$this->autocomplete = (string) $element['autocomplete'];
 
 		// Set the field name and id.
 		$this->fieldname = $this->getFieldName($name);
 		$this->name = $this->getName($this->fieldname);
 		$this->id = $this->getId($id, $this->fieldname);
 
-		// Set the field default value.
-		$this->value = $value;
-
-		// Set the CSS class of field label
-		$this->labelClass = (string) $element['labelclass'];
+		// Set the XML element object. We do this last so any changes above will apply.
+		$this->element = $element;
 
 		return true;
 	}

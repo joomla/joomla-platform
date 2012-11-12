@@ -21,14 +21,60 @@ defined('JPATH_PLATFORM') or die;
  */
 class JFormFieldCalendar extends JFormField
 {
-
 	/**
 	 * The form field type.
 	 *
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $type = 'Calendar';
+	protected $type = 'Calendar';
+
+	/**
+	 * The form field date format.
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
+	protected $format = '%Y-%m-%d';
+
+	/**
+	 * The form field date filter.
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
+	public $filter;
+
+	/**
+	 * Method to attach a JForm object to the field.
+	 *
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                      full field name would end up being "bar[foo]".
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @see     JFormField::setup()
+	 * @since   12.3
+	 */
+	public function setup(SimpleXMLElement $element, $value, $group = null)
+	{
+		parent::setup($element, $value, $group);
+
+		if (!empty($element['format']))
+		{
+			$this->format = (string) $element['format'];
+		}
+
+		if (!empty($element['filter']))
+		{
+			$this->filter = (string) $element['filter'];
+		}
+
+		return true;
+	}
 
 	/**
 	 * Method to get the field input markup.
@@ -39,41 +85,20 @@ class JFormFieldCalendar extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Initialize some field attributes.
-		$format = $this->element['format'] ? (string) $this->element['format'] : '%Y-%m-%d';
-
 		// Build the attributes array.
-		$attributes = array();
-
-		if ($this->element['size'])
-		{
-			$attributes['size'] = (int) $this->element['size'];
-		}
-		if ($this->element['maxlength'])
-		{
-			$attributes['maxlength'] = (int) $this->element['maxlength'];
-		}
-		if ($this->element['class'])
-		{
-			$attributes['class'] = (string) $this->element['class'];
-		}
-		if ((string) $this->element['readonly'] == 'true')
-		{
-			$attributes['readonly'] = 'readonly';
-		}
-		if ((string) $this->element['disabled'] == 'true')
-		{
-			$attributes['disabled'] = 'disabled';
-		}
-		if ($this->element['onchange'])
-		{
-			$attributes['onchange'] = (string) $this->element['onchange'];
-		}
+		$attributes = array(
+			'size' => $this->size,
+			'maxlength' => $this->maxlength,
+			'class' => $this->class,
+			'readonly' => $this->readonly,
+			'disabled' => $this->disabled,
+			'onchange' => $this->onchange
+		);
 
 		// Handle the special case for "now".
 		if (strtoupper($this->value) == 'NOW')
 		{
-			$this->value = strftime($format);
+			$this->value = strftime($this->format);
 		}
 
 		// Get some system objects.
@@ -81,7 +106,7 @@ class JFormFieldCalendar extends JFormField
 		$user = JFactory::getUser();
 
 		// If a known filter is given use it.
-		switch (strtoupper((string) $this->element['filter']))
+		switch (strtoupper($this->filter))
 		{
 			case 'SERVER_UTC':
 				// Convert a date to UTC based on the server timezone.
@@ -110,6 +135,6 @@ class JFormFieldCalendar extends JFormField
 				break;
 		}
 
-		return JHtml::_('calendar', $this->value, $this->name, $this->id, $format, $attributes);
+		return JHtml::_('calendar', $this->value, $this->name, $this->id, $this->format, $attributes);
 	}
 }
