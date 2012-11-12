@@ -447,8 +447,8 @@ abstract class JFormField
 		}
 
 		// Determine whether to translate the field label and/or description.
-		$this->translateLabel = !($translateLabel == 'false' || $translateLabel == 0);
-		$this->translateDescription = !($translateDescription == 'false' || $translateDescription == '0');
+		$this->translateLabel = !($translateLabel === 'false' || $translateLabel === '0');
+		$this->translateDescription = !($translateDescription === 'false' || $translateDescription === '0');
 
 		// Build the class string.
 		$this->class = trim($this->prependToClass . ' ' . $class);
