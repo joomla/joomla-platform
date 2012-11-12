@@ -25,6 +25,7 @@ abstract class JFormField
 	 * @since  11.1
 	 */
 	protected $autocomplete;
+
 	/**
 	 * The description text for the form field.  Usually used in tooltips.
 	 *
