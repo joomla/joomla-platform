@@ -82,7 +82,7 @@ class JFormFieldTextarea extends JFormField
 
 		if (!empty($this->element['placeholder']))
 		{
-			$this->placeholder = (int) $this->element['placeholder'];
+			$this->placeholder = (string) $this->element['placeholder'];
 		}
 
 		return true;
