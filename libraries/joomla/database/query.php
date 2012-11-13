@@ -374,7 +374,7 @@ abstract class JDatabaseQuery
 			case 'union':
 				$order = $this->order;
 
-				if($this->select)
+				if ($this->select)
 				{
 					$this->type = 'select';
 					$this->clear('order');
@@ -382,6 +382,7 @@ abstract class JDatabaseQuery
 					$this->type = 'union';
 				}
 				$query .= (string) $this->union;
+
 				if ($order)
 				{
 					$this->order = $order;
