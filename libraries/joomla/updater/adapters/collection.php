@@ -97,7 +97,7 @@ class JUpdaterCollection extends JUpdateAdapter
 		$tag = $this->_getStackLocation();
 
 		// Reset the data
-		eval('$this->' . $tag . '->_data = "";');
+		$this->{$tag}->_data = "";
 		switch ($name)
 		{
 			case 'CATEGORY':

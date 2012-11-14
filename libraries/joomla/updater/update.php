@@ -180,7 +180,7 @@ class JUpdate extends JObject
 		$tag = $this->_getStackLocation();
 
 		// Reset the data
-		eval('$this->' . $tag . '->_data = "";');
+		$this->{$tag}->_data = "";
 
 		switch ($name)
 		{
