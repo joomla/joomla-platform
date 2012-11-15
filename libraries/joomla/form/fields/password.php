@@ -45,7 +45,7 @@ class JFormFieldPassword extends JFormFieldText
 	 * @var    string
 	 * @since  12.3
 	 */
-	protected $threshold;
+	protected $threshold = 66;
 
 	/**
 	 * Method to attach a JForm object to the field.
@@ -72,7 +72,7 @@ class JFormFieldPassword extends JFormFieldText
 
 		if (!empty($this->element['threshold']))
 		{
-			$this->threshold = (string) $this->element['threshold'];
+			$this->threshold = (int) $this->element['threshold'];
 		}
 
 		return true;
@@ -94,7 +94,6 @@ class JFormFieldPassword extends JFormFieldText
 		$readonly	= !empty($this->readonly) ? ' readonly="readonly"' : '';
 		$disabled	= !empty($this->disabled) ? ' disabled="disabled"' : '';
 		$auto		= !empty($this->autocomplete) ? ' autocomplete="off"' : '';
-		$threshold	= !empty($this->threshold) ? $this->threshold : 66;
 
 		$script = '';
 
@@ -103,7 +102,7 @@ class JFormFieldPassword extends JFormFieldText
 			JHtml::_('script', 'system/passwordstrength.js', true, true);
 			$script = '<script type="text/javascript">new Form.PasswordStrength("' . $this->id . '",
 				{
-					threshold: ' . $threshold . ',
+					threshold: ' . $this->threshold . ',
 					onUpdate: function(element, strength, threshold) {
 						element.set("data-passwordstrength", strength);
 					}
@@ -113,6 +112,6 @@ class JFormFieldPassword extends JFormFieldText
 
 		return '<input type="password" name="' . $this->name . '" id="' . $this->id . '"' .
 			' value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' .
-			$auto . $class . $readonly . $disabled . $size . $maxLength . '/>' . $script;
+			$auto . $class . $readonly . $disabled . $size . $maxLength . $placeholder . '/>' . $script;
 	}
 }
