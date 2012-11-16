@@ -228,11 +228,11 @@ class JModelList extends JModelLegacy
 		}
 
 		// Load the total.
-		$query = $this->_getListQuery();
+		$this->_db->setQuery( $this->getListQuery()->clear('select')->select('COUNT(*)') );
 
 		try
 		{
-			$total = (int) $this->_getListCount($query);
+			$total = (int)$this->_db->loadResult();
 		}
 		catch (RuntimeException $e)
 		{
