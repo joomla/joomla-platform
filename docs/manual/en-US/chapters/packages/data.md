@@ -55,7 +55,7 @@ $stdClass = $object->dump();
 $object->def('foo', 'oof');
 
 // An alternative technique to get a value or a default.
-$foo = $object->foo || 'The default';
+$foo = $object->foo ?: 'The default';
 
 // Iterate over the properties as if the object were a real array.
 foreach ($object as $key => $value)
