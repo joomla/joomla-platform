@@ -696,11 +696,18 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 				{
 					$foundAutoLoad = true;
 				}
+                if ($loader[1] === 'loadByPrefix')
+                {
+                    $loadByPrefix = true;
+                }
 			}
 		}
 
 		// We don't expect to find it.
 		$this->assertFalse($foundAutoLoad);
+
+        // in either format
+        $this->assertTrue($loadByPrefix);
 
 		// Assert the J prefix hasn't been registered.
 		$prefixes = TestReflection::getValue('JLoader', 'prefixes');
