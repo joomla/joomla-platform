@@ -20,7 +20,7 @@ defined('JPATH_PLATFORM') or die;
  * @since       12.2
  * @deprecated  13.3
  */
-class JControllerLegacy extends JControllerBase
+class JControllerLegacy extends JObject
 {
 	/**
 	 * The base path of the controller
