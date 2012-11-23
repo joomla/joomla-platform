@@ -19,16 +19,16 @@ defined('JPATH_PLATFORM') or die;
 interface JDataDumpable
 {
 	/**
-	 * Dump the object properties recursively if appropriate.
+	 * Dumps the object properties into a stdClass object, recursively if appropriate.
 	 *
-	 * @param   integer           $depth   The maximum recursion depth (default = 3).
+	 * @param   integer           $depth   The maximum depth of recursion.
 	 *                                     For example, a depth of 0 will return a stdClass with all the properties in native
 	 *                                     form. A depth of 1 will recurse into the first level of properties only.
-	 * @param   SplObjectStorage  $dumped  An array of already serialized object to avoid infinite loops.
+	 * @param   SplObjectStorage  $dumped  An array of already serialized objects that is used to avoid infinite loops.
 	 *
-	 * @return  mixed  The dumped data.
+	 * @return  stdClass  The data properties as a simple PHP stdClass object.
 	 *
 	 * @since   12.3
 	 */
-	public function dump($depth = 3, SplObjectStorage $dumped = null);
+	public function dump($depth, SplObjectStorage $dumped = null);
 }

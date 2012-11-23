@@ -46,7 +46,7 @@ class JDataSetTest extends TestCase
 	}
 
 	/**
-	 * Tests the __construct method with an array of non JData's.
+	 * Tests the __construct method with an array that does not contain JData objects.
 	 *
 	 * @return  void
 	 *

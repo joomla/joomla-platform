@@ -299,7 +299,7 @@ class JDataTest extends TestCase
 		// Bind an array to the object.
 		$this->_instance->bind($properties);
 
-		// Dump the object.
+		// Dump the object (default is 3 levels).
 		$dump = $this->_instance->dump();
 
 		$this->assertEquals($dump->scalar, 'value_1');

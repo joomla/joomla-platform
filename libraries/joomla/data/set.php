@@ -10,16 +10,17 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Joomla Platform Dataset Class
+ * JDataSet is a collection class that allows the developer to operate on a set of JData objects as if they were in a
+ * typical PHP array.
  *
  * @package     Joomla.Platform
  * @subpackage  Data
  * @since       12.3
  */
-class JDataSet implements ArrayAccess, Countable, Iterator
+class JDataSet implements JDataDumpable, ArrayAccess, Countable, Iterator
 {
 	/**
-	 * The current position.
+	 * The current position of the iterator.
 	 *
 	 * @var    integer
 	 * @since  12.3
@@ -35,11 +36,12 @@ class JDataSet implements ArrayAccess, Countable, Iterator
 	private $_objects = array();
 
 	/**
-	 * Method to instantiate the object list.
+	 * The class constructor.
 	 *
-	 * @param   array  $objects  An array of objects.
+	 * @param   array  $objects  An array of JData objects to bind to the data set.
 	 *
 	 * @since   12.3
+	 * @throws  InvalidArgumentException if an object is not an instance of JData.
 	 */
 	public function __construct(array $objects = array())
 	{
@@ -52,15 +54,15 @@ class JDataSet implements ArrayAccess, Countable, Iterator
 	 *
 	 * Example: $array = $objectList->foo('bar');
 	 *
-	 * The object list will iterate over it's objects and see if each object has a callable 'foo' method.
+	 * The object list will iterate over its objects and see if each object has a callable 'foo' method.
 	 * If so, it will pass the argument list and assemble any return values. If an object does not have
 	 * a callable method no return value is recorded.
 	 * The keys of the objects and the result array are maintained.
 	 *
-	 * @param   string  $method     The called method.
-	 * @param   array   $arguments  The method arguments.
+	 * @param   string  $method     The name of the method called.
+	 * @param   array   $arguments  The arguments of the method called.
 	 *
-	 * @return  array   An array of returns.
+	 * @return  array   An array of values returned by the methods called on the objects in the data set.
 	 *
 	 * @since   12.3
 	 */
@@ -86,18 +88,18 @@ class JDataSet implements ArrayAccess, Countable, Iterator
 	}
 
 	/**
-	 * The magic get method is used to get an object property using the iterator.
+	 * The magic get method is used to get a list of properties from the objects in the data set.
 	 *
-	 * Example: $array = $objectList->foo;
+	 * Example: $array = $dataSet->foo;
 	 *
-	 * This will return a column of the values of the 'foo' property in all the objects.
+	 * This will return a column of the values of the 'foo' property in all the objects
 	 * (or values determined by custom property setters in the individual JData's).
 	 * The result array will contain an entry for each object in the list (compared to __call which may not).
 	 * The keys of the objects and the result array are maintained.
 	 *
-	 * @param   string  $property  The property name.
+	 * @param   string  $property  The name of the data property.
 	 *
-	 * @return  array  An array of return values.
+	 * @return  array  An associative array of the values.
 	 *
 	 * @since   12.3
 	 */
@@ -120,9 +122,9 @@ class JDataSet implements ArrayAccess, Countable, Iterator
 	 *
 	 * Example: $array = isset($objectList->foo);
 	 *
-	 * @param   string  $property  The property name.
+	 * @param   string  $property  The name of the property.
 	 *
-	 * @return  boolean  True if the property is set in any of the objects.
+	 * @return  boolean  True if the property is set in any of the objects in the data set.
 	 *
 	 * @since   12.3
 	 */
@@ -148,8 +150,8 @@ class JDataSet implements ArrayAccess, Countable, Iterator
 	 * This will set the 'foo' property to 'bar' in all of the objects
 	 * (or a value determined by custom property setters in the JData).
 	 *
-	 * @param   string  $property  The property name.
-	 * @param   mixed   $value     The property value.
+	 * @param   string  $property  The name of the property.
+	 * @param   mixed   $value     The value to give the data property.
 	 *
 	 * @return  void
 	 *
@@ -174,7 +176,7 @@ class JDataSet implements ArrayAccess, Countable, Iterator
 	 *
 	 * This will unset all of the 'foo' properties in the list of JData's.
 	 *
-	 * @param   string  $property  The property name.
+	 * @param   string  $property  The name of the property.
 	 *
 	 * @return  void
 	 *
@@ -190,7 +192,7 @@ class JDataSet implements ArrayAccess, Countable, Iterator
 	}
 
 	/**
-	 * Method to get the number of objects in the iterator.
+	 * Gets the number of data objects in the set.
 	 *
 	 * @return  integer  The number of objects.
 	 *
@@ -202,7 +204,7 @@ class JDataSet implements ArrayAccess, Countable, Iterator
 	}
 
 	/**
-	 * Method to get the current object.
+	 * Get the current data object in the set.
 	 *
 	 * @return  JData  The current object, or false if the array is empty or the pointer is beyond the end of the elements.
 	 *
@@ -214,15 +216,16 @@ class JDataSet implements ArrayAccess, Countable, Iterator
 	}
 
 	/**
-	 * Dump the object properties recursively if appropriate.
+	 * Dumps the data object in the set, recursively if appropriate.
 	 *
-	 * @param   integer           $depth   The maximum recursion depth (default = 3).
+	 * @param   integer           $depth   The maximum depth of recursion (default = 3).
 	 *                                     For example, a depth of 0 will return a stdClass with all the properties in native
 	 *                                     form. A depth of 1 will recurse into the first level of properties only.
-	 * @param   SplObjectStorage  $dumped  An array of already serialized object to avoid infinite loops.
+	 * @param   SplObjectStorage  $dumped  An array of already serialized objects that is used to avoid infinite loops.
 	 *
-	 * @return  stdClass  A standard class object ready to be encoded.
+	 * @return  array  An associative array of the date objects in the set, dumped as a simple PHP stdClass object.
 	 *
+	 * @see     JData::dump()
 	 * @since   12.3
 	 */
 	public function dump($depth = 3, SplObjectStorage $dumped = null)
@@ -252,9 +255,13 @@ class JDataSet implements ArrayAccess, Countable, Iterator
 	}
 
 	/**
-	 * Get the objects to serialize with JSON.
+	 * Gets the data set in a form that can be serialised to JSON format.
 	 *
-	 * @param   mixed  $serialized  An array of objects that have already been serialized to avoid recursion, null on first call.
+	 * Note that this method will not return an associative array, otherwise it would be encoded into an object.
+	 * JSON decoders do not consistently maintain the order of associative keys, whereas they do maintain the order of arrays.
+	 *
+	 * @param   mixed  $serialized  An array of objects that have already been serialized that is used to infinite loops
+	 *                              (null on first call).
 	 *
 	 * @return  array  An array that can be serialised by json_encode().
 	 *
@@ -273,19 +280,19 @@ class JDataSet implements ArrayAccess, Countable, Iterator
 		$return = array();
 
 		// Iterate through the objects.
-		foreach ($this->_objects as $key => $object)
+		foreach ($this->_objects as $object)
 		{
 			// Call the method for the object.
-			$return[$key] = $object->jsonSerialize($serialized);
+			$return[] = $object->jsonSerialize($serialized);
 		}
 
 		return $return;
 	}
 
 	/**
-	 * Method to get the key of the current object.
+	 * Gets the key of the current object in the iterator.
 	 *
-	 * @return  scalar  The object key on success, null on failure.
+	 * @return  scalar  The object key on success; null on failure.
 	 *
 	 * @since   12.3
 	 */
@@ -295,7 +302,7 @@ class JDataSet implements ArrayAccess, Countable, Iterator
 	}
 
 	/**
-	 * Method to advance the iterator to the next object.
+	 * Advances the iterator to the next object in the iterator.
 	 *
 	 * @return  void
 	 *
@@ -323,7 +330,7 @@ class JDataSet implements ArrayAccess, Countable, Iterator
 	}
 
 	/**
-	 * Method to check whether an offset exists.
+	 * Checks whether an offset exists in the iterator.
 	 *
 	 * @param   mixed  $offset  The object offset.
 	 *
@@ -337,7 +344,7 @@ class JDataSet implements ArrayAccess, Countable, Iterator
 	}
 
 	/**
-	 * Method to get an offset.
+	 * Gets an offset in the iterator.
 	 *
 	 * @param   mixed  $offset  The object offset.
 	 *
@@ -351,7 +358,7 @@ class JDataSet implements ArrayAccess, Countable, Iterator
 	}
 
 	/**
-	 * Method to set an offset.
+	 * Sets an offset in the iterator.
 	 *
 	 * @param   mixed  $offset  The object offset.
 	 * @param   JData  $object  The object object.
@@ -359,7 +366,7 @@ class JDataSet implements ArrayAccess, Countable, Iterator
 	 * @return  void
 	 *
 	 * @since   12.3
-	 * @throws  InvalidArgumentException
+	 * @throws  InvalidArgumentException if an object is not an instance of JData.
 	 */
 	public function offsetSet($offset, $object)
 	{
@@ -374,7 +381,7 @@ class JDataSet implements ArrayAccess, Countable, Iterator
 	}
 
 	/**
-	 * Method to unset an offset.
+	 * Unsets an offset in the iterator.
 	 *
 	 * @param   mixed  $offset  The object offset.
 	 *
@@ -388,7 +395,7 @@ class JDataSet implements ArrayAccess, Countable, Iterator
 	}
 
 	/**
-	 * Method to rewind the iterator.
+	 * Rewinds the iterator to the first object.
 	 *
 	 * @return  void
 	 *
@@ -397,11 +404,19 @@ class JDataSet implements ArrayAccess, Countable, Iterator
 	public function rewind()
 	{
 		// Set the current position to the first object.
-		$this->_current = empty($this->_objects) ? false : array_shift(array_keys($this->_objects));
+		if (empty($this->_objects))
+		{
+			$this->_current = false;
+		}
+		else
+		{
+			$keys = array_keys($this->_objects);
+			$this->_current = array_shift($keys);
+		}
 	}
 
 	/**
-	 * Method to validate the iterator.
+	 * Validates the iterator.
 	 *
 	 * @return  boolean  True if valid, false otherwise.
 	 *
@@ -426,7 +441,7 @@ class JDataSet implements ArrayAccess, Countable, Iterator
 	 * @return  void
 	 *
 	 * @since   12.3
-	 * @throws  InvalidArgumentException
+	 * @throws  InvalidArgumentException if an object is not an instance of JData.
 	 */
 	private function _initialise(array $input = array())
 	{
