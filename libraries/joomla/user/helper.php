@@ -193,7 +193,7 @@ abstract class JUserHelper
 	 *
 	 * @param   integer  $userId  The id of the user.
 	 *
-	 * @return  object
+	 * @return  JObject
 	 *
 	 * @since   11.1
 	 */
@@ -205,7 +205,7 @@ abstract class JUserHelper
 			$userId	= $user->id;
 		}
 
-		// Get the dispatcher and load the user's plugins.
+		// Get the dispatcher and load the user plugins.
 		$dispatcher	= JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('user');
 

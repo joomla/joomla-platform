@@ -458,7 +458,7 @@ class JUser extends JObject
 	}
 
 	/**
-	 * Method to get the user parameters
+	 * Method to set the user parameters
 	 *
 	 * @param   object  $params  The user parameters object
 	 *
@@ -742,6 +742,46 @@ class JUser extends JObject
 
 			// Fire the onUserAfterSave event
 			$dispatcher->trigger('onUserAfterSave', array($this->getProperties(), $isNew, $result, $this->getError()));
+
+			// Treat the id as a string to match how JUser works elsewhere.
+			$this->id = (string) $this->id;
+
+			// Get the sessions associated with this user
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true);
+			$query->select('*');
+			$query->from($db->quoteName('#__session'));
+			$query->where($db->quoteName('userid') . ' = ' . $this->id);
+			$db->setQuery($query);
+			$results = $db->loadObjectList();
+
+			$config = JFactory::getConfig();
+			$sessionhandler = $config->get('session_handler');
+			$storageClass = 'JSessionStorage' . $sessionhandler;
+
+			foreach ($results as $result)
+			{
+				$storedSession = new $storageClass;
+
+				// Replace the old JUser in the session with the new one.
+				$sessionOldData = $storedSession->read($result->session_id);
+				$sessionOldData = $result->data;
+				$jUserOldStart = stripos($sessionOldData, 'JUser') - 5;
+				$jUserOldEnd = stripos($sessionOldData, '_params";') + 9;
+				$jUserOldLength = $jUserOldEnd - $jUserOldStart;
+				$sessionNewData = substr_replace($sessionOldData, $juserSerialized, $jUserOldStart, $jUserOldLength);
+
+				// If we change the password or block a user we want to force them out.
+				if ($this->block == 1 && $oldUser->block == 0
+					|| ($this->password != $oldUser->password && $this->id != $my->id))
+				{
+					$this->guest = 1;
+				}
+
+				// Write the updated data to the session storage.
+				$storedSession->write($result->session_id);
+			}
+
 		}
 		catch (Exception $e)
 		{

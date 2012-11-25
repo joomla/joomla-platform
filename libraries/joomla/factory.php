@@ -220,8 +220,52 @@ abstract class JFactory
 			{
 				$instance = JUser::getInstance();
 			}
+
+			if ($instance->id == 0)
+			{
+				// Check to see if there is an active session for this user
+				$session = self::getSession();
+
+				if ($session instanceof JSession)
+				{
+					$sessionName = $session->getName();
+				}
+				if (!empty($sessionName))
+				{
+					$sessionInput = new JInputCookie;
+					$sessionId = $sessionInput->get($sessionName);
+
+					if (!empty($sessionId))
+					{
+						// Get the userid associated with this session name if there is one.
+						$db = self::getDbo();
+						$query = $db->getQuery(true);
+						$query->select('userid');
+						$query->from($db->quoteName('#__session'));
+						$query->where($db->quoteName('session_id') . ' = ' . $db->quote($sessionId));
+						$db->setQuery($query);
+						$result = $db->loadResult();
+					}
+
+					// If we found a session and it is not for a guest go ahead and instantiate JUser for it.
+					if (!empty($result) && $result != 0)
+					{
+						$instance = JUser::getInstance($result);
+					}
+					// Otherwise instantiate an empty JUser
+					elseif
+					(!($instance instanceof JUser))
+					{
+						$instance = JUser::getInstance();
+					}
+				}
+			}
+			elseif (!empty($instance->id))
+			{
+				$instance = JUser::getInstance($instance->id);
+			}
 		}
-		elseif (!($instance instanceof JUser) || $instance->id != $id)
+		elseif ($instance->id != $id)
 		{
 			$instance = JUser::getInstance($id);
 		}
@@ -568,7 +612,7 @@ abstract class JFactory
 	 */
 	protected static function createSession(array $options = array())
 	{
-		// Get the editor configuration setting
+		// Get the session handler configuration setting
 		$conf = self::getConfig();
 		$handler = $conf->get('session_handler', 'none');
 
