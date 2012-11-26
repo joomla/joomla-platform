@@ -88,12 +88,13 @@ class JFormFieldPassword extends JFormFieldText
 	protected function getInput()
 	{
 		// Initialize some field attributes.
-		$size		= !empty($this->size) ? ' size="' . $this->size . '"' : '';
-		$maxLength	= !empty($this->maxlength) ? ' maxlength="' . $this->maxlength . '"' : '';
-		$class		= !empty($this->class) ? ' class="' . (string) $this->element['class'] . '"' : '';
-		$readonly	= !empty($this->readonly) ? ' readonly="readonly"' : '';
-		$disabled	= !empty($this->disabled) ? ' disabled="disabled"' : '';
-		$auto		= !empty($this->autocomplete) ? ' autocomplete="off"' : '';
+		$size = !empty($this->size) ? ' size="' . $this->size . '"' : '';
+		$maxLength = !empty($this->maxlength) ? ' maxlength="' . $this->maxlength . '"' : '';
+		$class = !empty($this->class) ? ' class="' . $this->class . '"' : '';
+		$readonly = !empty($this->readonly) ? ' readonly="readonly"' : '';
+		$disabled = !empty($this->disabled) ? ' disabled="disabled"' : '';
+		$auto = !empty($this->autocomplete) ? ' autocomplete="off"' : '';
+		$placeholder = !empty($this->placeholder) ? ' placeholder="' . $this->placeholder . '"' : '';
 
 		$script = '';
 
