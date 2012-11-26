@@ -169,7 +169,7 @@ class JApplicationWebRouterBase extends JApplicationWebRouter
 		// We were unable to find a route match for the request.  Panic.
 		if (!$controller)
 		{
-			throw new InvalidArgumentException(sprintf('Unable to handle request for route `%s`.', $route), 404);
+			throw new \InvalidArgumentException(sprintf('Unable to handle request for route `%s`.', $route), 404);
 		}
 
 		return $controller;

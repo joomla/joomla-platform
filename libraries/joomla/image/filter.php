@@ -48,7 +48,7 @@ abstract class JImageFilter
 		if (!is_resource($handle) || (get_resource_type($handle) != 'gd'))
 		{
 			JLog::add('The image handle is invalid for the image filter.', JLog::ERROR);
-			throw new InvalidArgumentException('The image handle is invalid for the image filter.');
+			throw new \InvalidArgumentException('The image handle is invalid for the image filter.');
 		}
 
 		$this->handle = $handle;

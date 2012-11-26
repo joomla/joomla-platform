@@ -39,7 +39,7 @@ class JGithubStatuses extends JGithubObject
 
 		if (!in_array($state, array('pending', 'success', 'error', 'failure')))
 		{
-			throw new InvalidArgumentException('State must be one of pending, success, error or failure.');
+			throw new \InvalidArgumentException('State must be one of pending, success, error or failure.');
 		}
 
 		// Build the request data.
@@ -65,7 +65,7 @@ class JGithubStatuses extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 
 		return json_decode($response->body);
@@ -95,7 +95,7 @@ class JGithubStatuses extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 
 		return json_decode($response->body);

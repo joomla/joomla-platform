@@ -86,7 +86,7 @@ class JArchiveTar implements JArchiveExtractable
 			}
 			else
 			{
-				throw new RuntimeException('Unable to read archive');
+				throw new \RuntimeException('Unable to read archive');
 			}
 		}
 
@@ -110,7 +110,7 @@ class JArchiveTar implements JArchiveExtractable
 					}
 					else
 					{
-						throw new RuntimeException('Unable to create destination');
+						throw new \RuntimeException('Unable to create destination');
 					}
 				}
 				if (JFile::write($path, $buffer) === false)
@@ -121,7 +121,7 @@ class JArchiveTar implements JArchiveExtractable
 					}
 					else
 					{
-						throw new RuntimeException('Unable to write entry');
+						throw new \RuntimeException('Unable to write entry');
 					}
 				}
 			}
@@ -179,7 +179,7 @@ class JArchiveTar implements JArchiveExtractable
 				}
 				else
 				{
-					throw new RuntimeException('Unable to decompress data');
+					throw new \RuntimeException('Unable to decompress data');
 				}
 			}
 

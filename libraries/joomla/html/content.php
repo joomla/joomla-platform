@@ -35,7 +35,7 @@ abstract class JHtmlContent
 		{
 			$params = new JObject;
 		}
-		$article = new stdClass;
+		$article = new \stdClass;
 		$article->text = $text;
 		JPluginHelper::importPlugin('content');
 		$dispatcher = JEventDispatcher::getInstance();

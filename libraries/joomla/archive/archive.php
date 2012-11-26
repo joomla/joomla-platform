@@ -128,7 +128,7 @@ class JArchive
 					$tmpfname = $config->get('tmp_path') . '/' . uniqid('bzip2');
 					$bzresult = $adapter->extract($archivename, $tmpfname);
 
-					if ($bzresult instanceof Exception)
+					if ($bzresult instanceof \Exception)
 					{
 						@unlink($tmpfname);
 
@@ -157,10 +157,10 @@ class JArchive
 				break;
 
 			default:
-				throw new InvalidArgumentException('Unknown Archive Type');
+				throw new \InvalidArgumentException('Unknown Archive Type');
 		}
 
-		if (!$result || $result instanceof Exception)
+		if (!$result || $result instanceof \Exception)
 		{
 			return false;
 		}
@@ -187,7 +187,7 @@ class JArchive
 
 			if (!class_exists($class))
 			{
-				throw new UnexpectedValueException('Unable to load archive', 500);
+				throw new \UnexpectedValueException('Unable to load archive', 500);
 			}
 
 			self::$adapters[$type] = new $class;

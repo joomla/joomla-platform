@@ -59,7 +59,7 @@ class JGoogleDataAdsense extends JGoogleData
 			}
 			else
 			{
-				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
+				throw new \UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
 			}
 		}
 		else
@@ -148,7 +148,7 @@ class JGoogleDataAdsense extends JGoogleData
 			}
 			else
 			{
-				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
+				throw new \UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
 			}
 		}
 		else
@@ -213,7 +213,7 @@ class JGoogleDataAdsense extends JGoogleData
 			}
 			else
 			{
-				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
+				throw new \UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
 			}
 		}
 		else
@@ -333,12 +333,12 @@ class JGoogleDataAdsense extends JGoogleData
 		{
 			if (is_int($start))
 			{
-				$startobj = new DateTime;
+				$startobj = new \DateTime;
 				$startobj->setTimestamp($start);
 			}
 			elseif (is_string($start))
 			{
-				$startobj = new DateTime($start);
+				$startobj = new \DateTime($start);
 			}
 			elseif (is_a($start, 'DateTime'))
 			{
@@ -346,21 +346,21 @@ class JGoogleDataAdsense extends JGoogleData
 			}
 			else
 			{
-				throw new InvalidArgumentException('Invalid start time.');
+				throw new \InvalidArgumentException('Invalid start time.');
 			}
 
 			if (!$end)
 			{
-				$endobj = new DateTime;
+				$endobj = new \DateTime;
 			}
 			elseif (is_int($end))
 			{
-				$endobj = new DateTime;
+				$endobj = new \DateTime;
 				$endobj->setTimestamp($end);
 			}
 			elseif (is_string($end))
 			{
-				$endobj = new DateTime($end);
+				$endobj = new \DateTime($end);
 			}
 			elseif (is_a($end, 'DateTime'))
 			{
@@ -368,7 +368,7 @@ class JGoogleDataAdsense extends JGoogleData
 			}
 			else
 			{
-				throw new InvalidArgumentException('Invalid end time.');
+				throw new \InvalidArgumentException('Invalid end time.');
 			}
 
 			$options['startDate'] = $startobj->format('Y-m-d');
@@ -399,7 +399,7 @@ class JGoogleDataAdsense extends JGoogleData
 				}
 				else
 				{
-					throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
+					throw new \UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
 				}
 
 				$i++;

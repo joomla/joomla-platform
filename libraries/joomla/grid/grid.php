@@ -285,7 +285,7 @@ class JGrid
 	{
 		if ($replace || !isset($this->rows[$this->activeRow][$name]))
 		{
-			$cell = new stdClass;
+			$cell = new \stdClass;
 			$cell->options = $option;
 			$cell->content = $content;
 			$this->rows[$this->activeRow][$name] = $cell;

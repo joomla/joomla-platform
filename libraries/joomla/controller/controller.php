@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Controller
  * @since       12.1
  */
-interface JController extends Serializable
+interface JController extends \Serializable
 {
 	/**
 	 * Execute the controller.

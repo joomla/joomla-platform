@@ -48,7 +48,7 @@ abstract class JCryptCipherMcrypt implements JCryptCipher
 	{
 		if (!is_callable('mcrypt_encrypt'))
 		{
-			throw new RuntimeException('The mcrypt extension is not available.');
+			throw new \RuntimeException('The mcrypt extension is not available.');
 		}
 	}
 
@@ -67,7 +67,7 @@ abstract class JCryptCipherMcrypt implements JCryptCipher
 		// Validate key.
 		if ($key->type != $this->keyType)
 		{
-			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected ' . $this->keyType . '.');
+			throw new \InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected ' . $this->keyType . '.');
 		}
 
 		// Decrypt the data.
@@ -91,7 +91,7 @@ abstract class JCryptCipherMcrypt implements JCryptCipher
 		// Validate key.
 		if ($key->type != $this->keyType)
 		{
-			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected ' . $this->keyType . '.');
+			throw new \InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected ' . $this->keyType . '.');
 		}
 
 		// Encrypt the data.

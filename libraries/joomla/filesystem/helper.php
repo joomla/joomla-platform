@@ -264,7 +264,7 @@ class JFilesystemHelper
 
 		if (!$streams)
 		{
-			$files = new DirectoryIterator(__DIR__ . '/streams');
+			$files = new \DirectoryIterator(__DIR__ . '/streams');
 
 			foreach ($files as $file)
 			{

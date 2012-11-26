@@ -97,7 +97,7 @@ class JOAuth2Client
 			}
 			else
 			{
-				throw new RuntimeException('Error code ' . $response->code . ' received requesting access token: ' . $response->body . '.');
+				throw new \RuntimeException('Error code ' . $response->code . ' received requesting access token: ' . $response->body . '.');
 			}
 		}
 
@@ -144,7 +144,7 @@ class JOAuth2Client
 	{
 		if (!$this->getOption('authurl') || !$this->getOption('clientid'))
 		{
-			throw new InvalidArgumentException('Authorization URL and client_id are required');
+			throw new \InvalidArgumentException('Authorization URL and client_id are required');
 		}
 
 		$url = $this->getOption('authurl');
@@ -246,12 +246,12 @@ class JOAuth2Client
 			$response = $this->http->$method($url, $data, $headers, $timeout);
 			break;
 			default:
-			throw new InvalidArgumentException('Unknown HTTP request method: ' . $method . '.');
+			throw new \InvalidArgumentException('Unknown HTTP request method: ' . $method . '.');
 		}
 
 		if ($response->code < 200 || $response->code >= 400)
 		{
-			throw new RuntimeException('Error code ' . $response->code . ' received requesting data: ' . $response->body . '.');
+			throw new \RuntimeException('Error code ' . $response->code . ' received requesting data: ' . $response->body . '.');
 		}
 		return $response;
 	}
@@ -333,7 +333,7 @@ class JOAuth2Client
 	{
 		if (!$this->getOption('userefresh'))
 		{
-			throw new RuntimeException('Refresh token is not supported for this OAuth instance.');
+			throw new \RuntimeException('Refresh token is not supported for this OAuth instance.');
 		}
 
 		if (!$token)
@@ -342,7 +342,7 @@ class JOAuth2Client
 
 			if (!array_key_exists('refresh_token', $token))
 			{
-				throw new RuntimeException('No refresh token is available.');
+				throw new \RuntimeException('No refresh token is available.');
 			}
 			$token = $token['refresh_token'];
 		}
@@ -370,7 +370,7 @@ class JOAuth2Client
 		}
 		else
 		{
-			throw new Exception('Error code ' . $response->code . ' received refreshing token: ' . $response->body . '.');
+			throw new \Exception('Error code ' . $response->code . ' received refreshing token: ' . $response->body . '.');
 		}
 	}
 }

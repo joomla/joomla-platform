@@ -98,7 +98,7 @@ abstract class JFactory
 		{
 			if (!$id)
 			{
-				throw new Exception('Application Instantiation Error', 500);
+				throw new \Exception('Application Instantiation Error', 500);
 			}
 
 			self::$application = JApplication::getInstance($id, $config, $prefix);
@@ -349,7 +349,7 @@ abstract class JFactory
 	{
 		if (!class_exists('JSimplepieFactory'))
 		{
-			throw new BadMethodCallException('JSimplepieFactory not found');
+			throw new \BadMethodCallException('JSimplepieFactory not found');
 		}
 
 		JLog::add(__METHOD__ . ' is deprecated.   Use JSimplepieFactory::getFeedParser() instead.', JLog::WARNING, 'deprecated');
@@ -430,7 +430,7 @@ abstract class JFactory
 
 		if (!class_exists('JEditor'))
 		{
-			throw new BadMethodCallException('JEditor not found');
+			throw new \BadMethodCallException('JEditor not found');
 		}
 
 		JLog::add(__METHOD__ . ' is deprecated. Use JEditor directly.', JLog::WARNING, 'deprecated');
@@ -504,7 +504,7 @@ abstract class JFactory
 			}
 		}
 
-		$key = $time . '-' . ($tzOffset instanceof DateTimeZone ? $tzOffset->getName() : (string) $tzOffset);
+		$key = $time . '-' . ($tzOffset instanceof \DateTimeZone ? $tzOffset->getName() : (string) $tzOffset);
 
 		if (!isset(self::$dates[$classname][$key]))
 		{
@@ -611,7 +611,7 @@ abstract class JFactory
 		{
 			$db = JDatabaseDriver::getInstance($options);
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			if (!headers_sent())
 			{

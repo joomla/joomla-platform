@@ -37,13 +37,13 @@ class JHttpTransportStream implements JHttpTransport
 		// Verify that fopen() is available.
 		if (!self::isSupported())
 		{
-			throw new RuntimeException('Cannot use a stream transport when fopen() is not available.');
+			throw new \RuntimeException('Cannot use a stream transport when fopen() is not available.');
 		}
 
 		// Verify that URLs can be used with fopen();
 		if (!ini_get('allow_url_fopen'))
 		{
-			throw new RuntimeException('Cannot use a stream transport when "allow_url_fopen" is disabled.');
+			throw new \RuntimeException('Cannot use a stream transport when "allow_url_fopen" is disabled.');
 		}
 
 		$this->options = $options;
@@ -144,7 +144,7 @@ class JHttpTransportStream implements JHttpTransport
 			// Restore error tracking to give control to the exception handler
 			ini_set('track_errors', $track_errors);
 
-			throw new RuntimeException($php_errormsg);
+			throw new \RuntimeException($php_errormsg);
 		}
 
 		// Restore error tracking to what it was before.
@@ -207,7 +207,7 @@ class JHttpTransportStream implements JHttpTransport
 		// No valid response code was detected.
 		else
 		{
-			throw new UnexpectedValueException('No HTTP response code found.');
+			throw new \UnexpectedValueException('No HTTP response code found.');
 		}
 
 		// Add the response headers to the response object.

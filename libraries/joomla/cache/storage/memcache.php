@@ -90,7 +90,7 @@ class JCacheStorageMemcache extends JCacheStorage
 
 		if ($memcachetest == false)
 		{
-			throw new RuntimeException('Could not connect to memcache server', 404);
+			throw new \RuntimeException('Could not connect to memcache server', 404);
 		}
 
 		// Memcahed has no list keys, we do our own accounting, initialise key index
@@ -316,7 +316,7 @@ class JCacheStorageMemcache extends JCacheStorage
 		$host = $config->get('memcache_server_host', 'localhost');
 		$port = $config->get('memcache_server_port', 11211);
 
-		$memcache = new Memcache;
+		$memcache = new \Memcache;
 		$memcachetest = @$memcache->connect($host, $port);
 
 		if (!$memcachetest)

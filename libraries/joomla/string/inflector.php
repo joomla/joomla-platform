@@ -137,7 +137,7 @@ class JStringInflector
 		elseif (!is_array($data))
 		{
 			// Do not translate.
-			throw new InvalidArgumentException('Invalid inflector rule data.');
+			throw new \InvalidArgumentException('Invalid inflector rule data.');
 		}
 
 		foreach ($data as $rule)

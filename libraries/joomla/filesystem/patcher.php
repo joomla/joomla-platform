@@ -162,7 +162,7 @@ class JFilesystemPatcher
 				// If no modifications were found, throw an exception
 				if (!$done)
 				{
-					throw new RuntimeException('Invalid Diff');
+					throw new \RuntimeException('Invalid Diff');
 				}
 			}
 		}
@@ -298,13 +298,13 @@ class JFilesystemPatcher
 
 			if ($line === false)
 			{
-				throw new RuntimeException('Unexpected EOF');
+				throw new \RuntimeException('Unexpected EOF');
 			}
 
 			// Search the destination file
 			if (!preg_match(self::DST_FILE, $line, $m))
 			{
-				throw new RuntimeException('Invalid Diff file');
+				throw new \RuntimeException('Invalid Diff file');
 			}
 
 			// Set the destination file
@@ -313,7 +313,7 @@ class JFilesystemPatcher
 			// Advance to the next line
 			if (next($lines) === false)
 			{
-				throw new RuntimeException('Unexpected EOF');
+				throw new \RuntimeException('Unexpected EOF');
 			}
 			return true;
 		}
@@ -364,7 +364,7 @@ class JFilesystemPatcher
 
 			if (next($lines) === false)
 			{
-				throw new RuntimeException('Unexpected EOF');
+				throw new \RuntimeException('Unexpected EOF');
 			}
 
 			return true;
@@ -417,7 +417,7 @@ class JFilesystemPatcher
 			{
 				if ($src_left == 0)
 				{
-					throw new RuntimeException(JText::sprintf('JLIB_FILESYSTEM_PATCHER_REMOVE_LINE', key($lines)));
+					throw new \RuntimeException(JText::sprintf('JLIB_FILESYSTEM_PATCHER_REMOVE_LINE', key($lines)));
 				}
 				$source[] = substr($line, 1);
 				$src_left--;
@@ -426,7 +426,7 @@ class JFilesystemPatcher
 			{
 				if ($dst_left == 0)
 				{
-					throw new RuntimeException(JText::sprintf('JLIB_FILESYSTEM_PATCHER_ADD_LINE', key($lines)));
+					throw new \RuntimeException(JText::sprintf('JLIB_FILESYSTEM_PATCHER_ADD_LINE', key($lines)));
 				}
 				$destin[] = substr($line, 1);
 				$dst_left--;
@@ -449,7 +449,7 @@ class JFilesystemPatcher
 
 					if (!isset($src_lines))
 					{
-						throw new RuntimeException(JText::sprintf('JLIB_FILESYSTEM_PATCHER_UNEXISING_SOURCE', $src));
+						throw new \RuntimeException(JText::sprintf('JLIB_FILESYSTEM_PATCHER_UNEXISING_SOURCE', $src));
 					}
 				}
 				if ($dst_size > 0)
@@ -463,7 +463,7 @@ class JFilesystemPatcher
 						{
 							if ($src_lines[$l] != $source[$l - $src_line])
 							{
-								throw new RuntimeException(JText::sprintf('JLIB_FILESYSTEM_PATCHER_FAILED_VERIFY', $src, $l));
+								throw new \RuntimeException(JText::sprintf('JLIB_FILESYSTEM_PATCHER_FAILED_VERIFY', $src, $l));
 							}
 						}
 						array_splice($dst_lines, $dst_line, count($source), $destin);
@@ -484,7 +484,7 @@ class JFilesystemPatcher
 			$line = next($lines);
 		}
 		while ($line !== false);
-		throw new RuntimeException('Unexpected EOF');
+		throw new \RuntimeException('Unexpected EOF');
 	}
 
 	/**

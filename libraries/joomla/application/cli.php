@@ -271,7 +271,7 @@ class JApplicationCli extends JApplicationBase
 			}
 			else
 			{
-				throw new RuntimeException('Configuration class does not exist.');
+				throw new \RuntimeException('Configuration class does not exist.');
 			}
 		}
 

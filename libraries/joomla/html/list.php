@@ -45,7 +45,7 @@ abstract class JHtmlList
 				. ".options[selectedIndex].value} else {document.imagelib.src='media/system/images/blank.png'}\"";
 		}
 
-		$imageFiles = new DirectoryIterator(JPATH_SITE . '/' . $directory);
+		$imageFiles = new \DirectoryIterator(JPATH_SITE . '/' . $directory);
 		$images = array(JHtml::_('select.option', '', JText::_('JOPTION_SELECT_IMAGE')));
 
 		foreach ($imageFiles as $file)

@@ -133,7 +133,7 @@ class JArchiveZip implements JArchiveExtractable
 			}
 			else
 			{
-				throw new RuntimeException('Archive does not exist');
+				throw new \RuntimeException('Archive does not exist');
 			}
 		}
 
@@ -216,7 +216,7 @@ class JArchiveZip implements JArchiveExtractable
 			}
 			else
 			{
-				throw new RuntimeException('Zlib not supported');
+				throw new \RuntimeException('Zlib not supported');
 			}
 		}
 
@@ -230,7 +230,7 @@ class JArchiveZip implements JArchiveExtractable
 			}
 			else
 			{
-				throw new RuntimeException('Unable to read archive (zip)');
+				throw new \RuntimeException('Unable to read archive (zip)');
 			}
 		}
 
@@ -242,7 +242,7 @@ class JArchiveZip implements JArchiveExtractable
 			}
 			else
 			{
-				throw new RuntimeException('Get ZIP Information failed');
+				throw new \RuntimeException('Get ZIP Information failed');
 			}
 		}
 
@@ -264,7 +264,7 @@ class JArchiveZip implements JArchiveExtractable
 					}
 					else
 					{
-						throw new RuntimeException('Unable to create destination');
+						throw new \RuntimeException('Unable to create destination');
 					}
 				}
 
@@ -276,7 +276,7 @@ class JArchiveZip implements JArchiveExtractable
 					}
 					else
 					{
-						throw new RuntimeException('Unable to write entry');
+						throw new \RuntimeException('Unable to write entry');
 					}
 				}
 			}
@@ -311,7 +311,7 @@ class JArchiveZip implements JArchiveExtractable
 				}
 				else
 				{
-					throw new RuntimeException('Unable to create destination');
+					throw new \RuntimeException('Unable to create destination');
 				}
 			}
 
@@ -332,7 +332,7 @@ class JArchiveZip implements JArchiveExtractable
 							}
 							else
 							{
-								throw new RuntimeException('Unable to write entry');
+								throw new \RuntimeException('Unable to write entry');
 							}
 						}
 
@@ -347,7 +347,7 @@ class JArchiveZip implements JArchiveExtractable
 					}
 					else
 					{
-						throw new RuntimeException('Unable to read entry');
+						throw new \RuntimeException('Unable to read entry');
 					}
 				}
 			}
@@ -362,7 +362,7 @@ class JArchiveZip implements JArchiveExtractable
 			}
 			else
 			{
-				throw new RuntimeException('Unable to open archive');
+				throw new \RuntimeException('Unable to open archive');
 			}
 		}
 
@@ -431,7 +431,7 @@ class JArchiveZip implements JArchiveExtractable
 				}
 				else
 				{
-					throw new RuntimeException('Invalid Zip Data');
+					throw new \RuntimeException('Invalid Zip Data');
 				}
 			}
 
@@ -468,7 +468,7 @@ class JArchiveZip implements JArchiveExtractable
 				}
 				else
 				{
-					throw new RuntimeException('Invalid ZIP data');
+					throw new \RuntimeException('Invalid ZIP data');
 				}
 			}
 
@@ -490,7 +490,7 @@ class JArchiveZip implements JArchiveExtractable
 				}
 				else
 				{
-					throw new RuntimeException('Invalid Zip Data');
+					throw new \RuntimeException('Invalid Zip Data');
 				}
 			}
 

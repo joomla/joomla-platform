@@ -105,7 +105,7 @@ abstract class JControllerBase implements JController
 
 		if (!($this->input instanceof JInput))
 		{
-			throw new UnexpectedValueException(sprintf('%s::unserialize would not accept a `%s`.', get_class($this), gettype($this->input)));
+			throw new \UnexpectedValueException(sprintf('%s::unserialize would not accept a `%s`.', get_class($this), gettype($this->input)));
 		}
 
 		return $this;

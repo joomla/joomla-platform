@@ -111,7 +111,7 @@ class JCacheStorageCachelite extends JCacheStorage
 		parent::getAll();
 
 		$path = $this->_root;
-		$folders = new DirectoryIterator($path);
+		$folders = new \DirectoryIterator($path);
 		$data = array();
 
 		foreach ($folders as $folder)
@@ -123,7 +123,7 @@ class JCacheStorageCachelite extends JCacheStorage
 
 			$foldername = $folder->getFilename();
 
-			$files = new DirectoryIterator($path . '/' . $foldername);
+			$files = new \DirectoryIterator($path . '/' . $foldername);
 			$item  = new JCacheStorageHelper($foldername);
 
 			foreach ($files as $file)

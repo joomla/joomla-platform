@@ -30,7 +30,7 @@ class JSessionStorageMemcached extends JSessionStorage
 	{
 		if (!self::isSupported())
 		{
-			throw new RuntimeException('Memcached Extension is not available', 404);
+			throw new \RuntimeException('Memcached Extension is not available', 404);
 		}
 
 		parent::__construct($options);

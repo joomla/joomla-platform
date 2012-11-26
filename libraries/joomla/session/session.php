@@ -21,7 +21,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Session
  * @since       11.1
  */
-class JSession implements IteratorAggregate
+class JSession implements \IteratorAggregate
 {
 	/**
 	 * Internal state.
@@ -296,7 +296,7 @@ class JSession implements IteratorAggregate
 	 */
 	public function getIterator()
 	{
-		return new ArrayIterator($_SESSION);
+		return new \ArrayIterator($_SESSION);
 	}
 
 	/**
@@ -382,7 +382,7 @@ class JSession implements IteratorAggregate
 		$connectors = array();
 
 		// Get an iterator and loop trough the driver classes.
-		$iterator = new DirectoryIterator(__DIR__ . '/storage');
+		$iterator = new \DirectoryIterator(__DIR__ . '/storage');
 
 		foreach ($iterator as $file)
 		{

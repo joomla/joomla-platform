@@ -70,14 +70,14 @@ abstract class JLoader
 		{
 			if ($recurse)
 			{
-				$iterator = new RecursiveIteratorIterator(
-					new RecursiveDirectoryIterator($parentPath),
-					RecursiveIteratorIterator::SELF_FIRST
+				$iterator = new \RecursiveIteratorIterator(
+					new \RecursiveDirectoryIterator($parentPath),
+					\RecursiveIteratorIterator::SELF_FIRST
 				);
 			}
 			else
 			{
-				$iterator = new DirectoryIterator($parentPath);
+				$iterator = new \DirectoryIterator($parentPath);
 			}
 
 			foreach ($iterator as $file)
@@ -99,7 +99,7 @@ abstract class JLoader
 				}
 			}
 		}
-		catch (UnexpectedValueException $e)
+		catch (\UnexpectedValueException $e)
 		{
 			// Exception will be thrown if the path is not a directory. Ignore it.
 		}
@@ -430,7 +430,7 @@ abstract class JLoader
 		// Verify the library path exists.
 		if (!file_exists($path))
 		{
-			throw new RuntimeException('Library path ' . $path . ' cannot be found.', 500);
+			throw new \RuntimeException('Library path ' . $path . ' cannot be found.', 500);
 		}
 
 		// If the prefix is not yet registered or we have an explicit reset flag then set set the path.
@@ -463,7 +463,7 @@ abstract class JLoader
 		// Verify the library path exists.
 		if (!file_exists($path))
 		{
-			throw new RuntimeException('Library path ' . $path . ' cannot be found.', 500);
+			throw new \RuntimeException('Library path ' . $path . ' cannot be found.', 500);
 		}
 
 		// If the namespace is not yet registered or we have an explicit reset flag then set the path.

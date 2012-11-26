@@ -256,7 +256,7 @@ class JLog
 				}
 				else
 				{
-					throw new RuntimeException('Unable to create a JLogLogger instance: ' . $class);
+					throw new \RuntimeException('Unable to create a JLogLogger instance: ' . $class);
 				}
 			}
 

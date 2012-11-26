@@ -662,7 +662,7 @@ class JPagination
 	 */
 	protected function _buildDataObject()
 	{
-		$data = new stdClass;
+		$data = new \stdClass;
 
 		// Build the additional URL parameters string.
 		$params = '';
@@ -782,10 +782,12 @@ class JPagination
 			$prop[1] = ucfirst($prop[1]);
 			$property = implode($prop);
 		}
+
 		if (isset($this->$property))
 		{
 			return $this->$property;
 		}
+
 		return $default;
 	}
 }

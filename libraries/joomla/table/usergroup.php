@@ -156,15 +156,15 @@ class JTableUsergroup extends JTable
 		}
 		if ($this->id == 0)
 		{
-			throw new UnexpectedValueException('Global Category not found');
+			throw new \UnexpectedValueException('Global Category not found');
 		}
 		if ($this->parent_id == 0)
 		{
-			throw new UnexpectedValueException('Root categories cannot be deleted.');
+			throw new \UnexpectedValueException('Root categories cannot be deleted.');
 		}
 		if ($this->lft == 0 || $this->rgt == 0)
 		{
-			throw new UnexpectedValueException('Left-Right data inconsistency. Cannot delete usergroup.');
+			throw new \UnexpectedValueException('Left-Right data inconsistency. Cannot delete usergroup.');
 		}
 
 		$db = $this->_db;
@@ -180,7 +180,7 @@ class JTableUsergroup extends JTable
 
 		if (empty($ids))
 		{
-			throw new UnexpectedValueException('Left-Right data inconsistency. Cannot delete usergroup.');
+			throw new \UnexpectedValueException('Left-Right data inconsistency. Cannot delete usergroup.');
 		}
 
 		// Delete the category dependencies

@@ -52,7 +52,7 @@ class JArchiveBzip2 implements JArchiveExtractable
 			}
 			else
 			{
-				throw new RuntimeException('The bz2 extension is not available.');
+				throw new \RuntimeException('The bz2 extension is not available.');
 			}
 		}
 
@@ -69,7 +69,7 @@ class JArchiveBzip2 implements JArchiveExtractable
 				}
 				else
 				{
-					throw new RuntimeException('Unable to read archive');
+					throw new \RuntimeException('Unable to read archive');
 				}
 			}
 
@@ -84,7 +84,7 @@ class JArchiveBzip2 implements JArchiveExtractable
 				}
 				else
 				{
-					throw new RuntimeException('Unable to decompress data');
+					throw new \RuntimeException('Unable to decompress data');
 				}
 			}
 
@@ -96,7 +96,7 @@ class JArchiveBzip2 implements JArchiveExtractable
 				}
 				else
 				{
-					throw new RuntimeException('Unable to write archive');
+					throw new \RuntimeException('Unable to write archive');
 				}
 			}
 
@@ -117,7 +117,7 @@ class JArchiveBzip2 implements JArchiveExtractable
 				}
 				else
 				{
-					throw new RuntimeException('Unable to read archive (bz2)');
+					throw new \RuntimeException('Unable to read archive (bz2)');
 				}
 			}
 
@@ -133,7 +133,7 @@ class JArchiveBzip2 implements JArchiveExtractable
 				}
 				else
 				{
-					throw new RuntimeException('Unable to write archive (bz2)');
+					throw new \RuntimeException('Unable to write archive (bz2)');
 				}
 			}
 
@@ -153,7 +153,7 @@ class JArchiveBzip2 implements JArchiveExtractable
 						}
 						else
 						{
-							throw new RuntimeException('Unable to write archive (bz2)');
+							throw new \RuntimeException('Unable to write archive (bz2)');
 						}
 					}
 				}

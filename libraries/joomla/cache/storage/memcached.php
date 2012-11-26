@@ -90,13 +90,13 @@ class JCacheStorageMemcached extends JCacheStorage
 		}
 		else
 		{
-			self::$_db = new Memcached;
+			self::$_db = new \Memcached;
 		}
 		$memcachedtest = self::$_db->addServer($server['host'], $server['port']);
 
 		if ($memcachedtest == false)
 		{
-			throw new RuntimeException('Could not connect to memcached server', 404);
+			throw new \RuntimeException('Could not connect to memcached server', 404);
 		}
 
 		self::$_db->setOption(Memcached::OPT_COMPRESSION, $this->_compress);
@@ -207,7 +207,7 @@ class JCacheStorageMemcached extends JCacheStorage
 			$index = array();
 		}
 
-		$tmparr = new stdClass;
+		$tmparr = new \stdClass;
 		$tmparr->name = $cache_id;
 		$tmparr->size = strlen($data);
 		$index[] = $tmparr;
@@ -324,7 +324,7 @@ class JCacheStorageMemcached extends JCacheStorage
 		$host = $config->get('memcache_server_host', 'localhost');
 		$port = $config->get('memcache_server_port', 11211);
 
-		$memcached = new Memcached;
+		$memcached = new \Memcached;
 		$memcachedtest = @$memcached->addServer($host, $port);
 
 		if (!$memcachedtest)
@@ -369,7 +369,7 @@ class JCacheStorageMemcached extends JCacheStorage
 			$index = array();
 		}
 
-		$tmparr = new stdClass;
+		$tmparr = new \stdClass;
 		$tmparr->name = $cache_id;
 		$tmparr->size = 1;
 

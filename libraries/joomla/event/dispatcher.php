@@ -112,7 +112,7 @@ class JEventDispatcher extends JObject
 		}
 		else
 		{
-			throw new InvalidArgumentException('Invalid event handler.');
+			throw new \InvalidArgumentException('Invalid event handler.');
 		}
 	}
 

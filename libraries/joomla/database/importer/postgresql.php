@@ -65,7 +65,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 */
 	public function __construct()
 	{
-		$this->options = new stdClass;
+		$this->options = new \stdClass;
 
 		$this->cache = array('columns' => array(), 'keys' => array());
 
@@ -107,13 +107,13 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 		// Check if the db connector has been set.
 		if (!($this->db instanceof JDatabaseDriverPostgresql))
 		{
-			throw new Exception('JPLATFORM_ERROR_DATABASE_CONNECTOR_WRONG_TYPE');
+			throw new \Exception('JPLATFORM_ERROR_DATABASE_CONNECTOR_WRONG_TYPE');
 		}
 
 		// Check if the tables have been specified.
 		if (empty($this->from))
 		{
-			throw new Exception('JPLATFORM_ERROR_NO_TABLES_SPECIFIED');
+			throw new \Exception('JPLATFORM_ERROR_NO_TABLES_SPECIFIED');
 		}
 
 		return $this;
@@ -145,7 +145,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @since   12.1
 	 */
-	protected function getAddColumnSQL($table, SimpleXMLElement $field)
+	protected function getAddColumnSQL($table, \SimpleXMLElement $field)
 	{
 		$sql = 'ALTER TABLE ' . $this->db->quoteName($table) . ' ADD COLUMN ' . $this->getColumnSQL($field);
 
@@ -161,7 +161,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @since   12.1
 	 */
-	protected function getAddIndexSQL(SimpleXMLElement $field)
+	protected function getAddIndexSQL(\SimpleXMLElement $field)
 	{
 		return (string) $field['Query'];
 	}
@@ -175,7 +175,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @since   12.1
 	 */
-	protected function getAlterTableSQL(SimpleXMLElement $structure)
+	protected function getAlterTableSQL(\SimpleXMLElement $structure)
 	{
 		$table = $this->getRealTableName($structure['name']);
 		$oldFields = $this->db->getTableColumns($table);
@@ -504,7 +504,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @since   12.1
 	 */
-	protected function getColumnSQL(SimpleXMLElement $field)
+	protected function getColumnSQL(\SimpleXMLElement $field)
 	{
 		// TODO Incorporate into parent class and use $this.
 		$blobs = array('text', 'smalltext', 'mediumtext', 'largetext');
@@ -615,7 +615,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 
 		foreach ($keys as $key)
 		{
-			if ($key instanceof SimpleXMLElement)
+			if ($key instanceof \SimpleXMLElement)
 			{
 				$kName = (string) $key['Index'];
 			}
@@ -650,7 +650,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 
 		foreach ($sequences as $seq)
 		{
-			if ($seq instanceof SimpleXMLElement)
+			if ($seq instanceof \SimpleXMLElement)
 			{
 				$sName = (string) $seq['Name'];
 			}
@@ -703,13 +703,13 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 		$prefix = $this->db->getPrefix();
 		$tables = $this->db->getTableList();
 
-		if ($this->from instanceof SimpleXMLElement)
+		if ($this->from instanceof \SimpleXMLElement)
 		{
 			$xml = $this->from;
 		}
 		else
 		{
-			$xml = new SimpleXMLElement($this->from);
+			$xml = new \SimpleXMLElement($this->from);
 		}
 
 		// Get all the table definitions.
@@ -756,7 +756,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 				{
 					$this->db->execute();
 				}
-				catch (RuntimeException $e)
+				catch (\RuntimeException $e)
 				{
 					$this->addLog('Fail: ' . $this->db->getQuery());
 					throw $e;
