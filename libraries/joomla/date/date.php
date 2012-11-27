@@ -30,7 +30,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Date
  * @since       11.1
  */
-class JDate extends DateTime
+class JDate extends \DateTime
 {
 	const DAY_ABBR = "\x021\x03";
 	const DAY_NAME = "\x022\x03";
@@ -88,7 +88,7 @@ class JDate extends DateTime
 		}
 
 		// If the time zone object is not set, attempt to build it.
-		if (!($tz instanceof DateTimeZone))
+		if (!($tz instanceof \DateTimeZone))
 		{
 			if ($tz === null)
 			{
@@ -213,7 +213,7 @@ class JDate extends DateTime
 	 */
 	public static function getInstance($date = 'now', $tz = null)
 	{
-		return new JDate($date, $tz);
+		return new static($date, $tz);
 	}
 
 	/**

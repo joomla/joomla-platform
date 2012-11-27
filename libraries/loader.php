@@ -505,7 +505,7 @@ abstract class JLoader
 		if ($enableClasses)
 		{
 			// Register the class map based autoloader.
-			spl_autoload_register(array('JLoader', 'load'));
+			spl_autoload_register(array(__CLASS__, 'load'));
 		}
 
 		if ($enablePrefixes)
@@ -514,7 +514,7 @@ abstract class JLoader
 			self::registerPrefix('J', JPATH_PLATFORM . '/joomla');
 
 			// Register the prefix autoloader.
-			spl_autoload_register(array('JLoader', '_autoload'));
+			spl_autoload_register(array(__CLASS__, '_autoload'));
 		}
 
 		if ($enableNamespaces)
@@ -523,22 +523,22 @@ abstract class JLoader
 			{
 				// Register the lower case namespace loader.
 				case self::LOWER_CASE:
-					spl_autoload_register(array('JLoader', 'loadByNamespaceLowerCase'));
+					spl_autoload_register(array(__CLASS__, 'loadByNamespaceLowerCase'));
 					break;
 
 				// Register the natural case namespace loader.
 				case self::NATURAL_CASE:
-					spl_autoload_register(array('JLoader', 'loadByNamespaceNaturalCase'));
+					spl_autoload_register(array(__CLASS__, 'loadByNamespaceNaturalCase'));
 					break;
 
 				// Register the mixed case namespace loader.
 				case self::MIXED_CASE:
-					spl_autoload_register(array('JLoader', 'loadByNamespaceMixedCase'));
+					spl_autoload_register(array(__CLASS__, 'loadByNamespaceMixedCase'));
 					break;
 
 				// Default to the lower case namespace loader.
 				default:
-					spl_autoload_register(array('JLoader', 'loadByNamespaceLowerCase'));
+					spl_autoload_register(array(__CLASS__, 'loadByNamespaceLowerCase'));
 					break;
 			}
 		}

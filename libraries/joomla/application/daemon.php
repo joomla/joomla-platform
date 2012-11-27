@@ -157,7 +157,7 @@ class JApplicationDaemon extends JApplicationCli
 		JLog::add('Received signal: ' . $signal, JLog::DEBUG);
 
 		// Let's make sure we have an application instance.
-		if (!is_subclass_of(static::$instance, 'JApplicationDaemon'))
+		if (!is_subclass_of(static::$instance, __CLASS__))
 		{
 			JLog::add('Cannot find the application instance.', JLog::EMERGENCY);
 			throw new \RuntimeException('Cannot find the application instance.');
@@ -706,7 +706,7 @@ class JApplicationDaemon extends JApplicationCli
 			}
 
 			// Attach the signal handler for the signal.
-			if (!$this->pcntlSignal(constant($signal), array('JApplicationDaemon', 'signal')))
+			if (!$this->pcntlSignal(constant($signal), array(__CLASS__, 'signal')))
 			{
 				JLog::add(sprintf('Unable to reroute signal handler: %s', $signal), JLog::EMERGENCY);
 
