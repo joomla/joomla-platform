@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Data
  * @since       12.3
  */
-class JData implements JDataDumpable, IteratorAggregate, JsonSerializable, Countable
+class JData implements \JDataDumpable, \IteratorAggregate, \JsonSerializable, \Countable
 {
 	/**
 	 * The data properties.
@@ -130,11 +130,11 @@ class JData implements JDataDumpable, IteratorAggregate, JsonSerializable, Count
 		// Check the properties data type.
 		if (!is_array($properties) && !is_object($properties))
 		{
-			throw new InvalidArgumentException(sprintf('%s(%s)', __METHOD__, gettype($properties)));
+			throw new \InvalidArgumentException(sprintf('%s(%s)', __METHOD__, gettype($properties)));
 		}
 
 		// Check if the object is traversable.
-		if ($properties instanceof Traversable)
+		if ($properties instanceof \Traversable)
 		{
 			// Convert iterator to array.
 			$properties = iterator_to_array($properties);
@@ -174,19 +174,19 @@ class JData implements JDataDumpable, IteratorAggregate, JsonSerializable, Count
 	 *
 	 * @since   12.3
 	 */
-	public function dump($depth = 3, SplObjectStorage $dumped = null)
+	public function dump($depth = 3, \SplObjectStorage $dumped = null)
 	{
 		// Check if we should initialise the recursion tracker.
 		if ($dumped === null)
 		{
-			$dumped = new SplObjectStorage;
+			$dumped = new \SplObjectStorage;
 		}
 
 		// Add this object to the dumped stack.
 		$dumped->attach($this);
 
 		// Setup a container.
-		$dump = new stdClass;
+		$dump = new \stdClass;
 
 		// Dump all object properties.
 		foreach (array_keys($this->_properties) as $property)
@@ -210,7 +210,7 @@ class JData implements JDataDumpable, IteratorAggregate, JsonSerializable, Count
 	 */
 	public function getIterator()
 	{
-		return new ArrayIterator($this->dump(0));
+		return new \ArrayIterator($this->dump(0));
 	}
 
 	/**
@@ -239,7 +239,7 @@ class JData implements JDataDumpable, IteratorAggregate, JsonSerializable, Count
 	 *
 	 * @since   12.3
 	 */
-	protected function dumpProperty($property, $depth, SplObjectStorage $dumped)
+	protected function dumpProperty($property, $depth, \SplObjectStorage $dumped)
 	{
 		$value = $this->getProperty($property);
 
