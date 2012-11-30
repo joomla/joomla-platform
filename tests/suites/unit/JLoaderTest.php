@@ -625,8 +625,8 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 		// Assert the default autoloader is not set
 		$this->assertFalse($foundAutoload);
 
-        // Assert the prefix loader is found.
-        $this->assertTrue($loadByPrefix);
+		// Assert the prefix loader is found.
+		$this->assertTrue($loadByPrefix);
 
 		// Assert the namespace loaders are not found.
 		$this->assertFalse($foundLoadByNamespaceLowerCase);
