@@ -572,11 +572,11 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 		// Get the list of autoload functions.
 		$newLoaders = spl_autoload_functions();
 
-		$foundLoad = false;
-		$foundAutoload = false;
-		$foundLoadByNamespaceLowerCase = false;
-		$loadByNamespaceNaturalCase = false;
-		$loadByNamespaceMixedCase = false;
+        $foundLoad = false;
+        $foundAutoload = false;
+        $foundLoadByNamespaceLowerCase = false;
+        $loadByNamespaceNaturalCase = false;
+        $loadByNamespaceMixedCase = false;
         $loadByPrefix = false;
 
 		// We search the list of autoload functions to see if our methods are there.
