@@ -560,14 +560,14 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetupDefaultParameters()
 	{
-		// Reset the prefixes.
-		TestReflection::setValue('JLoader', 'prefixes', array());
+        // Reset the prefixes.
+        TestReflection::setValue('JLoader', 'prefixes', array());
 
-		// We unregister all loader functions if registered.
-		$this->unregisterLoaders();
+        // We unregister all loader functions if registered.
+        $this->unregisterLoaders();
 
-		// Setup the autoloader with the default parameters.
-		JLoader::setup();
+        // Setup the autoloader with the default parameters.
+        JLoader::setup();
 
 		// Get the list of autoload functions.
 		$newLoaders = spl_autoload_functions();
