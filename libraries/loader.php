@@ -210,7 +210,7 @@ abstract class JLoader
 		$class = strtolower($class);
 
 		// If the class already exists do nothing.
-		if (class_exists($class))
+		if (class_exists($class, false))
 		{
 			return true;
 		}
@@ -263,6 +263,12 @@ abstract class JLoader
 	 */
 	public static function loadByNamespaceLowerCase($class)
 	{
+		// If the class already exists do nothing.
+		if (class_exists($class, false))
+		{
+			return true;
+		}
+
 		// Get the root namespace name.
 		$namespace = strstr($class, '\\', true);
 
@@ -304,6 +310,12 @@ abstract class JLoader
 	 */
 	public static function loadByNamespaceNaturalCase($class)
 	{
+		// If the class already exists do nothing.
+		if (class_exists($class, false))
+		{
+			return true;
+		}
+
 		// Get the root namespace name.
 		$namespace = strstr($class, '\\', true);
 
@@ -346,6 +358,12 @@ abstract class JLoader
 	 */
 	public static function loadByNamespaceMixedCase($class)
 	{
+		// If the class already exists do nothing.
+		if (class_exists($class, false))
+		{
+			return true;
+		}
+
 		// Get the root namespace name.
 		$namespace = strstr($class, '\\', true);
 
