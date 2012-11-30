@@ -598,6 +598,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
                 {
                     $loadByPrefix = true;
                 }
+
 				if ($loader[1] === 'loadByNamespaceLowerCase')
 				{
 					$foundLoadByNamespaceLowerCase = true;
@@ -714,7 +715,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 		// We don't expect to find it.
 		$this->assertFalse($foundAutoLoad);
 
-        // in either format
+        // In either format
         $this->assertTrue($loadByPrefix);
 
 		// Assert the J prefix hasn't been registered.
