@@ -495,12 +495,14 @@ abstract class JLoader
 	 * @param   boolean  $enableNamespaces  True to enable PHP namespace based class autoloading.
 	 * @param   boolean  $enablePrefixes    True to enable prefix based class loading (needed to auto load the Joomla core).
 	 * @param   boolean  $enableClasses     True to enable class map based class loading (needed to auto load the Joomla core).
+	 * @param   boolean  $discoverLibs      True to enable auto-discovery for custom libs in the /libraries directory.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.3
 	 */
-	public static function setup($caseStrategy = self::LOWER_CASE, $enableNamespaces = false, $enablePrefixes = true, $enableClasses = true)
+	public static function setup($caseStrategy = self::LOWER_CASE, $enableNamespaces = false, $enablePrefixes = true, $enableClasses = true,
+		$discoverLibs = true)
 	{
 		if ($enableClasses)
 		{
@@ -540,6 +542,28 @@ abstract class JLoader
 				default:
 					spl_autoload_register(array('JLoader', 'loadByNamespaceLowerCase'));
 					break;
+			}
+		}
+
+		if ($discoverLibs)
+		{
+			$iterator = new DirectoryIterator(JPATH_PLATFORM);
+
+			foreach ($iterator as $fileinfo)
+			{
+				// If we find a folder, see if there is a setup.php file.
+				if ($fileinfo->getType() === 'dir')
+				{
+					$it = new DirectoryIterator($fileinfo->getPathname());
+
+					foreach ($it as $finfo)
+					{
+						if ($finfo->getFilename() === 'setup.php')
+						{
+							include $finfo->getPathname();
+						}
+					}
+				}
 			}
 		}
 	}
