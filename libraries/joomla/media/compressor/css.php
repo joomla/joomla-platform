@@ -27,7 +27,7 @@ class JMediaCompressorCss extends JMediaCompressor
 	 */
 	public function __construct($options = array())
 	{
-		$this->_options = array('REMOVE_COMMENTS' => true, 'MIN_COLOR_CODES' => true, 'LIMIT_LINE_LENGTH' => true);
+		$this->options = array('REMOVE_COMMENTS' => true, 'MIN_COLOR_CODES' => true, 'LIMIT_LINE_LENGTH' => true);
 		parent::__construct($options);
 	}
 
@@ -63,12 +63,12 @@ class JMediaCompressorCss extends JMediaCompressor
 		// /x is used turn on free-spacing mode in regex patterns
 		$this->compressed = preg_replace_callback('/(?:\\s*[^~>+,\\s]+\\s*[,>+~])+\\s*[^~>+,\\s]+{/', array($this,'_handleSelectors'), $this->compressed);
 
-		if ($this->_options['MIN_COLOR_CODES'])
+		if ($this->options['MIN_COLOR_CODES'])
 		{
 			$this->compressed = $this->_minColorCodes($this->compressed);
 		}
 
-		if ($this->_options['LIMIT_LINE_LENGTH'])
+		if ($this->options['LIMIT_LINE_LENGTH'])
 		{
 			$this->compressed = $this->_breakInToLines($this->compressed);
 		}

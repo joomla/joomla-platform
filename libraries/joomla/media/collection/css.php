@@ -27,7 +27,7 @@ class JMediaCollectionCss extends JMediaCollection
 	 */
 	public function __construct($options = array())
 	{
-		$this->_options = array('COMPRESS' => false, 'FILE_COMMENTS' => true, 'COMPRESS_OPTIONS' => array());
+		$this->options = array('COMPRESS' => false, 'FILE_COMMENTS' => true, 'COMPRESS_OPTIONS' => array());
 		parent::__construct($options);
 	}
 
@@ -44,23 +44,23 @@ class JMediaCollectionCss extends JMediaCollection
 
 		foreach ($this->sources as $file)
 		{
-			if ($this->_options['FILE_COMMENTS'])
+			if ($this->options['FILE_COMMENTS'])
 			{
 				$this->combined .= '/** File : ' . JFile::getName($file) . ' : Start **/' . "\n\n";
 			}
 
-			if ($this->_options['COMPRESS'])
+			if ($this->options['COMPRESS'])
 			{
-				$this->_options['COMPRESS_OPTIONS']['type'] = 'css';
+				$this->options['COMPRESS_OPTIONS']['type'] = 'css';
 
-				$this->combined .= JMediaCompressor::compressString(JFile::read($file), $this->_options['COMPRESS_OPTIONS']) . "\n\n";
+				$this->combined .= JMediaCompressor::compressString(JFile::read($file), $this->options['COMPRESS_OPTIONS']) . "\n\n";
 			}
 			else
 			{
 				$this->combined .= JFile::read($file) . "\n\n";
 			}
 
-			if ($this->_options['FILE_COMMENTS'])
+			if ($this->options['FILE_COMMENTS'])
 			{
 				$this->combined .= '/** File : ' . JFile::getName($file) . ' : End **/' . "\n\n";
 			}

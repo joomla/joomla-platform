@@ -77,7 +77,7 @@ class JMediaCompressorJs extends JMediaCompressor
 	 */
 	public function __construct($options = array())
 	{
-		$this->_options = array('REMOVE_COMMENTS' => true, 'CHANGE_ENCODING' => true);
+		$this->options = array('REMOVE_COMMENTS' => true, 'CHANGE_ENCODING' => true);
 
 		parent::__construct($options);
 	}
@@ -424,7 +424,7 @@ class JMediaCompressorJs extends JMediaCompressor
 					{
 						$comment = "/{$comment}";
 					}
-					if ($this->_options['REMOVE_COMMENTS'])
+					if ($this->options['REMOVE_COMMENTS'])
 					{
 						return $tmp;
 					}
