@@ -13,7 +13,7 @@ jimport('joomla.filesystem.folder');
 /**
  * Test class for JMediaCompressor.
  */
-class JMediaCompressorTest extends TestCase
+class JMediaCompressorCssTest extends TestCase
 {
 	/**
 	 * @var JMediaCompressor
@@ -103,8 +103,8 @@ class JMediaCompressorTest extends TestCase
 		
 		$this->assertEquals(null, $this->object->getUncompressed());
 		$this->assertEquals(null, $this->object->getcompressed());
-		$this->assertAttributeEquals(null, '_compressedSize', $this->object);
-		$this->assertAttributeEquals(null, '_uncompressedSize', $this->object);
+		$this->assertAttributeEquals(null, 'compressedSize', $this->object);
+		$this->assertAttributeEquals(null, 'uncompressedSize', $this->object);
 		$this->assertAttributeEquals(false, '_inHack', $this->object);
 	}
 }

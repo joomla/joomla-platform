@@ -53,7 +53,7 @@ class JMediaCompressorJs extends JMediaCompressor
 	private $_startLength = 0;
 
 	/**
-	 * to hold a preloaded char to peek nextindex
+	 * to hold a preloaded char to peek next index
 	 * 
 	 * @var    char
 	 * @since  12.1 
@@ -61,7 +61,7 @@ class JMediaCompressorJs extends JMediaCompressor
 	private $_preLoaded = null;
 
 	/**
-	 * last preocessed char used to identify keywords
+	 * last processed char used to identify keywords
 	 * 
 	 * @var    char
 	 * @since  12.1 
@@ -71,7 +71,7 @@ class JMediaCompressorJs extends JMediaCompressor
 	/**
 	 * Object Constructor one parameters.
 	 *
-	 * @param   Array  $options  Compression options for CSS Minifier.
+	 * @param   Array  $options  Compression options for CSS Compressor.
 	 *
 	 * @since  12.1
 	 */
@@ -86,14 +86,16 @@ class JMediaCompressorJs extends JMediaCompressor
 	 * Method to compress the code.
 	 * 
 	 * @return  void
-	 * 
+	 *
+	 * @throws  RuntimeException
+	 *
 	 * @since  12.1
 	 */
 	public function compress()
 	{
 		if ($this->uncompressed === null)
 		{
-			throw new RuntimeException(JText::sprintf('JMEDIA_JS_COMPRESSION_ERROR_UNCOMPRESSED_NOTSET'));
+			throw new RuntimeException(sprintf("Error. Source content not set for the compressor"));
 		}
 		$encoding = $this->_changeCharEncoding();
 
@@ -145,12 +147,12 @@ class JMediaCompressorJs extends JMediaCompressor
 
 		}// End While
 
-		// Resets multibyte encoding type
+		// Resets multi byte encoding type
 		if ($encoding !== null)
 		{
 			mb_internal_encoding($encoding);
 		}
-		
+
 		$this->compressed = trim($this->compressed);
 		$this->compressedSize = strlen($this->compressed);
 	}
@@ -162,7 +164,7 @@ class JMediaCompressorJs extends JMediaCompressor
 	 * 
 	 * @return  void
 	 * 
-	 * @throws  JMediaException
+	 * @throws  RuntimeException
 	 * 
 	 * @since   12.1
 	 */
@@ -202,7 +204,7 @@ class JMediaCompressorJs extends JMediaCompressor
 
 						if ($this->_a === '\n')
 						{
-							throw  new JMediaException("Unterminated string at index " . $this->_nextIndex);
+							throw  new RuntimeException(sprintf("Unterminated string at index %d", $this->_nextIndex));
 						}
 
 						if ($this->_a === '\\')
@@ -237,7 +239,7 @@ class JMediaCompressorJs extends JMediaCompressor
 						}
 						elseif (ord($this->_a) <= 10)
 						{
-							throw new JMediaException("Unterminated Regular expression at index" . $this->_nextIndex);
+							throw new RuntimeException(sprintf("Unterminated Regular expression at index %d", $this->_nextIndex));
 						}
 
 						$this->compressed 	.= $this->_a;
@@ -315,7 +317,7 @@ class JMediaCompressorJs extends JMediaCompressor
 	/**
 	 * Method to change multi-byte encoding
 	 * 
-	 * @return string  current multibyte encoding type
+	 * @return string  current multi byte encoding type
 	 * 
 	 * @since   12.1
 	 */
@@ -399,7 +401,9 @@ class JMediaCompressorJs extends JMediaCompressor
 	 * Method to handle comments when getting next B
 	 * 
 	 * @return  string  Immediate char on newline after single line comment or space if a multiline comment or the whole comment in some conditions
-	 *                  
+	 *
+	 * @throws  RuntimeException
+	 *
 	 * @since   12.1
 	 */
 	private function  _handleComments()
@@ -462,7 +466,7 @@ class JMediaCompressorJs extends JMediaCompressor
 				}
 				elseif ($tmp === null)
 				{
-					throw new JMediaException("Unterminated multiline comment at index" . $this->_nextIndex);
+					throw new RuntimeException(sprintf("Unterminated multi line comment at index %d", $this->_nextIndex));
 				}
 
 				$comment .= $tmp;
@@ -471,7 +475,7 @@ class JMediaCompressorJs extends JMediaCompressor
 
 		return $comment;
 	}
-	
+
 	/**
 	 * Method to clear compressor data
 	 *
@@ -482,13 +486,12 @@ class JMediaCompressorJs extends JMediaCompressor
 	public function clear()
 	{
 		parent::clear();
-		
 		$this->_a = "\n";
 		$this->_b = '';
 		$this->_nextIndex = 0;
 		$this->_startLength = 0;
 		$this->_preLoaded = '';
 		$this->_previousChar = '';
-		
+
 	}
 }

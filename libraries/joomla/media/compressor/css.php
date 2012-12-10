@@ -19,6 +19,12 @@ defined('JPATH_PLATFORM') or die;
 class JMediaCompressorCss extends JMediaCompressor
 {
 	/**
+	 * @var    String  To hold uncompressed Code.
+	 * @since  12.1
+	 */
+	public $uncompressed = null;
+
+	/**
 	 * Object constructor
 	 * 
 	 * @param   Array  $options  Compression options for CSS Minifier.
@@ -36,22 +42,24 @@ class JMediaCompressorCss extends JMediaCompressor
 	 * 
 	 * @return   Void
 	 *
+	 * @throws  RuntimeException
+	 *
 	 * @since  12.1 
 	 */
 	public function compress()
 	{
 		if ($this->uncompressed === null)
 		{
-			throw new RuntimeException(JText::sprintf('JMEDIA_CSS_COMPRESSION_ERROR_UNCOMPRESSED_NOTSET'));
+			throw new RuntimeException(sprintf("Error. Source content not set for the compressor"));
 		}
 
 		$this->compressed = str_replace("\r\n", "\n", $this->uncompressed);
 
 		$this->compressed = $this->_preServe($this->compressed);
 
-		/* 	Process all valid comments and apply call back, handleComments() function will return relavent replacements
+		/* 	Process all valid comments and apply call back, handleComments() function will return relevant replacements
 		*	Second argument is to tell call $this->_handleComments() method and get replacement patterns for matches
-		*	Delimiter '~' is used because using '/' will make this regex pattern ambigious
+		*	Delimiter '~' is used because using '/' will make this regex pattern ambiguous
 		*/
 		$this->compressed = preg_replace_callback('~\\s*/\\*([\\s\\S]*?)\\*/\\s*~', array($this,'_handleComments'), $this->compressed);
 
@@ -104,9 +112,9 @@ class JMediaCompressorCss extends JMediaCompressor
 	}
 
 	/**
-	 * Method to detect which replacement patterne to use for identified comments
+	 * Method to detect which replacement patterns to use for identified comments
 	 * 
-	 * @param   Array  $matches  bacreferences from preg_replace_callback()
+	 * @param   Array  $matches  back references from preg_replace_callback()
 	 * 
 	 * @return  string  replacements for comments
 	 * 
@@ -144,7 +152,7 @@ class JMediaCompressorCss extends JMediaCompressor
 	/**
 	 * Method to process css selectors and identify replacements
 	 * 
-	 * @param   array  $matches  bacreferences from preg_replace_callback()
+	 * @param   array  $matches  back references from preg_replace_callback()
 	 * 
 	 * @return  String  replacements for selectors
 	 * 
@@ -152,7 +160,7 @@ class JMediaCompressorCss extends JMediaCompressor
 	*/
 	private function _handleSelectors($matches)
 	{
-		// Remove space around combinators
+		// Remove space around selectors
 		return preg_replace('/\\s*([,>+~])\\s*/', '$1', $matches[0]);
 	}
 
@@ -211,7 +219,7 @@ class JMediaCompressorCss extends JMediaCompressor
 									(\\b|[#\'"-])		# match 3 = start of value
 									/x';
 
-		// Using backreferences 1, 2 and 3
+		// Using back references 1, 2 and 3
 		$replacements[]	= '$1$2:$3';
 
 		$tmp = preg_replace($patterns, $replacements, $source);
@@ -234,7 +242,7 @@ class JMediaCompressorCss extends JMediaCompressor
 	}
 
 	/**
-	 * Method to break minified code in to new lines to limit line lengths (optional)
+	 * Method to break minimised code in to new lines to limit line lengths (optional)
 	 * 
 	 * @param   string  $source  Source css code
 	 * 
@@ -244,7 +252,7 @@ class JMediaCompressorCss extends JMediaCompressor
 	*/
 	private function _breakInToLines($source)
 	{
-		// Insert a newline between desendant selectors
+		// Insert a newline between descendant selectors
 		$source = preg_replace('/([\\w#\\.\\*]+)\\s+([\\w#\\.\\*]+){/', "$1\n$2{", $source);
 
 		// Insert a new line after 1st numeric value found within a padding, margin, border or outline property

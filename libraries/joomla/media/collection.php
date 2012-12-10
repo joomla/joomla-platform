@@ -54,7 +54,6 @@ abstract class JMediaCollection
 	 */
 	public abstract function combine();
 
-
 	/**
 	 * Method to set combiner options.
 	 *
@@ -103,6 +102,73 @@ abstract class JMediaCollection
 				throw new RuntimeException(sprintf("Multiple File types detected in files array."), $type);
 			}
 
+		}
+	}
+
+	/**
+	 * Static method to get a set of files combined
+	 *
+	 * @param   array   $files        Set of source files
+	 * @param   array   $options      Options for combiner
+	 * @param   string  $destination  Destination file
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @throws  RuntimeException
+	 *
+	 * @since 12.1
+	 */
+	public static function combineFiles($files, $options = array(), $destination = null)
+	{
+		// Detect file type
+		$type = JFile::getExt($files[0]);
+
+		if (!self::isSupported($files[0]))
+		{
+			throw new RuntimeException(sprintf("Error Loading Collection class for %s file type", $type));
+		}
+
+		// Checks for the destination
+		if ($destination === null)
+		{
+			$type = $extension = pathinfo($files[0], PATHINFO_EXTENSION);
+
+			// Check for the file prefix in options, assign default prefix if not dound
+			if (array_key_exists('PREFIX', $options) && !empty($options['PREFIX']))
+			{
+				$destination = str_ireplace('.' . $type, '.' . $options['PREFIX'] . '.' . $type, $files[0]);
+			}
+			else
+			{
+				$destination = str_ireplace('.' . $type, '.combined.' . $type, $files[0]);
+			}
+		}
+
+		$options['type'] ? $options['type']: $type;
+
+		$combiner = self::getInstance($options);
+
+		$combiner->setSources($files);
+
+		$combiner->combine();
+
+		if (!empty($combiner->_combined))
+		{
+			$force = array_key_exists('overwrite', $options) && !empty($options['overwrite']) ? $options['overwrite'] : false;
+
+			if (!JFile::exists($destination) || (JFile::exists($destination) && $force))
+			{
+				JFile::write($destination, $combiner->getCombined());
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
 		}
 	}
 
@@ -191,6 +257,8 @@ abstract class JMediaCollection
 	 * @param   array  $options  options for the compressor
 	 *
 	 * @return  JMediaCollection  Returns a JMediaCollection object
+	 *
+	 * @throws  RuntimeException
 	 *
 	 * @since   12.1
 	 */

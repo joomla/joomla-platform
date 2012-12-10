@@ -51,7 +51,7 @@ class JMediaCompressorTest extends TestCase
 		$random = rand();
 		$this->object->setCompressed($random);
 		$test = $this->object->getCompressed();
-		$this->assertEquals($random,$test);
+		$this->assertEquals($random, $test);
 		$this->object->clear();
 	}
 
@@ -61,6 +61,7 @@ class JMediaCompressorTest extends TestCase
 		$this->object->setUncompressed($random);
 		$test = $this->object->getUncompressed();
 		$this->assertEquals($random,$test);
+		$this->assertAttributeEquals($random, 'uncompressed', $this->object);
 	}
 
 	public function testGetRatio()
@@ -133,15 +134,16 @@ class JMediaCompressorTest extends TestCase
 		$this->assertTrue(JMediaCompressor::isSupported($file2));
 	}
 
+
 	public function testClear()
 	{
-		$this->object->setUncompressed(rand());
+		$this->object->setUncompressed("Compress This");
 		$this->object->compress();
 		$this->object->clear();
 		$this->assertEquals(null, $this->object->getUncompressed());
 		$this->assertEquals(null, $this->object->getcompressed());
-		$this->assertAttributeEquals(null, '_compressedSize', $this->object);
-		$this->assertAttributeEquals(null, '_uncompressedSize', $this->object);
+		$this->assertAttributeEquals(null, 'compressedSize', $this->object);
+		$this->assertAttributeEquals(null, 'uncompressedSize', $this->object);
 	}
 
 }

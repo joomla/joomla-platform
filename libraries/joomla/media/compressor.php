@@ -19,12 +19,6 @@ defined('JPATH_PLATFORM') or die;
 abstract class JMediaCompressor
 {
 	/**
-	 * @var    String  To hold uncompressed Code.
-     * @since  12.1
-	 */
-	public $uncompressed = null;
-
-	/**
 	 * @var    int  size of uncompressed Code.
 	 * @since  12.1
 	 */
@@ -127,6 +121,10 @@ abstract class JMediaCompressor
 	 */
 	public function getCompressed()
 	{
+		if ($this->compressed == null)
+		{
+			$this->compress();
+		}
 		return $this->compressed;
 	}
 
@@ -214,9 +212,11 @@ abstract class JMediaCompressor
 	 * Compress a CSS/JS file with given options
 	 *
 	 * @param   string  $uncompressed  The String to be compressed
-	 * @param   array   $options       An asssociative array with options. Eg: type, force overwirte, prefix for minified files
+	 * @param   array   $options       An associative array with options. Eg: type, force overwrite, prefix for minimised files
 	 *
 	 * @return  string  compressed string
+	 *
+	 * @throws  RuntimeException
 	 *
 	 * @since  12.1
 	 */
@@ -245,10 +245,12 @@ abstract class JMediaCompressor
 	 * Compress a CSS/JS file with given options
 	 *
 	 * @param   string  $sourcefile   The full file path of the source file.
-	 * @param   array   $options      An asssociative array with options. Eg: type, force overwirte, prefix for minified files
+	 * @param   array   $options      An associative array with options. Eg: type, force overwrite, prefix for minified files
 	 * @param   string  $destination  The full file path of the destination file. If left empty the compressed file will be returned as string
 	 * 
 	 * @return  boolean  false on failure.
+	 *
+	 * @throws  RuntimeException
 	 *
 	 * @since  12.1
 	 */
@@ -278,7 +280,7 @@ abstract class JMediaCompressor
 
 		if (!$uncompressed)
 		{
-			throw new Exception("Error reading the file (" . $sourcefile . ") contents");
+			throw new RuntimeException("Error reading the file (" . $sourcefile . ") contents");
 		}
 
 		$compressor->setUncompressed($uncompressed);
@@ -318,6 +320,8 @@ abstract class JMediaCompressor
 	 * @param   array  $options  options for the compressor
 	 * 
 	 * @return  JMediaCompressor  Returns a JMediaCompressor object
+	 *
+	 * @throws  RuntimeException
 	 * 
 	 * @since   12.1
 	 */

@@ -13,7 +13,7 @@ jimport('joomla.filesystem.folder');
 /**
  * Test class for JMediaCompressor.
  */
-class JMediaCombinerTest extends TestCase
+class JMediaCollectionTest extends TestCase
 {
 	/**
 	* @var JMediaCompressor
@@ -133,7 +133,7 @@ class JMediaCombinerTest extends TestCase
 
 		$this->assertAttributeEquals(array(), 'sources', $this->object);
 		$this->assertAttributeEquals(0, 'sourceCount', $this->object);
-		$this->assertAttributeEquals(null, '_combined', $this->object);
+		$this->assertAttributeEquals(null, 'combined', $this->object);
 
 	}
 
