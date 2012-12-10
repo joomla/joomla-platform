@@ -22,31 +22,31 @@ abstract class JMediaCompressor
 	 * @var    String  To hold uncompressed Code.
      * @since  12.1
 	 */
-	public $_uncompressed = null;
+	public $uncompressed = null;
 
 	/**
 	 * @var    int  size of uncompressed Code.
 	 * @since  12.1
 	 */
-	public $_uncompressedSize = null;
+	public $uncompressedSize = null;
 
 	/**
 	 * @var    String  To hold compressed Code.
 	 * @since  12.1
 	 */
-	protected  $_compressed = null;
+	protected  $compressed = null;
 
 	/**
 	 * @var    int  size of compressed Code.
 	 * @since  12.1
 	 */
-	public $_compressedSize = null;
+	public $compressedSize = null;
 
 	/**
 	 * @var    Array  Compression options for CSS Minifier.
 	 * @since  12.1
 	 */
-	protected  $_options = array();
+	protected  $options = array();
 
 	/**
 	 * @var    array  JMediaCompressor instances container.
@@ -55,18 +55,40 @@ abstract class JMediaCompressor
 	protected static $instances = array();
 
 	/**
+	 * Object Constructor takes two parameters.
+	 *
+	 * @param   Array  $options  Compression options for Minifier.
+	 *
+	 * @since  12.1
+	 */
+	public function __construct($options = array())
+	{
+		// Merge user defined options with default options
+		$this->options = array_merge($this->options, $options);
+	}
+
+	/**
+	 * Method to compress the code.
+	 *
+	 * @return   Void
+	 *
+	 * @since  12.1
+	 */
+	public abstract function compress();
+
+	/**
 	 * Method to set uncompressed code.
 	 *
 	 * @param   string  $uncompressed  Uncomressed Code.
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since  12.1
-	*/
+	 */
 	public function setUncompressed($uncompressed)
 	{
-		$this->_uncompressed = $uncompressed;
-		$this->_uncompressedSize	= strlen($this->_uncompressed);
+		$this->uncompressed = $uncompressed;
+		$this->uncompressedSize	= strlen($this->uncompressed);
 	}
 
 	/**
@@ -78,7 +100,7 @@ abstract class JMediaCompressor
 	 */
 	public function getUncompressed()
 	{
-		return $this->_uncompressed;
+		return $this->uncompressed;
 	}
 
 	/**
@@ -92,8 +114,8 @@ abstract class JMediaCompressor
 	 */
 	public function setCompressed($compressed)
 	{
-		$this->_compressed = $compressed;
-		$this->_compressedSize	= strlen($this->_compressed);
+		$this->compressed = $compressed;
+		$this->compressedSize	= strlen($this->compressed);
 	}
 
 	/**
@@ -105,7 +127,7 @@ abstract class JMediaCompressor
 	 */
 	public function getCompressed()
 	{
-		return $this->_compressed;
+		return $this->compressed;
 	}
 
 	/**
@@ -114,26 +136,13 @@ abstract class JMediaCompressor
 	 * @param   Array  $options  options to compress.
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since  12.1
 	 */
 	public function setOptions($options)
 	{
 		// Merge user defined options with default options
-		$this->_options = array_merge($this->_options, $options);
-	}
-
-	/**
-	 * Object Constructor takes two parameters.
-	 *
-	 * @param   Array  $options  Compression options for Minifier.
-	 *
-	 * @since  12.1
-	 */
-	public function __construct($options = array())
-	{
-		// Merge user defined options with default options
-		$this->_options = array_merge($this->_options, $options);
+		$this->options = array_merge($this->options, $options);
 	}
 
 	/**
@@ -145,7 +154,7 @@ abstract class JMediaCompressor
 	 */
 	public function getRatio()
 	{
-		return round(($this->_compressedSize / $this->_uncompressedSize * 100), 2);
+		return round(($this->compressedSize / $this->uncompressedSize * 100), 2);
 	}
 
 	/**
@@ -198,7 +207,7 @@ abstract class JMediaCompressor
 	 */
 	public function getOptions()
 	{
-		return $this->_options;
+		return $this->options;
 	}
 
 	/**
@@ -215,7 +224,7 @@ abstract class JMediaCompressor
 	{
 		if (!array_key_exists('type', $options))
 		{
-			throw new RuntimeException(JText::sprintf('JMEDIA_ERROR_COMPRESSOR_TYPE_NOT_DEFINED'));
+			throw new RuntimeException(sprintf("File Type is not defined in options array"));
 		}
 		$compressor = self::getInstance($options);
 		$compressor->clear();
@@ -249,7 +258,7 @@ abstract class JMediaCompressor
 
 		if (!self::isSupported($sourcefile))
 		{
-			throw new RuntimeException(JText::sprintf('JMEDIA_ERROR_FILE_TYPE_NOT_SUPPORTED'));
+			throw new RuntimeException(sprintf("The file type of the source file is not supported by the Compressors"));
 		}
 		$compressor = self::getInstance($options);
 		$uncompressed = JFile::read($sourcefile);
@@ -269,7 +278,7 @@ abstract class JMediaCompressor
 
 		if (!$uncompressed)
 		{
-			throw new JMediaException("Error reading the file (" . $sourcefile . ") contents");
+			throw new Exception("Error reading the file (" . $sourcefile . ") contents");
 		}
 
 		$compressor->setUncompressed($uncompressed);
@@ -327,7 +336,7 @@ abstract class JMediaCompressor
 			// If the class still doesn't exist we have nothing left to do but throw an exception.  We did our best.
 			if (!class_exists($class))
 			{
-				throw new RuntimeException(JText::sprintf('JMEDIA_ERROR_LOAD_COMPRESSOR', $options['type']));
+				throw new RuntimeException(sprintf("Error Loading Compressor class for %s file type", $options['type']));
 			}
 
 			// Create our new JMediaCompressor class based on the options given.
@@ -337,7 +346,7 @@ abstract class JMediaCompressor
 			}
 			catch (RuntimeException $e)
 			{
-				throw new RuntimeException(JText::sprintf('JLIB_DATABASE_ERROR_CONNECT_DATABASE', $e->getMessage()));
+				throw new RuntimeException(sprintf("Error Loading Collection class for %s file type", $e->getMessage()));
 			}
 
 			// Set the new connector to the global instances based on signature.
@@ -385,9 +394,9 @@ abstract class JMediaCompressor
 	 */
 	public function clear()
 	{
-		$this->_compressed = null;
-		$this->_compressedSize = null;
-		$this->_uncompressed = null;
-		$this->_uncompressedSize = null;
+		$this->compressed = null;
+		$this->compressedSize = null;
+		$this->uncompressed = null;
+		$this->uncompressedSize = null;
 	}
 }

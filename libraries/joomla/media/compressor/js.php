@@ -91,14 +91,14 @@ class JMediaCompressorJs extends JMediaCompressor
 	 */
 	public function compress()
 	{
-		if ($this->_uncompressed === null)
+		if ($this->uncompressed === null)
 		{
 			throw new RuntimeException(JText::sprintf('JMEDIA_JS_COMPRESSION_ERROR_UNCOMPRESSED_NOTSET'));
 		}
 		$encoding = $this->_changeCharEncoding();
 
-		$this->_uncompressed = str_replace("\r\n", "\n", $this->_uncompressed);
-		$this->_startLength = strlen($this->_uncompressed);
+		$this->uncompressed = str_replace("\r\n", "\n", $this->uncompressed);
+		$this->_startLength = strlen($this->uncompressed);
 
 		/*	Commands to determine start point of switch in _executeCommand()
 		*	Command 1	: Keep  A
@@ -151,8 +151,8 @@ class JMediaCompressorJs extends JMediaCompressor
 			mb_internal_encoding($encoding);
 		}
 		
-		$this->_compressed = trim($this->_compressed);
-		$this->_compressedSize = strlen($this->_compressed);
+		$this->compressed = trim($this->compressed);
+		$this->compressedSize = strlen($this->compressed);
 	}
 
 	/**
@@ -171,7 +171,7 @@ class JMediaCompressorJs extends JMediaCompressor
 		// Prevent + + or - - becomes ++ or --
 		if ($cmd === 3 && ($this->_a === '+' || $this->_a === '-') && $this->_b === ' ' )
 		{
-			if ($this->_uncompressed[$this->_nextIndex] === $this->_a)
+			if ($this->uncompressed[$this->_nextIndex] === $this->_a)
 			{
 				$cmd = 1;
 			}
@@ -180,7 +180,7 @@ class JMediaCompressorJs extends JMediaCompressor
 		switch ($cmd)
 		{
 			case 1	:
-				$this->_compressed 	.= $this->_a;
+				$this->compressed 	.= $this->_a;
 				$this->_previousChar = $this->_a;
 
 			case 2	:
@@ -190,7 +190,7 @@ class JMediaCompressorJs extends JMediaCompressor
 				{
 					while (true)
 					{
-						$this->_compressed 	.= $this->_a;
+						$this->compressed 	.= $this->_a;
 						$this->_previousChar = $this->_a;
 
 						$this->_a = $this->_next();
@@ -207,7 +207,7 @@ class JMediaCompressorJs extends JMediaCompressor
 
 						if ($this->_a === '\\')
 						{
-							$this->_compressed 	.= $this->_a;
+							$this->compressed 	.= $this->_a;
 							$this->_previousChar = $this->_a;
 
 							$this->_a = $this->_next();
@@ -220,7 +220,7 @@ class JMediaCompressorJs extends JMediaCompressor
 
 				if ($this->_b === '/' && $this->_checkRegExp())
 				{
-					$this->_compressed .= $this->_a . $this->_b;
+					$this->compressed .= $this->_a . $this->_b;
 
 					while (true)
 					{
@@ -232,7 +232,7 @@ class JMediaCompressorJs extends JMediaCompressor
 						}
 						elseif ($this->_a === '\\')
 						{
-							$this->_compressed .= $this->_a;
+							$this->compressed .= $this->_a;
 							$this->_a       	= $this->_next();
 						}
 						elseif (ord($this->_a) <= 10)
@@ -240,7 +240,7 @@ class JMediaCompressorJs extends JMediaCompressor
 							throw new JMediaException("Unterminated Regular expression at index" . $this->_nextIndex);
 						}
 
-						$this->_compressed 	.= $this->_a;
+						$this->compressed 	.= $this->_a;
 						$this->_previousChar = $this->_a;
 					}
 
@@ -286,21 +286,21 @@ class JMediaCompressorJs extends JMediaCompressor
 
 		if ($this->_a === ' ')
 		{
-			if (strlen($this->_compressed) < 2)
+			if (strlen($this->compressed) < 2)
 			{
 				return true;
 			}
 
 			$matches = array();
 
-			if (preg_match('/(?:case|else|in|return|typeof)$/', $this->_compressed, $matches))
+			if (preg_match('/(?:case|else|in|return|typeof)$/', $this->compressed, $matches))
 			{
-				if ($this->_compressed === $matches[0])
+				if ($this->compressed === $matches[0])
 				{
 					return true;
 				}
 				// Assure it is a keyword
-				$previousChar = substr($this->_compressed, strlen($this->_compressed) - strlen($matches[0]) - 1, 1);
+				$previousChar = substr($this->compressed, strlen($this->compressed) - strlen($matches[0]) - 1, 1);
 
 				if (!$this->_checkAlphaNum($previousChar))
 				{
@@ -344,7 +344,7 @@ class JMediaCompressorJs extends JMediaCompressor
 
 		if ($this->_nextIndex < $this->_startLength)
 		{
-			$char = $this->_uncompressed[$this->_nextIndex];
+			$char = $this->uncompressed[$this->_nextIndex];
 			$this->_nextIndex++;
 		}
 		else
@@ -382,7 +382,7 @@ class JMediaCompressorJs extends JMediaCompressor
 			return $nextB;
 		}
 
-		$this->_preLoaded = $this->_uncompressed[$this->_nextIndex];
+		$this->_preLoaded = $this->uncompressed[$this->_nextIndex];
 
 		if ($this->_preLoaded === '/' || $this->_preLoaded === '*')
 		{
@@ -441,7 +441,7 @@ class JMediaCompressorJs extends JMediaCompressor
 
 				if ($tmp === '*')
 				{
-					if ($this->_uncompressed[$this->_nextIndex] === '/')// End of comment
+					if ($this->uncompressed[$this->_nextIndex] === '/')// End of comment
 					{
 						$this->_next();
 

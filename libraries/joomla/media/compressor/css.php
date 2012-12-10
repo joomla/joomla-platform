@@ -40,42 +40,42 @@ class JMediaCompressorCss extends JMediaCompressor
 	 */
 	public function compress()
 	{
-		if ($this->_uncompressed === null)
+		if ($this->uncompressed === null)
 		{
 			throw new RuntimeException(JText::sprintf('JMEDIA_CSS_COMPRESSION_ERROR_UNCOMPRESSED_NOTSET'));
 		}
 
-		$this->_compressed = str_replace("\r\n", "\n", $this->_uncompressed);
+		$this->compressed = str_replace("\r\n", "\n", $this->uncompressed);
 
-		$this->_compressed = $this->_preServe($this->_compressed);
+		$this->compressed = $this->_preServe($this->compressed);
 
 		/* 	Process all valid comments and apply call back, handleComments() function will return relavent replacements
 		*	Second argument is to tell call $this->_handleComments() method and get replacement patterns for matches
 		*	Delimiter '~' is used because using '/' will make this regex pattern ambigious
 		*/
-		$this->_compressed = preg_replace_callback('~\\s*/\\*([\\s\\S]*?)\\*/\\s*~', array($this,'_handleComments'), $this->_compressed);
+		$this->compressed = preg_replace_callback('~\\s*/\\*([\\s\\S]*?)\\*/\\s*~', array($this,'_handleComments'), $this->compressed);
 
-		$this->_compressed = $this->_removeWS($this->_compressed);
+		$this->compressed = $this->_removeWS($this->compressed);
 
 		// Handle selectors - match a start of a selector and pass them to $this->_handleSelectors() to get replacements
 		// /x is used turn on free-spacing mode in regex patterns
-		$this->_compressed = preg_replace_callback('/(?:\\s*[^~>+,\\s]+\\s*[,>+~])+\\s*[^~>+,\\s]+{/', array($this,'_handleSelectors'), $this->_compressed);
+		$this->compressed = preg_replace_callback('/(?:\\s*[^~>+,\\s]+\\s*[,>+~])+\\s*[^~>+,\\s]+{/', array($this,'_handleSelectors'), $this->compressed);
 
 		if ($this->_options['MIN_COLOR_CODES'])
 		{
-			$this->_compressed = $this->_minColorCodes($this->_compressed);
+			$this->compressed = $this->_minColorCodes($this->compressed);
 		}
 
 		if ($this->_options['LIMIT_LINE_LENGTH'])
 		{
-			$this->_compressed = $this->_breakInToLines($this->_compressed);
+			$this->compressed = $this->_breakInToLines($this->compressed);
 		}
 
-		$this->_compressed = preg_replace('/:first-l(etter|ine)\\{/', ':first-l$1 {', $this->_compressed);
+		$this->compressed = preg_replace('/:first-l(etter|ine)\\{/', ':first-l$1 {', $this->compressed);
 
-		$this->_compressed = trim($this->_compressed);
+		$this->compressed = trim($this->compressed);
 
-		$this->_compressedSize = strlen($this->_compressed);
+		$this->compressedSize = strlen($this->compressed);
 	}
 
 	/**
