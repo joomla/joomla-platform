@@ -99,7 +99,7 @@ abstract class JMediaCollection
 			}
 			else
 			{
-				throw new RuntimeException(sprintf("Multiple File types detected in files array."), $type);
+				throw new RuntimeException(sprintf("Multiple File types detected in files array. %s"), $type);
 			}
 
 		}
@@ -133,7 +133,7 @@ abstract class JMediaCollection
 		{
 			$type = $extension = pathinfo($files[0], PATHINFO_EXTENSION);
 
-			// Check for the file prefix in options, assign default prefix if not dound
+			// Check for the file prefix in options, assign default prefix if not found
 			if (array_key_exists('PREFIX', $options) && !empty($options['PREFIX']))
 			{
 				$destination = str_ireplace('.' . $type, '.' . $options['PREFIX'] . '.' . $type, $files[0]);
@@ -144,17 +144,17 @@ abstract class JMediaCollection
 			}
 		}
 
-		$options['type'] ? $options['type']: $type;
+		$options['type'] = (!empty($options['type'])) ? $options['type'] : $type;
 
 		$combiner = self::getInstance($options);
 
-		$combiner->setSources($files);
+		$combiner->addFiles($files);
 
 		$combiner->combine();
 
-		if (!empty($combiner->_combined))
+		if (!empty($combiner->combined))
 		{
-			$force = array_key_exists('overwrite', $options) && !empty($options['overwrite']) ? $options['overwrite'] : false;
+			$force = array_key_exists('OVERWRITE', $options) && !empty($options['OVERWRITE']) ? $options['OVERWRITE'] : false;
 
 			if (!JFile::exists($destination) || (JFile::exists($destination) && $force))
 			{

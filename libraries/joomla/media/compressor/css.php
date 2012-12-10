@@ -19,12 +19,6 @@ defined('JPATH_PLATFORM') or die;
 class JMediaCompressorCss extends JMediaCompressor
 {
 	/**
-	 * @var    String  To hold uncompressed Code.
-	 * @since  12.1
-	 */
-	public $uncompressed = null;
-
-	/**
 	 * Object constructor
 	 * 
 	 * @param   Array  $options  Compression options for CSS Minifier.

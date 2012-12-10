@@ -19,6 +19,12 @@ defined('JPATH_PLATFORM') or die;
 abstract class JMediaCompressor
 {
 	/**
+	 * @var    String  To hold uncompressed Code.
+	 * @since  12.1
+	 */
+	public $uncompressed = null;
+
+	/**
 	 * @var    int  size of uncompressed Code.
 	 * @since  12.1
 	 */
@@ -121,7 +127,7 @@ abstract class JMediaCompressor
 	 */
 	public function getCompressed()
 	{
-		if ($this->compressed == null)
+		if ($this->compressed === null && $this->uncompressed != null)
 		{
 			$this->compress();
 		}

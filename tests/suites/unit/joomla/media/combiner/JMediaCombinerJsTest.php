@@ -11,7 +11,7 @@ jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 
 /**
- * Test class for JMediaCompressor.
+ * Test class for JMediaCompressorJs.
  */
 class JMediaCombinerJsTest extends TestCase
 {

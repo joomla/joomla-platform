@@ -14,7 +14,7 @@ jimport('joomla.filesystem.path');
 /**
  * Test class for JMediaCompressor.
  */
-class JMediaCompressorTest extends TestCase
+class JMediaCompressorJsTest extends TestCase
 {
 	/**
 	 * @var JMediaCompressor

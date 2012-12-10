@@ -11,7 +11,7 @@ jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 
 /**
- * Test class for JMediaCompressor.
+ * Test class for JMediaCompressorCss.
  */
 class JMediaCompressorCssTest extends TestCase
 {
@@ -70,7 +70,7 @@ class JMediaCompressorCssTest extends TestCase
 	public function testCompress()
 	{
 
-		// Put the path to test files for css compressor. (Include expected result in filename.min.css file)    	
+		// Put the path to test files for css compressor. (Include expected result in filename.min.css file)
 		$path = JPATH_BASE . '/test_files/css';
 
 		$files = JFolder::files($path,'.',false,true, array(),array('.min.css','.php','.html','.combined.css'));
@@ -105,6 +105,5 @@ class JMediaCompressorCssTest extends TestCase
 		$this->assertEquals(null, $this->object->getcompressed());
 		$this->assertAttributeEquals(null, 'compressedSize', $this->object);
 		$this->assertAttributeEquals(null, 'uncompressedSize', $this->object);
-		$this->assertAttributeEquals(false, '_inHack', $this->object);
 	}
 }

@@ -16,10 +16,9 @@ jimport('joomla.filesystem.folder');
 class JMediaCollectionTest extends TestCase
 {
 	/**
-	* @var JMediaCompressor
+	* @var JMediaCollectionCss
 	*/
 	protected $object;
-
 
 	/**
 	* Sets up the fixture, for example, opens a network connection.
@@ -27,7 +26,7 @@ class JMediaCollectionTest extends TestCase
 	*/
 	protected function setUp()
 	{
-		$this->object = JMediaCombiner::getInstance(array('type' => 'css'));
+		$this->object = JMediaCollection::getInstance(array('type' => 'css'));
 	}
 
 	public function testSetOptions()
@@ -56,7 +55,7 @@ class JMediaCollectionTest extends TestCase
 
 		$files = JFolder::files($path,'.',false,true, array(), array('.min.css', '.php', '.html','.combined.css'));//get full path
 
-		$this->object->setSources($files);
+		$this->object->addFiles($files);
 
 		$test = $this->object->getSources();
 
@@ -67,25 +66,25 @@ class JMediaCollectionTest extends TestCase
 
 	public function testGetInstance()
 	{
-		$Combiner1 = JMediaCombiner::getInstance(array('type'=>'css'));
+		$Combiner1 = JMediaCollection::getInstance(array('type'=>'css'));
 
-		$this->assertInstanceOf('JMediaCombinerCss', $Combiner1);
+		$this->assertInstanceOf('JMediaCollectionCss', $Combiner1);
 
-		$Combiner2 = JMediaCombiner::getInstance(array('type'=>'js'));
+		$Combiner2 = JMediaCollection::getInstance(array('type'=>'js'));
 
-		$this->assertInstanceOf('JMediaCombinerJs', $Combiner2);
+		$this->assertInstanceOf('JMediaCollectionJs', $Combiner2);
 	}
 
 	public function testGetCompressors()
 	{
 		$expected = array('css','js');
 	
-		$test = JMediaCombiner::getCombiners();
-	
+		$test = JMediaCollection::getCollectionTypes();
+
 		$this->assertEquals($expected, $test);
 	
 	}
-	
+
 
 	public function testCombineFiles()
 	{
@@ -94,16 +93,17 @@ class JMediaCollectionTest extends TestCase
 
 		$files = JFolder::files($path,'.',false,true, array(), array('.min.css', '.php', '.html','.combined.css'));//get full path
 
-		$this->object->setSources($files);
+		$this->object->addFiles($files);
 		
-		// Path to exprected combined file without compression turned on
+		// Path to expected combined file without compression turned on
 		$expected = JFile::read($path . '/all.combined.css');
+
 
 		$this->object->combine();
 
 		$this->assertEquals($expected, $this->object->getCombined());
 
-		// Path to exprected combined file with compression turned on
+		// Path to expected combined file with compression turned on
 		$expectedCompressed = JFile::read($path . '/all.combined.min.css');
 
 		$this->object->setOptions(array('COMPRESS' => true));
@@ -118,16 +118,16 @@ class JMediaCollectionTest extends TestCase
 	{
 		$file1 = JPATH_BASE . '/test_files/css/comments.css';
 
-		$this->assertTrue(JMediaCombiner::isSupported($file1));
+		$this->assertTrue(JMediaCollection::isSupported($file1));
 
 		$file2 = JPATH_BASE . '/test_files/js/case2.js';
 
-		$this->assertTrue(JMediaCombiner::isSupported($file2));
+		$this->assertTrue(JMediaCollection::isSupported($file2));
 	}
 
 	public function testClear()
 	{
-		$this->object->setSources($this->loadCssFiles());
+		$this->object->addFiles($this->loadCssFiles());
 		$this->object->combine();
 		$this->object->clear();
 

@@ -1,4 +1,4 @@
-/* File : comments.css : Start */
+/** File : comments.css : Start **/
 
 
 /* block comments get removed */
@@ -11,9 +11,9 @@
 body{ background:#fff/*eef*/ url(/path/to/image.gif) repeat-y; }
 
 
-/* File : comments.css : End */
+/** File : comments.css : End **/
 
-/* File : hacks.css : Start */
+/** File : hacks.css : Start **/
 
 /* hide from ie5/mac \*/ a{}
 .foo {color:red}
@@ -83,15 +83,15 @@ p:first-letter  {color:red;}
 p:first-line   {color:red;}
 
 
-/* File : hacks.css : End */
+/** File : hacks.css : End **/
 
-/* File : issue210.css : Start */
+/** File : issue210.css : Start **/
 
 .ui-widget { font-family: Trebuchet MS, Tahoma, Verdana, Arial, sans-serif; }
 
-/* File : issue210.css : End */
+/** File : issue210.css : End **/
 
-/* File : selectors.css : Start */
+/** File : selectors.css : Start **/
 
 /* http://www.w3.org/TR/css3-selectors/ */
 
@@ -136,9 +136,9 @@ E:not(s)
  + F
  ~ F {color: red;}
 
-/* File : selectors.css : End */
+/** File : selectors.css : End **/
 
-/* File : styles.css : Start */
+/** File : styles.css : Start **/
 
 @charset "utf-8";
 
@@ -174,9 +174,9 @@ h1 + p {
 	#media-queries-2 { background-color: #0f0; }
 }
 
-/* File : styles.css : End */
+/** File : styles.css : End **/
 
-/* File : subsilver.css : Start */
+/** File : subsilver.css : Start **/
 
 /* Based on the original Style Sheet for the fisubsilver v2 Theme for phpBB version 2+
 Edited by Daz  - http://www.forumimages.com - last updated 26-06-03 */
@@ -613,9 +613,9 @@ margin-right:3px;
 clear:both;
 }
 
-/* File : subsilver.css : End */
+/** File : subsilver.css : End **/
 
-/* File : unusual_strings.css : Start */
+/** File : unusual_strings.css : Start **/
 
 /* test unusual, but valid strings in CSS */
 
@@ -629,9 +629,9 @@ lo"] {
 }
 
 
-/* File : unusual_strings.css : End */
+/** File : unusual_strings.css : End **/
 
-/* File : vladmirated.css : Start */
+/** File : vladmirated.css : Start **/
 
 /* from http://www.vladimirated.com/web-development-minify-css-using-php-and-cssmin-class */
 
@@ -1292,6 +1292,6 @@ lo"] {
 		ul#tagcloud li.t9 a { color:#181818; font-size: 310%; }
 		ul#tagcloud li.t10 a { color:#0c0c0c; font-size: 330%; }
 
-/* File : vladmirated.css : End */
+/** File : vladmirated.css : End **/
 
-/* 8 css files are combined */
+/** 8 css files are combined **/
