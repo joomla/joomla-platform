@@ -32,7 +32,7 @@ class JMediaCollectionCss extends JMediaCollection
 	}
 
 	/**
-	 * Method to combine a set of files and save to single file.
+	 * Method to combine content of a set of css files
 	 * 
 	 * @return  Void
 	 * 
@@ -53,7 +53,18 @@ class JMediaCollectionCss extends JMediaCollection
 			{
 				$this->options['COMPRESS_OPTIONS']['type'] = 'css';
 
-				$this->combined .= JMediaCompressor::compressString(JFile::read($file), $this->options['COMPRESS_OPTIONS']) . "\n\n";
+				if ($this->options['COMPRESSOR'] != null && $this->options['COMPRESSOR']->isSupported($file))
+				{
+					$compressor = $this->options['COMPRESSOR'];
+					$compressor->setUncompressed(file_get_contents($file));
+					$compressor->compress();
+
+					$this->combined .= $compressor->getCompressed();
+				}
+				else
+				{
+					$this->combined .= JMediaCompressor::compressString(JFile::read($file), $this->options['COMPRESS_OPTIONS']) . "\n\n";
+				}
 			}
 			else
 			{

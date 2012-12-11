@@ -11,12 +11,12 @@ jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 
 /**
- * Test class for JMediaCompressor.
+ * Test class for JMediaCollectionCss.
  */
 class JMediaCombinerCssTest extends TestCase
 {
 	/**
-	* @var JMediaCompressor
+	* @var JMediaCollectionCss
 	*/
 	protected $object;
 
@@ -27,7 +27,7 @@ class JMediaCombinerCssTest extends TestCase
 	*/
 	protected function setUp()
 	{
-		$this->object = JMediaCombiner::getInstance(array('type' => 'css'));
+		$this->object = JMediaCollection::getInstance(array('type' => 'css'));
 	}
 
 

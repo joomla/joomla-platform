@@ -33,7 +33,7 @@ class JMediaCollectionJs extends JMediaCollection
 	}
 
 	/**
-	 * Method to combine a set of files and save to single file.
+	 * Method to combine content of a set of js files
 	 *
 	 * @since  12.1
 	 *
@@ -54,7 +54,18 @@ class JMediaCollectionJs extends JMediaCollection
 			{
 				$this->options['COMPRESS_OPTIONS']['type'] = 'js';
 
-				$this->combined .= JMediaCompressor::compressString(JFile::read($file), $this->options['COMPRESS_OPTIONS']) . "\n\n";
+				if ($this->options['COMPRESSOR'] != null && $this->options['COMPRESSOR']->isSupported($file))
+				{
+					$compressor = $this->options['COMPRESSOR'];
+					$compressor->setUncompressed(file_get_contents($file));
+					$compressor->compress();
+
+					$this->combined .= $compressor->getCompressed();
+				}
+				else
+				{
+					$this->combined .= JMediaCompressor::compressString(JFile::read($file), $this->options['COMPRESS_OPTIONS']) . "\n\n";
+				}
 			}
 			else
 			{

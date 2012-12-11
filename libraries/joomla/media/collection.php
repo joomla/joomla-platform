@@ -46,7 +46,7 @@ abstract class JMediaCollection
 	}
 
 	/**
-	 * Method to combine a set of files and save to single file.
+	 * Method to combine content of a set of files.
 	 *
 	 * @return  Void
 	 *

@@ -1,4 +1,4 @@
-// File : case1.js : Start
+/** File : case1.js : Start **/
 
 /*! is.js
 
@@ -59,9 +59,9 @@ else
     document.write("FAIL: Non-IE/win browser did not ignore single-line conditional comment.<br>");
 
 
-// File : case1.js : End
+/** File : case1.js : End **/
 
-// File : case2.js : Start
+/** File : case2.js : Start **/
 
 
 function testIssue() {
@@ -69,9 +69,9 @@ function testIssue() {
 }
 
 
-// File : case2.js : End
+/** File : case2.js : End **/
 
-// File : case3.js : Start
+/** File : case3.js : Start **/
 
 // from jQuery tablesorter
 ts.addParser({
@@ -82,9 +82,9 @@ ts.addParser({
 });
 
 
-// File : case3.js : End
+/** File : case3.js : End **/
 
-// File : case4.js : Start
+/** File : case4.js : Start **/
 
 a    /  ++b;
 a    *  --b;
@@ -96,9 +96,9 @@ a    +  ++b;
 a    +  --b;
 a    -  --b;
 
-// File : case4.js : End
+/** File : case4.js : End **/
 
-// File : jquery-1.2.3.js : Start
+/** File : jquery-1.2.3.js : Start **/
 
 (function(){
 /*!
@@ -3510,6 +3510,6 @@ jQuery.fn.offset = function() {
 })();
 
 
-// File : jquery-1.2.3.js : End
+/** File : jquery-1.2.3.js : End **/
 
-// 5 js files are combined
+/** 5 js files are combined **/

@@ -16,7 +16,7 @@ jimport('joomla.filesystem.folder');
 class JMediaCombinerJsTest extends TestCase
 {
 	/**
-	* @var JMediaCompressor
+	* @var JMediaCollection
 	*/
 	protected $object;
 
@@ -27,13 +27,13 @@ class JMediaCombinerJsTest extends TestCase
 	*/
 	protected function setUp()
 	{
-		$this->object = JMediaCombiner::getInstance(array('type' => 'js'));
+		$this->object = JMediaCollection::getInstance(array('type' => 'js'));
 	}
 
 
 	public function testCombine()
 	{
-		$this->object->setSources($this->loadJsFiles());
+		$this->object->addFiles($this->loadJsFiles());
 		
 		$this->object->combine();
 		
