@@ -79,7 +79,7 @@ abstract class JMediaCompressor
 	/**
 	 * Method to set uncompressed code.
 	 *
-	 * @param   string  $uncompressed  Uncomressed Code.
+	 * @param   string  $uncompressed  Uncompressed Code.
 	 *
 	 * @return  void
 	 *
@@ -104,7 +104,7 @@ abstract class JMediaCompressor
 	}
 
 	/**
-	 * Method to set uncompressed code.
+	 * Method to set compressed code.
 	 *
 	 * @param   string  $compressed  compressed Code.
 	 *

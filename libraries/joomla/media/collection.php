@@ -65,8 +65,20 @@ abstract class JMediaCollection
 	 */
 	public function setOptions($options)
 	{
-		// Merge user defined options with default options
+		$prevSignature = md5(serialize($this->options));
+		var_dump(self::$instances);
+		// Merge old options with new options
 		$this->options = array_merge($this->options, $options);
+
+		$newSignature = md5(serialize($this->options));
+
+		if (strcmp($prevSignature, $newSignature))
+		{
+			// Remove modified instance from instances
+			unset(self::$instances[$prevSignature]);
+		}
+
+		var_dump(self::$instances);
 	}
 
 	/**
@@ -271,10 +283,10 @@ abstract class JMediaCollection
 	public static function getInstance( $options = array())
 	{
 
-		// Get the options signature for the database connector.
+		// Get the options signature for the instance
 		$signature = md5(serialize($options));
 
-		// If we already have a database connector instance for these options then just use that.
+		// If we already have a Collection instance for these options then just use that.
 		if (empty(self::$instances[$signature]))
 		{
 			// Derive the class name from the type.
@@ -286,6 +298,13 @@ abstract class JMediaCollection
 				throw new RuntimeException(sprintf("Error Loading Collection class for %s file type", $options['type']));
 			}
 
+			// Modify the signature with all the options
+			$signature = md5(serialize(array_merge($class::$DEFAULT_OPTIONS, $options)));
+
+			if (!empty(self::$instances[$signature]))
+			{
+				return self::$instances[$signature];
+			}
 			// Create our new JMediaCompressor class based on the options given.
 			try
 			{

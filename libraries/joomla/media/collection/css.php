@@ -18,6 +18,9 @@ defined('JPATH_PLATFORM') or die;
  */
 class JMediaCollectionCss extends JMediaCollection
 {
+
+	public static $DEFAULT_OPTIONS = array('COMPRESS' => false, 'FILE_COMMENTS' => true, 'COMPRESS_OPTIONS' => array(), 'COMPRESSOR' => null);
+
 	/**
 	 * Constructor
 	 *
@@ -27,7 +30,7 @@ class JMediaCollectionCss extends JMediaCollection
 	 */
 	public function __construct($options = array())
 	{
-		$this->options = array('COMPRESS' => false, 'FILE_COMMENTS' => true, 'COMPRESS_OPTIONS' => array(), 'COMPRESSOR' => null);
+		$this->options = self::$DEFAULT_OPTIONS;
 		parent::__construct($options);
 	}
 
