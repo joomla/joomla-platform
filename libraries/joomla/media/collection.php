@@ -88,8 +88,12 @@ abstract class JMediaCollection
 		foreach ($files as $file)
 		{
 			// Check file ext for compatibility
-			if (JFile::getExt($file) == $type)
+			if (pathinfo($file, PATHINFO_EXTENSION) == $type)
 			{
+				if (!file_exists($file))
+				{
+					throw new RuntimeException(sprintf("%s File not exists", $file));
+				}
 				// Check whether file already registered
 				if (!in_array($file, $this->sources))
 				{
@@ -99,7 +103,7 @@ abstract class JMediaCollection
 			}
 			else
 			{
-				throw new RuntimeException(sprintf("Multiple File types detected in files array. %s"), $type);
+				throw new RuntimeException(sprintf("Multiple File types detected in files array. %s", $type));
 			}
 
 		}
@@ -121,7 +125,7 @@ abstract class JMediaCollection
 	public static function combineFiles($files, $options = array(), $destination = null)
 	{
 		// Detect file type
-		$type = JFile::getExt($files[0]);
+		$type = pathinfo($files[0], PATHINFO_EXTENSION);
 
 		if (!self::isSupported($files[0]))
 		{
@@ -156,9 +160,9 @@ abstract class JMediaCollection
 		{
 			$force = array_key_exists('OVERWRITE', $options) && !empty($options['OVERWRITE']) ? $options['OVERWRITE'] : false;
 
-			if (!JFile::exists($destination) || (JFile::exists($destination) && $force))
+			if (!file_exists($destination) || (file_exists($destination) && $force))
 			{
-				JFile::write($destination, $combiner->getCombined());
+				file_put_contents($destination, $combiner->getCombined());
 				return true;
 			}
 			else
@@ -211,11 +215,13 @@ abstract class JMediaCollection
 		$combiners = array();
 
 		// Get a list of types.
-		$types = JFolder::files(__DIR__ . '/collection');
+		$types = glob(__DIR__ . '/collection/*');
 
 		// Loop through the types and find the ones that are available.
 		foreach ($types as $type)
 		{
+			$type = basename($type);
+
 			// Ignore some files.
 			if ($type == 'index.html')
 			{
@@ -317,7 +323,7 @@ abstract class JMediaCollection
 
 		foreach ($combiners as $class)
 		{
-			if (strtolower(str_ireplace('JMediaCollection', '', $class)) === strtolower(JFile::getExt($sourceFile)))
+			if (strtolower(str_ireplace('JMediaCollection', '', $class)) === strtolower(pathinfo($sourceFile, PATHINFO_EXTENSION)))
 			{
 				return true;
 			}
