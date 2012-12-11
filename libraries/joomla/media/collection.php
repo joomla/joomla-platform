@@ -66,7 +66,7 @@ abstract class JMediaCollection
 	public function setOptions($options)
 	{
 		$prevSignature = md5(serialize($this->options));
-		var_dump(self::$instances);
+
 		// Merge old options with new options
 		$this->options = array_merge($this->options, $options);
 
@@ -77,8 +77,6 @@ abstract class JMediaCollection
 			// Remove modified instance from instances
 			unset(self::$instances[$prevSignature]);
 		}
-
-		var_dump(self::$instances);
 	}
 
 	/**
