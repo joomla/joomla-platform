@@ -72,10 +72,16 @@ abstract class JMediaCollection
 
 		$newSignature = md5(serialize($this->options));
 
-		if (strcmp($prevSignature, $newSignature))
+		if (strcmp($prevSignature, $newSignature) !== 0)
 		{
-			// Remove modified instance from instances
+			// Remove old signature from instance array
 			unset(self::$instances[$prevSignature]);
+
+			// Set new instance signature
+			if (!array_key_exists($newSignature, self::$instances))
+			{
+				self::$instances[$newSignature] = $this;
+			}
 		}
 	}
 
@@ -222,7 +228,7 @@ abstract class JMediaCollection
 	public static function getCollectionTypes()
 	{
 		// Instantiate variables.
-		$combiners = array();
+		$collectionTypes = array();
 
 		// Get a list of types.
 		$types = glob(__DIR__ . '/collection/*');
@@ -248,11 +254,11 @@ abstract class JMediaCollection
 			}
 
 			// Combiner names should not have file extensions.
-			$combiners[] = $class;
+			$collectionTypes[] = $class;
 
 		}
 
-		return $combiners;
+		return $collectionTypes;
 	}
 
 	/**

@@ -18,6 +18,7 @@ defined('JPATH_PLATFORM') or die;
  */
 class JMediaCompressorCss extends JMediaCompressor
 {
+	public static $DEFAULT_OPTIONS = array('REMOVE_COMMENTS' => true, 'MIN_COLOR_CODES' => true, 'LIMIT_LINE_LENGTH' => true);
 	/**
 	 * Object constructor
 	 * 
@@ -27,7 +28,7 @@ class JMediaCompressorCss extends JMediaCompressor
 	 */
 	public function __construct($options = array())
 	{
-		$this->options = array('REMOVE_COMMENTS' => true, 'MIN_COLOR_CODES' => true, 'LIMIT_LINE_LENGTH' => true);
+		$this->options = self::$DEFAULT_OPTIONS;
 		parent::__construct($options);
 	}
 
