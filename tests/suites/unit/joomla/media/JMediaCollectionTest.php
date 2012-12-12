@@ -75,7 +75,7 @@ class JMediaCollectionTest extends TestCase
 		$this->assertInstanceOf('JMediaCollectionJs', $Combiner2);
 	}
 
-	public function testGetCompressors()
+	public function testGetCollectionTypes()
 	{
 		$expected = array('css','js');
 	

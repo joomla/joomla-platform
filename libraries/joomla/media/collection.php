@@ -342,9 +342,9 @@ abstract class JMediaCollection
 	 */
 	public static function isSupported($sourceFile)
 	{
-		$combiners = self::getCollectionTypes();
+		$collectionTypes = self::getCollectionTypes();
 
-		foreach ($combiners as $class)
+		foreach ($collectionTypes as $class)
 		{
 			if (strtolower(str_ireplace('JMediaCollection', '', $class)) === strtolower(pathinfo($sourceFile, PATHINFO_EXTENSION)))
 			{

@@ -26,6 +26,12 @@ class JMediaCompressorTest extends TestCase
 	 */
 	protected $object;
 
+	protected $files;
+
+	protected $pathToTestFiles;
+
+	protected $suffix;
+
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -34,18 +40,38 @@ class JMediaCompressorTest extends TestCase
 	protected function setUp()
 	{
 		$this->object = JMediaCompressor::getInstance(array('type' => 'css'));
+		$this->pathToTestFiles = JPATH_BASE . '/test_files/css';
+		$this->loadFiles();
+		$this->suffix = 'min';
 	}
 
+	/**
+	 * Loads Necessary files
+	 */
+	protected function loadFiles()
+	{
+		//
+		$this->files = glob($this->pathToTestFiles . DIRECTORY_SEPARATOR . '*.css');
+		var_dump($this->files);
+	}
+
+	/**
+	 * Test getInstance Method
+	 */
 	public function testGetInstance()
 	{
-		$compressor1 = JMediaCompressor::getInstance(array('type'=>'css'));
+		$compressor1 = JMediaCompressor::getInstance(array('type' => 'css'));
 
 		$this->assertInstanceOf('JMediaCompressorCss', $compressor1);
 
-		$compressor2 = JMediaCompressor::getInstance(array('type'=>'js'));
+		$compressor2 = JMediaCompressor::getInstance(array('type' => 'js'));
 
 		$this->assertInstanceOf('JMediaCompressorJs', $compressor2);
 	}
+
+	/**
+	 * Test setCompressed Method
+	 */
 	public function testSetCompressed()
 	{
 		$random = rand();
@@ -55,15 +81,21 @@ class JMediaCompressorTest extends TestCase
 		$this->object->clear();
 	}
 
+	/**
+	 * Test setUncompressed Method
+	 */
 	public function testSetUncompressed()
 	{
 		$random = rand();
 		$this->object->setUncompressed($random);
 		$test = $this->object->getUncompressed();
-		$this->assertEquals($random,$test);
+		$this->assertEquals($random, $test);
 		$this->assertAttributeEquals($random, 'uncompressed', $this->object);
 	}
 
+	/**
+	 * Test getRatio
+	 */
 	public function testGetRatio()
 	{
 		$this->object->setUncompressed("TestUncompressed");
@@ -76,6 +108,9 @@ class JMediaCompressorTest extends TestCase
 		$this->object->clear();
 	}
 
+	/**
+	 * Test getCompressors Method
+	 */
 	public function testGetCompressors()
 	{
 		$expected = array('css','js');
@@ -86,6 +121,9 @@ class JMediaCompressorTest extends TestCase
 
 	}
 
+	/**
+	 * Test setOptions
+	 */
 	public function testSetOptions()
 	{
 		$existing_options = $this->object->getOptions();
@@ -106,6 +144,9 @@ class JMediaCompressorTest extends TestCase
 
 	}
 
+	/**
+	 * Test compressString Method
+	 */
 	public function testCompressString()
 	{
 		$sourceCss = JPATH_BASE . '/test_files/css/comments.css';
@@ -123,6 +164,9 @@ class JMediaCompressorTest extends TestCase
 		$this->assertEquals($expectedJs, $testJs);
 	}
 
+	/**
+	 * Test isSupported Method
+	 */
 	public function  testIsSupported()
 	{
 		$file1 = JPATH_BASE . '/test_files/css/comments.css';
@@ -132,9 +176,14 @@ class JMediaCompressorTest extends TestCase
 		$file2 = JPATH_BASE . '/test_files/js/case2.js';
 
 		$this->assertTrue(JMediaCompressor::isSupported($file2));
+
+		$this->assertFalse(JMediaCompressor::isSupported("index.php"));
 	}
 
 
+	/**
+	 * test clear Method
+	 */
 	public function testClear()
 	{
 		$this->object->setUncompressed("Compress This");
