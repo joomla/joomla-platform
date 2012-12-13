@@ -214,9 +214,13 @@ class JImage
 	 * Method to create thumbnails from the current image and save them to disk. It allows creation by resizing
 	 * or croppping the original image.
 	 *
-	 * @param   mixed    $thumbSizes      string or array of strings. Example: $thumbSizes = array('150x75','250x150');
+	 * @param   mixed    $thumbSizes      String or array of strings. Example: $thumbSizes = array('150x75','250x150');
 	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create croppping
-	 * @param   string   $thumbsFolder    destination thumbs folder. null generates a thumbs folder in the image folder
+	 * @param   string   $thumbsFolder    Destination thumbs folder. null generates a thumbs folder in the image folder
+	 * @param   string   $format          Filename format for the thumbnails to be saved to. Exclude extension from the format.
+	 *                                    {filename} - This will hold the files original name.
+	 *                                    {width} - This will hold the thumbnail width.
+	 *                                    {height} - This will hold the thumbnail height.
 	 *
 	 * @return array
 	 *
@@ -225,12 +229,18 @@ class JImage
 	 *
 	 * @since 12.2
 	 */
-	public function createThumbs($thumbSizes, $creationMethod = self::SCALE_INSIDE, $thumbsFolder = null)
+	public function createThumbs($thumbSizes, $creationMethod = self::SCALE_INSIDE, $thumbsFolder = null, $format = '{filename}_{width}x{height}')
 	{
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
 		{
 			throw new LogicException('No valid image was loaded.');
+		}
+
+		// Ensure that the filename format includes our required variables.
+		if (strpos($format, '{filename}') === false || strpos($format, '{width}') === false || strpos($format, '{height}') === false)
+		{
+			throw new InvalidArgumentException('Requested filename format is invalid. ' . $format);
 		}
 
 		// No thumbFolder set -> we will create a thumbs folder in the current image folder
@@ -262,7 +272,8 @@ class JImage
 				// Generate thumb name
 				$filename 		= pathinfo($this->getPath(), PATHINFO_FILENAME);
 				$fileExtension 	= pathinfo($this->getPath(), PATHINFO_EXTENSION);
-				$thumbFileName 	= $filename . '_' . $thumbWidth . 'x' . $thumbHeight . '.' . $fileExtension;
+				$tmpName        = str_replace(array('{filename}', '{width}', '{height}'), array($filename, $thumbWidth, $thumbHeight), $format);
+				$thumbFileName 	= $tmpName . '.' . $fileExtension;
 
 				// Save thumb file to disk
 				$thumbFileName = $thumbsFolder . '/' . $thumbFileName;
