@@ -79,7 +79,7 @@ abstract class JMediaCompressor
 	/**
 	 * Method to set uncompressed code.
 	 *
-	 * @param   string  $uncompressed  Uncomressed Code.
+	 * @param   string  $uncompressed  Uncompressed Code.
 	 *
 	 * @return  void
 	 *
@@ -104,7 +104,7 @@ abstract class JMediaCompressor
 	}
 
 	/**
-	 * Method to set uncompressed code.
+	 * Method to set compressed code.
 	 *
 	 * @param   string  $compressed  compressed Code.
 	 *
@@ -145,8 +145,24 @@ abstract class JMediaCompressor
 	 */
 	public function setOptions($options)
 	{
-		// Merge user defined options with default options
+		$prevSignature = md5(serialize($this->options));
+
+		// Merge old options with new options
 		$this->options = array_merge($this->options, $options);
+
+		$newSignature = md5(serialize($this->options));
+
+		if (strcmp($prevSignature, $newSignature) !== 0)
+		{
+			// Remove old signature from instance array
+			unset(self::$instances[$prevSignature]);
+
+			// Set new instance signature
+			if (!array_key_exists($newSignature, self::$instances))
+			{
+				self::$instances[$newSignature] = $this;
+			}
+		}
 	}
 
 	/**
@@ -174,11 +190,13 @@ abstract class JMediaCompressor
 		$compressors = array();
 
 		// Get a list of types.
-		$types = JFolder::files(__DIR__ . '/compressor');
+		$types = glob(__DIR__ . '/collection/*');
 
 		// Loop through the types and find the ones that are available.
 		foreach ($types as $type)
 		{
+			$type = basename($type);
+
 			// Ignore some files.
 			if ($type == 'index.html')
 			{
@@ -250,7 +268,7 @@ abstract class JMediaCompressor
 	/**
 	 * Compress a CSS/JS file with given options
 	 *
-	 * @param   string  $sourcefile   The full file path of the source file.
+	 * @param   string  $sourceFile   The full file path of the source file.
 	 * @param   array   $options      An associative array with options. Eg: type, force overwrite, prefix for minified files
 	 * @param   string  $destination  The full file path of the destination file. If left empty the compressed file will be returned as string
 	 * 
@@ -260,33 +278,33 @@ abstract class JMediaCompressor
 	 *
 	 * @since  12.1
 	 */
-	public static function compressFile( $sourcefile, $options = array(),  $destination = null )
+	public static function compressFile( $sourceFile, $options = array(),  $destination = null )
 	{
-		$options['type'] = strtolower(JFile::getExt($sourcefile));
+		$options['type'] = strtolower(pathinfo($sourceFile, PATHINFO_EXTENSION));
 
-		if (!self::isSupported($sourcefile))
+		if (!self::isSupported($sourceFile))
 		{
-			throw new RuntimeException(sprintf("The file type of the source file is not supported by the Compressors"));
+			throw new RuntimeException(sprintf("The file type of the source file - %s is not supported by the Compressors", $options['type']));
 		}
 		$compressor = self::getInstance($options);
-		$uncompressed = JFile::read($sourcefile);
+		$uncompressed = file_get_contents($sourceFile);
 
 		if ($destination === null)
 		{
-			$type = $extension = pathinfo($sourcefile, PATHINFO_EXTENSION);
+			$type = $extension = pathinfo($sourceFile, PATHINFO_EXTENSION);
 			if (array_key_exists('PREFIX', $options) && !empty($options['PREFIX']))
 			{
-				$destination = str_ireplace('.' . $type, '.' . $options['PREFIX'] . '.' . $type, $sourcefile);
+				$destination = str_ireplace('.' . $type, '.' . $options['PREFIX'] . '.' . $type, $sourceFile);
 			}
 			else
 			{
-				$destination = str_ireplace('.' . $type, '.min.' . $type, $sourcefile);
+				$destination = str_ireplace('.' . $type, '.min.' . $type, $sourceFile);
 			}
 		}
 
 		if (!$uncompressed)
 		{
-			throw new RuntimeException("Error reading the file (" . $sourcefile . ") contents");
+			throw new RuntimeException("Error reading the file (" . $sourceFile . ") contents");
 		}
 
 		$compressor->setUncompressed($uncompressed);
@@ -303,9 +321,9 @@ abstract class JMediaCompressor
 		// Sets force overwrite option
 		$force = array_key_exists('overwrite', $options) && !empty($options['overwrite']) ? $options['overwrite'] : false;
 
-		if (!JFile::exists($destination) || (JFile::exists($destination) && $force))
+		if (!file_exists($destination) || (file_exists($destination) && $force))
 		{
-			if (JFile::write($destination, $compressor->getCompressed()))
+			if (file_put_contents($destination, $compressor->getCompressed()))
 			{
 				return true;
 			}
@@ -349,6 +367,14 @@ abstract class JMediaCompressor
 				throw new RuntimeException(sprintf("Error Loading Compressor class for %s file type", $options['type']));
 			}
 
+			// Modify the signature with all the options
+			$signature = md5(serialize(array_merge($class::$DEFAULT_OPTIONS, $options)));
+
+			if (!empty(self::$instances[$signature]))
+			{
+				return self::$instances[$signature];
+			}
+
 			// Create our new JMediaCompressor class based on the options given.
 			try
 			{
@@ -356,7 +382,7 @@ abstract class JMediaCompressor
 			}
 			catch (RuntimeException $e)
 			{
-				throw new RuntimeException(sprintf("Error Loading Collection class for %s file type", $e->getMessage()));
+				throw new RuntimeException(sprintf("Error Loading Collection class for %s file type", $options['type']));
 			}
 
 			// Set the new connector to the global instances based on signature.
@@ -386,7 +412,7 @@ abstract class JMediaCompressor
 
 		foreach ($compressors as $class)
 		{
-			if (strtolower(str_ireplace('JMediaCompressor', '', $class)) === strtolower(JFile::getExt($sourceFile)))
+			if (strtolower(str_ireplace('JMediaCompressor', '', $class)) === strtolower(pathinfo($sourceFile, PATHINFO_EXTENSION)))
 			{
 				return true;
 			}

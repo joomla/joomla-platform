@@ -19,6 +19,7 @@ defined('JPATH_PLATFORM') or die;
  */
 class JMediaCompressorJs extends JMediaCompressor
 {
+	public static $DEFAULT_OPTIONS = array('REMOVE_COMMENTS' => true, 'CHANGE_ENCODING' => true);
 
 	/**
 	 * Used to track the index
@@ -77,7 +78,7 @@ class JMediaCompressorJs extends JMediaCompressor
 	 */
 	public function __construct($options = array())
 	{
-		$this->options = array('REMOVE_COMMENTS' => true, 'CHANGE_ENCODING' => true);
+		$this->options = self::$DEFAULT_OPTIONS;
 
 		parent::__construct($options);
 	}
