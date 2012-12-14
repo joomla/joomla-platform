@@ -1,4 +1,3 @@
 index.php
 includes/
 .idea/
-tests/suites/legacy/request/JRequestGetMethodTest.php
