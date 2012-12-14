@@ -25,6 +25,8 @@ class JFormFieldUsergroupTest extends TestCaseDatabase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		require_once JPATH_PLATFORM . '/joomla/form/fields/usergroup.php';
 		include_once dirname(__DIR__) . '/inspectors.php';
 	}
@@ -55,7 +57,7 @@ class JFormFieldUsergroupTest extends TestCaseDatabase
 		$this->assertThat(
 			$form->load('<form><field name="usergroup" type="usergroup" class="inputbox" disabled="true" onclick="window.reload()"><option value="*">None</option><item value="fake">Fake</item></field></form>'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' XML string should load successfully.'
+			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
 		$field = new JFormFieldUsergroup($form);
@@ -63,14 +65,21 @@ class JFormFieldUsergroupTest extends TestCaseDatabase
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The setup method should return true.'
+			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
-		$this->assertThat(
-			strlen($field->input),
-			$this->greaterThan(0),
-			'Line:'.__LINE__.' The getInput method should return something without error.'
-		);
+		if (!is_null(self::$driver))
+		{
+			$this->assertThat(
+				strlen($field->input),
+				$this->greaterThan(0),
+				'Line:' . __LINE__ . ' The getInput method should return something without error.'
+			);
+		}
+		else
+		{
+			$this->markTestSkipped();
+		}
 
 		// TODO: Should check all the attributes have come in properly.
 	}

@@ -25,6 +25,8 @@ class JFormFieldLanguageTest extends TestCaseDatabase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		require_once JPATH_PLATFORM . '/joomla/form/fields/language.php';
 		include_once dirname(__DIR__) . '/inspectors.php';
 	}
@@ -55,7 +57,7 @@ class JFormFieldLanguageTest extends TestCaseDatabase
 		$this->assertThat(
 			$form->load('<form><field name="language" type="language" /></form>'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' XML string should load successfully.'
+			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
 		$field = new JFormFieldLanguage($form);
@@ -63,7 +65,7 @@ class JFormFieldLanguageTest extends TestCaseDatabase
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The setup method should return true.'
+			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
 		$this->markTestIncomplete('Problems encountered in next assertion');
@@ -71,7 +73,7 @@ class JFormFieldLanguageTest extends TestCaseDatabase
 		$this->assertThat(
 			strlen($field->input),
 			$this->greaterThan(0),
-			'Line:'.__LINE__.' The getInput method should return something without error.'
+			'Line:' . __LINE__ . ' The getInput method should return something without error.'
 		);
 
 		// TODO: Should check all the attributes have come in properly.

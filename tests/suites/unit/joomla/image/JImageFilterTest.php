@@ -8,7 +8,7 @@
  */
 
 require_once JPATH_PLATFORM . '/joomla/image/filter.php';
-require_once JPATH_PLATFORM . '/joomla/image/filters/brightness.php';
+require_once JPATH_PLATFORM . '/joomla/image/filter/brightness.php';
 
 /**
  * Test class for JImage.
@@ -73,7 +73,7 @@ class JImageFilterTest extends TestCase
 	 */
 	public function testConstructor()
 	{
-		// Create a image handle of the correct size.
+		// Create an image handle of the correct size.
 		$imageHandle = imagecreatetruecolor(100, 100);
 
 		$filter = new JImageFilterBrightness($imageHandle);

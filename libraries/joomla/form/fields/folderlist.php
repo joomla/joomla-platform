@@ -39,7 +39,6 @@ class JFormFieldFolderList extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		// Initialize variables.
 		$options = array();
 
 		// Initialize some field attributes.
@@ -50,6 +49,7 @@ class JFormFieldFolderList extends JFormFieldList
 
 		// Get the path in which to search for file options.
 		$path = (string) $this->element['directory'];
+
 		if (!is_dir($path))
 		{
 			$path = JPATH_ROOT . '/' . $path;

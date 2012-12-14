@@ -93,7 +93,7 @@ abstract class JDatabase
 	/**
 	 * Method to return a JDatabaseDriver instance based on the given options.  There are three global options and then
 	 * the rest are specific to the database driver.  The 'driver' option defines which JDatabaseDriver class is
-	 * used for the connection -- the default is 'mysql'.  The 'database' option determines which database is to
+	 * used for the connection -- the default is 'mysqli'.  The 'database' option determines which database is to
 	 * be used for the connection.  The 'select' option determines whether the connector should automatically select
 	 * the chosen database.
 	 *
@@ -154,20 +154,5 @@ abstract class JDatabase
 		{
 			return JText::_('JLIB_DATABASE_FUNCTION_NOERROR');
 		}
-	}
-
-	/**
-	 * Test to see if the connector is available.
-	 *
-	 * @return  boolean  True on success, false otherwise.
-	 *
-	 * @since   11.1
-	 * @deprecated  12.3 Use JDatabaseDriver::isSupported() instead.
-	 */
-	public static function test()
-	{
-		JLog::add('JDatabase::test() is deprecated. Use JDatabaseDriver::isSupported() instead.', JLog::WARNING, 'deprecated');
-
-		return static::isSupported();
 	}
 }

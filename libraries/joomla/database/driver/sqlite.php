@@ -39,19 +39,6 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	protected $nameQuote = '`';
 
 	/**
-	 * Constructor.
-	 *
-	 * @param   array  $options  List of options used to configure the connection
-	 *
-	 * @since   12.1
-	 */
-	public function __construct($options)
-	{
-		// Finalize initialisation
-		parent::__construct($options);
-	}
-
-	/**
 	 * Destructor.
 	 *
 	 * @since   12.1
@@ -296,6 +283,7 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 		$this->connect();
 
 		$this->setQuery("SELECT sqlite_version()");
+
 		return $this->loadResult();
 	}
 
@@ -391,6 +379,88 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	 */
 	public static function isSupported()
 	{
-		return in_array('sqlite', PDO::getAvailableDrivers());
+		return class_exists('PDO') && in_array('sqlite', PDO::getAvailableDrivers());
+	}
+
+	/**
+	 * Method to commit a transaction.
+	 *
+	 * @param   boolean  $toSavepoint  If true, commit to the last savepoint.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 * @throws  RuntimeException
+	 */
+	public function transactionCommit($toSavepoint = false)
+	{
+		$this->connect();
+
+		if (!$toSavepoint || $this->transactionDepth <= 1)
+		{
+			parent::transactionCommit($toSavepoint);
+		}
+		else
+		{
+			$this->transactionDepth--;
+		}
+	}
+
+	/**
+	 * Method to roll back a transaction.
+	 *
+	 * @param   boolean  $toSavepoint  If true, rollback to the last savepoint.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 * @throws  RuntimeException
+	 */
+	public function transactionRollback($toSavepoint = false)
+	{
+		$this->connect();
+
+		if (!$toSavepoint || $this->transactionDepth <= 1)
+		{
+			parent::transactionRollback($toSavepoint);
+		}
+		else
+		{
+			$savepoint = 'SP_' . ($this->transactionDepth - 1);
+			$this->setQuery('ROLLBACK TO ' . $this->quoteName($savepoint));
+
+			if ($this->execute())
+			{
+				$this->transactionDepth--;
+			}
+		}
+	}
+
+	/**
+	 * Method to initialize a transaction.
+	 *
+	 * @param   boolean  $asSavepoint  If true and a transaction is already active, a savepoint will be created.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 * @throws  RuntimeException
+	 */
+	public function transactionStart($asSavepoint = false)
+	{
+		$this->connect();
+
+		if (!$asSavepoint || !$this->transactionDepth)
+		{
+			return parent::transactionStart($asSavepoint);
+		}
+
+		$savepoint = 'SP_' . $this->transactionDepth;
+		$this->setQuery('SAVEPOINT ' . $this->quoteName($savepoint));
+
+		if ($this->execute())
+		{
+			$this->transactionDepth++;
+		}
 	}
 }

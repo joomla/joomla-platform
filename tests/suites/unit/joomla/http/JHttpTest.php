@@ -7,11 +7,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/http/http.php';
-require_once JPATH_PLATFORM.'/joomla/http/transport/stream.php';
+require_once JPATH_PLATFORM . '/joomla/http/http.php';
+require_once JPATH_PLATFORM . '/joomla/http/transport/stream.php';
 
 /**
  * Test class for JGithub.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Http
+ *
+ * @since       11.1
  */
 class JHttpTest extends PHPUnit_Framework_TestCase
 {
@@ -38,12 +43,16 @@ class JHttpTest extends PHPUnit_Framework_TestCase
 	 * This method is called before a test is executed.
 	 *
 	 * @access protected
+	 *
+	 * @return void
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		static $classNumber = 1;
 		$this->options = $this->getMock('JRegistry', array('get', 'set'));
-		$this->transport = $this->getMock('JHttpTransportStream', array('request'), array($this->options), 'CustomTransport' . $classNumber++, false);
+		$this->transport = $this->getMock('JHttpTransportStream', array('request'), array($this->options), 'CustomTransport' . $classNumber ++, false);
 
 		$this->object = new JHttp($this->options, $this->transport);
 	}
@@ -53,6 +62,8 @@ class JHttpTest extends PHPUnit_Framework_TestCase
 	 * This method is called after a test is executed.
 	 *
 	 * @access protected
+	 *
+	 * @return void
 	 */
 	protected function tearDown()
 	{
@@ -60,6 +71,8 @@ class JHttpTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getOption method
+	 *
+	 * @return void
 	 */
 	public function testGetOption()
 	{
@@ -76,6 +89,8 @@ class JHttpTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the setOption method
+	 *
+	 * @return void
 	 */
 	public function testSetOption()
 	{
@@ -91,6 +106,8 @@ class JHttpTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the options method
+	 *
+	 * @return void
 	 */
 	public function testOptions()
 	{
@@ -107,6 +124,8 @@ class JHttpTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the head method
+	 *
+	 * @return void
 	 */
 	public function testHead()
 	{
@@ -123,6 +142,8 @@ class JHttpTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the get method
+	 *
+	 * @return void
 	 */
 	public function testGet()
 	{
@@ -139,6 +160,8 @@ class JHttpTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the post method
+	 *
+	 * @return void
 	 */
 	public function testPost()
 	{
@@ -155,6 +178,8 @@ class JHttpTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the put method
+	 *
+	 * @return void
 	 */
 	public function testPut()
 	{
@@ -171,6 +196,8 @@ class JHttpTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the delete method
+	 *
+	 * @return void
 	 */
 	public function testDelete()
 	{
@@ -187,6 +214,8 @@ class JHttpTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the trace method
+	 *
+	 * @return void
 	 */
 	public function testTrace()
 	{
@@ -197,6 +226,24 @@ class JHttpTest extends PHPUnit_Framework_TestCase
 
 		$this->assertThat(
 			$this->object->trace('http://example.com', array('testHeader')),
+			$this->equalTo('ReturnString')
+		);
+	}
+
+	/**
+	 * Tests the patch method
+	 *
+	 * @return void
+	 */
+	public function testPatch()
+	{
+		$this->transport->expects($this->once())
+			->method('request')
+			->with('PATCH', new JUri('http://example.com'), array('key' => 'value'), array('testHeader'))
+			->will($this->returnValue('ReturnString'));
+
+		$this->assertThat(
+			$this->object->patch('http://example.com', array('key' => 'value'), array('testHeader')),
 			$this->equalTo('ReturnString')
 		);
 	}

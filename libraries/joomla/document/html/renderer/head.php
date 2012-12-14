@@ -50,7 +50,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 	 *
 	 * @since   11.1
 	 */
-	public function fetchHead($document)
+	public function fetchHead(JDocument $document)
 	{
 		// Trigger the onBeforeCompileHead event (skip for installation, since it causes an error)
 		$app = JFactory::getApplication();
@@ -70,6 +70,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 
 		// Generate base tag (need to happen early)
 		$base = $document->getBase();
+
 		if (!empty($base))
 		{
 			$buffer .= $tab . '<base href="' . $document->getBase() . '" />' . $lnEnd;
@@ -93,6 +94,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 
 		// Don't add empty descriptions
 		$documentDescription = $document->getDescription();
+
 		if ($documentDescription)
 		{
 			$buffer .= $tab . '<meta name="description" content="' . htmlspecialchars($documentDescription) . '" />' . $lnEnd;
@@ -100,6 +102,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 
 		// Don't add empty generators
 		$generator = $document->getGenerator();
+
 		if ($generator)
 		{
 			$buffer .= $tab . '<meta name="generator" content="' . htmlspecialchars($generator) . '" />' . $lnEnd;
@@ -111,6 +114,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 		foreach ($document->_links as $link => $linkAtrr)
 		{
 			$buffer .= $tab . '<link href="' . $link . '" ' . $linkAtrr['relType'] . '="' . $linkAtrr['relation'] . '"';
+
 			if ($temp = JArrayHelper::toString($linkAtrr['attribs']))
 			{
 				$buffer .= ' ' . $temp;
@@ -122,6 +126,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 		foreach ($document->_styleSheets as $strSrc => $strAttr)
 		{
 			$buffer .= $tab . '<link rel="stylesheet" href="' . $strSrc . '" type="' . $strAttr['mime'] . '"';
+
 			if (!is_null($strAttr['media']))
 			{
 				$buffer .= ' media="' . $strAttr['media'] . '" ';
@@ -158,6 +163,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 		foreach ($document->_scripts as $strSrc => $strAttr)
 		{
 			$buffer .= $tab . '<script src="' . $strSrc . '"';
+
 			if (!is_null($strAttr['mime']))
 			{
 				$buffer .= ' type="' . $strAttr['mime'] . '"';

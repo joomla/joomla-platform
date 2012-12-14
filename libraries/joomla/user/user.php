@@ -35,7 +35,7 @@ class JUser extends JObject
 	public $id = null;
 
 	/**
-	 * The users real name (or nickname)
+	 * The user's real name (or nickname)
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -116,7 +116,7 @@ class JUser extends JObject
 	/**
 	 * User parameters
 	 *
-	 * @var    string
+	 * @var    JRegistry
 	 * @since  11.1
 	 */
 	public $params = null;
@@ -155,7 +155,7 @@ class JUser extends JObject
 
 	/**
 	 * User parameters
-	 * @var    object
+	 * @var    JRegistry
 	 * @since  11.1
 	 */
 	protected $_params = null;
@@ -244,6 +244,7 @@ class JUser extends JObject
 			{
 				JLog::add(JText::sprintf('JLIB_USER_ERROR_ID_NOT_EXISTS', $identifier), JLog::WARNING, 'jerror');
 				$retval = false;
+
 				return $retval;
 			}
 		}
@@ -354,6 +355,7 @@ class JUser extends JObject
 				if (JAccess::getAssetRules(1)->allow('core.admin', $identities))
 				{
 					$this->isRoot = true;
+
 					return true;
 				}
 			}
@@ -382,6 +384,7 @@ class JUser extends JObject
 		$db->setQuery($query);
 		$allCategories = $db->loadObjectList('id');
 		$allowedCategories = array();
+
 		foreach ($allCategories as $category)
 		{
 			if ($this->authorise($action, $category->asset_name))
@@ -413,6 +416,7 @@ class JUser extends JObject
 
 		return $this->_authLevels;
 	}
+
 	/**
 	 * Gets an array of the authorised user groups
 	 *
@@ -434,6 +438,7 @@ class JUser extends JObject
 
 		return $this->_authGroups;
 	}
+
 	/**
 	 * Pass through method to the table for setting the last visit date
 	 *
@@ -450,31 +455,6 @@ class JUser extends JObject
 		$table->load($this->id);
 
 		return $table->setLastVisit($timestamp);
-	}
-
-	/**
-	 * Method to get the user parameters
-	 *
-	 * This function tries to load an XML file based on the user's usertype. The filename of the xml
-	 * file is the same as the usertype. The functionals has a static variable to store the parameters
-	 * setup file base path. You can call this function statically to set the base path if needed.
-	 *
-	 * @param   boolean  $loadsetupfile  If true, loads the parameters setup file. Default is false.
-	 * @param   path     $path           Set the parameters setup file base path to be used to load the user parameters.
-	 *
-	 * @return  object   The user parameters object.
-	 *
-	 * @since   11.1
-	 * @deprecated  12.3
-	 */
-	public function getParameters($loadsetupfile = false, $path = null)
-	{
-		// @codeCoverageIgnoreStart
-		JLog::add('JUser::getParameters() is deprecated.', JLog::WARNING, 'deprecated');
-
-		return $this->_params;
-
-		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -548,11 +528,12 @@ class JUser extends JObject
 				$array['password2'] = $array['password'];
 			}
 
-			// TODO: Backend controller checks the password, frontend doesn't but should.
+			// Not all controllers check the password, although they should.
 			// Hence this code is required:
 			if (isset($array['password2']) && $array['password'] != $array['password2'])
 			{
 				$this->setError(JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'));
+
 				return false;
 			}
 
@@ -565,22 +546,6 @@ class JUser extends JObject
 			// Set the registration timestamp
 
 			$this->set('registerDate', JFactory::getDate()->toSql());
-
-			// Check that username is not greater than 150 characters
-			$username = $this->get('username');
-			if (strlen($username) > 150)
-			{
-				$username = substr($username, 0, 150);
-				$this->set('username', $username);
-			}
-
-			// Check that password is not greater than 100 characters
-			$password = $this->get('password');
-			if (strlen($password) > 100)
-			{
-				$password = substr($password, 0, 100);
-				$this->set('password', $password);
-			}
 		}
 		else
 		{
@@ -590,6 +555,7 @@ class JUser extends JObject
 				if ($array['password'] != $array['password2'])
 				{
 					$this->setError(JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'));
+
 					return false;
 				}
 
@@ -627,7 +593,26 @@ class JUser extends JObject
 		if (!$this->setProperties($array))
 		{
 			$this->setError(JText::_('JLIB_USER_ERROR_BIND_ARRAY'));
+
 			return false;
+		}
+
+		// Check that username is not greater than 150 characters
+		$username = $this->get('username');
+
+		if (strlen($username) > 150)
+		{
+			$username = substr($username, 0, 150);
+			$this->set('username', $username);
+		}
+
+		// Check that password is not greater than 100 characters
+		$password = $this->get('password');
+
+		if (strlen($password) > 100)
+		{
+			$password = substr($password, 0, 100);
+			$this->set('password', $password);
 		}
 
 		// Make sure its an integer
@@ -661,6 +646,7 @@ class JUser extends JObject
 			if (!$table->check())
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 
@@ -731,6 +717,7 @@ class JUser extends JObject
 			$dispatcher = JEventDispatcher::getInstance();
 
 			$result = $dispatcher->trigger('onUserBeforeSave', array($oldUser->getProperties(), $isNew, $this->getProperties()));
+
 			if (in_array(false, $result, true))
 			{
 				// Plugin will have to raise its own error or throw an exception.
@@ -785,6 +772,7 @@ class JUser extends JObject
 		$table = $this->getTable();
 
 		$result = false;
+
 		if (!$result = $table->delete($this->id))
 		{
 			$this->setError($table->getError());
@@ -813,7 +801,11 @@ class JUser extends JObject
 		// Load the JUserModel object based on the user id or throw a warning.
 		if (!$table->load($id))
 		{
+			// Reset to guest user
+			$this->guest = 1;
+
 			JLog::add(JText::sprintf('JLIB_USER_ERROR_UNABLE_TO_LOAD_USER', $id), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -825,8 +817,18 @@ class JUser extends JObject
 
 		$this->_params->loadString($table->params);
 
-		// Assuming all is well at this point lets bind the data
+		// Assuming all is well at this point let's bind the data
 		$this->setProperties($table->getProperties());
+
+		// The user is no longer a guest
+		if ($this->id != 0)
+		{
+			$this->guest = 0;
+		}
+		else
+		{
+			$this->guest = 1;
+		}
 
 		return true;
 	}

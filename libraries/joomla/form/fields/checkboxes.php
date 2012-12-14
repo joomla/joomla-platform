@@ -46,7 +46,6 @@ class JFormFieldCheckboxes extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Initialize variables.
 		$html = array();
 
 		// Initialize some field attributes.
@@ -61,6 +60,7 @@ class JFormFieldCheckboxes extends JFormField
 
 		// Build the checkbox field output.
 		$html[] = '<ul>';
+
 		foreach ($options as $i => $option)
 		{
 			// Initialize some option attributes.
@@ -103,7 +103,6 @@ class JFormFieldCheckboxes extends JFormField
 	 */
 	protected function getOptions()
 	{
-		// Initialize variables.
 		$options = array();
 
 		foreach ($this->element->children() as $option)

@@ -1,10 +1,10 @@
 <?php
 /**
- * @version    $Id: JDatabaseImporterPostgresqlTest.php gpongelli $
- * @package    Joomla.UnitTest
+ * @package     Joomla.UnitTest
+ * @subpackage  Database
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
- * @license    GNU General Public License
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/JDatabaseImporterPostgresqlInspector.php';
@@ -55,8 +55,9 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setup()
 	{
-		// Set up the database object mock.
+		parent::setUp();
 
+		// Set up the database object mock.
 		$this->dbo = $this->getMock(
 			'JDatabaseDriverPostgresql',
 			array(

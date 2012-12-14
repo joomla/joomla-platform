@@ -15,6 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Legacy
  * @subpackage  Module
  * @since       11.1
+ * @deprecated  13.3
  */
 abstract class JModuleHelper
 {
@@ -61,7 +62,6 @@ abstract class JModuleHelper
 			$result->showtitle = 0;
 			$result->control   = '';
 			$result->params    = '';
-			$result->user      = 0;
 		}
 
 		return $result;
@@ -85,6 +85,7 @@ abstract class JModuleHelper
 		$modules =& self::_load();
 
 		$total = count($modules);
+
 		for ($i = 0; $i < $total; $i++)
 		{
 			if ($modules[$i]->position == $position)
@@ -159,8 +160,7 @@ abstract class JModuleHelper
 		$path = JPATH_BASE . '/modules/' . $module->module . '/' . $module->module . '.php';
 
 		// Load the module
-		// $module->user is a check for 1.0 custom modules and is deprecated refactoring
-		if (empty($module->user) && file_exists($path))
+		if (file_exists($path))
 		{
 			$lang = JFactory::getLanguage();
 
@@ -342,12 +342,14 @@ abstract class JModuleHelper
 		catch (RuntimeException $e)
 		{
 			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()), JLog::WARNING, 'jerror');
+
 			return $clean;
 		}
 
 		// Apply negative selections and eliminate duplicates
 		$negId = $Itemid ? -(int) $Itemid : false;
 		$dupes = array();
+
 		for ($i = 0, $n = count($modules); $i < $n; $i++)
 		{
 			$module = &$modules[$i];
@@ -452,10 +454,12 @@ abstract class JModuleHelper
 
 			case 'safeuri':
 				$secureid = null;
+
 				if (is_array($cacheparams->modeparams))
 				{
 					$uri = JRequest::get();
 					$safeuri = new stdClass;
+
 					foreach ($cacheparams->modeparams as $key => $value)
 					{
 						// Use int filter for id/catid to clean out spamy slugs

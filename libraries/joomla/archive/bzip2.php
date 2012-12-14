@@ -42,7 +42,6 @@ class JArchiveBzip2 implements JArchiveExtractable
 	 */
 	public function extract($archive, $destination, array $options = array ())
 	{
-		// Initialise variables.
 		$this->_data = null;
 
 		if (!extension_loaded('bz2'))
@@ -60,7 +59,9 @@ class JArchiveBzip2 implements JArchiveExtractable
 		if (!isset($options['use_streams']) || $options['use_streams'] == false)
 		{
 			// Old style: read the whole file and then parse it
-			if (!$this->_data = JFile::read($archive))
+			$this->_data = file_get_contents($archive);
+
+			if (!$this->_data)
 			{
 				if (class_exists('JError'))
 				{
@@ -74,6 +75,7 @@ class JArchiveBzip2 implements JArchiveExtractable
 
 			$buffer = bzdecompress($this->_data);
 			unset($this->_data);
+
 			if (empty($buffer))
 			{
 				if (class_exists('JError'))
@@ -124,6 +126,7 @@ class JArchiveBzip2 implements JArchiveExtractable
 			if (!$output->open($destination, 'w'))
 			{
 				$input->close();
+
 				if (class_exists('JError'))
 				{
 					return JError::raiseWarning(100, 'Unable to write archive (bz2)');
@@ -137,11 +140,13 @@ class JArchiveBzip2 implements JArchiveExtractable
 			do
 			{
 				$this->_data = $input->read($input->get('chunksize', 8196));
+
 				if ($this->_data)
 				{
 					if (!$output->write($this->_data))
 					{
 						$input->close();
+
 						if (class_exists('JError'))
 						{
 							return JError::raiseWarning(100, 'Unable to write archive (bz2)');

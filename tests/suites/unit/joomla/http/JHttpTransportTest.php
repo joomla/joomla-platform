@@ -9,6 +9,11 @@
 
 /**
  * Test class for JHttpTransport classes.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Http
+ *
+ * @since       11.1
  */
 class JHttpTransportTest extends PHPUnit_Framework_TestCase
 {
@@ -25,9 +30,13 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
+	 *
+	 * @return void
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		$this->options = $this->getMock('JRegistry', array('get', 'set'));
 
 		if (!defined('JTEST_HTTP_STUB') && getenv('JTEST_HTTP_STUB') == '')
@@ -43,6 +52,8 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
+	 *
+	 * @return void
 	 */
 	protected function tearDown()
 	{
@@ -50,6 +61,8 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Data provider for the request test methods.
+	 *
+	 * @return array
 	 */
 	public function transportProvider()
 	{
@@ -63,7 +76,11 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the request method with a get request
 	 *
+	 * @param   string  $transportClass  The transport class to test
+	 *
 	 * @dataProvider  transportProvider
+	 *
+	 * @return void
 	 */
 	public function testRequestGet($transportClass)
 	{
@@ -85,9 +102,44 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the request method with a get request with a bad domain
+	 *
+	 * @param   string  $transportClass  The transport class to test
+	 * 
+	 * @dataProvider      transportProvider
+	 * @expectedException RuntimeException
+	 *
+	 * @return void
+	 */
+	public function testBadDomainRequestGet($transportClass)
+	{
+		$transport = new $transportClass($this->options);
+		$response = $transport->request('get', new JUri('http://xommunity.joomla.org'));
+	}
+
+	/**
+	 * Tests the request method with a get request for non existant url
+	 *
+	 * @param   string  $transportClass  The transport class to test
+	 * 
+	 * @dataProvider  transportProvider
+	 *
+	 * @return void
+	 */
+	public function testRequestGet404($transportClass)
+	{
+		$transport = new $transportClass($this->options);
+		$response = $transport->request('get', new JUri($this->stubUrl . ':80'));
+	}
+
+	/**
 	 * Tests the request method with a put request
 	 *
+	 * @param   string  $transportClass  @todo
+	 *
 	 * @dataProvider  transportProvider
+	 *
+	 * @return void
 	 */
 	public function testRequestPut($transportClass)
 	{
@@ -111,7 +163,11 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the request method with a post request and array data
 	 *
+	 * @param   string  $transportClass  @todo
+	 *
 	 * @dataProvider  transportProvider
+	 *
+	 * @return void
 	 */
 	public function testRequestPost($transportClass)
 	{
@@ -140,7 +196,11 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the request method with a post request and scalar data
 	 *
+	 * @param   string  $transportClass  @todo
+	 *
 	 * @dataProvider  transportProvider
+	 *
+	 * @return void
 	 */
 	public function testRequestPostScalar($transportClass)
 	{

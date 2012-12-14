@@ -246,16 +246,19 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 
 		// Take a local copy so that we don't modify the original query and cause issues later
 		$sql = $this->replacePrefix((string) $this->sql);
+
 		if ($this->limit > 0 || $this->offset > 0)
 		{
 			$sql .= ' LIMIT ' . $this->offset . ', ' . $this->limit;
 		}
 
+		// Increment the query counter.
+		$this->count++;
+
 		// If debugging is enabled then let's log the query.
 		if ($this->debug)
 		{
-			// Increment the query counter and add the query to the object queue.
-			$this->count++;
+			// Add the query to the object queue.
 			$this->log[] = $sql;
 
 			JLog::add($sql, JLog::DEBUG, 'databasequery');
@@ -349,7 +352,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	{
 		$this->connect();
 
-		return mysql_query("SET NAMES 'utf8'", $this->connection);
+		return mysql_set_charset('utf8', $this->connection);
 	}
 
 	/**

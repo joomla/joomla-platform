@@ -25,6 +25,8 @@ class JFormFieldSessionHandlerTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		require_once JPATH_PLATFORM . '/joomla/form/fields/sessionhandler.php';
 		include_once dirname(__DIR__) . '/inspectors.php';
 	}
@@ -43,7 +45,7 @@ class JFormFieldSessionHandlerTest extends TestCase
 		$this->assertThat(
 			$form->load('<form><field name="sessionhandler" type="sessionhandler" /></form>'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' XML string should load successfully.'
+			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
 		$field = new JFormFieldSessionHandler($form);
@@ -51,13 +53,13 @@ class JFormFieldSessionHandlerTest extends TestCase
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The setup method should return true.'
+			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
 		$this->assertThat(
 			strlen($field->input),
 			$this->greaterThan(0),
-			'Line:'.__LINE__.' The getInput method should return something without error.'
+			'Line:' . __LINE__ . ' The getInput method should return something without error.'
 		);
 
 		// TODO: Should check all the attributes have come in properly.

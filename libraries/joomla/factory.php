@@ -61,6 +61,7 @@ abstract class JFactory
 	/**
 	 * @var    JAccess
 	 * @since  11.1
+	 * @deprecated  13.3
 	 */
 	public static $acl = null;
 
@@ -220,7 +221,7 @@ abstract class JFactory
 				$instance = JUser::getInstance();
 			}
 		}
-		elseif ($instance->id != $id)
+		elseif (!($instance instanceof JUser) || $instance->id != $id)
 		{
 			$instance = JUser::getInstance($id);
 		}
@@ -244,6 +245,7 @@ abstract class JFactory
 	public static function getCache($group = '', $handler = 'callback', $storage = null)
 	{
 		$hash = md5($group . $handler . $storage);
+
 		if (isset(self::$cache[$hash]))
 		{
 			return self::$cache[$hash];
@@ -373,6 +375,7 @@ abstract class JFactory
 		JLog::add(__METHOD__ . ' is deprecated. Use SimpleXML directly.', JLog::WARNING, 'deprecated');
 
 		$class = 'SimpleXMLElement';
+
 		if (class_exists('JXMLElement'))
 		{
 			$class = 'JXMLElement';
@@ -418,10 +421,13 @@ abstract class JFactory
 	 * @return  JEditor instance of JEditor
 	 *
 	 * @since   11.1
-	 * @deprecated 12.3 Use JEditor directly
+	 * @deprecated 12.2 CMS developers should use JEditor directly.
+	 * @note There is no direct replacement in the Joomla Platform.
 	 */
 	public static function getEditor($editor = null)
 	{
+		JLog::add(__METHOD__ . ' is deprecated. CMS developers should use JEditor directly.', JLog::WARNING, 'deprecated');
+
 		if (!class_exists('JEditor'))
 		{
 			throw new BadMethodCallException('JEditor not found');
@@ -570,6 +576,7 @@ abstract class JFactory
 		$options['expire'] = ($conf->get('lifetime')) ? $conf->get('lifetime') * 60 : 900;
 
 		$session = JSession::getInstance($handler, $options);
+
 		if ($session->getState() == 'expired')
 		{
 			$session->restart();
@@ -695,10 +702,13 @@ abstract class JFactory
 	{
 		$lang = self::getLanguage();
 
+		$input = self::getApplication()->input;
+		$type = $input->get('format', 'html', 'word');
+
 		$attributes = array('charset' => 'utf-8', 'lineend' => 'unix', 'tab' => '  ', 'language' => $lang->getTag(),
 			'direction' => $lang->isRTL() ? 'rtl' : 'ltr');
 
-		return JDocument::getInstance('html', $attributes);
+		return JDocument::getInstance($type, $attributes);
 	}
 
 	/**

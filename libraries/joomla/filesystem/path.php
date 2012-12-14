@@ -36,11 +36,13 @@ class JPath
 	public static function canChmod($path)
 	{
 		$perms = fileperms($path);
+
 		if ($perms !== false)
 		{
 			if (@chmod($path, $perms ^ 0001))
 			{
 				@chmod($path, $perms);
+
 				return true;
 			}
 		}
@@ -73,6 +75,7 @@ class JPath
 				if ($file != '.' && $file != '..')
 				{
 					$fullpath = $path . '/' . $file;
+
 					if (is_dir($fullpath))
 					{
 						if (!self::setPermissions($fullpath, $filemode, $foldermode))
@@ -93,6 +96,7 @@ class JPath
 				}
 			}
 			closedir($dh);
+
 			if (isset($foldermode))
 			{
 				if (!@ chmod($path, octdec($foldermode)))
@@ -132,6 +136,7 @@ class JPath
 		}
 
 		$parsed_mode = '';
+
 		for ($i = 0; $i < 3; $i++)
 		{
 			// Read
@@ -151,14 +156,13 @@ class JPath
 	 * Checks for snooping outside of the file system root.
 	 *
 	 * @param   string  $path  A file system path to check.
-	 * @param   string  $ds    Directory separator (optional).
 	 *
 	 * @return  string  A cleaned version of the path or exit on error.
 	 *
 	 * @since   11.1
 	 * @throws  Exception
 	 */
-	public static function check($path, $ds = DIRECTORY_SEPARATOR)
+	public static function check($path)
 	{
 		if (strpos($path, '..') !== false)
 		{
@@ -167,6 +171,7 @@ class JPath
 		}
 
 		$path = self::clean($path);
+
 		if ((JPATH_ROOT != '') && strpos($path, self::clean(JPATH_ROOT)) !== 0)
 		{
 			// Don't translate

@@ -22,15 +22,17 @@ require_once JPATH_PLATFORM . '/joomla/filesystem/path.php';
 class JFilesystemPatcherTest extends TestCase
 {
 	/**
-     * Sets up the fixture.
-     * This method is called before a test is executed.
-     *
-     * @return  void
+	 * Sets up the fixture.
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
 	 *
 	 * @since       12.1
-     */
+	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		// Make sure previous test files are cleaned up
 		$this->_cleanupTestFiles();
 
@@ -120,6 +122,7 @@ class JFilesystemPatcherTest extends TestCase
 +Deeper and more profound,
 +The door of all subtleties!
 ';
+
 		return array(
 			array(
 				$udiff,
@@ -320,7 +323,7 @@ class JFilesystemPatcherTest extends TestCase
 		return array(
 			// Test classical feature
 			'Test classical feature' => array(
-'Index: lao
+				'Index: lao
 ===================================================================
 --- lao	2011-09-21 16:05:45.086909120 +0200
 +++ tzu	2011-09-21 16:05:41.156878938 +0200
@@ -346,7 +349,7 @@ class JFilesystemPatcherTest extends TestCase
 				0,
 				array(
 					JPATH_TESTS . '/tmp/patcher/lao' =>
-'The Way that can be told of is not the eternal Way;
+					'The Way that can be told of is not the eternal Way;
 The name that can be named is not the eternal name.
 The Nameless is the origin of Heaven and Earth;
 The Named is the mother of all things.
@@ -361,7 +364,7 @@ But after they are produced,
 				),
 				array(
 					JPATH_TESTS . '/tmp/patcher/tzu' =>
-'The Nameless is the origin of Heaven and Earth;
+					'The Nameless is the origin of Heaven and Earth;
 The named is the mother of all things.
 
 Therefore let there always be non-being,
@@ -382,7 +385,7 @@ The door of all subtleties!
 
 			// Test truncated hunk
 			'Test truncated hunk' => array(
-'Index: lao
+				'Index: lao
 ===================================================================
 --- lao	2011-09-21 16:05:45.086909120 +0200
 +++ tzu	2011-09-21 16:05:41.156878938 +0200
@@ -394,7 +397,7 @@ The door of all subtleties!
 				0,
 				array(
 					JPATH_TESTS . '/tmp/patcher/lao' =>
-'The Way that can be told of is not the eternal Way;
+					'The Way that can be told of is not the eternal Way;
 The name that can be named is not the eternal name.
 The Nameless is the origin of Heaven and Earth;
 The Named is the mother of all things.
@@ -409,7 +412,7 @@ But after they are produced,
 				),
 				array(
 					JPATH_TESTS . '/tmp/patcher/tzu' =>
-'The named is the mother of all things.
+					'The named is the mother of all things.
 The name that can be named is not the eternal name.
 The Nameless is the origin of Heaven and Earth;
 The Named is the mother of all things.
@@ -428,7 +431,7 @@ But after they are produced,
 
 			// Test strip is null
 			'Test strip is null' => array(
-'Index: lao
+				'Index: lao
 ===================================================================
 --- lao	2011-09-21 16:05:45.086909120 +0200
 +++ tzu	2011-09-21 16:05:41.156878938 +0200
@@ -454,7 +457,7 @@ But after they are produced,
 				null,
 				array(
 					JPATH_TESTS . '/tmp/patcher/lao' =>
-'The Way that can be told of is not the eternal Way;
+					'The Way that can be told of is not the eternal Way;
 The name that can be named is not the eternal name.
 The Nameless is the origin of Heaven and Earth;
 The Named is the mother of all things.
@@ -469,7 +472,7 @@ But after they are produced,
 				),
 				array(
 					JPATH_TESTS . '/tmp/patcher/tzu' =>
-'The Nameless is the origin of Heaven and Earth;
+					'The Nameless is the origin of Heaven and Earth;
 The named is the mother of all things.
 
 Therefore let there always be non-being,
@@ -490,7 +493,7 @@ The door of all subtleties!
 
 			// Test strip is different of 0
 			'Test strip is different of 0' => array(
-'Index: lao
+				'Index: lao
 ===================================================================
 --- /path/to/lao	2011-09-21 16:05:45.086909120 +0200
 +++ /path/to/tzu	2011-09-21 16:05:41.156878938 +0200
@@ -516,7 +519,7 @@ The door of all subtleties!
 				3,
 				array(
 					JPATH_TESTS . '/tmp/patcher/lao' =>
-'The Way that can be told of is not the eternal Way;
+					'The Way that can be told of is not the eternal Way;
 The name that can be named is not the eternal name.
 The Nameless is the origin of Heaven and Earth;
 The Named is the mother of all things.
@@ -531,7 +534,7 @@ But after they are produced,
 				),
 				array(
 					JPATH_TESTS . '/tmp/patcher/tzu' =>
-'The Nameless is the origin of Heaven and Earth;
+					'The Nameless is the origin of Heaven and Earth;
 The named is the mother of all things.
 
 Therefore let there always be non-being,
@@ -552,7 +555,7 @@ The door of all subtleties!
 
 			// Test create file
 			'Test create file' => array(
-'Index: lao
+				'Index: lao
 ===================================================================
 --- lao	2011-09-21 16:05:45.086909120 +0200
 +++ tzu	2011-09-21 16:05:41.156878938 +0200
@@ -577,7 +580,7 @@ The door of all subtleties!
 				array(),
 				array(
 					JPATH_TESTS . '/tmp/patcher/tzu' =>
-'The Nameless is the origin of Heaven and Earth;
+					'The Nameless is the origin of Heaven and Earth;
 The named is the mother of all things.
 
 Therefore let there always be non-being,
@@ -598,7 +601,7 @@ The door of all subtleties!
 
 			// Test patch itself
 			'Test patch itself' => array(
-'Index: lao
+				'Index: lao
 ===================================================================
 --- tzu	2011-09-21 16:05:45.086909120 +0200
 +++ tzu	2011-09-21 16:05:41.156878938 +0200
@@ -624,7 +627,7 @@ The door of all subtleties!
 				0,
 				array(
 					JPATH_TESTS . '/tmp/patcher/tzu' =>
-'The Way that can be told of is not the eternal Way;
+					'The Way that can be told of is not the eternal Way;
 The name that can be named is not the eternal name.
 The Nameless is the origin of Heaven and Earth;
 The Named is the mother of all things.
@@ -639,7 +642,7 @@ But after they are produced,
 				),
 				array(
 					JPATH_TESTS . '/tmp/patcher/tzu' =>
-'The Nameless is the origin of Heaven and Earth;
+					'The Nameless is the origin of Heaven and Earth;
 The named is the mother of all things.
 
 Therefore let there always be non-being,
@@ -660,7 +663,7 @@ The door of all subtleties!
 
 			// Test delete
 			'Test delete' => array(
-'Index: lao
+				'Index: lao
 ===================================================================
 --- tzu	2011-09-21 16:05:45.086909120 +0200
 +++ tzu	2011-09-21 16:05:41.156878938 +0200
@@ -681,7 +684,7 @@ The door of all subtleties!
 				0,
 				array(
 					JPATH_TESTS . '/tmp/patcher/tzu' =>
-'The Way that can be told of is not the eternal Way;
+					'The Way that can be told of is not the eternal Way;
 The name that can be named is not the eternal name.
 The Nameless is the origin of Heaven and Earth;
 The Named is the mother of all things.
@@ -703,7 +706,7 @@ But after they are produced,
 
 			// Test unexpected eof after header
 			'Test unexpected eof after header 1' => array(
-'Index: lao
+				'Index: lao
 ===================================================================
 --- lao	2011-09-21 16:05:45.086909120 +0200
 +++ tzu	2011-09-21 16:05:41.156878938 +0200
@@ -718,7 +721,7 @@ But after they are produced,
 
 			// Test unexpected eof after header
 			'Test unexpected eof after header 2' => array(
-'Index: lao
+				'Index: lao
 ===================================================================
 --- lao	2011-09-21 16:05:45.086909120 +0200
 +++ tzu	2011-09-21 16:05:41.156878938 +0200',
@@ -732,7 +735,7 @@ But after they are produced,
 
 			// Test unexpected eof in header
 			'Test unexpected eof in header' => array(
-'Index: lao
+				'Index: lao
 ===================================================================
 --- lao	2011-09-21 16:05:45.086909120 +0200',
 				JPATH_TESTS . '/tmp/patcher',
@@ -745,7 +748,7 @@ But after they are produced,
 
 			// Test invalid diff in header
 			'Test invalid diff in header' => array(
-'Index: lao
+				'Index: lao
 ===================================================================
 --- lao	2011-09-21 16:05:45.086909120 +0200
 ',
@@ -759,7 +762,7 @@ But after they are produced,
 
 			// Test unexpected eof after hunk 1
 			'Test unexpected eof after hunk 1' => array(
-'Index: lao
+				'Index: lao
 ===================================================================
 --- lao	2011-09-21 16:05:45.086909120 +0200
 +++ tzu	2011-09-21 16:05:41.156878938 +0200
@@ -774,7 +777,7 @@ But after they are produced,
 
 			// Test unexpected eof after hunk 2
 			'Test unexpected eof after hunk 2' => array(
-'Index: lao
+				'Index: lao
 ===================================================================
 --- lao	2011-09-21 16:05:45.086909120 +0200
 +++ tzu	2011-09-21 16:05:41.156878938 +0200
@@ -793,7 +796,7 @@ But after they are produced,
 
 			// Test unexpected remove line
 			'Test unexpected remove line' => array(
-'Index: lao
+				'Index: lao
 ===================================================================
 --- lao	2011-09-21 16:05:45.086909120 +0200
 +++ tzu	2011-09-21 16:05:41.156878938 +0200
@@ -812,7 +815,7 @@ But after they are produced,
 
 			// Test unexpected add line
 			'Test unexpected add line' => array(
-'Index: lao
+				'Index: lao
 ===================================================================
 --- lao	2011-09-21 16:05:45.086909120 +0200
 +++ tzu	2011-09-21 16:05:41.156878938 +0200
@@ -831,7 +834,7 @@ But after they are produced,
 
 			// Test unexisting source
 			'Test unexisting source' => array(
-'Index: lao
+				'Index: lao
 ===================================================================
 --- lao	2011-09-21 16:05:45.086909120 +0200
 +++ tzu	2011-09-21 16:05:41.156878938 +0200
@@ -863,7 +866,7 @@ But after they are produced,
 
 			// Test failed verify
 			'Test failed verify' => array(
-'Index: lao
+				'Index: lao
 ===================================================================
 --- lao	2011-09-21 16:05:45.086909120 +0200
 +++ tzu	2011-09-21 16:05:41.156878938 +0200
@@ -932,6 +935,7 @@ But after they are produced,
 			$patcher->apply(),
 			'Line:' . __LINE__ . ' The patcher did not patch ' . $result . ' file(s).'
 		);
+
 		foreach ($destinations as $path => $content)
 		{
 			if (is_null($content))

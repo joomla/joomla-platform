@@ -110,11 +110,13 @@ class JClientLdap
 		if (is_object($configObj))
 		{
 			$vars = get_class_vars(get_class($this));
+
 			foreach (array_keys($vars) as $var)
 			{
 				if (substr($var, 0, 1) != '_')
 				{
 					$param = $configObj->get($var);
+
 					if ($param)
 					{
 						$this->$var = $param;
@@ -138,6 +140,7 @@ class JClientLdap
 			return false;
 		}
 		$this->_resource = @ ldap_connect($this->host, $this->port);
+
 		if ($this->_resource)
 		{
 			if ($this->use_ldapV3)
@@ -147,7 +150,7 @@ class JClientLdap
 					return false;
 				}
 			}
-			if (!@ldap_set_option($this->_resource, LDAP_OPT_REFERRALS, intval($this->no_referrals)))
+			if (!@ldap_set_option($this->_resource, LDAP_OPT_REFERRALS, (int) $this->no_referrals))
 			{
 				return false;
 			}
@@ -226,6 +229,7 @@ class JClientLdap
 	public function anonymous_bind()
 	{
 		$bindResult = @ldap_bind($this->_resource);
+
 		return $bindResult;
 	}
 
@@ -252,6 +256,7 @@ class JClientLdap
 		}
 		$this->setDN($username, $nosub);
 		$bindResult = @ldap_bind($this->_resource, $this->getDN(), $password);
+
 		return $bindResult;
 	}
 
@@ -267,6 +272,7 @@ class JClientLdap
 	public function simple_search($search)
 	{
 		$results = explode(';', $search);
+
 		foreach ($results as $key => $result)
 		{
 			$results[$key] = '(' . $result . ')';
@@ -387,6 +393,7 @@ class JClientLdap
 	public function remove($dn, $attribute)
 	{
 		$resource = $this->_resource;
+
 		return @ldap_mod_del($resource, $dn, $attribute);
 	}
 
@@ -522,6 +529,7 @@ class JClientLdap
 		foreach ($parts as $int)
 		{
 			$tmp = dechex($int);
+
 			if (strlen($tmp) != 2)
 			{
 				$tmp = '0' . $tmp;
@@ -558,7 +566,7 @@ class JClientLdap
 	public static function LDAPNetAddr($networkaddress)
 	{
 		$addr = "";
-		$addrtype = intval(substr($networkaddress, 0, 1));
+		$addrtype = (int) substr($networkaddress, 0, 1);
 
 		// Throw away bytes 0 and 1 which should be the addrtype and the "#" separator
 		$networkaddress = substr($networkaddress, 2);
@@ -586,12 +594,14 @@ class JClientLdap
 			'URL',
 			'Count');
 		$len = strlen($networkaddress);
+
 		if ($len > 0)
 		{
 			for ($i = 0; $i < $len; $i++)
 			{
 				$byte = substr($networkaddress, $i, 1);
 				$addr .= ord($byte);
+
 				if (($addrtype == 1) || ($addrtype == 8) || ($addrtype = 9))
 				{
 					// Dot separate IP addresses...
@@ -624,6 +634,7 @@ class JClientLdap
 	public static function generatePassword($password, $type = 'md5')
 	{
 		$userpassword = '';
+
 		switch (strtolower($type))
 		{
 			case 'sha':
@@ -635,29 +646,5 @@ class JClientLdap
 				break;
 		}
 		return $userpassword;
-	}
-}
-
-/**
- * Deprecated class placeholder. You should use JClientLdap instead.
- *
- * @package     Joomla.Platform
- * @subpackage  Client
- * @since       11.1
- * @deprecated  12.3
- */
-class JLDAP extends JClientLdap
-{
-	/**
-	 * Constructor
-	 *
-	 * @param   object  $configObj  An object of configuration variables
-	 *
-	 * @since   11.1
-	 */
-	public function __construct($configObj)
-	{
-		JLog::add('JLDAP is deprecated. Use JClientLdap instead.', JLog::WARNING, 'deprecated');
-		parent::__construct($configObj);
 	}
 }

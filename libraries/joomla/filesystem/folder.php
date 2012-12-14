@@ -38,7 +38,6 @@ abstract class JFolder
 	{
 		@set_time_limit(ini_get('max_execution_time'));
 
-		// Initialise variables.
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
 		if ($path)
@@ -70,7 +69,7 @@ abstract class JFolder
 		if ($FTPOptions['enabled'] == 1 && !$use_streams)
 		{
 			// Connect the FTP client
-			$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+			$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 
 			if (!($dh = @opendir($src)))
 			{
@@ -81,12 +80,14 @@ abstract class JFolder
 			{
 				$sfid = $src . '/' . $file;
 				$dfid = $dest . '/' . $file;
+
 				switch (filetype($sfid))
 				{
 					case 'dir':
 						if ($file != '.' && $file != '..')
 						{
 							$ret = self::copy($sfid, $dfid, null, $force);
+
 							if ($ret !== true)
 							{
 								return $ret;
@@ -97,6 +98,7 @@ abstract class JFolder
 					case 'file':
 						// Translate path for the FTP account
 						$dfid = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dfid), '/');
+
 						if (!$ftp->store($sfid, $dfid))
 						{
 							throw new RuntimeException('Copy file failed', -1);
@@ -116,12 +118,14 @@ abstract class JFolder
 			{
 				$sfid = $src . '/' . $file;
 				$dfid = $dest . '/' . $file;
+
 				switch (filetype($sfid))
 				{
 					case 'dir':
 						if ($file != '.' && $file != '..')
 						{
 							$ret = self::copy($sfid, $dfid, null, $force, $use_streams);
+
 							if ($ret !== true)
 							{
 								return $ret;
@@ -133,6 +137,7 @@ abstract class JFolder
 						if ($use_streams)
 						{
 							$stream = JFactory::getStream();
+
 							if (!$stream->copy($sfid, $dfid))
 							{
 								throw new RuntimeException('Cannot copy file: ' . $stream->getError(), -1);
@@ -164,7 +169,6 @@ abstract class JFolder
 	 */
 	public static function create($path = '', $mode = 0755)
 	{
-		// Initialise variables.
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 		static $nested = 0;
 
@@ -173,14 +177,17 @@ abstract class JFolder
 
 		// Check if parent dir exists
 		$parent = dirname($path);
+
 		if (!self::exists($parent))
 		{
 			// Prevent infinite loops!
 			$nested++;
+
 			if (($nested > 20) || ($parent == $path))
 			{
-				JLog::add('SOME_ERROR_CODE', __METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_LOOP'), JLog::WARNING, 'jerror');
+				JLog::add(__METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_LOOP'), JLog::WARNING, 'jerror');
 				$nested--;
+
 				return false;
 			}
 
@@ -189,6 +196,7 @@ abstract class JFolder
 			{
 				// JFolder::create throws an error
 				$nested--;
+
 				return false;
 			}
 
@@ -206,7 +214,7 @@ abstract class JFolder
 		if ($FTPOptions['enabled'] == 1)
 		{
 			// Connect the FTP client
-			$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+			$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 
 			// Translate path to FTP path
 			$path = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), '/');
@@ -237,6 +245,7 @@ abstract class JFolder
 				foreach ($obdArray as $test)
 				{
 					$test = JPath::clean($test);
+
 					if (strpos($path, $test) === 0)
 					{
 						$inBaseDir = true;
@@ -246,7 +255,8 @@ abstract class JFolder
 				if ($inBaseDir == false)
 				{
 					// Return false for JFolder::create because the path to be created is not in open_basedir
-					JLog::add('SOME_ERROR_CODE', __METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_PATH'), JLog::WARNING, 'jerror');
+					JLog::add(__METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_PATH'), JLog::WARNING, 'jerror');
+
 					return false;
 				}
 			}
@@ -259,9 +269,9 @@ abstract class JFolder
 			{
 				@umask($origmask);
 				JLog::add(
-					'SOME_ERROR_CODE',
 					__METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_COULD_NOT_CREATE_DIRECTORY'), 'Path: ' . $path, JLog::WARNING, 'jerror'
 				);
+
 				return false;
 			}
 
@@ -289,10 +299,10 @@ abstract class JFolder
 		{
 			// Bad programmer! Bad Bad programmer!
 			JLog::add(__METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_DELETE_BASE_DIRECTORY'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
-		// Initialise variables.
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
 		// Check to make sure the path valid and clean
@@ -302,14 +312,17 @@ abstract class JFolder
 		if (!is_dir($path))
 		{
 			JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
 		// Remove all the files in folder if they exist; disable all filtering
 		$files = self::files($path, '.', false, true, array(), array());
+
 		if (!empty($files))
 		{
 			jimport('joomla.filesystem.file');
+
 			if (JFile::delete($files) !== true)
 			{
 				// JFile::delete throws an error
@@ -319,12 +332,14 @@ abstract class JFolder
 
 		// Remove sub-folders of folder; disable all filtering
 		$folders = self::folders($path, '.', false, true, array(), array());
+
 		foreach ($folders as $folder)
 		{
 			if (is_link($folder))
 			{
 				// Don't descend into linked directories, just delete the link.
 				jimport('joomla.filesystem.file');
+
 				if (JFile::delete($folder) !== true)
 				{
 					// JFile::delete throws an error
@@ -341,7 +356,7 @@ abstract class JFolder
 		if ($FTPOptions['enabled'] == 1)
 		{
 			// Connect the FTP client
-			$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+			$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 		}
 
 		// In case of restricted permissions we zap it one way or the other
@@ -380,7 +395,6 @@ abstract class JFolder
 	 */
 	public static function move($src, $dest, $path = '', $use_streams = false)
 	{
-		// Initialise variables.
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
 		if ($path)
@@ -400,6 +414,7 @@ abstract class JFolder
 		if ($use_streams)
 		{
 			$stream = JFactory::getStream();
+
 			if (!$stream->move($src, $dest))
 			{
 				return JText::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_RENAME', $stream->getError());
@@ -411,7 +426,7 @@ abstract class JFolder
 			if ($FTPOptions['enabled'] == 1)
 			{
 				// Connect the FTP client
-				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 
 				// Translate path for the FTP account
 				$src = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
@@ -474,6 +489,7 @@ abstract class JFolder
 		if (!is_dir($path))
 		{
 			JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER_FILES', $path), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -492,6 +508,7 @@ abstract class JFolder
 
 		// Sort the files
 		asort($arr);
+
 		return array_values($arr);
 	}
 
@@ -519,6 +536,7 @@ abstract class JFolder
 		if (!is_dir($path))
 		{
 			JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER_FOLDER', $path), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -537,6 +555,7 @@ abstract class JFolder
 
 		// Sort the folders
 		asort($arr);
+
 		return array_values($arr);
 	}
 
@@ -559,7 +578,6 @@ abstract class JFolder
 	{
 		@set_time_limit(ini_get('max_execution_time'));
 
-		// Initialise variables.
 		$arr = array();
 
 		// Read the source directory
@@ -596,7 +614,7 @@ abstract class JFolder
 				if ($isDir && $recurse)
 				{
 					// Search recursively
-					if (is_integer($recurse))
+					if (is_int($recurse))
 					{
 						// Until depth 0 is reached
 						$arr = array_merge($arr, self::_items($fullpath, $filter, $recurse - 1, $full, $exclude, $excludefilter_string, $findfiles));
@@ -609,6 +627,7 @@ abstract class JFolder
 			}
 		}
 		closedir($handle);
+
 		return $arr;
 	}
 
@@ -628,6 +647,7 @@ abstract class JFolder
 	public static function listFolderTree($path, $filter, $maxLevel = 3, $level = 0, $parent = 0)
 	{
 		$dirs = array();
+
 		if ($level == 0)
 		{
 			$GLOBALS['_JFolder_folder_tree_index'] = 0;
@@ -661,7 +681,8 @@ abstract class JFolder
 	 */
 	public static function makeSafe($path)
 	{
-		$regex = array('#[^A-Za-z0-9:_\\\/-]#');
+		$regex = array('#[^A-Za-z0-9_\\\/\(\)\[\]\{\}\#\$\^\+\.\'~`!@&=;,-]#');
+
 		return preg_replace($regex, '', $path);
 	}
 }

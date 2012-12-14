@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+JLog::add('JXMLElement is deprecated. Use SimpleXMLElement.', JLog::WARNING, 'deprecated');
+
 /**
  * Wrapper class for php SimpleXMLElement.
  *
@@ -30,6 +32,7 @@ class JXMLElement extends SimpleXMLElement
 	public function name()
 	{
 		JLog::add('JXMLElement::name() is deprecated, use SimpleXMLElement::getName() instead.', JLog::WARNING, 'deprecated');
+
 		return (string) $this->getName();
 	}
 

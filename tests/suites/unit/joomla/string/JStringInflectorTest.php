@@ -7,15 +7,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/string/inflector.php';
-
 /**
  * Test for the JStringInflector class.
  *
  * @package     Joomla.UnitTest
  * @subpackage  String
- * @since       12.1
  * @link        http://en.wikipedia.org/wiki/English_plural
+ * @since       12.1
  */
 class JStringInflectorTest extends PHPUnit_Framework_TestCase
 {
@@ -91,8 +89,10 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   12.1
 	 */
-	public function setUp()
+	protected function setUp()
 	{
+		parent::setUp();
+
 		$this->inflector = JStringInflector::getInstance(true);
 	}
 
@@ -102,6 +102,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
+	 * @covers  JStringInflector::_addRule
 	 */
 	public function test_addRule()
 	{
@@ -152,6 +153,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   12.1
 	 * @expectedException  InvalidArgumentException
+	 * @covers  JStringInflector::_addRule
 	 */
 	public function test_addRuleException()
 	{
@@ -164,6 +166,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
+	 * @covers  JStringInflector::_getCachedPlural
 	 */
 	public function test_getCachedPlural()
 	{
@@ -189,6 +192,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
+	 * @covers  JStringInflector::_getCachedSingular
 	 */
 	public function test_getCachedSingular()
 	{
@@ -214,6 +218,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
+	 * @covers  JStringInflector::_matchRegexRule
 	 */
 	public function test_matchRegexRule()
 	{
@@ -242,6 +247,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
+	 * @covers  JStringInflector::_setCache
 	 */
 	public function test_setCache()
 	{
@@ -272,6 +278,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
+	 * @covers  JStringInflector::addCountableRule
 	 */
 	public function testAddCountableRule()
 	{
@@ -304,6 +311,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
+	 * @covers  JStringInflector::addPluraliseRule
 	 */
 	public function testAddPluraliseRule()
 	{
@@ -330,6 +338,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
+	 * @covers  JStringInflector::addSingulariseRule
 	 */
 	public function testAddSingulariseRule()
 	{
@@ -356,6 +365,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
+	 * @covers  JStringInflector::getInstance
 	 */
 	public function testGetInstance()
 	{
@@ -391,6 +401,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  seedIsCountable
 	 * @since   12.1
+	 * @covers  JStringInflector::isCountable
 	 */
 	public function testIsCountable($input, $expected)
 	{
@@ -410,6 +421,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  seedSinglePlural
 	 * @since   12.1
+	 * @covers  JStringInflector::isPlural
 	 */
 	public function testIsPlural($singular, $plural)
 	{
@@ -439,6 +451,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  seedSinglePlural
 	 * @since   12.1
+	 * @covers  JStringInflector::isSingular
 	 */
 	public function testIsSingular($singular, $plural)
 	{
@@ -468,6 +481,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  seedSinglePlural
 	 * @since   12.1
+	 * @covers  JStringInflector::toPlural
 	 */
 	public function testToPlural($singular, $plural)
 	{
@@ -487,6 +501,7 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  seedSinglePlural
 	 * @since   12.1
+	 * @covers  JStringInflector::toSingular
 	 */
 	public function testToSingular($singular, $plural)
 	{

@@ -12,11 +12,13 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Cache
+ *
+ * @since       11.1
  */
 class JCacheStorageFileTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var	JCacheStorageFile
+	 * @var    JCacheStorageFile
 	 * @access protected
 	 */
 	protected $object;
@@ -25,24 +27,16 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @access protected
+	 * @return void
 	 */
 	protected function setUp()
 	{
-		include_once JPATH_PLATFORM.'/joomla/cache/storage.php';
-		include_once JPATH_PLATFORM.'/joomla/cache/storage/file.php';
+		parent::setUp();
 
-		$this->object = JCacheStorage::getInstance('file', array('cachebase' => JPATH_BASE.'/cache'));
-	}
+		include_once JPATH_PLATFORM . '/joomla/cache/storage.php';
+		include_once JPATH_PLATFORM . '/joomla/cache/storage/file.php';
 
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @access protected
-	 */
-	protected function tearDown()
-	{
+		$this->object = JCacheStorage::getInstance('file', array('cachebase' => JPATH_BASE . '/cache'));
 	}
 
 	/**
@@ -50,7 +44,7 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 */
-	function casesStore()
+	public function casesStore()
 	{
 		return array(
 			'souls' => array(
@@ -73,15 +67,17 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Testing store() and get()
 	 *
-	 * @param	string	cache element ID
-	 * @param	string	cache group
-	 * @param	string	data to be cached
-	 * @param	string	expected return
+	 * @param   string  $id         element ID
+	 * @param   string  $group      group
+	 * @param   string  $data       string to be cached
+	 * @param   string  $checktime  @todo
+	 * @param   string  $expected   @todo
 	 *
 	 * @return void
+	 *
 	 * @dataProvider casesStore
 	 */
-	public function testStoreAndGet( $id, $group, $data, $checktime, $expected )
+	public function testStoreAndGet($id, $group, $data, $checktime, $expected)
 	{
 		$this->assertThat(
 			$this->object->store($id, $group, $data),
@@ -97,7 +93,11 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testRemove().
+	 *
+	 * @return void
 	 */
 	public function testRemove()
 	{
@@ -118,7 +118,11 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testClean().
+	 *
+	 * @return void
 	 */
 	public function testClean()
 	{
@@ -158,7 +162,7 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase
 		);
 
 		$this->assertThat(
-			(bool)$this->object->clean('_testing', 'notgroup'),
+			(bool) $this->object->clean('_testing', 'notgroup'),
 			$this->equalTo(true)
 		);
 
@@ -169,30 +173,40 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testGc().
+	 *
+	 * @return void
 	 */
 	public function testGc()
 	{
 		$this->assertThat(
-			(bool)$this->object->gc(),
+			(bool) $this->object->gc(),
 			$this->isTrue()
 		);
 	}
 
 	/**
 	 * Testing isSupported().
+	 *
+	 * @return void
 	 */
 	public function testIsSupported()
 	{
 		$this->assertThat(
 			$this->object->isSupported(),
-			$this->equalTo(is_writable(JPATH_BASE.'/cache')),
+			$this->equalTo(is_writable(JPATH_BASE . '/cache')),
 			'Claims File is not loaded.'
 		);
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement test_setExpire().
+	 *
+	 * @return void
 	 */
 	public function test_setExpire()
 	{
@@ -201,7 +215,11 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement test_getFilePath().
+	 *
+	 * @return void
 	 */
 	public function test_getFilePath()
 	{

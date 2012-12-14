@@ -33,7 +33,7 @@ JLog::add('JRequest is deprecated.', JLog::WARNING, 'deprecated');
  * @package     Joomla.Legacy
  * @subpackage  Request
  * @since       11.1
- * @deprecated  12.1  Get the JInput object from the application instead
+ * @deprecated  13.1  Get the JInput object from the application instead
  */
 class JRequest
 {
@@ -49,6 +49,7 @@ class JRequest
 	public static function getURI()
 	{
 		$uri = JURI::getInstance();
+
 		return $uri->toString(array('path', 'query'));
 	}
 
@@ -64,6 +65,7 @@ class JRequest
 	public static function getMethod()
 	{
 		$method = strtoupper($_SERVER['REQUEST_METHOD']);
+
 		return $method;
 	}
 
@@ -102,6 +104,7 @@ class JRequest
 	{
 		// Ensure hash and type are uppercase
 		$hash = strtoupper($hash);
+
 		if ($hash === 'METHOD')
 		{
 			$hash = strtoupper($_SERVER['REQUEST_METHOD']);
@@ -148,12 +151,6 @@ class JRequest
 			{
 				// Get the variable from the input hash and clean it
 				$var = self::_cleanVar($input[$name], $mask, $type);
-
-				// Handle magic quotes compatibility
-				if (get_magic_quotes_gpc() && ($var != $default) && ($hash != 'FILES'))
-				{
-					$var = self::_stripSlashesRecursive($var);
-				}
 
 				$GLOBALS['_JREQUEST'][$name][$sig] = $var;
 			}
@@ -357,6 +354,7 @@ class JRequest
 
 		// Get the request hash value
 		$hash = strtoupper($hash);
+
 		if ($hash === 'METHOD')
 		{
 			$hash = strtoupper($_SERVER['REQUEST_METHOD']);
@@ -465,12 +463,6 @@ class JRequest
 
 		$result = self::_cleanVar($input, $mask);
 
-		// Handle magic quotes compatibility
-		if (get_magic_quotes_gpc() && ($hash != 'FILES'))
-		{
-			$result = self::_stripSlashesRecursive($result);
-		}
-
 		return $result;
 	}
 
@@ -562,21 +554,5 @@ class JRequest
 			$var = $noHtmlFilter->clean($var, $type);
 		}
 		return $var;
-	}
-
-	/**
-	 * Strips slashes recursively on an array.
-	 *
-	 * @param   array  $value  Array or (nested arrays) of strings.
-	 *
-	 * @return  array  The input array with stripslashes applied to it.
-	 *
-	 * @deprecated  12.1
-	 * @since       11.1
-	 */
-	protected static function _stripSlashesRecursive($value)
-	{
-		$value = is_array($value) ? array_map(array('JRequest', '_stripSlashesRecursive'), $value) : stripslashes($value);
-		return $value;
 	}
 }

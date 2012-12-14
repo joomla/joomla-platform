@@ -217,7 +217,6 @@ class JAuthentication extends JObject
 	 */
 	public function detach($observer)
 	{
-		// Initialise variables.
 		$retval = false;
 
 		$key = array_search($observer, $this->observers);
@@ -271,6 +270,7 @@ class JAuthentication extends JObject
 		foreach ($plugins as $plugin)
 		{
 			$className = 'plg' . $plugin->type . $plugin->name;
+
 			if (class_exists($className))
 			{
 				$plugin = new $className($this, (array) $plugin);
@@ -331,6 +331,7 @@ class JAuthentication extends JObject
 		JPluginHelper::importPlugin('authentication');
 		$dispatcher = JEventDispatcher::getInstance();
 		$results = $dispatcher->trigger('onUserAuthorisation', array($response, $options));
+
 		return $results;
 	}
 }
@@ -342,7 +343,7 @@ class JAuthentication extends JObject
  * @subpackage  User
  * @since       11.1
  */
-class JAuthenticationResponse extends JObject
+class JAuthenticationResponse
 {
 	/**
 	 * Response status (see status codes)
@@ -454,13 +455,4 @@ class JAuthenticationResponse extends JObject
 	 * @since  11.1
 	 */
 	public $timezone = '';
-
-	/**
-	 * Constructor
-	 *
-	 * @since   11.1
-	 */
-	public function __construct()
-	{
-	}
 }

@@ -103,7 +103,6 @@ class JFormHelper
 		// Reference to an array with current entity's type instances
 		$types = &self::$entities[$entity];
 
-		// Initialize variables.
 		$key = md5($type);
 
 		// Return an entity object if it already exists and we don't need a new one.
@@ -113,10 +112,12 @@ class JFormHelper
 		}
 
 		$class = self::loadClass($entity, $type);
+
 		if ($class !== false)
 		{
 			// Instantiate a new type object.
 			$types[$key] = new $class;
+
 			return $types[$key];
 		}
 		else
@@ -210,11 +211,13 @@ class JFormHelper
 
 		// Try to find the class file.
 		$type = strtolower($type) . '.php';
+
 		foreach ($paths as $path)
 		{
 			if ($file = JPath::find($path, $type))
 			{
 				require_once $file;
+
 				if (class_exists($class))
 				{
 					break;

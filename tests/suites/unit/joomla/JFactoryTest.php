@@ -5,6 +5,7 @@
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 require_once JPATH_PLATFORM . '/joomla/factory.php';
 
 /**
@@ -41,7 +42,7 @@ class JFactoryTest extends TestCase
 	 *
 	 * @since   11.3
 	 */
-	function tearDown()
+	public function tearDown()
 	{
 		$this->restoreFactoryState();
 
@@ -49,19 +50,19 @@ class JFactoryTest extends TestCase
 	}
 
 	/**
-	 * Tests the JFactory::getApplicatiom method.
+	 * Tests the JFactory::getApplication method.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
-	 * @covers  JFactory::getApplicatiom
+	 * @covers  JFactory::getApplication
 	 * @todo    Implement testGetApplication().
 	 */
-	function testGetApplication()
+	public function testGetApplication()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-				'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 
@@ -74,7 +75,7 @@ class JFactoryTest extends TestCase
 	 * @covers  JFactory::getConfig
 	 * @covers  JFactory::createConfig
 	 */
-	function testGetConfig()
+	public function testGetConfig()
 	{
 		// Temporarily override the config cache in JFactory.
 		$temp = JFactory::$config;
@@ -82,8 +83,8 @@ class JFactoryTest extends TestCase
 
 		$this->assertInstanceOf(
 			'JRegistry',
-			JFactory::getConfig(JPATH_TESTS.'/config.php'),
-			'Line: '.__LINE__
+			JFactory::getConfig(JPATH_TESTS . '/config.php'),
+			'Line: ' . __LINE__
 		);
 
 		JFactory::$config = $temp;
@@ -99,19 +100,19 @@ class JFactoryTest extends TestCase
 	 * @covers  JFactory::createLanguage
 	 * @todo    Implement testGetLanguage().
 	 */
-	function testGetLanguage()
+	public function testGetLanguage()
 	{
 		$this->assertInstanceOf(
 			'JLanguage',
 			JFactory::getLanguage(),
-			'Line: '.__LINE__
+			'Line: ' . __LINE__
 		);
 
 		$this->markTestIncomplete(
-				'This test has not been implemented completely yet.'
+			'This test has not been implemented completely yet.'
 		);
 	}
-	
+
 	/**
 	 * Tests the JFactory::getDocument method.
 	 *
@@ -122,16 +123,20 @@ class JFactoryTest extends TestCase
 	 * @covers  JFactory::createDocument
 	 * @todo    Implement testGetDocument().
 	 */
-	function testGetDocument()
+	public function testGetDocument()
 	{
+		JFactory::$application = TestMockApplication::create($this);
+
 		$this->assertInstanceOf(
 			'JDocument',
 			JFactory::getDocument(),
-			'Line: '.__LINE__
+			'Line: ' . __LINE__
 		);
 
+		JFactory::$application = null;
+
 		$this->markTestIncomplete(
-				'This test has not been implemented completely yet.'
+			'This test has not been implemented completely yet.'
 		);
 	}
 
@@ -144,28 +149,28 @@ class JFactoryTest extends TestCase
 	 * @covers  JFactory::getCache
 	 * @todo    Implement testGetCache().
 	 */
-	function testGetCache()
+	public function testGetCache()
 	{
 		$this->assertInstanceOf(
 			'JCacheController',
 			JFactory::getCache(),
-			'Line: '.__LINE__
+			'Line: ' . __LINE__
 		);
 
 		$this->assertInstanceOf(
 			'JCacheControllerCallback',
 			JFactory::getCache(),
-			'Line: '.__LINE__
+			'Line: ' . __LINE__
 		);
 
 		$this->assertInstanceOf(
 			'JCacheControllerView',
 			JFactory::getCache('', 'view', null),
-			'Line: '.__LINE__
+			'Line: ' . __LINE__
 		);
 
 		$this->markTestIncomplete(
-				'This test has not been implemented completely yet.'
+			'This test has not been implemented completely yet.'
 		);
 	}
 
@@ -177,12 +182,12 @@ class JFactoryTest extends TestCase
 	 * @since   12.1
 	 * @covers  JFactory::getACL
 	 */
-	function testGetACL()
+	public function testGetACL()
 	{
 		$this->assertInstanceOf(
 			'JAccess',
 			JFactory::getACL(),
-			'Line: '.__LINE__
+			'Line: ' . __LINE__
 		);
 	}
 
@@ -194,12 +199,31 @@ class JFactoryTest extends TestCase
 	 * @since   12.1
 	 * @covers  JFactory::getURI
 	 */
-	function testGetUri()
+	public function testGetUri()
 	{
 		$this->assertInstanceOf(
 			'JUri',
 			JFactory::getURI('http://www.joomla.org'),
-			'Line: '.__LINE__
+			'Line: ' . __LINE__
+		);
+	}
+
+	/**
+	 * Tests the JFactory::getXML method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 * @covers  JFactory::getXML
+	 */
+	public function testGetXml()
+	{
+		$xml = JFactory::getXML('<foo />', false);
+
+		$this->assertInstanceOf(
+			'SimpleXMLElement',
+			$xml,
+			'Line: ' . __LINE__
 		);
 	}
 

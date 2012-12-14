@@ -19,14 +19,21 @@ defined('JPATH_PLATFORM') or die;
 class JRoute
 {
 	/**
+	 * The route object so we don't have to keep fetching it.
+	 *
+	 * @var    JRouter
+	 * @since  12.2
+	 */
+	private static $_router = null;
+
+	/**
 	 * Translates an internal Joomla URL to a humanly readible URL.
 	 *
 	 * @param   string   $url    Absolute or Relative URI to Joomla resource.
 	 * @param   boolean  $xhtml  Replace & by &amp; for XML compilance.
 	 * @param   integer  $ssl    Secure state for the resolved URI.
 	 *                             1: Make URI secure using global secure site URI.
-	 *                             0: Leave URI in the same secure state as it was passed to the function.
-	 *                            -1: Make URI unsecure using the global unsecure site URI.
+	 *                             2: Make URI unsecure using the global unsecure site URI.
 	 *
 	 * @return  The translated humanly readible URL.
 	 *
@@ -34,14 +41,16 @@ class JRoute
 	 */
 	public static function _($url, $xhtml = true, $ssl = null)
 	{
-		// Get the router.
-		$app = JFactory::getApplication();
-		$router = $app->getRouter();
-
-		// Make sure that we have our router
-		if (!$router)
+		if (!self::$_router)
 		{
-			return null;
+			// Get the router.
+			self::$_router = JFactory::getApplication()->getRouter();
+
+			// Make sure that we have our router
+			if (!self::$_router)
+			{
+				return null;
+			}
 		}
 
 		if ((strpos($url, '&') !== 0) && (strpos($url, 'index.php') !== 0))
@@ -50,7 +59,7 @@ class JRoute
 		}
 
 		// Build route.
-		$uri = $router->build($url);
+		$uri = self::$_router->build($url);
 		$url = $uri->toString(array('path', 'query', 'fragment'));
 
 		// Replace spaces.
@@ -69,6 +78,7 @@ class JRoute
 
 			// Get additional parts.
 			static $prefix;
+
 			if (!$prefix)
 			{
 				$prefix = $uri->toString(array('host', 'port'));

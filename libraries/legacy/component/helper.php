@@ -15,6 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Legacy
  * @subpackage  Component
  * @since       11.1
+ * @deprecated  13.3
  */
 class JComponentHelper
 {
@@ -62,18 +63,17 @@ class JComponentHelper
 	/**
 	 * Checks if the component is enabled
 	 *
-	 * @param   string   $option  The component option.
-	 * @param   boolean  $strict  If set and the component does not exist, false will be returned.
+	 * @param   string  $option  The component option.
 	 *
 	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
-	public static function isEnabled($option, $strict = false)
+	public static function isEnabled($option)
 	{
-		$result = self::getComponent($option, $strict);
+		$result = self::getComponent($option, true);
 
-		return ($result->enabled | JFactory::getApplication()->isAdmin());
+		return $result->enabled;
 	}
 
 	/**
@@ -279,16 +279,14 @@ class JComponentHelper
 	 * Render the component.
 	 *
 	 * @param   string  $option  The component option.
-	 * @param   array   $params  The component parameters
 	 *
 	 * @return  object
 	 *
 	 * @since   11.1
 	 * @throws  Exception
 	 */
-	public static function renderComponent($option, $params = array())
+	public static function renderComponent($option)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 
 		// Load template language files.
@@ -327,8 +325,6 @@ class JComponentHelper
 			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
-		$task = $app->input->getString('task');
-
 		// Load common and local language files.
 		$lang->load($option, JPATH_BASE, null, false, false) || $lang->load($option, JPATH_COMPONENT, null, false, false)
 			|| $lang->load($option, JPATH_BASE, $lang->getDefault(), false, false)
@@ -361,6 +357,7 @@ class JComponentHelper
 		require_once $path;
 		$contents = ob_get_contents();
 		ob_end_clean();
+
 		return $contents;
 	}
 
@@ -385,12 +382,24 @@ class JComponentHelper
 
 		$cache = JFactory::getCache('_system', 'callback');
 
-		self::$components[$option] = $cache->get(array($db, 'loadObject'), null, $option, false);
-
-		if ($error = $db->getErrorMsg() || empty(self::$components[$option]))
+		try
+		{
+			self::$components[$option] = $cache->get(array($db, 'loadObject'), null, $option, false);
+		}
+		catch (RuntimeException $e)
 		{
 			// Fatal error.
+			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $e->getMessage()), JLog::WARNING, 'jerror');
+
+			return false;
+		}
+
+		if (empty(self::$components[$option]))
+		{
+			// Fatal error.
+			$error = JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND');
 			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $error), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 

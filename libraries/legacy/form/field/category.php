@@ -18,6 +18,7 @@ JFormHelper::loadFieldClass('list');
  * @package     Joomla.Legacy
  * @subpackage  Form
  * @since       11.1
+ * @deprecated  13.3
  */
 class JFormFieldCategory extends JFormFieldList
 {
@@ -41,7 +42,6 @@ class JFormFieldCategory extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		// Initialise variables.
 		$options = array();
 		$extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $this->element['scope'];
 		$published = (string) $this->element['published'];
@@ -49,7 +49,6 @@ class JFormFieldCategory extends JFormFieldList
 		// Load the category options for a given extension.
 		if (!empty($extension))
 		{
-
 			// Filter over published state or not depending upon if it is present.
 			if ($published)
 			{

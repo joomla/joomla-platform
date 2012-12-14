@@ -1,15 +1,18 @@
 <?php
 /**
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
- * @license    GNU General Public License
+ * @package     Joomla.UnitTest
+ * @subpackage  Database
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * Tests the JDatabaseMySqlImporter class.
  *
- * @package    Joomla.UnitTest
- * @subpackage Database
- * @since      11.1
+ * @package     Joomla.UnitTest
+ * @subpackage  Database
+ * @since       11.1
  */
 class JDatabaseImporterMySQLiTest extends PHPUnit_Framework_TestCase
 {
@@ -23,12 +26,14 @@ class JDatabaseImporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 * Sets up the testing conditions
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
-	public function setup()
+	protected function setup()
 	{
-		// Set up the database object mock.
+		parent::setUp();
 
+		// Set up the database object mock.
 		$this->dbo = $this->getMock(
 			'JDatabaseDriverMysqli',
 			array(),
@@ -42,6 +47,7 @@ class JDatabaseImporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 * Tests the check method.
 	 *
 	 * @return void
+	 *
 	 * @since  11.1
 	 */
 	public function testCheckWithNoDbo()
@@ -67,11 +73,12 @@ class JDatabaseImporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 * Tests the check method.
 	 *
 	 * @return void
+	 *
 	 * @since  11.1
 	 */
 	public function testCheckWithNoTables()
 	{
-		$instance	= new JDatabaseImporterMysqli;
+		$instance = new JDatabaseImporterMysqli;
 		$instance->setDbo($this->dbo);
 
 		try
@@ -93,11 +100,12 @@ class JDatabaseImporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 * Tests the check method.
 	 *
 	 * @return void
+	 *
 	 * @since  11.1
 	 */
 	public function testCheckWithGoodInput()
 	{
-		$instance	= new JDatabaseImporterMysqli;
+		$instance = new JDatabaseImporterMysqli;
 		$instance->setDbo($this->dbo);
 		$instance->from('foobar');
 
@@ -114,7 +122,7 @@ class JDatabaseImporterMySQLiTest extends PHPUnit_Framework_TestCase
 		catch (Exception $e)
 		{
 			$this->fail(
-				'Check method should not throw exception with good setup: '.$e->getMessage()
+				'Check method should not throw exception with good setup: ' . $e->getMessage()
 			);
 		}
 	}
@@ -123,11 +131,12 @@ class JDatabaseImporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 * Tests the setDbo method with the wrong type of class.
 	 *
 	 * @return void
+	 *
 	 * @since  11.1
 	 */
 	public function testSetDboWithBadInput()
 	{
-		$instance	= new JDatabaseImporterMysqli;
+		$instance = new JDatabaseImporterMysqli;
 
 		try
 		{
@@ -148,6 +157,7 @@ class JDatabaseImporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 * Tests the setDbo method with the wrong type of class.
 	 *
 	 * @return void
+	 *
 	 * @since  11.1
 	 */
 	public function testSetDboWithGoodInput()
