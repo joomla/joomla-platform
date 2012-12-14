@@ -389,10 +389,12 @@ class JDate extends DateTime
 	 * @return  JDate
 	 *
 	 * @since   11.1
+	 * @note    This method can't be type hinted due to a PHP bug: https://bugs.php.net/bug.php?id=61483
 	 */
 	public function setTimezone($tz)
 	{
 		$this->tz = $tz;
+
 		return parent::setTimezone($tz);
 	}
 

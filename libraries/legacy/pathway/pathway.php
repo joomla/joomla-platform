@@ -17,8 +17,9 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Legacy
  * @subpackage  Pathway
  * @since       11.1
+ * @deprecated  13.3
  */
-class JPathway extends JObject
+class JPathway
 {
 	/**
 	 * @var    array  Array to hold the pathway item objects
@@ -77,6 +78,7 @@ class JPathway extends JObject
 				if (is_object($info))
 				{
 					$path = $info->path . '/includes/pathway.php';
+
 					if (file_exists($path))
 					{
 						include_once $path;
@@ -140,7 +142,6 @@ class JPathway extends JObject
 	 */
 	public function getPathwayNames()
 	{
-		// Initialise variables.
 		$names = array();
 
 		// Build the names array using just the names of each pathway item
@@ -165,7 +166,6 @@ class JPathway extends JObject
 	 */
 	public function addItem($name, $link = '')
 	{
-		// Initialize variables
 		$ret = false;
 
 		if ($this->_pathway[] = $this->_makeItem($name, $link))
@@ -189,7 +189,6 @@ class JPathway extends JObject
 	 */
 	public function setItemName($id, $name)
 	{
-		// Initialize variables
 		$ret = false;
 
 		if (isset($this->_pathway[$id]))

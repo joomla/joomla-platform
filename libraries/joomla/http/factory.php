@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
 class JHttpFactory
 {
 	/**
-	 * method to recieve Http instance.
+	 * Method to recieve Http instance.
 	 *
 	 * @param   JRegistry  $options   Client options object.
 	 * @param   mixed      $adapters  Adapter (string) or queue of adapters (array) to use for communication.
@@ -58,7 +58,7 @@ class JHttpFactory
 			settype($default, 'array');
 			$availableAdapters = $default;
 		}
-		// Check if there is available http transport adapters
+		// Check if there is at least one available http transport adapter
 		if (!count($availableAdapters))
 		{
 			return false;
@@ -81,12 +81,12 @@ class JHttpFactory
 	 * @return  array  An array of available transport handlers
 	 *
 	 * @since   12.1
-	 * @todo    Make this function more generic cause the behaviour taken from cache (getStores)
 	 */
 	public static function getHttpTransports()
 	{
 		$names = array();
 		$iterator = new DirectoryIterator(__DIR__ . '/transport');
+
 		foreach ($iterator as $file)
 		{
 			$fileName = $file->getFilename();

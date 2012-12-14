@@ -118,35 +118,35 @@ class JLanguage
 
 	/**
 	 * Name of the pluralSuffixesCallback function for this language.
-	 * @var    string
+	 * @var    callable
 	 * @since  11.1
 	 */
 	protected $pluralSuffixesCallback = null;
 
 	/**
 	 * Name of the ignoredSearchWordsCallback function for this language.
-	 * @var    string
+	 * @var    callable
 	 * @since  11.1
 	 */
 	protected $ignoredSearchWordsCallback = null;
 
 	/**
 	 * Name of the lowerLimitSearchWordCallback function for this language.
-	 * @var    string
+	 * @var    callable
 	 * @since  11.1
 	 */
 	protected $lowerLimitSearchWordCallback = null;
 
 	/**
 	 * Name of the uppperLimitSearchWordCallback function for this language
-	 * @var    string
+	 * @var    callable
 	 * @since  11.1
 	 */
 	protected $upperLimitSearchWordCallback = null;
 
 	/**
 	 * Name of the searchDisplayedCharactersNumberCallback function for this language.
-	 * @var    string
+	 * @var    callable
 	 * @since  11.1
 	 */
 	protected $searchDisplayedCharactersNumberCallback = null;
@@ -184,24 +184,32 @@ class JLanguage
 
 		// Look for a language specific localise class
 		$class = str_replace('-', '_', $lang . 'Localise');
-		if (!class_exists($class) && defined('JPATH_SITE'))
+		$paths = array();
+
+		if (defined('JPATH_SITE'))
 		{
-			// Class does not exist. Try to find it in the Site Language Folder
-			$localise = JPATH_SITE . "/language/$lang/$lang.localise.php";
-			if (file_exists($localise))
-			{
-				require_once $localise;
-			}
+			// Note: Manual indexing to enforce load order.
+			$paths[0] = JPATH_SITE . "/language/overrides/$lang.localise.php";
+			$paths[2] = JPATH_SITE . "/language/$lang/$lang.localise.php";
 		}
 
-		if (!class_exists($class) && defined('JPATH_ADMINISTRATOR'))
+		if (defined('JPATH_ADMINISTRATOR'))
 		{
-			// Class does not exist. Try to find it in the Administrator Language Folder
-			$localise = JPATH_ADMINISTRATOR . "/language/$lang/$lang.localise.php";
-			if (file_exists($localise))
+			// Note: Manual indexing to enforce load order.
+			$paths[1] = JPATH_ADMINISTRATOR . "/language/overrides/$lang.localise.php";
+			$paths[3] = JPATH_ADMINISTRATOR . "/language/$lang/$lang.localise.php";
+		}
+
+		ksort($paths);
+		$path = reset($paths);
+
+		while (!class_exists($class) && $path)
+		{
+			if (file_exists($path))
 			{
-				require_once $localise;
+				require_once $path;
 			}
+			$path = next($paths);
 		}
 
 		if (class_exists($class))
@@ -815,40 +823,34 @@ class JLanguage
 			// Restore error tracking to what it was before.
 			ini_set('track_errors', $track_errors);
 
-			jimport('joomla.filesystem.stream');
-
 			// Initialise variables for manually parsing the file for common errors.
 			$blacklist = array('YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE');
-			$regex = '/^(|(\[[^\]]*\])|([A-Z][A-Z0-9_\-]*\s*=(\s*(("[^"]*")|(_QQ_)))+))\s*(;.*)?$/';
+			$regex = '/^(|(\[[^\]]*\])|([A-Z][A-Z0-9_\-\.]*\s*=(\s*(("[^"]*")|(_QQ_)))+))\s*(;.*)?$/';
 			$this->debug = false;
 			$errors = array();
-			$lineNumber = 0;
 
 			// Open the file as a stream.
-			$stream = new JStream;
-			$stream->open($filename);
+			$file = new SplFileObject($filename);
 
-			while (!$stream->eof())
+			foreach ($file as $lineNumber => $line)
 			{
-				$line = $stream->gets();
-
 				// Avoid BOM error as BOM is OK when using parse_ini
 				if ($lineNumber == 0)
 				{
 					$line = str_replace("\xEF\xBB\xBF", '', $line);
 				}
-				$lineNumber++;
 
 				// Check that the key is not in the blacklist and that the line format passes the regex.
 				$key = strtoupper(trim(substr($line, 0, strpos($line, '='))));
+
+				// Workaround to reduce regex complexity when matching escaped quotes
+				$line = str_replace('\"', '_QQ_', $line);
 
 				if (!preg_match($regex, $line) || in_array($key, $blacklist))
 				{
 					$errors[] = $lineNumber;
 				}
 			}
-
-			$stream->close();
 
 			// Check if we encountered any errors.
 			if (count($errors))
@@ -914,6 +916,7 @@ class JLanguage
 
 		// Search through the backtrace to our caller
 		$continue = true;
+
 		while ($continue && next($backtrace))
 		{
 			$step = current($backtrace);
@@ -1008,7 +1011,7 @@ class JLanguage
 	 */
 	public function isRTL()
 	{
-		return $this->metadata['rtl'];
+		return (bool) $this->metadata['rtl'];
 	}
 
 	/**
@@ -1123,13 +1126,18 @@ class JLanguage
 	public static function getMetadata($lang)
 	{
 		$path = self::getLanguagePath(JPATH_BASE, $lang);
-		$file = "$lang.xml";
+		$file = $lang . '.xml';
 
 		$result = null;
 
 		if (is_file("$path/$file"))
 		{
 			$result = self::parseXMLLanguageFile("$path/$file");
+		}
+
+		if (empty($result))
+		{
+			return null;
 		}
 
 		return $result;
@@ -1164,11 +1172,11 @@ class JLanguage
 	 */
 	public static function getLanguagePath($basePath = JPATH_BASE, $language = null)
 	{
-		$dir = "$basePath/language";
+		$dir = $basePath . '/language';
 
 		if (!empty($language))
 		{
-			$dir .= "/$language";
+			$dir .= '/' . $language;
 		}
 
 		return $dir;
@@ -1260,6 +1268,7 @@ class JLanguage
 			try
 			{
 				$metadata = self::parseXMLLanguageFile($file->getRealPath());
+
 				if ($metadata)
 				{
 					$lang = str_replace('.xml', '', $fileName);
@@ -1294,6 +1303,7 @@ class JLanguage
 
 		// Try to load the file
 		$xml = simplexml_load_file($path);
+
 		if (!$xml)
 		{
 			return null;

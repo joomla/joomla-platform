@@ -182,6 +182,7 @@ class JStream extends JObject
 		if (!$filename)
 		{
 			$this->setError(JText::_('JLIB_FILESYSTEM_ERROR_STREAMS_FILENAME'));
+
 			return false;
 		}
 
@@ -296,6 +297,7 @@ class JStream extends JObject
 		if (!$this->fh)
 		{
 			$this->setError(JText::_('JLIB_FILESYSTEM_ERROR_STREAMS_FILE_NOT_OPEN'));
+
 			return true;
 		}
 
@@ -1172,7 +1174,6 @@ class JStream extends JObject
 		ini_set('track_errors', true);
 
 		$chmodDest = $this->_getFilename($dest, 'w', $use_prefix, $relative);
-		$exists = file_exists($dest);
 
 		// Since we're going to open the file directly we need to get the filename.
 		// We need to use the same prefix so force everything to write.

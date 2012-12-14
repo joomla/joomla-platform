@@ -335,7 +335,6 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	public function getTableColumns($table, $typeOnly = true)
 	{
-		// Initialise variables.
 		$result = array();
 
 		$table_temp = $this->replacePrefix((string) $table);
@@ -435,6 +434,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		$this->connect();
 
 		$version = sqlsrv_server_info($this->connection);
+
 		return $version['SQLServerVersion'];
 	}
 
@@ -455,9 +455,11 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		$fields = array();
 		$values = array();
 		$statement = 'INSERT INTO ' . $this->quoteName($table) . ' (%s) VALUES (%s)';
+
 		foreach (get_object_vars($object) as $k => $v)
 		{
-			if (is_array($v) or is_object($v))
+			// Only process non-null scalars.
+			if (is_array($v) or is_object($v) or $v === null)
 			{
 				continue;
 			}
@@ -479,11 +481,13 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		}
 		// Set the query and execute the insert.
 		$this->setQuery(sprintf($statement, implode(',', $fields), implode(',', $values)));
+
 		if (!$this->execute())
 		{
 			return false;
 		}
 		$id = $this->insertid();
+
 		if ($key && $id)
 		{
 			$object->$key = $id;
@@ -504,6 +508,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 
 		// TODO: SELECT IDENTITY
 		$this->setQuery('SELECT @@IDENTITY');
+
 		return (int) $this->loadResult();
 	}
 
@@ -517,7 +522,6 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	public function loadResult()
 	{
-		// Initialise variables.
 		$ret = null;
 
 		// Execute the query and get the result set cursor.
@@ -561,17 +565,19 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 
 		// Take a local copy so that we don't modify the original query and cause issues later
 		$sql = $this->replacePrefix((string) $this->sql);
+
 		if ($this->limit > 0 || $this->offset > 0)
 		{
 			$sql = $this->limit($sql, $this->limit, $this->offset);
 		}
 
+		// Increment the query counter.
+		$this->count++;
+
 		// If debugging is enabled then let's log the query.
 		if ($this->debug)
 		{
-
-			// Increment the query counter and add the query to the object queue.
-			$this->count++;
+			// Add the query to the object queue.
 			$this->log[] = $sql;
 
 			JLog::add($sql, JLog::DEBUG, 'databasequery');
@@ -652,9 +658,6 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	public function replacePrefix($sql, $prefix = '#__')
 	{
-		$tablePrefix = 'jos_';
-
-		// Initialize variables.
 		$escaped = false;
 		$startPos = 0;
 		$quoteChar = '';
@@ -666,6 +669,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		while ($startPos < $n)
 		{
 			$ip = strpos($sql, $prefix, $startPos);
+
 			if ($ip === false)
 			{
 				break;
@@ -673,6 +677,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 
 			$j = strpos($sql, "N'", $startPos);
 			$k = strpos($sql, '"', $startPos);
+
 			if (($k !== false) && (($k < $j) || ($j === false)))
 			{
 				$quoteChar = '"';
@@ -703,11 +708,13 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 			{
 				$k = strpos($sql, $quoteChar, $j);
 				$escaped = false;
+
 				if ($k === false)
 				{
 					break;
 				}
 				$l = $k - 1;
+
 				while ($l >= 0 && $sql{$l} == '\\')
 				{
 					$l--;
@@ -778,49 +785,94 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Method to commit a transaction.
 	 *
+	 * @param   boolean  $toSavepoint  If true, commit to the last savepoint.
+	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
-	public function transactionCommit()
+	public function transactionCommit($toSavepoint = false)
 	{
 		$this->connect();
 
-		$this->setQuery('COMMIT TRANSACTION');
-		$this->execute();
+		if (!$toSavepoint || $this->transactionDepth <= 1)
+		{
+			if ($this->setQuery('COMMIT TRANSACTION')->execute())
+			{
+				$this->transactionDepth = 0;
+			}
+
+			return;
+		}
+
+		$this->transactionDepth--;
 	}
 
 	/**
 	 * Method to roll back a transaction.
 	 *
+	 * @param   boolean  $toSavepoint  If true, rollback to the last savepoint.
+	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
-	public function transactionRollback()
+	public function transactionRollback($toSavepoint = false)
 	{
 		$this->connect();
 
-		$this->setQuery('ROLLBACK TRANSACTION');
-		$this->execute();
+		if (!$toSavepoint || $this->transactionDepth <= 1)
+		{
+			if ($this->setQuery('ROLLBACK TRANSACTION')->execute())
+			{
+				$this->transactionDepth = 0;
+			}
+
+			return;
+		}
+
+		$savepoint = 'SP_' . ($this->transactionDepth - 1);
+		$this->setQuery('ROLLBACK TRANSACTION ' . $this->quoteName($savepoint));
+
+		if ($this->execute())
+		{
+			$this->transactionDepth--;
+		}
 	}
 
 	/**
 	 * Method to initialize a transaction.
 	 *
+	 * @param   boolean  $asSavepoint  If true and a transaction is already active, a savepoint will be created.
+	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
-	public function transactionStart()
+	public function transactionStart($asSavepoint = false)
 	{
 		$this->connect();
 
-		$this->setQuery('START TRANSACTION');
-		$this->execute();
+		if (!$asSavepoint || !$this->transactionDepth)
+		{
+			if ($this->setQuery('BEGIN TRANSACTION')->execute())
+			{
+				$this->transactionDepth = 1;
+			}
+
+			return;
+		}
+
+		$savepoint = 'SP_' . $this->transactionDepth;
+		$this->setQuery('BEGIN TRANSACTION ' . $this->quoteName($savepoint));
+
+		if ($this->execute())
+		{
+			$this->transactionDepth++;
+		}
 	}
 
 	/**
@@ -923,6 +975,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	protected function limit($sql, $limit, $offset)
 	{
 		$orderBy = stristr($sql, 'ORDER BY');
+
 		if (is_null($orderBy) || empty($orderBy))
 		{
 			$orderBy = 'ORDER BY (select 0)';

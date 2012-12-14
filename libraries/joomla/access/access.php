@@ -98,7 +98,10 @@ class JAccess
 		// Default to the root asset node.
 		if (empty($asset))
 		{
-			$asset = 1;
+			$db = JFactory::getDbo();
+			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
+			$rootId = $assets->getRootId();
+			$asset = $rootId;
 		}
 
 		// Get the rules for the asset recursively to root if not already retrieved.
@@ -138,7 +141,9 @@ class JAccess
 		// Default to the root asset node.
 		if (empty($asset))
 		{
-			$asset = 1;
+			$db = JFactory::getDbo();
+			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
+			$rootId = $assets->getRootId();
 		}
 
 		// Get the rules for the asset recursively to root if not already retrieved.
@@ -225,12 +230,10 @@ class JAccess
 		// If the asset identifier is numeric assume it is a primary key, else lookup by name.
 		if (is_numeric($asset))
 		{
-			// Get the root even if the asset is not found
 			$query->where('(a.id = ' . (int) $asset . ')');
 		}
 		else
 		{
-			// Get the root even if the asset is not found
 			$query->where('(a.name = ' . $db->quote($asset) . ')');
 		}
 
@@ -246,16 +249,19 @@ class JAccess
 		$result = $db->loadColumn();
 
 		// Get the root even if the asset is not found and in recursive mode
-		if ($recursive && empty($result))
+		if (empty($result))
 		{
+			$db = JFactory::getDbo();
+			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
+			$rootId = $assets->getRootId();
 			$query = $db->getQuery(true);
 			$query->select('rules');
 			$query->from('#__assets');
-			$query->where('parent_id = 0');
+			$query->where('id = ' . $db->quote($rootId));
 			$db->setQuery($query);
-			$result = $db->loadColumn();
+			$result = $db->loadResult();
+			$result = array($result);
 		}
-
 		// Instantiate and return the JAccessRules object for the asset rules.
 		$rules = new JAccessRules;
 		$rules->mergeCollection($result);
@@ -305,6 +311,7 @@ class JAccess
 				// Build the database query to get the rules for the asset.
 				$query = $db->getQuery(true);
 				$query->select($recursive ? 'b.id' : 'a.id');
+
 				if (empty($userId))
 				{
 					$query->from('#__usergroups AS a');
@@ -443,40 +450,6 @@ class JAccess
 	}
 
 	/**
-	 * Method to return a list of actions for which permissions can be set given a component and section.
-	 *
-	 * @param   string  $component  The component from which to retrieve the actions.
-	 * @param   string  $section    The name of the section within the component from which to retrieve the actions.
-	 *
-	 * @return  array  List of actions available for the given component and section.
-	 *
-	 * @since   11.1
-	 *
-	 * @deprecated  12.3  Use JAccess::getActionsFromFile or JAccess::getActionsFromData instead.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @todo    Need to decouple this method from the CMS. Maybe check if $component is a
-	 *          valid file (or create a getActionsFromFile method).
-	 */
-	public static function getActions($component, $section = 'component')
-	{
-		JLog::add(__METHOD__ . ' is deprecated. Use JAccess::getActionsFromFile or JAcces::getActionsFromData instead.', JLog::WARNING, 'deprecated');
-		$actions = self::getActionsFromFile(
-			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml',
-			"/access/section[@name='" . $section . "']/"
-		);
-		if (empty($actions))
-		{
-			return array();
-		}
-		else
-		{
-			return $actions;
-		}
-	}
-
-	/**
 	 * Method to return a list of actions from a file for which permissions can be set.
 	 *
 	 * @param   string  $file   The path to the XML file.
@@ -497,6 +470,7 @@ class JAccess
 		{
 			// Else return the actions from the xml.
 			$xml = simplexml_load_file($file);
+
 			return self::getActionsFromData($xml, $xpath);
 		}
 	}

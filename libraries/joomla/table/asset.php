@@ -58,7 +58,7 @@ class JTableAsset extends JTableNested
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($db)
+	public function __construct(JDatabaseDriver $db)
 	{
 		parent::__construct('#__assets', 'id', $db);
 	}
@@ -83,6 +83,7 @@ class JTableAsset extends JTableNested
 		$query->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote($name));
 		$this->_db->setQuery($query);
 		$assetId = (int) $this->_db->loadResult();
+
 		if (empty($assetId))
 		{
 			return false;
@@ -113,6 +114,7 @@ class JTableAsset extends JTableNested
 			$query->from($this->_db->quoteName($this->_tbl));
 			$query->where($this->_db->quoteName('id') . ' = ' . $this->parent_id);
 			$this->_db->setQuery($query);
+
 			if ($this->_db->loadResult())
 			{
 				return true;
@@ -120,6 +122,7 @@ class JTableAsset extends JTableNested
 			else
 			{
 				$this->setError('Invalid Parent ID');
+
 				return false;
 			}
 		}

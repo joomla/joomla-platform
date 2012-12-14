@@ -25,10 +25,11 @@ class JHttpTransportCurl implements JHttpTransport
 	protected $options;
 
 	/**
-	 * Constructor.
+	 * Constructor. CURLOPT_FOLLOWLOCATION must be disabled when open_basedir or safe_mode are enabled.
 	 *
 	 * @param   JRegistry  $options  Client options object.
 	 *
+	 * @see     http://www.php.net/manual/en/function.curl-setopt.php
 	 * @since   11.3
 	 * @throws  RuntimeException
 	 */
@@ -68,7 +69,7 @@ class JHttpTransportCurl implements JHttpTransport
 		$options[CURLOPT_NOBODY] = ($method === 'HEAD');
 
 		// Initialize the certificate store
-		$options[CURLOPT_CAINFO] = __DIR__ . '/cacert.pem';
+		$options[CURLOPT_CAINFO] = $this->options->get('curl.certpath', __DIR__ . '/cacert.pem');
 
 		// If data exists let's encode it and make sure our Content-type header is set.
 		if (isset($data))
@@ -78,6 +79,7 @@ class JHttpTransportCurl implements JHttpTransport
 			{
 				$options[CURLOPT_POSTFIELDS] = $data;
 			}
+
 			// Otherwise we need to encode the value first.
 			else
 			{
@@ -98,6 +100,7 @@ class JHttpTransportCurl implements JHttpTransport
 
 		// Build the headers string for the request.
 		$headerArray = array();
+
 		if (isset($headers))
 		{
 			foreach ($headers as $key => $value)
@@ -131,18 +134,32 @@ class JHttpTransportCurl implements JHttpTransport
 		// Return it... echoing it would be tacky.
 		$options[CURLOPT_RETURNTRANSFER] = true;
 
-		// Override the Expect header to prevent cURL from confusing itself in it's own stupidity.
+		// Override the Expect header to prevent cURL from confusing itself in its own stupidity.
 		// Link: http://the-stickman.com/web-development/php-and-curl-disabling-100-continue-header/
 		$options[CURLOPT_HTTPHEADER][] = 'Expect:';
 
 		// Follow redirects.
-		$options[CURLOPT_FOLLOWLOCATION] = true;
+		$options[CURLOPT_FOLLOWLOCATION] = (bool) $this->options->get('follow_location', true);
 
 		// Set the cURL options.
 		curl_setopt_array($ch, $options);
 
 		// Execute the request and close the connection.
 		$content = curl_exec($ch);
+
+		// Check if the content is a string. If it is not, it must be an error.
+		if (!is_string($content))
+		{
+			$message = curl_error($ch);
+
+			if (empty($message))
+			{
+				// Error but nothing from cURL? Create our own
+				$message = 'No HTTP response received';
+			}
+
+			throw new RuntimeException($message);
+		}
 
 		// Get the request information.
 		$info = curl_getinfo($ch);
@@ -156,7 +173,8 @@ class JHttpTransportCurl implements JHttpTransport
 	/**
 	 * Method to get a response object from a server response.
 	 *
-	 * @param   string  $content  The complete server response, including headers.
+	 * @param   string  $content  The complete server response, including headers
+	 *                            as a string if the response has no errors. 
 	 * @param   array   $info     The cURL request information.
 	 *
 	 * @return  JHttpResponse
@@ -187,11 +205,14 @@ class JHttpTransportCurl implements JHttpTransport
 
 		// Get the response code from the first offset of the response headers.
 		preg_match('/[0-9]{3}/', array_shift($headers), $matches);
-		$code = $matches[0];
+
+		$code = count($matches) ? $matches[0] : null;
+
 		if (is_numeric($code))
 		{
 			$return->code = (int) $code;
 		}
+
 		// No valid response code was detected.
 		else
 		{

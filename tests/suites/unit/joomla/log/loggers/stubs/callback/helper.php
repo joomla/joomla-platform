@@ -12,24 +12,24 @@
  */
 
 /**
- * Helper class for JLoggerCallbackTest
+ * Helper class for JLogLoggerCallbackTest
  *
  * @package     Joomla.UnitTest
  * @subpackage  Log
- * 
+ *
  * @since       12.2
  */
-class JLoggerCallbackTestHelper
+class JLogLoggerCallbackTestHelper
 {
 	public static $lastEntry;
 
 	/**
-	 * Function for testing JLoggerCallback with a static method
+	 * Function for testing JLogLoggerCallback with a static method
 	 *
 	 * @param   JLogEntry  $entry  A log entry to be processed.
 	 *
 	 * @return  null
-	 * 
+	 *
 	 * @since   12.2
 	 */
 	public static function callback01(JLogEntry $entry)
@@ -38,12 +38,12 @@ class JLoggerCallbackTestHelper
 	}
 
 	/**
-	 * Function for testing JLoggerCallback with an object method
+	 * Function for testing JLogLoggerCallback with an object method
 	 *
 	 * @param   JLogEntry  $entry  A log entry to be processed.
 	 *
 	 * @return  null
-	 * 
+	 *
 	 * @since   12.2
 	 */
 	public function callback02(JLogEntry $entry)
@@ -53,15 +53,15 @@ class JLoggerCallbackTestHelper
 }
 
 /**
- * Function for testing JLoggerCallback
+ * Function for testing JLogLoggerCallback
  *
  * @param   JLogEntry  $entry  A log entry to be processed.
  *
  * @return  null
- * 
+ *
  * @since   12.2
  */
-function jLoggerCallbackTestHelperFunction(JLogEntry $entry)
+function jLogLoggerCallbackTestHelperFunction(JLogEntry $entry)
 {
 
 }

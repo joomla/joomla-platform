@@ -29,7 +29,6 @@ class JUtility
 	 */
 	public static function parseAttributes($string)
 	{
-		// Initialise variables.
 		$attr = array();
 		$retarray = array();
 
@@ -39,6 +38,7 @@ class JUtility
 		if (is_array($attr))
 		{
 			$numPairs = count($attr[1]);
+
 			for ($i = 0; $i < $numPairs; $i++)
 			{
 				$retarray[$attr[1][$i]] = $attr[2][$i];

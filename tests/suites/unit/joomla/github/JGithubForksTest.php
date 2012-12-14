@@ -7,12 +7,17 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/github/github.php';
-require_once JPATH_PLATFORM.'/joomla/github/http.php';
-require_once JPATH_PLATFORM.'/joomla/github/forks.php';
+require_once JPATH_PLATFORM . '/joomla/github/github.php';
+require_once JPATH_PLATFORM . '/joomla/github/http.php';
+require_once JPATH_PLATFORM . '/joomla/github/forks.php';
 
 /**
  * Test class for JGithubGists.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Github
+ *
+ * @since       11.1
  */
 class JGithubForksTest extends PHPUnit_Framework_TestCase
 {
@@ -36,7 +41,7 @@ class JGithubForksTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @var    string  Sample JSON string.
- 	 * @since  11.4
+	 * @since  11.4
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
@@ -51,9 +56,13 @@ class JGithubForksTest extends PHPUnit_Framework_TestCase
 	 * This method is called before a test is executed.
 	 *
 	 * @access protected
+	 *
+	 * @return void
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		$this->options = new JRegistry;
 		$this->client = $this->getMock('JGithubHttp', array('get', 'post', 'delete', 'patch', 'put'));
 
@@ -62,6 +71,8 @@ class JGithubForksTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the create method
+	 *
+	 * @return void
 	 */
 	public function testCreate()
 	{
@@ -89,7 +100,10 @@ class JGithubForksTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the create method - failure
+	 *
 	 * @expectedException  DomainException
+	 *
+	 * @return void
 	 */
 	public function testCreateFailure()
 	{
@@ -99,8 +113,7 @@ class JGithubForksTest extends PHPUnit_Framework_TestCase
 
 		// Build the request data.
 		$data = json_encode(
-			array(
-			)
+			array()
 		);
 
 		$this->client->expects($this->once())
@@ -113,6 +126,8 @@ class JGithubForksTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getList method
+	 *
+	 * @return void
 	 */
 	public function testGetList()
 	{
@@ -133,7 +148,10 @@ class JGithubForksTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getList method - failure
+	 *
 	 * @expectedException  DomainException
+	 *
+	 * @return void
 	 */
 	public function testGetListFailure()
 	{

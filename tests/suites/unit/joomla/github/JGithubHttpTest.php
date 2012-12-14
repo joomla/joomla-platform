@@ -7,11 +7,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/github/http.php';
-require_once JPATH_PLATFORM.'/joomla/http/transport/stream.php';
+require_once JPATH_PLATFORM . '/joomla/github/http.php';
+require_once JPATH_PLATFORM . '/joomla/http/transport/stream.php';
 
 /**
  * Test class for JGithub.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Github
+ *
+ * @since       11.1
  */
 class JGithubHttpTest extends PHPUnit_Framework_TestCase
 {
@@ -28,7 +33,7 @@ class JGithubHttpTest extends PHPUnit_Framework_TestCase
 	protected $transport;
 
 	/**
-	 * @var    JGithubIssues  Object under test.
+	 * @var    JGithubHttp  Object under test.
 	 * @since  11.4
 	 */
 	protected $object;
@@ -37,10 +42,14 @@ class JGithubHttpTest extends PHPUnit_Framework_TestCase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @access protected
+	 * @return  void
+	 *
+	 * @since   11.4
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		$this->options = new JRegistry;
 		$this->transport = $this->getMock('JHttpTransportStream', array('request'), array($this->options), 'CustomTransport', false);
 
@@ -51,27 +60,32 @@ class JGithubHttpTest extends PHPUnit_Framework_TestCase
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
 	 *
-	 * @access protected
+	 * @return  void
+	 *
+	 * @since   11.4
 	 */
 	protected function tearDown()
 	{
 	}
 
 	/**
-	 * Tests the patch method
+	 * Tests the __construct method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
 	 */
-	public function testPatch()
+	public function test__Construct()
 	{
-		$uri = new JUri('https://example.com/gettest');
-
-		$this->transport->expects($this->once())
-			->method('request')
-			->with('PATCH', $uri, array())
-			->will($this->returnValue('requestResponse'));
+		// Verify the options are set in the object
+		$this->assertThat(
+			$this->object->getOption('userAgent'),
+			$this->equalTo('JGitHub/2.0')
+		);
 
 		$this->assertThat(
-			$this->object->patch('https://example.com/gettest', array()),
-			$this->equalTo('requestResponse')
+			$this->object->getOption('timeout'),
+			$this->equalTo(120)
 		);
 	}
 }

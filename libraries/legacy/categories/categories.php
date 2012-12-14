@@ -15,6 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Legacy
  * @subpackage  Categories
  * @since       11.1
+ * @deprecated  13.3
  */
 class JCategories
 {
@@ -138,6 +139,7 @@ class JCategories
 		if (!class_exists($classname))
 		{
 			$path = JPATH_SITE . '/components/' . $component . '/helpers/category.php';
+
 			if (is_file($path))
 			{
 				include_once $path;
@@ -665,11 +667,12 @@ class JCategoryNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($category = null, $constructor = null)
+	public function __construct($category = null, JCategoryNode $constructor = null)
 	{
 		if ($category)
 		{
 			$this->setProperties($category);
+
 			if ($constructor)
 			{
 				$this->_constructor = $constructor;
@@ -738,12 +741,9 @@ class JCategoryNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function addChild($child)
+	public function addChild(JCategoryNode $child)
 	{
-		if ($child instanceof JCategoryNode)
-		{
-			$child->setParent($this);
-		}
+		$child->setParent($this);
 	}
 
 	/**
@@ -775,6 +775,7 @@ class JCategoryNode extends JObject
 		if (!$this->_allChildrenloaded)
 		{
 			$temp = $this->_constructor->get($this->id, true);
+
 			if ($temp)
 			{
 				$this->_children = $temp->getChildren();
@@ -787,6 +788,7 @@ class JCategoryNode extends JObject
 		if ($recursive)
 		{
 			$items = array();
+
 			foreach ($this->_children as $child)
 			{
 				$items[] = $child;
@@ -844,7 +846,7 @@ class JCategoryNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function setSibling($sibling, $right = true)
+	public function setSibling(JCategoryNode $sibling, $right = true)
 	{
 		if ($right)
 		{
@@ -966,6 +968,7 @@ class JCategoryNode extends JObject
 	public function setAllLoaded()
 	{
 		$this->_allChildrenloaded = true;
+
 		foreach ($this->_children as $child)
 		{
 			$child->setAllLoaded();

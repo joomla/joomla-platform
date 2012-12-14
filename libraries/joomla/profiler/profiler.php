@@ -106,23 +106,16 @@ class JProfiler
 		$current = self::getmicrotime() - $this->start;
 		$currentMem = 0;
 
-		if (function_exists('memory_get_usage'))
-		{
-			$currentMem = memory_get_usage() / 1048576;
-			$mark = sprintf(
-				'<code>%s %.3f seconds (+%.3f); %0.2f MB (%s%0.3f) - %s</code>',
-				$this->prefix,
-				$current,
-				$current - $this->previousTime,
-				$currentMem,
-				($currentMem > $this->previousMem) ? '+' : '', $currentMem - $this->previousMem,
-				$label
-			);
-		}
-		else
-		{
-			$mark = sprintf('<code>%s %.3f seconds (+%.3f) - %s</code>', $this->prefix, $current, $current - $this->previousTime, $label);
-		}
+		$currentMem = memory_get_usage() / 1048576;
+		$mark = sprintf(
+			'<code>%s %.3f seconds (+%.3f); %0.2f MB (%s%0.3f) - %s</code>',
+			$this->prefix,
+			$current,
+			$current - $this->previousTime,
+			$currentMem,
+			($currentMem > $this->previousMem) ? '+' : '', $currentMem - $this->previousMem,
+			$label
+		);
 
 		$this->previousTime = $current;
 		$this->previousMem = $currentMem;
@@ -143,19 +136,6 @@ class JProfiler
 		list ($usec, $sec) = explode(' ', microtime());
 
 		return ((float) $usec + (float) $sec);
-	}
-
-	/**
-	 * Get information about current memory usage.
-	 *
-	 * @return  integer  The memory usage
-	 *
-	 * @link    PHP_MANUAL#memory_get_usage
-	 * @since   11.1
-	 */
-	public function getMemory()
-	{
-		return memory_get_usage();
 	}
 
 	/**

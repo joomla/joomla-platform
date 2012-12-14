@@ -75,7 +75,7 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @since   12.1
 	 */
-	function casesGetInstance()
+	public function casesGetInstance()
 	{
 		return array(
 			'42' => array(
@@ -165,7 +165,7 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @since   12.1
 	 */
-	function casesAuthorise()
+	public function casesAuthorise()
 	{
 		return array(
 			'Publisher Create' => array(
@@ -227,7 +227,8 @@ class JUserTest extends TestCaseDatabase
 		// Set up user 99 to be root_user from configuration
 		$testConfig = $this->getMock('JConfig', array('get'));
 		$testConfig->expects(
-			$this->any())
+			$this->any()
+		)
 			->method('get')
 			->will($this->returnValue(99));
 		JFactory::$config = $testConfig;
@@ -237,20 +238,24 @@ class JUserTest extends TestCaseDatabase
 		$this->assertThat(
 			$user->authorise($action, $asset),
 			$this->equalTo($expected),
-			'Line: '. __LINE__ . ' Failed for user ' . $user->id
+			'Line: ' . __LINE__ . ' Failed for user ' . $user->id
 		);
 
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @covers JUser::getAuthorisedCategories
 	 * @todo Implement testGetAuthorisedCategories().
+	 *
+	 * @return void
 	 */
 	public function testGetAuthorisedCategories()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-		  'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 
@@ -261,7 +266,7 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @since   12.1
 	 */
-	function casesGetAuthorisedViewLevels()
+	public function casesGetAuthorisedViewLevels()
 	{
 		return array(
 			'User42' => array(
@@ -311,14 +316,18 @@ class JUserTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @covers JUser::getAuthorisedGroups
 	 * @todo Implement testGetAuthorisedGroups().
+	 *
+	 * @return void
 	 */
 	public function testGetAuthorisedGroups()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-		  'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 
@@ -343,78 +352,106 @@ class JUserTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests JUser::getParameters().
+	 * Test the setParameters method.
 	 *
-	 * @return  void
-	 *
-	 * @deprecated  12.3
-	 * @covers JUser::getParameters
-	 */
-	public function testGetParameters()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestSkipped(
-			'This method is deprecated.'
-		);
-	}
-
-	/**
 	 * @covers JUser::setParameters
 	 * @todo Implement testSetParameters().
+	 *
+	 * @return void
 	 */
 	public function testSetParameters()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-		  'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @covers JUser::getTable
 	 * @todo Implement testGetTable().
+	 *
+	 * @return void
 	 */
 	public function testGetTable()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-		  'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @covers JUser::bind
 	 * @todo Implement testBind().
+	 *
+	 * @return void
 	 */
 	public function testBind()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		  'This test has not been implemented yet.'
+		$array = array();
+		$string = '12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890';
+
+		$array['username'] = $string;
+		$array['password'] = $string;
+		$array['password2'] = $string;
+
+		$testUser = new JUser();
+		$result = $testUser->bind($array);
+		$this->assertTrue(
+			$result
+		);
+
+		$this->assertTrue(
+			(strlen($testUser->username) >= 1 && strlen($testUser->username) <= 150)
+		);
+
+		$this->assertTrue(
+			(strlen($testUser->password) >= 1 && strlen($testUser->password) <= 100)
+		);
+
+		$array['password2'] = 'password_ok_not_same';
+
+		$testUser = new JUser();
+		$result = $testUser->bind($array);
+		$this->assertFalse(
+			$result
 		);
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @covers JUser::save
 	 * @todo Implement testSave().
+	 *
+	 * @return void
 	 */
 	public function testSave()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-		  'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @covers JUser::delete
 	 * @todo Implement testDelete().
+	 *
+	 * @return void
 	 */
 	public function testDelete()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-		  'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 
@@ -425,15 +462,22 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @since   12.1
 	 */
-	function casesLoad()
+	public function casesLoad()
 	{
 		return array(
 			'non-existant' => array(
 				1120,
 				false,
+				true
 			),
 			'existing' => array(
 				42,
+				true,
+				false
+			),
+			'existing-but-guest' => array(
+				0,
+				true,
 				true
 			)
 		);
@@ -444,20 +488,27 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @param   integer  $id        User ID to load
 	 * @param   boolean  $expected  Expected result of load operation
+	 * @param   boolean  $isGuest   Boolean marking an user as guest
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 *
 	 * @dataProvider casesLoad
+	 * @covers  JUser::load
 	 */
-	public function testLoad($id, $expected)
+	public function testLoad($id, $expected, $isGuest)
 	{
 		$testUser = new JUser($id);
 
 		$this->assertThat(
 			$testUser->load($id),
 			$this->equalTo($expected)
+		);
+
+		$this->assertThat(
+			$isGuest,
+			$this->equalTo(TestReflection::getValue($testUser, 'guest'))
 		);
 	}
 }

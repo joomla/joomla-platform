@@ -15,8 +15,9 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Legacy
  * @subpackage  Menu
  * @since       11.1
+ * @deprecated  13.3
  */
-class JMenu extends JObject
+class JMenu
 {
 	/**
 	 * Array to hold the menu items
@@ -93,16 +94,17 @@ class JMenu extends JObject
 
 			if (!class_exists($classname))
 			{
-				JLog::add('Non-autoloadable JMenu subclasses are deprecated.', JLog::WARNING, 'deprecated');
-
+				// @deprecated 13.3 Everything in this block is deprecated but the warning is only logged after the file_exists
 				// Load the menu object
 				$info = JApplicationHelper::getClientInfo($client, true);
 
 				if (is_object($info))
 				{
 					$path = $info->path . '/includes/menu.php';
+
 					if (file_exists($path))
 					{
+						JLog::add('Non-autoloadable JMenu subclasses are deprecated.', JLog::WARNING, 'deprecated');
 						include_once $path;
 					}
 				}
@@ -133,6 +135,7 @@ class JMenu extends JObject
 	public function getItem($id)
 	{
 		$result = null;
+
 		if (isset($this->_items[$id]))
 		{
 			$result = &$this->_items[$id];
@@ -156,6 +159,7 @@ class JMenu extends JObject
 		if (isset($this->_items[$id]))
 		{
 			$this->_default[$language] = $id;
+
 			return true;
 		}
 
@@ -202,6 +206,7 @@ class JMenu extends JObject
 		{
 			$this->_active = $id;
 			$result = &$this->_items[$id];
+
 			return $result;
 		}
 
@@ -220,6 +225,7 @@ class JMenu extends JObject
 		if ($this->_active)
 		{
 			$item = &$this->_items[$this->_active];
+
 			return $item;
 		}
 
@@ -251,6 +257,7 @@ class JMenu extends JObject
 			}
 
 			$test = true;
+
 			for ($i = 0, $count = count($attributes); $i < $count; $i++)
 			{
 				if (is_array($values[$i]))

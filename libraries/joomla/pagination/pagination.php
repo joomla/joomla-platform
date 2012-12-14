@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Pagination
  * @since       11.1
  */
-class JPagination extends JObject
+class JPagination
 {
 	/**
 	 * @var    integer  The record number to start displaying from.
@@ -42,6 +42,30 @@ class JPagination extends JObject
 	 * @since  11.1
 	 */
 	public $prefix = null;
+
+	/**
+	 * @var    integer
+	 * @since  12.2
+	 */
+	public $pagesStart;
+
+	/**
+	 * @var    integer
+	 * @since  12.2
+	 */
+	public $pagesStop;
+
+	/**
+	 * @var    integer
+	 * @since  12.2
+	 */
+	public $pagesCurrent;
+
+	/**
+	 * @var    integer
+	 * @since  12.2
+	 */
+	public $pagesTotal;
 
 	/**
 	 * @var    boolean  View all flag
@@ -99,32 +123,34 @@ class JPagination extends JObject
 		// Set the total pages and current page values.
 		if ($this->limit > 0)
 		{
-			$this->set('pages.total', ceil($this->total / $this->limit));
-			$this->set('pages.current', ceil(($this->limitstart + 1) / $this->limit));
+			$this->pagesTotal = ceil($this->total / $this->limit);
+			$this->pagesCurrent = ceil(($this->limitstart + 1) / $this->limit);
 		}
 
 		// Set the pagination iteration loop values.
 		$displayedPages = 10;
-		$this->set('pages.start', $this->get('pages.current') - ($displayedPages / 2));
-		if ($this->get('pages.start') < 1)
+		$this->pagesStart = $this->pagesCurrent - ($displayedPages / 2);
+
+		if ($this->pagesStart < 1)
 		{
-			$this->set('pages.start', 1);
+			$this->pagesStart = 1;
 		}
-		if (($this->get('pages.start') + $displayedPages) > $this->get('pages.total'))
+		if ($this->pagesStart + $displayedPages > $this->pagesTotal)
 		{
-			$this->set('pages.stop', $this->get('pages.total'));
-			if ($this->get('pages.total') < $displayedPages)
+			$this->pagesStop = $this->pagesTotal;
+
+			if ($this->pagesTotal < $displayedPages)
 			{
-				$this->set('pages.start', 1);
+				$this->pagesStart = 1;
 			}
 			else
 			{
-				$this->set('pages.start', $this->get('pages.total') - $displayedPages + 1);
+				$this->pagesStart = $this->pagesTotal - $displayedPages + 1;
 			}
 		}
 		else
 		{
-			$this->set('pages.stop', ($this->get('pages.start') + $displayedPages - 1));
+			$this->pagesStop = $this->pagesStart + $displayedPages - 1;
 		}
 
 		// If we are viewing all records set the view all flag to true.
@@ -204,6 +230,7 @@ class JPagination extends JObject
 	public function getData()
 	{
 		static $data;
+
 		if (!is_object($data))
 		{
 			$data = $this->_buildDataObject();
@@ -220,11 +247,11 @@ class JPagination extends JObject
 	 */
 	public function getPagesCounter()
 	{
-		// Initialise variables.
 		$html = null;
-		if ($this->get('pages.total') > 1)
+
+		if ($this->pagesTotal > 1)
 		{
-			$html .= JText::sprintf('JLIB_HTML_PAGE_CURRENT_OF_TOTAL', $this->get('pages.current'), $this->get('pages.total'));
+			$html .= JText::sprintf('JLIB_HTML_PAGE_CURRENT_OF_TOTAL', $this->pagesCurrent, $this->pagesTotal);
 		}
 		return $html;
 	}
@@ -238,7 +265,6 @@ class JPagination extends JObject
 	 */
 	public function getResultsCounter()
 	{
-		// Initialise variables.
 		$html = null;
 		$fromResult = $this->limitstart + 1;
 
@@ -287,9 +313,11 @@ class JPagination extends JObject
 		$listOverride = false;
 
 		$chromePath = JPATH_THEMES . '/' . $app->getTemplate() . '/html/pagination.php';
+
 		if (file_exists($chromePath))
 		{
 			include_once $chromePath;
+
 			if (function_exists('pagination_item_active') && function_exists('pagination_item_inactive'))
 			{
 				$itemOverride = true;
@@ -335,6 +363,7 @@ class JPagination extends JObject
 
 		// Make sure it exists
 		$list['pages'] = array();
+
 		foreach ($data->pages as $i => $page)
 		{
 			if ($page->base !== null)
@@ -402,9 +431,11 @@ class JPagination extends JObject
 		$list['pageslinks'] = $this->getPagesLinks();
 
 		$chromePath = JPATH_THEMES . '/' . $app->getTemplate() . '/html/pagination.php';
+
 		if (file_exists($chromePath))
 		{
 			include_once $chromePath;
+
 			if (function_exists('pagination_list_footer'))
 			{
 				return pagination_list_footer($list);
@@ -423,8 +454,6 @@ class JPagination extends JObject
 	public function getLimitBox()
 	{
 		$app = JFactory::getApplication();
-
-		// Initialise variables.
 		$limits = array();
 
 		// Make the option list.
@@ -557,6 +586,7 @@ class JPagination extends JObject
 		$html = '<ul>';
 		$html .= '<li class="pagination-start">' . $list['start']['data'] . '</li>';
 		$html .= '<li class="pagination-prev">' . $list['previous']['data'] . '</li>';
+
 		foreach ($list['pages'] as $page)
 		{
 			$html .= '<li>' . $page['data'] . '</li>';
@@ -580,6 +610,7 @@ class JPagination extends JObject
 	protected function _item_active(JPaginationObject $item)
 	{
 		$app = JFactory::getApplication();
+
 		if ($app->isAdmin())
 		{
 			if ($item->base > 0)
@@ -611,6 +642,7 @@ class JPagination extends JObject
 	protected function _item_inactive(JPaginationObject $item)
 	{
 		$app = JFactory::getApplication();
+
 		if ($app->isAdmin())
 		{
 			return "<span>" . $item->text . "</span>";
@@ -630,11 +662,11 @@ class JPagination extends JObject
 	 */
 	protected function _buildDataObject()
 	{
-		// Initialise variables.
 		$data = new stdClass;
 
 		// Build the additional URL parameters string.
 		$params = '';
+
 		if (!empty($this->additionalUrlParams))
 		{
 			foreach ($this->additionalUrlParams as $key => $value)
@@ -644,6 +676,7 @@ class JPagination extends JObject
 		}
 
 		$data->all = new JPaginationObject(JText::_('JLIB_HTML_VIEW_ALL'), $this->prefix);
+
 		if (!$this->viewall)
 		{
 			$data->all->base = '0';
@@ -654,9 +687,9 @@ class JPagination extends JObject
 		$data->start = new JPaginationObject(JText::_('JLIB_HTML_START'), $this->prefix);
 		$data->previous = new JPaginationObject(JText::_('JPREV'), $this->prefix);
 
-		if ($this->get('pages.current') > 1)
+		if ($this->pagesCurrent > 1)
 		{
-			$page = ($this->get('pages.current') - 2) * $this->limit;
+			$page = ($this->pagesCurrent - 2) * $this->limit;
 
 			// Set the empty for removal from route
 			// @todo remove code: $page = $page == 0 ? '' : $page;
@@ -671,10 +704,10 @@ class JPagination extends JObject
 		$data->next = new JPaginationObject(JText::_('JNEXT'), $this->prefix);
 		$data->end = new JPaginationObject(JText::_('JLIB_HTML_END'), $this->prefix);
 
-		if ($this->get('pages.current') < $this->get('pages.total'))
+		if ($this->pagesCurrent < $this->pagesTotal)
 		{
-			$next = $this->get('pages.current') * $this->limit;
-			$end = ($this->get('pages.total') - 1) * $this->limit;
+			$next = $this->pagesCurrent * $this->limit;
+			$end = ($this->pagesTotal - 1) * $this->limit;
 
 			$data->next->base = $next;
 			$data->next->link = JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $next);
@@ -683,21 +716,76 @@ class JPagination extends JObject
 		}
 
 		$data->pages = array();
-		$stop = $this->get('pages.stop');
-		for ($i = $this->get('pages.start'); $i <= $stop; $i++)
+		$stop = $this->pagesStop;
+
+		for ($i = $this->pagesStart; $i <= $stop; $i++)
 		{
 			$offset = ($i - 1) * $this->limit;
 
-			// Set the empty for removal from route
-			// @todo remove code: $offset = $offset == 0 ? '' : $offset;
-
 			$data->pages[$i] = new JPaginationObject($i, $this->prefix);
-			if ($i != $this->get('pages.current') || $this->viewall)
+
+			if ($i != $this->pagesCurrent || $this->viewall)
 			{
 				$data->pages[$i]->base = $offset;
 				$data->pages[$i]->link = JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $offset);
 			}
+			else
+			{
+				$data->pages[$i]->active = true;
+			}
 		}
 		return $data;
+	}
+
+	/**
+	 * Modifies a property of the object, creating it if it does not already exist.
+	 *
+	 * @param   string  $property  The name of the property.
+	 * @param   mixed   $value     The value of the property to set.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 * @deprecated  13.3  Access the properties directly.
+	 */
+	public function set($property, $value = null)
+	{
+		JLog::add('JPagination::set() is deprecated. Access the properties directly.', JLog::WARNING, 'deprecated');
+
+		if (strpos($property, '.'))
+		{
+			$prop = explode('.', $property);
+			$prop[1] = ucfirst($prop[1]);
+			$property = implode($prop);
+		}
+		$this->$property = $value;
+	}
+
+	/**
+	 * Returns a property of the object or the default value if the property is not set.
+	 *
+	 * @param   string  $property  The name of the property.
+	 * @param   mixed   $default   The default value.
+	 *
+	 * @return  mixed    The value of the property.
+	 *
+	 * @since   12.2
+	 * @deprecated  13.3  Access the properties directly.
+	 */
+	public function get($property, $default = null)
+	{
+		JLog::add('JPagination::get() is deprecated. Access the properties directly.', JLog::WARNING, 'deprecated');
+
+		if (strpos($property, '.'))
+		{
+			$prop = explode('.', $property);
+			$prop[1] = ucfirst($prop[1]);
+			$property = implode($prop);
+		}
+		if (isset($this->$property))
+		{
+			return $this->$property;
+		}
+		return $default;
 	}
 }

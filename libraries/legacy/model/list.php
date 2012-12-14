@@ -15,6 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Legacy
  * @subpackage  Model
  * @since       12.2
+ * @deprecated  13.3
  */
 class JModelList extends JModelLegacy
 {
@@ -131,6 +132,7 @@ class JModelList extends JModelLegacy
 		catch (RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
+
 			return false;
 		}
 
@@ -227,6 +229,7 @@ class JModelList extends JModelLegacy
 
 		// Load the total.
 		$query = $this->_getListQuery();
+
 		try
 		{
 			$total = (int) $this->_getListCount($query);
@@ -234,6 +237,7 @@ class JModelList extends JModelLegacy
 		catch (RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
+
 			return false;
 		}
 
@@ -263,6 +267,7 @@ class JModelList extends JModelLegacy
 		$start = $this->getState('list.start');
 		$limit = $this->getState('list.limit');
 		$total = $this->getTotal();
+
 		if ($start > $total - $limit)
 		{
 			$start = max(0, (int) (ceil($total / $limit) - 1) * $limit);
@@ -307,6 +312,7 @@ class JModelList extends JModelLegacy
 
 			// Check if the ordering field is in the white list, otherwise use the incoming value.
 			$value = $app->getUserStateFromRequest($this->context . '.ordercol', 'filter_order', $ordering);
+
 			if (!in_array($value, $this->filter_fields))
 			{
 				$value = $ordering;
@@ -316,6 +322,7 @@ class JModelList extends JModelLegacy
 
 			// Check if the ordering direction is valid, otherwise use the incoming value.
 			$value = $app->getUserStateFromRequest($this->context . '.orderdirn', 'filter_order_Dir', $direction);
+
 			if (!in_array(strtoupper($value), array('ASC', 'DESC', '')))
 			{
 				$value = $direction;

@@ -13,11 +13,12 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
+ * @since       11.1
  */
 class JCacheStorageTest extends TestCase
 {
 	/**
-	 * @var	JCacheStorage
+	 * @var    JCacheStorage
 	 * @access protected
 	 */
 	protected $object;
@@ -27,62 +28,74 @@ class JCacheStorageTest extends TestCase
 	 * @access protected
 	 */
 	protected static $errors;
+
 	protected $savedErrorState;
 
-		/**
+	/**
 	 * @var actualError
 	 */
 	protected static $actualError;
 
 	/**
-	 * @var  bool
+	 * @var  boolean
 	 */
 	protected $apcAvailable;
 
 	/**
-	 * @var  bool
+	 * @var  boolean
 	 */
 	protected $eacceleratorAvailable;
 
 	/**
-	 * @var  bool
+	 * @var  boolean
 	 */
 	protected $memcacheAvailable;
 
 	/**
-	 * @var  bool
+	 * @var  boolean
 	 */
 	protected $xcacheAvailable;
 
 	/**
 	 * Receives the callback from JError and logs the required error information for the test.
 	 *
-	 * @param	JException	The JException object from JError
+	 * @param   JException  &$error  The JException object from JError
 	 *
-	 * @return	bool	To not continue with JError processing
+	 * @return    boolean   To not continue with JError processing
 	 */
-	static function errorCallback( &$error )
+	public static function errorCallback(&$error)
 	{
-		JCacheStorageTest::$actualError['code'] = $error->get('code');
-		JCacheStorageTest::$actualError['msg'] = $error->get('message');
-		JCacheStorageTest::$actualError['info'] = $error->get('info');
+		self::$actualError['code'] = $error->get('code');
+		self::$actualError['msg'] = $error->get('message');
+		self::$actualError['info'] = $error->get('info');
+
 		return false;
 	}
 
+	/**
+	 * Setup.
+	 *
+	 * @return void
+	 */
 	protected function setUp()
 	{
-		include_once JPATH_PLATFORM.'/joomla/cache/cache.php';
-		include_once JPATH_PLATFORM.'/joomla/cache/storage.php';
+		include_once JPATH_PLATFORM . '/joomla/cache/cache.php';
+		include_once JPATH_PLATFORM . '/joomla/cache/storage.php';
 
 		$this->saveErrorHandlers();
 		$this->setErrorCallback('JCacheStorageTest');
-		JCacheStorageTest::$actualError = array();
+		self::$actualError = array();
 
 		$this->object = new JCacheStorage;
 
 		$this->checkStores();
 	}
 
+	/**
+	 * Test...
+	 *
+	 * @return void
+	 */
 	protected function checkStores()
 	{
 		$this->apcAvailable = extension_loaded('apc');
@@ -96,6 +109,7 @@ class JCacheStorageTest extends TestCase
 	 * This method is called after a test is executed.
 	 *
 	 * @return void
+	 *
 	 * @access protected
 	 */
 	protected function tearDown()
@@ -108,63 +122,64 @@ class JCacheStorageTest extends TestCase
 	 *
 	 * @return array
 	 */
-	function casesGetInstance()
+	public function casesGetInstance()
 	{
 		$this->checkStores();
+
 		return array(
 			'defaultfile' => array(
 				'file',
 				array(
-					'application'	=> null,
-					'language'		=> 'en-GB',
-					'locking'		=> true,
-					'lifetime'		=> null,
-					'cachebase'		=> JPATH_BASE.'/cache',
-					'now'		=> time(),
+					'application' => null,
+					'language' => 'en-GB',
+					'locking' => true,
+					'lifetime' => null,
+					'cachebase' => JPATH_BASE . '/cache',
+					'now' => time(),
 				),
 				'JCacheStorageFile',
 			),
 			'defaultapc' => array(
 				'apc',
 				array(
-					'application'	=> null,
-					'language'		=> 'en-GB',
-					'locking'		=> true,
-					'lifetime'		=> null,
-					'now'		=> time(),
+					'application' => null,
+					'language' => 'en-GB',
+					'locking' => true,
+					'lifetime' => null,
+					'now' => time(),
 				),
 				($this->apcAvailable ? 'JCacheStorageApc' : false),
 			),
 			'defaulteaccelerator' => array(
 				'eaccelerator',
 				array(
-					'application'	=> null,
-					'language'		=> 'en-GB',
-					'locking'		=> true,
-					'lifetime'		=> null,
-					'now'		=> time(),
+					'application' => null,
+					'language' => 'en-GB',
+					'locking' => true,
+					'lifetime' => null,
+					'now' => time(),
 				),
 				$this->eacceleratorAvailable ? 'JCacheStorageEaccelerator' : false,
 			),
 			'defaultmemcache' => array(
 				'memcache',
 				array(
-					'application'	=> null,
-					'language'		=> 'en-GB',
-					'locking'		=> true,
-					'lifetime'		=> null,
-					'now'		=> time(),
+					'application' => null,
+					'language' => 'en-GB',
+					'locking' => true,
+					'lifetime' => null,
+					'now' => time(),
 				),
 				$this->memcacheAvailable ? 'JCacheStorageMemcache' : false,
 			),
 			'defaultxcache' => array(
 				'xcache',
 				array(
-					'application'	=> null,
-					'language'		=> 'en-GB',
-					'locking'		=> true,
-					'lifetime'		=> null,
-					'now'		=> time(),
+					'application' => null,
+					'language' => 'en-GB',
+					'locking' => true,
+					'lifetime' => null,
+					'now' => time(),
 				),
 				$this->xcacheAvailable ? 'JCacheStorageXcache' : false,
 			),
@@ -174,21 +189,25 @@ class JCacheStorageTest extends TestCase
 	/**
 	 * Testing getInstance
 	 *
-	 * @param	string	cache storage
-	 * @param	array	options for cache storage
-	 * @param	string	name of expected cache storage class
+	 * @param   string  $handler   cache storage
+	 * @param   array   $options   options for cache storage
+	 * @param   string  $expClass  name of expected cache storage class
 	 *
 	 * @return void
+	 *
 	 * @dataProvider casesGetInstance
 	 */
 	public function testGetInstance($handler, $options, $expClass)
 	{
-		if (is_bool($expClass)) {
-			$this->markTestSkipped('The caching method '.$handler.' is not supported on this system.');
+		if (is_bool($expClass))
+		{
+			$this->markTestSkipped('The caching method ' . $handler . ' is not supported on this system.');
 		}
 
 		$this->object = JCacheStorage::getInstance($handler, $options);
-		if (class_exists('JTestConfig')) {
+
+		if (class_exists('JTestConfig'))
+		{
 			$config = new JTestConfig;
 		}
 
@@ -218,7 +237,8 @@ class JCacheStorageTest extends TestCase
 
 		$this->assertThat(
 			$this->object->_lifetime,
-//			$this->equalTo(empty($options['lifetime']) ? $config->get('cachetime')*60 : $options['lifetime']*60),
+
+			// @todo remove: $this->equalTo(empty($options['lifetime']) ? $config->get('cachetime')*60 : $options['lifetime']*60),
 			$this->equalTo(60),
 			'Unexpected value for _lifetime.'
 		);
@@ -231,7 +251,7 @@ class JCacheStorageTest extends TestCase
 	}
 
 	/**
-	 * Testing get().
+	 * Testing get()
 	 *
 	 * @return void
 	 */
@@ -291,19 +311,6 @@ class JCacheStorageTest extends TestCase
 	{
 		$this->assertThat(
 			$this->object->gc(),
-			$this->isTrue()
-		);
-	}
-
-	/**
-	 * Testing test().
-	 *
-	 * @return void
-	 */
-	public function testTest()
-	{
-		$this->assertThat(
-			$this->object->test(),
 			$this->isTrue()
 		);
 	}

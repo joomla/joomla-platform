@@ -7,12 +7,17 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/github/github.php';
-require_once JPATH_PLATFORM.'/joomla/github/http.php';
-require_once JPATH_PLATFORM.'/joomla/github/commits.php';
+require_once JPATH_PLATFORM . '/joomla/github/github.php';
+require_once JPATH_PLATFORM . '/joomla/github/http.php';
+require_once JPATH_PLATFORM . '/joomla/github/commits.php';
 
 /**
  * Test class for JGitHubCommits.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Github
+ *
+ * @since       11.1
  */
 class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 {
@@ -56,6 +61,8 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		$this->options = new JRegistry;
 		$this->client = $this->getMock('JGithubHttp', array('get', 'post', 'delete', 'patch', 'put'));
 
@@ -81,9 +88,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 		$pull->parents = array('def5678');
 
 		$this->client->expects($this->once())
-		->method('post')
-		->with('/repos/joomla/joomla-platform/git/commits', json_encode($pull))
-		->will($this->returnValue($returnData));
+			->method('post')
+			->with('/repos/joomla/joomla-platform/git/commits', json_encode($pull))
+			->will($this->returnValue($returnData));
 
 		$this->assertThat(
 			$this->object->create('joomla', 'joomla-platform', 'My latest commit', 'abc1234', array('def5678')),
@@ -112,9 +119,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 		$pull->parents = array('def5678');
 
 		$this->client->expects($this->once())
-		->method('post')
-		->with('/repos/joomla/joomla-platform/git/commits', json_encode($pull))
-		->will($this->returnValue($returnData));
+			->method('post')
+			->with('/repos/joomla/joomla-platform/git/commits', json_encode($pull))
+			->will($this->returnValue($returnData));
 
 		try
 		{
@@ -154,9 +161,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 		$comment->position = 254;
 
 		$this->client->expects($this->once())
-		->method('post')
-		->with('/repos/joomla/joomla-platform/commits/abc1234/comments', json_encode($comment))
-		->will($this->returnValue($returnData));
+			->method('post')
+			->with('/repos/joomla/joomla-platform/commits/abc1234/comments', json_encode($comment))
+			->will($this->returnValue($returnData));
 
 		$this->assertThat(
 			$this->object->createCommitComment('joomla', 'joomla-platform', 'abc1234', 'My Insightful Comment', 1, 'path/to/file', 254),
@@ -188,9 +195,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 		$comment->position = 254;
 
 		$this->client->expects($this->once())
-		->method('post')
-		->with('/repos/joomla/joomla-platform/commits/abc1234/comments', json_encode($comment))
-		->will($this->returnValue($returnData));
+			->method('post')
+			->with('/repos/joomla/joomla-platform/commits/abc1234/comments', json_encode($comment))
+			->will($this->returnValue($returnData));
 
 		try
 		{
@@ -222,9 +229,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 		$returnData->body = $this->sampleString;
 
 		$this->client->expects($this->once())
-		->method('delete')
-		->with('/repos/joomla/joomla-platform/comments/42')
-		->will($this->returnValue($returnData));
+			->method('delete')
+			->with('/repos/joomla/joomla-platform/comments/42')
+			->will($this->returnValue($returnData));
 
 		$this->assertThat(
 			$this->object->deleteCommitComment('joomla', 'joomla-platform', 42),
@@ -248,9 +255,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 		$returnData->body = $this->errorString;
 
 		$this->client->expects($this->once())
-		->method('delete')
-		->with('/repos/joomla/joomla-platform/comments/42')
-		->will($this->returnValue($returnData));
+			->method('delete')
+			->with('/repos/joomla/joomla-platform/comments/42')
+			->will($this->returnValue($returnData));
 
 		try
 		{
@@ -286,9 +293,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 		$comment->body = 'My Insightful Comment';
 
 		$this->client->expects($this->once())
-		->method('patch')
-		->with('/repos/joomla/joomla-platform/comments/42', json_encode($comment))
-		->will($this->returnValue($returnData));
+			->method('patch')
+			->with('/repos/joomla/joomla-platform/comments/42', json_encode($comment))
+			->will($this->returnValue($returnData));
 
 		$this->assertThat(
 			$this->object->editCommitComment('joomla', 'joomla-platform', 42, 'My Insightful Comment'),
@@ -316,9 +323,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 		$comment->body = 'My Insightful Comment';
 
 		$this->client->expects($this->once())
-		->method('patch')
-		->with('/repos/joomla/joomla-platform/comments/42', json_encode($comment))
-		->will($this->returnValue($returnData));
+			->method('patch')
+			->with('/repos/joomla/joomla-platform/comments/42', json_encode($comment))
+			->will($this->returnValue($returnData));
 
 		try
 		{
@@ -350,9 +357,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 		$returnData->body = $this->sampleString;
 
 		$this->client->expects($this->once())
-		->method('get')
-		->with('/repos/joomla/joomla-platform/commits/abc1234')
-		->will($this->returnValue($returnData));
+			->method('get')
+			->with('/repos/joomla/joomla-platform/commits/abc1234')
+			->will($this->returnValue($returnData));
 
 		$this->assertThat(
 			$this->object->getCommit('joomla', 'joomla-platform', 'abc1234'),
@@ -376,9 +383,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 		$returnData->body = $this->errorString;
 
 		$this->client->expects($this->once())
-		->method('get')
-		->with('/repos/joomla/joomla-platform/commits/abc1234')
-		->will($this->returnValue($returnData));
+			->method('get')
+			->with('/repos/joomla/joomla-platform/commits/abc1234')
+			->will($this->returnValue($returnData));
 
 		$this->object->getCommit('joomla', 'joomla-platform', 'abc1234');
 	}
@@ -397,9 +404,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 		$returnData->body = $this->sampleString;
 
 		$this->client->expects($this->once())
-		->method('get')
-		->with('/repos/joomla/joomla-platform/comments/42')
-		->will($this->returnValue($returnData));
+			->method('get')
+			->with('/repos/joomla/joomla-platform/comments/42')
+			->will($this->returnValue($returnData));
 
 		$this->assertThat(
 			$this->object->getCommitComment('joomla', 'joomla-platform', 42),
@@ -423,9 +430,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 		$returnData->body = $this->errorString;
 
 		$this->client->expects($this->once())
-		->method('get')
-		->with('/repos/joomla/joomla-platform/comments/42')
-		->will($this->returnValue($returnData));
+			->method('get')
+			->with('/repos/joomla/joomla-platform/comments/42')
+			->will($this->returnValue($returnData));
 
 		$this->object->getCommitComment('joomla', 'joomla-platform', 42);
 	}
@@ -444,9 +451,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 		$returnData->body = $this->sampleString;
 
 		$this->client->expects($this->once())
-		->method('get')
-		->with('/repos/joomla/joomla-platform/commits/abc1234/comments')
-		->will($this->returnValue($returnData));
+			->method('get')
+			->with('/repos/joomla/joomla-platform/commits/abc1234/comments')
+			->will($this->returnValue($returnData));
 
 		$this->assertThat(
 			$this->object->getCommitComments('joomla', 'joomla-platform', 'abc1234'),
@@ -470,9 +477,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 		$returnData->body = $this->errorString;
 
 		$this->client->expects($this->once())
-		->method('get')
-		->with('/repos/joomla/joomla-platform/commits/abc1234/comments')
-		->will($this->returnValue($returnData));
+			->method('get')
+			->with('/repos/joomla/joomla-platform/commits/abc1234/comments')
+			->will($this->returnValue($returnData));
 
 		$this->object->getCommitComments('joomla', 'joomla-platform', 'abc1234');
 	}
@@ -491,9 +498,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 		$returnData->body = $this->sampleString;
 
 		$this->client->expects($this->once())
-		->method('get')
-		->with('/repos/joomla/joomla-platform/compare/master...staging')
-		->will($this->returnValue($returnData));
+			->method('get')
+			->with('/repos/joomla/joomla-platform/compare/master...staging')
+			->will($this->returnValue($returnData));
 
 		$this->assertThat(
 			$this->object->getDiff('joomla', 'joomla-platform', 'master', 'staging'),
@@ -517,9 +524,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 		$returnData->body = $this->errorString;
 
 		$this->client->expects($this->once())
-		->method('get')
-		->with('/repos/joomla/joomla-platform/compare/master...staging')
-		->will($this->returnValue($returnData));
+			->method('get')
+			->with('/repos/joomla/joomla-platform/compare/master...staging')
+			->will($this->returnValue($returnData));
 
 		$this->object->getDiff('joomla', 'joomla-platform', 'master', 'staging');
 	}
@@ -538,9 +545,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 		$returnData->body = $this->sampleString;
 
 		$this->client->expects($this->once())
-		->method('get')
-		->with('/repos/joomla/joomla-platform/commits')
-		->will($this->returnValue($returnData));
+			->method('get')
+			->with('/repos/joomla/joomla-platform/commits')
+			->will($this->returnValue($returnData));
 
 		$this->assertThat(
 			$this->object->getList('joomla', 'joomla-platform'),
@@ -564,9 +571,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 		$returnData->body = $this->errorString;
 
 		$this->client->expects($this->once())
-		->method('get')
-		->with('/repos/joomla/joomla-platform/commits')
-		->will($this->returnValue($returnData));
+			->method('get')
+			->with('/repos/joomla/joomla-platform/commits')
+			->will($this->returnValue($returnData));
 
 		$this->object->getList('joomla', 'joomla-platform');
 	}
@@ -585,9 +592,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 		$returnData->body = $this->sampleString;
 
 		$this->client->expects($this->once())
-		->method('get')
-		->with('/repos/joomla/joomla-platform/comments')
-		->will($this->returnValue($returnData));
+			->method('get')
+			->with('/repos/joomla/joomla-platform/comments')
+			->will($this->returnValue($returnData));
 
 		$this->assertThat(
 			$this->object->getListComments('joomla', 'joomla-platform'),
@@ -611,9 +618,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 		$returnData->body = $this->errorString;
 
 		$this->client->expects($this->once())
-		->method('get')
-		->with('/repos/joomla/joomla-platform/comments')
-		->will($this->returnValue($returnData));
+			->method('get')
+			->with('/repos/joomla/joomla-platform/comments')
+			->will($this->returnValue($returnData));
 
 		$this->object->getListComments('joomla', 'joomla-platform');
 	}

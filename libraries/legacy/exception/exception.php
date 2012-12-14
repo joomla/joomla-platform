@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Legacy
  * @subpackage  Exception
  * @since       11.1
- * @deprecated  12.1
+ * @deprecated  13.1
  */
 class JException extends Exception
 {
@@ -132,6 +132,7 @@ class JException extends Exception
 			for ($i = count($this->backtrace) - 1; $i >= 0; --$i)
 			{
 				++$i;
+
 				if (isset($this->backtrace[$i]['file']))
 				{
 					$this->file = $this->backtrace[$i]['file'];
@@ -154,6 +155,7 @@ class JException extends Exception
 				}
 
 				$this->args = false;
+
 				if (isset($this->backtrace[$i]['args']))
 				{
 					$this->args = $this->backtrace[$i]['args'];
@@ -238,6 +240,7 @@ class JException extends Exception
 		JLog::add('JException::getProperties is deprecated.', JLog::WARNING, 'deprecated');
 
 		$vars = get_object_vars($this);
+
 		if ($public)
 		{
 			foreach ($vars as $key => $value)
@@ -326,6 +329,7 @@ class JException extends Exception
 
 		$previous = isset($this->$property) ? $this->$property : null;
 		$this->$property = $value;
+
 		return $previous;
 	}
 

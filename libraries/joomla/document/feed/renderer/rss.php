@@ -72,7 +72,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		$feed = "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n";
 		$feed .= "	<channel>\n";
 		$feed .= "		<title>" . $feed_title . "</title>\n";
-		$feed .= "		<description>" . $data->description . "</description>\n";
+		$feed .= "		<description><![CDATA[" . $data->description . "]]></description>\n";
 		$feed .= "		<link>" . str_replace(' ', '%20', $url . $data->link) . "</link>\n";
 		$feed .= "		<lastBuildDate>" . htmlspecialchars($now->toRFC822(true), ENT_COMPAT, 'UTF-8') . "</lastBuildDate>\n";
 		$feed .= "		<generator>" . $data->getGenerator() . "</generator>\n";
@@ -84,6 +84,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 			$feed .= "			<url>" . $data->image->url . "</url>\n";
 			$feed .= "			<title>" . htmlspecialchars($data->image->title, ENT_COMPAT, 'UTF-8') . "</title>\n";
 			$feed .= "			<link>" . str_replace(' ', '%20', $data->image->link) . "</link>\n";
+
 			if ($data->image->width != "")
 			{
 				$feed .= "			<width>" . $data->image->width . "</width>\n";
@@ -229,6 +230,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		}
 		$feed .= "	</channel>\n";
 		$feed .= "</rss>\n";
+
 		return $feed;
 	}
 

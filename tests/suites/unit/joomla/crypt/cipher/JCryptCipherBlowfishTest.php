@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/crypt/key.php';
-require_once JPATH_PLATFORM.'/joomla/crypt/cipher.php';
-require_once JPATH_PLATFORM.'/joomla/crypt/cipher/blowfish.php';
+require_once JPATH_PLATFORM . '/joomla/crypt/key.php';
+require_once JPATH_PLATFORM . '/joomla/crypt/cipher.php';
+require_once JPATH_PLATFORM . '/joomla/crypt/cipher/blowfish.php';
 
 /**
  * Test class for JCryptCipherBlowfish.
@@ -48,7 +48,7 @@ class JCryptCipherBlowfishTest extends TestCase
 		// Build the key for testing.
 		$this->key = new JCryptKey('blowfish');
 		$this->key->private = file_get_contents(__DIR__ . '/stubs/encrypted/blowfish/key.priv');
-		$this->key->public  = file_get_contents(__DIR__ . '/stubs/encrypted/blowfish/key.pub');
+		$this->key->public = file_get_contents(__DIR__ . '/stubs/encrypted/blowfish/key.pub');
 	}
 
 	/**
@@ -65,19 +65,36 @@ class JCryptCipherBlowfishTest extends TestCase
 		parent::tearDown();
 	}
 
+	/**
+	 * Test...
+	 *
+	 * @return array
+	 */
 	public function data()
 	{
 		return array(
-			array('1.txt', 'c-;3-(Is>{DJzOHMCv_<#yKuN/G`/Us{GkgicWG$M|HW;kI0BVZ^|FY/"Obt53?PNaWwhmRtH;lWkWE4vlG5CIFA!abu&F=Xo#Qw}gAp3;GL\'k])%D}C+W&ne6_F$3P5'),
-			array('2.txt', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+			array(
+				'1.txt',
+				'c-;3-(Is>{DJzOHMCv_<#yKuN/G`/Us{GkgicWG$M|HW;kI0BVZ^|FY/"Obt53?PNaWwhmRtH;lWkWE4vlG5CIFA!abu&F=Xo#Qw}gAp3;GL\'k])%D}C+W&ne6_F$3P5'),
+			array(
+				'2.txt',
+				'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ' .
+					'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor ' .
+					'in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt ' .
+					'in culpa qui officia deserunt mollit anim id est laborum.'),
 			array('3.txt', 'لا أحد يحب الألم بذاته، يسعى ورائه أو يبتغيه، ببساطة لأنه الألم...'),
-			array('4.txt', 'Широкая электрификация южных губерний даст мощный толчок подъёму сельского хозяйства'),
+			array('4.txt',
+				'Широкая электрификация южных губерний даст мощный ' .
+					'толчок подъёму сельского хозяйства'),
 			array('5.txt', 'The quick brown fox jumps over the lazy dog.')
 		);
 	}
 
 	/**
 	 * Tests JCryptCipherBlowfish->decrypt()
+	 *
+	 * @param   string  $file  @todo
+	 * @param   string  $data  @todo
 	 *
 	 * @return  void
 	 *
@@ -95,6 +112,9 @@ class JCryptCipherBlowfishTest extends TestCase
 
 	/**
 	 * Tests JCryptCipherBlowfish->encrypt()
+	 *
+	 * @param   string  $file  @todo
+	 * @param   string  $data  @todo
 	 *
 	 * @return  void
 	 *

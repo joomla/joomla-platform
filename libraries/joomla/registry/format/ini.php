@@ -35,7 +35,6 @@ class JRegistryFormatINI extends JRegistryFormat
 	 */
 	public function objectToString($object, $options = array())
 	{
-		// Initialize variables.
 		$local = array();
 		$global = array();
 
@@ -81,6 +80,7 @@ class JRegistryFormatINI extends JRegistryFormat
 
 		// Check the memory cache for already processed strings.
 		$hash = md5($data . ':' . (int) $sections);
+
 		if (isset(self::$cache[$hash]))
 		{
 			return self::$cache[$hash];
@@ -92,7 +92,6 @@ class JRegistryFormatINI extends JRegistryFormat
 			return new stdClass;
 		}
 
-		// Initialize variables.
 		$obj = new stdClass;
 		$section = false;
 		$lines = explode("\n", $data);
@@ -145,6 +144,7 @@ class JRegistryFormatINI extends JRegistryFormat
 
 			// If the value is quoted then we assume it is a string.
 			$length = strlen($value);
+
 			if ($length && ($value[0] == '"') && ($value[$length - 1] == '"'))
 			{
 				// Strip the quotes and Convert the new line characters.
@@ -208,7 +208,6 @@ class JRegistryFormatINI extends JRegistryFormat
 	 */
 	protected function getValueAsINI($value)
 	{
-		// Initialize variables.
 		$string = '';
 
 		switch (gettype($value))

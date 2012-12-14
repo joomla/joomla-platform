@@ -1,10 +1,10 @@
 <?php
 /**
- * @version    $Id: JDatabaseExporterPostgresqlTest.php gpongelli $
- * @package    Joomla.UnitTest
+ * @package     Joomla.UnitTest
+ * @subpackage  Database
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
- * @license    GNU General Public License
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/JDatabaseExporterPostgresqlInspector.php';
@@ -44,10 +44,11 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   12.1
 	 */
-	public function setup()
+	protected function setup()
 	{
-		// Set up the database object mock.
+		parent::setUp();
 
+		// Set up the database object mock.
 		$this->dbo = $this->getMock(
 			'JDatabaseDriverPostgresql',
 			array(
@@ -268,6 +269,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 
 		/* Depending on which version is running, 9.1.0 or older */
 		$start_val = null;
+
 		if ($this->_ver9dot1)
 		{
 			$start_val = '1';
@@ -280,7 +282,8 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 <postgresqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
  <database name="">
   <table_structure name="#__test">
-   <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' . $start_val . '" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />
+   <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' .
+	$start_val . '" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />
    <field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />
    <field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />
    <field Field="start_date" Type="timestamp without time zone" Null="NO" Default="NULL" Comments="" />
@@ -340,6 +343,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 
 		/* Depending on which version is running, 9.1.0 or older */
 		$start_val = null;
+
 		if ($this->_ver9dot1)
 		{
 			$start_val = '1';
@@ -352,7 +356,8 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 <postgresqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
  <database name="">
   <table_structure name="#__test">
-   <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' . $start_val . '" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />
+   <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' .
+	$start_val . '" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />
    <field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />
    <field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />
    <field Field="start_date" Type="timestamp without time zone" Null="NO" Default="NULL" Comments="" />
@@ -385,6 +390,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 
 		/* Depending on which version is running, 9.1.0 or older */
 		$start_val = null;
+
 		if ($this->_ver9dot1)
 		{
 			$start_val = '1';
@@ -395,7 +401,8 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 			$this->equalTo(
 				array(
 					'  <table_structure name="#__test">',
-					'   <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' . $start_val . '" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />',
+					'   <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' .
+					$start_val . '" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />',
 					'   <field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />',
 					'   <field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />',
 					'   <field Field="start_date" Type="timestamp without time zone" Null="NO" Default="NULL" Comments="" />',

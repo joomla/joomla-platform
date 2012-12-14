@@ -49,6 +49,14 @@ abstract class JTable extends JObject
 	protected $_tbl_key = '';
 
 	/**
+	 * Name of the primary key fields in the table.
+	 *
+	 * @var    array
+	 * @since  12.2
+	 */
+	protected $_tbl_keys = array();
+
+	/**
 	 * JDatabaseDriver object.
 	 *
 	 * @var    JDatabaseDriver
@@ -81,25 +89,58 @@ abstract class JTable extends JObject
 	protected $_locked = false;
 
 	/**
+	 * Indicates that the primary keys autoincrement.
+	 *
+	 * @var    boolean
+	 * @since  12.3
+	 */
+	protected $_autoincrement = true;
+
+	/**
 	 * Object constructor to set table and key fields.  In most cases this will
 	 * be overridden by child classes to explicitly set the table and key fields
 	 * for a particular database table.
 	 *
 	 * @param   string           $table  Name of the table to model.
-	 * @param   string           $key    Name of the primary key field in the table.
+	 * @param   mixed            $key    Name of the primary key field in the table or array of field names that compose the primary key.
 	 * @param   JDatabaseDriver  $db     JDatabaseDriver object.
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($table, $key, $db)
+	public function __construct($table, $key, JDatabaseDriver $db)
 	{
 		// Set internal variables.
 		$this->_tbl = $table;
-		$this->_tbl_key = $key;
+
+		// Set the key to be an array.
+		if (is_string($key))
+		{
+			$key = array($key);
+		}
+		elseif (is_object($key))
+		{
+			$key = (array) $key;
+		}
+
+		$this->_tbl_keys = $key;
+
+		if (count($key) == 1)
+		{
+			$this->_autoincrement = true;
+		}
+		else
+		{
+			$this->_autoincrement = false;
+		}
+
+		// Set the singular table key for backwards compatibility.
+		$this->_tbl_key = $this->getKeyName();
+
 		$this->_db = $db;
 
 		// Initialise the table properties.
 		$fields = $this->getFields();
+
 		if ($fields)
 		{
 			foreach ($fields as $name => $v)
@@ -178,6 +219,7 @@ abstract class JTable extends JObject
 		{
 			// Search for the class file in the JTable include paths.
 			$path = JPath::find(self::addIncludePath(), strtolower($type) . '.php');
+
 			if ($path)
 			{
 				// Import the class file.
@@ -187,6 +229,7 @@ abstract class JTable extends JObject
 				if (!class_exists($tableClass))
 				{
 					JLog::add(JText::sprintf('JLIB_DATABASE_ERROR_CLASS_NOT_FOUND_IN_FILE', $tableClass), JLog::WARNING, 'jerror');
+
 					return false;
 				}
 			}
@@ -194,6 +237,7 @@ abstract class JTable extends JObject
 			{
 				// If we were unable to find the class file in the JTable include paths, raise a warning and return false.
 				JLog::add(JText::sprintf('JLIB_DATABASE_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND', $type), JLog::WARNING, 'jerror');
+
 				return false;
 			}
 		}
@@ -228,7 +272,7 @@ abstract class JTable extends JObject
 		settype($path, 'array');
 
 		// If we have new paths to add, do so.
-		if (!empty($path) && !in_array($path, self::$_includePaths))
+		if (!empty($path))
 		{
 			// Check and add each individual new path.
 			foreach ($path as $dir)
@@ -237,7 +281,10 @@ abstract class JTable extends JObject
 				$dir = trim($dir);
 
 				// Add to the front of the list so that custom paths are searched first.
-				array_unshift(self::$_includePaths, $dir);
+				if (!in_array($dir, self::$_includePaths))
+				{
+					array_unshift(self::$_includePaths, $dir);
+				}
 			}
 		}
 
@@ -255,8 +302,14 @@ abstract class JTable extends JObject
 	 */
 	protected function _getAssetName()
 	{
-		$k = $this->_tbl_key;
-		return $this->_tbl . '.' . (int) $this->$k;
+		$keys = array();
+
+		foreach ($this->_tbl_keys as $k)
+		{
+			$keys[] = (int) $this->$k;
+		}
+
+		return $this->_tbl . '.' . implode('.', $keys);
 	}
 
 	/**
@@ -278,7 +331,8 @@ abstract class JTable extends JObject
 
 	/**
 	 * Method to get the parent asset under which to register this one.
-	 * By default, all assets are registered to the ROOT node with ID 1.
+	 * By default, all assets are registered to the ROOT node with ID,
+	 * which will default to 1 if none exists.
 	 * The extended class can define a table and id to lookup.  If the
 	 * asset does not exist it will be created.
 	 *
@@ -289,15 +343,53 @@ abstract class JTable extends JObject
 	 *
 	 * @since   11.1
 	 */
-	protected function _getAssetParentId($table = null, $id = null)
+	protected function _getAssetParentId(JTable $table = null, $id = null)
 	{
 		// For simple cases, parent to the asset root.
-		if (empty($table) || empty($id))
+		$assets = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
+		$rootId = $assets->getRootId();
+
+		if (!empty($rootId))
 		{
-			return 1;
+			return $rootId;
 		}
 
 		return 1;
+	}
+
+	/**
+	 * Method to append the primary keys for this table to a query.
+	 *
+	 * @param   JDatabaseQuery  $query  A query object to append.
+	 * @param   mixed           $pk     Optional primary key parameter.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function appendPrimaryKeys($query, $pk = null)
+	{
+		if (is_null($pk))
+		{
+			foreach ($this->_tbl_keys as $k)
+			{
+				$query->where($this->_db->quoteName($k) . ' = ' . $this->_db->quote($this->$k));
+			}
+		}
+		else
+		{
+			if (is_string($pk))
+			{
+				$pk = array($this->_tbl_key => $pk);
+			}
+
+			$pk = (object) $pk;
+
+			foreach ($this->_tbl_keys AS $k)
+			{
+				$query->where($this->_db->quoteName($k) . ' = ' . $this->_db->quote($pk->$k));
+			}
+		}
 	}
 
 	/**
@@ -317,14 +409,30 @@ abstract class JTable extends JObject
 	/**
 	 * Method to get the primary key field name for the table.
 	 *
-	 * @return  string  The name of the primary key for the table.
+	 * @param   boolean  $multiple  True to return all primary keys (as an array) or false to return just the first one (as a string).
+	 *
+	 * @return  mixed  Array of primary key field names or string containing the first primary key field.
 	 *
 	 * @link    http://docs.joomla.org/JTable/getKeyName
 	 * @since   11.1
 	 */
-	public function getKeyName()
+	public function getKeyName($multiple = false)
 	{
-		return $this->_tbl_key;
+		// Count the number of keys
+		if (count($this->_tbl_keys))
+		{
+			if ($multiple)
+			{
+				// If we want multiple keys, return the raw array.
+				return $this->_tbl_keys;
+			}
+			else
+			{
+				// If we want the standard method, just return the first key.
+				return $this->_tbl_keys[0];
+			}
+		}
+		return '';
 	}
 
 	/**
@@ -406,7 +514,7 @@ abstract class JTable extends JObject
 		foreach ($this->getFields() as $k => $v)
 		{
 			// If the property is not the primary key or private, reset it.
-			if ($k != $this->_tbl_key && (strpos($k, '_') !== 0))
+			if (!in_array($k, $this->_tbl_keys) && (strpos($k, '_') !== 0))
 			{
 				$this->$k = $v->Default;
 			}
@@ -482,22 +590,39 @@ abstract class JTable extends JObject
 	{
 		if (empty($keys))
 		{
+			$empty = true;
+			$keys = array();
+
 			// If empty, use the value of the current key
-			$keyName = $this->_tbl_key;
-			$keyValue = $this->$keyName;
+			foreach ($this->_tbl_keys as $key)
+			{
+				$empty = $empty && empty($this->$key);
+				$keys[$key] = $this->$key;
+			}
 
 			// If empty primary key there's is no need to load anything
-			if (empty($keyValue))
+			if ($empty)
 			{
 				return true;
 			}
-
-			$keys = array($keyName => $keyValue);
 		}
 		elseif (!is_array($keys))
 		{
 			// Load by primary key.
-			$keys = array($this->_tbl_key => $keys);
+			$keyCount = count($this->_tbl_keys);
+
+			if ($keyCount)
+			{
+				if ($keyCount > 1)
+				{
+					throw new InvalidArgumentException('Table has multiple primary keys specified, only one primary key value provided.');
+				}
+				$keys = array($this->getKeyName() => $keys);
+			}
+			else
+			{
+				throw new RuntimeException('No table keys defined.');
+			}
 		}
 
 		if ($reset)
@@ -568,8 +693,12 @@ abstract class JTable extends JObject
 	 */
 	public function store($updateNulls = false)
 	{
-		// Initialise variables.
-		$k = $this->_tbl_key;
+		$k = $this->_tbl_keys;
+
+		if (!empty($this->asset_id))
+		{
+			$currentAssetId = $this->asset_id;
+		}
 
 		// The asset id field is managed privately by this class.
 		if ($this->_trackAssets)
@@ -578,13 +707,13 @@ abstract class JTable extends JObject
 		}
 
 		// If a primary key exists update the object, otherwise insert it.
-		if ($this->$k)
+		if ($this->hasPrimaryKey())
 		{
-			$this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
+			$this->_db->updateObject($this->_tbl, $this, $this->_tbl_keys, $updateNulls);
 		}
 		else
 		{
-			$this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
+			$this->_db->insertObject($this->_tbl, $this, $this->_tbl_keys);
 		}
 
 		// If the table is not set to track assets return true.
@@ -614,9 +743,11 @@ abstract class JTable extends JObject
 
 		// Check for an error.
 		$error = $asset->getError();
+
 		if ($error)
 		{
 			$this->setError($error);
+
 			return false;
 		}
 
@@ -639,10 +770,12 @@ abstract class JTable extends JObject
 		if (!$asset->check() || !$asset->store($updateNulls))
 		{
 			$this->setError($asset->getError());
+
 			return false;
 		}
 
-		if (empty($this->asset_id))
+		// Create an asset_id or heal one that is corrupted.
+		if (empty($this->asset_id) || ($currentAssetId != $this->asset_id && !empty($this->asset_id)))
 		{
 			// Update the asset_id field in this table.
 			$this->asset_id = (int) $asset->id;
@@ -650,7 +783,7 @@ abstract class JTable extends JObject
 			$query = $this->_db->getQuery(true);
 			$query->update($this->_db->quoteName($this->_tbl));
 			$query->set('asset_id = ' . (int) $this->asset_id);
-			$query->where($this->_db->quoteName($k) . ' = ' . (int) $this->$k);
+			$this->appendPrimaryKeys($query);
 			$this->_db->setQuery($query);
 
 			$this->_db->execute();
@@ -729,21 +862,35 @@ abstract class JTable extends JObject
 	 */
 	public function delete($pk = null)
 	{
-		// Initialise variables.
-		$k = $this->_tbl_key;
-		$pk = (is_null($pk)) ? $this->$k : $pk;
-
-		// If no primary key is given, return false.
-		if ($pk === null)
+		if (is_null($pk))
 		{
-			throw new UnexpectedValueException('Null primary key not allowed.');
+			$pk = array();
+
+			foreach ($this->_tbl_keys AS $key)
+			{
+				$pk[$key] = $this->$key;
+			}
+		}
+		elseif (!is_array($pk))
+		{
+			$pk = array($this->_tbl_key => $pk);
+		}
+
+		foreach ($this->_tbl_keys AS $key)
+		{
+			$pk[$key] = is_null($pk[$key]) ? $this->$key : $pk[$key];
+
+			if ($pk[$key] === null)
+			{
+				throw new UnexpectedValueException('Null primary key not allowed.');
+			}
+			$this->$key = $pk[$key];
 		}
 
 		// If tracking assets, remove the asset first.
 		if ($this->_trackAssets)
 		{
-			// Get and the asset name.
-			$this->$k = $pk;
+			// Get the asset name
 			$name = $this->_getAssetName();
 			$asset = self::getInstance('Asset');
 
@@ -752,12 +899,14 @@ abstract class JTable extends JObject
 				if (!$asset->delete())
 				{
 					$this->setError($asset->getError());
+
 					return false;
 				}
 			}
 			else
 			{
 				$this->setError($asset->getError());
+
 				return false;
 			}
 		}
@@ -766,7 +915,8 @@ abstract class JTable extends JObject
 		$query = $this->_db->getQuery(true);
 		$query->delete();
 		$query->from($this->_tbl);
-		$query->where($this->_tbl_key . ' = ' . $this->_db->quote($pk));
+		$this->appendPrimaryKeys($query, $pk);
+
 		$this->_db->setQuery($query);
 
 		// Check for a database error.
@@ -800,14 +950,28 @@ abstract class JTable extends JObject
 			return true;
 		}
 
-		// Initialise variables.
-		$k = $this->_tbl_key;
-		$pk = (is_null($pk)) ? $this->$k : $pk;
-
-		// If no primary key is given, return false.
-		if ($pk === null)
+		if (is_null($pk))
 		{
-			throw new UnexpectedValueException('Null primary key not allowed.');
+			$pk = array();
+
+			foreach ($this->_tbl_keys AS $key)
+			{
+				$pk[$key] = $this->$key;
+			}
+		}
+		elseif (!is_array($pk))
+		{
+			$pk = array($this->_tbl_key => $pk);
+		}
+
+		foreach ($this->_tbl_keys AS $key)
+		{
+			$pk[$key] = is_null($pk[$key]) ? $this->$key : $pk[$key];
+
+			if ($pk[$key] === null)
+			{
+				throw new UnexpectedValueException('Null primary key not allowed.');
+			}
 		}
 
 		// Get the current time in MySQL format.
@@ -818,7 +982,7 @@ abstract class JTable extends JObject
 		$query->update($this->_tbl);
 		$query->set($this->_db->quoteName('checked_out') . ' = ' . (int) $userId);
 		$query->set($this->_db->quoteName('checked_out_time') . ' = ' . $this->_db->quote($time));
-		$query->where($this->_tbl_key . ' = ' . $this->_db->quote($pk));
+		$this->appendPrimaryKeys($query, $pk);
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 
@@ -848,14 +1012,28 @@ abstract class JTable extends JObject
 			return true;
 		}
 
-		// Initialise variables.
-		$k = $this->_tbl_key;
-		$pk = (is_null($pk)) ? $this->$k : $pk;
-
-		// If no primary key is given, return false.
-		if ($pk === null)
+		if (is_null($pk))
 		{
-			throw new UnexpectedValueException('Null primary key not allowed.');
+			$pk = array();
+
+			foreach ($this->_tbl_keys AS $key)
+			{
+				$pk[$this->$key] = $this->$key;
+			}
+		}
+		elseif (!is_array($pk))
+		{
+			$pk = array($this->_tbl_key => $pk);
+		}
+
+		foreach ($this->_tbl_keys AS $key)
+		{
+			$pk[$key] = empty($pk[$key]) ? $this->$key : $pk[$key];
+
+			if ($pk[$key] === null)
+			{
+				throw new UnexpectedValueException('Null primary key not allowed.');
+			}
 		}
 
 		// Check the row in by primary key.
@@ -863,7 +1041,7 @@ abstract class JTable extends JObject
 		$query->update($this->_tbl);
 		$query->set($this->_db->quoteName('checked_out') . ' = 0');
 		$query->set($this->_db->quoteName('checked_out_time') . ' = ' . $this->_db->quote($this->_db->getNullDate()));
-		$query->where($this->_tbl_key . ' = ' . $this->_db->quote($pk));
+		$this->appendPrimaryKeys($query, $pk);
 		$this->_db->setQuery($query);
 
 		// Check for a database error.
@@ -874,6 +1052,47 @@ abstract class JTable extends JObject
 		$this->checked_out_time = '';
 
 		return true;
+	}
+
+	/**
+	 * Validate that the primary key has been set.
+	 *
+	 * @return  boolean  True if the primary key(s) have been set.
+	 *
+	 * @since   12.3
+	 */
+	public function hasPrimaryKey()
+	{
+		if ($this->_autoincrement)
+		{
+			$empty = true;
+
+			foreach ($this->_tbl_keys as $key)
+			{
+				$empty = $empty && empty($this->$key);
+			}
+		}
+		else
+		{
+			$query = $this->_db->getQuery(true);
+			$query->select('COUNT(*)');
+			$query->from($this->_tbl);
+			$this->appendPrimaryKeys($query);
+
+			$this->_db->setQuery($query);
+			$count = $this->_db->loadResult();
+
+			if ($count == 1)
+			{
+				$empty = false;
+			}
+			else
+			{
+				$empty = true;
+			}
+		}
+
+		return !$empty;
 	}
 
 	/**
@@ -894,21 +1113,35 @@ abstract class JTable extends JObject
 			return true;
 		}
 
-		// Initialise variables.
-		$k = $this->_tbl_key;
-		$pk = (is_null($pk)) ? $this->$k : $pk;
-
-		// If no primary key is given, return false.
-		if ($pk === null)
+		if (is_null($pk))
 		{
-			return false;
+			$pk = array();
+
+			foreach ($this->_tbl_keys AS $key)
+			{
+				$pk[$key] = $this->$key;
+			}
+		}
+		elseif (!is_array($pk))
+		{
+			$pk = array($this->_tbl_key => $pk);
+		}
+
+		foreach ($this->_tbl_keys AS $key)
+		{
+			$pk[$key] = is_null($pk[$key]) ? $this->$key : $pk[$key];
+
+			if ($pk[$key] === null)
+			{
+				throw new UnexpectedValueException('Null primary key not allowed.');
+			}
 		}
 
 		// Check the row in by primary key.
 		$query = $this->_db->getQuery(true);
 		$query->update($this->_tbl);
 		$query->set($this->_db->quoteName('hits') . ' = (' . $this->_db->quoteName('hits') . ' + 1)');
-		$query->where($this->_tbl_key . ' = ' . $this->_db->quote($pk));
+		$this->appendPrimaryKeys($query, $pk);
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 
@@ -992,6 +1225,30 @@ abstract class JTable extends JObject
 	}
 
 	/**
+	 * Get the primary key values for this table using passed in values as a default.
+	 *
+	 * @param   array  $keys  Optional primary key values to use.
+	 *
+	 * @return  array  An array of primary key names and values.
+	 *
+	 * @since   12.3
+	 */
+	public function getPrimaryKey(array $keys = array())
+	{
+		foreach ($this->_tbl_keys as $key)
+		{
+			if (!isset($keys[$key]))
+			{
+				if (!empty($this->$key))
+				{
+					$keys[$key] = $this->$key;
+				}
+			}
+		}
+		return $keys;
+	}
+
+	/**
 	 * Method to compact the ordering values of rows in a group of rows
 	 * defined by an SQL WHERE clause.
 	 *
@@ -1010,12 +1267,11 @@ abstract class JTable extends JObject
 			throw new UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
 
-		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		// Get the primary keys and ordering values for the selection.
 		$query = $this->_db->getQuery(true);
-		$query->select($this->_tbl_key . ', ordering');
+		$query->select(implode(',', $this->_tbl_keys) . ', ordering');
 		$query->from($this->_tbl);
 		$query->where('ordering >= 0');
 		$query->order('ordering');
@@ -1042,7 +1298,7 @@ abstract class JTable extends JObject
 					$query = $this->_db->getQuery(true);
 					$query->update($this->_tbl);
 					$query->set('ordering = ' . ($i + 1));
-					$query->where($this->_tbl_key . ' = ' . $this->_db->quote($row->$k));
+					$this->appendPrimaryKeys($query, $row);
 					$this->_db->setQuery($query);
 					$this->_db->execute();
 				}
@@ -1080,13 +1336,12 @@ abstract class JTable extends JObject
 			return true;
 		}
 
-		// Initialise variables.
 		$k = $this->_tbl_key;
 		$row = null;
 		$query = $this->_db->getQuery(true);
 
 		// Select the primary key and ordering values from the table.
-		$query->select($this->_tbl_key . ', ordering');
+		$query->select(implode(',', $this->_tbl_keys) . ', ordering');
 		$query->from($this->_tbl);
 
 		// If the movement delta is negative move the row up.
@@ -1119,7 +1374,7 @@ abstract class JTable extends JObject
 			$query = $this->_db->getQuery(true);
 			$query->update($this->_tbl);
 			$query->set('ordering = ' . (int) $row->ordering);
-			$query->where($this->_tbl_key . ' = ' . $this->_db->quote($this->$k));
+			$this->appendPrimaryKeys($query);
 			$this->_db->setQuery($query);
 			$this->_db->execute();
 
@@ -1127,7 +1382,7 @@ abstract class JTable extends JObject
 			$query = $this->_db->getQuery(true);
 			$query->update($this->_tbl);
 			$query->set('ordering = ' . (int) $this->ordering);
-			$query->where($this->_tbl_key . ' = ' . $this->_db->quote($row->$k));
+			$this->appendPrimaryKeys($query, $row);
 			$this->_db->setQuery($query);
 			$this->_db->execute();
 
@@ -1140,7 +1395,7 @@ abstract class JTable extends JObject
 			$query = $this->_db->getQuery(true);
 			$query->update($this->_tbl);
 			$query->set('ordering = ' . (int) $this->ordering);
-			$query->where($this->_tbl_key . ' = ' . $this->_db->quote($this->$k));
+			$this->appendPrimaryKeys($query);
 			$this->_db->setQuery($query);
 			$this->_db->execute();
 		}
@@ -1165,67 +1420,91 @@ abstract class JTable extends JObject
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
-		// Initialise variables.
-		$k = $this->_tbl_key;
+		$k = $this->_tbl_keys;
 
-		// Sanitize input.
-		JArrayHelper::toInteger($pks);
+		if (!is_null($pks))
+		{
+			foreach ($pks AS $key => $pk)
+			{
+				if (!is_array($pk))
+				{
+					$pks[$key] = array($this->_tbl_key => $pk);
+				}
+			}
+		}
+
 		$userId = (int) $userId;
 		$state = (int) $state;
 
 		// If there are no primary keys set check to see if the instance key is set.
 		if (empty($pks))
 		{
-			if ($this->$k)
+			$pk = array();
+
+			foreach ($this->_tbl_keys AS $key)
 			{
-				$pks = array($this->$k);
+				if ($this->$key)
+				{
+					$pk[$this->$key] = $this->$key;
+				}
+				// We don't have a full primary key - return false
+				else
+				{
+					return false;
+				}
 			}
-			// Nothing to set publishing state on, return false.
+
+			$pks = array($pk);
+		}
+
+		foreach ($pks AS $pk)
+		{
+			// Update the publishing state for rows with the given primary keys.
+			$query = $this->_db->getQuery(true);
+			$query->update($this->_tbl);
+			$query->set('published = ' . (int) $state);
+
+			// Determine if there is checkin support for the table.
+			if (property_exists($this, 'checked_out') || property_exists($this, 'checked_out_time'))
+			{
+				$query->where('(checked_out = 0 OR checked_out = ' . (int) $userId . ')');
+				$checkin = true;
+			}
 			else
 			{
-				return false;
+				$checkin = false;
 			}
-		}
 
-		// Update the publishing state for rows with the given primary keys.
-		$query = $this->_db->getQuery(true);
-		$query->update($this->_tbl);
-		$query->set('published = ' . (int) $state);
+			// Build the WHERE clause for the primary keys.
+			$this->appendPrimaryKeys($query, $pk);
 
-		// Determine if there is checkin support for the table.
-		if (property_exists($this, 'checked_out') || property_exists($this, 'checked_out_time'))
-		{
-			$query->where('(checked_out = 0 OR checked_out = ' . (int) $userId . ')');
-			$checkin = true;
-		}
-		else
-		{
-			$checkin = false;
-		}
+			$this->_db->setQuery($query);
+			$this->_db->execute();
 
-		// Build the WHERE clause for the primary keys.
-		$query->where($k . ' = ' . implode(' OR ' . $k . ' = ', $pks));
-
-		$this->_db->setQuery($query);
-		$this->_db->execute();
-
-		// If checkin is supported and all rows were adjusted, check them in.
-		if ($checkin && (count($pks) == $this->_db->getAffectedRows()))
-		{
-			// Checkin the rows.
-			foreach ($pks as $pk)
+			// If checkin is supported and all rows were adjusted, check them in.
+			if ($checkin && (count($pks) == $this->_db->getAffectedRows()))
 			{
 				$this->checkin($pk);
 			}
-		}
 
-		// If the JTable instance value is in the list of primary keys that were set, set the instance.
-		if (in_array($this->$k, $pks))
-		{
-			$this->published = $state;
+			$ours = true;
+
+			foreach ($this->_tbl_keys AS $key)
+			{
+				if ($this->$key != $pk[$key])
+				{
+					$ours = false;
+				}
+			}
+
+			if ($ours)
+			{
+				$this->published = $state;
+			}
 		}
 
 		$this->setError('');
+
 		return true;
 	}
 

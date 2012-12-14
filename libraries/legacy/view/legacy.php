@@ -17,6 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Legacy
  * @subpackage  View
  * @since       12.2
+ * @deprecated  13.3
  */
 class JViewLegacy extends JObject
 {
@@ -94,6 +95,7 @@ class JViewLegacy extends JObject
 	 * Callback for escaping.
 	 *
 	 * @var string
+	 * @deprecated 13.3
 	 */
 	protected $_escape = 'htmlspecialchars';
 
@@ -136,6 +138,7 @@ class JViewLegacy extends JObject
 		// Set the charset (used by the variable escaping functions)
 		if (array_key_exists('charset', $config))
 		{
+			JLog::add('Setting a custom charset for escaping is deprecated. Override JViewLegacy::escape() instead.', JLog::WARNING, 'deprecated');
 			$this->_charset = $config['charset'];
 		}
 
@@ -203,6 +206,7 @@ class JViewLegacy extends JObject
 	public function display($tpl = null)
 	{
 		$result = $this->loadTemplate($tpl);
+
 		if ($result instanceof Exception)
 		{
 			return $result;
@@ -245,9 +249,13 @@ class JViewLegacy extends JObject
 	 * </code>
 	 *
 	 * @return  boolean  True on success, false on failure.
+	 *
+	 * @deprecated  13.3 Use native PHP syntax.
 	 */
 	public function assign()
 	{
+		JLog::add(__METHOD__ . ' is deprecated. Use native PHP syntax.', JLog::WARNING, 'deprecated');
+
 		// Get the arguments; there may be 1 or 2.
 		$arg0 = @func_get_arg(0);
 		$arg1 = @func_get_arg(1);
@@ -286,6 +294,7 @@ class JViewLegacy extends JObject
 		if (is_string($arg0) && substr($arg0, 0, 1) != '_' && func_num_args() > 1)
 		{
 			$this->$arg0 = $arg1;
+
 			return true;
 		}
 
@@ -316,12 +325,16 @@ class JViewLegacy extends JObject
 	 * @return  boolean  True on success, false on failure.
 	 *
 	 * @since   12.2
+	 * @deprecated  13.3  Use native PHP syntax.
 	 */
 	public function assignRef($key, &$val)
 	{
+		JLog::add(__METHOD__ . ' is deprecated. Use native PHP syntax.', JLog::WARNING, 'deprecated');
+
 		if (is_string($key) && substr($key, 0, 1) != '_')
 		{
 			$this->$key = &$val;
+
 			return true;
 		}
 
@@ -362,7 +375,6 @@ class JViewLegacy extends JObject
 	 */
 	public function get($property, $default = null)
 	{
-
 		// If $model is null we use the default model
 		if (is_null($default))
 		{
@@ -384,6 +396,7 @@ class JViewLegacy extends JObject
 			{
 				// The method exists, let's call it and return what we get
 				$result = $this->_models[$model]->$method();
+
 				return $result;
 			}
 
@@ -448,16 +461,15 @@ class JViewLegacy extends JObject
 	{
 		if (empty($this->_name))
 		{
-			$r = null;
-			if (!preg_match('/View((view)*(.*(view)?.*))$/i', get_class($this), $r))
+			$classname = get_class($this);
+			$viewpos = strpos($classname, 'View');
+
+			if ($viewpos === false)
 			{
 				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME'), 500);
 			}
-			if (strpos($r[3], "view"))
-			{
-				JLog::add(JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME_SUBSTRING'), JLog::WARNING, 'jerror');
-			}
-			$this->_name = strtolower($r[3]);
+
+			$this->_name = strtolower(substr($classname, $viewpos + 4));
 		}
 
 		return $this->_name;
@@ -501,6 +513,7 @@ class JViewLegacy extends JObject
 	public function setLayout($layout)
 	{
 		$previous = $this->_layout;
+
 		if (strpos($layout, ':') === false)
 		{
 			$this->_layout = $layout;
@@ -530,6 +543,7 @@ class JViewLegacy extends JObject
 	public function setLayoutExt($value)
 	{
 		$previous = $this->_layoutExt;
+
 		if ($value = preg_replace('#[^A-Za-z0-9]#', '', trim($value)))
 		{
 			$this->_layoutExt = $value;
@@ -546,9 +560,12 @@ class JViewLegacy extends JObject
 	 * @return  void
 	 *
 	 * @since   12.2
+	 * @deprecated  13.3  Override JViewLegacy::escape() instead.
 	 */
 	public function setEscape($spec)
 	{
+		JLog::add(__METHOD__ . ' is deprecated. Override JViewLegacy::escape() instead.', JLog::WARNING, 'deprecated');
+
 		$this->_escape = $spec;
 	}
 

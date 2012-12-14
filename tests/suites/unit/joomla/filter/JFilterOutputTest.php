@@ -7,40 +7,44 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/string/string.php';
-require_once JPATH_PLATFORM.'/joomla/filter/output.php';
+require_once JPATH_PLATFORM . '/joomla/string/string.php';
+require_once JPATH_PLATFORM . '/joomla/filter/output.php';
 
 /**
  * FilterTestObject
  *
- * @package	Joomla.UnitTest
- * @subpackage Filter
+ * @package     Joomla.UnitTest
+ * @subpackage  Filter
+ *
+ * @since       11.1
  */
 class FilterTestObject
 {
 	public $string1;
+
 	public $string2;
+
 	public $string3;
 
 	/**
 	 * Sets up a dummy object for the output filter to be tested against
-	 *
-	 * @return void
 	 */
-	function __construct()
+	public function __construct()
 	{
 		$this->string1 = "<script>alert();</script>";
 		$this->string2 = "This is a test.";
 		$this->string3 = "<script>alert(3);</script>";
-		$this->array1 = array( 1, 2, 3 );
+		$this->array1 = array(1, 2, 3);
 	}
 }
 
 /**
  * JFilterOutputTest
  *
- * @package	Joomla.UnitTest
- * @subpackage Filter
+ * @package     Joomla.UnitTest
+ * @subpackage  Filter
+ *
+ * @since       11.1
  */
 class JFilterOutputTest extends PHPUnit_Framework_TestCase
 {
@@ -48,6 +52,7 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	 * @var JFilterOutput
 	 */
 	protected $object;
+
 	/**
 	 * @var beforeObject
 	 */
@@ -166,7 +171,7 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 */
-	static function dataSet()
+	public static function dataSet()
 	{
 		$cases = array(
 			'case_1' => array(
@@ -190,13 +195,13 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	 * The test framework calls this function once for each element in the array
 	 * returned by the named data provider.
 	 *
-	 * @param string $data   The original output
-	 * @param string $expect The expected result for this test.
+	 * @param   string  $data    The original output
+	 * @param   string  $expect  The expected result for this test.
 	 *
-	 * @return void
 	 * @dataProvider dataSet
+	 * @return void
 	 */
-	function testCleanText($data, $expect)
+	public function testCleanText($data, $expect)
 	{
 		$this->assertEquals($expect, JFilterOutput::cleanText($data));
 	}
@@ -216,5 +221,20 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 			'Should remove img tags'
 		);
 	}
+
+	/**
+	 * Tests stripping iFrames.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 */
+	public function testStripIframes()
+	{
+		$this->assertEquals(
+			'Hello  I am waving at you.',
+			$this->object->stripIframes('Hello <iframe src="http://player.vimeo.com/video/37576499" width="500" height="281" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> I am waving at you.'),
+			'Should remove iFrame tags'
+		);
+	}
 }
-?>

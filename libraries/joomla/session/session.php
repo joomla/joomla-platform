@@ -92,6 +92,14 @@ class JSession implements IteratorAggregate
 	private $_input = null;
 
 	/**
+	 * Holds the event dispatcher object
+	 *
+	 * @var    JEventDispatcher
+	 * @since  12.2
+	 */
+	private $_dispatcher = null;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   string  $store    The type of storage for the session.
@@ -146,6 +154,7 @@ class JSession implements IteratorAggregate
 		if ($name === 'state' || $name === 'expire')
 		{
 			$property = '_' . $name;
+
 			return $this->$property;
 		}
 	}
@@ -155,13 +164,13 @@ class JSession implements IteratorAggregate
 	 * if it doesn't already exist.
 	 *
 	 * @param   string  $handler  The type of session handler.
-	 * @param   array   $options  An array of configuration options.
+	 * @param   array   $options  An array of configuration options (for new sessions only).
 	 *
 	 * @return  JSession  The Session object.
 	 *
 	 * @since   11.1
 	 */
-	public static function getInstance($handler, $options)
+	public static function getInstance($handler, array $options = array ())
 	{
 		if (!is_object(self::$instance))
 		{
@@ -309,6 +318,7 @@ class JSession implements IteratorAggregate
 		if (!$app->input->$method->get($token, '', 'alnum'))
 		{
 			$session = JFactory::getSession();
+
 			if ($session->isNew())
 			{
 				// Redirect to login screen.
@@ -395,8 +405,7 @@ class JSession implements IteratorAggregate
 			}
 
 			// Sweet!  Our class exists, so now we just need to know if it passes its test method.
-			// @deprecated 12.3 Stop checking with test()
-			if ($class::isSupported() || $class::test())
+			if ($class::isSupported())
 			{
 				// Connector names should not have file extensions.
 				$connectors[] = str_ireplace('.php', '', $fileName);
@@ -428,21 +437,24 @@ class JSession implements IteratorAggregate
 	public function isNew()
 	{
 		$counter = $this->get('session.counter');
+
 		return (bool) ($counter === 1);
 	}
 
 	/**
 	 * Check whether this session is currently created
 	 *
-	 * @param   JInput  $input  JInput object for the session to use.
+	 * @param   JInput            $input       JInput object for the session to use.
+	 * @param   JEventDispatcher  $dispatcher  Dispatcher object for the session to use.
 	 *
 	 * @return  void.
 	 *
 	 * @since   12.2
 	 */
-	public function initialise(JInput $input)
+	public function initialise(JInput $input, JEventDispatcher $dispatcher = null)
 	{
-		$this->_input = $input;
+		$this->_input      = $input;
+		$this->_dispatcher = $dispatcher;
 	}
 
 	/**
@@ -465,6 +477,7 @@ class JSession implements IteratorAggregate
 		{
 			// @TODO :: generated error here
 			$error = null;
+
 			return $error;
 		}
 
@@ -557,6 +570,7 @@ class JSession implements IteratorAggregate
 		}
 
 		$value = null;
+
 		if (isset($_SESSION[$namespace][$name]))
 		{
 			$value = $_SESSION[$namespace][$name];
@@ -590,6 +604,11 @@ class JSession implements IteratorAggregate
 
 		// Perform security checks
 		$this->_validate();
+
+		if ($this->_dispatcher instanceof JEventDispatcher)
+		{
+			$this->_dispatcher->trigger('onAfterSessionStart');
+		}
 	}
 
 	/**
@@ -680,6 +699,7 @@ class JSession implements IteratorAggregate
 		session_destroy();
 
 		$this->_state = 'destroyed';
+
 		return true;
 	}
 
@@ -694,6 +714,7 @@ class JSession implements IteratorAggregate
 	public function restart()
 	{
 		$this->destroy();
+
 		if ($this->_state !== 'destroyed')
 		{
 			// @TODO :: generated error here
@@ -784,6 +805,7 @@ class JSession implements IteratorAggregate
 	protected function _setCookieParams()
 	{
 		$cookie = session_get_cookie_params();
+
 		if ($this->_force_ssl)
 		{
 			$cookie['secure'] = true;
@@ -818,6 +840,7 @@ class JSession implements IteratorAggregate
 		$max = strlen($chars) - 1;
 		$token = '';
 		$name = session_name();
+
 		for ($i = 0; $i < $length; ++$i)
 		{
 			$token .= $chars[(rand(0, $max))];
@@ -839,6 +862,7 @@ class JSession implements IteratorAggregate
 		++$counter;
 
 		$this->set('session.counter', $counter);
+
 		return true;
 	}
 
@@ -951,6 +975,7 @@ class JSession implements IteratorAggregate
 			if ($maxTime < $curTime)
 			{
 				$this->_state = 'expired';
+
 				return false;
 			}
 		}
@@ -973,6 +998,7 @@ class JSession implements IteratorAggregate
 			elseif ($_SERVER['REMOTE_ADDR'] !== $ip)
 			{
 				$this->_state = 'error';
+
 				return false;
 			}
 		}
