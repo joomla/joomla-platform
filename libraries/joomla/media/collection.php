@@ -27,7 +27,7 @@ abstract class JMediaCollection
 	protected $options = array();
 
 	/**
-	 * @var    array  JMediaCombiner instances container.
+	 * @var    array  JMediaCollection instances container.
 	 * @since  11.1
 	 */
 	protected static $instances = array();
