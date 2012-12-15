@@ -30,34 +30,16 @@ class JMediaCompressorCssTest extends TestCase
 		$this->object = JMediaCompressor::getInstance(array('type' => 'css'));
 	}
 
-	public function testSetCompressed()
-	{
-		$random = rand();
-		$this->object->setCompressed($random);
-		$test = $this->object->getCompressed();
-		$this->assertEquals($random,$test);
-		$this->object->clear();
-	}
-
-	public function testSetUncompressed()
-	{
-		$random = rand();
-		$this->object->setUncompressed($random);
-		$test = $this->object->getUncompressed();
-		$this->assertEquals($random,$test);
-		$this->object->clear();
-	}
-
 	public function testSetOptions()
 	{
 		$existing_options = $this->object->getOptions();
 
 		$expected = array('REMOVE_COMMENTS' => false, 'MIN_COLOR_CODES' => false, 'LIMIT_LINE_LENGTH' => false);
-	
+
 		$this->object->setOptions($expected);
-	
+
 		$test = $this->object->getOptions();
-	
+
 		foreach ($expected as $key => $value)
 		{
 			$this->arrayHasKey($key, $test);
@@ -73,14 +55,14 @@ class JMediaCompressorCssTest extends TestCase
 		// Put the path to test files for css compressor. (Include expected result in filename.min.css file)
 		$path = JPATH_BASE . '/test_files/css';
 
-		$files = JFolder::files($path,'.',false,true, array(),array('.min.css','.php','.html','.combined.css'));
+		$files = JFolder::files($path, '.', false, true, array(), array('.min.css', '.php', '.html', '.combined.css'));
 
 		foreach ($files as $file)
 		{
-			$this->object->setUncompressed(JFile::read($file));
+			$this->object->setUncompressed(file_get_contents($file));
 
 			// Getting the expected result from filename.min.js file.
-			$expected = JFile::read(str_ireplace('.css', '.min.css', $file));
+			$expected = file_get_contents(str_ireplace('.css', '.min.css', $file));
 
 			$this->object->compress();
 
@@ -97,7 +79,7 @@ class JMediaCompressorCssTest extends TestCase
 	{
 		$sourceCss = JPATH_BASE . '/test_files/css/comments.css';
 		
-		$this->object->setUncompressed(JFile::read($sourceCss));
+		$this->object->setUncompressed(file_get_contents($sourceCss));
 		$this->object->compress();
 		$this->object->clear();
 		

@@ -39,9 +39,8 @@ class JMediaCombinerCssTest extends TestCase
 	{
 		// Path to source css files
 		$path = JPATH_BASE . '/test_files/css';
-	
+
 		$files = JFolder::files($path,'.',false,true, array(), array('.min.css', '.php', '.html','.combined.css'));//get full path
-	
 		return $files;
 	}
 

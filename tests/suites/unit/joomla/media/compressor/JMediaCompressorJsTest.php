@@ -31,43 +31,16 @@ class JMediaCompressorJsTest extends TestCase
 		$this->object = JMediaCompressor::getInstance(array('type' => 'js'));
 	}
 
-	public function testSetCompressed()
-	{
-		$random = rand();
-		$this->object->setCompressed($random);
-		$test = $this->object->getCompressed();
-		$this->assertEquals($random,$test);
-		$this->object->clear();
-	}
-
-	public function testSetUncompressed()
-	{
-		$random = rand();
-		$this->object->setUncompressed($random);
-		$test = $this->object->getUncompressed();
-		$this->assertEquals($random,$test);
-		$this->object->clear();
-	}
-
-	public function  testGetCompressed()
-	{
-		$random = rand();
-		$this->object->setCompressed($random);
-		$test = $this->object->getCompressed();
-		$this->assertEquals($random,$test);
-		$this->object->clear();
-	}
-
 	public function testSetOptions()
 	{
 		$existing_options = $this->object->getOptions();
 
 		$expected = array('REMOVE_COMMENTS' => false, 'CHANGE_ENCODING' => false);
-	
+
 		$this->object->setOptions($expected);
-	
+
 		$test = $this->object->getOptions();
-	
+
 		foreach ($expected as $key => $value)
 		{
 			$this->arrayHasKey($key, $test);
@@ -75,23 +48,23 @@ class JMediaCompressorJsTest extends TestCase
 		}
 		// Replace the existed options to avoid any harm to other tests
 		$this->object->setOptions($existing_options);
-	
+
 	}
 
 	public function testCompress()
 	{
 
-		//Put the path to test files for java script compressor.    	
+		// Put the path to test files for java script compressor.
 		$path = JPATH_BASE . '/test_files/js';
 
 		$files = JFolder::files($path,'.',false,true, array(),array('.min.js','.php','.html','.combined.js'));
 
 		foreach ($files as $file)
 		{
-			$this->object->setUncompressed(JFile::read($file));
+			$this->object->setUncompressed(file_get_contents($file));
 
 			// Getting the expected result from filename.min.js file.
-			$expected = JFile::read(str_ireplace('.js', '.min.js', $file));
+			$expected = file_get_contents(str_ireplace('.js', '.min.js', $file));
 
 			$this->object->compress();
 
@@ -108,12 +81,12 @@ class JMediaCompressorJsTest extends TestCase
 	{
 		$method = new ReflectionMethod('JMediaCompressorJs', '_checkAlphaNum');
 		$method->setAccessible(true);
-		
+
 		// Check whether _checkAlphaNum() return true on numbers
-		$this->assertTrue($method->invoke($this->object, rand(0,9)));
+		$this->assertTrue($method->invoke($this->object, rand(0, 9)));
 
 		$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_$";
-		$rand_letter = $chars[rand(0,53)];
+		$rand_letter = $chars[rand(0, 53)];
 
 		// Check whether _checkAlphaNum() return true on alphabatical chars and '_' , '$'
 		$this->assertTrue($method->invoke($this->object, $rand_letter));
@@ -123,8 +96,8 @@ class JMediaCompressorJsTest extends TestCase
 		// Check whether _checkAlphaNum() return true on extended aschii chars
 		$this->assertTrue($method->invoke($this->object, $rand_extended_char));
 
-		
-		$non_alpha_chars = '~`{}[]|\/-()&*%^#@!,.<>?=+"' . "'" ;
+
+		$non_alpha_chars = '~`{}[]|\/-()&*%^#@!,.<>?=+"' . "'";
 		$rand_non_alpha_char = $non_alpha_chars[rand(0, 27)];
 
 		// Check whether _checkAlphaNum() return false on non alpha numeric chars
@@ -134,7 +107,7 @@ class JMediaCompressorJsTest extends TestCase
 	public function testClear()
 	{
 		$sourceJs = JPATH_BASE . '/test_files/js/case1.js';
-		
+
 		$this->object->setUncompressed(JFile::read($sourceJs));
 		$this->object->compress();
 		$this->object->clear();
@@ -159,4 +132,5 @@ class JMediaCompressorJsTest extends TestCase
 
 		$this->assertAttributeEquals('', '_previousChar', $this->object);
 	}
+
 }

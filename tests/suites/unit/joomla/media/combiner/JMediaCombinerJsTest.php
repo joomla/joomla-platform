@@ -34,21 +34,18 @@ class JMediaCombinerJsTest extends TestCase
 	public function testCombine()
 	{
 		$this->object->addFiles($this->loadJsFiles());
-		
+
 		$this->object->combine();
-		
-		
-		
-		
+
 	}
 
 	public function loadJsFiles()
 	{
 		// Path to source css files
 		$path = JPATH_BASE . '/test_files/js';
-	
+
 		$files = JFolder::files($path,'.',false,true, array(), array('.min.js', '.php', '.html','.combined.js'));//get full path
-	
+
 		return $files;
 	}
 

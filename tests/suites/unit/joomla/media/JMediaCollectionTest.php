@@ -96,7 +96,7 @@ class JMediaCollectionTest extends TestCase
 		$this->object->addFiles($files);
 		
 		// Path to expected combined file without compression turned on
-		$expected = JFile::read($path . '/all.combined.css');
+		$expected = file_get_contents($path . '/all.combined.css');
 
 
 		$this->object->combine();
@@ -104,7 +104,7 @@ class JMediaCollectionTest extends TestCase
 		$this->assertEquals($expected, $this->object->getCombined());
 
 		// Path to expected combined file with compression turned on
-		$expectedCompressed = JFile::read($path . '/all.combined.min.css');
+		$expectedCompressed = file_get_contents($path . '/all.combined.min.css');
 
 		$this->object->setOptions(array('COMPRESS' => true));
 

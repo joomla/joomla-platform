@@ -1,5 +1,5 @@
-
 <?php
+
 /**
  * @package     Joomla.UnitTest
  * @subpackage  Media
@@ -52,7 +52,6 @@ class JMediaCompressorTest extends TestCase
 	{
 		//
 		$this->files = glob($this->pathToTestFiles . DIRECTORY_SEPARATOR . '*.css');
-		var_dump($this->files);
 	}
 
 	/**
@@ -150,16 +149,16 @@ class JMediaCompressorTest extends TestCase
 	public function testCompressString()
 	{
 		$sourceCss = JPATH_BASE . '/test_files/css/comments.css';
-		$expectedCss = JFile::read(str_ireplace('.css', '.min.css', $sourceCss));
+		$expectedCss = file_get_contents(str_ireplace('.css', '.min.css', $sourceCss));
 
-		$testCss = JMediaCompressor::compressString(JFile::read($sourceCss), array('type' => 'css'));
+		$testCss = JMediaCompressor::compressString(file_get_contents($sourceCss), array('type' => 'css'));
 
 		$this->assertEquals($expectedCss, $testCss);
 
 		$sourceJs = JPATH_BASE . '/test_files/js/case1.js';
-		$expectedJs = JFile::read(str_ireplace('.js', '.min.js', $sourceJs));
+		$expectedJs = file_get_contents(str_ireplace('.js', '.min.js', $sourceJs));
 
-		$testJs = JMediaCompressor::compressString(JFile::read($sourceJs), array('type' => 'js'));
+		$testJs = JMediaCompressor::compressString(file_get_contents($sourceJs), array('type' => 'js'));
 
 		$this->assertEquals($expectedJs, $testJs);
 	}
