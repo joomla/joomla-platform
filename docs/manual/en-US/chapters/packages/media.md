@@ -71,23 +71,39 @@ Example : How to use JMediaCompressor::compressFile()
 ##### Available options for compressors.
 
 - `REMOVE_COMMENTS` : `boolean` :- Defines whether to remove comments or not
-- `overwrite` : `boolean`       :- To define whether to overwrite if destination file already exists
+
+specific options to `JMediaCompressor::compressFile()`
+
+- `overwrite` : `boolean`   :- To define whether to overwrite if destination file already exists
+- `prefix` : `string`       :- Name prefix to be used for destination file if the no file path is passed
 
 specific options to `JMediaCompressorCss`
 
 - `MIN_COLOR_CODES` : `boolean`   :- To define whether try to compress HTML Color codes
-- `LIMIT_LINE_LENGTH` : `boolean` :- To define whether to break compressed content in to few lines
+- `LIMIT_LINE_LENGTH` : `boolean` :- To define whether to break compressed content in to a few lines
+
+
 
 #### JMediaCollection
 
 Abstract class `JMediaCollection` contains functions to combine several files into a single file. It is extended by concrete classes such as `JMediaCollectionCss` and
 `JMediaCollectionJs` which contains implementation of combine function for a particular file type.
 
- *Example* : How to obtain a `JMediaCollectionCss` object for css files.
+Example : How to obtain a `JMediaCollectionCss` object for css files and combine a set of files.
 
 ```php
+
+	$files = array(__DIR__.'file1.css', __DIR__.'file2.css', __DIR__.'file3.css' );
+
 	 // Options
  	$options = array('type' => 'css', 'FILE_COMMENTS' => true, 'COMPRESS' => false);
 
 	$collection = JMediaCollection::getInstance($options);
+
+	$collection->addFiles($files);
+
+	$collection->combine();
+
+	file_put_contents(__DIR__.'combined.css', $collection->getCombined());
+
 ```
