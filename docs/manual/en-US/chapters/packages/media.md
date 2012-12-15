@@ -33,6 +33,9 @@ Abstract class `JMediaCompressor` contains functions to compress contents of a f
 
 ##### Available static functions in JMediaCompressor
 
+Static function compressString() can be used to compress a string without creating and getting a compressor object.
+It needs two arguments, source string and options.
+
 Example : How to use JMediaCompressor::compressString()
 
 ```php
@@ -45,6 +48,8 @@ Example : How to use JMediaCompressor::compressString()
 
 ```
 
+Static function compressFiles() takes three arguments, source file, options and destination file.
+
 Example : How to use JMediaCompressor::compressFile()
 
 ```php
@@ -56,19 +61,22 @@ Example : How to use JMediaCompressor::compressFile()
 	 // Options for compressor
  	$options = array('REMOVE_COMMENTS' => true, 'overwrite' => true);
 
-	JMediaCompressor::compressFile($file, $options, $destinationFile);
+	if(JMediaCompressor::isSupported($file))
+	{
+		JMediaCompressor::compressFile($file, $options, $destinationFile);
+	}
 
 ```
 
 ##### Available options for compressors.
 
-- `REMOVE_COMMENTS : boolean :- Defines whether to remove comments or not`
-- `overwrite : boolean       :- To define whether to overwrite if destination file already exists`
+- `REMOVE_COMMENTS` : `boolean` :- Defines whether to remove comments or not
+- `overwrite` : `boolean`       :- To define whether to overwrite if destination file already exists
 
 specific options to `JMediaCompressorCss`
 
-- `MIN_COLOR_CODES : boolean   :- To define whether try to compress HTML Color codes`
-- `LIMIT_LINE_LENGTH : boolean :- To define whether to break compressed content in to few lines`
+- `MIN_COLOR_CODES` : `boolean`   :- To define whether try to compress HTML Color codes
+- `LIMIT_LINE_LENGTH` : `boolean` :- To define whether to break compressed content in to few lines
 
 #### JMediaCollection
 
