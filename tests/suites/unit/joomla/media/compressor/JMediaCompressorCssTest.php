@@ -34,7 +34,7 @@ class JMediaCompressorCssTest extends TestCase
 	protected function setUp()
 	{
 		$this->object = JMediaCompressor::getInstance(array('type' => 'css'));
-		$this->pathToTestFiles = JPATH_BASE . '/test_files/css';
+		$this->pathToTestFiles = JPATH_TESTS . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'css';
 		$this->loadFiles();
 		$this->suffix = 'min';
 	}
@@ -71,7 +71,7 @@ class JMediaCompressorCssTest extends TestCase
 	{
 
 		// Put the path to test files for css compressor. (Include expected result in filename.min.css file)
-		$path = JPATH_BASE . '/test_files/css';
+		$path = JPATH_TESTS . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'css';
 
 		$files = JFolder::files($path, '.', false, true, array(), array('.min.css', '.php', '.html', '.combined.css'));
 

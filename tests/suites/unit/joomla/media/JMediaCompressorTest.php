@@ -40,7 +40,7 @@ class JMediaCompressorTest extends TestCase
 	protected function setUp()
 	{
 		$this->object = JMediaCompressor::getInstance(array('type' => 'css'));
-		$this->pathToTestFiles = JPATH_BASE . '/test_files/css';
+		$this->pathToTestFiles = JPATH_TESTS . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'css';
 		$this->loadFiles();
 		$this->suffix = 'min';
 	}
@@ -148,14 +148,14 @@ class JMediaCompressorTest extends TestCase
 	 */
 	public function testCompressString()
 	{
-		$sourceCss = JPATH_BASE . '/test_files/css/comments.css';
+		$sourceCss = $this->pathToTestFiles . DIRECTORY_SEPARATOR . 'comments.css';
 		$expectedCss = file_get_contents(str_ireplace('.css', '.min.css', $sourceCss));
 
 		$testCss = JMediaCompressor::compressString(file_get_contents($sourceCss), array('type' => 'css'));
 
 		$this->assertEquals($expectedCss, $testCss);
 
-		$sourceJs = JPATH_BASE . '/test_files/js/case1.js';
+		$sourceJs = JPATH_TESTS . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'case1.js';
 		$expectedJs = file_get_contents(str_ireplace('.js', '.min.js', $sourceJs));
 
 		$testJs = JMediaCompressor::compressString(file_get_contents($sourceJs), array('type' => 'js'));
@@ -168,11 +168,11 @@ class JMediaCompressorTest extends TestCase
 	 */
 	public function  testIsSupported()
 	{
-		$file1 = JPATH_BASE . '/test_files/css/comments.css';
+		$file1 = JPATH_TESTS . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'comments.css';
 
 		$this->assertTrue(JMediaCompressor::isSupported($file1));
 
-		$file2 = JPATH_BASE . '/test_files/js/case2.js';
+		$file2 = JPATH_TESTS . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'case2.js';
 
 		$this->assertTrue(JMediaCompressor::isSupported($file2));
 

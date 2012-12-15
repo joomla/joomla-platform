@@ -33,7 +33,7 @@ class JMediaCombinerJsTest extends TestCase
 	protected function setUp()
 	{
 		$this->object = JMediaCollection::getInstance(array('type' => 'js'));
-		$this->pathToTestFiles = JPATH_BASE . '/test_files/js';
+		$this->pathToTestFiles = JPATH_TESTS . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'js';
 		$this->loadFiles();
 		$this->suffix = 'min';
 	}

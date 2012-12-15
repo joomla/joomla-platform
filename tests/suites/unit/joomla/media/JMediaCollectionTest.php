@@ -19,14 +19,32 @@ class JMediaCollectionTest extends TestCase
 	* @var JMediaCollectionCss
 	*/
 	protected $object;
+	protected $files;
+
+	protected $pathToTestFiles;
+
+	protected $suffix;
+
 
 	/**
-	* Sets up the fixture, for example, opens a network connection.
-	* This method is called before a test is executed.
-	*/
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 */
 	protected function setUp()
 	{
-		$this->object = JMediaCollection::getInstance(array('type' => 'css'));
+		$this->object = JMediaCompressor::getInstance(array('type' => 'css'));
+		$this->pathToTestFiles = JPATH_TESTS . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'css';
+		$this->loadFiles();
+		$this->suffix = 'min';
+	}
+
+	/**
+	 * Loads Necessary files
+	 */
+	protected function loadFiles()
+	{
+		//
+		$this->files = glob($this->pathToTestFiles . DIRECTORY_SEPARATOR . '*.css');
 	}
 
 	public function testSetOptions()

@@ -13,7 +13,7 @@ jimport('joomla.filesystem.folder');
 /**
  * Test class for JMediaCollectionCss.
  */
-class JMediaCombinerCssTest extends TestCase
+class JMediaCollectionCssTest extends TestCase
 {
 	/**
 	* @var JMediaCollectionCss
@@ -33,7 +33,7 @@ class JMediaCombinerCssTest extends TestCase
 	protected function setUp()
 	{
 		$this->object = JMediaCollection::getInstance(array('type' => 'css'));
-		$this->pathToTestFiles = JPATH_BASE . '/test_files/css';
+		$this->pathToTestFiles = JPATH_TESTS . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'css';
 		$this->loadFiles();
 		$this->suffix = 'min';
 	}

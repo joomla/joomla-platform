@@ -35,7 +35,7 @@ class JMediaCompressorJsTest extends TestCase
 	protected function setUp()
 	{
 		$this->object = JMediaCompressor::getInstance(array('type' => 'js'));
-		$this->pathToTestFiles = JPATH_BASE . '/test_files/js';
+		$this->pathToTestFiles = JPATH_TESTS . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'js';
 		$this->loadFiles();
 		$this->suffix = 'min';
 	}
@@ -73,7 +73,7 @@ class JMediaCompressorJsTest extends TestCase
 	{
 
 		// Put the path to test files for java script compressor.
-		$path = JPATH_BASE . '/test_files/js';
+		$path = JPATH_TESTS . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'js';
 
 		$files = JFolder::files($path,'.',false,true, array(),array('.min.js','.php','.html','.combined.js'));
 
@@ -124,7 +124,7 @@ class JMediaCompressorJsTest extends TestCase
 
 	public function testClear()
 	{
-		$sourceJs = JPATH_BASE . '/test_files/js/case1.js';
+		$sourceJs = JPATH_TESTS . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'case1.js';
 
 		$this->object->setUncompressed(JFile::read($sourceJs));
 		$this->object->compress();
