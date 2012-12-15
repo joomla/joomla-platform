@@ -63,7 +63,8 @@ Example : How to use JMediaCompressor::compressFile()
 ##### Available options for compressors.
 
 	- REMOVE_COMMENTS : boolean :- Defines whether to remove comments or not
-	- overwrite : boolean       :- To define whether to overwrite if destination file already exists (Only needs when using compressFile())
+	- overwrite : boolean       :- To define whether to overwrite if destination file already exists
+	- overwrite : boolean       :- To define whether to overwrite if destination file already exists
 
 	specific options to `JMediaCompressorCss`
 
