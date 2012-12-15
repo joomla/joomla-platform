@@ -8,7 +8,7 @@ The *Media* package is designed to compile and compress assets such as `Javascri
 
 #### JMediaCompressor
 
-Abstract class `JMediaCompressor` contains functions to compress contents of a file by removing comment blocks, unnecessary white space  etc. It is extended by concrete classes such as `JMediaCompressorCss` and
+Abstract class `JMediaCompressor` defines functions to compress contents of a file by removing comment blocks, unnecessary white space  etc. It is extended by concrete classes such as `JMediaCompressorCss` and
 `JMediaCompressorJs` which contains implementation of compress function for a particular file type.
 
  *Example* : How to obtain a `JMediaCompressorJs` object for javascript files and compress content.
@@ -36,7 +36,7 @@ Abstract class `JMediaCompressor` contains functions to compress contents of a f
 Static function compressString() can be used to compress a string without creating and getting a compressor object.
 It needs two arguments, source string and options.
 
-Example : How to use JMediaCompressor::compressString()
+*Example* : How to use JMediaCompressor::compressString()
 
 ```php
 	$file = __DIR__ . 'test.css';
@@ -50,7 +50,7 @@ Example : How to use JMediaCompressor::compressString()
 
 Static function compressFiles() takes three arguments, source file, options and destination file.
 
-Example : How to use JMediaCompressor::compressFile()
+*Example* : How to use JMediaCompressor::compressFile()
 
 ```php
 
@@ -86,16 +86,16 @@ specific options to `JMediaCompressorCss`
 
 #### JMediaCollection
 
-Abstract class `JMediaCollection` contains functions to combine several files into a single file. It is extended by concrete classes such as `JMediaCollectionCss` and
+Abstract class `JMediaCollection` defines functions to combine several files into a single file. It is extended by concrete classes such as `JMediaCollectionCss` and
 `JMediaCollectionJs` which contains implementation of combine function for a particular file type.
 
-Example : How to obtain a `JMediaCollectionCss` object for css files and combine a set of files.
+*Example* : How to obtain a `JMediaCollectionCss` object for css files and combine a set of files.
 
 ```php
 
 	$files = array(__DIR__.'file1.css', __DIR__.'file2.css', __DIR__.'file3.css' );
 
-	 // Options
+	 // Options for collection
  	$options = array('type' => 'css', 'FILE_COMMENTS' => true, 'COMPRESS' => false);
 
 	$collection = JMediaCollection::getInstance($options);
@@ -105,5 +105,31 @@ Example : How to obtain a `JMediaCollectionCss` object for css files and combine
 	$collection->combine();
 
 	file_put_contents(__DIR__.'combined.css', $collection->getCombined());
+
+```
+
+*Example* : How to obtain a `JMediaCollectionCss` object for css files with a custom compressor and compress and combine a set of files.
+
+```php
+
+	// Options for compressor
+	$options_com = array('type' => 'css', 'REMOVE_COMMENTS' => true);
+
+    $compressor = JMediaCompressor::getInstance(options_com);
+
+    // a set of files to compress and combine
+	$files = array(__DIR__.'file1.css', __DIR__.'file2.css', __DIR__.'file3.css' );
+
+	 // Options for Collection
+ 	$options = array('type' => 'css', 'FILE_COMMENTS' => true, 'COMPRESS' => true, 'COMPRESSOR' => $compressor);
+
+	$collection = JMediaCollection::getInstance($options);
+
+	$collection->addFiles($files);
+
+	// Since 'COMPRESS' => true in options, this will compress and combine the contents of files
+	$collection->combine();
+
+	file_put_contents(__DIR__.'combined.min.css', $collection->getCombined());
 
 ```
