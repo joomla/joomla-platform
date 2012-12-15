@@ -13,7 +13,7 @@ require_once __DIR__ . '/JRequest-helper-dataset.php';
  * Test class for JRequest using $_POST REQUEST_METHOD.
  *
  * Note:
- * For tests specific to $_GET, see JRequestGetmethodTest.php
+ * For tests specific to $_GET, see JRequestGetMethodTest.php
  *
  * @package     Joomla.UnitTest
  * @subpackage  Request
