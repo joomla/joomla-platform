@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * SuperClass for Javascript/CSS combiner classes.
+ * SuperClass for Javascript/CSS collection classes.
  *
  * @package     Joomla.Platform
  * @subpackage  Media
@@ -35,7 +35,7 @@ abstract class JMediaCollection
 	/**
 	 * Constructor
 	 * 
-	 * @param   Array  $options  options for the combiner
+	 * @param   Array  $options  options for the collection
 	 * 
 	 * @since   12.1 
 	 */
@@ -55,9 +55,9 @@ abstract class JMediaCollection
 	public abstract function combine();
 
 	/**
-	 * Method to set combiner options.
+	 * Method to set collection options.
 	 *
-	 * @param   Array  $options  options to combiner.
+	 * @param   Array  $options  options to collection.
 	 *
 	 * @return  void
 	 *
@@ -98,7 +98,7 @@ abstract class JMediaCollection
 	 */
 	public function addFiles($files =array())
 	{
-		// Get combiner object type
+		// Get collection object type
 		$type = $this->options['type'];
 
 		foreach ($files as $file)
@@ -129,7 +129,7 @@ abstract class JMediaCollection
 	 * Static method to get a set of files combined
 	 *
 	 * @param   array   $files        Set of source files
-	 * @param   array   $options      Options for combiner
+	 * @param   array   $options      Options for collection
 	 * @param   string  $destination  Destination file
 	 *
 	 * @return  boolean  True on success
@@ -319,7 +319,7 @@ abstract class JMediaCollection
 				throw new RuntimeException(sprintf("Error Loading Collection class for %s file type", $e->getMessage()));
 			}
 
-			// Set the new combiner to the global instances based on signature.
+			// Set the new collection to the global instances based on signature.
 			self::$instances[$signature] = $instance;
 		}
 		else
@@ -356,7 +356,7 @@ abstract class JMediaCollection
 	}
 
 	/**
-	 * Method to clear combiner data
+	 * Method to clear collection data
 	 *
 	 * @return  void
 	 *

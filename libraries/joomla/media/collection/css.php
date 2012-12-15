@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * CSS combiner classes.
+ * CSS collection classes.
  *
  * @package     Joomla.Platform
  * @subpackage  Media

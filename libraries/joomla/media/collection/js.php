@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Javascript combiner class.
+ * Javascript collection class.
  *
  * @package     Joomla.Platform
  * @subpackage  Compress
