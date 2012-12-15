@@ -32,11 +32,11 @@ Abstract class `JMediaCompressor` defines functions to compress contents of a fi
 ```
 
 ##### Available static functions in JMediaCompressor
-1. static function getInstance() can be used to obtain a compressor object. This function takes an array of options as the
+(1) static function getInstance() can be used to obtain a compressor object. This function takes an array of options as the
 argument.
 
 
-2. static function compressString() can be used to compress a string without creating and getting a compressor object.
+(2) static function compressString() can be used to compress a string without creating and getting a compressor object.
 It needs two arguments, source string and options.
 
 *Example* : How to use JMediaCompressor::compressString()
@@ -51,8 +51,9 @@ It needs two arguments, source string and options.
 
 ```
 
-3. static function compressFiles() takes three arguments, source file, options and destination file. It will compress the contents of source
+(3) static function compressFiles() takes three arguments, source file, options and destination file. It will compress the contents of source
 file using the given options and write the compressed contents into destination file.
+
 static function isSupported() can be used to check whether there is a compressor supported for a particular file type.
 
 *Example* : How to use JMediaCompressor::compressFile()
@@ -114,6 +115,8 @@ Abstract class `JMediaCollection` defines functions to combine several files int
 ```
 
 *Example* : How to obtain a `JMediaCollectionCss` object for css files with a custom compressor and compress and combine a set of files.
+
+If no compressor object is passed via options and `COMPRESS` is set to `true` in options, a compressor with default options will be used.
 
 ```php
 
