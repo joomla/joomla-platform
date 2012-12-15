@@ -95,12 +95,11 @@ class JMediaCompressorCssTest extends TestCase
 
 	public function testClear()
 	{
-		$sourceCss = JPATH_BASE . '/test_files/css/comments.css';
-		
+		$sourceCss = JPATH_TESTS . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'css/comments.css';
+
 		$this->object->setUncompressed(file_get_contents($sourceCss));
 		$this->object->compress();
 		$this->object->clear();
-		
 		$this->assertEquals(null, $this->object->getUncompressed());
 		$this->assertEquals(null, $this->object->getcompressed());
 		$this->assertAttributeEquals(null, 'compressedSize', $this->object);

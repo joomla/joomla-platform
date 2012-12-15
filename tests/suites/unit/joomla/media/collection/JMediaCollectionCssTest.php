@@ -35,7 +35,7 @@ class JMediaCollectionCssTest extends TestCase
 		$this->object = JMediaCollection::getInstance(array('type' => 'css'));
 		$this->pathToTestFiles = JPATH_TESTS . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'css';
 		$this->loadFiles();
-		$this->suffix = 'min';
+		$this->suffix = 'combined';
 	}
 
 	/**

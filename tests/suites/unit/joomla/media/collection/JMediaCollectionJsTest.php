@@ -35,7 +35,7 @@ class JMediaCombinerJsTest extends TestCase
 		$this->object = JMediaCollection::getInstance(array('type' => 'js'));
 		$this->pathToTestFiles = JPATH_TESTS . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'js';
 		$this->loadFiles();
-		$this->suffix = 'min';
+		$this->suffix = 'combined';
 	}
 
 	/**

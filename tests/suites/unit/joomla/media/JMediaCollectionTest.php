@@ -19,6 +19,7 @@ class JMediaCollectionTest extends TestCase
 	* @var JMediaCollectionCss
 	*/
 	protected $object;
+
 	protected $files;
 
 	protected $pathToTestFiles;
@@ -32,10 +33,10 @@ class JMediaCollectionTest extends TestCase
 	 */
 	protected function setUp()
 	{
-		$this->object = JMediaCompressor::getInstance(array('type' => 'css'));
+		$this->object = JMediaCollection::getInstance(array('type' => 'css'));
 		$this->pathToTestFiles = JPATH_TESTS . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'css';
 		$this->loadFiles();
-		$this->suffix = 'min';
+		$this->suffix = 'combined';
 	}
 
 	/**
@@ -69,7 +70,7 @@ class JMediaCollectionTest extends TestCase
 
 	public function testSetSources()
 	{
-		$path = JPATH_BASE . '/test_files/css';
+		$path = JPATH_TESTS . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'css';
 
 		$files = JFolder::files($path,'.',false,true, array(), array('.min.css', '.php', '.html','.combined.css'));//get full path
 
@@ -96,23 +97,22 @@ class JMediaCollectionTest extends TestCase
 	public function testGetCollectionTypes()
 	{
 		$expected = array('css','js');
-	
+
 		$test = JMediaCollection::getCollectionTypes();
 
 		$this->assertEquals($expected, $test);
-	
 	}
 
 
 	public function testCombineFiles()
 	{
 		// Path to source css files
-		$path = JPATH_BASE . '/test_files/css';
+		$path = JPATH_TESTS . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'css';
 
 		$files = JFolder::files($path,'.',false,true, array(), array('.min.css', '.php', '.html','.combined.css'));//get full path
 
 		$this->object->addFiles($files);
-		
+
 		// Path to expected combined file without compression turned on
 		$expected = file_get_contents($path . '/all.combined.css');
 
@@ -158,7 +158,7 @@ class JMediaCollectionTest extends TestCase
 	public function loadCssFiles()
 	{
 		// Path to source css files
-		$path = JPATH_BASE . '/test_files/css';
+		$path = JPATH_TESTS . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'css';;
 
 		$files = JFolder::files($path,'.',false,true, array(), array('.min.css', '.php', '.html','.combined.css'));//get full path
 
