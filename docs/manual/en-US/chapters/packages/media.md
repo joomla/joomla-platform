@@ -62,14 +62,13 @@ Example : How to use JMediaCompressor::compressFile()
 
 ##### Available options for compressors.
 
-	- REMOVE_COMMENTS : boolean :- Defines whether to remove comments or not
-	- overwrite : boolean       :- To define whether to overwrite if destination file already exists
-	- overwrite : boolean       :- To define whether to overwrite if destination file already exists
+	- `REMOVE_COMMENTS : boolean :- Defines whether to remove comments or not`
+	- `overwrite : boolean       :- To define whether to overwrite if destination file already exists`
 
 	specific options to `JMediaCompressorCss`
 
-	- MIN_COLOR_CODES : boolean   :- To define whether try to compress HTML Color codes
-	- LIMIT_LINE_LENGTH : boolean :- To define whether to break compressed content in to few lines
+	- `MIN_COLOR_CODES : boolean   :- To define whether try to compress HTML Color codes`
+	- `LIMIT_LINE_LENGTH : boolean :- To define whether to break compressed content in to few lines`
 
 #### JMediaCollection
 
