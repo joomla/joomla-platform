@@ -14,7 +14,7 @@ Abstract class `JMediaCompressor` contains functions to compress contents of a f
  *Example* : How to obtain a `JMediaCompressorJs` object for javascript files and compress content.
 
 ```php
-	$file = __DIR__ . test.js
+	$file = __DIR__ . 'test.js';
 
 	 // Options for compressor
  	$options = array('type' => 'js', 'REMOVE_COMMENTS' => true);
@@ -36,7 +36,7 @@ Abstract class `JMediaCompressor` contains functions to compress contents of a f
 Example : How to use JMediaCompressor::compressString()
 
 ```php
-	$file = __DIR__ . test.css;
+	$file = __DIR__ . 'test.css';
 
 	 // Options for compressor
  	$options = array('type' => 'css', 'REMOVE_COMMENTS' => true);
@@ -49,9 +49,9 @@ Example : How to use JMediaCompressor::compressFile()
 
 ```php
 
-	$file = __DIR__ . test.css;
+	$file = __DIR__ . 'test.css';
 
-	$destinationFile = __DIR__ . test.min.css;
+	$destinationFile = __DIR__ . 'test.min.css';
 
 	 // Options for compressor
  	$options = array('REMOVE_COMMENTS' => true, 'overwrite' => true);
@@ -60,7 +60,15 @@ Example : How to use JMediaCompressor::compressFile()
 
 ```
 
+##### Available options for compressors.
 
+	- REMOVE_COMMENTS : boolean :- Defines whether to remove comments or not
+	- overwrite : boolean       :- To define whether to overwrite if destination file already exists (Only needs when using compressFile())
+
+	specific options to `JMediaCompressorCss`
+
+	- MIN_COLOR_CODES : boolean   :- To define whether try to compress HTML Color codes
+	- LIMIT_LINE_LENGTH : boolean :- To define whether to break compressed content in to few lines
 
 #### JMediaCollection
 
