@@ -319,7 +319,7 @@ abstract class JMediaCompressor
 		}
 
 		// Sets force overwrite option
-		$force = array_key_exists('overwrite', $options) && !empty($options['overwrite']) ? $options['overwrite'] : false;
+		$force = array_key_exists('OVERWRITE', $options) && !empty($options['OVERWRITE']) ? $options['OVERWRITE'] : false;
 
 		if (!file_exists($destination) || (file_exists($destination) && $force))
 		{
