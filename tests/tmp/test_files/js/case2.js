@@ -1,4 +1,0 @@
-
-function testIssue() {
-    return /'/;
-}
