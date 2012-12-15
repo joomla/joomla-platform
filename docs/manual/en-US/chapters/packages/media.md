@@ -11,7 +11,7 @@ The *Media* package is designed to compile and compress assets such as `Javascri
 Abstract class `JMediaCompressor` defines functions to compress contents of a file by removing comment blocks, unnecessary white space  etc. It is extended by concrete classes such as `JMediaCompressorCss` and
 `JMediaCompressorJs` which contains implementation of compress function for a particular file type.
 
- *Example* : How to obtain a `JMediaCompressorJs` object for javascript files and compress content.
+ *Example* : How to obtain a `JMediaCompressorJs` object for javascript files and compress content of a js file.
 
 ```php
 	$file = __DIR__ . 'test.js';
@@ -32,11 +32,11 @@ Abstract class `JMediaCompressor` defines functions to compress contents of a fi
 ```
 
 ##### Available static functions in JMediaCompressor
-(1) static function getInstance() can be used to obtain a compressor object. This function takes an array of options as the
+
+(1)  static function getInstance() can be used to obtain a compressor object. This function takes an array of options as the
 argument.
 
-
-(2) static function compressString() can be used to compress a string without creating and getting a compressor object.
+(2)  static function compressString() can be used to compress a string without creating and getting a compressor object.
 It needs two arguments, source string and options.
 
 *Example* : How to use JMediaCompressor::compressString()
@@ -51,7 +51,7 @@ It needs two arguments, source string and options.
 
 ```
 
-(3) static function compressFiles() takes three arguments, source file, options and destination file. It will compress the contents of source
+(3)  static function compressFiles() takes three arguments, source file, options and destination file. It will compress the contents of source
 file using the given options and write the compressed contents into destination file.
 
 static function isSupported() can be used to check whether there is a compressor supported for a particular file type.
@@ -76,12 +76,13 @@ static function isSupported() can be used to check whether there is a compressor
 
 ##### Available options for compressors.
 
+- `type` : `string` :- type of the compressor eg: js, css
 - `REMOVE_COMMENTS` : `boolean` :- Defines whether to remove comments or not
 
 specific options to `JMediaCompressor::compressFile()`
 
-- `overwrite` : `boolean`   :- To define whether to overwrite if destination file already exists
-- `prefix` : `string`       :- Name prefix to be used for destination file if the no file path is passed
+- `OVERWRITE` : `boolean`   :- To define whether to overwrite if destination file already exists
+- `PREFIX` : `string`       :- Name prefix to be used for destination file if the no file path is passed
 
 specific options to `JMediaCompressorCss`
 
@@ -95,7 +96,7 @@ specific options to `JMediaCompressorCss`
 Abstract class `JMediaCollection` defines functions to combine several files into a single file. It is extended by concrete classes such as `JMediaCollectionCss` and
 `JMediaCollectionJs` which contains implementation of combine function for a particular file type.
 
-*Example* : How to obtain a `JMediaCollectionCss` object for css files and combine a set of files.
+*Example* : How to obtain a `JMediaCollectionCss` object for css files and combine a set of css files.
 
 ```php
 
@@ -142,3 +143,37 @@ If no compressor object is passed via options and `COMPRESS` is set to `true` in
 
 ```
 ##### Available static functions in JMediaCollection
+
+(1)  static function getInstance() can be used to obtain a collection object. This function takes an array of options as the
+argument.
+
+(2)  static function combineFiles() takes three arguments, an array of files, options and destination file. It will get the contents of each file
+and combine them using options and write the combined content in to the destination file.
+
+*Example* : How to use JMediaCollection::combineFiles()
+
+```php
+	// a set of files to combine
+    $files = array(__DIR__.'file1.css', __DIR__.'file2.css', __DIR__.'file3.css' );
+
+    // Options for Collection
+    $options = array('type' => 'css', 'FILE_COMMENTS' => true, 'COMPRESS' => false);
+
+	$destinationFile = __DIR__ . 'combined.css';
+
+	JMediaCollection::combineFiles($files, $options, $destinationFile);
+
+```
+
+##### Available options for collections.
+
+- `type` : `string` :- type of the collection eg: js, css
+- `FILE_COMMENTS` : `boolean` :- set true to add comments indicating start and end of each file in combined content.
+- `COMPRESS` : `boolean` :- Define whether to compress content before combining them
+- `COMPRESSOR` : `JMediaCompressor` :- A compressor object to be used to compress content
+
+specific options to `JMediaCollection::combineFiles()`
+
+- `OVERWRITE` : `boolean`   :- To define whether to overwrite if destination file already exists
+- `PREFIX` : `string`       :- Name prefix to be used for destination file if the no file path is passed
+
