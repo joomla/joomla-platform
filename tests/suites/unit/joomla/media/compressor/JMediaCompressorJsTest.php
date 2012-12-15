@@ -21,6 +21,12 @@ class JMediaCompressorJsTest extends TestCase
 	 */
 	protected $object;
 
+	protected $files;
+
+	protected $pathToTestFiles;
+
+	protected $suffix;
+
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -29,6 +35,18 @@ class JMediaCompressorJsTest extends TestCase
 	protected function setUp()
 	{
 		$this->object = JMediaCompressor::getInstance(array('type' => 'js'));
+		$this->pathToTestFiles = JPATH_BASE . '/test_files/js';
+		$this->loadFiles();
+		$this->suffix = 'min';
+	}
+
+	/**
+	 * Loads Necessary files
+	 */
+	protected function loadFiles()
+	{
+		//
+		$this->files = glob($this->pathToTestFiles . DIRECTORY_SEPARATOR . '*.js');
 	}
 
 	public function testSetOptions()

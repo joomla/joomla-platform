@@ -20,28 +20,40 @@ class JMediaCombinerCssTest extends TestCase
 	*/
 	protected $object;
 
+	protected $files;
+
+	protected $pathToTestFiles;
+
+	protected $suffix;
 
 	/**
-	* Sets up the fixture, for example, opens a network connection.
-	* This method is called before a test is executed.
-	*/
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 */
 	protected function setUp()
 	{
 		$this->object = JMediaCollection::getInstance(array('type' => 'css'));
+		$this->pathToTestFiles = JPATH_BASE . '/test_files/css';
+		$this->loadFiles();
+		$this->suffix = 'min';
+	}
+
+	/**
+	 * Loads Necessary files
+	 */
+	protected function loadFiles()
+	{
+		//
+		$this->files = glob($this->pathToTestFiles . DIRECTORY_SEPARATOR . '*.css');
 	}
 
 
 	public function testCombine()
 	{
-	}
+		$this->object->addFiles($this->files);
 
-	public function loadCssFiles()
-	{
-		// Path to source css files
-		$path = JPATH_BASE . '/test_files/css';
+		$this->object->combine();
 
-		$files = JFolder::files($path,'.',false,true, array(), array('.min.css', '.php', '.html','.combined.css'));//get full path
-		return $files;
 	}
 
 }

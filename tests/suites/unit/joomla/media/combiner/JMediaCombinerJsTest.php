@@ -20,6 +20,11 @@ class JMediaCombinerJsTest extends TestCase
 	*/
 	protected $object;
 
+	protected $files;
+
+	protected $pathToTestFiles;
+
+	protected $suffix;
 
 	/**
 	* Sets up the fixture, for example, opens a network connection.
@@ -28,25 +33,27 @@ class JMediaCombinerJsTest extends TestCase
 	protected function setUp()
 	{
 		$this->object = JMediaCollection::getInstance(array('type' => 'js'));
+		$this->pathToTestFiles = JPATH_BASE . '/test_files/js';
+		$this->loadFiles();
+		$this->suffix = 'min';
+	}
+
+	/**
+	 * Loads Necessary files
+	 */
+	protected function loadFiles()
+	{
+		//
+		$this->files = glob($this->pathToTestFiles . DIRECTORY_SEPARATOR . '*.js');
 	}
 
 
 	public function testCombine()
 	{
-		$this->object->addFiles($this->loadJsFiles());
+		$this->object->addFiles($this->files);
 
 		$this->object->combine();
 
-	}
-
-	public function loadJsFiles()
-	{
-		// Path to source css files
-		$path = JPATH_BASE . '/test_files/js';
-
-		$files = JFolder::files($path,'.',false,true, array(), array('.min.js', '.php', '.html','.combined.js'));//get full path
-
-		return $files;
 	}
 
 }
