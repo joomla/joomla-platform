@@ -101,5 +101,4 @@ class JMediaCollectionCssTest extends TestCase
 		$this->assertEquals($expectedCompressed, $this->object->getCombined());
 	}
 
-
 }

@@ -127,7 +127,6 @@ class JMediaCompressorJsTest extends TestCase
 		// Check whether _checkAlphaNum() return true on extended ascii chars
 		$this->assertTrue($method->invoke($this->object, $rand_extended_char));
 
-
 		$non_alpha_chars = '~`{}[]|\/-()&*%^#@!,.<>?=+"' . "'";
 		$rand_non_alpha_char = $non_alpha_chars[rand(0, 27)];
 
