@@ -34,6 +34,18 @@ class JFactoryTest extends TestCase
 	}
 
 	/**
+	 * Gets the data set to be loaded into the database during setup
+	 *
+	 * @return  xml dataset
+	 *
+	 * @since   12.3
+	 */
+	protected function getDataSet()
+	{
+		return $this->createXMLDataSet(__DIR__ . '/user/JUserTest.xml');
+	}
+
+	/**
 	 * Tears down the fixture.
 	 *
 	 * This method is called after a test is executed.

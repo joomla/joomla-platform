@@ -122,7 +122,7 @@ class JSessionTest extends TestCase
 	}
 
 	/**
-	 * Test...
+	 * Tests...
 	 *
 	 * @covers  JSession::getExpire
 	 *
@@ -134,7 +134,7 @@ class JSessionTest extends TestCase
 	}
 
 	/**
-	 * Test...
+	 * Tests...
 	 *
 	 * @covers  JSession::getToken
 	 *

@@ -1003,7 +1003,7 @@ class JSession implements IteratorAggregate
 			}
 		}
 
-		// Check for clients browser
+		// Check for client's browser
 		if (in_array('fix_browser', $this->_security) && isset($_SERVER['HTTP_USER_AGENT']))
 		{
 			$browser = $this->get('session.client.browser');
