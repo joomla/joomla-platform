@@ -220,6 +220,29 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(JLoader::load('JLoaderTest'), $this->isTrue(), 'Tests that a loaded class returns true.');
 	}
 
+
+	/**
+	 * Regression Tests for the JLoader::load method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 * @covers  JLoader::load
+	 */
+	public function testLoadRegression()
+	{
+		JLoader::discover('Shuttle', __DIR__ . '/stubs/discover2', true);
+
+		JLoader::load('ShuttleChallenger');
+
+		$this->assertThat(JLoader::load('ShuttleChallenger'), $this->isTrue(), 'Tests that the class file was loaded.');
+
+		$this->assertThat(defined('CHALLENGER_LOADED'), $this->isTrue(), 'Tests that the class file was loaded.');
+
+		$this->assertThat(JLoader::load('Mir'), $this->isFalse(), 'Tests that an unknown class is ignored.');
+
+		$this->assertThat(JLoader::load('JLoaderTest'), $this->isTrue(), 'Tests that a loaded class returns true.');
+	}
 	/**
 	 * Test the JLoader::loadByNamespaceLowerCase method
 	 * with lower case namespace and path.
@@ -523,16 +546,111 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 * @covers  JLoader::registerPrefix
-	 * @todo    Implement testRegisterPrefix().
 	 */
 	public function testRegisterPrefix()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+		// Reset the prefixes.
+		TestReflection::setValue('JLoader', 'prefixes', array());
+
+		// We unregister all loader functions if registered.
+		$this->unregisterLoaders();
+
+		// Register the Tree/Leaf prefix
+		$path = dirname(__FILE__) . '/stubs/tree';
+		JLoader::registerPrefix('Tree', $path);
+
+
+		// Register the Tree/Leaf prefix
+		$path = dirname(__FILE__) . '/stubs/tree/leaf';
+		JLoader::registerPrefix('TreeLeaf', $path);
+
+		// Register the prefix autoloader.
+		spl_autoload_register(array('JLoader', '_autoload'));
+
+		// Get the list of autoload functions.
+		$newLoaders = spl_autoload_functions();
+
+		$foundLoad = false;
+		$foundAutoload = false;
+		$foundLoadByNamespaceLowerCase = false;
+		$loadByNamespaceNaturalCase = false;
+		$loadByNamespaceMixedCase = false;
+
+		// We search the list of autoload functions to see if our methods are there.
+		foreach ($newLoaders as $loader)
+		{
+			if (is_array($loader) && $loader[0] === 'JLoader')
+			{
+				if ($loader[1] === 'load')
+				{
+					$foundLoad = true;
+				}
+
+				if ($loader[1] === '_autoload')
+				{
+					$foundAutoload = true;
+				}
+
+				if ($loader[1] === 'loadByNamespaceLowerCase')
+				{
+					$foundLoadByNamespaceLowerCase = true;
+				}
+
+				if ($loader[1] === 'loadByNamespaceNaturalCase')
+				{
+					$loadByNamespaceNaturalCase = true;
+				}
+
+				if ($loader[1] === 'loadByNamespaceMixedCase')
+				{
+					$loadByNamespaceMixedCase = true;
+				}
+			}
+		}
+
+		// check for the leaves
+		$foundTreeLeafClass = class_exists('TreeLeaf', true);
+		$foundMapleLeafClass = class_exists('TreeLeafMaple', true);
+		$foundOakLeafClass = class_exists('TreeLeafOak', true);
+
+
+		// check that all files were loaded
+		$fileTreeLeafLeafLeafLoaded = defined('LEAF_LEAF_LEAF_LOADED');
+		$fileTreeLeafLeafOakLoaded = defined('LEAF_LEAF_OAK_LOADED');
+		$fileTreeLeafLeafLoaded = defined('LEAF_LEAF_LOADED');
+		$fileTreeLeafMapleLoaded = defined('LEAF_MAPLE_LOADED');
+
+		// Assert the prefix loader is found.
+		$this->assertTrue($foundAutoload);
+
+		// Assert the Tree, TreeLeaf prefixes have been registered.
+		$prefixes = TestReflection::getValue('JLoader', 'prefixes');
+		$this->assertArrayHasKey('Tree', $prefixes);
+		$this->assertArrayHasKey('TreeLeaf', $prefixes);
+
+		// Assert the leaf classes were found
+		$this->assertTrue($foundTreeLeafClass, 'Tests that the class file was loaded.');
+		$this->assertTrue($foundMapleLeafClass, 'Tests that the class file was loaded.');
+		$this->assertTrue($foundOakLeafClass, 'Tests that the class file was loaded.');
+
+		// Assert the leaf files were loaded
+		$this->assertTrue($fileTreeLeafLeafLeafLoaded, 'Tests that the correct file was loaded.');
+		$this->assertTrue($fileTreeLeafLeafOakLoaded, 'Tests that the correct file was loaded');
+		$this->assertTrue($fileTreeLeafMapleLoaded, 'Tests that the correct file was loaded.');
+
+		// Regression check, ver <12.2 will only attempt to load the first matching pattern regardless of whether the class was defined or not
+		$this->assertTrue($fileTreeLeafLeafLoaded, 'Tests that included files not defining class do not abort load.');
+
+
+		// Assert the class map loader is found.
+		$this->assertFalse($foundLoad);
+
+		// Assert the namespace loaders are not found.
+		$this->assertFalse($foundLoadByNamespaceLowerCase);
+		$this->assertFalse($loadByNamespaceNaturalCase);
+		$this->assertFalse($loadByNamespaceMixedCase);
 	}
 
 	/**
