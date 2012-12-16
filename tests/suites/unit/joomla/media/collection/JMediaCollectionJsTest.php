@@ -18,7 +18,7 @@ jimport('joomla.filesystem.folder');
  *
  * @since       12.1
  */
-class JMediaCollectionCssTest extends TestCase
+class JMediaCollectionJsTest extends TestCase
 {
 	/**
 	 * @var JMediaCollectionJs
