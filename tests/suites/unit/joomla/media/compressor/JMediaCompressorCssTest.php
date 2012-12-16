@@ -82,9 +82,7 @@ class JMediaCompressorCssTest extends TestCase
 	 */
 	public function testCompress()
 	{
-		$files = JFolder::files($this->pathToTestFiles, '.', false, true, array(), array('.min.css', '.php', '.html', '.combined.css'));
-
-		foreach ($files as $file)
+		foreach ($this->files as $file)
 		{
 			$this->object->setUncompressed(file_get_contents($file));
 

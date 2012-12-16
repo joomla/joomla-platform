@@ -12,6 +12,11 @@ jimport('joomla.filesystem.folder');
 
 /**
  * Test class for JMediaCollectionCss.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Media
+ *
+ * @since       12.1
  */
 class JMediaCollectionCssTest extends TestCase
 {
@@ -20,15 +25,28 @@ class JMediaCollectionCssTest extends TestCase
 	*/
 	protected $object;
 
+	/**
+	 * @var  array  files needed for tests
+	 */
 	protected $files;
 
+	/**
+	 * @var  string  path to test files
+	 */
 	protected $pathToTestFiles;
 
+	/**
+	 * @var  string  file extension suffix for compressed files
+	 */
 	protected $suffix;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
 	 */
 	protected function setUp()
 	{
@@ -40,20 +58,48 @@ class JMediaCollectionCssTest extends TestCase
 
 	/**
 	 * Loads Necessary files
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
 	 */
 	protected function loadFiles()
 	{
-		//
-		$this->files = glob($this->pathToTestFiles . DIRECTORY_SEPARATOR . '*.css');
+		// Load only non compressed css files in to array
+		// Skip other files
+		$this->files = JFolder::files(
+			$this->pathToTestFiles, '.', false, true, array(),
+			array('.min.css', '.php', '.html', '.combined.css')
+		);
 	}
-
-
-	public function testCombine()
+	/**
+	 * Test JMediaCollection::combineFiles() Method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function testCombineFiles()
 	{
 		$this->object->addFiles($this->files);
 
+		// Path to expected combined file without compression turned on
+		$expected = file_get_contents($this->pathToTestFiles . DIRECTORY_SEPARATOR . 'all.combined.css');
+
 		$this->object->combine();
 
+		$this->assertEquals($expected, $this->object->getCombined());
+
+		// Path to expected combined file with compression turned on
+		$expectedCompressed = file_get_contents($this->pathToTestFiles . DIRECTORY_SEPARATOR . 'all.combined.min.css');
+
+		$this->object->setOptions(array('COMPRESS' => true));
+
+		$this->object->combine();
+
+		// Assert with compression turned on
+		$this->assertEquals($expectedCompressed, $this->object->getCombined());
 	}
+
 
 }

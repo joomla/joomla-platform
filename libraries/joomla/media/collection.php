@@ -199,7 +199,7 @@ abstract class JMediaCollection
 	 * 
 	 * @since   12.1
 	 */
-	public function getSources()
+	public function getFiles()
 	{
 		return $this->sources;
 	}

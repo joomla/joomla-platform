@@ -11,7 +11,12 @@ jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 
 /**
- * Test class for JMediaCompressor.
+ * Test class for JMediaCollection.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Media
+ *
+ * @since       12.1
  */
 class JMediaCollectionTest extends TestCase
 {
@@ -20,16 +25,28 @@ class JMediaCollectionTest extends TestCase
 	*/
 	protected $object;
 
+	/**
+	 * @var  array  files needed for tests
+	 */
 	protected $files;
 
+	/**
+	 * @var  string  path to test files
+	 */
 	protected $pathToTestFiles;
 
+	/**
+	 * @var  string  file extension suffix for compressed files
+	 */
 	protected $suffix;
-
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
 	 */
 	protected function setUp()
 	{
@@ -41,13 +58,28 @@ class JMediaCollectionTest extends TestCase
 
 	/**
 	 * Loads Necessary files
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
 	 */
 	protected function loadFiles()
 	{
-		//
-		$this->files = glob($this->pathToTestFiles . DIRECTORY_SEPARATOR . '*.css');
+		// Load only non compressed css files in to array
+		// Skip other files
+		$this->files = JFolder::files(
+			$this->pathToTestFiles, '.', false, true, array(),
+			array('.min.css', '.php', '.html', '.combined.css')
+		);
 	}
 
+	/**
+	 * Test setOptions and getOptions methods
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
 	public function testSetOptions()
 	{
 		$existing_options = $this->object->getOptions();
@@ -65,35 +97,57 @@ class JMediaCollectionTest extends TestCase
 		}
 		// Replace the existed options to avoid any harm to other tests
 		$this->object->setOptions($existing_options);
-
 	}
 
-	public function testSetSources()
+	/**
+	 * Test addFiles and getFiles
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function testAddFiles()
 	{
-		$path = JPATH_TESTS . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'css';
+		$this->object->addFiles($this->files);
 
-		$files = JFolder::files($path,'.',false,true, array(), array('.min.css', '.php', '.html','.combined.css'));//get full path
+		$test = $this->object->getFiles();
 
-		$this->object->addFiles($files);
+		$this->assertEquals($this->files, $test);
 
-		$test = $this->object->getSources();
-
-		$this->assertEquals($files, $test);
-		
 		$this->object->clear();
 	}
 
-	public function testGetInstance()
+	/**
+	 * Test JMediaCollection::combineFiles Method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function testCombineFiles()
 	{
-		$Combiner1 = JMediaCollection::getInstance(array('type'=>'css'));
+		// Path to expected combined file without compression turned on
+		$expectedFile = $this->pathToTestFiles . DIRECTORY_SEPARATOR . 'all.combined.css';
 
-		$this->assertInstanceOf('JMediaCollectionCss', $Combiner1);
+		$destinationFile = $this->pathToTestFiles . DIRECTORY_SEPARATOR . 'all.tmp.combined.css';
 
-		$Combiner2 = JMediaCollection::getInstance(array('type'=>'js'));
+		$this->assertTrue(JMediaCollection::combineFiles($this->files, array('type' => 'css', 'OVERWRITE' => true), $destinationFile));
 
-		$this->assertInstanceOf('JMediaCollectionJs', $Combiner2);
+		$this->assertFileExists($destinationFile);
+
+		$this->assertFileEquals($expectedFile, $destinationFile);
+
+		unlink($destinationFile);
+
 	}
 
+	/**
+	 * Test JMediaCollection::getCollectionTypes Method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
 	public function testGetCollectionTypes()
 	{
 		$expected = array('css','js');
@@ -103,49 +157,54 @@ class JMediaCollectionTest extends TestCase
 		$this->assertEquals($expected, $test);
 	}
 
-
-	public function testCombineFiles()
+	/**
+	 * Test JMediaCollection::getInstance Method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function testGetInstance()
 	{
-		// Path to source css files
-		$path = JPATH_TESTS . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'css';
+		$Combiner1 = JMediaCollection::getInstance(array('type' => 'css'));
 
-		$files = JFolder::files($path,'.',false,true, array(), array('.min.css', '.php', '.html','.combined.css'));//get full path
+		$this->assertInstanceOf('JMediaCollectionCss', $Combiner1);
 
-		$this->object->addFiles($files);
+		$Combiner2 = JMediaCollection::getInstance(array('type' => 'js'));
 
-		// Path to expected combined file without compression turned on
-		$expected = file_get_contents($path . '/all.combined.css');
-
-
-		$this->object->combine();
-
-		$this->assertEquals($expected, $this->object->getCombined());
-
-		// Path to expected combined file with compression turned on
-		$expectedCompressed = file_get_contents($path . '/all.combined.min.css');
-
-		$this->object->setOptions(array('COMPRESS' => true));
-
-		$this->object->combine();
-
-		// Assert with compression turned on
-		$this->assertEquals($expectedCompressed, $this->object->getCombined());
+		$this->assertInstanceOf('JMediaCollectionJs', $Combiner2);
 	}
 
+	/**
+	 * Test JMediaCompressor::isSupported Method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
 	public function  testIsSupported()
 	{
-		$file1 = JPATH_BASE . '/test_files/css/comments.css';
+		$file1 = __DIR__ . 'comments.css';
 
 		$this->assertTrue(JMediaCollection::isSupported($file1));
 
-		$file2 = JPATH_BASE . '/test_files/js/case2.js';
+		$file2 = __DIR__ . 'case2.js';
 
 		$this->assertTrue(JMediaCollection::isSupported($file2));
+
+		$this->assertFalse(JMediaCompressor::isSupported('index.php'));
 	}
 
+	/**
+	 * test clear Method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
 	public function testClear()
 	{
-		$this->object->addFiles($this->loadCssFiles());
+		$this->object->addFiles($this->files);
 		$this->object->combine();
 		$this->object->clear();
 
@@ -155,13 +214,4 @@ class JMediaCollectionTest extends TestCase
 
 	}
 
-	public function loadCssFiles()
-	{
-		// Path to source css files
-		$path = JPATH_TESTS . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'css';;
-
-		$files = JFolder::files($path,'.',false,true, array(), array('.min.css', '.php', '.html','.combined.css'));//get full path
-
-		return $files;
-	}
 }
