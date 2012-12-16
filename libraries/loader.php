@@ -561,7 +561,10 @@ abstract class JLoader
 
 			if (strpos($class, $prefix) === 0 && ($chr === strtoupper($chr)))
 			{
-				return self::_load(substr($class, strlen($prefix)), $lookup);
+				if(self::_load(substr($class, strlen($prefix)), $lookup))
+				{
+					return true;
+				}
 			}
 		}
 
