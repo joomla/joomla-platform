@@ -13,6 +13,11 @@ jimport('joomla.filesystem.path');
 
 /**
  * Test class for JMediaCompressor.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Media
+ *
+ * @since       12.1
  */
 class JMediaCompressorJsTest extends TestCase
 {
@@ -21,16 +26,28 @@ class JMediaCompressorJsTest extends TestCase
 	 */
 	protected $object;
 
+	/**
+	 * @var  array  files needed for tests
+	 */
 	protected $files;
 
+	/**
+	 * @var  string  path to test files
+	 */
 	protected $pathToTestFiles;
 
+	/**
+	 * @var  string  file extension suffix for compressed files
+	 */
 	protected $suffix;
-
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
 	 */
 	protected function setUp()
 	{
@@ -42,47 +59,39 @@ class JMediaCompressorJsTest extends TestCase
 
 	/**
 	 * Loads Necessary files
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
 	 */
 	protected function loadFiles()
 	{
-		//
-		$this->files = glob($this->pathToTestFiles . DIRECTORY_SEPARATOR . '*.js');
+		// Load only non compressed css files in to array
+		// Skip other files
+		$this->files = JFolder::files(
+			$this->pathToTestFiles, '.', false, true, array(),
+			array('.min.js', '.php', '.html', '.combined.js')
+		);
 	}
 
-	public function testSetOptions()
-	{
-		$existing_options = $this->object->getOptions();
-
-		$expected = array('REMOVE_COMMENTS' => false, 'CHANGE_ENCODING' => false);
-
-		$this->object->setOptions($expected);
-
-		$test = $this->object->getOptions();
-
-		foreach ($expected as $key => $value)
-		{
-			$this->arrayHasKey($key, $test);
-			$this->assertEquals($value, $test[$key]);
-		}
-		// Replace the existed options to avoid any harm to other tests
-		$this->object->setOptions($existing_options);
-
-	}
-
+	/**
+	 * Test compress Method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
 	public function testCompress()
 	{
 
-		// Put the path to test files for java script compressor.
-		$path = JPATH_TESTS . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'js';
-
-		$files = JFolder::files($path,'.',false,true, array(),array('.min.js','.php','.html','.combined.js'));
+		$files = JFolder::files($this->pathToTestFiles, '.', false, true, array(), array('.min.js', '.php', '.html', '.combined.js'));
 
 		foreach ($files as $file)
 		{
 			$this->object->setUncompressed(file_get_contents($file));
 
 			// Getting the expected result from filename.min.js file.
-			$expected = file_get_contents(str_ireplace('.js', '.min.js', $file));
+			$expected = file_get_contents(str_ireplace('.js', '.' . $this->suffix . '.js', $file));
 
 			$this->object->compress();
 
@@ -95,6 +104,13 @@ class JMediaCompressorJsTest extends TestCase
 
 	}
 
+	/**
+	 * Test _checkAlphaNum Method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
 	public function test_checkAlphaNum()
 	{
 		$method = new ReflectionMethod('JMediaCompressorJs', '_checkAlphaNum');
@@ -106,12 +122,12 @@ class JMediaCompressorJsTest extends TestCase
 		$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_$";
 		$rand_letter = $chars[rand(0, 53)];
 
-		// Check whether _checkAlphaNum() return true on alphabatical chars and '_' , '$'
+		// Check whether _checkAlphaNum() return true on alphabetical chars and '_' , '$'
 		$this->assertTrue($method->invoke($this->object, $rand_letter));
 
 		$rand_extended_char = chr(rand(127, 255));
 
-		// Check whether _checkAlphaNum() return true on extended aschii chars
+		// Check whether _checkAlphaNum() return true on extended ascii chars
 		$this->assertTrue($method->invoke($this->object, $rand_extended_char));
 
 
@@ -122,11 +138,18 @@ class JMediaCompressorJsTest extends TestCase
 		$this->assertFalse($method->invoke($this->object, $rand_non_alpha_char));
 	}
 
+	/**
+	 * test clear Method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
 	public function testClear()
 	{
-		$sourceJs = JPATH_TESTS . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'case1.js';
+		$sourceJs = $this->pathToTestFiles . DIRECTORY_SEPARATOR . 'case1.js';
 
-		$this->object->setUncompressed(JFile::read($sourceJs));
+		$this->object->setUncompressed(file_get_contents($sourceJs));
 		$this->object->compress();
 		$this->object->clear();
 

@@ -12,6 +12,11 @@ jimport('joomla.filesystem.folder');
 
 /**
  * Test class for JMediaCompressorCss.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Media
+ *
+ * @since       12.1
  */
 class JMediaCompressorCssTest extends TestCase
 {
@@ -20,16 +25,28 @@ class JMediaCompressorCssTest extends TestCase
 	 */
 	protected $object;
 
+	/**
+	 * @var  array  files needed for tests
+	 */
 	protected $files;
 
+	/**
+	 * @var  string  path to test files
+	 */
 	protected $pathToTestFiles;
 
+	/**
+	 * @var  string  file extension suffix for compressed files
+	 */
 	protected $suffix;
-
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
 	 */
 	protected function setUp()
 	{
@@ -41,46 +58,38 @@ class JMediaCompressorCssTest extends TestCase
 
 	/**
 	 * Loads Necessary files
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
 	 */
 	protected function loadFiles()
 	{
-		//
-		$this->files = glob($this->pathToTestFiles . DIRECTORY_SEPARATOR . '*.css');
+		// Load only non compressed css files in to array
+		// Skip other files
+		$this->files = JFolder::files(
+			$this->pathToTestFiles, '.', false, true, array(),
+			array('.min.css', '.php', '.html', '.combined.css')
+		);
 	}
 
-	public function testSetOptions()
-	{
-		$existing_options = $this->object->getOptions();
-
-		$expected = array('REMOVE_COMMENTS' => false, 'MIN_COLOR_CODES' => false, 'LIMIT_LINE_LENGTH' => false);
-
-		$this->object->setOptions($expected);
-
-		$test = $this->object->getOptions();
-
-		foreach ($expected as $key => $value)
-		{
-			$this->arrayHasKey($key, $test);
-			$this->assertEquals($value, $test[$key]);
-		}
-		// Replace the existed options to avoid any harm to other tests
-		$this->object->setOptions($existing_options);
-	}
-
+	/**
+	 * Test compress Method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
 	public function testCompress()
 	{
-
-		// Put the path to test files for css compressor. (Include expected result in filename.min.css file)
-		$path = JPATH_TESTS . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'css';
-
-		$files = JFolder::files($path, '.', false, true, array(), array('.min.css', '.php', '.html', '.combined.css'));
+		$files = JFolder::files($this->pathToTestFiles, '.', false, true, array(), array('.min.css', '.php', '.html', '.combined.css'));
 
 		foreach ($files as $file)
 		{
 			$this->object->setUncompressed(file_get_contents($file));
 
-			// Getting the expected result from filename.min.js file.
-			$expected = file_get_contents(str_ireplace('.css', '.min.css', $file));
+			// Getting the expected result from filename.min.css file.
+			$expected = file_get_contents(str_ireplace('.css', '.' . $this->suffix . '.css', $file));
 
 			$this->object->compress();
 
@@ -93,9 +102,16 @@ class JMediaCompressorCssTest extends TestCase
 
 	}
 
+	/**
+	 * test clear Method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
 	public function testClear()
 	{
-		$sourceCss = JPATH_TESTS . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'css/comments.css';
+		$sourceCss = $this->pathToTestFiles . DIRECTORY_SEPARATOR . 'comments.css';
 
 		$this->object->setUncompressed(file_get_contents($sourceCss));
 		$this->object->compress();

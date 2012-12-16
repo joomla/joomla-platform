@@ -274,7 +274,6 @@ class JMediaCompressorTest extends TestCase
 		$this->assertInstanceOf('JMediaCompressorJs', $compressor2);
 	}
 
-
 	/**
 	 * Test JMediaCompressor::isSupported Method
 	 *
@@ -294,7 +293,6 @@ class JMediaCompressorTest extends TestCase
 
 		$this->assertFalse(JMediaCompressor::isSupported('index.php'));
 	}
-
 
 	/**
 	 * test clear Method
