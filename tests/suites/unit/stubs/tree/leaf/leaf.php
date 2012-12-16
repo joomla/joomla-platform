@@ -20,7 +20,7 @@ define('LEAF_LEAF_LOADED', true);
  * @package  Joomla.UnitTest
  * @since    12.3
  */
-abstract class TreeLeaf
+abstract class TreeLeafLeaf
 {
 	static public function myDir()
 	{
