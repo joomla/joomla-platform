@@ -9,7 +9,7 @@ The *Media* package is designed to compile and compress assets such as `Javascri
 #### JMediaCompressor
 
 Abstract class `JMediaCompressor` defines functions to compress contents of a file by removing comment blocks, unnecessary white space  etc. It is extended by concrete classes such as `JMediaCompressorCss` and
-`JMediaCompressorJs` which contains implementation of compress function for a particular file type.
+`JMediaCompressorJs` which contains the implementation of compress function for a particular file type.
 
  *Example* : How to obtain a `JMediaCompressorJs` object for javascript files and compress content of a js file.
 
@@ -65,7 +65,7 @@ static function isSupported() can be used to check whether there is a compressor
 	$destinationFile = __DIR__ . 'test.min.css';
 
 	 // Options for compressor
- 	$options = array('REMOVE_COMMENTS' => true, 'overwrite' => true);
+ 	$options = array('REMOVE_COMMENTS' => true, 'OVERWRITE' => true);
 
 	if(JMediaCompressor::isSupported($file))
 	{
@@ -94,7 +94,7 @@ specific options to `JMediaCompressorCss`
 #### JMediaCollection
 
 Abstract class `JMediaCollection` defines functions to combine several files into a single file. It is extended by concrete classes such as `JMediaCollectionCss` and
-`JMediaCollectionJs` which contains implementation of combine function for a particular file type.
+`JMediaCollectionJs` which contains the implementation of combine function for a particular file type.
 
 *Example* : How to obtain a `JMediaCollectionCss` object for css files and combine a set of css files.
 
@@ -171,6 +171,7 @@ and combine them using options and write the combined content in to the destinat
 - `FILE_COMMENTS` : `boolean` :- set true to add comments indicating start and end of each file in combined content.
 - `COMPRESS` : `boolean` :- Define whether to compress content before combining them
 - `COMPRESSOR` : `JMediaCompressor` :- A compressor object to be used to compress content
+- `COMPRESSOR_OPTIONS` : `array` :- Options to use for compressor, if no compressor object is passed explicitly
 
 specific options to `JMediaCollection::combineFiles()`
 
