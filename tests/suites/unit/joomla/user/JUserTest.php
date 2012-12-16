@@ -384,10 +384,9 @@ class JUserTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Test...
+	 * Test case for testBind
 	 *
 	 * @covers JUser::bind
-	 * @todo Implement testBind().
 	 *
 	 * @return void
 	 */
@@ -424,34 +423,51 @@ class JUserTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Test...
+	 * Test case for testSave
 	 *
 	 * @covers JUser::save
-	 * @todo Implement testSave().
 	 *
 	 * @return void
 	 */
 	public function testSave()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
+		$testUser = new JUser();
+
+		$array = array();
+		$array['name'] = 'Save Test';
+		$array['username'] = 'savetest';
+		$array['password'] = 'savetest';
+		$array['password2'] = 'savetest';
+		$array['email'] = 'savetest@example.com';
+
+		$testUser->bind($array);
+
+		$this->assertTrue(
+			$testUser->save(true)
+		);
+
+		$this->assertTrue(
+			$testUser->save()
 		);
 	}
 
 	/**
-	 * Test...
+	 * Test case for testDelete
 	 *
 	 * @covers JUser::delete
-	 * @todo Implement testDelete().
 	 *
 	 * @return void
 	 */
 	public function testDelete()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
+		$testUser = new JUser(100);
+		$this->assertTrue(
+			($testUser->guest == 0)
+		);
+		$testUser->delete();
+		$testUser = new JUser(100);
+		$this->assertTrue(
+			($testUser->guest == 1)
 		);
 	}
 
