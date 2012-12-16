@@ -563,7 +563,10 @@ abstract class JLoader
 			{
 				if(self::_load(substr($class, strlen($prefix)), $lookup))
 				{
-					return true;
+					if (class_exists($prefix.$class))
+					{
+						return true;
+					}
 				}
 			}
 		}
