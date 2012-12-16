@@ -26,16 +26,28 @@ class JMediaCompressorTest extends TestCase
 	 */
 	protected $object;
 
+	/**
+	 * @var  array  files needed for tests
+	 */
 	protected $files;
 
+	/**
+	 * @var  string  path to test files
+	 */
 	protected $pathToTestFiles;
 
+	/**
+	 * @var  string  file extension suffix for compressed files
+	 */
 	protected $suffix;
-
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
 	 */
 	protected function setUp()
 	{
@@ -47,81 +59,90 @@ class JMediaCompressorTest extends TestCase
 
 	/**
 	 * Loads Necessary files
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
 	 */
 	protected function loadFiles()
 	{
-		//
-		$this->files = glob($this->pathToTestFiles . DIRECTORY_SEPARATOR . '*.css');
-	}
-
-	/**
-	 * Test getInstance Method
-	 */
-	public function testGetInstance()
-	{
-		$compressor1 = JMediaCompressor::getInstance(array('type' => 'css'));
-
-		$this->assertInstanceOf('JMediaCompressorCss', $compressor1);
-
-		$compressor2 = JMediaCompressor::getInstance(array('type' => 'js'));
-
-		$this->assertInstanceOf('JMediaCompressorJs', $compressor2);
-	}
-
-	/**
-	 * Test setCompressed Method
-	 */
-	public function testSetCompressed()
-	{
-		$random = rand();
-		$this->object->setCompressed($random);
-		$test = $this->object->getCompressed();
-		$this->assertEquals($random, $test);
-		$this->object->clear();
+		// Load only non compressed css files in to array
+		// Skip other files
+		$this->files = JFolder::files(
+						$this->pathToTestFiles, '.', false, true, array(),
+						array('.min.css', '.php', '.html', '.combined.css')
+						);
 	}
 
 	/**
 	 * Test setUncompressed Method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
 	 */
 	public function testSetUncompressed()
 	{
 		$random = rand();
 		$this->object->setUncompressed($random);
-		$test = $this->object->getUncompressed();
-		$this->assertEquals($random, $test);
+		$this->assertAttributeEquals(strlen($random), 'uncompressedSize', $this->object);
 		$this->assertAttributeEquals($random, 'uncompressed', $this->object);
-	}
-
-	/**
-	 * Test getRatio
-	 */
-	public function testGetRatio()
-	{
-		$this->object->setUncompressed("TestUncompressed");
-		$this->object->setCompressed("TestCompressed");
-
-		$expected = round((14 / 16) * 100, 2);
-		$test = $this->object->getRatio();
-
-		$this->assertEquals($expected, $test);
 		$this->object->clear();
 	}
 
 	/**
-	 * Test getCompressors Method
+	 * Test getUncompressed Method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
 	 */
-	public function testGetCompressors()
+	public function testGetUncompressed()
 	{
-		$expected = array('css','js');
-
-		$test = JMediaCompressor::getCompressors();
-
-		$this->assertEquals($expected, $test);
-
+		$random = rand();
+		$this->object->setUncompressed($random);
+		$test = $this->object->getUncompressed();
+		$this->assertEquals($random, $test);
+		$this->object->clear();
 	}
 
 	/**
-	 * Test setOptions
+	 * Test setCompressed Method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function testSetCompressed()
+	{
+		$random = rand();
+		$this->object->setCompressed($random);
+		$this->assertAttributeEquals(strlen($random), 'compressedSize', $this->object);
+		$this->assertAttributeEquals($random, 'compressed', $this->object);
+		$this->object->clear();
+	}
+
+	/**
+	 * Test getCompressed Method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function testGetCompressed()
+	{
+		$random = rand();
+		$this->object->setCompressed($random);
+		$this->assertEquals($random, $this->object->getCompressed());
+		$this->object->clear();
+	}
+
+	/**
+	 * Test setOptions and getOptions
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
 	 */
 	public function testSetOptions()
 	{
@@ -144,19 +165,65 @@ class JMediaCompressorTest extends TestCase
 	}
 
 	/**
-	 * Test compressString Method
+	 * Test getRatio
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function testGetRatio()
+	{
+		$this->object->setUncompressed("TestUncompressed");
+		$this->object->setCompressed("TestCompressed");
+
+		$expected = round((14 / 16) * 100, 2);
+		$test = $this->object->getRatio();
+
+		$this->assertEquals($expected, $test);
+		$this->object->clear();
+	}
+
+	/**
+	 * Test getCompressors Method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function testGetCompressors()
+	{
+		$expected = array('css','js');
+
+		$test = JMediaCompressor::getCompressors();
+
+		$this->assertEquals($expected, $test);
+
+	}
+
+	/**
+	 * Test JMediaCompressor::compressString Method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
 	 */
 	public function testCompressString()
 	{
+		// Get the file contents of comments.css file in css test files folder
 		$sourceCss = $this->pathToTestFiles . DIRECTORY_SEPARATOR . 'comments.css';
-		$expectedCss = file_get_contents(str_ireplace('.css', '.min.css', $sourceCss));
+
+		// Get the compressed contents in comment.min.css to compare with
+		$expectedCss = file_get_contents(str_ireplace('.css', '.' . $this->suffix . '.css', $sourceCss));
 
 		$testCss = JMediaCompressor::compressString(file_get_contents($sourceCss), array('type' => 'css'));
 
 		$this->assertEquals($expectedCss, $testCss);
 
+		// Get the file contents of case1.js file in js test files folder
 		$sourceJs = JPATH_TESTS . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'case1.js';
-		$expectedJs = file_get_contents(str_ireplace('.js', '.min.js', $sourceJs));
+
+		// Get the compressed contents in case1.min.js to compare with
+		$expectedJs = file_get_contents(str_ireplace('.js', '.' . $this->suffix . '.js', $sourceJs));
 
 		$testJs = JMediaCompressor::compressString(file_get_contents($sourceJs), array('type' => 'js'));
 
@@ -164,11 +231,60 @@ class JMediaCompressorTest extends TestCase
 	}
 
 	/**
-	 * Test isSupported Method
+	 * Test JMediaCompressor::compressFile Method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function testCompressFile()
+	{
+		// Get the comments.css file in css test files folder
+		$sourceCss = $this->pathToTestFiles . DIRECTORY_SEPARATOR . 'comments.css';
+
+		$expectedFile = str_ireplace('.css', '.' . $this->suffix . '.css', $sourceCss);
+
+		$destinationFile = str_ireplace('.css', '.' . $this->suffix . '.tmp.css', $sourceCss);
+
+		$this->assertTrue(JMediaCompressor::compressFile($sourceCss, array('type' => 'css', 'OVERWRITE' => true), $destinationFile));
+
+		$this->assertFileExists($destinationFile);
+
+		$this->assertFileEquals($expectedFile, $destinationFile);
+
+		unlink($destinationFile);
+
+	}
+
+	/**
+	 * Test JMediaCompressor::getInstance Method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function testGetInstance()
+	{
+		$compressor1 = JMediaCompressor::getInstance(array('type' => 'css'));
+
+		$this->assertInstanceOf('JMediaCompressorCss', $compressor1);
+
+		$compressor2 = JMediaCompressor::getInstance(array('type' => 'js'));
+
+		$this->assertInstanceOf('JMediaCompressorJs', $compressor2);
+	}
+
+
+	/**
+	 * Test JMediaCompressor::isSupported Method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
 	 */
 	public function  testIsSupported()
 	{
-		$file1 = JPATH_TESTS . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'comments.css';
+		$file1 = $this->pathToTestFiles . DIRECTORY_SEPARATOR . 'comments.css';
 
 		$this->assertTrue(JMediaCompressor::isSupported($file1));
 
@@ -176,12 +292,16 @@ class JMediaCompressorTest extends TestCase
 
 		$this->assertTrue(JMediaCompressor::isSupported($file2));
 
-		$this->assertFalse(JMediaCompressor::isSupported("index.php"));
+		$this->assertFalse(JMediaCompressor::isSupported('index.php'));
 	}
 
 
 	/**
 	 * test clear Method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
 	 */
 	public function testClear()
 	{
