@@ -57,6 +57,7 @@ abstract class JDataMapper
 			else
 			{
 				$objects->rewind();
+
 				return $objects->current();
 			}
 		}
@@ -108,12 +109,14 @@ abstract class JDataMapper
 			if ($limit > 0 && count($objects) > $limit)
 			{
 				$count = 1;
+
 				foreach ($objects as $k => $v)
 				{
 					if ($count > $limit)
 					{
 						unset($objects[$k]);
 					}
+
 					$count += 1;
 				}
 			}
@@ -127,8 +130,8 @@ abstract class JDataMapper
 	/**
 	 * Finds a single object based on arbitrary criteria.
 	 *
-	 * @param   mixed    $where  The criteria by which to search the data source.
-	 * @param   mixed    $sort   The sorting to apply to the search.
+	 * @param   mixed  $where  The criteria by which to search the data source.
+	 * @param   mixed  $sort   The sorting to apply to the search.
 	 *
 	 * @return  JData  An object matching the search criteria, or null if none found.
 	 *
@@ -177,6 +180,7 @@ abstract class JDataMapper
 			else
 			{
 				$objects->rewind();
+
 				return $objects->current();
 			}
 		}
