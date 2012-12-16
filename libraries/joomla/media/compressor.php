@@ -292,6 +292,7 @@ abstract class JMediaCompressor
 		if ($destination === null)
 		{
 			$type = $extension = pathinfo($sourceFile, PATHINFO_EXTENSION);
+
 			if (array_key_exists('PREFIX', $options) && !empty($options['PREFIX']))
 			{
 				$destination = str_ireplace('.' . $type, '.' . $options['PREFIX'] . '.' . $type, $sourceFile);

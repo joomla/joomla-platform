@@ -256,6 +256,7 @@ class JMediaCompressorCss extends JMediaCompressor
 					            \\s+
 					            /x', "$1\n", $source
 								);
+
 		return $source;
 	}
 

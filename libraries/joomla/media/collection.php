@@ -179,6 +179,7 @@ abstract class JMediaCollection
 			if (!file_exists($destination) || (file_exists($destination) && $force))
 			{
 				file_put_contents($destination, $combiner->getCombined());
+
 				return true;
 			}
 			else
