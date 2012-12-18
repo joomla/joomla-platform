@@ -502,3 +502,21 @@ CREATE TABLE `jos_dbtest_composite` (
   `ordering` INTEGER NOT NULL DEFAULT '0',
   CONSTRAINT `idx_dbtest_composite` PRIMARY KEY (`id1`,`id2`)
 );
+
+CREATE TABLE `jos_messages_cfg` (
+  `user_id` INTEGER NOT NULL DEFAULT '0',
+  `cfg_name` TEXT NOT NULL DEFAULT '',
+  `cfg_value` TEXT NOT NULL DEFAULT ''
+);
+
+CREATE TABLE `jos_messages` (
+  `message_id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `user_id_from` INTEGER NOT NULL DEFAULT '0',
+  `user_id_to` INTEGER NOT NULL DEFAULT '0',
+  `folder_id` INTEGER NOT NULL DEFAULT '0',
+  `date_time` TEXT NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `state` INTEGER NOT NULL DEFAULT '0',
+  `priority` INTEGER NOT NULL DEFAULT '0',
+  `subject` TEXT NOT NULL DEFAULT '',
+  `message` TEXT NOT NULL
+);
