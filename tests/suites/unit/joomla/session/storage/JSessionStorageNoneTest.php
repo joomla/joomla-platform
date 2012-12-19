@@ -48,5 +48,7 @@ class JSessionStorageNoneTest extends PHPUnit_Framework_TestCase
 			$this->object->register(),
 			$this->equalTo(null)
 		);
+
+		//todo: add regression test to make sure the default php session handler is not being overwritten
 	}
 }

@@ -100,6 +100,14 @@ class JSession implements IteratorAggregate
 	private $_dispatcher = null;
 
 	/**
+	 * Externally defined storage connectors
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
+	static private $extraConnectors = array();
+
+	/**
 	 * Constructor
 	 *
 	 * @param   string  $store    The type of storage for the session.
@@ -412,8 +420,72 @@ class JSession implements IteratorAggregate
 			}
 		}
 
+		// Now add in any extra connectors
+		foreach (self::$extraConnectors as $connector)
+		{
+			// It is always possible that an extra connector is later added to core - so do do not process those again
+			if (in_array($connector, $connectors))
+			{
+				continue;
+			}
+
+			// Even if the class exists, since it is not from core we must check that it has the isSupported method.  method_exists will also run class_exists
+			if (method_exists($connector, 'isSupported'))
+			{
+				// Sweet!  Our class exists, so now we just need to know if it passes its test method.
+				if ($class::isSupported())
+				{
+					// The $extraConnectors array is an array of strings of classnames, no need to process them
+					$connectors[] = $connector;
+				}
+			}
+		}
+
 		return $connectors;
 	}
+
+	/**
+	 * Add an externally defined session connector.
+	 *
+	 * @param   string  $storageClass       Name of the storage class
+	 * @param   boolean $reset       Flag to reset/wipe all extra connectors first
+	 * @return  array  The array of externally defined session connectors for sanity checks
+	 *
+	 * @since   12.x
+	 */
+	public static function addExternalConnector($storageClass = false, $reset=false)
+	{
+		// Reset external connectors if asked to
+		if ($reset)
+		{
+			self:$extraConnectors = array();
+		}
+
+		// Make sure we have class to add
+		if ($storageClass)
+		{
+			/* Removed for further testing
+			// We can extract the class name from an object
+			if (is_object($storageClass))
+			{
+				$classname = get_class($storageClass);
+			} else{
+				$classname = $storageClass;
+			}
+			*/
+			$classname = $storageClass;
+
+			// Make sure it the classname is a string and is not already added
+			if (is_string($classname) && in_array($classname, self::$extraConnectors))
+			{
+				// Note: do not check for the class now. It may be defined later in an auto-loader.  getStores checks for validity.
+				array_push(self::$extraConnectors, $classname);
+			}
+		}
+
+		return self::$extraConnectors;
+	}
+
 
 	/**
 	 * Shorthand to check if the session is active
