@@ -12,15 +12,17 @@ defined('JPATH_PLATFORM') or die;
 jimport('joomla.filesystem.folder');
 
 /**
- * Class to turn JCli applications into daemons.  It requires CLI and PCNTL support built into PHP.
+ * Class to turn JApplicationCli applications into daemons.  It requires CLI and PCNTL support built into PHP.
  *
  * @package     Joomla.Platform
  * @subpackage  Application
  * @see         http://www.php.net/manual/en/book.pcntl.php
  * @see         http://php.net/manual/en/features.commandline.php
  * @since       11.1
+ *
+ * @note        Class is abstract as of 13.1
  */
-class JApplicationDaemon extends JApplicationCli
+abstract class JApplicationDaemon extends JApplicationCli
 {
 	/**
 	 * @var    array  The available POSIX signals to be caught by default.

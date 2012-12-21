@@ -54,6 +54,7 @@ class TestMockApplicationWeb
 			'appendBody',
 			'clearHeaders',
 			'close',
+			'doExecute',
 			'execute',
 			'get',
 			'getBody',

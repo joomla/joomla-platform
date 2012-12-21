@@ -58,7 +58,7 @@ class JOAuth2Client
 		$this->options = isset($options) ? $options : new JRegistry;
 		$this->http = isset($http) ? $http : new JHttp($this->options);
 		$this->input = isset($input) ? $input : JFactory::getApplication()->input;
-		$this->application = isset($application) ? $application : new JApplicationWeb;
+		$this->application = isset($application) ? $application : JApplicationWeb::getInstance();
 	}
 
 	/**

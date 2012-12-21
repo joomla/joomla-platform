@@ -15,8 +15,10 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Application
  * @since       11.4
+ *
+ * @note        Class is abstract as of 13.1
  */
-class JApplicationWeb extends JApplicationBase
+abstract class JApplicationWeb extends JApplicationBase
 {
 	/**
 	 * @var    string  Character encoding string.
@@ -165,70 +167,9 @@ class JApplicationWeb extends JApplicationBase
 			{
 				self::$instance = new $name;
 			}
-			else
-			{
-				self::$instance = new JApplicationWeb;
-			}
 		}
 
 		return self::$instance;
-	}
-
-	/**
-	 * Initialise the application.
-	 *
-	 * @param   mixed  $session     An optional argument to provide dependency injection for the application's
-	 *                              session object.  If the argument is a JSession object that object will become
-	 *                              the application's session object, if it is false then there will be no session
-	 *                              object, and if it is null then the default session object will be created based
-	 *                              on the application's loadSession() method.
-	 * @param   mixed  $document    An optional argument to provide dependency injection for the application's
-	 *                              document object.  If the argument is a JDocument object that object will become
-	 *                              the application's document object, if it is false then there will be no document
-	 *                              object, and if it is null then the default document object will be created based
-	 *                              on the application's loadDocument() method.
-	 * @param   mixed  $language    An optional argument to provide dependency injection for the application's
-	 *                              language object.  If the argument is a JLanguage object that object will become
-	 *                              the application's language object, if it is false then there will be no language
-	 *                              object, and if it is null then the default language object will be created based
-	 *                              on the application's loadLanguage() method.
-	 * @param   mixed  $dispatcher  An optional argument to provide dependency injection for the application's
-	 *                              event dispatcher.  If the argument is a JEventDispatcher object that object will become
-	 *                              the application's event dispatcher, if it is null then the default event dispatcher
-	 *                              will be created based on the application's loadDispatcher() method.
-	 *
-	 * @return  JApplicationWeb  Instance of $this to allow chaining.
-	 *
-	 * @deprecated  13.1
-	 * @see     loadSession()
-	 * @see     loadDocument()
-	 * @see     loadLanguage()
-	 * @see     loadDispatcher()
-	 * @since   11.3
-	 */
-	public function initialise($session = null, $document = null, $language = null, $dispatcher = null)
-	{
-		// Create the session based on the application logic.
-		if ($session !== false)
-		{
-			$this->loadSession($session);
-		}
-
-		// Create the document based on the application logic.
-		if ($document !== false)
-		{
-			$this->loadDocument($document);
-		}
-
-		// Create the language based on the application logic.
-		if ($language !== false)
-		{
-			$this->loadLanguage($language);
-		}
-
-		$this->loadDispatcher($dispatcher);
-
-		return $this;
 	}
 
 	/**
@@ -285,13 +226,10 @@ class JApplicationWeb extends JApplicationBase
 	 *
 	 * @return  void
 	 *
-	 * @codeCoverageIgnore
 	 * @since   11.3
+	 * @note    Method is abstract as of 13.1
 	 */
-	protected function doExecute()
-	{
-		// Your application routines go here.
-	}
+	abstract protected function doExecute();
 
 	/**
 	 * Rendering is the process of pushing the document buffers into the template
@@ -529,63 +467,6 @@ class JApplicationWeb extends JApplicationBase
 
 		// Close the application after the redirect.
 		$this->close();
-	}
-
-	/**
-	 * Load an object or array into the application configuration object.
-	 *
-	 * @param   mixed  $data  Either an array or object to be loaded into the configuration object.
-	 *
-	 * @return  JApplicationWeb  Instance of $this to allow chaining.
-	 *
-	 * @since   11.3
-	 */
-	public function loadConfiguration($data)
-	{
-		// Load the data into the configuration object.
-		if (is_array($data))
-		{
-			$this->config->loadArray($data);
-		}
-		elseif (is_object($data))
-		{
-			$this->config->loadObject($data);
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Returns a property of the object or the default value if the property is not set.
-	 *
-	 * @param   string  $key      The name of the property.
-	 * @param   mixed   $default  The default value (optional) if none is set.
-	 *
-	 * @return  mixed   The value of the configuration.
-	 *
-	 * @since   11.3
-	 */
-	public function get($key, $default = null)
-	{
-		return $this->config->get($key, $default);
-	}
-
-	/**
-	 * Modifies a property of the object, creating it if it does not already exist.
-	 *
-	 * @param   string  $key    The name of the property.
-	 * @param   mixed   $value  The value of the property to set (optional).
-	 *
-	 * @return  mixed   Previous value of the property
-	 *
-	 * @since   11.3
-	 */
-	public function set($key, $value = null)
-	{
-		$previous = $this->config->get($key);
-		$this->config->set($key, $value);
-
-		return $previous;
 	}
 
 	/**
@@ -892,9 +773,12 @@ class JApplicationWeb extends JApplicationBase
 	 * @return  mixed   Either an array or object to be loaded into the configuration object.
 	 *
 	 * @since   11.3
+	 * @note    As of 13.3, this method will be abstract and must be implemented in child classes
 	 */
 	protected function fetchConfigurationData($file = '', $class = 'JConfig')
 	{
+		JLog::add(sprintf('%s will be abstract as of 13.3.  Child classes must implement this method.', __METHOD__), JLog::WARNING, 'deprecated');
+
 		// Instantiate variables.
 		$config = array();
 

@@ -29,6 +29,7 @@ class TestMockApplicationCli
 		// Collect all the relevant methods in JApplicationCli.
 		$methods = array(
 			'get',
+			'doExecute',
 			'execute',
 			'loadConfiguration',
 			'out',
