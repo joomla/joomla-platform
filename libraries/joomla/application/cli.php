@@ -25,12 +25,6 @@ class JApplicationCli extends JApplicationBase
 	protected $config;
 
 	/**
-	 * @var    JApplicationCli  The application instance.
-	 * @since  11.1
-	 */
-	protected static $instance;
-
-	/**
 	 * Class constructor.
 	 *
 	 * @param   mixed  $input       An optional argument to provide dependency injection for the application's
@@ -120,23 +114,13 @@ class JApplicationCli extends JApplicationBase
 	 * @return  JApplicationCli
 	 *
 	 * @since   11.1
+	 * @deprecated  14.1  Use JApplicationBase::getInstance() instead.
 	 */
 	public static function getInstance($name = null)
 	{
-		// Only create the object if it doesn't exist.
-		if (empty(self::$instance))
-		{
-			if (class_exists($name) && (is_subclass_of($name, 'JApplicationCli')))
-			{
-				self::$instance = new $name;
-			}
-			else
-			{
-				self::$instance = new JApplicationCli;
-			}
-		}
+		JLog::add(sprintf('%s is deprecated, use JApplicationBase::getInstance() instead.', __METHOD__), JLog::WARNING, 'deprecated');
 
-		return self::$instance;
+		return parent::getInstance($name);
 	}
 
 	/**
