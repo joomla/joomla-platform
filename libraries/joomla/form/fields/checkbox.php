@@ -28,7 +28,41 @@ class JFormFieldCheckbox extends JFormField
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $type = 'Checkbox';
+	protected $type = 'Checkbox';
+
+	/**
+	 * The checked options for this field.
+	 *
+	 * @var    string
+	 * @since  12.3
+	 */
+	protected $checked = null;
+
+	/**
+	 * Method to attach a JForm object to the field.
+	 *
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                      full field name would end up being "bar[foo]".
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @see     JFormField::setup()
+	 * @since   12.3
+	 */
+	public function setup(SimpleXMLElement $element, $value, $group = null)
+	{
+		parent::setup($element, $value, $group);
+
+		if (!empty($element['checked']))
+		{
+			$this->checked = (string) $element['checked'];
+		}
+
+		return true;
+	}
 
 	/**
 	 * Method to get the field input markup.
@@ -41,21 +75,21 @@ class JFormFieldCheckbox extends JFormField
 	protected function getInput()
 	{
 		// Initialize some field attributes.
-		$class = $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
-		$disabled = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
-		$value = $this->element['value'] ? (string) $this->element['value'] : '1';
+		$disabled = !empty($this->disabled) ? ' disabled="disabled"' : '';
+		$class = !empty($this->class) ? ' class="' . $this->class . '"' : '';
+		$onclick = !empty($this->onclick) ? ' onclick="' . $this->onclick . '"' : '';
+
+		// This is the exception to the rule. The rule being, don't access $this->element
+		$value = !empty($this->element['value']) ? $this->element['value'] : '1';
 
 		if (empty($this->value))
 		{
-			$checked = (isset($this->element['checked'] )) ? ' checked="checked"' : '';
+			$checked = !empty($this->checked) ? ' checked="checked"' : '';
 		}
 		else
 		{
 			$checked = ' checked="checked"';
 		}
-
-		// Initialize JavaScript field attributes.
-		$onclick = $this->element['onclick'] ? ' onclick="' . (string) $this->element['onclick'] . '"' : '';
 
 		return '<input type="checkbox" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
 			. htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"' . $class . $checked . $disabled . $onclick . ' />';

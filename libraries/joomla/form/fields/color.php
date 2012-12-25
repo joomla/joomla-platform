@@ -18,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  * @link        http://www.w3.org/TR/html-markup/input.color.html
  * @since       11.3
  */
-class JFormFieldColor extends JFormField
+class JFormFieldColor extends JFormFieldText
 {
 	/**
 	 * The form field type.
@@ -29,37 +29,42 @@ class JFormFieldColor extends JFormField
 	protected $type = 'Color';
 
 	/**
-	 * Method to get the field input markup.
+	 * The text to prepend to class for the form field.
 	 *
-	 * @return  string  The field input markup.
-	 *
-	 * @since   11.3
+	 * @var    string
+	 * @since  12.3
 	 */
-	protected function getInput()
+	protected $prependToClass = 'input-colorpicker';
+
+	/**
+	 * Method to attach a JForm object to the field.
+	 *
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                      full field name would end up being "bar[foo]".
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @see     JFormField::setup()
+	 * @since   12.3
+	 */
+	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
-		// Initialize some field attributes.
-		$size = $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
-		$classes = (string) $this->element['class'];
-		$disabled = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
+		parent::setup($element, $value, $group);
 
-		if (!$disabled)
-		{
-			JHtml::_('behavior.colorpicker');
-			$classes .= ' input-colorpicker';
-		}
-
+		// A color field can't be empty, we default to black. This is the same as the HTML5 spec.
 		if (empty($this->value))
 		{
-			// A color field can't be empty, we default to black. This is the same as the HTML5 spec.
 			$this->value = '#000000';
 		}
 
-		// Initialize JavaScript field attributes.
-		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
+		if (empty($this->disabled))
+		{
+			JHtml::_('behavior.colorpicker');
+		}
 
-		$class = $classes ? ' class="' . trim($classes) . '"' : '';
-
-		return '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
-			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $class . $size . $disabled . $onchange . '/>';
+		return true;
 	}
 }

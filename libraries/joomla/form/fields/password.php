@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+JFormHelper::loadFieldClass('text');
+
 /**
  * Form Field class for the Joomla Platform.
  * Text field for passwords
@@ -19,7 +21,7 @@ defined('JPATH_PLATFORM') or die;
  * @note        Two password fields may be validated as matching using JFormRuleEquals
  * @since       11.1
  */
-class JFormFieldPassword extends JFormField
+class JFormFieldPassword extends JFormFieldText
 {
 	/**
 	 * The form field type.
@@ -28,6 +30,53 @@ class JFormFieldPassword extends JFormField
 	 * @since  11.1
 	 */
 	protected $type = 'Password';
+
+	/**
+	 * Whether or not to use the strength meter
+	 *
+	 * @var    boolean
+	 * @since  12.3
+	 */
+	protected $strengthmeter;
+
+	/**
+	 * Strength threshold for the strength meter
+	 *
+	 * @var    string
+	 * @since  12.3
+	 */
+	protected $threshold = 66;
+
+	/**
+	 * Method to attach a JForm object to the field.
+	 *
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                      full field name would end up being "bar[foo]".
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @see     JFormField::setup()
+	 * @since   12.3
+	 */
+	public function setup(SimpleXMLElement $element, $value, $group = null)
+	{
+		parent::setup($element, $value, $group);
+
+		if (!empty($this->element['strengthmeter']))
+		{
+			$this->strengthmeter = (string) $this->element['strengthmeter'];
+		}
+
+		if (!empty($this->element['threshold']))
+		{
+			$this->threshold = (int) $this->element['threshold'];
+		}
+
+		return true;
+	}
 
 	/**
 	 * Method to get the field input markup for password.
@@ -39,23 +88,22 @@ class JFormFieldPassword extends JFormField
 	protected function getInput()
 	{
 		// Initialize some field attributes.
-		$size		= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
-		$maxLength	= $this->element['maxlength'] ? ' maxlength="' . (int) $this->element['maxlength'] . '"' : '';
-		$class		= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
-		$auto		= ((string) $this->element['autocomplete'] == 'off') ? ' autocomplete="off"' : '';
-		$readonly	= ((string) $this->element['readonly'] == 'true') ? ' readonly="readonly"' : '';
-		$disabled	= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
-		$meter		= ((string) $this->element['strengthmeter'] == 'true');
-		$threshold	= $this->element['threshold'] ? (int) $this->element['threshold'] : 66;
+		$size = !empty($this->size) ? ' size="' . $this->size . '"' : '';
+		$maxLength = !empty($this->maxlength) ? ' maxlength="' . $this->maxlength . '"' : '';
+		$class = !empty($this->class) ? ' class="' . $this->class . '"' : '';
+		$readonly = !empty($this->readonly) ? ' readonly="readonly"' : '';
+		$disabled = !empty($this->disabled) ? ' disabled="disabled"' : '';
+		$auto = !empty($this->autocomplete) ? ' autocomplete="off"' : '';
+		$placeholder = !empty($this->placeholder) ? ' placeholder="' . $this->placeholder . '"' : '';
 
 		$script = '';
 
-		if ($meter)
+		if ($this->strengthmeter)
 		{
 			JHtml::_('script', 'system/passwordstrength.js', true, true);
 			$script = '<script type="text/javascript">new Form.PasswordStrength("' . $this->id . '",
 				{
-					threshold: ' . $threshold . ',
+					threshold: ' . $this->threshold . ',
 					onUpdate: function(element, strength, threshold) {
 						element.set("data-passwordstrength", strength);
 					}
@@ -65,6 +113,6 @@ class JFormFieldPassword extends JFormField
 
 		return '<input type="password" name="' . $this->name . '" id="' . $this->id . '"' .
 			' value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' .
-			$auto . $class . $readonly . $disabled . $size . $maxLength . '/>' . $script;
+			$auto . $class . $readonly . $disabled . $size . $maxLength . $placeholder . '/>' . $script;
 	}
 }

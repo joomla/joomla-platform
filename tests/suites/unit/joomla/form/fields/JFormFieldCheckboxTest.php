@@ -72,10 +72,9 @@ class JFormFieldCheckboxTest extends TestCase
 		// Test with no checked element
 		$element = simplexml_load_string(
 			'<field name="color" type="checkbox" value="red" />');
-		TestReflection::setValue($formField, 'element', $element);
+		TestReflection::invoke($formField, 'setup', $element, 'red');
 		TestReflection::setValue($formField, 'id', 'myTestId');
 		TestReflection::setValue($formField, 'name', 'myTestName');
-		TestReflection::setValue($formField, 'value', 'red');
 
 		$this->assertEquals(
 			'<input type="checkbox" name="myTestName" id="myTestId" value="red" checked="checked" />',
@@ -96,9 +95,8 @@ class JFormFieldCheckboxTest extends TestCase
 		$formField = new JFormFieldCheckbox;
 
 		// Test with checked element
-		$element = simplexml_load_string(
-			'<field name="color" type="checkbox" value="red" checked="checked" />');
-		TestReflection::setValue($formField, 'element', $element);
+		$element = simplexml_load_string('<field name="color" type="checkbox" value="red" checked="checked" />');
+		TestReflection::invoke($formField, 'setup', $element, null);
 		TestReflection::setValue($formField, 'id', 'myTestId');
 		TestReflection::setValue($formField, 'name', 'myTestName');
 
@@ -121,9 +119,8 @@ class JFormFieldCheckboxTest extends TestCase
 		$formField = new JFormFieldCheckbox;
 
 		// Test with checked element
-		$element = simplexml_load_string(
-			'<field name="color" type="checkbox" value="red" disabled="true" />');
-		TestReflection::setValue($formField, 'element', $element);
+		$element = simplexml_load_string('<field name="color" type="checkbox" value="red" disabled="true" />');
+		TestReflection::invoke($formField, 'setup', $element, null);
 		TestReflection::setValue($formField, 'id', 'myTestId');
 		TestReflection::setValue($formField, 'name', 'myTestName');
 

@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+JFormHelper::loadFieldClass('text');
+
 /**
  * Form Field class for the Joomla Platform.
  * Provides and input field for e-mail addresses
@@ -19,7 +21,7 @@ defined('JPATH_PLATFORM') or die;
  * @see         JFormRuleEmail
  * @since       11.1
  */
-class JFormFieldEMail extends JFormField
+class JFormFieldEMail extends JFormFieldText
 {
 	/**
 	 * The form field type.
@@ -30,25 +32,10 @@ class JFormFieldEMail extends JFormField
 	protected $type = 'Email';
 
 	/**
-	 * Method to get the field input markup for e-mail addresses.
+	 * The text to prepend to class for the form field.
 	 *
-	 * @return  string  The field input markup.
-	 *
-	 * @since   11.1
+	 * @var    string
+	 * @since  12.3
 	 */
-	protected function getInput()
-	{
-		// Initialize some field attributes.
-		$size = $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
-		$maxLength = $this->element['maxlength'] ? ' maxlength="' . (int) $this->element['maxlength'] . '"' : '';
-		$class = $this->element['class'] ? ' ' . (string) $this->element['class'] : '';
-		$readonly = ((string) $this->element['readonly'] == 'true') ? ' readonly="readonly"' : '';
-		$disabled = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
-
-		// Initialize JavaScript field attributes.
-		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
-
-		return '<input type="text" name="' . $this->name . '" class="validate-email' . $class . '" id="' . $this->id . '"' . ' value="'
-			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $size . $disabled . $readonly . $onchange . $maxLength . '/>';
-	}
+	protected $prependToClass = 'validate-email';
 }

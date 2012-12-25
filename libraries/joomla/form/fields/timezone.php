@@ -30,6 +30,40 @@ class JFormFieldTimezone extends JFormFieldGroupedList
 	protected $type = 'Timezone';
 
 	/**
+	 * The field containing the key for the input field.
+	 *
+	 * @var    string
+	 * @since  12.3
+	 */
+	protected $keyField = 'id';
+
+	/**
+	 * Method to attach a JForm object to the field.
+	 *
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                      full field name would end up being "bar[foo]".
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @see     JFormField::setup()
+	 * @since   12.3
+	 */
+	public function setup(SimpleXMLElement $element, $value, $group = null)
+	{
+		parent::setup($element, $value, $group);
+
+		if (!empty($this->element['key_field']))
+		{
+			$this->keyField = (string) $this->element['key_field'];
+		}
+
+		return true;
+	}
+
+	/**
 	 * The list of available timezone groups to use.
 	 *
 	 * @var    array
@@ -48,9 +82,7 @@ class JFormFieldTimezone extends JFormFieldGroupedList
 	protected function getGroups()
 	{
 		$groups = array();
-
-		$keyField = $this->element['key_field'] ? (string) $this->element['key_field'] : 'id';
-		$keyValue = $this->form->getValue($keyField);
+		$keyValue = $this->form->getValue($this->keyField);
 
 		// If the timezone is not set use the server setting.
 		if (strlen($this->value) == 0 && empty($keyValue))
@@ -101,8 +133,6 @@ class JFormFieldTimezone extends JFormFieldGroupedList
 		}
 
 		// Merge any additional groups in the XML definition.
-		$groups = array_merge(parent::getGroups(), $groups);
-
-		return $groups;
+		return array_merge(parent::getGroups(), $groups);
 	}
 }

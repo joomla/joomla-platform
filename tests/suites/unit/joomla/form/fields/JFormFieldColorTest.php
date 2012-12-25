@@ -48,7 +48,8 @@ class JFormFieldColorTest extends TestCase
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
-		$field = new JFormFieldColor($form);
+		$class = JFormHelper::loadFieldClass('color');
+		$field = new $class($form);
 
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),

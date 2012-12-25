@@ -29,6 +29,66 @@ class JFormFieldRules extends JFormField
 	public $type = 'Rules';
 
 	/**
+	 * Section of rules to retrieve
+	 *
+	 * @var    string
+	 * @since  12.3
+	 */
+	protected $section;
+
+	/**
+	 * Which component to load the rules from
+	 *
+	 * @var    string
+	 * @since  12.3
+	 */
+	protected $component;
+
+	/**
+	 * The field containing the asset id
+	 *
+	 * @var    string
+	 * @since  12.3
+	 */
+	protected $assetField = 'asset_id';
+
+	/**
+	 * Method to attach a JForm object to the field.
+	 *
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                      full field name would end up being "bar[foo]".
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @see     JFormField::setup()
+	 * @since   12.3
+	 */
+	public function setup(SimpleXMLElement $element, $value, $group = null)
+	{
+		parent::setup($element, $value, $group);
+
+		if (!empty($this->element['section']))
+		{
+			$this->section = (string) $this->element['section'];
+		}
+
+		if (!empty($this->element['component']))
+		{
+			$this->component = (string) $this->element['component'];
+		}
+
+		if (!empty($this->element['asset_field']))
+		{
+			$this->asset_field = (string) $this->element['asset_field'];
+		}
+
+		return true;
+	}
+
+	/**
 	 * Method to get the field input markup for Access Control Lists.
 	 * Optionally can be associated with a specific component and section.
 	 *
@@ -42,15 +102,10 @@ class JFormFieldRules extends JFormField
 	{
 		JHtml::_('behavior.tooltip');
 
-		// Initialise some field attributes.
-		$section = $this->element['section'] ? (string) $this->element['section'] : '';
-		$component = $this->element['component'] ? (string) $this->element['component'] : '';
-		$assetField = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
-
 		// Get the actions for the asset.
 		$actions = JAccess::getActionsFromFile(
-			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml',
-			"/access/section[@name='" . $section . "']/"
+			JPATH_ADMINISTRATOR . '/components/' . $this->component . '/access.xml',
+			"/access/section[@name='" . $this->section . "']/"
 		);
 
 		// Iterate over the children and add to the actions.
@@ -64,14 +119,14 @@ class JFormFieldRules extends JFormField
 		}
 
 		// Get the explicit rules for this asset.
-		if ($section == 'component')
+		if ($this->section == 'component')
 		{
 			// Need to find the asset id by the name of the component.
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 			$query->select($db->quoteName('id'));
 			$query->from($db->quoteName('#__assets'));
-			$query->where($db->quoteName('name') . ' = ' . $db->quote($component));
+			$query->where($db->quoteName('name') . ' = ' . $db->quote($this->component));
 			$db->setQuery($query);
 			$assetId = (int) $db->loadResult();
 		}
@@ -79,16 +134,8 @@ class JFormFieldRules extends JFormField
 		{
 			// Find the asset id of the content.
 			// Note that for global configuration, com_config injects asset_id = 1 into the form.
-			$assetId = $this->form->getValue($assetField);
+			$assetId = $this->form->getValue($this->assetField);
 		}
-
-		// Use the compact form for the content rules (deprecated).
-
-		/* @todo remove code:
-		if (!empty($component) && $section != 'component') {
-			return JHtml::_('rules.assetFormWidget', $actions, $assetId, $assetId ? null : $component, $this->name, $this->id);
-		}
-		 */
 
 		// Full width format.
 
@@ -142,7 +189,7 @@ class JFormFieldRules extends JFormField
 			$html[] = '</th>';
 
 			// The calculated setting is not shown for the root group of global configuration.
-			$canCalculateSettings = ($group->parent_id || !empty($component));
+			$canCalculateSettings = ($group->parent_id || !empty($this->component));
 
 			if ($canCalculateSettings)
 			{
@@ -180,7 +227,7 @@ class JFormFieldRules extends JFormField
 
 				// The parent group has "Not Set", all children can rightly "Inherit" from that.
 				$html[] = '<option value=""' . ($assetRule === null ? ' selected="selected"' : '') . '>'
-					. JText::_(empty($group->parent_id) && empty($component) ? 'JLIB_RULES_NOT_SET' : 'JLIB_RULES_INHERITED') . '</option>';
+					. JText::_(empty($group->parent_id) && empty($this->component) ? 'JLIB_RULES_NOT_SET' : 'JLIB_RULES_INHERITED') . '</option>';
 				$html[] = '<option value="1"' . ($assetRule === true ? ' selected="selected"' : '') . '>' . JText::_('JLIB_RULES_ALLOWED')
 					. '</option>';
 				$html[] = '<option value="0"' . ($assetRule === false ? ' selected="selected"' : '') . '>' . JText::_('JLIB_RULES_DENIED')
@@ -228,7 +275,7 @@ class JFormFieldRules extends JFormField
 							}
 						}
 					}
-					elseif (!empty($component))
+					elseif (!empty($this->component))
 					{
 						$html[] = '<span class="icon-16-allowed"><span class="icon-16-locked">' . JText::_('JLIB_RULES_ALLOWED_ADMIN')
 							. '</span></span>';
@@ -271,7 +318,7 @@ class JFormFieldRules extends JFormField
 		$html[] = str_repeat('</ul></li>', $curLevel);
 		$html[] = '</ul><div class="rule-notes">';
 
-		if ($section == 'component' || $section == null)
+		if ($this->section == 'component' || $this->section == null)
 		{
 			$html[] = JText::_('JLIB_RULES_SETTING_NOTES');
 		}
@@ -287,12 +334,12 @@ class JFormFieldRules extends JFormField
 		$js = "window.addEvent('domready', function(){ new Fx.Accordion($$('div#permissions-sliders.pane-sliders .panel h3.pane-toggler'),"
 			. "$$('div#permissions-sliders.pane-sliders .panel div.pane-slider'), {onActive: function(toggler, i) {toggler.addClass('pane-toggler-down');"
 			. "toggler.removeClass('pane-toggler');i.addClass('pane-down');i.removeClass('pane-hide');Cookie.write('jpanesliders_permissions-sliders"
-			. $component
+			. $this->component
 			. "',$$('div#permissions-sliders.pane-sliders .panel h3').indexOf(toggler));},"
 			. "onBackground: function(toggler, i) {toggler.addClass('pane-toggler');toggler.removeClass('pane-toggler-down');i.addClass('pane-hide');"
 			. "i.removeClass('pane-down');}, duration: 300, display: "
-			. $input->cookie->get('jpanesliders_permissions-sliders' . $component, 0, 'integer') . ", show: "
-			. $input->cookie->get('jpanesliders_permissions-sliders' . $component, 0, 'integer') . ", alwaysHide:true, opacity: false}); });";
+			. $input->cookie->get('jpanesliders_permissions-sliders' . $this->component, 0, 'integer') . ", show: "
+			. $input->cookie->get('jpanesliders_permissions-sliders' . $this->component, 0, 'integer') . ", alwaysHide:true, opacity: false}); });";
 
 		JFactory::getDocument()->addScriptDeclaration($js);
 

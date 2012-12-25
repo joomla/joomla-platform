@@ -345,12 +345,14 @@ class JFormFieldTest extends TestCase
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
-		$field = new JFormFieldInspector($form);
+		//$field = new JFormFieldInspector($form);
 
 		// Standard usage.
 
 		$xml = $form->getXML();
 		$title = array_pop($xml->xpath('fields/field[@name="title"]'));
+		$class = JFormHelper::loadFieldClass($title['type']);
+		$field = new $class($form);
 
 		$this->assertThat(
 			$field->setup($title, 'The title'),
@@ -402,7 +404,7 @@ class JFormFieldTest extends TestCase
 
 		$this->assertThat(
 			$field->input,
-			$this->equalTo(''),
+			$this->equalTo('<input type="text" name="title" id="title_id" value="The title" class="inputbox required"/>'),
 			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
 
@@ -427,6 +429,8 @@ class JFormFieldTest extends TestCase
 		// Test multiple attribute and form group name.
 
 		$colours = array_pop($xml->xpath('fields/fields[@name="params"]/field[@name="colours"]'));
+		$class = JFormHelper::loadFieldClass($colours['type']);
+		$field = new $class($form);
 
 		$this->assertThat(
 			$field->setup($colours, 'green', 'params'),
@@ -461,6 +465,8 @@ class JFormFieldTest extends TestCase
 		// Test hidden field type.
 
 		$id = array_pop($xml->xpath('fields/field[@name="id"]'));
+		$class = JFormHelper::loadFieldClass($id['type']);
+		$field = new $class($form);
 
 		$this->assertThat(
 			$field->setup($id, 42),
@@ -477,6 +483,8 @@ class JFormFieldTest extends TestCase
 		// Test hidden attribute.
 
 		$createdDate = array_pop($xml->xpath('fields/field[@name="created_date"]'));
+		$class = JFormHelper::loadFieldClass($createdDate['type']);
+		$field = new $class($form);
 
 		$this->assertThat(
 			$field->setup($createdDate, '0000-00-00 00:00:00'),
@@ -493,6 +501,8 @@ class JFormFieldTest extends TestCase
 		// Test automatic generated name.
 
 		$spacer = array_pop($xml->xpath('fields/field[@type="spacer"]'));
+		$class = JFormHelper::loadFieldClass($spacer['type']);
+		$field = new $class($form);
 
 		$this->assertThat(
 			$field->setup($spacer, ''),
@@ -509,7 +519,9 @@ class JFormFieldTest extends TestCase
 		// Test nested groups and forced multiple.
 
 		$comment = array_pop($xml->xpath('fields/fields[@name="params"]/fields[@name="subparams"]/field[@name="comment"]'));
-		$field->forceMultiple = true;
+		$class = JFormHelper::loadFieldClass($comment['type']);
+		$field = new $class($form);
+		TestReflection::setValue($field, 'multiple', true);
 
 		$this->assertThat(
 			$field->setup($comment, 'My comment', 'params.subparams'),

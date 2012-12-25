@@ -29,6 +29,14 @@ class JFormFieldRadio extends JFormField
 	protected $type = 'Radio';
 
 	/**
+	 * The text to prepend to class for the form field.
+	 *
+	 * @var    string
+	 * @since  12.3
+	 */
+	protected $prependToClass = 'radio';
+
+	/**
 	 * Method to get the radio button field input markup.
 	 *
 	 * @return  string  The field input markup.
@@ -40,7 +48,7 @@ class JFormFieldRadio extends JFormField
 		$html = array();
 
 		// Initialize some field attributes.
-		$class = $this->element['class'] ? ' class="radio ' . (string) $this->element['class'] . '"' : ' class="radio"';
+		$class = !empty($this->class) ? ' class="' . $this->class . '"' : '';
 
 		// Start the radio field output.
 		$html[] = '<fieldset id="' . $this->id . '"' . $class . '>';
@@ -51,7 +59,6 @@ class JFormFieldRadio extends JFormField
 		// Build the radio field output.
 		foreach ($options as $i => $option)
 		{
-
 			// Initialize some option attributes.
 			$checked = ((string) $option->value == (string) $this->value) ? ' checked="checked"' : '';
 			$class = !empty($option->class) ? ' class="' . $option->class . '"' : '';
