@@ -262,7 +262,7 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 
 		if (!$this->getOption('code'))
 		{
-			throw new UnexpectedValueException('A Google Analytics tracking code is required.');
+			throw new \UnexpectedValueException('A Google Analytics tracking code is required.');
 		}
 
 		$code = $this->getOption('code');
@@ -293,7 +293,7 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	{
 		if (!$this->getOption('code'))
 		{
-			throw new UnexpectedValueException('A Google Analytics tracking code is required.');
+			throw new \UnexpectedValueException('A Google Analytics tracking code is required.');
 		}
 
 		$prefix = $this->isSecure() ? 'https://ssl' : 'http://www';

@@ -1258,7 +1258,7 @@ class JLanguage
 	{
 		$languages = array();
 
-		$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir));
+		$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir));
 
 		foreach ($iterator as $file)
 		{
@@ -1303,7 +1303,7 @@ class JLanguage
 	{
 		if (!is_readable($path))
 		{
-			throw new RuntimeException('File not found or not readable');
+			throw new \RuntimeException('File not found or not readable');
 		}
 
 		// Try to load the file

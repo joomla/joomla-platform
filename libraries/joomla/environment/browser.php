@@ -170,13 +170,13 @@ class JBrowser
 	 *
 	 * @since  11.1
 	 */
-	static public function getInstance($userAgent = null, $accept = null)
+	public static function getInstance($userAgent = null, $accept = null)
 	{
 		$signature = serialize(array($userAgent, $accept));
 
 		if (empty(self::$instances[$signature]))
 		{
-			self::$instances[$signature] = new JBrowser($userAgent, $accept);
+			self::$instances[$signature] = new static($userAgent, $accept);
 		}
 
 		return self::$instances[$signature];

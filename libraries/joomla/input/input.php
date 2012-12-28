@@ -37,7 +37,7 @@ defined('JPATH_PLATFORM') or die;
  * @method      string   getPath()      getPath($name, $default = null)
  * @method      string   getUsername()  getUsername($name, $default = null)
  */
-class JInput implements Serializable, Countable
+class JInput implements \Serializable, \Countable
 {
 	/**
 	 * Options array for the JInput instance.

@@ -54,7 +54,7 @@ class JGoogleDataCalendar extends JGoogleData
 
 			if ($jdata->body != '')
 			{
-				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
+				throw new \UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
 			}
 			return true;
 		}
@@ -86,7 +86,7 @@ class JGoogleDataCalendar extends JGoogleData
 			}
 			else
 			{
-				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
+				throw new \UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
 			}
 		}
 		else
@@ -120,7 +120,7 @@ class JGoogleDataCalendar extends JGoogleData
 			}
 			else
 			{
-				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
+				throw new \UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
 			}
 		}
 		else
@@ -180,7 +180,7 @@ class JGoogleDataCalendar extends JGoogleData
 			}
 			else
 			{
-				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
+				throw new \UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
 			}
 		}
 		else
@@ -207,7 +207,7 @@ class JGoogleDataCalendar extends JGoogleData
 
 			if ($data->body != '')
 			{
-				throw new UnexpectedValueException("Unexpected data received from Google: `{$data->body}`.");
+				throw new \UnexpectedValueException("Unexpected data received from Google: `{$data->body}`.");
 			}
 			return true;
 		}
@@ -235,7 +235,7 @@ class JGoogleDataCalendar extends JGoogleData
 
 			if ($data->body != '')
 			{
-				throw new UnexpectedValueException("Unexpected data received from Google: `{$data->body}`.");
+				throw new \UnexpectedValueException("Unexpected data received from Google: `{$data->body}`.");
 			}
 			return true;
 		}
@@ -270,7 +270,7 @@ class JGoogleDataCalendar extends JGoogleData
 			}
 			else
 			{
-				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
+				throw new \UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
 			}
 		}
 		else
@@ -304,7 +304,7 @@ class JGoogleDataCalendar extends JGoogleData
 			}
 			else
 			{
-				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
+				throw new \UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
 			}
 		}
 		else
@@ -333,7 +333,7 @@ class JGoogleDataCalendar extends JGoogleData
 
 			if ($data->body != '')
 			{
-				throw new UnexpectedValueException("Unexpected data received from Google: `{$data->body}`.");
+				throw new \UnexpectedValueException("Unexpected data received from Google: `{$data->body}`.");
 			}
 			return true;
 		}
@@ -369,7 +369,7 @@ class JGoogleDataCalendar extends JGoogleData
 			}
 			else
 			{
-				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
+				throw new \UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
 			}
 		}
 		else
@@ -401,16 +401,16 @@ class JGoogleDataCalendar extends JGoogleData
 		{
 			if (!$start)
 			{
-				$startobj = new DateTime;
+				$startobj = new \DateTime;
 			}
 			elseif (is_int($start))
 			{
-				$startobj = new DateTime;
+				$startobj = new \DateTime;
 				$startobj->setTimestamp($start);
 			}
 			elseif (is_string($start))
 			{
-				$startobj = new DateTime($start);
+				$startobj = new \DateTime($start);
 			}
 			elseif (is_a($start, 'DateTime'))
 			{
@@ -418,7 +418,7 @@ class JGoogleDataCalendar extends JGoogleData
 			}
 			else
 			{
-				throw new InvalidArgumentException('Invalid event start time.');
+				throw new \InvalidArgumentException('Invalid event start time.');
 			}
 
 			if (!$end)
@@ -427,12 +427,12 @@ class JGoogleDataCalendar extends JGoogleData
 			}
 			elseif (is_int($end))
 			{
-				$endobj = new DateTime;
+				$endobj = new \DateTime;
 				$endobj->setTimestamp($end);
 			}
 			elseif (is_string($end))
 			{
-				$endobj = new DateTime($end);
+				$endobj = new \DateTime($end);
 			}
 			elseif (is_a($end, 'DateTime'))
 			{
@@ -440,7 +440,7 @@ class JGoogleDataCalendar extends JGoogleData
 			}
 			else
 			{
-				throw new InvalidArgumentException('Invalid event end time.');
+				throw new \InvalidArgumentException('Invalid event end time.');
 			}
 
 			if ($allday)
@@ -450,8 +450,8 @@ class JGoogleDataCalendar extends JGoogleData
 			}
 			else
 			{
-				$options['start'] = array('dateTime' => $startobj->format(DateTime::RFC3339));
-				$options['end'] = array('dateTime' => $endobj->format(DateTime::RFC3339));
+				$options['start'] = array('dateTime' => $startobj->format(\DateTime::RFC3339));
+				$options['end'] = array('dateTime' => $endobj->format(\DateTime::RFC3339));
 			}
 
 			if ($timezone === true)
@@ -479,7 +479,7 @@ class JGoogleDataCalendar extends JGoogleData
 			}
 			else
 			{
-				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
+				throw new \UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
 			}
 		}
 		else
@@ -573,7 +573,7 @@ class JGoogleDataCalendar extends JGoogleData
 			}
 			else
 			{
-				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
+				throw new \UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
 			}
 		}
 		else
@@ -609,7 +609,7 @@ class JGoogleDataCalendar extends JGoogleData
 			}
 			else
 			{
-				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
+				throw new \UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
 			}
 		}
 		else

@@ -30,7 +30,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Date
  * @since       11.1
  */
-class JDate extends DateTime
+class JDate extends \DateTime
 {
 	const DAY_ABBR = "\x021\x03";
 	const DAY_NAME = "\x022\x03";
@@ -83,12 +83,12 @@ class JDate extends DateTime
 		// Create the base GMT and server time zone objects.
 		if (empty(self::$gmt) || empty(self::$stz))
 		{
-			self::$gmt = new DateTimeZone('GMT');
-			self::$stz = new DateTimeZone(@date_default_timezone_get());
+			self::$gmt = new \DateTimeZone('GMT');
+			self::$stz = new \DateTimeZone(@date_default_timezone_get());
 		}
 
 		// If the time zone object is not set, attempt to build it.
-		if (!($tz instanceof DateTimeZone))
+		if (!($tz instanceof \DateTimeZone))
 		{
 			if ($tz === null)
 			{
@@ -96,7 +96,7 @@ class JDate extends DateTime
 			}
 			elseif (is_string($tz))
 			{
-				$tz = new DateTimeZone($tz);
+				$tz = new \DateTimeZone($tz);
 			}
 		}
 
@@ -213,7 +213,7 @@ class JDate extends DateTime
 	 */
 	public static function getInstance($date = 'now', $tz = null)
 	{
-		return new JDate($date, $tz);
+		return new static($date, $tz);
 	}
 
 	/**
@@ -411,7 +411,7 @@ class JDate extends DateTime
 	 */
 	public function toISO8601($local = false)
 	{
-		return $this->format(DateTime::RFC3339, $local, false);
+		return $this->format(\DateTime::RFC3339, $local, false);
 	}
 
 	/**
@@ -447,7 +447,7 @@ class JDate extends DateTime
 	 */
 	public function toRFC822($local = false)
 	{
-		return $this->format(DateTime::RFC2822, $local, false);
+		return $this->format(\DateTime::RFC2822, $local, false);
 	}
 
 	/**

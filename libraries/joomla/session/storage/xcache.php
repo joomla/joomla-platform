@@ -30,7 +30,7 @@ class JSessionStorageXcache extends JSessionStorage
 	{
 		if (!self::isSupported())
 		{
-			throw new RuntimeException('XCache Extension is not available', 404);
+			throw new \RuntimeException('XCache Extension is not available', 404);
 		}
 
 		parent::__construct($options);

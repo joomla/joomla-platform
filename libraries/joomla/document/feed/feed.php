@@ -201,7 +201,7 @@ class JDocumentFeed extends JDocument
 
 		if (!is_a($renderer, 'JDocumentRenderer'))
 		{
-			throw new Exception(JText::_('JGLOBAL_RESOURCE_NOT_FOUND'), 404);
+			throw new \Exception(JText::_('JGLOBAL_RESOURCE_NOT_FOUND'), 404);
 		}
 		$this->setMimeEncoding($renderer->getContentType());
 

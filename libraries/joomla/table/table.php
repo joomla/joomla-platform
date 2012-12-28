@@ -186,7 +186,7 @@ abstract class JTable extends JObject
 
 			if (empty($fields))
 			{
-				throw new UnexpectedValueException(sprintf('No columns found for %s table', $name));
+				throw new \UnexpectedValueException(sprintf('No columns found for %s table', $name));
 			}
 			$cache = $fields;
 		}
@@ -541,7 +541,7 @@ abstract class JTable extends JObject
 		// If the source value is not an array or object return false.
 		if (!is_object($src) && !is_array($src))
 		{
-			throw new InvalidArgumentException(sprintf('%s::bind(*%s*)', get_class($this), gettype($src)));
+			throw new \InvalidArgumentException(sprintf('%s::bind(*%s*)', get_class($this), gettype($src)));
 		}
 
 		// If the source value is an object, get its accessible properties.
@@ -616,13 +616,13 @@ abstract class JTable extends JObject
 			{
 				if ($keyCount > 1)
 				{
-					throw new InvalidArgumentException('Table has multiple primary keys specified, only one primary key value provided.');
+					throw new \InvalidArgumentException('Table has multiple primary keys specified, only one primary key value provided.');
 				}
 				$keys = array($this->getKeyName() => $keys);
 			}
 			else
 			{
-				throw new RuntimeException('No table keys defined.');
+				throw new \RuntimeException('No table keys defined.');
 			}
 		}
 
@@ -642,7 +642,7 @@ abstract class JTable extends JObject
 			// Check that $field is in the table.
 			if (!in_array($field, $fields))
 			{
-				throw new UnexpectedValueException(sprintf('Missing field in database: %s &#160; %s.', get_class($this), $field));
+				throw new \UnexpectedValueException(sprintf('Missing field in database: %s &#160; %s.', get_class($this), $field));
 			}
 			// Add the search tuple to the query.
 			$query->where($this->_db->quoteName($field) . ' = ' . $this->_db->quote($value));
@@ -885,7 +885,7 @@ abstract class JTable extends JObject
 
 			if ($pk[$key] === null)
 			{
-				throw new UnexpectedValueException('Null primary key not allowed.');
+				throw new \UnexpectedValueException('Null primary key not allowed.');
 			}
 			$this->$key = $pk[$key];
 		}
@@ -973,7 +973,7 @@ abstract class JTable extends JObject
 
 			if ($pk[$key] === null)
 			{
-				throw new UnexpectedValueException('Null primary key not allowed.');
+				throw new \UnexpectedValueException('Null primary key not allowed.');
 			}
 		}
 
@@ -1035,7 +1035,7 @@ abstract class JTable extends JObject
 
 			if ($pk[$key] === null)
 			{
-				throw new UnexpectedValueException('Null primary key not allowed.');
+				throw new \UnexpectedValueException('Null primary key not allowed.');
 			}
 		}
 
@@ -1136,7 +1136,7 @@ abstract class JTable extends JObject
 
 			if ($pk[$key] === null)
 			{
-				throw new UnexpectedValueException('Null primary key not allowed.');
+				throw new \UnexpectedValueException('Null primary key not allowed.');
 			}
 		}
 
@@ -1207,7 +1207,7 @@ abstract class JTable extends JObject
 		// If there is no ordering field set an error and return false.
 		if (!property_exists($this, 'ordering'))
 		{
-			throw new UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
+			throw new \UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
 
 		// Get the largest ordering value for a given where clause.
@@ -1268,7 +1268,7 @@ abstract class JTable extends JObject
 		// If there is no ordering field set an error and return false.
 		if (!property_exists($this, 'ordering'))
 		{
-			throw new UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
+			throw new \UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
 
 		$k = $this->_tbl_key;
@@ -1331,7 +1331,7 @@ abstract class JTable extends JObject
 		// If there is no ordering field set an error and return false.
 		if (!property_exists($this, 'ordering'))
 		{
-			throw new UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
+			throw new \UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
 
 		// If the change is none, do nothing.

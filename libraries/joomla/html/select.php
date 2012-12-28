@@ -345,13 +345,13 @@ abstract class JHtmlSelect
 		switch ($state)
 		{
 			case 'open':
-				$obj = new stdClass;
+				$obj = new \stdClass;
 				$obj->$optKey = '<OPTGROUP>';
 				$obj->$optText = $text;
 				$state = 'close';
 				break;
 			case 'close':
-				$obj = new stdClass;
+				$obj = new \stdClass;
 				$obj->$optKey = '</OPTGROUP>';
 				$obj->$optText = $text;
 				$state = 'open';

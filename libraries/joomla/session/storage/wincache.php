@@ -30,7 +30,7 @@ class JSessionStorageWincache extends JSessionStorage
 	{
 		if (!self::isSupported())
 		{
-			throw new RuntimeException('Wincache Extension is not available', 404);
+			throw new \RuntimeException('Wincache Extension is not available', 404);
 		}
 
 		parent::__construct($options);

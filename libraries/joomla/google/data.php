@@ -82,11 +82,11 @@ abstract class JGoogleData
 	{
 		try
 		{
-			return new SimpleXMLElement($data, LIBXML_NOWARNING | LIBXML_NOERROR);
+			return new \SimpleXMLElement($data, LIBXML_NOWARNING | LIBXML_NOERROR);
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
-			throw new UnexpectedValueException("Unexpected data received from Google: `$data`.");
+			throw new \UnexpectedValueException("Unexpected data received from Google: `$data`.");
 		}
 	}
 
@@ -131,7 +131,7 @@ abstract class JGoogleData
 		}
 		else
 		{
-			throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
+			throw new \UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
 		}
 	}
 

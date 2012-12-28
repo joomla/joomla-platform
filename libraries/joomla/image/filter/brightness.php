@@ -33,7 +33,7 @@ class JImageFilterBrightness extends JImageFilter
 		// Validate that the brightness value exists and is an integer.
 		if (!isset($options[IMG_FILTER_BRIGHTNESS]) || !is_int($options[IMG_FILTER_BRIGHTNESS]))
 		{
-			throw new InvalidArgumentException('No valid brightness value was given.  Expected integer.');
+			throw new \InvalidArgumentException('No valid brightness value was given.  Expected integer.');
 		}
 
 		// Perform the brightness filter.

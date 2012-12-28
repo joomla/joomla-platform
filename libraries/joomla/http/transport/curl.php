@@ -158,7 +158,7 @@ class JHttpTransportCurl implements JHttpTransport
 				$message = 'No HTTP response received';
 			}
 
-			throw new RuntimeException($message);
+			throw new \RuntimeException($message);
 		}
 
 		// Get the request information.
@@ -216,7 +216,7 @@ class JHttpTransportCurl implements JHttpTransport
 		// No valid response code was detected.
 		else
 		{
-			throw new UnexpectedValueException('No HTTP response code found.');
+			throw new \UnexpectedValueException('No HTTP response code found.');
 		}
 
 		// Add the response headers to the response object.

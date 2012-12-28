@@ -217,7 +217,7 @@ class JTableNested extends JTable
 		// Make sure the location is valid.
 		if (($position != 'before') && ($position != 'after') && ($position != 'first-child') && ($position != 'last-child'))
 		{
-			throw new InvalidArgumentException(sprintf('%s::setLocation(%d, *%s*)', get_class($this), $referenceId, $position));
+			throw new \InvalidArgumentException(sprintf('%s::setLocation(%d, *%s*)', get_class($this), $referenceId, $position));
 		}
 
 		// Set the location properties.
@@ -331,7 +331,7 @@ class JTableNested extends JTable
 		// Cannot move the node to be a child of itself.
 		if (in_array($referenceId, $children))
 		{
-			$e = new UnexpectedValueException(
+			$e = new \UnexpectedValueException(
 				sprintf('%s::moveByReference(%d, %s, %d) parenting to child.', get_class($this), $referenceId, $position, $pk)
 			);
 			$this->setError($e);
@@ -664,7 +664,7 @@ class JTableNested extends JTable
 			// Check that the parent_id field is valid.
 			if ($this->parent_id == 0)
 			{
-				throw new UnexpectedValueException(sprintf('Invalid `parent_id` [%d] in %s', $this->parent_id, get_class($this)));
+				throw new \UnexpectedValueException(sprintf('Invalid `parent_id` [%d] in %s', $this->parent_id, get_class($this)));
 			}
 
 			$query = $this->_db->getQuery(true);
@@ -674,10 +674,10 @@ class JTableNested extends JTable
 
 			if (!$this->_db->setQuery($query)->loadResult())
 			{
-				throw new UnexpectedValueException(sprintf('Invalid `parent_id` [%d] in %s', $this->parent_id, get_class($this)));
+				throw new \UnexpectedValueException(sprintf('Invalid `parent_id` [%d] in %s', $this->parent_id, get_class($this)));
 			}
 		}
-		catch (UnexpectedValueException $e)
+		catch (\UnexpectedValueException $e)
 		{
 			// Validation error - record it and return false.
 			$this->setError($e);
@@ -685,7 +685,7 @@ class JTableNested extends JTable
 			return false;
 		}
 		// @codeCoverageIgnoreStart
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			// Database error - rethrow.
 			throw $e;
@@ -801,7 +801,7 @@ class JTableNested extends JTable
 			else
 			{
 				// Negative parent ids are invalid
-				$e = new UnexpectedValueException(sprintf('%s::store() used a negative _location_id', get_class($this)));
+				$e = new \UnexpectedValueException(sprintf('%s::store() used a negative _location_id', get_class($this)));
 				$this->setError($e);
 
 				return false;
@@ -893,7 +893,7 @@ class JTableNested extends JTable
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$e = new UnexpectedValueException(sprintf('%s::publish(%s, %d, %d) empty.', get_class($this), $pks, $state, $userId));
+				$e = new \UnexpectedValueException(sprintf('%s::publish(%s, %d, %d) empty.', get_class($this), $pks, $state, $userId));
 				$this->setError($e);
 
 				return false;
@@ -928,7 +928,7 @@ class JTableNested extends JTable
 				if ($this->_db->loadResult())
 				{
 					// TODO Convert to a conflict exception when available.
-					$e = new RuntimeException(sprintf('%s::publish(%s, %d, %d) checked-out conflict.', get_class($this), $pks, $state, $userId));
+					$e = new \RuntimeException(sprintf('%s::publish(%s, %d, %d) checked-out conflict.', get_class($this), $pks, $state, $userId));
 					$this->setError($e);
 
 					return false;
@@ -950,7 +950,7 @@ class JTableNested extends JTable
 
 				if (!empty($rows))
 				{
-					$e = new UnexpectedValueException(
+					$e = new \UnexpectedValueException(
 						sprintf('%s::publish(%s, %d, %d) ancestors have lower state.', get_class($this), $pks, $state, $userId)
 					);
 					$this->setError($e);
@@ -1208,7 +1208,7 @@ class JTableNested extends JTable
 			}
 		}
 
-		$e = new UnexpectedValueException(sprintf('%s::getRootId', get_class($this)));
+		$e = new \UnexpectedValueException(sprintf('%s::getRootId', get_class($this)));
 		$this->setError($e);
 
 		return false;
@@ -1407,7 +1407,7 @@ class JTableNested extends JTable
 				return false;
 			}
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			$this->_unlock();
 			throw $e;
@@ -1459,7 +1459,7 @@ class JTableNested extends JTable
 		// Check for no $row returned
 		if (empty($row))
 		{
-			$e = new UnexpectedValueException(sprintf('%s::_getNode(%d, %s) failed.', get_class($this), $id, $key));
+			$e = new \UnexpectedValueException(sprintf('%s::_getNode(%d, %s) failed.', get_class($this), $id, $key));
 			$this->setError($e);
 
 			return false;
@@ -1503,7 +1503,7 @@ class JTableNested extends JTable
 		}
 
 		$k = $this->_tbl_key;
-		$data = new stdClass;
+		$data = new \stdClass;
 
 		// Run the calculations and build the data object by reference position.
 		switch ($position)
@@ -1630,7 +1630,7 @@ class JTableNested extends JTable
 			}
 			// @codeCoverageIgnoreEnd
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			// Unlock the tables and rethrow.
 			$this->_unlock();

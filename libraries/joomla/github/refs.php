@@ -51,7 +51,7 @@ class JGithubRefs extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 
 		return json_decode($response->body);
@@ -76,7 +76,7 @@ class JGithubRefs extends JGithubObject
 		$path = '/repos/' . $user . '/' . $repo . '/git/refs/' . $ref;
 
 		// Craete the data object.
-		$data = new stdClass;
+		$data = new \stdClass;
 
 		// If a title is set add it to the data object.
 		if ($force)
@@ -97,7 +97,7 @@ class JGithubRefs extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 
 		return json_decode($response->body);
@@ -127,7 +127,7 @@ class JGithubRefs extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 
 		return json_decode($response->body);
@@ -159,7 +159,7 @@ class JGithubRefs extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 
 		return json_decode($response->body);

@@ -121,7 +121,7 @@ class JApplicationWebRouterRest extends JApplicationWebRouterBase
 		// Validate that we have a map to handle the given HTTP method.
 		if (!isset($this->suffixMap[$this->input->getMethod()]))
 		{
-			throw new RuntimeException(sprintf('Unable to support the HTTP method `%s`.', $this->input->getMethod()), 404);
+			throw new \RuntimeException(sprintf('Unable to support the HTTP method `%s`.', $this->input->getMethod()), 404);
 		}
 
 		// Check if request method is POST

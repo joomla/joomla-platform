@@ -64,7 +64,7 @@ class JArchiveGzip implements JArchiveExtractable
 			}
 			else
 			{
-				throw new RuntimeException('The zlib extension is not available.');
+				throw new \RuntimeException('The zlib extension is not available.');
 			}
 		}
 
@@ -80,7 +80,7 @@ class JArchiveGzip implements JArchiveExtractable
 				}
 				else
 				{
-					throw new RuntimeException('Unable to read archive');
+					throw new \RuntimeException('Unable to read archive');
 				}
 			}
 
@@ -95,7 +95,7 @@ class JArchiveGzip implements JArchiveExtractable
 				}
 				else
 				{
-					throw new RuntimeException('Unable to decompress data');
+					throw new \RuntimeException('Unable to decompress data');
 				}
 			}
 
@@ -107,7 +107,7 @@ class JArchiveGzip implements JArchiveExtractable
 				}
 				else
 				{
-					throw new RuntimeException('Unable to write archive');
+					throw new \RuntimeException('Unable to write archive');
 				}
 			}
 		}
@@ -127,7 +127,7 @@ class JArchiveGzip implements JArchiveExtractable
 				}
 				else
 				{
-					throw new RuntimeException('Unable to read archive (gz)');
+					throw new \RuntimeException('Unable to read archive (gz)');
 				}
 			}
 
@@ -143,7 +143,7 @@ class JArchiveGzip implements JArchiveExtractable
 				}
 				else
 				{
-					throw new RuntimeException('Unable to write archive (gz)');
+					throw new \RuntimeException('Unable to write archive (gz)');
 				}
 			}
 
@@ -163,7 +163,7 @@ class JArchiveGzip implements JArchiveExtractable
 						}
 						else
 						{
-							throw new RuntimeException('Unable to write file (gz)');
+							throw new \RuntimeException('Unable to write file (gz)');
 						}
 					}
 				}
@@ -210,7 +210,7 @@ class JArchiveGzip implements JArchiveExtractable
 			}
 			else
 			{
-				throw new RuntimeException('Unable to decompress data.');
+				throw new \RuntimeException('Unable to decompress data.');
 			}
 		}
 

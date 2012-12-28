@@ -51,7 +51,7 @@ class JGithubGists extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 
 		return json_decode($response->body);
@@ -87,7 +87,7 @@ class JGithubGists extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 
 		return json_decode($response->body);
@@ -115,7 +115,7 @@ class JGithubGists extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 	}
 
@@ -141,7 +141,7 @@ class JGithubGists extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 	}
 
@@ -194,7 +194,7 @@ class JGithubGists extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 
 		return json_decode($response->body);
@@ -230,7 +230,7 @@ class JGithubGists extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 
 		return json_decode($response->body);
@@ -259,7 +259,7 @@ class JGithubGists extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 
 		return json_decode($response->body);
@@ -287,7 +287,7 @@ class JGithubGists extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 
 		return json_decode($response->body);
@@ -315,7 +315,7 @@ class JGithubGists extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 
 		return json_decode($response->body);
@@ -345,7 +345,7 @@ class JGithubGists extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 
 		return json_decode($response->body);
@@ -375,7 +375,7 @@ class JGithubGists extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 
 		return json_decode($response->body);
@@ -405,7 +405,7 @@ class JGithubGists extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 
 		return json_decode($response->body);
@@ -434,7 +434,7 @@ class JGithubGists extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 
 		return json_decode($response->body);
@@ -463,7 +463,7 @@ class JGithubGists extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 
 		return json_decode($response->body);
@@ -499,7 +499,7 @@ class JGithubGists extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 	}
 
@@ -525,7 +525,7 @@ class JGithubGists extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 	}
 
@@ -551,7 +551,7 @@ class JGithubGists extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 	}
 
@@ -580,7 +580,7 @@ class JGithubGists extends JGithubObject
 			// Verify that the each file exists.
 			elseif (!file_exists($file))
 			{
-				throw new InvalidArgumentException('The file ' . $file . ' does not exist.');
+				throw new \InvalidArgumentException('The file ' . $file . ' does not exist.');
 			}
 			else
 			{

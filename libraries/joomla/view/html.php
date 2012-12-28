@@ -44,7 +44,7 @@ abstract class JViewHtml extends JViewBase
 	 *
 	 * @since   12.1
 	 */
-	public function __construct(JModel $model, SplPriorityQueue $paths = null)
+	public function __construct(JModel $model, \SplPriorityQueue $paths = null)
 	{
 		parent::__construct($model);
 
@@ -141,7 +141,7 @@ abstract class JViewHtml extends JViewBase
 		// Check if the layout path was found.
 		if (!$path)
 		{
-			throw new RuntimeException('Layout Path Not Found');
+			throw new \RuntimeException('Layout Path Not Found');
 		}
 
 		// Start an output buffer.
@@ -181,7 +181,7 @@ abstract class JViewHtml extends JViewBase
 	 *
 	 * @since   12.1
 	 */
-	public function setPaths(SplPriorityQueue $paths)
+	public function setPaths(\SplPriorityQueue $paths)
 	{
 		$this->paths = $paths;
 
@@ -197,6 +197,6 @@ abstract class JViewHtml extends JViewBase
 	 */
 	protected function loadPaths()
 	{
-		return new SplPriorityQueue;
+		return new \SplPriorityQueue;
 	}
 }

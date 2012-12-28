@@ -112,7 +112,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		// Make sure the PDO extension for PHP is installed and enabled.
 		if (!self::isSupported())
 		{
-			throw new RuntimeException('PDO Extension is not available.', 1);
+			throw new \RuntimeException('PDO Extension is not available.', 1);
 		}
 
 		// Initialize the connection string variable:
@@ -294,9 +294,9 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 				$this->options['driverOptions']
 			);
 		}
-		catch (PDOException $e)
+		catch (\PDOException $e)
 		{
-			throw new RuntimeException('Could not connect to PDO' . ': ' . $e->getMessage(), 2, $e);
+			throw new \RuntimeException('Could not connect to PDO' . ': ' . $e->getMessage(), 2, $e);
 		}
 	}
 
@@ -362,7 +362,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		if (!is_object($this->connection))
 		{
 			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-			throw new RuntimeException($this->errorMsg, $this->errorNum);
+			throw new \RuntimeException($this->errorMsg, $this->errorNum);
 		}
 
 		// Take a local copy so that we don't modify the original query and cause issues later
@@ -393,7 +393,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		// Execute the query.
 		$this->executed = false;
 
-		if ($this->prepared instanceof PDOStatement)
+		if ($this->prepared instanceof \PDOStatement)
 		{
 			// Bind the variables:
 			if ($this->sql instanceof JDatabaseQueryPreparable)
@@ -426,7 +426,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 					$this->connect();
 				}
 				// If connect fails, ignore that exception and throw the normal exception.
-				catch (RuntimeException $e)
+				catch (\RuntimeException $e)
 				{
 					// Get the error number and message.
 					$this->errorNum = (int) $this->connection->errorCode();
@@ -434,7 +434,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-					throw new RuntimeException($this->errorMsg, $this->errorNum);
+					throw new \RuntimeException($this->errorMsg, $this->errorNum);
 				}
 
 				// Since we were able to reconnect, run the query again.
@@ -449,7 +449,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 				// Throw the normal query exception.
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-				throw new RuntimeException($this->errorMsg, $this->errorNum);
+				throw new \RuntimeException($this->errorMsg, $this->errorNum);
 			}
 		}
 
@@ -584,7 +584,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	{
 		$this->connect();
 
-		if ($this->prepared instanceof PDOStatement)
+		if ($this->prepared instanceof \PDOStatement)
 		{
 			return $this->prepared->rowCount();
 		}
@@ -607,11 +607,11 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	{
 		$this->connect();
 
-		if ($cursor instanceof PDOStatement)
+		if ($cursor instanceof \PDOStatement)
 		{
 			return $cursor->rowCount();
 		}
-		elseif ($this->prepared instanceof PDOStatement)
+		elseif ($this->prepared instanceof \PDOStatement)
 		{
 			return $this->prepared->rowCount();
 		}
@@ -781,13 +781,13 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 */
 	protected function fetchArray($cursor = null)
 	{
-		if (!empty($cursor) && $cursor instanceof PDOStatement)
+		if (!empty($cursor) && $cursor instanceof \PDOStatement)
 		{
-			return $cursor->fetch(PDO::FETCH_NUM);
+			return $cursor->fetch(\PDO::FETCH_NUM);
 		}
-		if ($this->prepared instanceof PDOStatement)
+		if ($this->prepared instanceof \PDOStatement)
 		{
-			return $this->prepared->fetch(PDO::FETCH_NUM);
+			return $this->prepared->fetch(\PDO::FETCH_NUM);
 		}
 	}
 
@@ -802,13 +802,13 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 */
 	protected function fetchAssoc($cursor = null)
 	{
-		if (!empty($cursor) && $cursor instanceof PDOStatement)
+		if (!empty($cursor) && $cursor instanceof \PDOStatement)
 		{
-			return $cursor->fetch(PDO::FETCH_ASSOC);
+			return $cursor->fetch(\PDO::FETCH_ASSOC);
 		}
-		if ($this->prepared instanceof PDOStatement)
+		if ($this->prepared instanceof \PDOStatement)
 		{
-			return $this->prepared->fetch(PDO::FETCH_ASSOC);
+			return $this->prepared->fetch(\PDO::FETCH_ASSOC);
 		}
 	}
 
@@ -824,11 +824,11 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 */
 	protected function fetchObject($cursor = null, $class = 'stdClass')
 	{
-		if (!empty($cursor) && $cursor instanceof PDOStatement)
+		if (!empty($cursor) && $cursor instanceof \PDOStatement)
 		{
 			return $cursor->fetchObject($class);
 		}
-		if ($this->prepared instanceof PDOStatement)
+		if ($this->prepared instanceof \PDOStatement)
 		{
 			return $this->prepared->fetchObject($class);
 		}
@@ -847,12 +847,12 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	{
 		$this->executed = false;
 
-		if ($cursor instanceof PDOStatement)
+		if ($cursor instanceof \PDOStatement)
 		{
 			$cursor->closeCursor();
 			$cursor = null;
 		}
-		if ($this->prepared instanceof PDOStatement)
+		if ($this->prepared instanceof \PDOStatement)
 		{
 			$this->prepared->closeCursor();
 			$this->prepared = null;
@@ -971,7 +971,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	{
 		$serializedProperties = array();
 
-		$reflect = new ReflectionClass($this);
+		$reflect = new \ReflectionClass($this);
 
 		// Get properties of the current class
 		$properties = $reflect->getProperties();
@@ -979,7 +979,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		foreach ($properties as $property)
 		{
 			// Do not serialize properties that are PDO
-			if ($property->isStatic() == false && !($this->{$property->name} instanceof PDO))
+			if ($property->isStatic() == false && !($this->{$property->name} instanceof \PDO))
 			{
 				array_push($serializedProperties, $property->name);
 			}

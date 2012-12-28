@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Database
  * @since       12.1
  */
-abstract class JDatabaseIterator implements Countable, Iterator
+abstract class JDatabaseIterator implements \Countable, \Iterator
 {
 	/**
 	 * The database cursor.
@@ -79,7 +79,7 @@ abstract class JDatabaseIterator implements Countable, Iterator
 	{
 		if (!class_exists($class))
 		{
-			throw new InvalidArgumentException(sprintf('new %s(*%s*, cursor)', get_class($this), gettype($class)));
+			throw new \InvalidArgumentException(sprintf('new %s(*%s*, cursor)', get_class($this), gettype($class)));
 		}
 
 		$this->cursor = $cursor;

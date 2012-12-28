@@ -56,7 +56,7 @@ abstract class JRegistryFormat
 				}
 				else
 				{
-					throw new InvalidArgumentException('Unable to load format class.', 500);
+					throw new \InvalidArgumentException('Unable to load format class.', 500);
 				}
 			}
 

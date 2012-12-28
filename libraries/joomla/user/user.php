@@ -257,13 +257,13 @@ class JUser extends JObject
 		// Note: don't cache this user because it'll have a new ID on save!
 		if ($id === 0)
 		{
-			return new JUser;
+			return new static;
 		}
 
 		// Check if the user ID is already cached.
 		if (empty(self::$instances[$id]))
 		{
-			$user = new JUser($id);
+			$user = new static($id);
 			self::$instances[$id] = $user;
 		}
 
@@ -686,7 +686,7 @@ class JUser extends JObject
 					{
 						if (JAccess::checkGroup($groupId, 'core.admin'))
 						{
-							throw new RuntimeException('User not Super Administrator');
+							throw new \RuntimeException('User not Super Administrator');
 						}
 					}
 				}
@@ -695,7 +695,7 @@ class JUser extends JObject
 					// I am not a Super Admin, and this one is, so fail.
 					if (JAccess::check($this->id, 'core.admin'))
 					{
-						throw new RuntimeException('User not Super Administrator');
+						throw new \RuntimeException('User not Super Administrator');
 					}
 
 					if ($this->groups != null)
@@ -705,7 +705,7 @@ class JUser extends JObject
 						{
 							if (JAccess::checkGroup($groupId, 'core.admin'))
 							{
-								throw new RuntimeException('User not Super Administrator');
+								throw new \RuntimeException('User not Super Administrator');
 							}
 						}
 					}
@@ -743,7 +743,7 @@ class JUser extends JObject
 			// Fire the onUserAfterSave event
 			$dispatcher->trigger('onUserAfterSave', array($this->getProperties(), $isNew, $result, $this->getError()));
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			$this->setError($e->getMessage());
 

@@ -78,13 +78,13 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		// Make sure the MySQL extension for PHP is installed and enabled.
 		if (!function_exists('mysql_connect'))
 		{
-			throw new RuntimeException('Could not connect to MySQL.');
+			throw new \RuntimeException('Could not connect to MySQL.');
 		}
 
 		// Attempt to connect to the server.
 		if (!($this->connection = @ mysql_connect($this->options['host'], $this->options['user'], $this->options['password'], true)))
 		{
-			throw new RuntimeException('Could not connect to MySQL.');
+			throw new \RuntimeException('Could not connect to MySQL.');
 		}
 
 		// Set sql_mode to non_strict mode
@@ -241,7 +241,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		if (!is_resource($this->connection))
 		{
 			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-			throw new RuntimeException($this->errorMsg, $this->errorNum);
+			throw new \RuntimeException($this->errorMsg, $this->errorNum);
 		}
 
 		// Take a local copy so that we don't modify the original query and cause issues later
@@ -284,7 +284,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 					$this->connect();
 				}
 				// If connect fails, ignore that exception and throw the normal exception.
-				catch (RuntimeException $e)
+				catch (\RuntimeException $e)
 				{
 					// Get the error number and message.
 					$this->errorNum = (int) mysql_errno($this->connection);
@@ -292,7 +292,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-					throw new RuntimeException($this->errorMsg, $this->errorNum);
+					throw new \RuntimeException($this->errorMsg, $this->errorNum);
 				}
 
 				// Since we were able to reconnect, run the query again.
@@ -307,7 +307,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 
 				// Throw the normal query exception.
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-				throw new RuntimeException($this->errorMsg, $this->errorNum);
+				throw new \RuntimeException($this->errorMsg, $this->errorNum);
 			}
 		}
 
@@ -335,7 +335,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 
 		if (!mysql_select_db($database, $this->connection))
 		{
-			throw new RuntimeException('Could not connect to database');
+			throw new \RuntimeException('Could not connect to database');
 		}
 
 		return true;

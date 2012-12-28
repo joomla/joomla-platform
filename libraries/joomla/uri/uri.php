@@ -197,7 +197,7 @@ class JUri
 				$theURI = $uri;
 			}
 
-			self::$instances[$uri] = new JURI($theURI);
+			self::$instances[$uri] = new static($theURI);
 		}
 		return self::$instances[$uri];
 	}

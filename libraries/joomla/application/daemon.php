@@ -114,14 +114,14 @@ class JApplicationDaemon extends JApplicationCli
 		if (!defined('SIGHUP'))
 		{
 			JLog::add('The PCNTL extension for PHP is not available.', JLog::ERROR);
-			throw new RuntimeException('The PCNTL extension for PHP is not available.');
+			throw new \RuntimeException('The PCNTL extension for PHP is not available.');
 		}
 
 		// Verify that POSIX support for PHP is available.
 		if (!function_exists('posix_getpid'))
 		{
 			JLog::add('The POSIX extension for PHP is not available.', JLog::ERROR);
-			throw new RuntimeException('The POSIX extension for PHP is not available.');
+			throw new \RuntimeException('The POSIX extension for PHP is not available.');
 		}
 		// @codeCoverageIgnoreEnd
 
@@ -157,10 +157,10 @@ class JApplicationDaemon extends JApplicationCli
 		JLog::add('Received signal: ' . $signal, JLog::DEBUG);
 
 		// Let's make sure we have an application instance.
-		if (!is_subclass_of(static::$instance, 'JApplicationDaemon'))
+		if (!is_subclass_of(static::$instance, __CLASS__))
 		{
 			JLog::add('Cannot find the application instance.', JLog::EMERGENCY);
-			throw new RuntimeException('Cannot find the application instance.');
+			throw new \RuntimeException('Cannot find the application instance.');
 		}
 
 		// Fire the onReceiveSignal event.
@@ -535,7 +535,7 @@ class JApplicationDaemon extends JApplicationCli
 				$this->parentId = $this->processId;
 			}
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			JLog::add('Unable to fork.', JLog::EMERGENCY);
 
@@ -641,7 +641,7 @@ class JApplicationDaemon extends JApplicationCli
 		// If the fork failed, throw an exception.
 		if ($pid === -1)
 		{
-			throw new RuntimeException('The process could not be forked.');
+			throw new \RuntimeException('The process could not be forked.');
 		}
 		// Update the process id for the child.
 		elseif ($pid === 0)
@@ -706,7 +706,7 @@ class JApplicationDaemon extends JApplicationCli
 			}
 
 			// Attach the signal handler for the signal.
-			if (!$this->pcntlSignal(constant($signal), array('JApplicationDaemon', 'signal')))
+			if (!$this->pcntlSignal(constant($signal), array(__CLASS__, 'signal')))
 			{
 				JLog::add(sprintf('Unable to reroute signal handler: %s', $signal), JLog::EMERGENCY);
 

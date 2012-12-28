@@ -56,7 +56,7 @@ class JRegistryFormatXML extends JRegistryFormat
 	 */
 	public function stringToObject($data, array $options = array())
 	{
-		$obj = new stdClass;
+		$obj = new \stdClass;
 
 		// Parse the XML string.
 		$xml = simplexml_load_string($data);
@@ -109,7 +109,7 @@ class JRegistryFormatXML extends JRegistryFormat
 				}
 				break;
 			default:
-				$value = new stdClass;
+				$value = new \stdClass;
 
 				foreach ($node->children() as $child)
 				{
@@ -132,7 +132,7 @@ class JRegistryFormatXML extends JRegistryFormat
 	 *
 	 * @since   11.1
 	 */
-	protected function getXmlChildren(SimpleXMLElement $node, $var, $nodeName)
+	protected function getXmlChildren(\SimpleXMLElement $node, $var, $nodeName)
 	{
 		// Iterate over the object members.
 		foreach ((array) $var as $k => $v)

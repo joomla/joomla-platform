@@ -108,7 +108,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		// Make sure the postgresql extension for PHP is installed and enabled.
 		if (!function_exists('pg_connect'))
 		{
-			throw new RuntimeException('PHP extension pg_connect is not available.');
+			throw new \RuntimeException('PHP extension pg_connect is not available.');
 		}
 
 		// Build the DSN for the connection.
@@ -117,7 +117,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		// Attempt to connect to the server.
 		if (!($this->connection = @pg_connect($dsn)))
 		{
-			throw new RuntimeException('Error connecting to PGSQL database.');
+			throw new \RuntimeException('Error connecting to PGSQL database.');
 		}
 
 		pg_set_error_verbosity($this->connection, PGSQL_ERRORS_DEFAULT);
@@ -282,7 +282,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			// Make sure we have a query class for this driver.
 			if (!class_exists('JDatabaseQueryPostgresql'))
 			{
-				throw new RuntimeException('JDatabaseQueryPostgresql Class not found.');
+				throw new \RuntimeException('JDatabaseQueryPostgresql Class not found.');
 			}
 
 			$this->queryObject = new JDatabaseQueryPostgresql($this);
@@ -614,7 +614,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		if (!is_resource($this->connection))
 		{
 			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-			throw new RuntimeException($this->errorMsg, $this->errorNum);
+			throw new \RuntimeException($this->errorMsg, $this->errorNum);
 		}
 
 		// Take a local copy so that we don't modify the original query and cause issues later
@@ -657,7 +657,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 					$this->connect();
 				}
 				// If connect fails, ignore that exception and throw the normal exception.
-				catch (RuntimeException $e)
+				catch (\RuntimeException $e)
 				{
 					// Get the error number and message.
 					$this->errorNum = (int) pg_result_error_field($this->cursor, PGSQL_DIAG_SQLSTATE) . ' ';
@@ -665,7 +665,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-					throw new RuntimeException($this->errorMsg);
+					throw new \RuntimeException($this->errorMsg);
 				}
 
 				// Since we were able to reconnect, run the query again.
@@ -680,7 +680,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 				// Throw the normal query exception.
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-				throw new RuntimeException($this->errorMsg);
+				throw new \RuntimeException($this->errorMsg);
 			}
 		}
 
@@ -711,7 +711,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		if ( !in_array($oldTable, $tableList) )
 		{
 			// Origin Table not found
-			throw new RuntimeException('Table not found in Postgresql database.');
+			throw new \RuntimeException('Table not found in Postgresql database.');
 		}
 		else
 		{

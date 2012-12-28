@@ -120,7 +120,7 @@ class JAuthentication extends JObject
 	{
 		if (empty(self::$instance))
 		{
-			self::$instance = new JAuthentication;
+			self::$instance = new static;
 		}
 
 		return self::$instance;
@@ -171,7 +171,7 @@ class JAuthentication extends JObject
 		}
 		else
 		{
-			if (!($observer instanceof JAuthentication))
+			if (!($observer instanceof self))
 			{
 				return;
 			}

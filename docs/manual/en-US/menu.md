@@ -21,6 +21,7 @@
 - [Basic Guidelines](coding-standards/chapters/basic-guidelines.md)
 - [Comments](coding-standards/chapters/comments.md)
 - [PHP Code](coding-standards/chapters/php.md)
+- [Namespacing](coding-standards/chapters/namespacing.md)
 
 - Appendices
 - [Code Analysis](appendices/analysis.md)

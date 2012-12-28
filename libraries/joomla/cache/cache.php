@@ -94,7 +94,7 @@ class JCache
 		$handlers = array();
 
 		// Get an iterator and loop trough the driver classes.
-		$iterator = new DirectoryIterator(__DIR__ . '/storage');
+		$iterator = new \DirectoryIterator(__DIR__ . '/storage');
 
 		foreach ($iterator as $file)
 		{
@@ -232,7 +232,7 @@ class JCache
 		// Get the storage and store the cached data
 		$handler = $this->_getStorage();
 
-		if (!($handler instanceof Exception) && $this->_options['caching'])
+		if (!($handler instanceof \Exception) && $this->_options['caching'])
 		{
 			$handler->_lifetime = $this->_options['lifetime'];
 
@@ -259,7 +259,7 @@ class JCache
 		// Get the storage
 		$handler = $this->_getStorage();
 
-		if (!($handler instanceof Exception))
+		if (!($handler instanceof \Exception))
 		{
 			return $handler->remove($id, $group);
 		}
@@ -287,7 +287,7 @@ class JCache
 		// Get the storage handler
 		$handler = $this->_getStorage();
 
-		if (!($handler instanceof Exception))
+		if (!($handler instanceof \Exception))
 		{
 			return $handler->clean($group, $mode);
 		}
@@ -306,7 +306,7 @@ class JCache
 		// Get the storage handler
 		$handler = $this->_getStorage();
 
-		if (!($handler instanceof Exception))
+		if (!($handler instanceof \Exception))
 		{
 			return $handler->gc();
 		}
@@ -339,7 +339,7 @@ class JCache
 		// NOTE drivers with lock need also unlock or unlocking will fail because of false $id
 		$handler = $this->_getStorage();
 
-		if (!($handler instanceof Exception) && $this->_options['locking'] == true && $this->_options['caching'] == true)
+		if (!($handler instanceof \Exception) && $this->_options['locking'] == true && $this->_options['caching'] == true)
 		{
 			$locked = $handler->lock($id, $group, $locktime);
 
@@ -422,7 +422,7 @@ class JCache
 		// Allow handlers to perform unlocking on their own
 		$handler = $this->_getStorage();
 
-		if (!($handler instanceof Exception) && $this->_options['caching'])
+		if (!($handler instanceof \Exception) && $this->_options['caching'])
 		{
 			$unlocked = $handler->unlock($id, $group);
 
@@ -679,7 +679,7 @@ class JCache
 		$registeredurlparams->tpl = 'CMD';
 		$registeredurlparams->id = 'INT';
 
-		$safeuriaddon = new stdClass;
+		$safeuriaddon = new \stdClass;
 
 		foreach ($registeredurlparams as $key => $value)
 		{

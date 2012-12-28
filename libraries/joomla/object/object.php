@@ -145,7 +145,7 @@ class JObject
 		}
 
 		// Check if only the string is requested
-		if ($error instanceof Exception && $toString)
+		if ($error instanceof \Exception && $toString)
 		{
 			return (string) $error;
 		}

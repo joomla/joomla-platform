@@ -30,7 +30,7 @@ class JSessionStorageMemcache extends JSessionStorage
 	{
 		if (!self::isSupported())
 		{
-			throw new RuntimeException('Memcache Extension is not available', 404);
+			throw new \RuntimeException('Memcache Extension is not available', 404);
 		}
 
 		parent::__construct($options);

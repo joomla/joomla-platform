@@ -126,13 +126,13 @@ class JApplicationCli extends JApplicationBase
 		// Only create the object if it doesn't exist.
 		if (empty(self::$instance))
 		{
-			if (class_exists($name) && (is_subclass_of($name, 'JApplicationCli')))
+			if (class_exists($name) && (is_subclass_of($name, __CLASS__)))
 			{
 				self::$instance = new $name;
 			}
 			else
 			{
-				self::$instance = new JApplicationCli;
+				self::$instance = new static;
 			}
 		}
 
@@ -271,7 +271,7 @@ class JApplicationCli extends JApplicationBase
 			}
 			else
 			{
-				throw new RuntimeException('Configuration class does not exist.');
+				throw new \RuntimeException('Configuration class does not exist.');
 			}
 		}
 

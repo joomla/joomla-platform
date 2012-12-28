@@ -142,7 +142,7 @@ abstract class JApplicationWebRouter
 		// If the controller class does not exist panic.
 		if (!class_exists($class) || !is_subclass_of($class, 'JController'))
 		{
-			throw new RuntimeException(sprintf('Unable to locate controller `%s`.', $class), 404);
+			throw new \RuntimeException(sprintf('Unable to locate controller `%s`.', $class), 404);
 		}
 
 		// Instantiate the controller.

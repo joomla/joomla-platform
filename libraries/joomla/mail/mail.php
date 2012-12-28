@@ -18,7 +18,7 @@ jimport('phpmailer.phpmailer');
  * @subpackage  Mail
  * @since       11.1
  */
-class JMail extends PHPMailer
+class JMail extends \PHPMailer
 {
 	/**
 	 * @var    array  JMail instances container.
@@ -82,7 +82,7 @@ class JMail extends PHPMailer
 			}
 			else
 			{
-				throw new RuntimeException(sprintf('%s::Send mail not enabled.'), get_class($this));
+				throw new \RuntimeException(sprintf('%s::Send mail not enabled.'), get_class($this));
 			}
 		}
 
@@ -96,7 +96,7 @@ class JMail extends PHPMailer
 			}
 			else
 			{
-				throw new RuntimeException(sprintf('%s::Send failed: "%s".'), get_class($this), $this->ErrorInfo);
+				throw new \RuntimeException(sprintf('%s::Send failed: "%s".'), get_class($this), $this->ErrorInfo);
 			}
 		}
 
@@ -137,7 +137,7 @@ class JMail extends PHPMailer
 		else
 		{
 			// If it's neither we throw an exception
-			throw new UnexpectedValueException(sprintf('Invalid email Sender: %s, JMail::setSender(%s)', $from));
+			throw new \UnexpectedValueException(sprintf('Invalid email Sender: %s, JMail::setSender(%s)', $from));
 		}
 
 		return $this;
@@ -201,7 +201,7 @@ class JMail extends PHPMailer
 
 				if ($combined === false)
 				{
-					throw new InvalidArgumentException("The number of elements for each array isn't equal.");
+					throw new \InvalidArgumentException("The number of elements for each array isn't equal.");
 				}
 
 				foreach ($combined as $recipientEmail => $recipientName)
@@ -312,7 +312,7 @@ class JMail extends PHPMailer
 			{
 				if (!empty($name) && count($attachment) != count($name))
 				{
-					throw new InvalidArgumentException("The number of attachments must be equal with the number of name");
+					throw new \InvalidArgumentException("The number of attachments must be equal with the number of name");
 				}
 
 				foreach ($attachment as $key => $file)

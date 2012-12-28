@@ -70,14 +70,14 @@ abstract class JLoader
 		{
 			if ($recurse)
 			{
-				$iterator = new RecursiveIteratorIterator(
-					new RecursiveDirectoryIterator($parentPath),
-					RecursiveIteratorIterator::SELF_FIRST
+				$iterator = new \RecursiveIteratorIterator(
+					new \RecursiveDirectoryIterator($parentPath),
+					\RecursiveIteratorIterator::SELF_FIRST
 				);
 			}
 			else
 			{
-				$iterator = new DirectoryIterator($parentPath);
+				$iterator = new \DirectoryIterator($parentPath);
 			}
 
 			foreach ($iterator as $file)
@@ -99,7 +99,7 @@ abstract class JLoader
 				}
 			}
 		}
-		catch (UnexpectedValueException $e)
+		catch (\UnexpectedValueException $e)
 		{
 			// Exception will be thrown if the path is not a directory. Ignore it.
 		}
@@ -430,7 +430,7 @@ abstract class JLoader
 		// Verify the library path exists.
 		if (!file_exists($path))
 		{
-			throw new RuntimeException('Library path ' . $path . ' cannot be found.', 500);
+			throw new \RuntimeException('Library path ' . $path . ' cannot be found.', 500);
 		}
 
 		// If the prefix is not yet registered or we have an explicit reset flag then set set the path.
@@ -463,7 +463,7 @@ abstract class JLoader
 		// Verify the library path exists.
 		if (!file_exists($path))
 		{
-			throw new RuntimeException('Library path ' . $path . ' cannot be found.', 500);
+			throw new \RuntimeException('Library path ' . $path . ' cannot be found.', 500);
 		}
 
 		// If the namespace is not yet registered or we have an explicit reset flag then set the path.
@@ -505,7 +505,7 @@ abstract class JLoader
 		if ($enableClasses)
 		{
 			// Register the class map based autoloader.
-			spl_autoload_register(array('JLoader', 'load'));
+			spl_autoload_register(array(__CLASS__, 'load'));
 		}
 
 		if ($enablePrefixes)
@@ -514,7 +514,7 @@ abstract class JLoader
 			self::registerPrefix('J', JPATH_PLATFORM . '/joomla');
 
 			// Register the prefix autoloader.
-			spl_autoload_register(array('JLoader', '_autoload'));
+			spl_autoload_register(array(__CLASS__, '_autoload'));
 		}
 
 		if ($enableNamespaces)
@@ -523,22 +523,22 @@ abstract class JLoader
 			{
 				// Register the lower case namespace loader.
 				case self::LOWER_CASE:
-					spl_autoload_register(array('JLoader', 'loadByNamespaceLowerCase'));
+					spl_autoload_register(array(__CLASS__, 'loadByNamespaceLowerCase'));
 					break;
 
 				// Register the natural case namespace loader.
 				case self::NATURAL_CASE:
-					spl_autoload_register(array('JLoader', 'loadByNamespaceNaturalCase'));
+					spl_autoload_register(array(__CLASS__, 'loadByNamespaceNaturalCase'));
 					break;
 
 				// Register the mixed case namespace loader.
 				case self::MIXED_CASE:
-					spl_autoload_register(array('JLoader', 'loadByNamespaceMixedCase'));
+					spl_autoload_register(array(__CLASS__, 'loadByNamespaceMixedCase'));
 					break;
 
 				// Default to the lower case namespace loader.
 				default:
-					spl_autoload_register(array('JLoader', 'loadByNamespaceLowerCase'));
+					spl_autoload_register(array(__CLASS__, 'loadByNamespaceLowerCase'));
 					break;
 			}
 		}

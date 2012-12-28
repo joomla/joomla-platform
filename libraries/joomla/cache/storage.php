@@ -117,7 +117,7 @@ class JCacheStorage
 
 			if (empty($handler))
 			{
-				throw new UnexpectedValueException('Cache Storage Handler not set.');
+				throw new \UnexpectedValueException('Cache Storage Handler not set.');
 			}
 		}
 
@@ -144,7 +144,7 @@ class JCacheStorage
 			}
 			else
 			{
-				throw new RuntimeException(sprintf('Unable to load Cache Storage: %s', $handler));
+				throw new \RuntimeException(sprintf('Unable to load Cache Storage: %s', $handler));
 			}
 		}
 

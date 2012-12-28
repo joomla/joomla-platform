@@ -54,7 +54,7 @@ class JGithubHooks extends JGithubObject
 		{
 			if (!in_array($event, $this->events))
 			{
-				throw new RuntimeException('Your events array contains an unauthorized event.');
+				throw new \RuntimeException('Your events array contains an unauthorized event.');
 			}
 		}
 
@@ -70,7 +70,7 @@ class JGithubHooks extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 
 		return json_decode($response->body);
@@ -101,7 +101,7 @@ class JGithubHooks extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 
 		return json_decode($response->body);
@@ -134,7 +134,7 @@ class JGithubHooks extends JGithubObject
 		{
 			if (!in_array($event, $this->events))
 			{
-				throw new RuntimeException('Your events array contains an unauthorized event.');
+				throw new \RuntimeException('Your events array contains an unauthorized event.');
 			}
 		}
 
@@ -142,7 +142,7 @@ class JGithubHooks extends JGithubObject
 		{
 			if (!in_array($event, $this->events))
 			{
-				throw new RuntimeException('Your active_events array contains an unauthorized event.');
+				throw new \RuntimeException('Your active_events array contains an unauthorized event.');
 			}
 		}
 
@@ -150,7 +150,7 @@ class JGithubHooks extends JGithubObject
 		{
 			if (!in_array($event, $this->events))
 			{
-				throw new RuntimeException('Your remove_events array contains an unauthorized event.');
+				throw new \RuntimeException('Your remove_events array contains an unauthorized event.');
 			}
 		}
 		// Build the request path.
@@ -174,7 +174,7 @@ class JGithubHooks extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 
 		return json_decode($response->body);
@@ -205,7 +205,7 @@ class JGithubHooks extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 
 		return json_decode($response->body);
@@ -237,7 +237,7 @@ class JGithubHooks extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 
 		return json_decode($response->body);
@@ -268,7 +268,7 @@ class JGithubHooks extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 
 		return json_decode($response->body);

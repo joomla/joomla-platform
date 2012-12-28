@@ -346,7 +346,7 @@ class JRegistry implements JsonSerializable
 			{
 				if (!isset($node->$nodes[$i]) && ($i != $n))
 				{
-					$node->$nodes[$i] = new stdClass;
+					$node->$nodes[$i] = new \stdClass;
 				}
 				$node = $node->$nodes[$i];
 			}
@@ -426,7 +426,7 @@ class JRegistry implements JsonSerializable
 		{
 			if ((is_array($v) && JArrayHelper::isAssociative($v)) || is_object($v))
 			{
-				$parent->$k = new stdClass;
+				$parent->$k = new \stdClass;
 				$this->bindData($parent->$k, $v);
 			}
 			else

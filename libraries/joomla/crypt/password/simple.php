@@ -78,7 +78,7 @@ class JCryptPasswordSimple implements JCryptPassword
 			return md5($password . $salt) . ':' . $salt;
 
 			default:
-				throw new InvalidArgumentException(sprintf('Hash type %s is not supported', $type));
+				throw new \InvalidArgumentException(sprintf('Hash type %s is not supported', $type));
 				break;
 		}
 	}

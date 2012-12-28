@@ -66,7 +66,7 @@ class JGoogleDataPicasa extends JGoogleData
 			}
 			else
 			{
-				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
+				throw new \UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
 			}
 		}
 		else
@@ -96,7 +96,7 @@ class JGoogleDataPicasa extends JGoogleData
 		{
 			$time = $time ? $time : time();
 			$title = $title != '' ? $title : date('F j, Y');
-			$xml = new SimpleXMLElement('<entry></entry>');
+			$xml = new \SimpleXMLElement('<entry></entry>');
 			$xml->addAttribute('xmlns', 'http://www.w3.org/2005/Atom');
 			$xml->addChild('title', $title);
 			$xml->addChild('summary', $summary);

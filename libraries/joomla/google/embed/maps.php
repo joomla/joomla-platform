@@ -393,7 +393,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 
 		if ($index >= count($markers) || $index < 0)
 		{
-			throw new OutOfBoundsException('Marker index out of bounds.');
+			throw new \OutOfBoundsException('Marker index out of bounds.');
 		}
 
 		$marker = $markers[$index];
@@ -551,7 +551,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	{
 		if (!$this->getOption('key'))
 		{
-			throw new UnexpectedValueException('A Google Maps API key is required.');
+			throw new \UnexpectedValueException('A Google Maps API key is required.');
 		}
 
 		$zoom = $this->getZoom();
@@ -679,14 +679,14 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 
 		if ($response->code < 200 || $response->code >= 300)
 		{
-			throw new RuntimeException('Error code ' . $response->code . ' received geocoding address: ' . $response->body . '.');
+			throw new \RuntimeException('Error code ' . $response->code . ' received geocoding address: ' . $response->body . '.');
 		}
 
 		$data = json_decode($response->body, true);
 
 		if (!$data)
 		{
-			throw new RuntimeException('Invalid json received geocoding address: ' . $response->body . '.');
+			throw new \RuntimeException('Invalid json received geocoding address: ' . $response->body . '.');
 		}
 		if ($data['status'] != 'OK')
 		{

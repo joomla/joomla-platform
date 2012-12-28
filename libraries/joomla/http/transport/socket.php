@@ -42,7 +42,7 @@ class JHttpTransportSocket implements JHttpTransport
 	{
 		if (!self::isSupported())
 		{
-			throw new RuntimeException('Cannot use a socket transport when fsockopen() is not available.');
+			throw new \RuntimeException('Cannot use a socket transport when fsockopen() is not available.');
 		}
 
 		$this->options = $options;
@@ -75,12 +75,12 @@ class JHttpTransportSocket implements JHttpTransport
 
 			if ($meta['timed_out'])
 			{
-				throw new RuntimeException('Server connection timed out.');
+				throw new \RuntimeException('Server connection timed out.');
 			}
 		}
 		else
 		{
-			throw new RuntimeException('Not connected to server.');
+			throw new \RuntimeException('Not connected to server.');
 		}
 
 		// Get the request path from the URI object.
@@ -162,7 +162,7 @@ class JHttpTransportSocket implements JHttpTransport
 
 		if (empty($content))
 		{
-			throw new UnexpectedValueException('No content in response.');
+			throw new \UnexpectedValueException('No content in response.');
 		}
 
 		// Split the response into headers and body.
@@ -186,7 +186,7 @@ class JHttpTransportSocket implements JHttpTransport
 		// No valid response code was detected.
 		else
 		{
-			throw new UnexpectedValueException('No HTTP response code found.');
+			throw new \UnexpectedValueException('No HTTP response code found.');
 		}
 
 		// Add the response headers to the response object.
@@ -243,7 +243,7 @@ class JHttpTransportSocket implements JHttpTransport
 			{
 				if (!fclose($this->connections[$key]))
 				{
-					throw new RuntimeException('Cannot close connection');
+					throw new \RuntimeException('Cannot close connection');
 				}
 			}
 
@@ -279,7 +279,7 @@ class JHttpTransportSocket implements JHttpTransport
 			// Restore error tracking to give control to the exception handler
 			ini_set('track_errors', $track_errors);
 
-			throw new RuntimeException($php_errormsg);
+			throw new \RuntimeException($php_errormsg);
 		}
 		// Restore error tracking to what it was before.
 		ini_set('track_errors', $track_errors);

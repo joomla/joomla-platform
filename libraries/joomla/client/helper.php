@@ -225,7 +225,7 @@ class JClientHelper
 				}
 				else
 				{
-					throw new InvalidArgumentException('Invalid user credentials');
+					throw new \InvalidArgumentException('Invalid user credentials');
 				}
 			}
 		}

@@ -117,12 +117,12 @@ abstract class JHtml
 
 				if (!class_exists($className))
 				{
-					throw new InvalidArgumentException(sprintf('%s not found.', $className), 500);
+					throw new \InvalidArgumentException(sprintf('%s not found.', $className), 500);
 				}
 			}
 			else
 			{
-				throw new InvalidArgumentException(sprintf('%s %s not found.', $prefix, $file), 500);
+				throw new \InvalidArgumentException(sprintf('%s %s not found.', $prefix, $file), 500);
 			}
 		}
 
@@ -140,7 +140,7 @@ abstract class JHtml
 		}
 		else
 		{
-			throw new InvalidArgumentException(sprintf('%s::%s not found.', $className, $func), 500);
+			throw new \InvalidArgumentException(sprintf('%s::%s not found.', $className, $func), 500);
 		}
 	}
 
@@ -222,7 +222,7 @@ abstract class JHtml
 	{
 		if (!is_callable($function))
 		{
-			throw new InvalidArgumentException('Function not supported', 500);
+			throw new \InvalidArgumentException('Function not supported', 500);
 		}
 
 		// PHP 5.3 workaround
@@ -746,7 +746,7 @@ abstract class JHtml
 			$date = JFactory::getDate($input, 'UTC');
 
 			// Set the correct time zone based on the server configuration.
-			$date->setTimeZone(new DateTimeZone($config->get('offset')));
+			$date->setTimeZone(new \DateTimeZone($config->get('offset')));
 		}
 		// No date conversion.
 		elseif ($tz === null)
@@ -760,7 +760,7 @@ abstract class JHtml
 			$date = JFactory::getDate($input, 'UTC');
 
 			// Set the correct time zone based on the server configuration.
-			$date->setTimeZone(new DateTimeZone($tz));
+			$date->setTimeZone(new \DateTimeZone($tz));
 		}
 
 		// If no format is given use the default locale based format.

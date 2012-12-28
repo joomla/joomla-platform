@@ -85,7 +85,7 @@ class JHttpFactory
 	public static function getHttpTransports()
 	{
 		$names = array();
-		$iterator = new DirectoryIterator(__DIR__ . '/transport');
+		$iterator = new \DirectoryIterator(__DIR__ . '/transport');
 
 		foreach ($iterator as $file)
 		{

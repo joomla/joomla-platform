@@ -46,7 +46,7 @@ class JGithubAccount extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 
 		return json_decode($response->body);
@@ -74,7 +74,7 @@ class JGithubAccount extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 
 		return json_decode($response->body);
@@ -122,7 +122,7 @@ class JGithubAccount extends JGithubObject
 		// Only allowed to send data for one scope parameter
 		if ($scopesCount >= 2)
 		{
-			throw new RuntimeException('You can only send one scope key in this request.');
+			throw new \RuntimeException('You can only send one scope key in this request.');
 		}
 
 		// Build the request path.
@@ -144,7 +144,7 @@ class JGithubAccount extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 
 		return json_decode($response->body);
@@ -173,7 +173,7 @@ class JGithubAccount extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 
 		return json_decode($response->body);
@@ -200,7 +200,7 @@ class JGithubAccount extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 
 		return json_decode($response->body);
@@ -226,7 +226,7 @@ class JGithubAccount extends JGithubObject
 		{
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			throw new \DomainException($error->message, $response->code);
 		}
 
 		return json_decode($response->body);

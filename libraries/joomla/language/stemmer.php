@@ -57,7 +57,7 @@ abstract class JLanguageStemmer
 		if (!class_exists($class))
 		{
 			// Throw invalid adapter exception.
-			throw new RuntimeException(JText::sprintf('JLIB_STEMMER_INVALID_STEMMER', $adapter));
+			throw new \RuntimeException(JText::sprintf('JLIB_STEMMER_INVALID_STEMMER', $adapter));
 		}
 
 		self::$instances[$adapter] = new $class;

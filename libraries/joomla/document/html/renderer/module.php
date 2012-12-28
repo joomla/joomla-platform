@@ -93,7 +93,7 @@ class JDocumentRendererModule extends JDocumentRenderer
 		{
 
 			// Default to itemid creating method and workarounds on
-			$cacheparams = new stdClass;
+			$cacheparams = new \stdClass;
 			$cacheparams->cachemode = $cachemode;
 			$cacheparams->class = 'JModuleHelper';
 			$cacheparams->method = 'renderModule';

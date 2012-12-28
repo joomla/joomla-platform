@@ -33,7 +33,7 @@ class JImageFilterSmooth extends JImageFilter
 		// Validate that the smoothing value exists and is an integer.
 		if (!isset($options[IMG_FILTER_SMOOTH]) || !is_int($options[IMG_FILTER_SMOOTH]))
 		{
-			throw new InvalidArgumentException('No valid smoothing value was given.  Expected integer.');
+			throw new \InvalidArgumentException('No valid smoothing value was given.  Expected integer.');
 		}
 
 		// Perform the smoothing filter.

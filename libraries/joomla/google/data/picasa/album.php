@@ -33,7 +33,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @since   12.3
 	 */
-	public function __construct(SimpleXMLElement $xml, JRegistry $options = null, JGoogleAuth $auth = null)
+	public function __construct(\SimpleXMLElement $xml, JRegistry $options = null, JGoogleAuth $auth = null)
 	{
 		$this->xml = $xml;
 
@@ -71,18 +71,18 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 			{
 				$jdata = $this->query($url, null, array('GData-Version' => 2, 'If-Match' => $match), 'delete');
 			}
-			catch (Exception $e)
+			catch (\Exception $e)
 			{
 				if (strpos($e->getMessage(), 'Error code 412 received requesting data: Mismatch: etags') === 0)
 				{
-					throw new RuntimeException("Etag match failed: `$match`.");
+					throw new \RuntimeException("Etag match failed: `$match`.");
 				}
 				throw $e;
 			}
 
 			if ($jdata->body != '')
 			{
-				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
+				throw new \UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
 			}
 			$this->xml = null;
 
@@ -287,7 +287,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 			{
 				if (strpos($e->getMessage(), 'Error code 412 received requesting data: Mismatch: etags') === 0)
 				{
-					throw new RuntimeException("Etag match failed: `$match`.");
+					throw new \RuntimeException("Etag match failed: `$match`.");
 				}
 				throw $e;
 			}
@@ -354,7 +354,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 			}
 			else
 			{
-				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
+				throw new \UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
 			}
 		}
 		else
@@ -383,14 +383,14 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 
 			if (!($type = $this->getMIME($file)))
 			{
-				throw new RuntimeException("Inappropriate file type.");
+				throw new \RuntimeException("Inappropriate file type.");
 			}
 			if (!($data = JFile::read($file)))
 			{
-				throw new RuntimeException("Cannot access file: `$file`");
+				throw new \RuntimeException("Cannot access file: `$file`");
 			}
 
-			$xml = new SimpleXMLElement('<entry></entry>');
+			$xml = new \SimpleXMLElement('<entry></entry>');
 			$xml->addAttribute('xmlns', 'http://www.w3.org/2005/Atom');
 			$xml->addChild('title', $title);
 			$xml->addChild('summary', $summary);

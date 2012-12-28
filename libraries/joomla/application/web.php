@@ -136,7 +136,7 @@ class JApplicationWeb extends JApplicationBase
 		$this->set('execution.timestamp', time());
 
 		// Setup the response object.
-		$this->response = new stdClass;
+		$this->response = new \stdClass;
 		$this->response->cachable = false;
 		$this->response->headers = array();
 		$this->response->body = array();
@@ -161,13 +161,13 @@ class JApplicationWeb extends JApplicationBase
 		// Only create the object if it doesn't exist.
 		if (empty(self::$instance))
 		{
-			if (class_exists($name) && (is_subclass_of($name, 'JApplicationWeb')))
+			if (class_exists($name) && (is_subclass_of($name, __CLASS__)))
 			{
 				self::$instance = new $name;
 			}
 			else
 			{
-				self::$instance = new JApplicationWeb;
+				self::$instance = new static;
 			}
 		}
 
@@ -920,7 +920,7 @@ class JApplicationWeb extends JApplicationBase
 			}
 			else
 			{
-				throw new RuntimeException('Configuration class does not exist.');
+				throw new \RuntimeException('Configuration class does not exist.');
 			}
 		}
 

@@ -44,7 +44,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		$app = JFactory::getApplication();
 
 		// Gets and sets timezone offset from site configuration
-		$tz = new DateTimeZone($app->getCfg('offset'));
+		$tz = new \DateTimeZone($app->getCfg('offset'));
 		$now = JFactory::getDate();
 		$now->setTimeZone($tz);
 

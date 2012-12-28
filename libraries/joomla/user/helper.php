@@ -52,7 +52,7 @@ abstract class JUserHelper
 			// If the group does not exist, return an exception.
 			if (!$title)
 			{
-				throw new RuntimeException('Access Usergroup Invalid');
+				throw new \RuntimeException('Access Usergroup Invalid');
 			}
 
 			// Add the group data to the user object.

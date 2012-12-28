@@ -33,7 +33,7 @@ class JImageFilterContrast extends JImageFilter
 		// Validate that the contrast value exists and is an integer.
 		if (!isset($options[IMG_FILTER_CONTRAST]) || !is_int($options[IMG_FILTER_CONTRAST]))
 		{
-			throw new InvalidArgumentException('No valid contrast value was given.  Expected integer.');
+			throw new \InvalidArgumentException('No valid contrast value was given.  Expected integer.');
 		}
 
 		// Perform the contrast filter.
