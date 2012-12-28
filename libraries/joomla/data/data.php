@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Data
  * @since       12.3
  */
-class JData implements \JDataDumpable, \IteratorAggregate, \JsonSerializable, \Countable
+class JData implements JDataDumpable, \IteratorAggregate, \JsonSerializable, \Countable
 {
 	/**
 	 * The data properties.
