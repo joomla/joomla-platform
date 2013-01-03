@@ -22,6 +22,7 @@ jimport('joomla.image.image');
 jimport('joomla.image.filter'); 
 jimport('joomla.application.web.webclient');
 jimport('joomla.application.web');
+jimport('joomla.application.github');
 
  
 //It's an application, so let's get the application helper. 
@@ -42,26 +43,9 @@ $app = JFactory::getApplication('mywebapp', $config);
 // Render the application. This is just the name of a method you 
 // create in your application.php
 
+$github = new JGithub;
 
-echo "<br />";
-
-echo "useJimage";
-
-?>
-
-
-<h4>my current image</h4>
-<img src="includes/passion-fruit-d.jpg" />
-<?php $app->useJImage("includes/passion-fruit-d.jpg"); ?>
-<h4>my new image</h4>
-<img src="includes/hiSteve.jpg" />
-
-
-<?php
-
-//echo $app->getBrowser();
-
-//echo $app->useJGrid();
+$profile = $github->profile->getProfile('drmmr763');
 
 $site = new JApplicationWeb();
 
