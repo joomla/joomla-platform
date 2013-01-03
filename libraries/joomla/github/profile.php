@@ -20,23 +20,23 @@ defined('JPATH_PLATFORM') or die;
 class JGithubProfile extends JGithubObject
 {
 	/**
-	 * Method to create a gist.
+	 * Method to get github profile.
 	 *
-	 * @param   string	$login	The login name of a github user.
+	 * @param   string	$username	The login name of a github user.
 	 *
 	 * @return  object
 	 *
-	 * @since   11.3
+	 * @since   12.3
 	 */
 	
-	public function getProfile($login)
+	public function getProfile($username, $page = 0, $limit = 0)
 	{
-		//build user path
-		$path = '/users/' . $login;
-		
-		//send the request
-		$response = $this->client->post($this->fetchUrl($path));
-		
+		// Build the request path.
+		$path = '/users/' . $username;
+
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path));
+
 		// Validate the response code.
 		if ($response->code != 200)
 		{
@@ -44,7 +44,7 @@ class JGithubProfile extends JGithubObject
 			$error = json_decode($response->body);
 			throw new DomainException($error->message, $response->code);
 		}
-		
-		return $response;
+
+		return json_decode($response->body);
 	}
 }
