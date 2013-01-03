@@ -24,8 +24,10 @@ class JCacheControllerCallbackTest_Callback extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	public function setUp()
+	protected function setUp()
 	{
+		parent::setUp();
+
 		// @todo remove: require_once dirname(dirname(dirname(dirname(dirname(__DIR__))))).'/bootstrap.php';
 		jimport('joomla.cache.cache');
 
@@ -59,7 +61,7 @@ class JCacheControllerCallbackTest_Callback extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test...
+	 * Test callbackStatic
 	 *
 	 * @return void
 	 */
@@ -70,6 +72,7 @@ class JCacheControllerCallbackTest_Callback extends PHPUnit_Framework_TestCase
 		$arg2 = 'e2';
 		$callback = array('testCallbackController', 'staticCallback');
 		$this->expectOutputString('e1e1e1e1e1');
+
 		for ($i = 0; $i < 5; $i++)
 		{
 			$result = $cache->get($callback, array($arg1, $arg2));
@@ -81,7 +84,7 @@ class JCacheControllerCallbackTest_Callback extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test...
+	 * Test callbackInstance
 	 *
 	 * @return void
 	 */
@@ -91,6 +94,7 @@ class JCacheControllerCallbackTest_Callback extends PHPUnit_Framework_TestCase
 		$arg1 = 'e1';
 		$arg2 = 'e2';
 		$this->expectOutputString('e1e1e1e1e1');
+
 		for ($i = 0; $i < 5; $i++)
 		{
 			$instance = new testCallbackController;

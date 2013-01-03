@@ -32,6 +32,8 @@ class JArchiveGzipTest extends PHPUnit_Framework_TestCase
      */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		self::$outputPath = __DIR__ . '/output';
 
 		if (!is_dir(self::$outputPath))
@@ -66,6 +68,7 @@ class JArchiveGzipTest extends PHPUnit_Framework_TestCase
 		if (!JArchiveGzip::isSupported())
 		{
 			$this->markTestSkipped('Gzip files can not be extracted.');
+
 			return;
 		}
 
@@ -92,6 +95,7 @@ class JArchiveGzipTest extends PHPUnit_Framework_TestCase
 		if (!JArchiveGzip::isSupported())
 		{
 			$this->markTestSkipped('Gzip files can not be extracted.');
+
 			return;
 		}
 

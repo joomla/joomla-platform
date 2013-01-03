@@ -109,6 +109,12 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 			return;
 		}
 
+		// Make sure the PDO extension for PHP is installed and enabled.
+		if (!self::isSupported())
+		{
+			throw new RuntimeException('PDO Extension is not available.', 1);
+		}
+
 		// Initialize the connection string variable:
 		$connectionString = '';
 		$replace = array();
@@ -279,12 +285,6 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		// Create the connection string:
 		$connectionString = str_replace($replace, $with, $format);
 
-		// Make sure the PDO extension for PHP is installed and enabled.
-		if (!self::isSupported())
-		{
-			throw new RuntimeException('PDO Extension is not available.', 1);
-		}
-
 		try
 		{
 			$this->connection = new PDO(
@@ -367,6 +367,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 		// Take a local copy so that we don't modify the original query and cause issues later
 		$sql = $this->replacePrefix((string) $this->sql);
+
 		if ($this->limit > 0 || $this->offset > 0)
 		{
 			// @TODO
@@ -391,12 +392,14 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 		// Execute the query.
 		$this->executed = false;
+
 		if ($this->prepared instanceof PDOStatement)
 		{
 			// Bind the variables:
 			if ($this->sql instanceof JDatabaseQueryPreparable)
 			{
 				$bounded =& $this->sql->getBounded();
+
 				foreach ($bounded as $key => $obj)
 				{
 					$this->prepared->bindParam($key, $obj->value, $obj->dataType, $obj->length, $obj->driverOptions);
@@ -704,46 +707,67 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	/**
 	 * Method to commit a transaction.
 	 *
-	 * @return  bool
+	 * @param   boolean  $toSavepoint  If true, commit to the last savepoint.
+	 *
+	 * @return  void
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
-	public function transactionCommit()
+	public function transactionCommit($toSavepoint = false)
 	{
 		$this->connect();
 
-		return $this->connection->commit();
+		if (!$toSavepoint || $this->transactionDepth == 1)
+		{
+			$this->connection->commit();
+		}
+
+		$this->transactionDepth--;
 	}
 
 	/**
 	 * Method to roll back a transaction.
 	 *
-	 * @return  bool
+	 * @param   boolean  $toSavepoint  If true, rollback to the last savepoint.
+	 *
+	 * @return  void
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
-	public function transactionRollback()
+	public function transactionRollback($toSavepoint = false)
 	{
 		$this->connect();
 
-		return $this->connection->rollBack();
+		if (!$toSavepoint || $this->transactionDepth == 1)
+		{
+			$this->connection->rollBack();
+		}
+
+		$this->transactionDepth--;
 	}
 
 	/**
 	 * Method to initialize a transaction.
 	 *
-	 * @return  bool
+	 * @param   boolean  $asSavepoint  If true and a transaction is already active, a savepoint will be created.
+	 *
+	 * @return  void
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
-	public function transactionStart()
+	public function transactionStart($asSavepoint = false)
 	{
 		$this->connect();
 
-		return $this->connection->beginTransaction();
+		if (!$asSavepoint || !$this->transactionDepth)
+		{
+			$this->connection->beginTransaction();
+		}
+
+		$this->transactionDepth++;
 	}
 
 	/**

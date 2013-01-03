@@ -15,6 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Legacy
  * @subpackage  Table
  * @since       11.1
+ * @deprecated  13.3
  */
 class JTableContent extends JTable
 {
@@ -42,6 +43,7 @@ class JTableContent extends JTable
 	protected function _getAssetName()
 	{
 		$k = $this->_tbl_key;
+
 		return 'com_content.article.' . (int) $this->$k;
 	}
 
@@ -67,7 +69,7 @@ class JTableContent extends JTable
 	 *
 	 * @since   11.1
 	 */
-	protected function _getAssetParentId($table = null, $id = null)
+	protected function _getAssetParentId(JTable $table = null, $id = null)
 	{
 		$assetId = null;
 
@@ -82,6 +84,7 @@ class JTableContent extends JTable
 
 			// Get the asset id from the database.
 			$this->_db->setQuery($query);
+
 			if ($result = $this->_db->loadResult())
 			{
 				$assetId = (int) $result;
@@ -167,6 +170,7 @@ class JTableContent extends JTable
 		if (trim($this->title) == '')
 		{
 			$this->setError(JText::_('COM_CONTENT_WARNING_PROVIDE_VALID_NAME'));
+
 			return false;
 		}
 
@@ -264,9 +268,11 @@ class JTableContent extends JTable
 		}
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Content', 'JTable');
+
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
+
 			return false;
 		}
 		return parent::store($updateNulls);
@@ -305,6 +311,7 @@ class JTableContent extends JTable
 			else
 			{
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+
 				return false;
 			}
 		}
@@ -338,6 +345,7 @@ class JTableContent extends JTable
 		catch (RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
+
 			return false;
 		}
 

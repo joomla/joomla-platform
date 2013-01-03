@@ -244,6 +244,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 		$this->setQuery('SHOW LC_COLLATE');
 		$array = $this->loadAssocList();
+
 		return $array[0]['lc_collate'];
 	}
 
@@ -285,6 +286,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			}
 
 			$this->queryObject = new JDatabaseQueryPostgresql($this);
+
 			return $this->queryObject;
 		}
 		else
@@ -516,6 +518,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	{
 		$this->connect();
 		$version = pg_version($this->connection);
+
 		return $version['server'];
 	}
 
@@ -616,6 +619,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 		// Take a local copy so that we don't modify the original query and cause issues later
 		$sql = $this->replacePrefix((string) $this->sql);
+
 		if ($this->limit > 0 || $this->offset > 0)
 		{
 			$sql .= ' LIMIT ' . $this->limit . ' OFFSET ' . $this->offset;
@@ -723,6 +727,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			);
 
 			$oldIndexes = $this->loadColumn();
+
 			foreach ($oldIndexes as $oldIndex)
 			{
 				$changedIdxName = str_replace($oldTable, $newTable, $oldIndex);
@@ -745,6 +750,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			);
 
 			$oldSequences = $this->loadColumn();
+
 			foreach ($oldSequences as $oldSequence)
 			{
 				$changedSequenceName = str_replace($oldTable, $newTable, $oldSequence);
@@ -803,6 +809,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		{
 			case 'boolean':
 				$val = 'NULL';
+
 				if ($field_value == 't')
 				{
 					$val = 'TRUE';
@@ -840,56 +847,94 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * Method to commit a transaction.
 	 *
+	 * @param   boolean  $toSavepoint  If true, commit to the last savepoint.
+	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
-	public function transactionCommit()
+	public function transactionCommit($toSavepoint = false)
 	{
 		$this->connect();
 
-		$this->setQuery('COMMIT');
-		$this->execute();
+		if (!$toSavepoint || $this->transactionDepth <= 1)
+		{
+			if ($this->setQuery('COMMIT')->execute())
+			{
+				$this->transactionDepth = 0;
+			}
+
+			return;
+		}
+
+		$this->transactionDepth--;
 	}
 
 	/**
 	 * Method to roll back a transaction.
 	 *
-	 * @param   string  $toSavepoint  If present rollback transaction to this savepoint
+	 * @param   boolean  $toSavepoint  If true, rollback to the last savepoint.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
-	public function transactionRollback($toSavepoint = null)
+	public function transactionRollback($toSavepoint = false)
 	{
 		$this->connect();
 
-		$query = 'ROLLBACK';
-		if (!is_null($toSavepoint))
+		if (!$toSavepoint || $this->transactionDepth <= 1)
 		{
-			$query .= ' TO SAVEPOINT ' . $this->escape($toSavepoint);
+			if ($this->setQuery('ROLLBACK')->execute())
+			{
+				$this->transactionDepth = 0;
+			}
+
+			return;
 		}
 
-		$this->setQuery($query);
-		$this->execute();
+		$savepoint = 'SP_' . ($this->transactionDepth - 1);
+		$this->setQuery('ROLLBACK TO SAVEPOINT ' . $this->quoteName($savepoint));
+
+		if ($this->execute())
+		{
+			$this->transactionDepth--;
+		}
 	}
 
 	/**
 	 * Method to initialize a transaction.
 	 *
+	 * @param   boolean  $asSavepoint  If true and a transaction is already active, a savepoint will be created.
+	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
-	public function transactionStart()
+	public function transactionStart($asSavepoint = false)
 	{
 		$this->connect();
-		$this->setQuery('START TRANSACTION');
-		$this->execute();
+
+		if (!$asSavepoint || !$this->transactionDepth)
+		{
+			if ($this->setQuery('START TRANSACTION')->execute())
+			{
+				$this->transactionDepth = 1;
+			}
+
+			return;
+		}
+
+		$savepoint = 'SP_' . $this->transactionDepth;
+		$this->setQuery('SAVEPOINT ' . $this->quoteName($savepoint));
+
+		if ($this->execute())
+		{
+			$this->transactionDepth++;
+		}
 	}
 
 	/**
@@ -1005,6 +1050,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			$this->setQuery($query);
 
 			$id = $this->loadResult();
+
 			if ($id)
 			{
 				$object->$key = $id;
@@ -1056,6 +1102,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 		$this->setQuery($query);
 		$tableList = $this->loadColumn();
+
 		return $tableList;
 	}
 
@@ -1155,6 +1202,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			if ( strpos($sql, 'currval') )
 			{
 				$sql = explode('currval', $sql);
+
 				for ( $nIndex = 1; $nIndex < count($sql); $nIndex = $nIndex + 2 )
 				{
 					$sql[$nIndex] = str_replace($prefix, $this->tablePrefix, $sql[$nIndex]);
@@ -1166,6 +1214,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			if ( strpos($sql, 'nextval') )
 			{
 				$sql = explode('nextval', $sql);
+
 				for ( $nIndex = 1; $nIndex < count($sql); $nIndex = $nIndex + 2 )
 				{
 					$sql[$nIndex] = str_replace($prefix, $this->tablePrefix, $sql[$nIndex]);
@@ -1177,6 +1226,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			if ( strpos($sql, 'setval') )
 			{
 				$sql = explode('setval', $sql);
+
 				for ( $nIndex = 1; $nIndex < count($sql); $nIndex = $nIndex + 2 )
 				{
 					$sql[$nIndex] = str_replace($prefix, $this->tablePrefix, $sql[$nIndex]);
@@ -1248,6 +1298,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	public function unlockTables()
 	{
 		$this->transactionCommit();
+
 		return $this;
 	}
 

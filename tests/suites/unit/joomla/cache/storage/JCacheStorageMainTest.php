@@ -24,17 +24,19 @@ jimport('joomla.cache.cache');
 class JCacheStorageTest_Main extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * Test...
+	 * Test setUp
 	 *
 	 * @return void
 	 */
-	public function setUp()
+	protected function setUp()
 	{
+		parent::setUp();
+
 		require_once dirname(__DIR__) . '/controller/JCacheControllerRaw.php';
 	}
 
 	/**
-	 * Test...
+	 * Test provider
 	 *
 	 * @return array
 	 */
@@ -45,11 +47,13 @@ class JCacheStorageTest_Main extends PHPUnit_Framework_TestCase
 		if (empty($ret))
 		{
 			$names = JCache::getStores();
+
 			foreach ($names as $name)
 			{
 				$ret[] = array($name);
 			}
 		}
+
 		return $ret;
 	}
 
@@ -62,7 +66,7 @@ class JCacheStorageTest_Main extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	function testCacheHit($store)
+	public function testCacheHit($store)
 	{
 		if ($store == 'eaccelerator')
 		{
@@ -97,7 +101,7 @@ class JCacheStorageTest_Main extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	function testCacheMiss($store)
+	public function testCacheMiss($store)
 	{
 		if ($store == 'eaccelerator')
 		{
@@ -128,7 +132,7 @@ class JCacheStorageTest_Main extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	function testCacheTimeout($store)
+	public function testCacheTimeout($store)
 	{
 		if ($store == 'eaccelerator')
 		{
@@ -165,7 +169,7 @@ class JCacheStorageTest_Main extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	function testCacheRemove($store)
+	public function testCacheRemove($store)
 	{
 
 		if ($store == 'eaccelerator')
@@ -206,7 +210,7 @@ class JCacheStorageTest_Main extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	function testCacheClearGroup($store)
+	public function testCacheClearGroup($store)
 	{
 
 		if ($store == 'eaccelerator')
@@ -246,7 +250,7 @@ class JCacheStorageTest_Main extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	function testCacheClearNotGroup($store)
+	public function testCacheClearNotGroup($store)
 	{
 		if ($store == 'eaccelerator')
 		{
@@ -265,10 +269,12 @@ class JCacheStorageTest_Main extends PHPUnit_Framework_TestCase
 		$cache->setCaching(true);
 		$this->assertTrue($cache->store($data, $id, $group), 'Initial Store Failed');
 		unset($cache);
+
 		$cache =& JCache::getInstance('', array('storage' => $store));
 		$cache->setCaching(true);
 		$this->assertTrue((bool) $cache->clean($group, 'notgroup'), 'Clean Failed');
 		unset($cache);
+
 		$cache =& JCache::getInstance('', array('storage' => $store));
 		$cache->setCaching(true);
 		$new = $cache->get($id, $group);

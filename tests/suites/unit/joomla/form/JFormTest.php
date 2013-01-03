@@ -18,7 +18,7 @@
 class JFormTest extends TestCase
 {
 	/**
-	 * Test...
+	 * Test showXml
 	 *
 	 * @param   string  $form  The form.
 	 *
@@ -34,12 +34,14 @@ class JFormTest extends TestCase
 	}
 
 	/**
-	 * set up for testing
+	 * Set up for testing
 	 *
 	 * @return void
 	 */
 	public function setUp()
 	{
+		parent::setUp();
+
 		$this->saveFactoryState();
 		include_once 'inspectors.php';
 		include_once 'JFormDataHelper.php';
@@ -50,7 +52,7 @@ class JFormTest extends TestCase
 	 *
 	 * @return void
 	 */
-	function tearDown()
+	protected function tearDown()
 	{
 		$this->restoreFactoryState();
 	}
@@ -68,7 +70,8 @@ class JFormTest extends TestCase
 		$paths = JForm::addFieldPath();
 
 		// The default path is the class file folder/forms
-		$valid = JPATH_PLATFORM . '/joomla/form/fields';
+		// use of realpath to ensure test works for on all platforms
+		$valid = realpath(JPATH_PLATFORM . '/joomla/form') . '/fields';
 
 		$this->assertThat(
 			in_array($valid, $paths),
@@ -100,7 +103,8 @@ class JFormTest extends TestCase
 		$paths = JForm::addFormPath();
 
 		// The default path is the class file folder/forms
-		$valid = JPATH_PLATFORM . '/joomla/form/forms';
+		// use of realpath to ensure test works for on all platforms
+		$valid = realpath(JPATH_PLATFORM . '/joomla/form') . '/forms';
 
 		$this->assertThat(
 			in_array($valid, $paths),
@@ -132,7 +136,8 @@ class JFormTest extends TestCase
 		$paths = JForm::addRulePath();
 
 		// The default path is the class file folder/rules
-		$valid = JPATH_PLATFORM . '/joomla/form/rules';
+		// use of realpath to ensure test works for on all platforms
+		$valid = realpath(JPATH_PLATFORM . '/joomla/form') . '/rules';
 
 		$this->assertThat(
 			in_array($valid, $paths),
@@ -1093,7 +1098,8 @@ class JFormTest extends TestCase
 			$this->equalTo(
 				'<input type="text" name="jform[translate_default]" id="jform_translate_default" value="DEFAULT_KEY"/>'
 			),
-			'Line:' . __LINE__ . ' The method should return a simple input text field whose value is untranslated since the DEFAULT_KEY does not exist in the language.'
+			'Line:' . __LINE__ .
+			' The method should return a simple input text field whose value is untranslated since the DEFAULT_KEY does not exist in the language.'
 		);
 
 		$lang = JFactory::getLanguage();
@@ -1132,9 +1138,12 @@ class JFormTest extends TestCase
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
+		$expected = '<label id="title_id-lbl" for="title_id" class="hasTip required" ' .
+				'title="Title::The title.">Title<span class="star">&#160;*</span></label>';
+
 		$this->assertThat(
 			$form->getLabel('title'),
-			$this->equalTo('<label id="title_id-lbl" for="title_id" class="hasTip required" title="Title::The title.">Title<span class="star">&#160;*</span></label>'),
+			$this->equalTo($expected),
 			'Line:' . __LINE__ . ' The method should return a simple label field.'
 		);
 	}
@@ -1363,6 +1372,7 @@ class JFormTest extends TestCase
 		$originalform->load(JFormDataHelper::$loadDocument);
 		$originalset = $originalform->getXML()->xpath('/form/fields/field');
 		$set = $form->getXML()->xpath('/form/fields/field');
+
 		for ($i = 0; $i < count($originalset); $i++)
 		{
 			$this->assertThat(

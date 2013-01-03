@@ -17,6 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Legacy
  * @subpackage  Pathway
  * @since       11.1
+ * @deprecated  13.3
  */
 class JPathway
 {
@@ -77,6 +78,7 @@ class JPathway
 				if (is_object($info))
 				{
 					$path = $info->path . '/includes/pathway.php';
+
 					if (file_exists($path))
 					{
 						include_once $path;

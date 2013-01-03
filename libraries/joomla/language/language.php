@@ -177,6 +177,8 @@ class JLanguage
 		{
 			if (is_array($contents))
 			{
+				// Sort the underlying heap by key values to optimize merging
+				ksort($contents, SORT_STRING);
 				$this->override = $contents;
 			}
 			unset($contents);
@@ -185,6 +187,7 @@ class JLanguage
 		// Look for a language specific localise class
 		$class = str_replace('-', '_', $lang . 'Localise');
 		$paths = array();
+
 		if (defined('JPATH_SITE'))
 		{
 			// Note: Manual indexing to enforce load order.
@@ -768,11 +771,14 @@ class JLanguage
 		{
 			if (is_array($strings))
 			{
+				// Sort the underlying heap by key values to optimize merging
+				ksort($strings, SORT_STRING);
 				$this->strings = array_merge($this->strings, $strings);
 			}
 
 			if (is_array($strings) && count($strings))
 			{
+				// Do not bother with ksort here.  Since the originals were sorted, PHP will already have chosen the best heap.
 				$this->strings = array_merge($this->strings, $this->override);
 				$result = true;
 			}
@@ -915,6 +921,7 @@ class JLanguage
 
 		// Search through the backtrace to our caller
 		$continue = true;
+
 		while ($continue && next($backtrace))
 		{
 			$step = current($backtrace);
@@ -1266,6 +1273,7 @@ class JLanguage
 			try
 			{
 				$metadata = self::parseXMLLanguageFile($file->getRealPath());
+
 				if ($metadata)
 				{
 					$lang = str_replace('.xml', '', $fileName);
@@ -1300,6 +1308,7 @@ class JLanguage
 
 		// Try to load the file
 		$xml = simplexml_load_file($path);
+
 		if (!$xml)
 		{
 			return null;

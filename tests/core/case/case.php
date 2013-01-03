@@ -36,6 +36,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 		'application' => null,
 		'config' => null,
 		'dates' => null,
+		'database' => null,
 		'session' => null,
 		'language' => null,
 		'document' => null,
@@ -140,6 +141,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 			if ($thisError)
 			{
 				unset($this->expectedErrors[$key]);
+
 				return $error;
 			}
 
@@ -346,6 +348,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 		JFactory::$document = $this->_stashedFactoryState['document'];
 		JFactory::$acl = $this->_stashedFactoryState['acl'];
 		JFactory::$mailer = $this->_stashedFactoryState['mailer'];
+		JFactory::$database = $this->_stashedFactoryState['database'];
 	}
 
 	/**
@@ -386,6 +389,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 		$this->_stashedFactoryState['document'] = JFactory::$document;
 		$this->_stashedFactoryState['acl'] = JFactory::$acl;
 		$this->_stashedFactoryState['mailer'] = JFactory::$mailer;
+		$this->_stashedFactoryState['database'] = JFactory::$database;
 	}
 
 	/**
@@ -426,9 +430,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @param   string  $testName  The name of the test class for which to set the error callback method.
 	 *
-	 * @param   string  $testName  The test name.
-	 *
-	 * @return    void
+	 * @return  void
 	 *
 	 * @since   12.1
 	 */

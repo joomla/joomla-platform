@@ -29,7 +29,7 @@ class FilterTestObject
 	/**
 	 * Sets up a dummy object for the output filter to be tested against
 	 */
-	function __construct()
+	public function __construct()
 	{
 		$this->string1 = "<script>alert();</script>";
 		$this->string2 = "This is a test.";
@@ -171,7 +171,7 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 */
-	static function dataSet()
+	public static function dataSet()
 	{
 		$cases = array(
 			'case_1' => array(
@@ -201,7 +201,7 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	 * @dataProvider dataSet
 	 * @return void
 	 */
-	function testCleanText($data, $expect)
+	public function testCleanText($data, $expect)
 	{
 		$this->assertEquals($expect, JFilterOutput::cleanText($data));
 	}
@@ -233,8 +233,9 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertEquals(
 			'Hello  I am waving at you.',
-			$this->object->stripIframes('Hello <iframe src="http://player.vimeo.com/video/37576499" width="500" height="281" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> I am waving at you.'),
-			'Should remove iFrame tags'
+			$this->object->stripIframes('Hello <iframe src="http://player.vimeo.com/video/37576499" width="500"' .
+				' height="281" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> I am waving at you.'),
+				'Should remove iFrame tags'
 		);
 	}
 }

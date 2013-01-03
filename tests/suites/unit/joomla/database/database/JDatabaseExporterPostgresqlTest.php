@@ -44,10 +44,11 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   12.1
 	 */
-	public function setup()
+	protected function setup()
 	{
-		// Set up the database object mock.
+		parent::setUp();
 
+		// Set up the database object mock.
 		$this->dbo = $this->getMock(
 			'JDatabaseDriverPostgresql',
 			array(
@@ -268,19 +269,18 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 
 		/* Depending on which version is running, 9.1.0 or older */
 		$start_val = null;
+
 		if ($this->_ver9dot1)
 		{
 			$start_val = '1';
 		}
 
-		$this->assertThat(
-			(string) $instance,
-			$this->equalTo(
-'<?xml version="1.0"?>
+		$expecting = '<?xml version="1.0"?>
 <postgresqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
  <database name="">
   <table_structure name="#__test">
-   <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' . $start_val . '" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />
+   <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' .
+			$start_val . '" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />
    <field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />
    <field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />
    <field Field="start_date" Type="timestamp without time zone" Null="NO" Default="NULL" Comments="" />
@@ -288,11 +288,16 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
    <key Index="jos_dbtest_pkey" is_primary="TRUE" is_unique="TRUE" Query="ALTER TABLE "jos_dbtest" ADD PRIMARY KEY (id)" />
   </table_structure>
  </database>
-</postgresqldump>'
+</postgresqldump>';
+
+		// Replace used to prevent platform conflicts
+		$this->assertThat(
+			preg_replace('/\v/', '', (string) $instance),
+			$this->equalTo(
+				preg_replace('/\v/', '', $expecting)
 			),
 			'__toString has not returned the expected result.'
 		);
-
 	}
 
 	/**
@@ -340,19 +345,18 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 
 		/* Depending on which version is running, 9.1.0 or older */
 		$start_val = null;
+
 		if ($this->_ver9dot1)
 		{
 			$start_val = '1';
 		}
 
-		$this->assertThat(
-			$instance->buildXml(),
-			$this->equalTo(
-'<?xml version="1.0"?>
+		$expecting = '<?xml version="1.0"?>
 <postgresqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
  <database name="">
   <table_structure name="#__test">
-   <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' . $start_val . '" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />
+   <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' .
+			$start_val . '" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />
    <field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />
    <field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />
    <field Field="start_date" Type="timestamp without time zone" Null="NO" Default="NULL" Comments="" />
@@ -360,7 +364,13 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
    <key Index="jos_dbtest_pkey" is_primary="TRUE" is_unique="TRUE" Query="ALTER TABLE "jos_dbtest" ADD PRIMARY KEY (id)" />
   </table_structure>
  </database>
-</postgresqldump>'
+</postgresqldump>';
+
+		// Replace used to prevent platform conflicts
+		$this->assertThat(
+			preg_replace('/\v/', '', $instance->buildXml()),
+			$this->equalTo(
+				preg_replace('/\v/', '', $expecting)
 			),
 			'buildXml has not returned the expected result.'
 		);
@@ -385,6 +395,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 
 		/* Depending on which version is running, 9.1.0 or older */
 		$start_val = null;
+
 		if ($this->_ver9dot1)
 		{
 			$start_val = '1';
@@ -395,7 +406,8 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 			$this->equalTo(
 				array(
 					'  <table_structure name="#__test">',
-					'   <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' . $start_val . '" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />',
+					'   <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' .
+					$start_val . '" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />',
 					'   <field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />',
 					'   <field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />',
 					'   <field Field="start_date" Type="timestamp without time zone" Null="NO" Default="NULL" Comments="" />',

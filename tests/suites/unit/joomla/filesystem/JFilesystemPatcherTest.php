@@ -31,6 +31,8 @@ class JFilesystemPatcherTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		// Make sure previous test files are cleaned up
 		$this->_cleanupTestFiles();
 
@@ -120,27 +122,29 @@ class JFilesystemPatcherTest extends TestCase
 +Deeper and more profound,
 +The door of all subtleties!
 ';
+
+		// Use of realpath to ensure test works for on all platforms
 		return array(
 			array(
 				$udiff,
-				JPATH_TESTS . '/tmp/patcher',
+				realpath(JPATH_TESTS . '/tmp/patcher'),
 				0,
 				array(
 					array(
 						'udiff' => $udiff,
-						'root' => JPATH_TESTS . '/tmp/patcher/',
+						'root' => realpath(JPATH_TESTS . '/tmp/patcher') . DIRECTORY_SEPARATOR,
 						'strip' => 0
 					)
 				)
 			),
 			array(
 				$udiff,
-				JPATH_TESTS . '/tmp/patcher/',
+				realpath(JPATH_TESTS . '/tmp/patcher') . DIRECTORY_SEPARATOR,
 				0,
 				array(
 					array(
 						'udiff' => $udiff,
-						'root' => JPATH_TESTS . '/tmp/patcher/',
+						'root' => realpath(JPATH_TESTS . '/tmp/patcher') . DIRECTORY_SEPARATOR,
 						'strip' => 0
 					)
 				)
@@ -164,7 +168,7 @@ class JFilesystemPatcherTest extends TestCase
 				array(
 					array(
 						'udiff' => $udiff,
-						'root' => '/',
+						'root' => DIRECTORY_SEPARATOR,
 						'strip' => 0
 					)
 				)
@@ -229,14 +233,17 @@ class JFilesystemPatcherTest extends TestCase
 +Deeper and more profound,
 +The door of all subtleties!
 ';
+
+		// Use of realpath to ensure test works for on all platforms
 		file_put_contents(JPATH_TESTS . '/tmp/patcher/lao2tzu.diff', $udiff);
 		$patcher = JFilesystemPatcher::getInstance()->reset();
-		$patcher->addFile(JPATH_TESTS . '/tmp/patcher/lao2tzu.diff', JPATH_TESTS . '/tmp/patcher');
+		$patcher->addFile(JPATH_TESTS . '/tmp/patcher/lao2tzu.diff', realpath(JPATH_TESTS . '/tmp/patcher'));
+
 		$this->assertAttributeEquals(
 			array(
 				array(
 					'udiff' => $udiff,
-					'root' => JPATH_TESTS . '/tmp/patcher/',
+					'root' => realpath(JPATH_TESTS . '/tmp/patcher') . DIRECTORY_SEPARATOR,
 					'strip' => 0
 				)
 			),
@@ -932,6 +939,7 @@ But after they are produced,
 			$patcher->apply(),
 			'Line:' . __LINE__ . ' The patcher did not patch ' . $result . ' file(s).'
 		);
+
 		foreach ($destinations as $path => $content)
 		{
 			if (is_null($content))
@@ -943,9 +951,14 @@ But after they are produced,
 			}
 			else
 			{
+				// Remove all vertical characters to ensure system independed compare
+				$content = preg_replace('/\v/', '', $content);
+				$data = file_get_contents($path);
+				$data = preg_replace('/\v/', '', $data);
+
 				$this->assertEquals(
 					$content,
-					file_get_contents($path),
+					$data,
 					'Line:' . __LINE__ . ' The patcher did not succeed in patching ' . $path
 				);
 			}

@@ -29,6 +29,8 @@ class JRouterTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		$this->object = new JRouter;
 	}
 
@@ -109,6 +111,7 @@ class JRouterTest extends PHPUnit_Framework_TestCase
 		$cases[] = array(array(), 'myvar', 'myvalue', false, null);
 		$cases[] = array(array('myvar' => 'myvalue1'), 'myvar', 'myvalue2', true, 'myvalue2');
 		$cases[] = array(array('myvar' => 'myvalue1'), 'myvar', 'myvalue2', false, 'myvalue2');
+
 		return $cases;
 	}
 
@@ -316,6 +319,7 @@ class JRouterTest extends PHPUnit_Framework_TestCase
 		$myuri = 'http://localhost';
 		$stub = $this->getMock('JRouter', array('_parseRawRoute'));
 		$stub->expects($this->any())->method('_parseRawRoute')->will($this->returnValue(array()));
+
 		foreach ($functions as $function)
 		{
 			$stub->attachParseRule($function);

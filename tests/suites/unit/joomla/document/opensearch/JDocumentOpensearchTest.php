@@ -34,6 +34,8 @@ class JDocumentOpensearchTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		$this->saveFactoryState();
 
 		$_SERVER['HTTP_HOST'] = 'localhost';
@@ -77,11 +79,17 @@ class JDocumentOpensearchTest extends TestCase
 		$this->object->addUrl($item);
 		$this->object->addUrl($item2);
 
+		$expected = '<?xml version="1.0" encoding="utf-8"?>' . PHP_EOL .
+			'<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"><ShortName>ShortName</ShortName>' .
+			'<Description>Description</Description><InputEncoding>UTF-8</InputEncoding>' .
+			'<Url type="application/opensearchdescription+xml" rel="self" template=""/>' .
+			'<Url type="text/html" template="http://www.example.com"/>' .
+			'<Url type="application/rss+xml" rel="suggestions" template="http://www.example.com?format=feed"/>' .
+			'</OpenSearchDescription>' . PHP_EOL;
+
 		$this->assertThat(
 			$this->object->render(),
-			$this->equalTo('<?xml version="1.0" encoding="utf-8"?>
-<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"><ShortName>ShortName</ShortName><Description>Description</Description><InputEncoding>UTF-8</InputEncoding><Url type="application/opensearchdescription+xml" rel="self" template=""/><Url type="text/html" template="http://www.example.com"/><Url type="application/rss+xml" rel="suggestions" template="http://www.example.com?format=feed"/></OpenSearchDescription>
-')
+			$this->equalTo($expected)
 		);
 
 	}

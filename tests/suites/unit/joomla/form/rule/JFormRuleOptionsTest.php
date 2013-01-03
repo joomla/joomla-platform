@@ -26,6 +26,8 @@ class JFormRuleOptionsTest extends TestCase
 	 */
 	public function setUp()
 	{
+		parent::setUp();
+
 		$this->saveFactoryState();
 	}
 
@@ -36,7 +38,7 @@ class JFormRuleOptionsTest extends TestCase
 	 *
 	 * @since   11.1
 	 */
-	function tearDown()
+	protected function tearDown()
 	{
 		$this->restoreFactoryState();
 	}

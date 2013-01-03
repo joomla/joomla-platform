@@ -24,6 +24,8 @@ class JFormFieldSpacerTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		require_once JPATH_PLATFORM . '/joomla/form/fields/spacer.php';
 		include_once dirname(__DIR__) . '/inspectors.php';
 	}
@@ -81,9 +83,13 @@ class JFormFieldSpacerTest extends TestCase
 			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
+		$equals = '<span class="spacer"><span class="before"></span><span class="">' .
+			'<label id="spacer-lbl" class="hasTip" title="spacer::spacer">spacer</label></span>' .
+			'<span class="after"></span></span>';
+
 		$this->assertEquals(
 			$field->label,
-			'<span class="spacer"><span class="before"></span><span class=""><label id="spacer-lbl" class="hasTip" title="spacer::spacer">spacer</label></span><span class="after"></span></span>',
+			$equals,
 			'Line:' . __LINE__ . ' The getLabel method should return something without error.'
 		);
 
@@ -101,9 +107,12 @@ class JFormFieldSpacerTest extends TestCase
 			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
+		$equals = '<span class="spacer"><span class="before"></span><span class="text">' .
+			'<label id="spacer-lbl" class="">spacer</label></span><span class="after"></span></span>';
+
 		$this->assertEquals(
 			$field->label,
-			'<span class="spacer"><span class="before"></span><span class="text"><label id="spacer-lbl" class="">spacer</label></span><span class="after"></span></span>',
+			$equals,
 			'Line:' . __LINE__ . ' The getLabel method should return something without error.'
 		);
 
@@ -121,9 +130,12 @@ class JFormFieldSpacerTest extends TestCase
 			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
+		$equals = '<span class="spacer"><span class="before"></span><span class="text">' .
+			'<label id="spacer-lbl" class="">MyLabel</label></span><span class="after"></span></span>';
+
 		$this->assertEquals(
 			$field->label,
-			'<span class="spacer"><span class="before"></span><span class="text"><label id="spacer-lbl" class="">MyLabel</label></span><span class="after"></span></span>',
+			$equals,
 			'Line:' . __LINE__ . ' The getLabel method should return something without error.'
 		);
 
@@ -141,9 +153,12 @@ class JFormFieldSpacerTest extends TestCase
 			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
+		$expected = '<span class="spacer"><span class="before"></span><span class=""><hr class="" /></span>' .
+			'<span class="after"></span></span>';
+
 		$this->assertEquals(
 			$field->label,
-			'<span class="spacer"><span class="before"></span><span class=""><hr class="" /></span><span class="after"></span></span>',
+			$expected,
 			'Line:' . __LINE__ . ' The getLabel method should return something without error.'
 		);
 	}

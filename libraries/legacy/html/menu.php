@@ -15,6 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Legacy
  * @subpackage  HTML
  * @since       11.1
+ * @deprecated  13.3
  */
 abstract class JHtmlMenu
 {
@@ -103,6 +104,7 @@ abstract class JHtmlMenu
 
 			// Collate menu items based on menutype
 			$lookup = array();
+
 			foreach ($items as &$item)
 			{
 				if (!isset($lookup[$item->menutype]))
@@ -250,6 +252,7 @@ abstract class JHtmlMenu
 		// Code that adds menu name to Display of Page(s)
 
 		$mitems = array();
+
 		if ($all | $unassigned)
 		{
 			$mitems[] = JHtml::_('select.option', '<OPTGROUP>', JText::_('JOPTION_MENUS'));
@@ -268,6 +271,7 @@ abstract class JHtmlMenu
 
 		$lastMenuType = null;
 		$tmpMenuType = null;
+
 		foreach ($list as $list_a)
 		{
 			if ($list_a->menutype != $lastMenuType)

@@ -27,7 +27,7 @@ class JObject
 	 * @var              array
 	 * @since            11.1
 	 * @see              JError
-	 * @deprecated       13.1
+	 * @deprecated       13.3
 	 */
 	protected $_errors = array();
 
@@ -48,7 +48,7 @@ class JObject
 	}
 
 	/**
-	 * Sets a default value if not alreay assigned
+	 * Sets a default value if not already assigned
 	 *
 	 * @param   string  $property  The name of the property.
 	 * @param   mixed   $default   The default value.
@@ -60,6 +60,7 @@ class JObject
 	public function def($property, $default = null)
 	{
 		$value = $this->get($property, $default);
+
 		return $this->set($property, $value);
 	}
 
@@ -98,6 +99,7 @@ class JObject
 	public function getProperties($public = true)
 	{
 		$vars = get_object_vars($this);
+
 		if ($public)
 		{
 			foreach ($vars as $key => $value)
@@ -122,7 +124,7 @@ class JObject
 	 *
 	 * @since       11.1
 	 * @see         JError
-	 * @deprecated  13.1
+	 * @deprecated  13.3
 	 */
 	public function getError($i = null, $toString = true)
 	{
@@ -158,7 +160,7 @@ class JObject
 	 *
 	 * @since       11.1
 	 * @see         JError
-	 * @deprecated  13.1
+	 * @deprecated  13.3
 	 */
 	public function getErrors()
 	{
@@ -179,6 +181,7 @@ class JObject
 	{
 		$previous = isset($this->$property) ? $this->$property : null;
 		$this->$property = $value;
+
 		return $previous;
 	}
 
@@ -217,7 +220,7 @@ class JObject
 	 *
 	 * @since       11.1
 	 * @see         JError
-	 * @deprecated  13.1
+	 * @deprecated  13.3
 	 */
 	public function setError($error)
 	{

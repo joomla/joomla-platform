@@ -37,22 +37,22 @@ class JCacheStorageTest extends TestCase
 	protected static $actualError;
 
 	/**
-	 * @var  bool
+	 * @var  boolean
 	 */
 	protected $apcAvailable;
 
 	/**
-	 * @var  bool
+	 * @var  boolean
 	 */
 	protected $eacceleratorAvailable;
 
 	/**
-	 * @var  bool
+	 * @var  boolean
 	 */
 	protected $memcacheAvailable;
 
 	/**
-	 * @var  bool
+	 * @var  boolean
 	 */
 	protected $xcacheAvailable;
 
@@ -61,13 +61,14 @@ class JCacheStorageTest extends TestCase
 	 *
 	 * @param   JException  &$error  The JException object from JError
 	 *
-	 * @return    bool    To not continue with JError processing
+	 * @return    boolean   To not continue with JError processing
 	 */
-	static function errorCallback(&$error)
+	public static function errorCallback(&$error)
 	{
 		self::$actualError['code'] = $error->get('code');
 		self::$actualError['msg'] = $error->get('message');
 		self::$actualError['info'] = $error->get('info');
+
 		return false;
 	}
 
@@ -121,9 +122,10 @@ class JCacheStorageTest extends TestCase
 	 *
 	 * @return array
 	 */
-	function casesGetInstance()
+	public function casesGetInstance()
 	{
 		$this->checkStores();
+
 		return array(
 			'defaultfile' => array(
 				'file',
@@ -203,6 +205,7 @@ class JCacheStorageTest extends TestCase
 		}
 
 		$this->object = JCacheStorage::getInstance($handler, $options);
+
 		if (class_exists('JTestConfig'))
 		{
 			$config = new JTestConfig;
@@ -248,7 +251,7 @@ class JCacheStorageTest extends TestCase
 	}
 
 	/**
-	 * Testing get().
+	 * Testing get()
 	 *
 	 * @return void
 	 */

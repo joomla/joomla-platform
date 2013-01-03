@@ -24,6 +24,8 @@ class JFormRuleRulesTest extends TestCase
 	 */
 	public function setUp()
 	{
+		parent::setUp();
+
 		$this->saveFactoryState();
 	}
 
@@ -32,7 +34,7 @@ class JFormRuleRulesTest extends TestCase
 	 *
 	 * @return void
 	 */
-	function tearDown()
+	protected function tearDown()
 	{
 		$this->restoreFactoryState();
 	}

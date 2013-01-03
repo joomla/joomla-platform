@@ -30,7 +30,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 */
 	public function read($id)
 	{
-		// Get the database connection object and verify its connected.
+		// Get the database connection object and verify that it is connected.
 		$db = JFactory::getDbo();
 
 		try
@@ -63,7 +63,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 */
 	public function write($id, $data)
 	{
-		// Get the database connection object and verify its connected.
+		// Get the database connection object and verify that it is connected.
 		$db = JFactory::getDbo();
 
 		try
@@ -76,14 +76,14 @@ class JSessionStorageDatabase extends JSessionStorage
 
 			// Try to update the session data in the database table.
 			$db->setQuery($query);
+
 			if (!$db->execute())
 			{
 				return false;
 			}
-			/* Since $db->execute did not throw an exception, so the query was successful.
-			Either the data changed, or the data was identical.
-			In either case we are done.
-			*/
+			// Since $db->execute did not throw an exception the query was successful.
+			// Either the data changed, or the data was identical. In either case we are done.
+
 			return true;
 		}
 		catch (Exception $e)
@@ -103,7 +103,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 */
 	public function destroy($id)
 	{
-		// Get the database connection object and verify its connected.
+		// Get the database connection object and verify that it is connected.
 		$db = JFactory::getDbo();
 
 		try
@@ -134,7 +134,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 */
 	public function gc($lifetime = 1440)
 	{
-		// Get the database connection object and verify its connected.
+		// Get the database connection object and verify that it is connected.
 		$db = JFactory::getDbo();
 
 		// Determine the timestamp threshold with which to purge old sessions.

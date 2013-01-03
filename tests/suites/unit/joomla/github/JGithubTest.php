@@ -47,6 +47,8 @@ class JGithubTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		$this->options = new JRegistry;
 		$this->client = $this->getMock('JGithubHttp', array('get', 'post', 'delete', 'patch', 'put'));
 
@@ -156,13 +158,73 @@ class JGithubTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the magic __get method - refs
+	 * Tests the magic __get method - milestones
+	 *
+	 * @since  12.3
+	 *
+	 * @return void
+	 */
+	public function test__GetMilestones()
+	{
+		$this->assertThat(
+			$this->object->milestones,
+			$this->isInstanceOf('JGithubMilestones')
+		);
+	}
+
+	/**
+	 * Tests the magic __get method - statuses
+	 *
+	 * @since  12.3
+	 *
+	 * @return void
+	 */
+	public function test__GetStatuses()
+	{
+		$this->assertThat(
+			$this->object->statuses,
+			$this->isInstanceOf('JGithubStatuses')
+		);
+	}
+
+	/**
+	 * Tests the magic __get method - account
+	 *
+	 * @since  12.3
+	 *
+	 * @return void
+	 */
+	public function test__GetAccount()
+	{
+		$this->assertThat(
+			$this->object->account,
+			$this->isInstanceOf('JGithubAccount')
+		);
+	}
+
+	/**
+	 * Tests the magic __get method - hooks
+	 *
+	 * @since  12.3
+	 *
+	 * @return void
+	 */
+	public function test__GetHooks()
+	{
+		$this->assertThat(
+			$this->object->hooks,
+			$this->isInstanceOf('JGithubHooks')
+		);
+	}
+
+	/**
+	 * Tests the magic __get method - failure
 	 *
 	 * @since  11.3
 	 *
 	 * @return void
 	 */
-	public function test__GetOther()
+	public function test__GetFailure()
 	{
 		$this->assertThat(
 			$this->object->other,

@@ -6,8 +6,6 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
-
 /**
  * en-GB localise class
  *
@@ -53,6 +51,7 @@ abstract class En_GBLocalise
 		$search_ignore[] = "and";
 		$search_ignore[] = "in";
 		$search_ignore[] = "on";
+
 		return $search_ignore;
 	}
 

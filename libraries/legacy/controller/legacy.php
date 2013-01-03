@@ -18,6 +18,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Legacy
  * @subpackage  Controller
  * @since       12.2
+ * @deprecated  13.3
  */
 class JControllerLegacy extends JObject
 {
@@ -703,6 +704,7 @@ class JControllerLegacy extends JObject
 		$this->task = $task;
 
 		$task = strtolower($task);
+
 		if (isset($this->taskMap[$task]))
 		{
 			$doTask = $this->taskMap[$task];
@@ -784,6 +786,7 @@ class JControllerLegacy extends JObject
 		if (empty($this->name))
 		{
 			$r = null;
+
 			if (!preg_match('/(.*)Controller/i', get_class($this), $r))
 			{
 				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
@@ -1065,6 +1068,7 @@ class JControllerLegacy extends JObject
 	public function setRedirect($url, $msg = null, $type = null)
 	{
 		$this->redirect = $url;
+
 		if ($msg !== null)
 		{
 			// Controller may have set this directly

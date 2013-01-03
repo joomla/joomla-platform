@@ -61,6 +61,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		$this->options = new JRegistry;
 		$this->client = $this->getMock('JGithubHttp', array('get', 'post', 'delete', 'patch', 'put'));
 
@@ -121,7 +123,7 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 		$data = json_encode(
 			array(
 				'files' => array(
-					'gittest' => array('content' => 'GistContent' . "\n")
+					'gittest' => array('content' => 'GistContent' . PHP_EOL)
 				),
 				'public' => true,
 				'description' => 'This is a gist'

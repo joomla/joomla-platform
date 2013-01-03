@@ -30,17 +30,9 @@ class JObjectTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
-		$this->o = new JObject;
-	}
+		parent::setUp();
 
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @return void
-	 */
-	protected function tearDown()
-	{
+		$this->o = new JObject;
 	}
 
 	/**
@@ -85,8 +77,11 @@ class JObjectTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGet()
 	{
-		$this->assertEquals("onaplane", $this->o->get("foo", "onaplane"));
-		$this->assertNotEquals(null, $this->o->get("foo", "onaplane"));
+		$this->o->goo = 'car';
+		$this->assertEquals('car', $this->o->get('goo', 'fudge'));
+		$this->assertEquals('fudge', $this->o->get('foo', 'fudge'));
+		$this->assertNotEquals(null, $this->o->get('foo', 'fudge'));
+		$this->assertNull($this->o->get('boo'));
 	}
 
 	/**
@@ -175,6 +170,7 @@ class JObjectTest extends PHPUnit_Framework_TestCase
 	public function testGetErrors()
 	{
 		$errors = array(1234, 'Second Test Error', 'Third Test Error');
+
 		foreach ($errors as $error)
 		{
 			$this->o->setError($error);

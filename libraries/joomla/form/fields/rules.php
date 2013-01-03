@@ -48,7 +48,10 @@ class JFormFieldRules extends JFormField
 		$assetField = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
 
 		// Get the actions for the asset.
-		$actions = JAccess::getActions($component, $section);
+		$actions = JAccess::getActionsFromFile(
+			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml',
+			"/access/section[@name='" . $section . "']/"
+		);
 
 		// Iterate over the children and add to the actions.
 		foreach ($this->element->children() as $el)
@@ -140,6 +143,7 @@ class JFormFieldRules extends JFormField
 
 			// The calculated setting is not shown for the root group of global configuration.
 			$canCalculateSettings = ($group->parent_id || !empty($component));
+
 			if ($canCalculateSettings)
 			{
 				$html[] = '<th id="aclactionth' . $group->value . '">';
@@ -266,6 +270,7 @@ class JFormFieldRules extends JFormField
 
 		$html[] = str_repeat('</ul></li>', $curLevel);
 		$html[] = '</ul><div class="rule-notes">';
+
 		if ($section == 'component' || $section == null)
 		{
 			$html[] = JText::_('JLIB_RULES_SETTING_NOTES');

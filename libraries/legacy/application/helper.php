@@ -15,6 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Legacy
  * @subpackage  Application
  * @since       11.1
+ * @deprecated  13.3
  */
 class JApplicationHelper
 {
@@ -53,6 +54,7 @@ class JApplicationHelper
 		}
 
 		$input->set('option', $option);
+
 		return $option;
 	}
 
@@ -172,6 +174,7 @@ class JApplicationHelper
 	public static function parseXMLInstallFile($path)
 	{
 		JLog::add('JApplicationHelper::parseXMLInstallFile is deprecated. Use JInstaller::parseXMLInstallFile instead.', JLog::WARNING, 'deprecated');
+
 		return JInstaller::parseXMLInstallFile($path);
 	}
 
@@ -206,6 +209,7 @@ class JApplicationHelper
 		if ($xml->getName() != 'metafile')
 		{
 			unset($xml);
+
 			return false;
 		}
 

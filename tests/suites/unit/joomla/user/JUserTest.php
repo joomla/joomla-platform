@@ -75,7 +75,7 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @since   12.1
 	 */
-	function casesGetInstance()
+	public function casesGetInstance()
 	{
 		return array(
 			'42' => array(
@@ -165,7 +165,7 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @since   12.1
 	 */
-	function casesAuthorise()
+	public function casesAuthorise()
 	{
 		return array(
 			'Publisher Create' => array(
@@ -244,7 +244,7 @@ class JUserTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Test...
+	 * Test getAuthorisedCategories
 	 *
 	 * @covers JUser::getAuthorisedCategories
 	 * @todo Implement testGetAuthorisedCategories().
@@ -266,7 +266,7 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @since   12.1
 	 */
-	function casesGetAuthorisedViewLevels()
+	public function casesGetAuthorisedViewLevels()
 	{
 		return array(
 			'User42' => array(
@@ -393,9 +393,35 @@ class JUserTest extends TestCaseDatabase
 	 */
 	public function testBind()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
+		$array = array();
+		$string = '12345678901234567890123456789012345678901234567890123456789012345678901234567890'
+			. '12345678901234567890123456789012345678901234567890123456789012345678901234567890'
+			. '1234567890123456789012345678901234567890';
+
+		$array['username'] = $string;
+		$array['password'] = $string;
+		$array['password2'] = $string;
+
+		$testUser = new JUser;
+		$result = $testUser->bind($array);
+		$this->assertTrue(
+			$result
+		);
+
+		$this->assertTrue(
+			(strlen($testUser->username) >= 1 && strlen($testUser->username) <= 150)
+		);
+
+		$this->assertTrue(
+			(strlen($testUser->password) >= 1 && strlen($testUser->password) <= 100)
+		);
+
+		$array['password2'] = 'password_ok_not_same';
+
+		$testUser = new JUser;
+		$result = $testUser->bind($array);
+		$this->assertFalse(
+			$result
 		);
 	}
 
@@ -438,7 +464,7 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @since   12.1
 	 */
-	function casesLoad()
+	public function casesLoad()
 	{
 		return array(
 			'non-existant' => array(

@@ -31,6 +31,8 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		include_once JPATH_PLATFORM . '/joomla/cache/storage.php';
 		include_once JPATH_PLATFORM . '/joomla/cache/storage/file.php';
 
@@ -38,21 +40,11 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @return void
-	 */
-	protected function tearDown()
-	{
-	}
-
-	/**
 	 * Test Cases for get() / store()
 	 *
 	 * @return array
 	 */
-	function casesStore()
+	public function casesStore()
 	{
 		return array(
 			'souls' => array(

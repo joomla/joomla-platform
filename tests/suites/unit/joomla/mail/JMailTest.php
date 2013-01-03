@@ -32,6 +32,8 @@ class JMailTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		$this->object = new JMail;
 	}
 
@@ -293,6 +295,23 @@ class JMailTest extends TestCase
 
 		$this->object->addReplyTo($recipient, $name);
 		$this->assertThat($expected, $this->equalTo(TestReflection::getValue($this->object, 'ReplyTo')));
+	}
+
+	/**
+	 * Tests the IsHTML method.
+	 *
+	 * @covers  JMail::IsHTML
+	 *
+	 * @return void
+	 */
+	public function testIsHTML()
+	{
+		$returnedObject = $this->object->isHtml(false);
+
+		$this->assertThat('text/plain', $this->equalTo($this->object->ContentType));
+
+		// Test to ensure that a JMail object is being returned for chaining
+		$this->assertInstanceOf('JMail', $returnedObject);
 	}
 
 	/**

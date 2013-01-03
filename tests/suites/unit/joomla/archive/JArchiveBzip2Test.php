@@ -32,6 +32,8 @@ class JArchiveBzip2Test extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		self::$outputPath = __DIR__ . '/output';
 
 		if (!is_dir(self::$outputPath))
@@ -66,6 +68,7 @@ class JArchiveBzip2Test extends PHPUnit_Framework_TestCase
 		if (!JArchiveBzip2::isSupported())
 		{
 			$this->markTestSkipped('Bzip2 files can not be extracted.');
+
 			return;
 		}
 
@@ -89,6 +92,7 @@ class JArchiveBzip2Test extends PHPUnit_Framework_TestCase
 		if (!JArchiveBzip2::isSupported())
 		{
 			$this->markTestSkipped('Bzip2 files can not be extracted.');
+
 			return;
 		}
 

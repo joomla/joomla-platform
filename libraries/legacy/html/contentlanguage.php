@@ -15,6 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Legacy
  * @subpackage  HTML
  * @since       11.1
+ * @deprecated  13.3
  */
 abstract class JHtmlContentLanguage
 {
@@ -55,6 +56,7 @@ abstract class JHtmlContentLanguage
 			// Set the query and load the options.
 			$db->setQuery($query);
 			self::$items = $db->loadObjectList();
+
 			if ($all)
 			{
 				array_unshift(self::$items, new JObject(array('value' => '*', 'text' => $translate ? JText::alt('JALL', 'language') : 'JALL_LANGUAGE')));

@@ -15,6 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Legacy
  * @subpackage  Component
  * @since       11.1
+ * @deprecated  13.3
  */
 class JComponentHelper
 {
@@ -356,6 +357,7 @@ class JComponentHelper
 		require_once $path;
 		$contents = ob_get_contents();
 		ob_end_clean();
+
 		return $contents;
 	}
 
@@ -388,13 +390,16 @@ class JComponentHelper
 		{
 			// Fatal error.
 			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $e->getMessage()), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
 		if (empty(self::$components[$option]))
 		{
 			// Fatal error.
-			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option), JLog::WARNING, 'jerror');
+			$error = JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND');
+			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $error), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 

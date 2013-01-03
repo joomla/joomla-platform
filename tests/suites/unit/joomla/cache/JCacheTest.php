@@ -33,6 +33,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
 		include_once JPATH_PLATFORM . '/joomla/cache/cache.php';
 		include_once JPATH_PLATFORM . '/joomla/cache/controller.php';
 		include_once JPATH_PLATFORM . '/joomla/cache/storage.php';
@@ -41,23 +42,11 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @return void
-	 *
-	 * @access protected
-	 */
-	protected function tearDown()
-	{
-	}
-
-	/**
 	 * Test Cases for getInstance
 	 *
 	 * @return array
 	 */
-	function casesGetInstance()
+	public function casesGetInstance()
 	{
 		return array(
 			'simple' => array(
@@ -141,7 +130,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 */
-	function casesSetCaching()
+	public function casesSetCaching()
 	{
 		return array(
 			'simple' => array(
@@ -214,7 +203,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 */
-	function casesSetLifetime()
+	public function casesSetLifetime()
 	{
 		return array(
 			'simple' => array(
@@ -291,7 +280,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 */
-	function casesGetStores()
+	public function casesGetStores()
 	{
 		return array(
 			'simple' => array(
@@ -367,7 +356,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 */
-	function casesStore()
+	public function casesStore()
 	{
 		return array(
 			'simple' => array(
@@ -562,7 +551,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 */
-	function casesGetStorage()
+	public function casesGetStorage()
 	{
 		return array(
 			'file' => array(
