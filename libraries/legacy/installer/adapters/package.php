@@ -426,10 +426,10 @@ class JInstallerPackage extends JAdapterInstance
 
 		}
 
-		$xml = simplexml_load_file($manifestFile);
+		$this->manifest = simplexml_load_file($manifestFile);
 
 		// If we cannot load the XML file return false
-		if (!$xml)
+		if (!$this->manifest)
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_LOAD_MANIFEST'), JLog::WARNING, 'jerror');
 
@@ -437,7 +437,7 @@ class JInstallerPackage extends JAdapterInstance
 		}
 
 		// Check for a valid XML root tag.
-		if ($xml->getName() != 'extension')
+		if ($this->manifest->getName() != 'extension')
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_INVALID_MANIFEST'), JLog::WARNING, 'jerror');
 
