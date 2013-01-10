@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Event
- * @since       12.3
+ * @since       13.1
  */
 class JEventListenerQueueTest extends PHPUnit_Framework_TestCase
 {
@@ -27,7 +27,7 @@ class JEventListenerQueueTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	protected function setUp()
 	{
@@ -39,7 +39,7 @@ class JEventListenerQueueTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @covers  JEventListenerQueue::__construct
 	 */
 	public function test__construct()
@@ -53,7 +53,7 @@ class JEventListenerQueueTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @covers  JEventListenerQueue::attach
 	 */
 	public function testAttach()
@@ -84,7 +84,7 @@ class JEventListenerQueueTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @covers  JEventListenerQueue::attach
 	 */
 	public function testAttachExisting()
@@ -109,7 +109,7 @@ class JEventListenerQueueTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @covers  JEventListenerQueue::attach
 	 */
 	public function testAttachExistingClosure()
@@ -133,7 +133,7 @@ class JEventListenerQueueTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @covers  JEventListenerQueue::detach
 	 */
 	public function testDetach()
@@ -156,7 +156,7 @@ class JEventListenerQueueTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @covers  JEventListenerQueue::detach
 	 */
 	public function testDetachClosure()
@@ -179,7 +179,7 @@ class JEventListenerQueueTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @covers  JEventListenerQueue::detach
 	 */
 	public function testDetachNonExisting()
@@ -204,7 +204,7 @@ class JEventListenerQueueTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @covers  JEventListenerQueue::contains
 	 */
 	public function testContains()
@@ -226,7 +226,7 @@ class JEventListenerQueueTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @covers  JEventListenerQueue::contains
 	 */
 	public function testContainsNonExisting()
@@ -239,7 +239,7 @@ class JEventListenerQueueTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @covers  JEventListenerQueue::getPriority
 	 */
 	public function testGetPriority()
@@ -261,7 +261,7 @@ class JEventListenerQueueTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @covers  JEventListenerQueue::getPriority
 	 */
 	public function testGetPriorityWithoutListener()
@@ -274,36 +274,52 @@ class JEventListenerQueueTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @covers  JEventListenerQueue::getAll
 	 */
 	public function testGetAll()
 	{
-		// Attach a a few listeners.
-		$listener = new stdClass;
-		$this->object->attach($listener, 4);
-
-		$listener1 = new stdClass;
-		$this->object->attach($listener1, 3);
-
+		// Attach a few listeners.
 		$listener2 = new stdClass;
-		$this->object->attach($listener2, 2);
+		$this->object->attach($listener2, 4);
+
+		$listener5 = new stdClass;
+		$this->object->attach($listener5, 3);
 
 		$listener3 = function() {};
-		$this->object->attach($listener3, 1);
+		$this->object->attach($listener3, 4);
 
-		$listener4 = function() {};
-		$this->object->attach($listener4);
+		$listener6 = new stdClass;
+		$this->object->attach($listener6, 2);
+
+		$listener7 = new stdClass;
+		$this->object->attach($listener7, 2);
+
+		$listener1 = function() {};
+		$this->object->attach($listener1, 5);
+
+		$listener8 = new stdClass;
+		$this->object->attach($listener8, 2);
+
+		$listener4 = new stdClass;
+		$this->object->attach($listener4, 4);
+
+		$listener9 = function() {};
+		$this->object->attach($listener9);
 
 		// Get all listeners.
 		$listeners = $this->object->getAll();
 
 		// Test they are sorted by priority.
-		$this->assertSame($listener, $listeners[0]);
-		$this->assertSame($listener1, $listeners[1]);
-		$this->assertSame($listener2, $listeners[2]);
-		$this->assertSame($listener3, $listeners[3]);
-		$this->assertSame($listener4, $listeners[4]);
+		$this->assertSame($listener1, $listeners[0]);
+		$this->assertSame($listener2, $listeners[1]);
+		$this->assertSame($listener3, $listeners[2]);
+		$this->assertSame($listener4, $listeners[3]);
+		$this->assertSame($listener5, $listeners[4]);
+		$this->assertSame($listener6, $listeners[5]);
+		$this->assertSame($listener7, $listeners[6]);
+		$this->assertSame($listener8, $listeners[7]);
+		$this->assertSame($listener9, $listeners[8]);
 	}
 
 	/**
@@ -311,7 +327,7 @@ class JEventListenerQueueTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @covers  JEventListenerQueue::getAll
 	 */
 	public function testGetAllEmpty()
@@ -324,7 +340,7 @@ class JEventListenerQueueTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @covers  JEventListenerQueue::getIterator
 	 */
 	public function testGetIterator()
@@ -372,7 +388,7 @@ class JEventListenerQueueTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @covers  JEventListenerQueue::getIterator
 	 */
 	public function testGetIteratorSamePriority()
@@ -385,9 +401,13 @@ class JEventListenerQueueTest extends PHPUnit_Framework_TestCase
 		$listener2 = new stdClass;
 		$this->object->attach($listener2, 1);
 
-		// Attach a third listener with a priority 2.
+		// Attach a third listener with a priority 1.
 		$listener3 = new stdClass;
-		$this->object->attach($listener3, 2);
+		$this->object->attach($listener3, 1);
+
+		// Attach a third listener with a priority 2.
+		$listener4 = new stdClass;
+		$this->object->attach($listener4, 2);
 
 		// Get the inner queue.
 		$iterator = $this->object->getIterator();
@@ -402,9 +422,10 @@ class JEventListenerQueueTest extends PHPUnit_Framework_TestCase
 
 		// Listeners with the same priority must be sorted
 		// in the order they were added.
-		$this->assertSame($listener3, $listeners[0]);
+		$this->assertSame($listener4, $listeners[0]);
 		$this->assertSame($listener1, $listeners[1]);
 		$this->assertSame($listener2, $listeners[2]);
+		$this->assertSame($listener3, $listeners[3]);
 	}
 
 	/**
@@ -413,7 +434,7 @@ class JEventListenerQueueTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @covers  JEventListenerQueue::getIterator
 	 */
 	public function testGetIteratorMultipleTimes()
@@ -460,7 +481,7 @@ class JEventListenerQueueTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @covers  JEventListenerQueue::count
 	 */
 	public function testCount()

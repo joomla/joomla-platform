@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Event
- * @since       12.3
+ * @since       13.1
  */
 class JEventTest extends PHPUnit_Framework_TestCase
 {
@@ -27,7 +27,7 @@ class JEventTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	protected function setUp()
 	{
@@ -37,7 +37,7 @@ class JEventTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the constructor.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEvent::__construct
 	 */
@@ -57,7 +57,7 @@ class JEventTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEvent::getArguments
 	 */
@@ -73,7 +73,7 @@ class JEventTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEvent::setArguments
 	 */
@@ -91,16 +91,42 @@ class JEventTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test the hasArgument method.
+	 *
+	 * @return  void
+	 *
+	 * @since   13.1
+	 *
+	 * @covers  JEvent::hasArgument
+	 */
+	public function testHasArgument()
+	{
+		$this->assertFalse($this->object->hasArgument('test'));
+
+		$this->object->setArgument('test', true);
+		$this->object->setArgument('foo', 1);
+
+		$this->assertTrue($this->object->hasArgument('test'));
+		$this->assertTrue($this->object->hasArgument('foo'));
+	}
+
+	/**
 	 * Test the getArgument method.
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEvent::getArgument
 	 */
 	public function testGetArgument()
 	{
+		$this->assertNull($this->object->getArgument('non-existing'));
+
+		// Specify a default value.
+		$this->assertFalse($this->object->getArgument('non-existing', false));
+
+		// Set some arguments.
 		$arguments = array('foo' => 'bar', 'test' => 'test');
 
 		TestReflection::setValue($this->object, 'arguments', $arguments);
@@ -110,28 +136,11 @@ class JEventTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the getArgument method when the argument doesn't exist.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.3
-	 *
-	 * @covers  JEvent::getArgument
-	 */
-	public function testGetArgumentDefault()
-	{
-		$this->assertNull($this->object->getArgument('non-existing'));
-
-		// Specify a default value.
-		$this->assertFalse($this->object->getArgument('non-existing', false));
-	}
-
-	/**
 	 * Test the setArgument method.
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEvent::setArgument
 	 */
@@ -149,7 +158,7 @@ class JEventTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEvent::setArgument
 	 */
@@ -169,7 +178,7 @@ class JEventTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEvent::count
 	 */
@@ -189,7 +198,7 @@ class JEventTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEvent::stopPropagation
 	 */
@@ -205,7 +214,7 @@ class JEventTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEvent::isStopped
 	 */
@@ -225,7 +234,7 @@ class JEventTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEvent::getName
 	 */
@@ -241,7 +250,7 @@ class JEventTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEvent::serialize
 	 * @covers  JEvent::unserialize

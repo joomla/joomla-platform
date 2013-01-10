@@ -15,7 +15,7 @@ require_once __DIR__ . '/stubs/barlistener.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Event
- * @since       12.3
+ * @since       13.1
  */
 class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 {
@@ -30,7 +30,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	protected function setUp()
 	{
@@ -40,7 +40,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the getInstance method.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::getInstance
 	 */
@@ -58,7 +58,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the registerEvent method.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::registerEvent
 	 */
@@ -81,7 +81,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the registerEvent method by reseting an existing event.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::registerEvent
 	 */
@@ -103,7 +103,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the unregisterEvent method.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::unregisterEvent
 	 */
@@ -123,7 +123,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the unregisterEvent method by using the event name.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::unregisterEvent
 	 */
@@ -144,7 +144,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	 * Test the unregisterEvent method by unregistering
 	 * a non existing event.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::unregisterEvent
 	 */
@@ -164,9 +164,29 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test the hasEvent method by.
+	 *
+	 * @since   13.1
+	 *
+	 * @covers  JEventDispatcher::hasEvent
+	 */
+	public function testHasEvent()
+	{
+		// Register the test event.
+		$event = new JEvent('test');
+		$this->object->registerEvent($event);
+
+		// Unregister it.
+		$this->object->unregisterEvent('test');
+
+		$events = TestReflection::getValue($this->object, 'events');
+		$this->assertEmpty($events);
+	}
+
+	/**
 	 * Test the registerListener method without specified event names.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::registerListener
 	 */
@@ -185,7 +205,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the registerListener method with specified event names.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::registerListener
 	 */
@@ -211,7 +231,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	 * Test the registerListener method with specified priorities / event,
 	 * but unspecified event names.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::registerListener
 	 */
@@ -239,7 +259,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	 * Test the registerListener method with specified priorities / event,
 	 * and specified event names.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::registerListener
 	 */
@@ -270,7 +290,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	 * Test the registerListener method with an invalid specified event name.
 	 * (the event name doesn't match any listener method).
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::registerListener
 	 */
@@ -291,7 +311,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the registerListener method for a closure listener.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::registerListener
 	 */
@@ -308,7 +328,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the registerListener method for a closure listener.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::registerListener
 	 */
@@ -326,7 +346,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	 * Test the registerListener exception because of
 	 * unspecified event name for a closure listener.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::registerListener
 	 *
@@ -356,7 +376,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the unregisterListener method without specified event names.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::unregisterListener
 	 */
@@ -384,7 +404,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	 * Test the unregisterListener method without specified event names
 	 * and a closure listener.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::unregisterListener
 	 */
@@ -411,7 +431,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the unregisterListener method with specified event names.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::unregisterListener
 	 */
@@ -438,7 +458,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the unregisterListener method exception.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::unregisterListener
 	 *
@@ -452,7 +472,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the getListeners method.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::getListeners
 	 */
@@ -475,7 +495,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the getListeners method by using an event object.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::getListeners
 	 */
@@ -498,7 +518,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the getListeners method default value.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::getListeners
 	 */
@@ -510,7 +530,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the getListenerPriority method.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::getListenerPriority
 	 */
@@ -538,7 +558,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the getListenerPriority default value.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::getListenerPriority
 	 */
@@ -550,7 +570,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the countListeners method.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::countListeners
 	 */
@@ -571,7 +591,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the countListeners method default value.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::countListeners
 	 */
@@ -583,7 +603,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the hasListener method.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::hasListener
 	 */
@@ -601,7 +621,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the hasListener method default value.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::hasListener
 	 */
@@ -614,7 +634,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the triggerEvent method.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::triggerEvent
 	 */
@@ -645,7 +665,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the triggerEvent method with a specified priority.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::triggerEvent
 	 */
@@ -693,7 +713,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the triggerEvent method with a listener stopping the event propagation.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::triggerEvent
 	 */
@@ -723,7 +743,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the triggerEvent method with a registered event object.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::triggerEvent
 	 */
@@ -744,7 +764,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the triggerEvent method with a registered event object.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::triggerEvent
 	 */
@@ -764,7 +784,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the triggerEvent method with a non registered event.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 *
 	 * @covers  JEventDispatcher::triggerEvent
 	 */

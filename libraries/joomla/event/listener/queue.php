@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Event
- * @since       12.3
+ * @since       13.1
  */
 class JEventListenerQueue implements IteratorAggregate, Countable
 {
@@ -24,7 +24,7 @@ class JEventListenerQueue implements IteratorAggregate, Countable
 	 * The inner listeners priority queue.
 	 *
 	 * @var    SplPriorityQueue
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $queue;
 
@@ -35,14 +35,23 @@ class JEventListenerQueue implements IteratorAggregate, Countable
 	 * a given listener.
 	 *
 	 * @var    SplObjectStorage
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $storage;
 
 	/**
+	 * A decreasing counter used to compute
+	 * the internal priority as an array.
+	 *
+	 * @var    integer
+	 * @since  13.1
+	 */
+	protected $counter = PHP_INT_MAX;
+
+	/**
 	 * Constructor.
 	 *
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	public function __construct()
 	{
@@ -58,13 +67,16 @@ class JEventListenerQueue implements IteratorAggregate, Countable
 	 *
 	 * @return  JEventListenerQueue  This method is chainable.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function attach($listener, $priority = 0)
 	{
 		// If the listener is not already attached.
 		if (!$this->storage->contains($listener))
 		{
+			// Compute the internal priority.
+			$priority = array($priority, $this->counter--);
+
 			// Attach it to the storage.
 			$this->storage->attach($listener, $priority);
 
@@ -82,7 +94,7 @@ class JEventListenerQueue implements IteratorAggregate, Countable
 	 *
 	 * @return  JEventListenerQueue  This method is chainable.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function detach($listener)
 	{
@@ -115,7 +127,7 @@ class JEventListenerQueue implements IteratorAggregate, Countable
 	 *
 	 * @return  boolean  True if it exists, false otherwise.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function contains($listener)
 	{
@@ -129,13 +141,13 @@ class JEventListenerQueue implements IteratorAggregate, Countable
 	 *
 	 * @return  mixed  The listener priority if it exists, false otherwise.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function getPriority($listener)
 	{
 		if ($this->storage->contains($listener))
 		{
-			return $this->storage[$listener];
+			return $this->storage[$listener][0];
 		}
 
 		return false;
@@ -148,7 +160,7 @@ class JEventListenerQueue implements IteratorAggregate, Countable
 	 *
 	 * @return  array  The listeners.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function getAll()
 	{
@@ -170,7 +182,7 @@ class JEventListenerQueue implements IteratorAggregate, Countable
 	 *
 	 * @return  SPLPriorityQueue  The inner queue.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function getIterator()
 	{
@@ -191,7 +203,7 @@ class JEventListenerQueue implements IteratorAggregate, Countable
 	 *
 	 * @return  integer  The number of listeners in the queue.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function count()
 	{

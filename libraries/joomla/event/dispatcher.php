@@ -15,15 +15,15 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Event
- * @since       12.3
+ * @since       13.1
  */
 class JEventDispatcher
 {
 	/**
 	 * An array of registered JEvent objects.
 	 *
-	 * @var    array
-	 * @since  12.3
+	 * @var    JEvent[]
+	 * @since  13.1
 	 */
 	protected $events = array();
 
@@ -31,8 +31,8 @@ class JEventDispatcher
 	 * An array of registered listeners containing
 	 * the event names as keys and JEventListenerQueue objects as values.
 	 *
-	 * @var    array
-	 * @since  12.3
+	 * @var    JEventListenerQueue[]
+	 * @since  13.1
 	 */
 	protected $listeners = array();
 
@@ -41,6 +41,8 @@ class JEventDispatcher
 	 *
 	 * @var    JEventDispatcher
 	 * @since  11.3
+	 *
+	 * @deprecated  13.1
 	 */
 	protected static $instance = null;
 
@@ -51,6 +53,8 @@ class JEventDispatcher
 	 * @return  JEventDispatcher  The EventDispatcher object.
 	 *
 	 * @since   11.1
+	 *
+	 * @deprecated  13.1
 	 */
 	public static function getInstance()
 	{
@@ -71,7 +75,7 @@ class JEventDispatcher
 	 *
 	 * @return  JEventDispatcher  This method is chainable.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function registerEvent(JEvent $event, $reset = false)
 	{
@@ -92,7 +96,7 @@ class JEventDispatcher
 	 *
 	 * @return  JEventDispatcher  This method is chainable.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function unregisterEvent($event)
 	{
@@ -111,6 +115,22 @@ class JEventDispatcher
 	}
 
 	/**
+	 * Check if an event with the specified name has been
+	 * registered to the dispatcher.
+	 *
+	 * @param   string  $event  The event name.
+	 *
+	 * @return  boolean  True if an event has been registered with its name,
+	 *                   false otherwise.
+	 *
+	 * @since   13.1
+	 */
+	public function hasEvent($event)
+	{
+		return isset($this->events[$event]);
+	}
+
+	/**
 	 * Register a listener to the Dispatcher.
 	 *
 	 * @param   object  $listener    The event listener (can be any object including a closure).
@@ -125,7 +145,7 @@ class JEventDispatcher
 	 *
 	 * @throws  InvalidArgumentException
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function registerListener($listener, array $events = array(), array $priorities = array())
 	{
@@ -193,7 +213,7 @@ class JEventDispatcher
 	 *
 	 * @throws  InvalidArgumentException
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function unregisterListener($listener, array $events = array())
 	{
@@ -242,81 +262,7 @@ class JEventDispatcher
 	}
 
 	/**
-	 * Get the registered listeners for the given event.
-	 *
-	 * @param   JEvent|string  $event  The event object or name.
-	 *
-	 * @return  array  An array of listeners.
-	 *
-	 * @since   12.3
-	 */
-	public function getListeners($event)
-	{
-		if ($event instanceof JEvent)
-		{
-			$event = $event->getName();
-		}
-
-		if (isset($this->listeners[$event]))
-		{
-			return $this->listeners[$event]->getAll();
-		}
-
-		return array();
-	}
-
-	/**
-	 * Get the listener priority for the given event.
-	 *
-	 * @param   object         $listener  The listener.
-	 * @param   JEvent|string  $event     The event object or name.
-	 *
-	 * @return  mixed  The listener priority or false if the listener
-	 *                 is not registered to the specified event.
-	 *
-	 * @since   12.3
-	 */
-	public function getListenerPriority($listener, $event)
-	{
-		if ($event instanceof JEvent)
-		{
-			$event = $event->getName();
-		}
-
-		if (isset($this->listeners[$event]))
-		{
-			return $this->listeners[$event]->getPriority($listener);
-		}
-
-		return false;
-	}
-
-	/**
-	 * Get the number of listeners for a given event.
-	 *
-	 * @param   JEvent|string  $event  The event object or name.
-	 *
-	 * @return  integer  The number of listeners.
-	 *
-	 * @since   12.3
-	 */
-	public function countListeners($event)
-	{
-		if ($event instanceof JEvent)
-		{
-			$event = $event->getName();
-		}
-
-		if (isset($this->listeners[$event]))
-		{
-			return count($this->listeners[$event]);
-		}
-
-		return 0;
-	}
-
-	/**
-	 * Check if a listener is registered.
+	 * Check if a listener is registered to this dispatcher.
 	 *
 	 * @param   object         $listener  The event listener.
 	 * @param   JEvent|string  $event     The event object or name. If not specified,
@@ -324,7 +270,7 @@ class JEventDispatcher
 	 *
 	 * @return  boolean  True if the listener is registered, false otherwise.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function hasListener($listener, $event = null)
 	{
@@ -359,6 +305,80 @@ class JEventDispatcher
 	}
 
 	/**
+	 * Get the registered listeners for the given event.
+	 *
+	 * @param   JEvent|string  $event  The event object or name.
+	 *
+	 * @return  array  An array of listeners.
+	 *
+	 * @since   13.1
+	 */
+	public function getListeners($event)
+	{
+		if ($event instanceof JEvent)
+		{
+			$event = $event->getName();
+		}
+
+		if (isset($this->listeners[$event]))
+		{
+			return $this->listeners[$event]->getAll();
+		}
+
+		return array();
+	}
+
+	/**
+	 * Get the listener priority for the given event.
+	 *
+	 * @param   object         $listener  The listener.
+	 * @param   JEvent|string  $event     The event object or name.
+	 *
+	 * @return  mixed  The listener priority or false if the listener
+	 *                 is not registered to the specified event.
+	 *
+	 * @since   13.1
+	 */
+	public function getListenerPriority($listener, $event)
+	{
+		if ($event instanceof JEvent)
+		{
+			$event = $event->getName();
+		}
+
+		if (isset($this->listeners[$event]))
+		{
+			return $this->listeners[$event]->getPriority($listener);
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get the number of listeners for a given event.
+	 *
+	 * @param   JEvent|string  $event  The event object or name.
+	 *
+	 * @return  integer  The number of listeners.
+	 *
+	 * @since   13.1
+	 */
+	public function countListeners($event)
+	{
+		if ($event instanceof JEvent)
+		{
+			$event = $event->getName();
+		}
+
+		if (isset($this->listeners[$event]))
+		{
+			return count($this->listeners[$event]);
+		}
+
+		return 0;
+	}
+
+	/**
 	 * Triggers the specified event.
 	 * All listeners will be called in a queue according to their priorty
 	 * and the event object passed as parameter.
@@ -370,7 +390,7 @@ class JEventDispatcher
 	 *
 	 * @return  JEvent  The event after being passed through all listeners.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function triggerEvent($event)
 	{
