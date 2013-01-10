@@ -399,36 +399,42 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	/**
 	 * Method to commit a transaction.
 	 *
+	 * @param   boolean  $toSavepoint  If true roll back to savepoint
+	 *
 	 * @return  void
 	 *
 	 * @since   11.4
 	 * @throws  RuntimeException
 	 */
-	public function transactionCommit()
+	public function transactionCommit($toSavepoint = false)
 	{
 	}
 
 	/**
 	 * Method to roll back a transaction.
 	 *
+	 * @param   boolean  $toSavepoint  If true roll back to savepoint
+	 *
 	 * @return  void
 	 *
 	 * @since   11.4
 	 * @throws  RuntimeException
 	 */
-	public function transactionRollback()
+	public function transactionRollback($toSavepoint = false)
 	{
 	}
 
 	/**
 	 * Method to initialize a transaction.
 	 *
+	 * @param   boolean  $asSavepoint  If true start as savepoint
+	 *
 	 * @return  void
 	 *
 	 * @since   11.4
 	 * @throws  RuntimeException
 	 */
-	public function transactionStart()
+	public function transactionStart($asSavepoint = false)
 	{
 	}
 

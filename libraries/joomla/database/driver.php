@@ -165,6 +165,12 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	protected static $dbMinimum;
 
 	/**
+	 * @var    integer  The depth of the current transaction.
+	 * @since  12.3
+	 */
+	protected $transactionDepth = 0;
+
+	/**
 	 * Get a list of available database connectors.  The list will only be populated with connectors that both
 	 * the class exists and the static test method returns true.  This gives us the ability to have a multitude
 	 * of connector classes that are self-aware as to whether or not they are able to be used on a given system.
@@ -416,7 +422,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	public abstract function dropTable($table, $ifExists = true);
 
 	/**
-	 * Method to escape a string for usage in an SQL statement.
+	 * Escapes a string for usage in an SQL statement.
 	 *
 	 * @param   string   $text   The string to be escaped.
 	 * @param   boolean  $extra  Optional parameter to provide extra escaping.
@@ -1257,18 +1263,31 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	public abstract function lockTable($tableName);
 
 	/**
-	 * Method to quote and optionally escape a string to database requirements for insertion into the database.
+	 * Quotes and optionally escapes a string to database requirements for use in database queries.
 	 *
-	 * @param   string   $text    The string to quote.
+	 * @param   mixed    $text    A string or an array of strings to quote.
 	 * @param   boolean  $escape  True (default) to escape the string, false to leave it unchanged.
 	 *
 	 * @return  string  The quoted input string.
 	 *
+	 * @note    Accepting an array of strings was added in 12.3.
 	 * @since   11.1
 	 */
 	public function quote($text, $escape = true)
 	{
-		return '\'' . ($escape ? $this->escape($text) : $text) . '\'';
+		if (is_array($text))
+		{
+			foreach ($text as $k => $v)
+			{
+				$text[$k] = $this->quote($v, $escape);
+			}
+
+			return $text;
+		}
+		else
+		{
+			return '\'' . ($escape ? $this->escape($text) : $text) . '\'';
+		}
 	}
 
 	/**
@@ -1533,32 +1552,38 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	/**
 	 * Method to commit a transaction.
 	 *
+	 * @param   boolean  $toSavepoint  If true, commit to the last savepoint.
+	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
 	 */
-	abstract public function transactionCommit();
+	abstract public function transactionCommit($toSavepoint = false);
 
 	/**
 	 * Method to roll back a transaction.
 	 *
+	 * @param   boolean  $toSavepoint  If true, rollback to the last savepoint.
+	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
 	 */
-	abstract public function transactionRollback();
+	abstract public function transactionRollback($toSavepoint = false);
 
 	/**
 	 * Method to initialize a transaction.
 	 *
+	 * @param   boolean  $asSavepoint  If true and a transaction is already active, a savepoint will be created.
+	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
 	 */
-	abstract public function transactionStart();
+	abstract public function transactionStart($asSavepoint = false);
 
 	/**
 	 * Method to truncate a table.

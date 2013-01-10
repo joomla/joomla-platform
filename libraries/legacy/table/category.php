@@ -15,6 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Legacy
  * @subpackage  Table
  * @since       11.1
+ * @deprecated  13.3
  */
 class JTableCategory extends JTableNested
 {
@@ -70,7 +71,7 @@ class JTableCategory extends JTableNested
 	 *
 	 * @since   11.1
 	 */
-	protected function _getAssetParentId($table = null, $id = null)
+	protected function _getAssetParentId(JTable $table = null, $id = null)
 	{
 		$assetId = null;
 

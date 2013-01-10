@@ -35,7 +35,7 @@ class JUser extends JObject
 	public $id = null;
 
 	/**
-	 * The users real name (or nickname)
+	 * The user's real name (or nickname)
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -416,6 +416,7 @@ class JUser extends JObject
 
 		return $this->_authLevels;
 	}
+
 	/**
 	 * Gets an array of the authorised user groups
 	 *
@@ -437,6 +438,7 @@ class JUser extends JObject
 
 		return $this->_authGroups;
 	}
+
 	/**
 	 * Pass through method to the table for setting the last visit date
 	 *
@@ -526,7 +528,7 @@ class JUser extends JObject
 				$array['password2'] = $array['password'];
 			}
 
-			// TODO: Backend controller checks the password, frontend doesn't but should.
+			// Not all controllers check the password, although they should.
 			// Hence this code is required:
 			if (isset($array['password2']) && $array['password'] != $array['password2'])
 			{
@@ -544,24 +546,6 @@ class JUser extends JObject
 			// Set the registration timestamp
 
 			$this->set('registerDate', JFactory::getDate()->toSql());
-
-			// Check that username is not greater than 150 characters
-			$username = $this->get('username');
-
-			if (strlen($username) > 150)
-			{
-				$username = substr($username, 0, 150);
-				$this->set('username', $username);
-			}
-
-			// Check that password is not greater than 100 characters
-			$password = $this->get('password');
-
-			if (strlen($password) > 100)
-			{
-				$password = substr($password, 0, 100);
-				$this->set('password', $password);
-			}
 		}
 		else
 		{
@@ -611,6 +595,24 @@ class JUser extends JObject
 			$this->setError(JText::_('JLIB_USER_ERROR_BIND_ARRAY'));
 
 			return false;
+		}
+
+		// Check that username is not greater than 150 characters
+		$username = $this->get('username');
+
+		if (strlen($username) > 150)
+		{
+			$username = substr($username, 0, 150);
+			$this->set('username', $username);
+		}
+
+		// Check that password is not greater than 100 characters
+		$password = $this->get('password');
+
+		if (strlen($password) > 100)
+		{
+			$password = substr($password, 0, 100);
+			$this->set('password', $password);
 		}
 
 		// Make sure its an integer
