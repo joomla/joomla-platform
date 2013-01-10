@@ -104,7 +104,8 @@ class JMenu
 
 					if (file_exists($path))
 					{
-						JLog::add('Non-autoloadable JMenu subclasses are deprecated.', JLog::WARNING, 'deprecated');
+						trigger_error('Non-autoloadable JMenu subclasses are deprecated.', E_USER_DEPRECATED);
+
 						include_once $path;
 					}
 				}

@@ -173,7 +173,10 @@ class JApplicationHelper
 	 */
 	public static function parseXMLInstallFile($path)
 	{
-		JLog::add('JApplicationHelper::parseXMLInstallFile is deprecated. Use JInstaller::parseXMLInstallFile instead.', JLog::WARNING, 'deprecated');
+		trigger_error('JApplicationHelper::parseXMLInstallFile is deprecated.
+			Use JInstaller::parseXMLInstallFile instead.',
+			E_USER_DEPRECATED
+		);
 
 		return JInstaller::parseXMLInstallFile($path);
 	}
@@ -191,7 +194,10 @@ class JApplicationHelper
 	 */
 	public static function parseXMLLangMetaFile($path)
 	{
-		JLog::add('JApplicationHelper::parseXMLLangMetaFile is deprecated. Use JInstaller::parseXMLInstallFile instead.', JLog::WARNING, 'deprecated');
+		trigger_error('JApplicationHelper::parseXMLLangMetaFile is deprecated.
+			Use JInstaller::parseXMLInstallFile instead.',
+			E_USER_DEPRECATED
+		);
 
 		// Read the file to see if it's a valid component XML file
 		$xml = simplexml_load_file($path);

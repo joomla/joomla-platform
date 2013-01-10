@@ -307,7 +307,10 @@ class JFile
 	 */
 	public static function read($filename, $incpath = false, $amount = 0, $chunksize = 8192, $offset = 0)
 	{
-		JLog::add(__METHOD__ . ' is deprecated. Use native file_get_contents() syntax.', JLog::WARNING, 'deprecated');
+		trigger_error('JFile::read() is deprecated.
+			Use native file_get_contents() syntax.',
+			E_USER_DEPRECATED
+		);
 
 		$data = null;
 
@@ -534,7 +537,7 @@ class JFile
 	 */
 	public static function getName($file)
 	{
-		JLog::add(__METHOD__ . ' is deprecated. Use native basename() syntax.', JLog::WARNING, 'deprecated');
+		trigger_error('JFile::getName() is deprecated. Use native basename() syntax.', E_USER_DEPRECATED);
 
 		// Convert back slashes to forward slashes
 		$file = str_replace('\\', '/', $file);

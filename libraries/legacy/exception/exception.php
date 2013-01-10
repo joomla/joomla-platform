@@ -114,7 +114,7 @@ class JException extends Exception
 	 */
 	public function __construct($msg, $code = 0, $level = null, $info = null, $backtrace = false)
 	{
-		JLog::add('JException is deprecated.', JLog::WARNING, 'deprecated');
+		trigger_error('JException is deprecated. Use PHP Exception.', E_USER_DEPRECATED);
 
 		$this->level = $level;
 		$this->code = $code;
@@ -181,7 +181,7 @@ class JException extends Exception
 	 */
 	public function __toString()
 	{
-		JLog::add('JException::__toString is deprecated.', JLog::WARNING, 'deprecated');
+		trigger_error('JException::__toString() is deprecated. Use PHP Exception.', E_USER_DEPRECATED);
 
 		return $this->message;
 	}
@@ -196,7 +196,7 @@ class JException extends Exception
 	 */
 	public function toString()
 	{
-		JLog::add('JException::toString is deprecated.', JLog::WARNING, 'deprecated');
+		trigger_error('JException::toString() is deprecated. Use PHP Exception.', E_USER_DEPRECATED);
 
 		return (string) $this;
 	}
@@ -215,7 +215,7 @@ class JException extends Exception
 	 */
 	public function get($property, $default = null)
 	{
-		JLog::add('JException::get is deprecated.', JLog::WARNING, 'deprecated');
+		trigger_error('JException::get() is deprecated. Use PHP Exception.', E_USER_DEPRECATED);
 
 		if (isset($this->$property))
 		{
@@ -237,7 +237,7 @@ class JException extends Exception
 	 */
 	public function getProperties($public = true)
 	{
-		JLog::add('JException::getProperties is deprecated.', JLog::WARNING, 'deprecated');
+		trigger_error('JException::getProperties() is deprecated. Use PHP Exception.', E_USER_DEPRECATED);
 
 		$vars = get_object_vars($this);
 
@@ -268,7 +268,7 @@ class JException extends Exception
 	 */
 	public function getError($i = null, $toString = true)
 	{
-		JLog::add('JException::getError is deprecated.', JLog::WARNING, 'deprecated');
+		trigger_error('JException::getError() is deprecated. Use PHP Exception.', E_USER_DEPRECATED);
 
 		// Find the error
 		if ($i === null)
@@ -306,7 +306,7 @@ class JException extends Exception
 	 */
 	public function getErrors()
 	{
-		JLog::add('JException::getErrors is deprecated.', JLog::WARNING, 'deprecated');
+		trigger_error('JException::getErrors() is deprecated. Use PHP Exception.', E_USER_DEPRECATED);
 
 		return $this->_errors;
 	}
@@ -325,7 +325,7 @@ class JException extends Exception
 	 */
 	public function set($property, $value = null)
 	{
-		JLog::add('JException::set is deprecated.', JLog::WARNING, 'deprecated');
+		trigger_error('JException::set() is deprecated. Use PHP Exception.', E_USER_DEPRECATED);
 
 		$previous = isset($this->$property) ? $this->$property : null;
 		$this->$property = $value;
@@ -346,7 +346,7 @@ class JException extends Exception
 	 */
 	public function setProperties($properties)
 	{
-		JLog::add('JException::setProperties is deprecated.', JLog::WARNING, 'deprecated');
+		trigger_error('JException::setProperties() is deprecated. Use PHP Exception.', E_USER_DEPRECATED);
 
 		// Cast to an array
 		$properties = (array) $properties;
@@ -377,7 +377,7 @@ class JException extends Exception
 	 */
 	public function setError($error)
 	{
-		JLog::add('JException::setErrors is deprecated.', JLog::WARNING, 'deprecated');
+		trigger_error('JException::setError() is deprecated. Use PHP Exception.', E_USER_DEPRECATED);
 
 		array_push($this->_errors, $error);
 	}

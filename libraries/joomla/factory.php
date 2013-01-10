@@ -278,7 +278,7 @@ abstract class JFactory
 	 */
 	public static function getACL()
 	{
-		JLog::add(__METHOD__ . ' is deprecated. Use JAccess directly.', JLog::WARNING, 'deprecated');
+		trigger_error('JFactory::getACL is deprecated. Use JAccess directly.', E_USER_DEPRECATED);
 
 		if (!self::$acl)
 		{
@@ -352,7 +352,10 @@ abstract class JFactory
 			throw new BadMethodCallException('JSimplepieFactory not found');
 		}
 
-		JLog::add(__METHOD__ . ' is deprecated.   Use JSimplepieFactory::getFeedParser() instead.', JLog::WARNING, 'deprecated');
+		trigger_error('JFactory::getFeedParser is deprecated.
+			Use JSimplepieFactory::getFeedParser() instead.',
+			E_USER_DEPRECATED
+		);
 
 		return JSimplepieFactory::getFeedParser($url, $cache_time);
 	}
@@ -372,7 +375,7 @@ abstract class JFactory
 	 */
 	public static function getXML($data, $isFile = true)
 	{
-		JLog::add(__METHOD__ . ' is deprecated. Use SimpleXML directly.', JLog::WARNING, 'deprecated');
+		trigger_error('JFactory::getXML is deprecated. Use SimpleXML directly.', E_USER_DEPRECATED);
 
 		$class = 'SimpleXMLElement';
 
@@ -426,7 +429,7 @@ abstract class JFactory
 	 */
 	public static function getURI($uri = 'SERVER')
 	{
-		JLog::add(__METHOD__ . ' is deprecated. Use JURI directly.', JLog::WARNING, 'deprecated');
+		trigger_error('JFactory::getURI is deprecated. Use JURI directly.', E_USER_DEPRECATED);
 
 		return JURI::getInstance($uri);
 	}

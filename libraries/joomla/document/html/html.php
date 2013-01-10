@@ -499,7 +499,7 @@ class JDocumentHTML extends JDocument
 			return $result;
 		}
 
-		JLog::add('Using an expression in JDocumentHtml::countModules() is deprecated.', JLog::WARNING, 'deprecated');
+		trigger_error('Using an expression in JDocumentHtml::countModules() is deprecated.', E_USER_DEPRECATED);
 
 		for ($i = 0, $n = count($words); $i < $n; $i += 2)
 		{

@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLog::add('JXMLElement is deprecated. Use SimpleXMLElement.', JLog::WARNING, 'deprecated');
+trigger_error('JXMLElement is deprecated. Use SimpleXMLElement.', E_USER_DEPRECATED);
 
 /**
  * Wrapper class for php SimpleXMLElement.
@@ -31,7 +31,10 @@ class JXMLElement extends SimpleXMLElement
 	 */
 	public function name()
 	{
-		JLog::add('JXMLElement::name() is deprecated, use SimpleXMLElement::getName() instead.', JLog::WARNING, 'deprecated');
+		trigger_error('JXMLElement::name() is deprecated.
+			Use SimpleXMLElement::getName() instead.',
+			E_USER_DEPRECATED
+		);
 
 		return (string) $this->getName();
 	}
@@ -50,7 +53,11 @@ class JXMLElement extends SimpleXMLElement
 	 */
 	public function asFormattedXML($compressed = false, $indent = "\t", $level = 0)
 	{
-		JLog::add('JXMLElement::asFormattedXML() is deprecated, use SimpleXMLElement::asXML() instead.', JLog::WARNING, 'deprecated');
+		trigger_error('JXMLElement::asFormattedXML() is deprecated.
+			Use SimpleXMLElement::asXML() instead.',
+			E_USER_DEPRECATED
+		);
+
 		$out = '';
 
 		// Start a new line, indent by the number indicated in $level

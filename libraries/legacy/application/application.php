@@ -1135,7 +1135,7 @@ class JApplication extends JApplicationBase
 	 */
 	public static function isWinOS()
 	{
-		JLog::add('JApplication::isWinOS() is deprecated. Use the IS_WIN constant instead.', JLog::WARNING, 'deprecated');
+		trigger_error('JApplication::isWinOS() is deprecated. Use the IS_WIN constant instead.', E_USER_DEPRECATED);
 
 		return IS_WIN;
 	}

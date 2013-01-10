@@ -283,7 +283,11 @@ abstract class JInstallerHelper
 	 */
 	public static function splitSql($sql)
 	{
-		JLog::add('JInstallerHelper::splitSql() is deprecated. Use JDatabaseDriver::splitSql() instead.', JLog::WARNING, 'deprecated');
+		trigger_error('JInstallerHelper::splitSql() is deprecated.
+			Use JDatabaseDriver::splitSql() instead.',
+			E_USER_DEPRECATED
+		);
+
 		$db = JFactory::getDbo();
 
 		return $db->splitSql($sql);

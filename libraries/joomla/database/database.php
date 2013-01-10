@@ -31,7 +31,7 @@ abstract class JDatabase
 	 */
 	public function getErrorMsg($escaped = false)
 	{
-		JLog::add('JDatabase::getErrorMsg() is deprecated, use exception handling instead.', JLog::WARNING, 'deprecated');
+		trigger_error('JDatabase::getErrorMsg() is deprecated, use exception handling instead.', E_USER_DEPRECATED);
 
 		if ($escaped)
 		{
@@ -53,7 +53,7 @@ abstract class JDatabase
 	 */
 	public function getErrorNum()
 	{
-		JLog::add('JDatabase::getErrorNum() is deprecated, use exception handling instead.', JLog::WARNING, 'deprecated');
+		trigger_error('JDatabase::getErrorNum() is deprecated, use exception handling instead.', E_USER_DEPRECATED);
 
 		return $this->errorNum;
 	}
@@ -70,7 +70,7 @@ abstract class JDatabase
 	 */
 	public function stderr($showSQL = false)
 	{
-		JLog::add('JDatabase::stderr() is deprecated.', JLog::WARNING, 'deprecated');
+		trigger_error('JDatabase::stderr() is deprecated.', E_USER_DEPRECATED);
 
 		if ($this->errorNum != 0)
 		{

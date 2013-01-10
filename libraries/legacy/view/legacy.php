@@ -138,7 +138,11 @@ class JViewLegacy extends JObject
 		// Set the charset (used by the variable escaping functions)
 		if (array_key_exists('charset', $config))
 		{
-			JLog::add('Setting a custom charset for escaping is deprecated. Override JViewLegacy::escape() instead.', JLog::WARNING, 'deprecated');
+			trigger_error('Setting a custom charset for escaping is deprecated.
+				Override JViewLegacy::escape() instead.',
+				E_USER_DEPRECATED
+			);
+
 			$this->_charset = $config['charset'];
 		}
 
@@ -254,7 +258,7 @@ class JViewLegacy extends JObject
 	 */
 	public function assign()
 	{
-		JLog::add(__METHOD__ . ' is deprecated. Use native PHP syntax.', JLog::WARNING, 'deprecated');
+		trigger_error('JViewLegacy::assign() is deprecated. Use native PHP syntax.', E_USER_DEPRECATED);
 
 		// Get the arguments; there may be 1 or 2.
 		$arg0 = @func_get_arg(0);
@@ -329,7 +333,7 @@ class JViewLegacy extends JObject
 	 */
 	public function assignRef($key, &$val)
 	{
-		JLog::add(__METHOD__ . ' is deprecated. Use native PHP syntax.', JLog::WARNING, 'deprecated');
+		trigger_error('JViewLegacy::assignRef() is deprecated. Use native PHP syntax.', E_USER_DEPRECATED);
 
 		if (is_string($key) && substr($key, 0, 1) != '_')
 		{
@@ -564,7 +568,10 @@ class JViewLegacy extends JObject
 	 */
 	public function setEscape($spec)
 	{
-		JLog::add(__METHOD__ . ' is deprecated. Override JViewLegacy::escape() instead.', JLog::WARNING, 'deprecated');
+		trigger_error('JViewLegacy::setEscape() is deprecated.
+			Override JViewLegacy::escape() instead.',
+			E_USER_DEPRECATED
+		);
 
 		$this->_escape = $spec;
 	}

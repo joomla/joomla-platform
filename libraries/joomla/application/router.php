@@ -127,7 +127,7 @@ class JRouter
 
 			if (!class_exists($classname))
 			{
-				JLog::add('Non-autoloadable JRouter subclasses are deprecated.', JLog::WARNING, 'deprecated');
+				trigger_error('Non-autoloadable JRouter subclasses are deprecated.', E_USER_DEPRECATED);
 
 				// Load the router object
 				$info = JApplicationHelper::getClientInfo($client, true);
