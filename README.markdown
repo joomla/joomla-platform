@@ -18,7 +18,8 @@ Requirements
 ------------
 
 * PHP 5.2.4+ for Platform versions 11.x
-* PHP 5.3.1+ for Platform versions 12.x  
+* PHP 5.3.1+ for Platform versions 12.x
+* PHP 5.3.10+ for Platform versions 13.x
 
 
 Installation
