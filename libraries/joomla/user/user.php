@@ -242,6 +242,8 @@ class JUser extends JObject
 		{
 			if (!$id = JUserHelper::getUserId($identifier))
 			{
+				// If the $identifier is zero, just return an empty JUser.
+				// Note: don't cache this user because it'll have a new ID on save!
 				return new JUser;
 			}
 		}
