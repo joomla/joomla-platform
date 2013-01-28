@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Legacy
- * @subpackage  HTML
+ * @package		 Joomla.Legacy
+ * @subpackage	HTML
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,32 +12,32 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class working with content language select lists
  *
- * @package     Joomla.Legacy
- * @subpackage  HTML
- * @since       11.1
- * @deprecated  13.3
+ * @package		 Joomla.Legacy
+ * @subpackage	HTML
+ * @since			 11.1
+ * @deprecated	13.3
  */
 abstract class JHtmlContentLanguage
 {
 	/**
 	 * Cached array of the content language items.
 	 *
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	protected static $items = null;
 
 	/**
 	 * Get a list of the available content language items.
 	 *
-	 * @param   boolean  $all        True to include All (*)
-	 * @param   boolean  $translate  True to translate All
+	 * @param	 boolean	$all				True to include All (*)
+	 * @param	 boolean	$translate	True to translate All
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 *
-	 * @see     JFormFieldContentLanguage
+	 * @see		 JFormFieldContentLanguage
 	 */
 	public static function existing($all = false, $translate = false)
 	{

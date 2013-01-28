@@ -1,9 +1,9 @@
 <?php
 /**
- * @package    Joomla.UnitTest
+ * @package		Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\Tests\Suites\Unit;
@@ -16,40 +16,40 @@ use Color\Blue;
  * This is a complementary class to JLoaderTest for the namespace loaders.
  * To check the classes are correctly loaded from a given namespace with use or without use.
  *
- * @package  Joomla.UnitTest
- * @since    12.3
+ * @package	Joomla.UnitTest
+ * @since		12.3
  */
 class JLoaderNamespaceTest extends \PHPUnit_Framework_TestCase
 {
 	/**
 	 * Container for JLoader static values during tests.
 	 *
-	 * @var    array
-	 * @since  12.3
+	 * @var		array
+	 * @since	12.3
 	 */
 	protected static $cache = array();
 
 	/**
 	 * Cache the JLoader settings while we are resetting things for testing.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public static function setUpBeforeClass()
 	{
-		self::$cache['classes']    = \TestReflection::getValue('JLoader', 'classes');
-		self::$cache['imported']   = \TestReflection::getValue('JLoader', 'imported');
-		self::$cache['prefixes']   = \TestReflection::getValue('JLoader', 'prefixes');
+		self::$cache['classes']		= \TestReflection::getValue('JLoader', 'classes');
+		self::$cache['imported']	 = \TestReflection::getValue('JLoader', 'imported');
+		self::$cache['prefixes']	 = \TestReflection::getValue('JLoader', 'prefixes');
 		self::$cache['namespaces'] = \TestReflection::getValue('JLoader', 'namespaces');
 	}
 
 	/**
 	 * Restore the JLoader cache settings after testing the class.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public static function tearDownAfterClass()
 	{
@@ -63,10 +63,10 @@ class JLoaderNamespaceTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * Test the JLoader::loadByNamespaceLowerCase method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
-	 * @covers  JLoader::loadByNamespaceLowerCase
+	 * @since	 12.3
+	 * @covers	JLoader::loadByNamespaceLowerCase
 	 */
 	public function testLoadByNamespaceLowerCase()
 	{
@@ -96,10 +96,10 @@ class JLoaderNamespaceTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * Test the JLoader::loadByNamespaceLowerCase method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
-	 * @covers  JLoader::loadByNamespaceLowerCase
+	 * @since	 12.3
+	 * @covers	JLoader::loadByNamespaceLowerCase
 	 */
 	public function testLoadByNamespaceNaturalCase()
 	{
@@ -130,10 +130,10 @@ class JLoaderNamespaceTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * Test the JLoader::loadByNamespaceMixedCase method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
-	 * @covers  JLoader::loadByNamespaceMixedCase
+	 * @since	 12.3
+	 * @covers	JLoader::loadByNamespaceMixedCase
 	 */
 	public function testLoadByNamespaceMixedCase()
 	{
@@ -164,9 +164,9 @@ class JLoaderNamespaceTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * This function unregisters the namespace loaders and reset the namespaces stack of JLoader.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	protected function unregisterLoaders()
 	{

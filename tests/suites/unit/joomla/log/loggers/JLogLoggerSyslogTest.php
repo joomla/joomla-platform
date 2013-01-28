@@ -1,18 +1,18 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Log
+ * @package		 Joomla.UnitTest
+ * @subpackage	Log
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JLogLoggerSysLog.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Log
- * @since       11.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	Log
+ * @since			 11.1
  */
 class JLogLoggerSysLogTest extends PHPUnit_Framework_TestCase
 {

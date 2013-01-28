@@ -1,19 +1,19 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Controller
+ * @package		 Joomla.UnitTest
+ * @subpackage	Controller
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JControllerAdmin.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Controller
+ * @package		 Joomla.UnitTest
+ * @subpackage	Controller
  *
- * @since       12.3
+ * @since			 12.3
  */
 class JControllerAdminTest extends TestCase
 {
@@ -26,7 +26,7 @@ class JControllerAdminTest extends TestCase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	protected function setUp()
 	{
@@ -42,7 +42,7 @@ class JControllerAdminTest extends TestCase
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	protected function tearDown()
 	{
@@ -53,9 +53,9 @@ class JControllerAdminTest extends TestCase
 	/**
 	 * Test JControllerAdmin::delete
 	 *
-	 * @todo    Implement testDelete().
+	 * @todo		Implement testDelete().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testDelete()
 	{
@@ -66,9 +66,9 @@ class JControllerAdminTest extends TestCase
 	/**
 	 * Test JControllerAdmin::display
 	 *
-	 * @todo    Implement testDisplay().
+	 * @todo		Implement testDisplay().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testDisplay()
 	{
@@ -81,7 +81,7 @@ class JControllerAdminTest extends TestCase
 	 *
 	 * @todo Implement testPublish().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testPublish()
 	{
@@ -92,9 +92,9 @@ class JControllerAdminTest extends TestCase
 	/**
 	 * Test JControllerAdmin::reorder
 	 *
-	 * @todo    Implement testReorder().
+	 * @todo		Implement testReorder().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testReorder()
 	{
@@ -105,9 +105,9 @@ class JControllerAdminTest extends TestCase
 	/**
 	 * Test JControllerAdmin::saveorder
 	 *
-	 * @todo    Implement testSaveorder().
+	 * @todo		Implement testSaveorder().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testSaveorder()
 	{
@@ -118,9 +118,9 @@ class JControllerAdminTest extends TestCase
 	/**
 	 * Test JControllerAdmin::checkin
 	 *
-	 * @todo    Implement testCheckin().
+	 * @todo		Implement testCheckin().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testCheckin()
 	{

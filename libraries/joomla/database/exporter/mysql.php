@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Database
+ * @package		 Joomla.Platform
+ * @subpackage	Database
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,20 +12,20 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQL export driver.
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Database
+ * @since			 11.1
  */
 class JDatabaseExporterMysql extends JDatabaseExporterMysqli
 {
 	/**
 	 * Checks if all data and options are in order prior to exporting.
 	 *
-	 * @return  JDatabaseExporterMySQL  Method supports chaining.
+	 * @return	JDatabaseExporterMySQL	Method supports chaining.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 *
-	 * @throws  Exception if an error is encountered.
+	 * @throws	Exception if an error is encountered.
 	 */
 	public function check()
 	{
@@ -47,11 +47,11 @@ class JDatabaseExporterMysql extends JDatabaseExporterMysqli
 	/**
 	 * Sets the database connector to use for exporting structure and/or data from MySQL.
 	 *
-	 * @param   JDatabaseDriverMysql  $db  The database connector.
+	 * @param	 JDatabaseDriverMysql	$db	The database connector.
 	 *
-	 * @return  JDatabaseExporterMysql  Method supports chaining.
+	 * @return	JDatabaseExporterMysql	Method supports chaining.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setDbo(JDatabaseDriverMysql $db)
 	{

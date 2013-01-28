@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Database
+ * @package		 Joomla.Platform
+ * @subpackage	Database
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,21 +12,21 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Query Building Class.
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Database
+ * @since			 11.1
  */
 class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimitable
 {
 	/**
-	 * @var    interger  The offset for the result set.
-	 * @since  12.1
+	 * @var		interger	The offset for the result set.
+	 * @since	12.1
 	 */
 	protected $offset;
 
 	/**
-	 * @var    integer  The limit for the result set.
-	 * @since  12.1
+	 * @var		integer	The limit for the result set.
+	 * @since	12.1
 	 */
 	protected $limit;
 
@@ -35,9 +35,9 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	 * additions to make the query limited to a particular number of
 	 * results, or start at a particular offset.
 	 *
-	 * @param   string   $query   The query in string format
-	 * @param   integer  $limit   The limit for the result set
-	 * @param   integer  $offset  The offset for the result set
+	 * @param	 string	 $query	 The query in string format
+	 * @param	 integer	$limit	 The limit for the result set
+	 * @param	 integer	$offset	The offset for the result set
 	 *
 	 * @return string
 	 *
@@ -56,12 +56,12 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	/**
 	 * Concatenates an array of column names or values.
 	 *
-	 * @param   array   $values     An array of values to concatenate.
-	 * @param   string  $separator  As separator to place between each value.
+	 * @param	 array	 $values		 An array of values to concatenate.
+	 * @param	 string	$separator	As separator to place between each value.
 	 *
-	 * @return  string  The concatenated values.
+	 * @return	string	The concatenated values.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function concatenate($values, $separator = null)
 	{
@@ -89,16 +89,16 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	 * $query->setLimit(100, 0); (retrieve 100 rows, starting at first record)
 	 * $query->setLimit(50, 50); (retrieve 50 rows, starting at 50th record)
 	 *
-	 * @param   integer  $limit   The limit for the result set
-	 * @param   integer  $offset  The offset for the result set
+	 * @param	 integer	$limit	 The limit for the result set
+	 * @param	 integer	$offset	The offset for the result set
 	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function setLimit($limit = 0, $offset = 0)
 	{
-		$this->limit  = (int) $limit;
+		$this->limit	= (int) $limit;
 		$this->offset = (int) $offset;
 
 		return $this;

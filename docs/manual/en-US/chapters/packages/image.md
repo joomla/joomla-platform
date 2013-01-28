@@ -93,7 +93,7 @@ $image->toFile(JPATH_SITE . '/tmp/bar_cropped.png');
 __Accepted Parameters__
 
 - `$thumbsizes`: String or array of strings. Example: $thumbSizes = array('150x75','250x150');
-- `$creationMethod`: See __Resize Methods__ below. 
+- `$creationMethod`: See __Resize Methods__ below.
 - `$thumbsFolder`: Destination for thumbnails. Passing null generates a thumbs folder in the loaded image's containing folder.
 
 Example: Using `JImage::createThumbs()` to generate thumbnails of an image.

@@ -24,7 +24,7 @@ var JFormValidator = new Class({
 	initialize: function()
 	{
 		this.handlers = Object();
-		this.custom   = Object();
+		this.custom	 = Object();
 
 		// Default handlers
 		this.setHandler('username',

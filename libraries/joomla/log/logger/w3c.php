@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Log
+ * @package		 Joomla.Platform
+ * @subpackage	Log
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -15,25 +15,25 @@ defined('JPATH_PLATFORM') or die;
  * This class is designed to build log files based on the W3c specification
  * at: http://www.w3.org/TR/WD-logfile.html
  *
- * @package     Joomla.Platform
- * @subpackage  Log
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Log
+ * @since			 11.1
  */
 class JLogLoggerW3c extends JLogLoggerFormattedtext
 {
 	/**
-	 * @var    string  The format which each entry follows in the log file.  All fields must be
+	 * @var		string	The format which each entry follows in the log file.	All fields must be
 	 * named in all caps and be within curly brackets eg. {FOOBAR}.
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	protected $format = '{DATE}	{TIME}	{PRIORITY}	{CLIENTIP}	{CATEGORY}	{MESSAGE}';
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  &$options  Log object options.
+	 * @param	 array	&$options	Log object options.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __construct(array &$options)
 	{

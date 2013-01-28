@@ -1,26 +1,26 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Installer
+ * @package		 Joomla.UnitTest
+ * @subpackage	Installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JInstallerManifest.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Installer
+ * @package		 Joomla.UnitTest
+ * @subpackage	Installer
  *
- * @since       11.1
+ * @since			 11.1
  */
 class JInstallerManifestTest extends TestCase
 {
 	/**
 	 * Test...
 	 *
-	 * @todo    Implement loadManifestFromXML
+	 * @todo		Implement loadManifestFromXML
 	 *
 	 * @return void
 	 */

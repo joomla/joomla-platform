@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Google
+ * @package		 Joomla.Platform
+ * @subpackage	Google
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,19 +12,19 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Google+ data class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Google
- * @since       1234
+ * @package		 Joomla.Platform
+ * @subpackage	Google
+ * @since			 1234
  */
 class JGoogleDataPlusComments extends JGoogleData
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry    $options  Google options object
-	 * @param   JGoogleAuth  $auth     Google data http client object
+	 * @param	 JRegistry		$options	Google options object
+	 * @param	 JGoogleAuth	$auth		 Google data http client object
 	 *
-	 * @since   1234
+	 * @since	 1234
 	 */
 	public function __construct(JRegistry $options = null, JGoogleAuth $auth = null)
 	{
@@ -39,17 +39,17 @@ class JGoogleDataPlusComments extends JGoogleData
 	/**
 	 * List all of the comments for an activity.
 	 *
-	 * @param   string   $activityId  The ID of the activity to get comments for.
-	 * @param   string   $fields      Used to specify the fields you want returned.
-	 * @param   integer  $max         The maximum number of people to include in the response, used for paging.
-	 * @param   string   $order       The order in which to sort the list of comments. Acceptable values are "ascending" and "descending".
-	 * @param   string   $token       The continuation token, used to page through large result sets. To get the next page of results, set this
-	 * 								  parameter to the value of "nextPageToken" from the previous response. This token may be of any length.
-	 * @param   string   $alt         Specifies an alternative representation type. Acceptable values are: "json" - Use JSON format (default)
+	 * @param	 string	 $activityId	The ID of the activity to get comments for.
+	 * @param	 string	 $fields			Used to specify the fields you want returned.
+	 * @param	 integer	$max				 The maximum number of people to include in the response, used for paging.
+	 * @param	 string	 $order			 The order in which to sort the list of comments. Acceptable values are "ascending" and "descending".
+	 * @param	 string	 $token			 The continuation token, used to page through large result sets. To get the next page of results, set this
+	 * 									parameter to the value of "nextPageToken" from the previous response. This token may be of any length.
+	 * @param	 string	 $alt				 Specifies an alternative representation type. Acceptable values are: "json" - Use JSON format (default)
 	 *
-	 * @return  mixed  Data from Google
+	 * @return	mixed	Data from Google
 	 *
-	 * @since   1234
+	 * @since	 1234
 	 */
 	public function listComments($activityId, $fields = null, $max = 20, $order = null, $token = null, $alt = null)
 	{
@@ -104,12 +104,12 @@ class JGoogleDataPlusComments extends JGoogleData
 	/**
 	 * Get a comment.
 	 *
-	 * @param   string  $id      The ID of the comment to get.
-	 * @param   string  $fields  Used to specify the fields you want returned.
+	 * @param	 string	$id			The ID of the comment to get.
+	 * @param	 string	$fields	Used to specify the fields you want returned.
 	 *
-	 * @return  mixed  Data from Google
+	 * @return	mixed	Data from Google
 	 *
-	 * @since   1234
+	 * @since	 1234
 	 */
 	public function getComment($id, $fields = null)
 	{

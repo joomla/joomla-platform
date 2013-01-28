@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  GitHub
+ * @package		 Joomla.Platform
+ * @subpackage	GitHub
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,22 +12,22 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Gists class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub
- * @since       11.3
+ * @package		 Joomla.Platform
+ * @subpackage	GitHub
+ * @since			 11.3
  */
 class JGithubGists extends JGithubObject
 {
 	/**
 	 * Method to create a gist.
 	 *
-	 * @param   mixed    $files        Either an array of file paths or a single file path as a string.
-	 * @param   boolean  $public       True if the gist should be public.
-	 * @param   string   $description  The optional description of the gist.
+	 * @param	 mixed		$files				Either an array of file paths or a single file path as a string.
+	 * @param	 boolean	$public			 True if the gist should be public.
+	 * @param	 string	 $description	The optional description of the gist.
 	 *
-	 * @return  object
+	 * @return	object
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function create($files, $public = false, $description = null)
 	{
@@ -60,12 +60,12 @@ class JGithubGists extends JGithubObject
 	/**
 	 * Method to create a comment on a gist.
 	 *
-	 * @param   integer  $gistId  The gist number.
-	 * @param   string   $body    The comment body text.
+	 * @param	 integer	$gistId	The gist number.
+	 * @param	 string	 $body		The comment body text.
 	 *
-	 * @return  object
+	 * @return	object
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function createComment($gistId, $body)
 	{
@@ -96,11 +96,11 @@ class JGithubGists extends JGithubObject
 	/**
 	 * Method to delete a gist.
 	 *
-	 * @param   integer  $gistId  The gist number.
+	 * @param	 integer	$gistId	The gist number.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function delete($gistId)
 	{
@@ -122,11 +122,11 @@ class JGithubGists extends JGithubObject
 	/**
 	 * Method to delete a comment on a gist.
 	 *
-	 * @param   integer  $commentId  The id of the comment to delete.
+	 * @param	 integer	$commentId	The id of the comment to delete.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function deleteComment($commentId)
 	{
@@ -148,14 +148,14 @@ class JGithubGists extends JGithubObject
 	/**
 	 * Method to update a gist.
 	 *
-	 * @param   integer  $gistId       The gist number.
-	 * @param   mixed    $files        Either an array of file paths or a single file path as a string.
-	 * @param   boolean  $public       True if the gist should be public.
-	 * @param   string   $description  The description of the gist.
+	 * @param	 integer	$gistId			 The gist number.
+	 * @param	 mixed		$files				Either an array of file paths or a single file path as a string.
+	 * @param	 boolean	$public			 True if the gist should be public.
+	 * @param	 string	 $description	The description of the gist.
 	 *
-	 * @return  object
+	 * @return	object
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function edit($gistId, $files = null, $public = null, $description = null)
 	{
@@ -203,12 +203,12 @@ class JGithubGists extends JGithubObject
 	/**
 	 * Method to update a comment on a gist.
 	 *
-	 * @param   integer  $commentId  The id of the comment to update.
-	 * @param   string   $body       The new body text for the comment.
+	 * @param	 integer	$commentId	The id of the comment to update.
+	 * @param	 string	 $body			 The new body text for the comment.
 	 *
-	 * @return  object
+	 * @return	object
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function editComment($commentId, $body)
 	{
@@ -239,11 +239,11 @@ class JGithubGists extends JGithubObject
 	/**
 	 * Method to fork a gist.
 	 *
-	 * @param   integer  $gistId  The gist number.
+	 * @param	 integer	$gistId	The gist number.
 	 *
-	 * @return  object
+	 * @return	object
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function fork($gistId)
 	{
@@ -268,11 +268,11 @@ class JGithubGists extends JGithubObject
 	/**
 	 * Method to get a single gist.
 	 *
-	 * @param   integer  $gistId  The gist number.
+	 * @param	 integer	$gistId	The gist number.
 	 *
-	 * @return  object
+	 * @return	object
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function get($gistId)
 	{
@@ -296,11 +296,11 @@ class JGithubGists extends JGithubObject
 	/**
 	 * Method to get a specific comment on a gist.
 	 *
-	 * @param   integer  $commentId  The comment id to get.
+	 * @param	 integer	$commentId	The comment id to get.
 	 *
-	 * @return  object
+	 * @return	object
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function getComment($commentId)
 	{
@@ -324,13 +324,13 @@ class JGithubGists extends JGithubObject
 	/**
 	 * Method to get the list of comments on a gist.
 	 *
-	 * @param   integer  $gistId  The gist number.
-	 * @param   integer  $page    The page number from which to get items.
-	 * @param   integer  $limit   The number of items on a page.
+	 * @param	 integer	$gistId	The gist number.
+	 * @param	 integer	$page		The page number from which to get items.
+	 * @param	 integer	$limit	 The number of items on a page.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function getComments($gistId, $page = 0, $limit = 0)
 	{
@@ -352,15 +352,15 @@ class JGithubGists extends JGithubObject
 	}
 
 	/**
-	 * Method to list gists.  If a user is authenticated it will return the user's gists, otherwise
+	 * Method to list gists.	If a user is authenticated it will return the user's gists, otherwise
 	 * it will return all public gists.
 	 *
-	 * @param   integer  $page   The page number from which to get items.
-	 * @param   integer  $limit  The number of items on a page.
+	 * @param	 integer	$page	 The page number from which to get items.
+	 * @param	 integer	$limit	The number of items on a page.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function getList($page = 0, $limit = 0)
 	{
@@ -384,13 +384,13 @@ class JGithubGists extends JGithubObject
 	/**
 	 * Method to get a list of gists belonging to a given user.
 	 *
-	 * @param   string   $user   The name of the GitHub user from which to list gists.
-	 * @param   integer  $page   The page number from which to get items.
-	 * @param   integer  $limit  The number of items on a page.
+	 * @param	 string	 $user	 The name of the GitHub user from which to list gists.
+	 * @param	 integer	$page	 The page number from which to get items.
+	 * @param	 integer	$limit	The number of items on a page.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function getListByUser($user, $page = 0, $limit = 0)
 	{
@@ -414,12 +414,12 @@ class JGithubGists extends JGithubObject
 	/**
 	 * Method to get a list of all public gists.
 	 *
-	 * @param   integer  $page   The page number from which to get items.
-	 * @param   integer  $limit  The number of items on a page.
+	 * @param	 integer	$page	 The page number from which to get items.
+	 * @param	 integer	$limit	The number of items on a page.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function getListPublic($page = 0, $limit = 0)
 	{
@@ -443,12 +443,12 @@ class JGithubGists extends JGithubObject
 	/**
 	 * Method to get a list of the authenticated users' starred gists.
 	 *
-	 * @param   integer  $page   The page number from which to get items.
-	 * @param   integer  $limit  The number of items on a page.
+	 * @param	 integer	$page	 The page number from which to get items.
+	 * @param	 integer	$limit	The number of items on a page.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function getListStarred($page = 0, $limit = 0)
 	{
@@ -472,11 +472,11 @@ class JGithubGists extends JGithubObject
 	/**
 	 * Method to check if a gist has been starred.
 	 *
-	 * @param   integer  $gistId  The gist number.
+	 * @param	 integer	$gistId	The gist number.
 	 *
-	 * @return  boolean  True if the gist is starred.
+	 * @return	boolean	True if the gist is starred.
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function isStarred($gistId)
 	{
@@ -506,11 +506,11 @@ class JGithubGists extends JGithubObject
 	/**
 	 * Method to star a gist.
 	 *
-	 * @param   integer  $gistId  The gist number.
+	 * @param	 integer	$gistId	The gist number.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function star($gistId)
 	{
@@ -532,11 +532,11 @@ class JGithubGists extends JGithubObject
 	/**
 	 * Method to star a gist.
 	 *
-	 * @param   integer  $gistId  The gist number.
+	 * @param	 integer	$gistId	The gist number.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function unstar($gistId)
 	{
@@ -559,11 +559,11 @@ class JGithubGists extends JGithubObject
 	 * Method to fetch a data array for transmitting to the GitHub API for a list of files based on
 	 * an input array of file paths or filename and content pairs.
 	 *
-	 * @param   array  $files  The list of file paths or filenames and content.
+	 * @param	 array	$files	The list of file paths or filenames and content.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	protected function buildFileData(array $files)
 	{

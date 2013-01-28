@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Http
+ * @package		 Joomla.UnitTest
+ * @subpackage	Http
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
@@ -39,13 +39,13 @@ echo json_encode($response);
 /**
  * Retrieves a value from an array, returning a default value if not present
  *
- * @param   array   $array    The array from which to retrieve a value.
- * @param   string  $key      The value to retrieve.
- * @param   mixed   $default  The value to return if the key isn't present.
+ * @param	 array	 $array		The array from which to retrieve a value.
+ * @param	 string	$key			The value to retrieve.
+ * @param	 mixed	 $default	The value to return if the key isn't present.
  *
- * @return  Mixed
+ * @return	Mixed
  *
- * @since   11.4
+ * @since	 11.4
  */
 function getVar($array, $key, $default = '')
 {

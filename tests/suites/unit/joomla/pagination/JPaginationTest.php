@@ -1,27 +1,27 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Pagination
+ * @package		 Joomla.UnitTest
+ * @subpackage	Pagination
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JPagination.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Pagination
- * @since       11.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	Pagination
+ * @since			 11.1
  */
 class JPaginationTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * Provides the data to test the contructor method.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function dataTestConstructor()
 	{
@@ -68,19 +68,19 @@ class JPaginationTest extends PHPUnit_Framework_TestCase
 	/**
 	 * This method tests the.
 	 *
-	 * This is a basic data driven test.  It takes the data passed, runs the constructor
+	 * This is a basic data driven test.	It takes the data passed, runs the constructor
 	 * and make sure the appropriate values get setup.
 	 *
-	 * @param   integer  $total       @todo
-	 * @param   integer  $limitstart  @todo
-	 * @param   integer  $limit       @todo
-	 * @param   string   $expected    @todo
+	 * @param	 integer	$total			 @todo
+	 * @param	 integer	$limitstart	@todo
+	 * @param	 integer	$limit			 @todo
+	 * @param	 string	 $expected		@todo
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 * @dataProvider dataTestConstructor
-	 * @covers  JPagination::__construct
+	 * @covers	JPagination::__construct
 	 */
 	public function testConstructor($total, $limitstart, $limit, $expected)
 	{

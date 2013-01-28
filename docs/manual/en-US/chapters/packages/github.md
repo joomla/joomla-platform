@@ -79,6 +79,6 @@ $github->gists->create(array('issue_summary.txt' => $summary));
 
 #### More Information
 
-The following resources contain more information:  [Joomla! API
+The following resources contain more information:	[Joomla! API
 Reference](http://api.joomla.org), [Github API
 Reference](http://developer.github.com).

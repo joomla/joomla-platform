@@ -68,12 +68,12 @@ called "error.php" in the log folder specified by the "log_path"
 configuration variable (in the Joomla CMS, the default is `/logs/`). It
 will look something like this:
 
-    #<?php die('Forbidden.'); ?>
-    #Date: 2011-06-17 02:56:21 UTC
-    #Software: Joomla Platform 11.1 Stable [ Ember ] 01-Jun-2011 06:00 GMT
+		#<?php die('Forbidden.'); ?>
+		#Date: 2011-06-17 02:56:21 UTC
+		#Software: Joomla Platform 11.1 Stable [ Ember ] 01-Jun-2011 06:00 GMT
 
-    #Fields: datetime   priority    category    message
-    2011-06-17T03:06:44+00:00   INFO    -   Logged
+		#Fields: datetime	 priority		category		message
+		2011-06-17T03:06:44+00:00	 INFO		-	 Logged
 
 The file is tab-delimited and the default columns are the timestamp, the
 text representation of the priority, the category and finally the
@@ -87,19 +87,19 @@ JLog::add('Logged 3', JLog::WARNING, 'Test');
 
 The log file will now look similar to the following:
 
-    2011-06-17T03:06:44+00:00 INFO - Logged
-    2011-06-17T03:52:08+00:00 WARNING - Logged 2
-    2011-06-17T03:57:03+00:00 WARNING test Logged 3
+		2011-06-17T03:06:44+00:00 INFO - Logged
+		2011-06-17T03:52:08+00:00 WARNING - Logged 2
+		2011-06-17T03:57:03+00:00 WARNING test Logged 3
 
 #### Additional options with formattedtext
 
 When adding the "formattedtext" logger, the following options are
 available to supply in the array you pass to `JLog::addLogger`.
 
-Option              | Description
+Option							| Description
 ------------------- | ----------------
-text\_file          | Allows you to specify the name of the file to which messages are logged.
-text\_file\_path    | Allows you to specify the folder path to the file to which messages are logged.
+text\_file					| Allows you to specify the name of the file to which messages are logged.
+text\_file\_path		| Allows you to specify the folder path to the file to which messages are logged.
 text\_file\_no\_php | If set, the PHP die statement will not be added to the file line of the file.
 text\_entry\_format | Allows you to change the format of the entire line of the log message in the file.
 
@@ -196,18 +196,18 @@ JLog::addLogger(
 When you adding a log message, it is written to the file in a default
 format in the form:
 
-    {DATETIME} {PRIORITY} {CATEGORY} {MESSAGE}
+		{DATETIME} {PRIORITY} {CATEGORY} {MESSAGE}
 
 Each field is written in upper case, wrapped in curly braces and
 separated by tabs. There are a number of other fields that are
 automatically defined in the "formattedtext" logger that you can take
 advantage of automatically. These are:
 
-Field      | Description
+Field			| Description
 ---------- | -----------
 {CLIENTIP} | The IP address of the user.
-{DATE}     | The "Y-m-d" date component of the message datestamp.
-{TIME}     | The "H:i:s" time component of the message datestamp.
+{DATE}		 | The "Y-m-d" date component of the message datestamp.
+{TIME}		 | The "H:i:s" time component of the message datestamp.
 
 To modify for the log format to add any or all of these fields, you can
 add the logger as shown in the following code.
@@ -217,7 +217,7 @@ add the logger as shown in the following code.
 JLog::addLogger(
 	array(
 		'text_file' => 'com_hello.php',
-		'text_entry_format' => '{DATE} {TIME} {CLIENTIP} {CATEGORY} {MESSAGE}' 
+		'text_entry_format' => '{DATE} {TIME} {CLIENTIP} {CATEGORY} {MESSAGE}'
 	)
 );
 ```

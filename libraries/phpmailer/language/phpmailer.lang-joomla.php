@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Mail
+ * @package		 Joomla.Platform
+ * @subpackage	Mail
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -23,7 +23,7 @@ $PHPMAILER_LANG['invalid_address'] = JText::_('PHPMAILER_INVALID_ADDRESS');
 $PHPMAILER_LANG["mailer_not_supported"] = JText::_('PHPMAILER_MAILER_IS_NOT_SUPPORTED');
 $PHPMAILER_LANG["provide_address"] = JText::_('PHPMAILER_PROVIDE_ADDRESS');
 $PHPMAILER_LANG["recipients_failed"] = JText::_('PHPMAILER_RECIPIENTS_FAILED');
-$PHPMAILER_LANG["signing"]  = JText::_('PHPMAILER_SIGNING_ERROR');
+$PHPMAILER_LANG["signing"]	= JText::_('PHPMAILER_SIGNING_ERROR');
 $PHPMAILER_LANG['smtp_connect_failed'] = JText::_('PHPMAILER_SMTP_CONNECT_FAILED');
 $PHPMAILER_LANG['smtp_error'] = JText::_('PHPMAILER_SMTP_ERROR');
 $PHPMAILER_LANG['variable_set'] = JText::_('PHPMAILER_VARIABLE_SET');

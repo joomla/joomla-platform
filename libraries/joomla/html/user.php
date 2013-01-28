@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  HTML
+ * @package		 Joomla.Platform
+ * @subpackage	HTML
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,20 +12,20 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class working with users
  *
- * @package     Joomla.Platform
- * @subpackage  HTML
- * @since       11.4
+ * @package		 Joomla.Platform
+ * @subpackage	HTML
+ * @since			 11.4
  */
 abstract class JHtmlUser
 {
 	/**
 	 * Displays a list of user groups.
 	 *
-	 * @param   boolean  $includeSuperAdmin  true to include super admin groups, false to exclude them
+	 * @param	 boolean	$includeSuperAdmin	true to include super admin groups, false to exclude them
 	 *
-	 * @return  array  An array containing a list of user groups.
+	 * @return	array	An array containing a list of user groups.
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public static function groups($includeSuperAdmin = false)
 	{
@@ -66,14 +66,14 @@ abstract class JHtmlUser
 	/**
 	 * Get a list of users.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public static function userlist()
 	{
 		// Get the database object and a new query object.
-		$db    = JFactory::getDBO();
+		$db		= JFactory::getDBO();
 		$query = $db->getQuery(true);
 
 		// Build the query.

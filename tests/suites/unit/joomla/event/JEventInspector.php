@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Event
+ * @package		 Joomla.UnitTest
+ * @subpackage	Event
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM . '/joomla/event/event.php';
@@ -12,16 +12,16 @@ require_once JPATH_PLATFORM . '/joomla/event/event.php';
 /**
  * General inspector class for JEvent.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Event
- * @since       11.3
+ * @package		 Joomla.UnitTest
+ * @subpackage	Event
+ * @since			 11.3
  */
 class JEventInspector extends JEvent
 {
 	/**
 	 * Method for inspecting protected variables.
 	 *
-	 * @param   string  $name  Property name.
+	 * @param	 string	$name	Property name.
 	 *
 	 * @return mixed The value of the class variable.
 	 */
@@ -42,8 +42,8 @@ class JEventInspector extends JEvent
 	/**
 	 * Mock Event Method
 	 *
-	 * @param   null  $var1  Var 1
-	 * @param   null  $var2  Var 2
+	 * @param	 null	$var1	Var 1
+	 * @param	 null	$var2	Var 2
 	 *
 	 * @return mixed A value to test against
 	 */

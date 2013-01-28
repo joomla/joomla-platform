@@ -1,24 +1,24 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Database
+ * @package		 Joomla.UnitTest
+ * @subpackage	Database
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JTableMenuType.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Table
+ * @package		 Joomla.UnitTest
+ * @subpackage	Table
  *
- * @since       12.3
+ * @since			 12.3
  */
 class JTableContentTest extends TestCaseDatabase
 {
 	/**
-	 * @var  JTableContent
+	 * @var	JTableContent
 	 */
 	protected $object;
 
@@ -26,7 +26,7 @@ class JTableContentTest extends TestCaseDatabase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	protected function setUp()
 	{
@@ -44,7 +44,7 @@ class JTableContentTest extends TestCaseDatabase
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	protected function tearDown()
 	{
@@ -56,9 +56,9 @@ class JTableContentTest extends TestCaseDatabase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 *
-	 * @return  CSV database tables
+	 * @return	CSV database tables
 	 */
 	protected function getDataSet()
 	{
@@ -76,9 +76,9 @@ class JTableContentTest extends TestCaseDatabase
 	/**
 	 * Test JTableContent::bind
 	 *
-	 * @todo   Implement testBind().
+	 * @todo	 Implement testBind().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testBind()
 	{
@@ -89,9 +89,9 @@ class JTableContentTest extends TestCaseDatabase
 	/**
 	 * Tests JTableContent::check
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testCheck()
 	{
@@ -143,9 +143,9 @@ class JTableContentTest extends TestCaseDatabase
 	/**
 	 * Tests JTableContent::store
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testStore()
 	{
@@ -177,9 +177,9 @@ class JTableContentTest extends TestCaseDatabase
 	/**
 	 * Tests JTableContent::publish
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testPublish()
 	{

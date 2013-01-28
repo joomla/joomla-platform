@@ -1,22 +1,22 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Grid
+ * @package		 Joomla.UnitTest
+ * @subpackage	Grid
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * JHtmlInspector test class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  HTML
+ * @package		 Joomla.UnitTest
+ * @subpackage	HTML
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  *
- * @since       11.1
+ * @since			 11.1
  */
 class JHtmlInspector
 {
@@ -27,9 +27,9 @@ class JHtmlInspector
 	/**
 	 * Stores the arguments passed to the method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function method1()
 	{

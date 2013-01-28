@@ -1,44 +1,44 @@
 <?php
 /**
- * @package    Joomla.Test
+ * @package		Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Class to mock JEventDispatcher.
  *
- * @package  Joomla.Test
- * @since    12.1
+ * @package	Joomla.Test
+ * @since		12.1
  */
 class TestMockDispatcher
 {
 	/**
 	 * Keeps track of mock handlers.
 	 *
-	 * @var    array
-	 * @since  11.3
+	 * @var		array
+	 * @since	11.3
 	 */
 	public static $handlers = array();
 
 	/**
 	 * Keeps track of triggers.
 	 *
-	 * @var    array
-	 * @since  11.3
+	 * @var		array
+	 * @since	11.3
 	 */
 	public static $triggered = array();
 
 	/**
 	 * Creates and instance of the mock JLanguage object.
 	 *
-	 * @param   object   $test      A test object.
-	 * @param   boolean  $defaults  True to create the default mock handlers and triggers.
+	 * @param	 object	 $test			A test object.
+	 * @param	 boolean	$defaults	True to create the default mock handlers and triggers.
 	 *
-	 * @return  object
+	 * @return	object
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public static function create($test, $defaults = true)
 	{
@@ -91,13 +91,13 @@ class TestMockDispatcher
 	/**
 	 * Callback for the JEventDispatcher register method.
 	 *
-	 * @param   string  $event    Name of the event to register handler for.
-	 * @param   string  $handler  Name of the event handler.
-	 * @param   mixed   $return   The mock value to return for the given event handler.
+	 * @param	 string	$event		Name of the event to register handler for.
+	 * @param	 string	$handler	Name of the event handler.
+	 * @param	 mixed	 $return	 The mock value to return for the given event handler.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function mockRegister($event, $handler, $return = null)
 	{
@@ -112,12 +112,12 @@ class TestMockDispatcher
 	/**
 	 * Callback for the JEventDispatcher trigger method.
 	 *
-	 * @param   string  $event  The event to trigger.
-	 * @param   array   $args   An array of arguments.
+	 * @param	 string	$event	The event to trigger.
+	 * @param	 array	 $args	 An array of arguments.
 	 *
-	 * @return  array  An array of results from each function call.
+	 * @return	array	An array of results from each function call.
 	 *
-	 * @since  11.3
+	 * @since	11.3
 	 */
 	public function mockTrigger($event, $args = array())
 	{

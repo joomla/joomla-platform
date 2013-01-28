@@ -1,19 +1,19 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Application
+ * @package		 Joomla.UnitTest
+ * @subpackage	Application
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JApplicationHelper
  *
- * @package     Joomla.UnitTest
- * @subpackage  Application
+ * @package		 Joomla.UnitTest
+ * @subpackage	Application
  *
- * @since       12.3
+ * @since			 12.3
  */
 class JApplicationHelperInspector extends JApplicationHelper
 {
@@ -30,7 +30,7 @@ class JApplicationHelperInspector extends JApplicationHelper
 	/**
 	 * Set the application data.
 	 *
-	 * @param   string  $apps  The app to set.
+	 * @param	 string	$apps	The app to set.
 	 *
 	 * @return void
 	 */
@@ -43,19 +43,19 @@ class JApplicationHelperInspector extends JApplicationHelper
 /**
  * Test class for JApplicationHelper.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Application
+ * @package		 Joomla.UnitTest
+ * @subpackage	Application
  *
- * @since       11.1
+ * @since			 11.1
  */
 class JApplicationHelperTest extends TestCase
 {
 	/**
 	 * Test JApplicationHelper::getComponentName
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @todo    Implement testGetComponentName().
+	 * @todo		Implement testGetComponentName().
 	 */
 	public function testGetComponentName()
 	{
@@ -66,9 +66,9 @@ class JApplicationHelperTest extends TestCase
 	/**
 	 * Test JApplicationHelper::getClientInfo
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @todo    Implement testGetClientInfo().
+	 * @todo		Implement testGetClientInfo().
 	 */
 	public function testGetClientInfo()
 	{

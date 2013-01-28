@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Event
+ * @package		 Joomla.UnitTest
+ * @subpackage	Event
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once __DIR__ . '/JEventDispatcherInspector.php';
@@ -13,9 +13,9 @@ require_once __DIR__ . '/JEventInspector.php';
 /**
  * Test class for JEventDispatcher.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Event
- * @since       11.3
+ * @package		 Joomla.UnitTest
+ * @subpackage	Event
+ * @since			 11.3
  */
 class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 {
@@ -50,10 +50,10 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the JEventDispatcher::getInstance method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
-	 * @covers  JEventDispatcher::getInstance
+	 * @since	 11.3
+	 * @covers	JEventDispatcher::getInstance
 	 */
 	public function testGetInstance()
 	{
@@ -92,7 +92,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	 * @return void
 	 *
 	 * @since 11.3
-	 * @covers   JEventDispatcher::getState
+	 * @covers	 JEventDispatcher::getState
 	 */
 	public function testGetState()
 	{
@@ -113,7 +113,7 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	 * Test JEventDispatcher::register().
 	 *
 	 * @since 11.3
-	 * @covers    JEventDispatcher::register
+	 * @covers		JEventDispatcher::register
 	 *
 	 * @return void
 	 */
@@ -203,9 +203,9 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test JEventDispatcher::register() with an error.
 	 *
-	 * @since              12.1
-	 * @expectedException  InvalidArgumentException
-	 * @covers             JEventDispatcher::register
+	 * @since							12.1
+	 * @expectedException	InvalidArgumentException
+	 * @covers						 JEventDispatcher::register
 	 *
 	 * @return void
 	 */
@@ -217,8 +217,8 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test JEventDispatcher::trigger().
 	 *
-	 * @since    11.3
-	 * @covers   JEventDispatcher::trigger
+	 * @since		11.3
+	 * @covers	 JEventDispatcher::trigger
 	 *
 	 * @return void
 	 */

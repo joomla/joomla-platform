@@ -1,52 +1,52 @@
 <?php
 /**
- * @package    Joomla.UnitTest
+ * @package		Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JGoogleDataPicasa.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Google
- * @since       12.3
+ * @package		 Joomla.UnitTest
+ * @subpackage	Google
+ * @since			 12.3
  */
 class JGoogleDataPicasaAlbumTest extends TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the JOAuth2Client object.
+	 * @var		JRegistry	Options for the JOAuth2Client object.
 	 */
 	protected $options;
 
 	/**
-	 * @var    JHttp  Mock client object.
+	 * @var		JHttp	Mock client object.
 	 */
 	protected $http;
 
 	/**
-	 * @var    JInput  The input object to use in retrieving GET/POST data.
+	 * @var		JInput	The input object to use in retrieving GET/POST data.
 	 */
 	protected $input;
 
 	/**
-	 * @var    JOAuth2Client  The OAuth client for sending requests to Google.
+	 * @var		JOAuth2Client	The OAuth client for sending requests to Google.
 	 */
 	protected $oauth;
 
 	/**
-	 * @var    JGoogleAuthOauth2  The Google OAuth client for sending requests.
+	 * @var		JGoogleAuthOauth2	The Google OAuth client for sending requests.
 	 */
 	protected $auth;
 
 	/**
-	 * @var    string  The XML data for the album.
+	 * @var		string	The XML data for the album.
 	 */
 	protected $xml;
 
 	/**
-	 * @var    JGoogleDataPicasaAlbum  Object under test.
+	 * @var		JGoogleDataPicasaAlbum	Object under test.
 	 */
 	protected $object;
 
@@ -467,13 +467,13 @@ class JGoogleDataPicasaAlbumTest extends TestCase
 /**
  * Dummy method
  *
- * @param   string   $url      Path to the resource.
- * @param   array    $headers  An array of name-value pairs to include in the header of the request.
- * @param   integer  $timeout  Read timeout in seconds.
+ * @param	 string	 $url			Path to the resource.
+ * @param	 array		$headers	An array of name-value pairs to include in the header of the request.
+ * @param	 integer	$timeout	Read timeout in seconds.
  *
- * @return  JHttpResponse
+ * @return	JHttpResponse
  *
- * @since   12.3
+ * @since	 12.3
  */
 function emptyPicasaCallback($url, array $headers = null, $timeout = null)
 {
@@ -489,13 +489,13 @@ function emptyPicasaCallback($url, array $headers = null, $timeout = null)
 /**
  * Dummy method
  *
- * @param   string   $url      Path to the resource.
- * @param   array    $headers  An array of name-value pairs to include in the header of the request.
- * @param   integer  $timeout  Read timeout in seconds.
+ * @param	 string	 $url			Path to the resource.
+ * @param	 array		$headers	An array of name-value pairs to include in the header of the request.
+ * @param	 integer	$timeout	Read timeout in seconds.
  *
- * @return  JHttpResponse
+ * @return	JHttpResponse
  *
- * @since   12.3
+ * @since	 12.3
  */
 function picasaPhotolistCallback($url, array $headers = null, $timeout = null)
 {
@@ -511,14 +511,14 @@ function picasaPhotolistCallback($url, array $headers = null, $timeout = null)
 /**
  * Dummy method
  *
- * @param   string   $url      Path to the resource.
- * @param   mixed    $data     Either an associative array or a string to be sent with the request.
- * @param   array    $headers  An array of name-value pairs to include in the header of the request.
- * @param   integer  $timeout  Read timeout in seconds.
+ * @param	 string	 $url			Path to the resource.
+ * @param	 mixed		$data		 Either an associative array or a string to be sent with the request.
+ * @param	 array		$headers	An array of name-value pairs to include in the header of the request.
+ * @param	 integer	$timeout	Read timeout in seconds.
  *
- * @return  JHttpResponse
+ * @return	JHttpResponse
  *
- * @since   12.3
+ * @since	 12.3
  */
 function dataPicasaUploadCallback($url, $data, array $headers = null, $timeout = null)
 {

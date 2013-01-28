@@ -3,7 +3,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-/* The main calendar widget.  DIV containing a table. */
+/* The main calendar widget.	DIV containing a table. */
 div.calendar {
 	position: relative;
 	z-index: 100;
@@ -22,12 +22,12 @@ div.calendar {
 /* Header part -- contains navigation buttons and day names. */
 
 .calendar .button { /* "<<", "<", ">", ">>" buttons have this class */
-	text-align: center;    /* They are the navigation buttons */
-	padding: 2px;          /* Make the buttons seem like they're pressing */
+	text-align: center;		/* They are the navigation buttons */
+	padding: 2px;					/* Make the buttons seem like they're pressing */
 }
 
 .calendar thead .title { /* This holds the current "month, year" */
-	font-weight: bold;      /* Pressing it will take you to the current date */
+	font-weight: bold;			/* Pressing it will take you to the current date */
 	text-align: center;
 	background: #333333;
 	color: #ffffff;

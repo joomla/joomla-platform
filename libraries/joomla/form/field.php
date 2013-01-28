@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Form
+ * @package		 Joomla.Platform
+ * @subpackage	Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,207 +12,207 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Abstract Form Field class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Form
+ * @since			 11.1
  */
 abstract class JFormField
 {
 	/**
-	 * The description text for the form field.  Usually used in tooltips.
+	 * The description text for the form field.	Usually used in tooltips.
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $description;
 
 	/**
 	 * The SimpleXMLElement object of the <field /> XML element that describes the form field.
 	 *
-	 * @var    SimpleXMLElement
-	 * @since  11.1
+	 * @var		SimpleXMLElement
+	 * @since	11.1
 	 */
 	protected $element;
 
 	/**
 	 * The JForm object of the form attached to the form field.
 	 *
-	 * @var    JForm
-	 * @since  11.1
+	 * @var		JForm
+	 * @since	11.1
 	 */
 	protected $form;
 
 	/**
 	 * The form control prefix for field names from the JForm object attached to the form field.
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $formControl;
 
 	/**
 	 * The hidden state for the form field.
 	 *
-	 * @var    boolean
-	 * @since  11.1
+	 * @var		boolean
+	 * @since	11.1
 	 */
 	protected $hidden = false;
 
 	/**
 	 * True to translate the field label string.
 	 *
-	 * @var    boolean
-	 * @since  11.1
+	 * @var		boolean
+	 * @since	11.1
 	 */
 	protected $translateLabel = true;
 
 	/**
 	 * True to translate the field description string.
 	 *
-	 * @var    boolean
-	 * @since  11.1
+	 * @var		boolean
+	 * @since	11.1
 	 */
 	protected $translateDescription = true;
 
 	/**
 	 * The document id for the form field.
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $id;
 
 	/**
 	 * The input for the form field.
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $input;
 
 	/**
 	 * The label for the form field.
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $label;
 
 	/**
-	 * The multiple state for the form field.  If true then multiple values are allowed for the
-	 * field.  Most often used for list field types.
+	 * The multiple state for the form field.	If true then multiple values are allowed for the
+	 * field.	Most often used for list field types.
 	 *
-	 * @var    boolean
-	 * @since  11.1
+	 * @var		boolean
+	 * @since	11.1
 	 */
 	protected $multiple = false;
 
 	/**
 	 * The name of the form field.
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $name;
 
 	/**
 	 * The name of the field.
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $fieldname;
 
 	/**
 	 * The group of the field.
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $group;
 
 	/**
-	 * The required state for the form field.  If true then there must be a value for the field to
+	 * The required state for the form field.	If true then there must be a value for the field to
 	 * be considered valid.
 	 *
-	 * @var    boolean
-	 * @since  11.1
+	 * @var		boolean
+	 * @since	11.1
 	 */
 	protected $required = false;
 
 	/**
-	 * The disabled state for the form field.  If true then there must not be a possibility
+	 * The disabled state for the form field.	If true then there must not be a possibility
 	 * to change the pre-selected value, and the value must not be submitted by the browser.
 	 *
-	 * @var    boolean
-	 * @since  12.3
+	 * @var		boolean
+	 * @since	12.3
 	 */
 	protected $disabled = false;
 
 	/**
-	 * The readonly state for the form field.  If true then there must not be a possibility
+	 * The readonly state for the form field.	If true then there must not be a possibility
 	 * to change the pre-selected value, and the value must submitted by the browser.
 	 *
-	 * @var    boolean
-	 * @since  12.3
+	 * @var		boolean
+	 * @since	12.3
 	 */
 	protected $readonly = false;
 
 	/**
 	 * The form field type.
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $type;
 
 	/**
-	 * The validation method for the form field.  This value will determine which method is used
+	 * The validation method for the form field.	This value will determine which method is used
 	 * to validate the value for a field.
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $validate;
 
 	/**
 	 * The value of the form field.
 	 *
-	 * @var    mixed
-	 * @since  11.1
+	 * @var		mixed
+	 * @since	11.1
 	 */
 	protected $value;
 
 	/**
 	 * The label's CSS class of the form field
 	 *
-	 * @var    mixed
-	 * @since  11.1
+	 * @var		mixed
+	 * @since	11.1
 	 */
 	protected $labelClass;
 
 	/**
 	 * The count value for generated name field
 	 *
-	 * @var    integer
-	 * @since  11.1
+	 * @var		integer
+	 * @since	11.1
 	 */
 	protected static $count = 0;
 
 	/**
 	 * The string used for generated fields names
 	 *
-	 * @var    integer
-	 * @since  11.1
+	 * @var		integer
+	 * @since	11.1
 	 */
 	protected static $generated_fieldname = '__field';
 
 	/**
 	 * Method to instantiate the form field object.
 	 *
-	 * @param   JForm  $form  The form to attach to the form field object.
+	 * @param	 JForm	$form	The form to attach to the form field object.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __construct(JForm $form = null)
 	{
@@ -242,11 +242,11 @@ abstract class JFormField
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param	 string	$name	The property name for which to the the value.
 	 *
-	 * @return  mixed  The property value or null.
+	 * @return	mixed	The property value or null.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __get($name)
 	{
@@ -297,11 +297,11 @@ abstract class JFormField
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   JForm  $form  The JForm object to attach to the form field.
+	 * @param	 JForm	$form	The JForm object to attach to the form field.
 	 *
-	 * @return  JFormField  The form field object so that the method can be used in a chain.
+	 * @return	JFormField	The form field object so that the method can be used in a chain.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setForm(JForm $form)
 	{
@@ -314,15 +314,15 @@ abstract class JFormField
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
-	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
-	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
-	 *                                      full field name would end up being "bar[foo]".
+	 * @param	 SimpleXMLElement	$element	The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param	 mixed						 $value		The form field value to validate.
+	 * @param	 string						$group		The field name group control value. This acts as as an array container for the field.
+	 *																			For example if the field has name="foo" and the group value is set to "bar" then the
+	 *																			full field name would end up being "bar[foo]".
 	 *
-	 * @return  boolean  True on success.
+	 * @return	boolean	True on success.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
@@ -410,12 +410,12 @@ abstract class JFormField
 	/**
 	 * Method to get the id used for the field input tag.
 	 *
-	 * @param   string  $fieldId    The field element id.
-	 * @param   string  $fieldName  The field element name.
+	 * @param	 string	$fieldId		The field element id.
+	 * @param	 string	$fieldName	The field element name.
 	 *
-	 * @return  string  The id to be used for the field input tag.
+	 * @return	string	The id to be used for the field input tag.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function getId($fieldId, $fieldName)
 	{
@@ -460,18 +460,18 @@ abstract class JFormField
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * @return  string  The field input markup.
+	 * @return	string	The field input markup.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	abstract protected function getInput();
 
 	/**
 	 * Method to get the field title.
 	 *
-	 * @return  string  The field title.
+	 * @return	string	The field title.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function getTitle()
 	{
@@ -493,9 +493,9 @@ abstract class JFormField
 	/**
 	 * Method to get the field label markup.
 	 *
-	 * @return  string  The field label markup.
+	 * @return	string	The field label markup.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function getLabel()
 	{
@@ -544,11 +544,11 @@ abstract class JFormField
 	/**
 	 * Method to get the name used for the field input tag.
 	 *
-	 * @param   string  $fieldName  The field element name.
+	 * @param	 string	$fieldName	The field element name.
 	 *
-	 * @return  string  The name to be used for the field input tag.
+	 * @return	string	The name to be used for the field input tag.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function getName($fieldName)
 	{
@@ -606,11 +606,11 @@ abstract class JFormField
 	/**
 	 * Method to get the field name used.
 	 *
-	 * @param   string  $fieldName  The field element name.
+	 * @param	 string	$fieldName	The field element name.
 	 *
-	 * @return  string  The field name
+	 * @return	string	The field name
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function getFieldName($fieldName)
 	{

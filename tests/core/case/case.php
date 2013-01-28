@@ -1,36 +1,36 @@
 <?php
 /**
- * @package    Joomla.Test
+ * @package		Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Abstract test case class for unit testing.
  *
- * @package  Joomla.Test
- * @since    12.1
+ * @package	Joomla.Test
+ * @since		12.1
  */
 abstract class TestCase extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var         array  The list of errors expected to be encountered during the test.
-	 * @deprecated  13.1
-	 * @since       12.1
+	 * @var				 array	The list of errors expected to be encountered during the test.
+	 * @deprecated	13.1
+	 * @since			 12.1
 	 */
 	protected $expectedErrors;
 
 	/**
-	 * @var         array  JError handler state stashed away to be restored later.
-	 * @deprecated  13.1
-	 * @since       12.1
+	 * @var				 array	JError handler state stashed away to be restored later.
+	 * @deprecated	13.1
+	 * @since			 12.1
 	 */
 	private $_stashedErrorState = array();
 
 	/**
-	 * @var    array  Various JFactory static instances stashed away to be restored later.
-	 * @since  12.1
+	 * @var		array	Various JFactory static instances stashed away to be restored later.
+	 * @since	12.1
 	 */
 	private $_stashedFactoryState = array(
 		'application' => null,
@@ -47,12 +47,12 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Receives the callback from JError and logs the required error information for the test.
 	 *
-	 * @param   JException  $error  The JException object from JError
+	 * @param	 JException	$error	The JException object from JError
 	 *
-	 * @return  boolean  To not continue with JError processing
+	 * @return	boolean	To not continue with JError processing
 	 *
-	 * @deprecated  13.1
-	 * @since       12.1
+	 * @deprecated	13.1
+	 * @since			 12.1
 	 */
 	public static function errorCallback($error)
 	{
@@ -62,13 +62,13 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Assigns mock callbacks to methods.
 	 *
-	 * @param   object  $mockObject  The mock object that the callbacks are being assigned to.
-	 * @param   array   $array       An array of methods names to mock with callbacks.
+	 * @param	 object	$mockObject	The mock object that the callbacks are being assigned to.
+	 * @param	 array	 $array			 An array of methods names to mock with callbacks.
 	 * This method assumes that the mock callback is named {mock}{method name}.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function assignMockCallbacks($mockObject, $array)
 	{
@@ -94,13 +94,13 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Assigns mock values to methods.
 	 *
-	 * @param   object  $mockObject  The mock object.
-	 * @param   array   $array       An associative array of methods to mock with return values:<br />
+	 * @param	 object	$mockObject	The mock object.
+	 * @param	 array	 $array			 An associative array of methods to mock with return values:<br />
 	 * string (method name) => mixed (return value)
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function assignMockReturns($mockObject, $array)
 	{
@@ -117,12 +117,12 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 * If a test expects a JError to be raised, it should call this setExpectedError first
 	 * If you don't call this method first, the test will fail.
 	 *
-	 * @param   JException  $error  The JException object from JError
+	 * @param	 JException	$error	The JException object from JError
 	 *
-	 * @return  JException
+	 * @return	JException
 	 *
-	 * @deprecated  13.1
-	 * @since       12.1
+	 * @deprecated	13.1
+	 * @since			 12.1
 	 */
 	public function expectedErrorCallback($error)
 	{
@@ -155,9 +155,9 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Gets a mock application object.
 	 *
-	 * @return  JApplication
+	 * @return	JApplication
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getMockApplication()
 	{
@@ -170,9 +170,9 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Gets a mock configuration object.
 	 *
-	 * @return  JConfig
+	 * @return	JConfig
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getMockConfig()
 	{
@@ -182,9 +182,9 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Gets a mock database object.
 	 *
-	 * @return  JDatabase
+	 * @return	JDatabase
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getMockDatabase()
 	{
@@ -197,11 +197,11 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Gets a mock dispatcher object.
 	 *
-	 * @param   boolean  $defaults  Add default register and trigger methods for testing.
+	 * @param	 boolean	$defaults	Add default register and trigger methods for testing.
 	 *
-	 * @return  JEventDispatcher
+	 * @return	JEventDispatcher
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getMockDispatcher($defaults = true)
 	{
@@ -214,9 +214,9 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Gets a mock document object.
 	 *
-	 * @return  JDocument
+	 * @return	JDocument
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getMockDocument()
 	{
@@ -229,9 +229,9 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Gets a mock language object.
 	 *
-	 * @return  JLanguage
+	 * @return	JLanguage
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getMockLanguage()
 	{
@@ -244,15 +244,15 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Gets a mock session object.
 	 *
-	 * @param   array  $options  An array of key-value options for the JSession mock.
+	 * @param	 array	$options	An array of key-value options for the JSession mock.
 	 * getId : the value to be returned by the mock getId method
 	 * get.user.id : the value to assign to the user object id returned by get('user')
 	 * get.user.name : the value to assign to the user object name returned by get('user')
 	 * get.user.username : the value to assign to the user object username returned by get('user')
 	 *
-	 * @return  JSession
+	 * @return	JSession
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getMockSession($options = array())
 	{
@@ -265,11 +265,11 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Gets a mock web object.
 	 *
-	 * @param   array  $options  A set of options to configure the mock.
+	 * @param	 array	$options	A set of options to configure the mock.
 	 *
-	 * @return  JApplicationWeb
+	 * @return	JApplicationWeb
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getMockWeb($options = array())
 	{
@@ -290,12 +290,12 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * If passed without argument, the array is initialized if it hsn't been already
 	 *
-	 * @param   mixed  $error  The JException object to expect.
+	 * @param	 mixed	$error	The JException object to expect.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @deprecated  13.1
-	 * @since       12.1
+	 * @deprecated	13.1
+	 * @since			 12.1
 	 */
 	public function setExpectedError($error = null)
 	{
@@ -321,10 +321,10 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Sets the JError error handlers.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @deprecated  13.1
-	 * @since       12.1
+	 * @deprecated	13.1
+	 * @since			 12.1
 	 */
 	protected function restoreErrorHandlers()
 	{
@@ -334,9 +334,9 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Sets the Factory pointers
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function restoreFactoryState()
 	{
@@ -354,10 +354,10 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Saves the current state of the JError error handlers.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @deprecated  13.1
-	 * @since       12.1
+	 * @deprecated	13.1
+	 * @since			 12.1
 	 */
 	protected function saveErrorHandlers()
 	{
@@ -375,9 +375,9 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Saves the Factory pointers
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function saveFactoryState()
 	{
@@ -395,11 +395,11 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Sets the JError error handlers.
 	 *
-	 * @param   array  $errorHandlers  araay of values and options to set the handlers
+	 * @param	 array	$errorHandlers	araay of values and options to set the handlers
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function setErrorHandlers($errorHandlers)
 	{
@@ -428,11 +428,11 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Sets the JError error handlers to callback mode and points them at the test logging method.
 	 *
-	 * @param   string  $testName  The name of the test class for which to set the error callback method.
+	 * @param	 string	$testName	The name of the test class for which to set the error callback method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function setErrorCallback($testName)
 	{
@@ -448,10 +448,10 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Overrides the parent setup method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::setUp()
-	 * @since   11.1
+	 * @see		 PHPUnit_Framework_TestCase::setUp()
+	 * @since	 11.1
 	 */
 	protected function setUp()
 	{
@@ -463,10 +463,10 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Overrides the parent tearDown method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   11.1
+	 * @see		 PHPUnit_Framework_TestCase::tearDown()
+	 * @since	 11.1
 	 */
 	protected function tearDown()
 	{

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Application
+ * @package		 Joomla.UnitTest
+ * @subpackage	Application
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 include_once __DIR__ . '/stubs/JApplicationCliInspector.php';
@@ -12,26 +12,26 @@ include_once __DIR__ . '/stubs/JApplicationCliInspector.php';
 /**
  * Test class for JApplicationCli.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Application
- * @since       11.3
+ * @package		 Joomla.UnitTest
+ * @subpackage	Application
+ * @since			 11.3
  */
 class JApplicationCliTest extends TestCase
 {
 	/**
 	 * An instance of the object to test.
 	 *
-	 * @var    JApplicationCliInspector
-	 * @since  11.3
+	 * @var		JApplicationCliInspector
+	 * @since	11.3
 	 */
 	protected $class;
 
 	/**
 	 * Setup for testing.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function setUp()
 	{
@@ -44,10 +44,10 @@ class JApplicationCliTest extends TestCase
 	/**
 	 * Overrides the parent tearDown method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   11.1
+	 * @see		 PHPUnit_Framework_TestCase::tearDown()
+	 * @since	 11.1
 	 */
 	protected function tearDown()
 	{
@@ -60,9 +60,9 @@ class JApplicationCliTest extends TestCase
 	/**
 	 * Tests the JApplicationCli::__construct method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function test__construct()
 	{
@@ -81,9 +81,9 @@ class JApplicationCliTest extends TestCase
 	/**
 	 * Tests the JApplicationCli::__construct method with dependancy injection.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function test__constructDependancyInjection()
 	{
@@ -123,9 +123,9 @@ class JApplicationCliTest extends TestCase
 	/**
 	 * Tests the JApplicationCli::close method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testClose()
 	{
@@ -149,9 +149,9 @@ class JApplicationCliTest extends TestCase
 	/**
 	 * Tests the JApplicationCli::Execute method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testExecute()
 	{
@@ -179,9 +179,9 @@ class JApplicationCliTest extends TestCase
 	/**
 	 * Data for fetchConfigurationData method.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function getFetchConfigurationData()
 	{
@@ -195,16 +195,16 @@ class JApplicationCliTest extends TestCase
 	/**
 	 * Tests the JApplicationCli::fetchConfigurationData method.
 	 *
-	 * @param   string   $file               The name of the configuration file.
-	 * @param   string   $class              The name of the class.
-	 * @param   boolean  $expectsClass       The result is expected to be a class.
-	 * @param   array    $expects            The expected result as an array.
-	 * @param   boolean  $expectedException  The expected exception
+	 * @param	 string	 $file							 The name of the configuration file.
+	 * @param	 string	 $class							The name of the class.
+	 * @param	 boolean	$expectsClass			 The result is expected to be a class.
+	 * @param	 array		$expects						The expected result as an array.
+	 * @param	 boolean	$expectedException	The expected exception
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @dataProvider getFetchConfigurationData
-	 * @since    11.3
+	 * @since		11.3
 	 */
 	public function testFetchConfigurationData($file, $class, $expectsClass, $expects, $expectedException = false)
 	{
@@ -251,9 +251,9 @@ class JApplicationCliTest extends TestCase
 	/**
 	 * Tests the JApplicationCli::get method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testGet()
 	{
@@ -269,9 +269,9 @@ class JApplicationCliTest extends TestCase
 	/**
 	 * Tests the JApplicationCli::getInstance method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testGetInstance()
 	{
@@ -297,9 +297,9 @@ class JApplicationCliTest extends TestCase
 	/**
 	 * Tests the JApplicationCli::loadConfiguration method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testLoadConfiguration()
 	{
@@ -327,9 +327,9 @@ class JApplicationCliTest extends TestCase
 	/**
 	 * Tests the JApplicationCli::set method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testSet()
 	{

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Installer
+ * @package		 Joomla.Platform
+ * @subpackage	Installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -14,30 +14,30 @@ jimport('joomla.base.adapterinstance');
 /**
  * Package installer
  *
- * @package     Joomla.Platform
- * @subpackage  Installer
- * @since       11.1
- * @deprecated  13.3
+ * @package		 Joomla.Platform
+ * @subpackage	Installer
+ * @since			 11.1
+ * @deprecated	13.3
  */
 class JInstallerPackage extends JAdapterInstance
 {
 	/**
 	 * Method of system
 	 *
-	 * @var    string
+	 * @var		string
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	protected $route = 'install';
 
 	/**
 	 * Load language from a path
 	 *
-	 * @param   string  $path  The path of the language.
+	 * @param	 string	$path	The path of the language.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function loadLanguage($path)
 	{
@@ -54,9 +54,9 @@ class JInstallerPackage extends JAdapterInstance
 	/**
 	 * Custom install method
 	 *
-	 * @return  int  The extension id
+	 * @return	int	The extension id
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function install()
 	{
@@ -376,9 +376,9 @@ class JInstallerPackage extends JAdapterInstance
 	 * The only difference between an update and a full install
 	 * is how we handle the database
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function update()
 	{
@@ -389,11 +389,11 @@ class JInstallerPackage extends JAdapterInstance
 	/**
 	 * Custom uninstall method
 	 *
-	 * @param   integer  $id  The id of the package to uninstall.
+	 * @param	 integer	$id	The id of the package to uninstall.
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function uninstall($id)
 	{
@@ -537,14 +537,14 @@ class JInstallerPackage extends JAdapterInstance
 	/**
 	 * Gets the extension id.
 	 *
-	 * @param   string   $type    The extension type.
-	 * @param   string   $id      The name of the extension (the element field).
-	 * @param   integer  $client  The application id (0: Joomla CMS site; 1: Joomla CMS administrator).
-	 * @param   string   $group   The extension group (mainly for plugins).
+	 * @param	 string	 $type		The extension type.
+	 * @param	 string	 $id			The name of the extension (the element field).
+	 * @param	 integer	$client	The application id (0: Joomla CMS site; 1: Joomla CMS administrator).
+	 * @param	 string	 $group	 The extension group (mainly for plugins).
 	 *
-	 * @return  integer
+	 * @return	integer
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function _getExtensionID($type, $id, $client, $group)
 	{
@@ -590,9 +590,9 @@ class JInstallerPackage extends JAdapterInstance
 	/**
 	 * Refreshes the extension table cache
 	 *
-	 * @return  boolean  Result of operation, true if updated, false on failure
+	 * @return	boolean	Result of operation, true if updated, false on failure
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function refreshManifestCache()
 	{

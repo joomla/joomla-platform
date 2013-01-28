@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Github
+ * @package		 Joomla.UnitTest
+ * @subpackage	Github
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM . '/joomla/github/github.php';
@@ -14,40 +14,40 @@ require_once JPATH_PLATFORM . '/joomla/github/pulls.php';
 /**
  * Test class for JGithubPulls.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Github
+ * @package		 Joomla.UnitTest
+ * @subpackage	Github
  *
- * @since       11.1
+ * @since			 11.1
  */
 class JGithubPullsTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the GitHub object.
-	 * @since  11.4
+	 * @var		JRegistry	Options for the GitHub object.
+	 * @since	11.4
 	 */
 	protected $options;
 
 	/**
-	 * @var    JGithubHttp  Mock client object.
-	 * @since  11.4
+	 * @var		JGithubHttp	Mock client object.
+	 * @since	11.4
 	 */
 	protected $client;
 
 	/**
-	 * @var    JGithubPulls  Object under test.
-	 * @since  11.4
+	 * @var		JGithubPulls	Object under test.
+	 * @since	11.4
 	 */
 	protected $object;
 
 	/**
-	 * @var    string  Sample JSON string.
-	 * @since  11.4
+	 * @var		string	Sample JSON string.
+	 * @since	11.4
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
-	 * @var    string  Sample JSON error message.
-	 * @since  11.4
+	 * @var		string	Sample JSON error message.
+	 * @since	11.4
 	 */
 	protected $errorString = '{"message": "Generic Error"}';
 
@@ -72,7 +72,7 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test...
 	 *
-	 * @param   string  $name  The method name.
+	 * @param	 string	$name	The method name.
 	 *
 	 * @return string
 	 */
@@ -117,7 +117,7 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the create method - failure
 	 *
-	 * @expectedException  DomainException
+	 * @expectedException	DomainException
 	 *
 	 * @return void
 	 */
@@ -173,7 +173,7 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the createComment method - failure
 	 *
-	 * @expectedException  DomainException
+	 * @expectedException	DomainException
 	 *
 	 * @return void
 	 */
@@ -226,7 +226,7 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the createCommentReply method - failure
 	 *
-	 * @expectedException  DomainException
+	 * @expectedException	DomainException
 	 *
 	 * @return void
 	 */
@@ -278,7 +278,7 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the createFromIssue method - failure
 	 *
-	 * @expectedException  DomainException
+	 * @expectedException	DomainException
 	 *
 	 * @return void
 	 */
@@ -323,7 +323,7 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the deleteComment method - failure
 	 *
-	 * @expectedException  DomainException
+	 * @expectedException	DomainException
 	 *
 	 * @return void
 	 */
@@ -371,7 +371,7 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the edit method - failure
 	 *
-	 * @expectedException  DomainException
+	 * @expectedException	DomainException
 	 *
 	 * @return void
 	 */
@@ -421,7 +421,7 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the editComment method - failure
 	 *
-	 * @expectedException  DomainException
+	 * @expectedException	DomainException
 	 *
 	 * @return void
 	 */
@@ -467,7 +467,7 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the get method - failure
 	 *
-	 * @expectedException  DomainException
+	 * @expectedException	DomainException
 	 *
 	 * @return void
 	 */
@@ -510,7 +510,7 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getComment method - failure
 	 *
-	 * @expectedException  DomainException
+	 * @expectedException	DomainException
 	 *
 	 * @return void
 	 */
@@ -553,7 +553,7 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getComments method - failure
 	 *
-	 * @expectedException  DomainException
+	 * @expectedException	DomainException
 	 *
 	 * @return void
 	 */
@@ -596,7 +596,7 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getCommits method - failure
 	 *
-	 * @expectedException  DomainException
+	 * @expectedException	DomainException
 	 *
 	 * @return void
 	 */
@@ -639,7 +639,7 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getFiles method - failure
 	 *
-	 * @expectedException  DomainException
+	 * @expectedException	DomainException
 	 *
 	 * @return void
 	 */
@@ -682,7 +682,7 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getList method - failure
 	 *
-	 * @expectedException  DomainException
+	 * @expectedException	DomainException
 	 *
 	 * @return void
 	 */
@@ -747,7 +747,7 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the isMerged method when the request fails
 	 *
-	 * @expectedException  DomainException
+	 * @expectedException	DomainException
 	 *
 	 * @return void
 	 */
@@ -790,7 +790,7 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the merge method - failure
 	 *
-	 * @expectedException  DomainException
+	 * @expectedException	DomainException
 	 *
 	 * @return void
 	 */

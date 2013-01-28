@@ -1,25 +1,25 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Grid
+ * @package		 Joomla.UnitTest
+ * @subpackage	Grid
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * General inspector class for JGrid.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Grid
- * @since       11.3
+ * @package		 Joomla.UnitTest
+ * @subpackage	Grid
+ * @since			 11.3
  */
 class JGridInspector extends JGrid
 {
 	/**
 	 * Method for inspecting protected variables.
 	 *
-	 * @param   string  $name  Variable name
+	 * @param	 string	$name	Variable name
 	 *
 	 * @return mixed The value of the class variable.
 	 */
@@ -40,8 +40,8 @@ class JGridInspector extends JGrid
 	/**
 	 * Sets any property from the class.
 	 *
-	 * @param   string  $property  The name of the class property.
-	 * @param   string  $value     The value of the class property.
+	 * @param	 string	$property	The name of the class property.
+	 * @param	 string	$value		 The value of the class property.
 	 *
 	 * @return void
 	 */
@@ -53,8 +53,8 @@ class JGridInspector extends JGrid
 	/**
 	 * Calls any inaccessible method from the class.
 	 *
-	 * @param   string      $name        Name of the method to invoke
-	 * @param   array|bool  $parameters  Parameters to be handed over to the original method
+	 * @param	 string			$name				Name of the method to invoke
+	 * @param	 array|bool	$parameters	Parameters to be handed over to the original method
 	 *
 	 * @return mixed The return value of the method
 	 */
@@ -67,10 +67,10 @@ class JGridInspector extends JGrid
 /**
  * Test class for JGrid.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Github
+ * @package		 Joomla.UnitTest
+ * @subpackage	Github
  *
- * @since       11.3
+ * @since			 11.3
  */
 class JGridTest extends PHPUnit_Framework_TestCase
 {

@@ -1,48 +1,48 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Github
+ * @package		 Joomla.UnitTest
+ * @subpackage	Github
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JGithubHooks.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Github
- * @since       12.3
+ * @package		 Joomla.UnitTest
+ * @subpackage	Github
+ * @since			 12.3
  */
 class JGithubHooksTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the GitHub object.
-	 * @since  12.3
+	 * @var		JRegistry	Options for the GitHub object.
+	 * @since	12.3
 	 */
 	protected $options;
 
 	/**
-	 * @var    JGithubHttp  Mock client object.
-	 * @since  12.3
+	 * @var		JGithubHttp	Mock client object.
+	 * @since	12.3
 	 */
 	protected $client;
 
 	/**
-	 * @var    JGithubHooks  Object under test.
-	 * @since  12.3
+	 * @var		JGithubHooks	Object under test.
+	 * @since	12.3
 	 */
 	protected $object;
 
 	/**
-	 * @var    string  Sample JSON string.
-	 * @since  12.3
+	 * @var		string	Sample JSON string.
+	 * @since	12.3
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
-	 * @var    string  Sample JSON error message.
-	 * @since  12.3
+	 * @var		string	Sample JSON error message.
+	 * @since	12.3
 	 */
 	protected $errorString = '{"message": "Generic Error"}';
 
@@ -50,9 +50,9 @@ class JGithubHooksTest extends PHPUnit_Framework_TestCase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	protected function setUp()
 	{
@@ -67,9 +67,9 @@ class JGithubHooksTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the create method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testCreate()
 	{
@@ -97,9 +97,9 @@ class JGithubHooksTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the create method - simulated failure
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testCreateFailure()
 	{
@@ -139,11 +139,11 @@ class JGithubHooksTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the create method - unauthorised event
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 *
-	 * @expectedException  RuntimeException
+	 * @expectedException	RuntimeException
 	 */
 	public function testCreateUnauthorisedEvent()
 	{
@@ -153,9 +153,9 @@ class JGithubHooksTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the delete method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testDelete()
 	{
@@ -177,9 +177,9 @@ class JGithubHooksTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the delete method - simulated failure
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testDeleteFailure()
 	{
@@ -213,9 +213,9 @@ class JGithubHooksTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the edit method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testEdit()
 	{
@@ -247,9 +247,9 @@ class JGithubHooksTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the edit method - simulated failure
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testEditFailure()
 	{
@@ -293,11 +293,11 @@ class JGithubHooksTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the edit method - unauthorised event
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 *
-	 * @expectedException  RuntimeException
+	 * @expectedException	RuntimeException
 	 */
 	public function testEditUnauthorisedEvent()
 	{
@@ -307,9 +307,9 @@ class JGithubHooksTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the get method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testGet()
 	{
@@ -331,11 +331,11 @@ class JGithubHooksTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the get method - failure
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 *
-	 * @expectedException  DomainException
+	 * @expectedException	DomainException
 	 */
 	public function testGetFailure()
 	{
@@ -354,9 +354,9 @@ class JGithubHooksTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getList method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testGetList()
 	{
@@ -378,11 +378,11 @@ class JGithubHooksTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getList method - failure
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 *
-	 * @expectedException  DomainException
+	 * @expectedException	DomainException
 	 */
 	public function testGetListFailure()
 	{
@@ -401,9 +401,9 @@ class JGithubHooksTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the test method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testTest()
 	{
@@ -425,11 +425,11 @@ class JGithubHooksTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the test method - failure
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 *
-	 * @expectedException  DomainException
+	 * @expectedException	DomainException
 	 */
 	public function testTestFailure()
 	{

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  HTML
+ * @package		 Joomla.Platform
+ * @subpackage	HTML
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,9 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * HTML helper class for rendering telephone numbers.
  *
- * @package     Joomla.Platform
- * @subpackage  HTML
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	HTML
+ * @since			 11.1
  */
 abstract class JHtmlTel
 {
@@ -24,15 +24,15 @@ abstract class JHtmlTel
 	 * By default, the ITU-T format will automatically be used.
 	 * However, one of the allowed unit types may also be used instead.
 	 *
-	 * @param   integer  $number       The integers in a phone number with dot separated country code
-	 *                                 ccc.nnnnnnn where ccc represents country code and nnn represents the local number.
-	 * @param   string   $displayplan  The numbering plan used to display the numbers.
+	 * @param	 integer	$number			 The integers in a phone number with dot separated country code
+	 *																 ccc.nnnnnnn where ccc represents country code and nnn represents the local number.
+	 * @param	 string	 $displayplan	The numbering plan used to display the numbers.
 	 *
-	 * @return  string  The formatted telephone number.
+	 * @return	string	The formatted telephone number.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 *
-	 * @see     JFormRuleTel
+	 * @see		 JFormRuleTel
 	 */
 	public static function tel($number, $displayplan)
 	{

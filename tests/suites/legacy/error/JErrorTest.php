@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Error
+ * @package		 Joomla.UnitTest
+ * @subpackage	Error
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM . '/legacy/error/error.php';
@@ -14,17 +14,17 @@ require_once __DIR__ . '/JErrorInspector.php';
 /**
  * Test class for JError.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Error
+ * @package		 Joomla.UnitTest
+ * @subpackage	Error
  *
- * @since       12.3
+ * @since			 12.3
  */
 class JErrorTest extends TestCase
 {
 	/**
 	 * Test JError::getError
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetError()
 	{
@@ -60,7 +60,7 @@ class JErrorTest extends TestCase
 		$this->assertThat(
 			JErrorInspector::inspectStack(),
 			$this->equalTo(array('Error2')),
-			'The stack was either not changed or changed the wrong way by getError (with  unset true)'
+			'The stack was either not changed or changed the wrong way by getError (with	unset true)'
 		);
 
 		// Here we remove any junk left on the error stack
@@ -70,7 +70,7 @@ class JErrorTest extends TestCase
 	/**
 	 * Test JError::getErrors
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetErrors()
 	{
@@ -88,12 +88,12 @@ class JErrorTest extends TestCase
 	/**
 	 * Test JError::addToStack
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testAddToStack()
 	{
 		// Remove the following lines when the framework is fixed.
-		// $this->markTestSkipped('The framework is currently broken.  Skipping this test.');
+		// $this->markTestSkipped('The framework is currently broken.	Skipping this test.');
 
 		JErrorInspector::manipulateStack(array('value1', 'value2', 'value3'));
 
@@ -115,9 +115,9 @@ class JErrorTest extends TestCase
 	/**
 	 * Test JError::raise
 	 *
-	 * @todo    Implement testRaise().
+	 * @todo		Implement testRaise().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testRaise()
 	{
@@ -130,9 +130,9 @@ class JErrorTest extends TestCase
 	/**
 	 * Test JError::throwError
 	 *
-	 * @todo    Implement testThrowError().
+	 * @todo		Implement testThrowError().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testThrowError()
 	{
@@ -145,9 +145,9 @@ class JErrorTest extends TestCase
 	/**
 	 * Test JError::raiseError
 	 *
-	 * @todo    Implement testRaiseError().
+	 * @todo		Implement testRaiseError().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testRaiseError()
 	{
@@ -160,9 +160,9 @@ class JErrorTest extends TestCase
 	/**
 	 * Test JError::raiseWarning
 	 *
-	 * @todo    Implement testRaiseWarning().
+	 * @todo		Implement testRaiseWarning().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testRaiseWarning()
 	{
@@ -175,9 +175,9 @@ class JErrorTest extends TestCase
 	/**
 	 * Test JError::raiseNotice
 	 *
-	 * @todo    Implement testRaiseNotice().
+	 * @todo		Implement testRaiseNotice().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testRaiseNotice()
 	{
@@ -190,9 +190,9 @@ class JErrorTest extends TestCase
 	/**
 	 * Test JError::getErrorHandling
 	 *
-	 * @todo    Implement testGetErrorHandling().
+	 * @todo		Implement testGetErrorHandling().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetErrorHandling()
 	{
@@ -205,7 +205,7 @@ class JErrorTest extends TestCase
 	/**
 	 * Test JError::setErrorHandling
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testSetErrorHandling()
 	{
@@ -254,7 +254,7 @@ class JErrorTest extends TestCase
 	 *
 	 * Callback for testSetErrorHandling
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function callbackHandler()
 	{
@@ -264,9 +264,9 @@ class JErrorTest extends TestCase
 	/**
 	 * Test JError::attachHandler
 	 *
-	 * @todo    Implement testAttachHandler().
+	 * @todo		Implement testAttachHandler().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testAttachHandler()
 	{
@@ -279,9 +279,9 @@ class JErrorTest extends TestCase
 	/**
 	 * Test JError::detachHandler
 	 *
-	 * @todo    Implement testDetachHandler().
+	 * @todo		Implement testDetachHandler().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testDetachHandler()
 	{
@@ -294,9 +294,9 @@ class JErrorTest extends TestCase
 	/**
 	 * Test JError::registerErrorLevel
 	 *
-	 * @todo    Implement testRegisterErrorLevel().
+	 * @todo		Implement testRegisterErrorLevel().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testRegisterErrorLevel()
 	{
@@ -309,9 +309,9 @@ class JErrorTest extends TestCase
 	/**
 	 * Test JError::translateErrorLevel
 	 *
-	 * @todo    Implement testTranslateErrorLevel().
+	 * @todo		Implement testTranslateErrorLevel().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testTranslateErrorLevel()
 	{
@@ -324,9 +324,9 @@ class JErrorTest extends TestCase
 	/**
 	 * Test JError::handleIgnore
 	 *
-	 * @todo    Implement testHandleIgnore().
+	 * @todo		Implement testHandleIgnore().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testHandleIgnore()
 	{
@@ -339,9 +339,9 @@ class JErrorTest extends TestCase
 	/**
 	 * Test JError::handleEcho
 	 *
-	 * @todo    Implement testHandleEcho().
+	 * @todo		Implement testHandleEcho().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testHandleEcho()
 	{
@@ -354,9 +354,9 @@ class JErrorTest extends TestCase
 	/**
 	 * Test JError::handleVerbose
 	 *
-	 * @todo    Implement testHandleVerbose().
+	 * @todo		Implement testHandleVerbose().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testHandleVerbose()
 	{
@@ -369,9 +369,9 @@ class JErrorTest extends TestCase
 	/**
 	 * Test JError::handleDie
 	 *
-	 * @todo    Implement testHandleDie().
+	 * @todo		Implement testHandleDie().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testHandleDie()
 	{
@@ -384,9 +384,9 @@ class JErrorTest extends TestCase
 	/**
 	 * Test JError::handleMessage
 	 *
-	 * @todo    Implement testHandleMessage().
+	 * @todo		Implement testHandleMessage().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testHandleMessage()
 	{
@@ -399,9 +399,9 @@ class JErrorTest extends TestCase
 	/**
 	 * Test JError::handleLog
 	 *
-	 * @todo    Implement testHandleLog().
+	 * @todo		Implement testHandleLog().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testHandleLog()
 	{
@@ -414,9 +414,9 @@ class JErrorTest extends TestCase
 	/**
 	 * Test JError::handleCallback
 	 *
-	 * @todo    Implement testHandleCallback().
+	 * @todo		Implement testHandleCallback().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testHandleCallback()
 	{
@@ -429,9 +429,9 @@ class JErrorTest extends TestCase
 	/**
 	 * Test JError::customErrorPage
 	 *
-	 * @todo    Implement testCustomErrorPage().
+	 * @todo		Implement testCustomErrorPage().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testCustomErrorPage()
 	{
@@ -444,9 +444,9 @@ class JErrorTest extends TestCase
 	/**
 	 * Test JError::customerErrorHandler
 	 *
-	 * @todo    Implement testCustomErrorHandler().
+	 * @todo		Implement testCustomErrorHandler().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testCustomErrorHandler()
 	{
@@ -459,9 +459,9 @@ class JErrorTest extends TestCase
 	/**
 	 * Test JError::renderBacktrace
 	 *
-	 * @todo    Implement testRenderBacktrace().
+	 * @todo		Implement testRenderBacktrace().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testRenderBacktrace()
 	{

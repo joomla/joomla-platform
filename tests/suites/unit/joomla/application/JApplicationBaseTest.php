@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Application
+ * @package		 Joomla.UnitTest
+ * @subpackage	Application
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 include_once __DIR__ . '/stubs/JApplicationBaseInspector.php';
@@ -12,26 +12,26 @@ include_once __DIR__ . '/stubs/JApplicationBaseInspector.php';
 /**
  * Test class for JApplicationBase.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Application
- * @since       12.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	Application
+ * @since			 12.1
  */
 class JApplicationBaseTest extends TestCase
 {
 	/**
 	 * An instance of the object to test.
 	 *
-	 * @var    JApplicationBaseInspector
-	 * @since  11.3
+	 * @var		JApplicationBaseInspector
+	 * @since	11.3
 	 */
 	protected $class;
 
 	/**
 	 * Setup for testing.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	protected function setUp()
 	{
@@ -44,10 +44,10 @@ class JApplicationBaseTest extends TestCase
 	/**
 	 * Overrides the parent tearDown method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   11.1
+	 * @see		 PHPUnit_Framework_TestCase::tearDown()
+	 * @since	 11.1
 	 */
 	protected function tearDown()
 	{
@@ -60,10 +60,10 @@ class JApplicationBaseTest extends TestCase
 	/**
 	 * Tests the JApplicationBase::loadDispatcher method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
-	 * @covers  JApplicationBase::loadDispatcher
+	 * @since	 12.1
+	 * @covers	JApplicationBase::loadDispatcher
 	 */
 	public function testLoadDispatcher()
 	{
@@ -86,11 +86,11 @@ class JApplicationBaseTest extends TestCase
 	/**
 	 * Tests the JApplicationBase::loadIdentity and JApplicationBase::getIdentity methods.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.2
-	 * @covers  JApplicationBase::loadIdentity
-	 * @covers  JApplicationBase::getIdentity
+	 * @since	 12.2
+	 * @covers	JApplicationBase::loadIdentity
+	 * @covers	JApplicationBase::getIdentity
 	 */
 	public function testLoadGetIdentityCorrectClass()
 	{
@@ -107,11 +107,11 @@ class JApplicationBaseTest extends TestCase
 	/**
 	 * Tests the JApplicationBase::loadIdentity and JApplicationBase::getIdentity methods.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
-	 * @covers  JApplicationBase::loadIdentity
-	 * @covers  JApplicationBase::getIdentity
+	 * @since	 12.3
+	 * @covers	JApplicationBase::loadIdentity
+	 * @covers	JApplicationBase::getIdentity
 	 */
 	public function testLoadGetIdentityGetJUser()
 	{
@@ -127,11 +127,11 @@ class JApplicationBaseTest extends TestCase
 	/**
 	 * Tests the JApplicationBase::loadIdentity and JApplicationBase::getIdentity methods.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
-	 * @covers  JApplicationBase::loadIdentity
-	 * @covers  JApplicationBase::getIdentity
+	 * @since	 12.3
+	 * @covers	JApplicationBase::loadIdentity
+	 * @covers	JApplicationBase::getIdentity
 	 */
 	public function testLoadGetIdentity99()
 	{
@@ -146,10 +146,10 @@ class JApplicationBaseTest extends TestCase
 	/**
 	 * Tests the JApplicationBase::registerEvent method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
-	 * @covers  JApplicationBase::registerEvent
+	 * @since	 12.1
+	 * @covers	JApplicationBase::registerEvent
 	 */
 	public function testRegisterEvent()
 	{
@@ -171,10 +171,10 @@ class JApplicationBaseTest extends TestCase
 	/**
 	 * Tests the JApplicationBase::triggerEvent method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
-	 * @covers  JApplicationBase::triggerEvent
+	 * @since	 12.1
+	 * @covers	JApplicationBase::triggerEvent
 	 */
 	public function testTriggerEvent()
 	{

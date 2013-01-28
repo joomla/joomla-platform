@@ -1,27 +1,27 @@
 <?php
 /**
- * @package    Joomla.Test
+ * @package		Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JDatabasePostgresql.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Database
+ * @package		 Joomla.UnitTest
+ * @subpackage	Database
  *
- * @since       11.3
+ * @since			 11.3
  */
 class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 {
 	/**
 	 * Data for the testEscape test.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function dataTestEscape()
 	{
@@ -37,9 +37,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Data for the testGetEscaped test, proxies of escape, so same data test.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function dataTestGetEscaped()
 	{
@@ -53,9 +53,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Data for the testTransactionRollback test.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function dataTestTransactionRollback()
 	{
@@ -65,9 +65,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Data for the getCreateDbQuery test.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function dataGetCreateDbQuery()
 	{
@@ -81,9 +81,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Data for the TestReplacePrefix test.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function dataTestReplacePrefix()
 	{
@@ -105,9 +105,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Data for testQuoteName test.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function dataTestQuoteName()
 	{
@@ -148,9 +148,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Data for testLoadNextObject test.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function dataTestLoadNextObject()
 	{
@@ -184,9 +184,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Data for testLoadNextRow test.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function dataTestLoadNextRow()
 	{
@@ -202,9 +202,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  xml dataset
+	 * @return	xml dataset
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function getDataSet()
 	{
@@ -216,7 +216,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @todo Implement test__destruct().
 	 *
-	 * @return   void
+	 * @return	 void
 	 */
 	public function test__destruct()
 	{
@@ -227,7 +227,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Check if connected() method returns true.
 	 *
-	 * @return   void
+	 * @return	 void
 	 */
 	public function testConnected()
 	{
@@ -237,14 +237,14 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Tests the JDatabasePostgresql escape method.
 	 *
-	 * @param   string  $text    The string to be escaped.
-	 * @param   bool    $extra   Optional parameter to provide extra escaping.
-	 * @param   string  $result  Correct string escaped
+	 * @param	 string	$text		The string to be escaped.
+	 * @param	 bool		$extra	 Optional parameter to provide extra escaping.
+	 * @param	 string	$result	Correct string escaped
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
-	 * @dataProvider  dataTestEscape
+	 * @since	 11.3
+	 * @dataProvider	dataTestEscape
 	 */
 	public function testEscape($text, $extra, $result)
 	{
@@ -254,9 +254,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Test getAffectedRows method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testGetAffectedRows()
 	{
@@ -273,9 +273,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Tests the JDatabasePostgresql getCollation method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testGetCollation()
 	{
@@ -285,9 +285,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Tests the JDatabasePostgresql getNumRows method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testGetNumRows()
 	{
@@ -307,7 +307,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @todo Implement testGetTableCreate().
 	 *
-	 * @return   void
+	 * @return	 void
 	 */
 	public function testGetTableCreate()
 	{
@@ -318,7 +318,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Test getTableColumns function.
 	 *
-	 * @return   void
+	 * @return	 void
 	 */
 	public function testGetTableColumns()
 	{
@@ -365,7 +365,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Test getTableKeys function.
 	 *
-	 * @return   void
+	 * @return	 void
 	 */
 	public function testGetTableKeys()
 	{
@@ -399,7 +399,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Test getTableSequences function.
 	 *
-	 * @return   void
+	 * @return	 void
 	 */
 	public function testGetTableSequences()
 	{
@@ -432,9 +432,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Tests the JDatabasePostgresql getTableList method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testGetTableList()
 	{
@@ -490,9 +490,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Tests the JDatabasePostgresql getVersion method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testGetVersion()
 	{
@@ -505,9 +505,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Tests the JDatabasePostgresql insertId method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testInsertid()
 	{
@@ -547,9 +547,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Test insertObject function
 	 *
-	 * @return   void
+	 * @return	 void
 	 *
-	 * @since    12.1
+	 * @since		12.1
 	 */
 	public function testInsertObject()
 	{
@@ -592,7 +592,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Test isSupported function.
 	 *
-	 * @return   void
+	 * @return	 void
 	 */
 	public function testIsSupported()
 	{
@@ -602,9 +602,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Test loadAssoc method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testLoadAssoc()
 	{
@@ -620,9 +620,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Test loadAssocList method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testLoadAssocList()
 	{
@@ -644,9 +644,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Test loadColumn method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testLoadColumn()
 	{
@@ -662,9 +662,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Test loadNextObject function
 	 *
-	 * @param   array  $objArr  Array of expected objects
+	 * @param	 array	$objArr	Array of expected objects
 	 *
-	 * @return   void
+	 * @return	 void
 	 *
 	 * @dataProvider dataTestLoadNextObject
 	 */
@@ -690,9 +690,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Test loadNextObject function with preceding loadObject call
 	 *
-	 * @param   array  $objArr  Array of expected objects
+	 * @param	 array	$objArr	Array of expected objects
 	 *
-	 * @return   void
+	 * @return	 void
 	 *
 	 * @dataProvider dataTestLoadNextObject
 	 */
@@ -720,9 +720,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Test loadNextObject function with preceding query call
 	 *
-	 * @param   array  $objArr  Array of expected objects
+	 * @param	 array	$objArr	Array of expected objects
 	 *
-	 * @return   void
+	 * @return	 void
 	 *
 	 * @dataProvider dataTestLoadNextObject
 	 */
@@ -750,9 +750,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Test loadNextRow function
 	 *
-	 * @param   array  $rowArr  Array of expected arrays
+	 * @param	 array	$rowArr	Array of expected arrays
 	 *
-	 * @return   void
+	 * @return	 void
 	 *
 	 * @dataProvider dataTestLoadNextRow
 	 */
@@ -778,9 +778,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Test loadNextRow function with preceding query call
 	 *
-	 * @param   array  $rowArr  Array of expected arrays
+	 * @param	 array	$rowArr	Array of expected arrays
 	 *
-	 * @return   void
+	 * @return	 void
 	 *
 	 * @dataProvider dataTestLoadNextRow
 	 */
@@ -808,9 +808,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Test loadNextRow function with preceding loadRow call
 	 *
-	 * @param   array  $rowArr  Array of expected arrays
+	 * @param	 array	$rowArr	Array of expected arrays
 	 *
-	 * @return   void
+	 * @return	 void
 	 *
 	 * @dataProvider dataTestLoadNextRow
 	 */
@@ -838,9 +838,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Test loadObject method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testLoadObject()
 	{
@@ -863,9 +863,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Test loadObjectList method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testLoadObjectList()
 	{
@@ -916,9 +916,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Test loadResult method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testLoadResult()
 	{
@@ -936,9 +936,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Test loadRow method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testLoadRow()
 	{
@@ -957,9 +957,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Test loadRowList method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testLoadRowList()
 	{
@@ -978,9 +978,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Test the JDatabasePostgresql::query() method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testQuery()
 	{
@@ -1006,9 +1006,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Test quoteName function, with and without dot notation.
 	 *
-	 * @param   string  $quoteMe   String to be quoted
-	 * @param   string  $asPart    String used for AS query part
-	 * @param   string  $expected  Expected string
+	 * @param	 string	$quoteMe	 String to be quoted
+	 * @param	 string	$asPart		String used for AS query part
+	 * @param	 string	$expected	Expected string
 	 *
 	 * @return void
 	 *
@@ -1023,9 +1023,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Tests the JDatabasePostgresql select method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testSelect()
 	{
@@ -1036,7 +1036,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Tests the JDatabasePostgresql sqlValue method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @since 12.2
 	 */
@@ -1086,7 +1086,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Test setUTF function
 	 *
-	 * @return   void
+	 * @return	 void
 	 */
 	public function testSetUTF()
 	{
@@ -1097,7 +1097,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	 * Test Test method - there really isn't a lot to test here, but
 	 * this is present for the sake of completeness
 	 *
-	 * @return   void
+	 * @return	 void
 	 */
 	public function testTest()
 	{
@@ -1109,7 +1109,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @todo Implement testUpdateObject().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testUpdateObject()
 	{
@@ -1120,9 +1120,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Tests the JDatabasePostgresql transactionCommit method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testTransactionCommit()
 	{
@@ -1154,12 +1154,12 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	 * Tests the JDatabasePostgresql transactionRollback method,
 	 * with and without savepoint.
 	 *
-	 * @param   string  $toSavepoint  Savepoint name to rollback transaction to
-	 * @param   int     $tupleCount   Number of tuple found after insertion and rollback
+	 * @param	 string	$toSavepoint	Savepoint name to rollback transaction to
+	 * @param	 int		 $tupleCount	 Number of tuple found after insertion and rollback
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 * @dataProvider dataTestTransactionRollback
 	 */
 	public function testTransactionRollback($toSavepoint, $tupleCount)
@@ -1198,8 +1198,8 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 		}
 
 		/* find how many rows have description='testRollbackSp' :
-		 *   - 0 if a savepoint doesn't exist
-		 *   - 1 if a savepoint exists
+		 *	 - 0 if a savepoint doesn't exist
+		 *	 - 1 if a savepoint exists
 		 */
 		$queryCheck = self::$driver->getQuery(true);
 		$queryCheck->select('*')
@@ -1214,9 +1214,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Tests the JDatabasePostgresql transactionStart method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testTransactionStart()
 	{
@@ -1246,7 +1246,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	 * 		testTransactionRollback, here will be tested a RELEASE SAVEPOINT of an
 	 * 		inexistent savepoint that will throw and exception.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @expectedException RuntimeException
 	 */
@@ -1270,9 +1270,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Tests the JDatabasePostgresql renameTable method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testRenameTable()
 	{
@@ -1319,14 +1319,14 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Tests the JDatabasePostgresql replacePrefix method.
 	 *
-	 * @param   text  $stringToReplace  The string in which replace the prefix.
-	 * @param   text  $prefix           The prefix.
-	 * @param   text  $expected         The string expected.
+	 * @param	 text	$stringToReplace	The string in which replace the prefix.
+	 * @param	 text	$prefix					 The prefix.
+	 * @param	 text	$expected				 The string expected.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
-	 * @dataProvider  dataTestReplacePrefix
+	 * @since	 11.3
+	 * @dataProvider	dataTestReplacePrefix
 	 */
 	public function testReplacePrefix($stringToReplace, $prefix, $expected)
 	{
@@ -1340,7 +1340,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @todo Implement testTransactionSavepoint().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testTransactionSavepoint( /*$savepointName*/ )
 	{
@@ -1350,11 +1350,11 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Tests the JDatabasePostgresql getCreateDbQuery method.
 	 *
-	 * @param   JObject  $options  JObject coming from "initialise" function to pass user
+	 * @param	 JObject	$options	JObject coming from "initialise" function to pass user
 	 * 									and database name to database driver.
-	 * @param   boolean  $utf      True if the database supports the UTF-8 character set.
+	 * @param	 boolean	$utf			True if the database supports the UTF-8 character set.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @dataProvider dataGetCreateDbQuery
 	 */
@@ -1375,7 +1375,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Tests the JDatabasePostgresql getAlterDbCharacterSet method.
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetAlterDbCharacterSet()
 	{

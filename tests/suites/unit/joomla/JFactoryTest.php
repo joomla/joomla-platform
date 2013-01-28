@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Utilities
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @package		 Joomla.UnitTest
+ * @subpackage	Utilities
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once JPATH_PLATFORM . '/joomla/factory.php';
@@ -11,9 +11,9 @@ require_once JPATH_PLATFORM . '/joomla/factory.php';
 /**
  * Tests for JDate class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Utilities
- * @since       11.3
+ * @package		 Joomla.UnitTest
+ * @subpackage	Utilities
+ * @since			 11.3
  */
 class JFactoryTest extends TestCase
 {
@@ -22,9 +22,9 @@ class JFactoryTest extends TestCase
 	 *
 	 * This method is called before a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function setUp()
 	{
@@ -38,9 +38,9 @@ class JFactoryTest extends TestCase
 	 *
 	 * This method is called after a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function tearDown()
 	{
@@ -52,11 +52,11 @@ class JFactoryTest extends TestCase
 	/**
 	 * Tests the JFactory::getApplication method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
-	 * @covers  JFactory::getApplication
-	 * @todo    Implement testGetApplication().
+	 * @since	 12.1
+	 * @covers	JFactory::getApplication
+	 * @todo		Implement testGetApplication().
 	 */
 	public function testGetApplication()
 	{
@@ -69,11 +69,11 @@ class JFactoryTest extends TestCase
 	/**
 	 * Tests the JFactory::getConfig method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
-	 * @covers  JFactory::getConfig
-	 * @covers  JFactory::createConfig
+	 * @since	 11.3
+	 * @covers	JFactory::getConfig
+	 * @covers	JFactory::createConfig
 	 */
 	public function testGetConfig()
 	{
@@ -93,12 +93,12 @@ class JFactoryTest extends TestCase
 	/**
 	 * Tests the JFactory::getLangauge method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
-	 * @covers  JFactory::getLangauge
-	 * @covers  JFactory::createLanguage
-	 * @todo    Implement testGetLanguage().
+	 * @since	 12.1
+	 * @covers	JFactory::getLangauge
+	 * @covers	JFactory::createLanguage
+	 * @todo		Implement testGetLanguage().
 	 */
 	public function testGetLanguage()
 	{
@@ -116,12 +116,12 @@ class JFactoryTest extends TestCase
 	/**
 	 * Tests the JFactory::getDocument method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
-	 * @covers  JFactory::getDocument
-	 * @covers  JFactory::createDocument
-	 * @todo    Implement testGetDocument().
+	 * @since	 12.1
+	 * @covers	JFactory::getDocument
+	 * @covers	JFactory::createDocument
+	 * @todo		Implement testGetDocument().
 	 */
 	public function testGetDocument()
 	{
@@ -143,11 +143,11 @@ class JFactoryTest extends TestCase
 	/**
 	 * Tests the JFactory::getCache method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
-	 * @covers  JFactory::getCache
-	 * @todo    Implement testGetCache().
+	 * @since	 12.1
+	 * @covers	JFactory::getCache
+	 * @todo		Implement testGetCache().
 	 */
 	public function testGetCache()
 	{
@@ -177,10 +177,10 @@ class JFactoryTest extends TestCase
 	/**
 	 * Tests the JFactory::getACL method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
-	 * @covers  JFactory::getACL
+	 * @since	 12.1
+	 * @covers	JFactory::getACL
 	 */
 	public function testGetACL()
 	{
@@ -194,10 +194,10 @@ class JFactoryTest extends TestCase
 	/**
 	 * Tests the JFactory::getURI method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
-	 * @covers  JFactory::getURI
+	 * @since	 12.1
+	 * @covers	JFactory::getURI
 	 */
 	public function testGetUri()
 	{
@@ -211,10 +211,10 @@ class JFactoryTest extends TestCase
 	/**
 	 * Tests the JFactory::getXML method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.2
-	 * @covers  JFactory::getXML
+	 * @since	 12.2
+	 * @covers	JFactory::getXML
 	 */
 	public function testGetXml()
 	{
@@ -230,10 +230,10 @@ class JFactoryTest extends TestCase
 	/**
 	 * Tests the JFactory::getDate method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
-	 * @covers  JFactory::getDate
+	 * @since	 12.3
+	 * @covers	JFactory::getDate
 	 */
 	public function testGetDateUnchanged()
 	{
@@ -251,10 +251,10 @@ class JFactoryTest extends TestCase
 	/**
 	 * Tests the JFactory::getDate method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
-	 * @covers  JFactory::getDate
+	 * @since	 12.3
+	 * @covers	JFactory::getDate
 	 */
 	public function testGetDateNow()
 	{
@@ -274,10 +274,10 @@ class JFactoryTest extends TestCase
 	/**
 	 * Tests the JFactory::getDate method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
-	 * @covers  JFactory::getDate
+	 * @since	 12.3
+	 * @covers	JFactory::getDate
 	 */
 	public function testGetDateUTC1()
 	{
@@ -296,10 +296,10 @@ class JFactoryTest extends TestCase
 	/**
 	 * Tests the JFactory::getDate method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
-	 * @covers  JFactory::getDate
+	 * @since	 12.3
+	 * @covers	JFactory::getDate
 	 */
 	public function testGetDateUTC2()
 	{
@@ -318,10 +318,10 @@ class JFactoryTest extends TestCase
 	/**
 	 * Tests the JFactory::getUser method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
-	 * @covers  JFactory::getUser
+	 * @since	 12.3
+	 * @covers	JFactory::getUser
 	 */
 	public function testGetUserInstance()
 	{

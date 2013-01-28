@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Database
+ * @package		 Joomla.Platform
+ * @subpackage	Database
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,40 +12,40 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Query Building Class.
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Database
+ * @since			 11.1
  */
 class JDatabaseQuerySqlsrv extends JDatabaseQuery
 {
 	/**
 	 * The character(s) used to quote SQL statement names such as table names or field names,
-	 * etc.  The child classes should define this as necessary.  If a single character string the
+	 * etc.	The child classes should define this as necessary.	If a single character string the
 	 * same character is used for both sides of the quoted name, else the first character will be
 	 * used for the opening quote and the second for the closing quote.
 	 *
-	 * @var    string
+	 * @var		string
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	protected $name_quotes = '`';
 
 	/**
-	 * The null or zero representation of a timestamp for the database driver.  This should be
+	 * The null or zero representation of a timestamp for the database driver.	This should be
 	 * defined in child classes to hold the appropriate value for the engine.
 	 *
-	 * @var    string
+	 * @var		string
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	protected $null_date = '1900-01-01 00:00:00';
 
 	/**
 	 * Magic function to convert the query to a string.
 	 *
-	 * @return  string	The completed query.
+	 * @return	string	The completed query.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __toString()
 	{
@@ -101,11 +101,11 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery
 	 *
 	 * Ensure that the value is properly quoted before passing to the method.
 	 *
-	 * @param   string  $value  The value to cast as a char.
+	 * @param	 string	$value	The value to cast as a char.
 	 *
-	 * @return  string  Returns the cast value.
+	 * @return	string	Returns the cast value.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function castAsChar($value)
 	{
@@ -115,11 +115,11 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery
 	/**
 	 * Gets the function to determine the length of a character string.
 	 *
-	 * @param   string  $field      A value.
-	 * @param   string  $operator   Comparison operator between charLength integer value and $condition
-	 * @param   string  $condition  Integer value to compare charLength with.
+	 * @param	 string	$field			A value.
+	 * @param	 string	$operator	 Comparison operator between charLength integer value and $condition
+	 * @param	 string	$condition	Integer value to compare charLength with.
 	 *
-	 * @return  string  The required char length call.
+	 * @return	string	The required char length call.
 	 *
 	 * @since 11.1
 	 */
@@ -131,12 +131,12 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery
 	/**
 	 * Concatenates an array of column names or values.
 	 *
-	 * @param   array   $values     An array of values to concatenate.
-	 * @param   string  $separator  As separator to place between each value.
+	 * @param	 array	 $values		 An array of values to concatenate.
+	 * @param	 string	$separator	As separator to place between each value.
 	 *
-	 * @return  string  The concatenated values.
+	 * @return	string	The concatenated values.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function concatenate($values, $separator = null)
 	{
@@ -153,9 +153,9 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery
 	/**
 	 * Gets the current date and time.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function currentTimestamp()
 	{
@@ -165,11 +165,11 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery
 	/**
 	 * Get the length of a string in bytes.
 	 *
-	 * @param   string  $value  The string to measure.
+	 * @param	 string	$value	The string to measure.
 	 *
-	 * @return  integer
+	 * @return	integer
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function length($value)
 	{

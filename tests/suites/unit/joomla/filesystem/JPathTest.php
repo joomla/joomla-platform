@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Filesystem
+ * @package		 Joomla.UnitTest
+ * @subpackage	Filesystem
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 JLoader::register('JPath', JPATH_PLATFORM . '/joomla/filesystem/path.php');
@@ -12,18 +12,18 @@ JLoader::register('JPath', JPATH_PLATFORM . '/joomla/filesystem/path.php');
 /**
  * Tests for the JPath class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Filesystem
- * @since       12.2
+ * @package		 Joomla.UnitTest
+ * @subpackage	Filesystem
+ * @since			 12.2
  */
 class JPathTest extends TestCase
 {
 	/**
 	 * Data provider for testClean() method.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function getCleanData()
 	{
@@ -94,15 +94,15 @@ class JPathTest extends TestCase
 	/**
 	 * Tests the clean method.
 	 *
-	 * @param   string  $input     @todo
-	 * @param   string  $ds        @todo
-	 * @param   string  $expected  @todo
+	 * @param	 string	$input		 @todo
+	 * @param	 string	$ds				@todo
+	 * @param	 string	$expected	@todo
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers        JPath::clean
-	 * @dataProvider  getCleanData
-	 * @since         12.2
+	 * @covers				JPath::clean
+	 * @dataProvider	getCleanData
+	 * @since				 12.2
 	 */
 	public function testClean($input, $ds, $expected)
 	{
@@ -115,10 +115,10 @@ class JPathTest extends TestCase
 	/**
 	 * Tests the JPath::clean method with an array as an input
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @expectedException  UnexpectedValueException
-	 * @since   11.3
+	 * @expectedException	UnexpectedValueException
+	 * @since	 11.3
 	 */
 	public function testCleanArrayPath()
 	{

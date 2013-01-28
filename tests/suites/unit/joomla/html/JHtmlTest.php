@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Html
+ * @package		 Joomla.UnitTest
+ * @subpackage	Html
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM . '/joomla/filesystem/path.php';
@@ -13,10 +13,10 @@ require_once JPATH_PLATFORM . '/joomla/utilities/arrayhelper.php';
 /**
  * Tests for the JHtml class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Html
+ * @package		 Joomla.UnitTest
+ * @subpackage	Html
  *
- * @since       11.1
+ * @since			 11.1
  */
 class JHtmlTest extends TestCase
 {
@@ -29,7 +29,7 @@ class JHtmlTest extends TestCase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	protected function setUp()
 	{
@@ -42,7 +42,7 @@ class JHtmlTest extends TestCase
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	protected function tearDown()
 	{
@@ -52,10 +52,10 @@ class JHtmlTest extends TestCase
 	/**
 	 * Test the _ method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
-	 * @covers  JHtml::_
+	 * @since	 11.1
+	 * @covers	JHtml::_
 	 */
 	public function test_()
 	{
@@ -77,10 +77,10 @@ class JHtmlTest extends TestCase
 	/**
 	 * Test the _ method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
-	 * @covers  JHtml::_
+	 * @since	 11.1
+	 * @covers	JHtml::_
 	 */
 	public function test_WithMissingClass()
 	{
@@ -99,10 +99,10 @@ class JHtmlTest extends TestCase
 	/**
 	 * Test the _ method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
-	 * @covers  JHtml::_
+	 * @since	 11.1
+	 * @covers	JHtml::_
 	 */
 	public function test_WithMissingFile()
 	{
@@ -121,10 +121,10 @@ class JHtmlTest extends TestCase
 	/**
 	 * Test the _ method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
-	 * @covers  JHtml::_
+	 * @since	 11.1
+	 * @covers	JHtml::_
 	 */
 	public function test_WithMissingMethod()
 	{
@@ -143,10 +143,10 @@ class JHtmlTest extends TestCase
 	/**
 	 * Test the register method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
-	 * @covers  JHtml::register
+	 * @since	 11.1
+	 * @covers	JHtml::register
 	 */
 	public function testRegister()
 	{
@@ -173,10 +173,10 @@ class JHtmlTest extends TestCase
 	/**
 	 * Test the unregister method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
-	 * @covers  JHtml::unregister
+	 * @since	 11.1
+	 * @covers	JHtml::unregister
 	 */
 	public function testUnregister()
 	{
@@ -199,10 +199,10 @@ class JHtmlTest extends TestCase
 	/**
 	 * Tests the isRegistered method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
-	 * @covers  JHtml::isRegistered
+	 * @since	 11.1
+	 * @covers	JHtml::isRegistered
 	 */
 	public function testIsRegistered()
 	{
@@ -225,9 +225,9 @@ class JHtmlTest extends TestCase
 	/**
 	 * Gets the data for testing the JHtml::link method.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function dataTestLink()
 	{
@@ -251,16 +251,16 @@ class JHtmlTest extends TestCase
 	/**
 	 * Tests the link method.
 	 *
-	 * @param   string  $url       The href for the anchor tag.
-	 * @param   string  $text      The text for the anchor tag.
-	 * @param   mixed   $attribs   A string or array of link attributes.
-	 * @param   string  $expected  The expected result.
+	 * @param	 string	$url			 The href for the anchor tag.
+	 * @param	 string	$text			The text for the anchor tag.
+	 * @param	 mixed	 $attribs	 A string or array of link attributes.
+	 * @param	 string	$expected	The expected result.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 * @dataProvider dataTestLink
-	 * @covers  JHtml::link
+	 * @covers	JHtml::link
 	 */
 	public function testLink($url, $text, $attribs, $expected)
 	{
@@ -270,10 +270,10 @@ class JHtmlTest extends TestCase
 	/**
 	 * testImage().
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
-	 * @covers  JHtml::image
+	 * @since	 11.1
+	 * @covers	JHtml::image
 	 */
 	public function testImage()
 	{
@@ -315,7 +315,7 @@ class JHtmlTest extends TestCase
 		$this->assertThat(
 			JHtml::image($urlpath . $urlfilename, 'My Alt Text', null, true),
 			$this->equalTo(
-				'<img src="' . JURI::base(true) . '/templates/' . $template . '/images/' . $urlpath . $urlfilename . '" alt="My Alt Text"  />'),
+				'<img src="' . JURI::base(true) . '/templates/' . $template . '/images/' . $urlpath . $urlfilename . '" alt="My Alt Text"	/>'),
 			'JHtml::image failed when we should get it from the templates directory');
 
 		$this->assertThat(
@@ -338,7 +338,7 @@ class JHtmlTest extends TestCase
 		// We do a test for the case that the image is in the media directory.
 		$this->assertThat(
 			JHtml::image($urlpath . $urlfilename, 'My Alt Text', null, true),
-			$this->equalTo('<img src="' . JURI::base(true) . '/media/' . $urlpath . 'images/' . $urlfilename . '" alt="My Alt Text"  />'),
+			$this->equalTo('<img src="' . JURI::base(true) . '/media/' . $urlpath . 'images/' . $urlfilename . '" alt="My Alt Text"	/>'),
 			'JHtml::image failed when we should get it from the media directory');
 
 		$this->assertThat(
@@ -359,7 +359,7 @@ class JHtmlTest extends TestCase
 
 		$this->assertThat(
 			JHtml::image($urlpath . $urlfilename, 'My Alt Text', null, true),
-			$this->equalTo('<img src="' . JURI::base(true) . '/media/system/images/' . $urlfilename . '" alt="My Alt Text"  />'),
+			$this->equalTo('<img src="' . JURI::base(true) . '/media/system/images/' . $urlfilename . '" alt="My Alt Text"	/>'),
 			'JHtml::image failed when we should get it from the media directory');
 
 		$this->assertThat(
@@ -371,7 +371,7 @@ class JHtmlTest extends TestCase
 
 		$this->assertThat(
 			JHtml::image($urlpath . $urlfilename, 'My Alt Text', null, true),
-			$this->equalTo('<img src="" alt="My Alt Text"  />'),
+			$this->equalTo('<img src="" alt="My Alt Text"	/>'),
 			'JHtml::image failed when we should get it from the media directory');
 
 		$this->assertThat(
@@ -391,7 +391,7 @@ class JHtmlTest extends TestCase
 			JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true),
 			$this->equalTo(
 				'<img src="' . JURI::base(true) . '/media/' . $extension . '/' . $element . '/images/' . $urlpath . $urlfilename .
-					'" alt="My Alt Text"  />'),
+					'" alt="My Alt Text"	/>'),
 			'JHtml::image failed when we should get it from the media directory, with the plugin fix');
 
 		$this->assertThat(
@@ -413,7 +413,7 @@ class JHtmlTest extends TestCase
 			JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true),
 			$this->equalTo(
 				'<img src="' . JURI::base(true) . '/media/' . $extension . '/images/' . $element . '/' . $urlpath . $urlfilename .
-					'" alt="My Alt Text"  />')
+					'" alt="My Alt Text"	/>')
 		);
 
 		$this->assertThat(
@@ -433,7 +433,7 @@ class JHtmlTest extends TestCase
 		$this->assertThat(
 			JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true),
 			$this->equalTo(
-				'<img src="' . JURI::base(true) . '/media/system/images/' . $element . '/' . $urlpath . $urlfilename . '" alt="My Alt Text"  />')
+				'<img src="' . JURI::base(true) . '/media/system/images/' . $element . '/' . $urlpath . $urlfilename . '" alt="My Alt Text"	/>')
 		);
 
 		$this->assertThat(
@@ -450,7 +450,7 @@ class JHtmlTest extends TestCase
 
 		$this->assertThat(
 			JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true),
-			$this->equalTo('<img src="" alt="My Alt Text"  />')
+			$this->equalTo('<img src="" alt="My Alt Text"	/>')
 		);
 
 		$this->assertThat(
@@ -490,9 +490,9 @@ class JHtmlTest extends TestCase
 	/**
 	 * Gets the data for testing the JHtml::iframe method.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function dataTestIFrame()
 	{
@@ -517,17 +517,17 @@ class JHtmlTest extends TestCase
 	/**
 	 * Tests the iframe method.
 	 *
-	 * @param   string  $url       iframe URL
-	 * @param   string  $name      URL name
-	 * @param   string  $attribs   iframe attribs
-	 * @param   string  $noFrames  replacement for no frames
-	 * @param   string  $expected  expected value
+	 * @param	 string	$url			 iframe URL
+	 * @param	 string	$name			URL name
+	 * @param	 string	$attribs	 iframe attribs
+	 * @param	 string	$noFrames	replacement for no frames
+	 * @param	 string	$expected	expected value
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 * @dataProvider dataTestIFrame
-	 * @covers  JHtml::iframe
+	 * @covers	JHtml::iframe
 	 */
 	public function testIframe($url, $name, $attribs, $noFrames, $expected)
 	{
@@ -540,10 +540,10 @@ class JHtmlTest extends TestCase
 	/**
 	 * testScript
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
-	 * @covers  JHtml::script
+	 * @since	 11.3
+	 * @covers	JHtml::script
 	 */
 	public function testScript()
 	{
@@ -881,8 +881,8 @@ class JHtmlTest extends TestCase
 	 *
 	 * @todo Implement testSetFormatOptions().
 	 *
-	 * @covers  JHtml::setFormatOptions
-	 * @return  void
+	 * @covers	JHtml::setFormatOptions
+	 * @return	void
 	 */
 	public function testSetFormatOptions()
 	{
@@ -893,10 +893,10 @@ class JHtmlTest extends TestCase
 	/**
 	 * testStylesheet().
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
-	 * @covers  JHtml::stylesheet
+	 * @since	 11.3
+	 * @covers	JHtml::stylesheet
 	 */
 	public function testStylesheet()
 	{
@@ -1255,8 +1255,8 @@ class JHtmlTest extends TestCase
 	 *
 	 * @todo Implement testDate().
 	 *
-	 * @covers  JHtml::date
-	 * @return  void
+	 * @covers	JHtml::date
+	 * @return	void
 	 */
 	public function testDate()
 	{
@@ -1267,8 +1267,8 @@ class JHtmlTest extends TestCase
 	/**
 	 * Test...
 	 *
-	 * @covers  JHtml::tooltip
-	 * @return  void
+	 * @covers	JHtml::tooltip
+	 * @return	void
 	 */
 	public function testTooltip()
 	{
@@ -1306,14 +1306,14 @@ class JHtmlTest extends TestCase
 		$this->assertThat(
 			JHtml::tooltip('Content'),
 			$this->equalTo('<span class="hasTip" title="Content"><img src="' .
-				JURI::base(true) . '/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
+				JURI::base(true) . '/media/system/images/tooltip.png" alt="Tooltip"	/></span>'),
 			'Basic tooltip failed'
 		);
 
 		$this->assertThat(
 			JHtml::tooltip('Content', 'Title'),
 			$this->equalTo('<span class="hasTip" title="Title::Content"><img src="' .
-				JURI::base(true) . '/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
+				JURI::base(true) . '/media/system/images/tooltip.png" alt="Tooltip"	/></span>'),
 			'Tooltip with title and content failed'
 		);
 
@@ -1332,14 +1332,14 @@ class JHtmlTest extends TestCase
 		$this->assertThat(
 			JHtml::tooltip('Content', 'Title', 'tooltip.png', null, null, 'MyAlt'),
 			$this->equalTo('<span class="hasTip" title="Title::Content"><img src="' .
-				JURI::base(true) . '/media/system/images/tooltip.png" alt="MyAlt"  /></span>'),
+				JURI::base(true) . '/media/system/images/tooltip.png" alt="MyAlt"	/></span>'),
 			'Tooltip with title and content and alt failed'
 		);
 
 		$this->assertThat(
 			JHtml::tooltip('Content', 'Title', 'tooltip.png', null, null, 'MyAlt', 'hasTip2'),
 			$this->equalTo('<span class="hasTip2" title="Title::Content"><img src="' . JURI::base(true) .
-				'/media/system/images/tooltip.png" alt="MyAlt"  /></span>'),
+				'/media/system/images/tooltip.png" alt="MyAlt"	/></span>'),
 			'Tooltip with title and content and alt and class failed'
 		);
 
@@ -1347,7 +1347,7 @@ class JHtmlTest extends TestCase
 		$this->assertThat(
 			JHtml::tooltip('Content', array('title' => 'Title')),
 			$this->equalTo('<span class="hasTip" title="Title::Content"><img src="' .
-				JURI::base(true) . '/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
+				JURI::base(true) . '/media/system/images/tooltip.png" alt="Tooltip"	/></span>'),
 			'Tooltip with title and content failed'
 		);
 
@@ -1366,19 +1366,19 @@ class JHtmlTest extends TestCase
 		$this->assertThat(
 			JHtml::tooltip('Content', array('title' => 'Title', 'alt' => 'MyAlt')),
 			$this->equalTo('<span class="hasTip" title="Title::Content"><img src="' .
-				JURI::base(true) . '/media/system/images/tooltip.png" alt="MyAlt"  /></span>'),
+				JURI::base(true) . '/media/system/images/tooltip.png" alt="MyAlt"	/></span>'),
 			'Tooltip with title and content and alt failed'
 		);
 		$this->assertThat(
 			JHtml::tooltip('Content', array('title' => 'Title', 'class' => 'hasTip2')),
 			$this->equalTo('<span class="hasTip2" title="Title::Content"><img src="' .
-				JURI::base(true) . '/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
+				JURI::base(true) . '/media/system/images/tooltip.png" alt="Tooltip"	/></span>'),
 			'Tooltip with title and content and class failed'
 		);
 		$this->assertThat(
 			JHtml::tooltip('Content', array()),
 			$this->equalTo('<span class="hasTip" title="Content"><img src="' .
-				JURI::base(true) . '/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
+				JURI::base(true) . '/media/system/images/tooltip.png" alt="Tooltip"	/></span>'),
 			'Basic tooltip (array version) failed'
 		);
 
@@ -1389,9 +1389,9 @@ class JHtmlTest extends TestCase
 	/**
 	 * Tests JHtml::calendar() method with and without 'readonly' attribute.
 	 *
-	 * @covers  JHtml::calendar
-	 * @todo    Implement testCalendar().
-	 * @return  void
+	 * @covers	JHtml::calendar
+	 * @todo		Implement testCalendar().
+	 * @return	void
 	 */
 	public function testCalendar()
 	{
@@ -1551,8 +1551,8 @@ class JHtmlTest extends TestCase
 	 *
 	 * @todo Implement testAddIncludePath().
 	 *
-	 * @covers  JHtml::addIncludePath
-	 * @return  void
+	 * @covers	JHtml::addIncludePath
+	 * @return	void
 	 */
 	public function testAddIncludePath()
 	{

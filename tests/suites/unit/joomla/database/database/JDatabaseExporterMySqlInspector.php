@@ -1,30 +1,30 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Database
+ * @package		 Joomla.UnitTest
+ * @subpackage	Database
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * Class to expose protected properties and methods in JDatabaseMySqlExporter for testing purposes.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Database
+ * @package		 Joomla.UnitTest
+ * @subpackage	Database
  *
- * @since       11.1
+ * @since			 11.1
  */
 class JDatabaseExporterMySqlInspector extends JDatabaseExporterMysql
 {
 	/**
 	 * Gets any property from the class.
 	 *
-	 * @param   string  $property  The name of the class property.
+	 * @param	 string	$property	The name of the class property.
 	 *
-	 * @return  mixed   The value of the class property.
+	 * @return	mixed	 The value of the class property.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __get($property)
 	{
@@ -34,10 +34,10 @@ class JDatabaseExporterMySqlInspector extends JDatabaseExporterMysql
 	/**
 	 * Exposes the protected buildXml method.
 	 *
-	 * @return  string    An XML string
+	 * @return	string		An XML string
 	 *
-	 * @throws  Exception if an error occurs.
-	 * @since   11.1
+	 * @throws	Exception if an error occurs.
+	 * @since	 11.1
 	 */
 	public function buildXml()
 	{
@@ -47,10 +47,10 @@ class JDatabaseExporterMySqlInspector extends JDatabaseExporterMysql
 	/**
 	 * Exposes the protected buildXmlStructure method.
 	 *
-	 * @return  array  An array of XML lines (strings).
+	 * @return	array	An array of XML lines (strings).
 	 *
-	 * @throws  Exception if an error occurs.
-	 * @since   11.1
+	 * @throws	Exception if an error occurs.
+	 * @since	 11.1
 	 */
 	public function buildXmlStructure()
 	{
@@ -60,9 +60,9 @@ class JDatabaseExporterMySqlInspector extends JDatabaseExporterMysql
 	/**
 	 * Exposes the protected check method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function check()
 	{
@@ -72,11 +72,11 @@ class JDatabaseExporterMySqlInspector extends JDatabaseExporterMysql
 	/**
 	 * Exposes the protected getColumns method.
 	 *
-	 * @param   mixed  $table  The name of a table or an array of table names.
+	 * @param	 mixed	$table	The name of a table or an array of table names.
 	 *
-	 * @return  array  An array of column definitions.
+	 * @return	array	An array of column definitions.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getColumns($table)
 	{
@@ -86,11 +86,11 @@ class JDatabaseExporterMySqlInspector extends JDatabaseExporterMysql
 	/**
 	 * Exposes the protected getGenericTableName method.
 	 *
-	 * @param   string  $table  The name of a table.
+	 * @param	 string	$table	The name of a table.
 	 *
-	 * @return  string  The name of the table with the database prefix replaced with #__.
+	 * @return	string	The name of the table with the database prefix replaced with #__.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getGenericTableName($table)
 	{
@@ -100,11 +100,11 @@ class JDatabaseExporterMySqlInspector extends JDatabaseExporterMysql
 	/**
 	 * Exposes the protected getKeys method.
 	 *
-	 * @param   mixed  $table  The name of a table or an array of table names.
+	 * @param	 mixed	$table	The name of a table or an array of table names.
 	 *
-	 * @return  array  An array of key definitions.
+	 * @return	array	An array of key definitions.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getKeys($table)
 	{
@@ -114,11 +114,11 @@ class JDatabaseExporterMySqlInspector extends JDatabaseExporterMysql
 	/**
 	 * Exposes the protected withStructure method.
 	 *
-	 * @param   boolean  $setting  True to export the structure, false to not.
+	 * @param	 boolean	$setting	True to export the structure, false to not.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since    11.1
+	 * @since		11.1
 	 */
 	public function withStructure($setting = true)
 	{

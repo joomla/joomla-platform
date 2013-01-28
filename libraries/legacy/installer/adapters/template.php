@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Installer
+ * @package		 Joomla.Platform
+ * @subpackage	Installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -16,54 +16,54 @@ jimport('joomla.filesystem.folder');
 /**
  * Template installer
  *
- * @package     Joomla.Platform
- * @subpackage  Installer
- * @since       11.1
- * @deprecated  13.3
+ * @package		 Joomla.Platform
+ * @subpackage	Installer
+ * @since			 11.1
+ * @deprecated	13.3
  */
 class JInstallerTemplate extends JAdapterInstance
 {
 	/**
 	 * Copy of the XML manifest file
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $manifest = null;
 
 	/**
 	 * Name of the extension
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 * */
 	protected $name = null;
 
 	/**
 	 * The unique identifier for the extension (e.g. mod_login)
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 * */
 	protected $element = null;
 
 	/**
 	 * Method of system
 	 *
-	 * @var    string
+	 * @var		string
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	protected $route = 'install';
 
 	/**
 	 * Custom loadLanguage method
 	 *
-	 * @param   string  $path  The path where to find language files.
+	 * @param	 string	$path	The path where to find language files.
 	 *
-	 * @return  JInstallerTemplate
+	 * @return	JInstallerTemplate
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function loadLanguage($path = null)
 	{
@@ -100,9 +100,9 @@ class JInstallerTemplate extends JAdapterInstance
 	/**
 	 * Custom install method
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function install()
 	{
@@ -351,9 +351,9 @@ class JInstallerTemplate extends JAdapterInstance
 	/**
 	 * Custom update method for components
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function update()
 	{
@@ -365,11 +365,11 @@ class JInstallerTemplate extends JAdapterInstance
 	/**
 	 * Custom uninstall method
 	 *
-	 * @param   integer  $id  The extension ID
+	 * @param	 integer	$id	The extension ID
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function uninstall($id)
 	{
@@ -486,7 +486,7 @@ class JInstallerTemplate extends JAdapterInstance
 	/**
 	 * Discover existing but uninstalled templates
 	 *
-	 * @return  array  JExtensionTable list
+	 * @return	array	JExtensionTable list
 	 */
 	public function discover()
 	{
@@ -617,9 +617,9 @@ class JInstallerTemplate extends JAdapterInstance
 	/**
 	 * Refreshes the extension table cache
 	 *
-	 * @return  boolean  Result of operation, true if updated, false on failure
+	 * @return	boolean	Result of operation, true if updated, false on failure
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function refreshManifestCache()
 	{

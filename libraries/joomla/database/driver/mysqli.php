@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Database
+ * @package		 Joomla.Platform
+ * @subpackage	Database
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,53 +12,53 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQLi database driver
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @see         http://php.net/manual/en/book.mysqli.php
- * @since       12.1
+ * @package		 Joomla.Platform
+ * @subpackage	Database
+ * @see				 http://php.net/manual/en/book.mysqli.php
+ * @since			 12.1
  */
 class JDatabaseDriverMysqli extends JDatabaseDriver
 {
 	/**
 	 * The name of the database driver.
 	 *
-	 * @var    string
-	 * @since  12.1
+	 * @var		string
+	 * @since	12.1
 	 */
 	public $name = 'mysqli';
 
 	/**
 	 * The character(s) used to quote SQL statement names such as table names or field names,
-	 * etc. The child classes should define this as necessary.  If a single character string the
+	 * etc. The child classes should define this as necessary.	If a single character string the
 	 * same character is used for both sides of the quoted name, else the first character will be
 	 * used for the opening quote and the second for the closing quote.
 	 *
-	 * @var    string
-	 * @since  12.2
+	 * @var		string
+	 * @since	12.2
 	 */
 	protected $nameQuote = '`';
 
 	/**
-	 * The null or zero representation of a timestamp for the database driver.  This should be
+	 * The null or zero representation of a timestamp for the database driver.	This should be
 	 * defined in child classes to hold the appropriate value for the engine.
 	 *
-	 * @var    string
-	 * @since  12.2
+	 * @var		string
+	 * @since	12.2
 	 */
 	protected $nullDate = '0000-00-00 00:00:00';
 
 	/**
-	 * @var    string  The minimum supported database version.
-	 * @since  12.2
+	 * @var		string	The minimum supported database version.
+	 * @since	12.2
 	 */
 	protected static $dbMinimum = '5.0.4';
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $options  List of options used to configure the connection
+	 * @param	 array	$options	List of options used to configure the connection
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function __construct($options)
 	{
@@ -78,7 +78,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Destructor.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function __destruct()
 	{
@@ -91,10 +91,10 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Connects to the database if needed.
 	 *
-	 * @return  void  Returns void if the database connected successfully.
+	 * @return	void	Returns void if the database connected successfully.
 	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @since	 12.1
+	 * @throws	RuntimeException
 	 */
 	public function connect()
 	{
@@ -163,9 +163,9 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Disconnects the database.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function disconnect()
 	{
@@ -181,12 +181,12 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Method to escape a string for usage in an SQL statement.
 	 *
-	 * @param   string   $text   The string to be escaped.
-	 * @param   boolean  $extra  Optional parameter to provide extra escaping.
+	 * @param	 string	 $text	 The string to be escaped.
+	 * @param	 boolean	$extra	Optional parameter to provide extra escaping.
 	 *
-	 * @return  string  The escaped string.
+	 * @return	string	The escaped string.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function escape($text, $extra = false)
 	{
@@ -205,9 +205,9 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Test to see if the MySQL connector is available.
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return	boolean	True on success, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public static function isSupported()
 	{
@@ -217,9 +217,9 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Determines if the connection to the server is active.
 	 *
-	 * @return  boolean  True if connected to the database engine.
+	 * @return	boolean	True if connected to the database engine.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function connected()
 	{
@@ -234,13 +234,13 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Drops a table from the database.
 	 *
-	 * @param   string   $tableName  The name of the database table to drop.
-	 * @param   boolean  $ifExists   Optionally specify that the table must exist before it is dropped.
+	 * @param	 string	 $tableName	The name of the database table to drop.
+	 * @param	 boolean	$ifExists	 Optionally specify that the table must exist before it is dropped.
 	 *
-	 * @return  JDatabaseDriverMysqli  Returns this object to support chaining.
+	 * @return	JDatabaseDriverMysqli	Returns this object to support chaining.
 	 *
-	 * @since   12.2
-	 * @throws  RuntimeException
+	 * @since	 12.2
+	 * @throws	RuntimeException
 	 */
 	public function dropTable($tableName, $ifExists = true)
 	{
@@ -258,9 +258,9 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Get the number of affected rows for the previous executed SQL statement.
 	 *
-	 * @return  integer  The number of affected rows.
+	 * @return	integer	The number of affected rows.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getAffectedRows()
 	{
@@ -272,10 +272,10 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Method to get the database collation in use by sampling a text field of a table in the database.
 	 *
-	 * @return  mixed  The collation in use by the database (string) or boolean false if not supported.
+	 * @return	mixed	The collation in use by the database (string) or boolean false if not supported.
 	 *
-	 * @since   12.2
-	 * @throws  RuntimeException
+	 * @since	 12.2
+	 * @throws	RuntimeException
 	 */
 	public function getCollation()
 	{
@@ -290,11 +290,11 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Get the number of returned rows for the previous executed SQL statement.
 	 *
-	 * @param   resource  $cursor  An optional database cursor resource to extract the row count from.
+	 * @param	 resource	$cursor	An optional database cursor resource to extract the row count from.
 	 *
-	 * @return  integer   The number of returned rows.
+	 * @return	integer	 The number of returned rows.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getNumRows($cursor = null)
 	{
@@ -304,12 +304,12 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Shows the table CREATE statement that creates the given tables.
 	 *
-	 * @param   mixed  $tables  A table name or a list of table names.
+	 * @param	 mixed	$tables	A table name or a list of table names.
 	 *
-	 * @return  array  A list of the create SQL for the tables.
+	 * @return	array	A list of the create SQL for the tables.
 	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @since	 12.1
+	 * @throws	RuntimeException
 	 */
 	public function getTableCreate($tables)
 	{
@@ -336,13 +336,13 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Retrieves field information about a given table.
 	 *
-	 * @param   string   $table     The name of the database table.
-	 * @param   boolean  $typeOnly  True to only return field types.
+	 * @param	 string	 $table		 The name of the database table.
+	 * @param	 boolean	$typeOnly	True to only return field types.
 	 *
-	 * @return  array  An array of fields for the database table.
+	 * @return	array	An array of fields for the database table.
 	 *
-	 * @since   12.2
-	 * @throws  RuntimeException
+	 * @since	 12.2
+	 * @throws	RuntimeException
 	 */
 	public function getTableColumns($table, $typeOnly = true)
 	{
@@ -377,12 +377,12 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Get the details list of keys for a table.
 	 *
-	 * @param   string  $table  The name of the table.
+	 * @param	 string	$table	The name of the table.
 	 *
-	 * @return  array  An array of the column specification for the table.
+	 * @return	array	An array of the column specification for the table.
 	 *
-	 * @since   12.2
-	 * @throws  RuntimeException
+	 * @since	 12.2
+	 * @throws	RuntimeException
 	 */
 	public function getTableKeys($table)
 	{
@@ -398,10 +398,10 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Method to get an array of all tables in the database.
 	 *
-	 * @return  array  An array of all the tables in the database.
+	 * @return	array	An array of all the tables in the database.
 	 *
-	 * @since   12.2
-	 * @throws  RuntimeException
+	 * @since	 12.2
+	 * @throws	RuntimeException
 	 */
 	public function getTableList()
 	{
@@ -417,9 +417,9 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Get the version of the database connector.
 	 *
-	 * @return  string  The database connector version.
+	 * @return	string	The database connector version.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getVersion()
 	{
@@ -431,10 +431,10 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Method to get the auto-incremented value from the last INSERT statement.
 	 *
-	 * @return  mixed  The value of the auto-increment field from the last inserted row.
-	 *                 If the value is greater than maximal int value, it will return a string.
+	 * @return	mixed	The value of the auto-increment field from the last inserted row.
+	 *								 If the value is greater than maximal int value, it will return a string.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function insertid()
 	{
@@ -446,12 +446,12 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Locks a table in the database.
 	 *
-	 * @param   string  $table  The name of the table to unlock.
+	 * @param	 string	$table	The name of the table to unlock.
 	 *
-	 * @return  JDatabaseDriverMysqli  Returns this object to support chaining.
+	 * @return	JDatabaseDriverMysqli	Returns this object to support chaining.
 	 *
-	 * @since   12.2
-	 * @throws  RuntimeException
+	 * @since	 12.2
+	 * @throws	RuntimeException
 	 */
 	public function lockTable($table)
 	{
@@ -463,10 +463,10 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Execute the SQL statement.
 	 *
-	 * @return  mixed  A database cursor resource on success, boolean false on failure.
+	 * @return	mixed	A database cursor resource on success, boolean false on failure.
 	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @since	 12.1
+	 * @throws	RuntimeException
 	 */
 	public function execute()
 	{
@@ -544,15 +544,15 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Renames a table in the database.
 	 *
-	 * @param   string  $oldTable  The name of the table to be renamed
-	 * @param   string  $newTable  The new name for the table.
-	 * @param   string  $backup    Not used by MySQL.
-	 * @param   string  $prefix    Not used by MySQL.
+	 * @param	 string	$oldTable	The name of the table to be renamed
+	 * @param	 string	$newTable	The new name for the table.
+	 * @param	 string	$backup		Not used by MySQL.
+	 * @param	 string	$prefix		Not used by MySQL.
 	 *
-	 * @return  JDatabaseDriverMysqli  Returns this object to support chaining.
+	 * @return	JDatabaseDriverMysqli	Returns this object to support chaining.
 	 *
-	 * @since   12.2
-	 * @throws  RuntimeException
+	 * @since	 12.2
+	 * @throws	RuntimeException
 	 */
 	public function renameTable($oldTable, $newTable, $backup = null, $prefix = null)
 	{
@@ -564,12 +564,12 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Select a database for use.
 	 *
-	 * @param   string  $database  The name of the database to select for use.
+	 * @param	 string	$database	The name of the database to select for use.
 	 *
-	 * @return  boolean  True if the database was successfully selected.
+	 * @return	boolean	True if the database was successfully selected.
 	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @since	 12.1
+	 * @throws	RuntimeException
 	 */
 	public function select($database)
 	{
@@ -591,9 +591,9 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Set the connection to use UTF-8 character encoding.
 	 *
-	 * @return  boolean  True on success.
+	 * @return	boolean	True on success.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function setUTF()
 	{
@@ -605,12 +605,12 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Method to commit a transaction.
 	 *
-	 * @param   boolean  $toSavepoint  If true, commit to the last savepoint.
+	 * @param	 boolean	$toSavepoint	If true, commit to the last savepoint.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.2
-	 * @throws  RuntimeException
+	 * @since	 12.2
+	 * @throws	RuntimeException
 	 */
 	public function transactionCommit($toSavepoint = false)
 	{
@@ -632,12 +632,12 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Method to roll back a transaction.
 	 *
-	 * @param   boolean  $toSavepoint  If true, rollback to the last savepoint.
+	 * @param	 boolean	$toSavepoint	If true, rollback to the last savepoint.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.2
-	 * @throws  RuntimeException
+	 * @since	 12.2
+	 * @throws	RuntimeException
 	 */
 	public function transactionRollback($toSavepoint = false)
 	{
@@ -665,12 +665,12 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Method to initialize a transaction.
 	 *
-	 * @param   boolean  $asSavepoint  If true and a transaction is already active, a savepoint will be created.
+	 * @param	 boolean	$asSavepoint	If true and a transaction is already active, a savepoint will be created.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.2
-	 * @throws  RuntimeException
+	 * @since	 12.2
+	 * @throws	RuntimeException
 	 */
 	public function transactionStart($asSavepoint = false)
 	{
@@ -698,11 +698,11 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Method to fetch a row from the result set cursor as an array.
 	 *
-	 * @param   mixed  $cursor  The optional result set cursor from which to fetch the row.
+	 * @param	 mixed	$cursor	The optional result set cursor from which to fetch the row.
 	 *
-	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
+	 * @return	mixed	Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function fetchArray($cursor = null)
 	{
@@ -712,11 +712,11 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Method to fetch a row from the result set cursor as an associative array.
 	 *
-	 * @param   mixed  $cursor  The optional result set cursor from which to fetch the row.
+	 * @param	 mixed	$cursor	The optional result set cursor from which to fetch the row.
 	 *
-	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
+	 * @return	mixed	Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function fetchAssoc($cursor = null)
 	{
@@ -726,12 +726,12 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Method to fetch a row from the result set cursor as an object.
 	 *
-	 * @param   mixed   $cursor  The optional result set cursor from which to fetch the row.
-	 * @param   string  $class   The class name to use for the returned row object.
+	 * @param	 mixed	 $cursor	The optional result set cursor from which to fetch the row.
+	 * @param	 string	$class	 The class name to use for the returned row object.
 	 *
-	 * @return  mixed   Either the next row from the result set or false if there are no more rows.
+	 * @return	mixed	 Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function fetchObject($cursor = null, $class = 'stdClass')
 	{
@@ -741,11 +741,11 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Method to free up the memory used for the result set.
 	 *
-	 * @param   mixed  $cursor  The optional result set cursor from which to fetch the row.
+	 * @param	 mixed	$cursor	The optional result set cursor from which to fetch the row.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function freeResult($cursor = null)
 	{
@@ -755,10 +755,10 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Unlocks tables in the database.
 	 *
-	 * @return  JDatabaseDriverMysqli  Returns this object to support chaining.
+	 * @return	JDatabaseDriverMysqli	Returns this object to support chaining.
 	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @since	 12.1
+	 * @throws	RuntimeException
 	 */
 	public function unlockTables()
 	{

@@ -1,37 +1,37 @@
 <?php
 /**
- * @package    Joomla.UnitTest
+ * @package		Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JGoogle.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Google
- * @since       12.3
+ * @package		 Joomla.UnitTest
+ * @subpackage	Google
+ * @since			 12.3
  */
 class JGoogleEmbedMapsTest extends TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the JOAuth2Client object.
+	 * @var		JRegistry	Options for the JOAuth2Client object.
 	 */
 	protected $options;
 
 	/**
-	 * @var    JURI  URI of the page being rendered.
+	 * @var		JURI	URI of the page being rendered.
 	 */
 	protected $uri;
 
 	/**
-	 * @var    JHttp  Mock client object.
+	 * @var		JHttp	Mock client object.
 	 */
 	protected $http;
 
 	/**
-	 * @var    JGoogle  Object under test.
+	 * @var		JGoogle	Object under test.
 	 */
 	protected $object;
 
@@ -732,13 +732,13 @@ class JGoogleEmbedMapsTest extends TestCase
 /**
  * Dummy method
  *
- * @param   string   $url      Path to the resource.
- * @param   array    $headers  An array of name-value pairs to include in the header of the request.
- * @param   integer  $timeout  Read timeout in seconds.
+ * @param	 string	 $url			Path to the resource.
+ * @param	 array		$headers	An array of name-value pairs to include in the header of the request.
+ * @param	 integer	$timeout	Read timeout in seconds.
  *
- * @return  JHttpResponse
+ * @return	JHttpResponse
  *
- * @since   12.3
+ * @since	 12.3
  */
 function mapsGeocodeCallback($url, array $headers = null, $timeout = null)
 {
@@ -756,7 +756,7 @@ function mapsGeocodeCallback($url, array $headers = null, $timeout = null)
 		break;
 
 		default:
-		$data = "{\n   \"results\" : [],\n   \"status\" : \"ZERO_RESULTS\"\n}\n";
+		$data = "{\n	 \"results\" : [],\n	 \"status\" : \"ZERO_RESULTS\"\n}\n";
 	}
 
 	$response = new stdClass;
@@ -771,13 +771,13 @@ function mapsGeocodeCallback($url, array $headers = null, $timeout = null)
 /**
  * Dummy method
  *
- * @param   string   $url      Path to the resource.
- * @param   array    $headers  An array of name-value pairs to include in the header of the request.
- * @param   integer  $timeout  Read timeout in seconds.
+ * @param	 string	 $url			Path to the resource.
+ * @param	 array		$headers	An array of name-value pairs to include in the header of the request.
+ * @param	 integer	$timeout	Read timeout in seconds.
  *
- * @return  JHttpResponse
+ * @return	JHttpResponse
  *
- * @since   12.3
+ * @since	 12.3
  */
 function mapsGeocode400Callback($url, array $headers = null, $timeout = null)
 {
@@ -793,13 +793,13 @@ function mapsGeocode400Callback($url, array $headers = null, $timeout = null)
 /**
  * Dummy method
  *
- * @param   string   $url      Path to the resource.
- * @param   array    $headers  An array of name-value pairs to include in the header of the request.
- * @param   integer  $timeout  Read timeout in seconds.
+ * @param	 string	 $url			Path to the resource.
+ * @param	 array		$headers	An array of name-value pairs to include in the header of the request.
+ * @param	 integer	$timeout	Read timeout in seconds.
  *
- * @return  JHttpResponse
+ * @return	JHttpResponse
  *
- * @since   12.3
+ * @since	 12.3
  */
 function mapsGeocodeBadJsonCallback($url, array $headers = null, $timeout = null)
 {

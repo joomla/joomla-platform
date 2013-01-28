@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Table
+ * @package		 Joomla.UnitTest
+ * @subpackage	Table
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once __DIR__ . '/stubs/nested.php';
@@ -12,24 +12,24 @@ require_once __DIR__ . '/stubs/nested.php';
 /**
  * Test class for JTableNested.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Table
- * @since       11.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	Table
+ * @since			 11.1
  */
 class JTableNestedTest extends TestCaseDatabase
 {
 	/**
-	 * @var    NestedTable
-	 * @since  12.1
+	 * @var		NestedTable
+	 * @since	12.1
 	 */
 	protected $class;
 
 	/**
 	 * Tests the `check` method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testCheck()
 	{
@@ -46,9 +46,9 @@ class JTableNestedTest extends TestCaseDatabase
 	/**
 	 * Tests the `debug` method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testDebug()
 	{
@@ -59,9 +59,9 @@ class JTableNestedTest extends TestCaseDatabase
 	/**
 	 * Tests the `delete` method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testDelete()
 	{
@@ -101,9 +101,9 @@ class JTableNestedTest extends TestCaseDatabase
 	/**
 	 * Tests the `getPath` method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testGetPath()
 	{
@@ -120,9 +120,9 @@ class JTableNestedTest extends TestCaseDatabase
 	/**
 	 * Tests the `getRootId` method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testGetRootId()
 	{
@@ -144,9 +144,9 @@ class JTableNestedTest extends TestCaseDatabase
 	/**
 	 * Tests the `getTree` method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testGetTree()
 	{
@@ -175,9 +175,9 @@ class JTableNestedTest extends TestCaseDatabase
 	/**
 	 * Tests the `isLeaf` method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testIsLeaf()
 	{
@@ -189,9 +189,9 @@ class JTableNestedTest extends TestCaseDatabase
 	/**
 	 * Tests the `move` method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testMove_right()
 	{
@@ -211,9 +211,9 @@ class JTableNestedTest extends TestCaseDatabase
 	/**
 	 * Tests the `move` method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testMove_left()
 	{
@@ -231,9 +231,9 @@ class JTableNestedTest extends TestCaseDatabase
 	/**
 	 * Tests the `moveByReference` method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testMoveByReference_after()
 	{
@@ -254,9 +254,9 @@ class JTableNestedTest extends TestCaseDatabase
 	/**
 	 * Tests the `moveByReference` method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testMoveByReference_before()
 	{
@@ -274,9 +274,9 @@ class JTableNestedTest extends TestCaseDatabase
 	/**
 	 * Tests the `moveByReference` method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testMoveByReference_firstChild()
 	{
@@ -297,9 +297,9 @@ class JTableNestedTest extends TestCaseDatabase
 	/**
 	 * Tests the `moveByReference` method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testMoveByReference_lastChild()
 	{
@@ -317,9 +317,9 @@ class JTableNestedTest extends TestCaseDatabase
 	/**
 	 * Tests the `moveByReference` method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testMoveByReference_noReference()
 	{
@@ -334,9 +334,9 @@ class JTableNestedTest extends TestCaseDatabase
 	/**
 	 * Tests the `moveByReference` method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testMoveByReference_failures()
 	{
@@ -359,9 +359,9 @@ class JTableNestedTest extends TestCaseDatabase
 	/**
 	 * Tests the `orderDown` method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testOrderDown()
 	{
@@ -379,9 +379,9 @@ class JTableNestedTest extends TestCaseDatabase
 	/**
 	 * Tests the `orderUp` method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testOrderUp()
 	{
@@ -399,9 +399,9 @@ class JTableNestedTest extends TestCaseDatabase
 	/**
 	 * Tests the `publish` method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testPublish()
 	{
@@ -430,9 +430,9 @@ class JTableNestedTest extends TestCaseDatabase
 	/**
 	 * Tests the `rebuild` method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testRebuild()
 	{
@@ -488,9 +488,9 @@ class JTableNestedTest extends TestCaseDatabase
 	/**
 	 * Tests the `delete` method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testRebuildPath()
 	{
@@ -518,9 +518,9 @@ class JTableNestedTest extends TestCaseDatabase
 	/**
 	 * Tests the `saveorder` method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testSaveorder()
 	{
@@ -544,9 +544,9 @@ class JTableNestedTest extends TestCaseDatabase
 	/**
 	 * Tests the `setLocation` method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testSetLocation()
 	{
@@ -567,10 +567,10 @@ class JTableNestedTest extends TestCaseDatabase
 	/**
 	 * Tests the `setLocation` method for an expected exception.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
-	 * @expectedException  InvalidArgumentException
+	 * @since	 12.1
+	 * @expectedException	InvalidArgumentException
 	 */
 	public function testSetLocation_exception()
 	{
@@ -580,9 +580,9 @@ class JTableNestedTest extends TestCaseDatabase
 	/**
 	 * Tests the `store` method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testStore()
 	{
@@ -610,9 +610,9 @@ class JTableNestedTest extends TestCaseDatabase
 	/**
 	 * Tests the `_getNode` method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function test_getNode()
 	{
@@ -646,9 +646,9 @@ class JTableNestedTest extends TestCaseDatabase
 	/**
 	 * Tests the `_getTreeRepositionData` method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function test_getTreeRepositionData()
 	{
@@ -709,9 +709,9 @@ class JTableNestedTest extends TestCaseDatabase
 	/**
 	 * Tests the `_runQuery` method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function test_runQuery()
 	{
@@ -751,24 +751,24 @@ class JTableNestedTest extends TestCaseDatabase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  PHPUnit_Extensions_Database_DataSet_XmlDataSet
+	 * @return	PHPUnit_Extensions_Database_DataSet_XmlDataSet
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	protected function getDataSet()
 	{
 		/*
  		----------------------------------------
- 		|   id |  par |  lft |  rgt | lvl
+ 		|	 id |	par |	lft |	rgt | lvl
  		----------------------------------------
- 		|    1 |    0 |    0 |   15 |   0
- 		|  101 |    1 |    1 |    2 |   1
- 		|  102 |    1 |    3 |    8 |   1
- 		|  103 |    1 |    9 |   14 |   1
- 		|  201 |  102 |    4 |    5 |   2
- 		|  202 |  102 |    6 |    7 |   2
- 		|  203 |  103 |   10 |   11 |   2
- 		|  204 |  103 |   12 |   13 |   2
+ 		|		1 |		0 |		0 |	 15 |	 0
+ 		|	101 |		1 |		1 |		2 |	 1
+ 		|	102 |		1 |		3 |		8 |	 1
+ 		|	103 |		1 |		9 |	 14 |	 1
+ 		|	201 |	102 |		4 |		5 |	 2
+ 		|	202 |	102 |		6 |		7 |	 2
+ 		|	203 |	103 |	 10 |	 11 |	 2
+ 		|	204 |	103 |	 12 |	 13 |	 2
  		----------------------------------------
 		*/
 		return $this->createXMLDataSet(__DIR__ . '/stubs/nested.xml');
@@ -779,7 +779,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * This method is called before a test is executed.
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 *
 	 * @return void
 	 */
@@ -799,9 +799,9 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * This method is called after a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	protected function tearDown()
 	{

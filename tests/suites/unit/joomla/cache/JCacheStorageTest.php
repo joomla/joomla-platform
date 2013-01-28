@@ -1,24 +1,24 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Cache
+ * @package		 Joomla.UnitTest
+ * @subpackage	Cache
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JCacheStorage.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Cache
+ * @package		 Joomla.UnitTest
+ * @subpackage	Cache
  *
- * @since       11.1
+ * @since			 11.1
  */
 class JCacheStorageTest extends TestCase
 {
 	/**
-	 * @var    JCacheStorage
+	 * @var		JCacheStorage
 	 * @access protected
 	 */
 	protected $object;
@@ -37,31 +37,31 @@ class JCacheStorageTest extends TestCase
 	protected static $actualError;
 
 	/**
-	 * @var  boolean
+	 * @var	boolean
 	 */
 	protected $apcAvailable;
 
 	/**
-	 * @var  boolean
+	 * @var	boolean
 	 */
 	protected $eacceleratorAvailable;
 
 	/**
-	 * @var  boolean
+	 * @var	boolean
 	 */
 	protected $memcacheAvailable;
 
 	/**
-	 * @var  boolean
+	 * @var	boolean
 	 */
 	protected $xcacheAvailable;
 
 	/**
 	 * Receives the callback from JError and logs the required error information for the test.
 	 *
-	 * @param   JException  &$error  The JException object from JError
+	 * @param	 JException	&$error	The JException object from JError
 	 *
-	 * @return    boolean   To not continue with JError processing
+	 * @return		boolean	 To not continue with JError processing
 	 */
 	public static function errorCallback(&$error)
 	{
@@ -189,9 +189,9 @@ class JCacheStorageTest extends TestCase
 	/**
 	 * Testing getInstance
 	 *
-	 * @param   string  $handler   cache storage
-	 * @param   array   $options   options for cache storage
-	 * @param   string  $expClass  name of expected cache storage class
+	 * @param	 string	$handler	 cache storage
+	 * @param	 array	 $options	 options for cache storage
+	 * @param	 string	$expClass	name of expected cache storage class
 	 *
 	 * @return void
 	 *

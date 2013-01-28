@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Object
+ * @package		 Joomla.Platform
+ * @subpackage	Object
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -15,29 +15,29 @@ defined('JPATH_PLATFORM') or die;
  * This class allows for simple but smart objects with get and set methods
  * and an internal error handler.
  *
- * @package     Joomla.Platform
- * @subpackage  Object
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Object
+ * @since			 11.1
  */
 class JObject
 {
 	/**
 	 * An array of error messages or Exception objects.
 	 *
-	 * @var              array
-	 * @since            11.1
-	 * @see              JError
-	 * @deprecated       13.3
+	 * @var							array
+	 * @since						11.1
+	 * @see							JError
+	 * @deprecated			 13.3
 	 */
 	protected $_errors = array();
 
 	/**
 	 * Class constructor, overridden in descendant classes.
 	 *
-	 * @param   mixed  $properties  Either and associative array or another
-	 *                              object to set the initial properties of the object.
+	 * @param	 mixed	$properties	Either and associative array or another
+	 *															object to set the initial properties of the object.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __construct($properties = null)
 	{
@@ -50,12 +50,12 @@ class JObject
 	/**
 	 * Sets a default value if not already assigned
 	 *
-	 * @param   string  $property  The name of the property.
-	 * @param   mixed   $default   The default value.
+	 * @param	 string	$property	The name of the property.
+	 * @param	 mixed	 $default	 The default value.
 	 *
-	 * @return  mixed
+	 * @return	mixed
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function def($property, $default = null)
 	{
@@ -67,14 +67,14 @@ class JObject
 	/**
 	 * Returns a property of the object or the default value if the property is not set.
 	 *
-	 * @param   string  $property  The name of the property.
-	 * @param   mixed   $default   The default value.
+	 * @param	 string	$property	The name of the property.
+	 * @param	 mixed	 $default	 The default value.
 	 *
-	 * @return  mixed    The value of the property.
+	 * @return	mixed		The value of the property.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 *
-	 * @see     getProperties()
+	 * @see		 getProperties()
 	 */
 	public function get($property, $default = null)
 	{
@@ -88,13 +88,13 @@ class JObject
 	/**
 	 * Returns an associative array of object properties.
 	 *
-	 * @param   boolean  $public  If true, returns only the public properties.
+	 * @param	 boolean	$public	If true, returns only the public properties.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 *
-	 * @see     get()
+	 * @see		 get()
 	 */
 	public function getProperties($public = true)
 	{
@@ -117,14 +117,14 @@ class JObject
 	/**
 	 * Get the most recent error message.
 	 *
-	 * @param   integer  $i         Option error index.
-	 * @param   boolean  $toString  Indicates if JError objects should return their error message.
+	 * @param	 integer	$i				 Option error index.
+	 * @param	 boolean	$toString	Indicates if JError objects should return their error message.
 	 *
-	 * @return  string   Error message
+	 * @return	string	 Error message
 	 *
-	 * @since       11.1
-	 * @see         JError
-	 * @deprecated  13.3
+	 * @since			 11.1
+	 * @see				 JError
+	 * @deprecated	13.3
 	 */
 	public function getError($i = null, $toString = true)
 	{
@@ -156,11 +156,11 @@ class JObject
 	/**
 	 * Return all errors, if any.
 	 *
-	 * @return  array  Array of error messages or JErrors.
+	 * @return	array	Array of error messages or JErrors.
 	 *
-	 * @since       11.1
-	 * @see         JError
-	 * @deprecated  13.3
+	 * @since			 11.1
+	 * @see				 JError
+	 * @deprecated	13.3
 	 */
 	public function getErrors()
 	{
@@ -170,12 +170,12 @@ class JObject
 	/**
 	 * Modifies a property of the object, creating it if it does not already exist.
 	 *
-	 * @param   string  $property  The name of the property.
-	 * @param   mixed   $value     The value of the property to set.
+	 * @param	 string	$property	The name of the property.
+	 * @param	 mixed	 $value		 The value of the property to set.
 	 *
-	 * @return  mixed  Previous value of the property.
+	 * @return	mixed	Previous value of the property.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function set($property, $value = null)
 	{
@@ -188,13 +188,13 @@ class JObject
 	/**
 	 * Set the object properties based on a named array/hash.
 	 *
-	 * @param   mixed  $properties  Either an associative array or another object.
+	 * @param	 mixed	$properties	Either an associative array or another object.
 	 *
-	 * @return  boolean
+	 * @return	boolean
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 *
-	 * @see     set()
+	 * @see		 set()
 	 */
 	public function setProperties($properties)
 	{
@@ -214,13 +214,13 @@ class JObject
 	/**
 	 * Add an error message.
 	 *
-	 * @param   string  $error  Error message.
+	 * @param	 string	$error	Error message.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since       11.1
-	 * @see         JError
-	 * @deprecated  13.3
+	 * @since			 11.1
+	 * @see				 JError
+	 * @deprecated	13.3
 	 */
 	public function setError($error)
 	{

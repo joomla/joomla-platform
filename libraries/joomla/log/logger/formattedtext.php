@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Log
+ * @package		 Joomla.Platform
+ * @subpackage	Log
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -17,43 +17,43 @@ jimport('joomla.filesystem.folder');
  * This class is designed to use as a base for building formatted text files for output. By
  * default it emulates the Syslog style format output. This is a disk based output format.
  *
- * @package     Joomla.Platform
- * @subpackage  Log
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Log
+ * @since			 11.1
  */
 class JLogLoggerFormattedtext extends JLogLogger
 {
 	/**
-	 * @var    resource  The file pointer for the log file.
-	 * @since  11.1
+	 * @var		resource	The file pointer for the log file.
+	 * @since	11.1
 	 */
 	protected $file;
 
 	/**
-	 * @var    string  The format for which each entry follows in the log file.  All fields must be named
+	 * @var		string	The format for which each entry follows in the log file.	All fields must be named
 	 * in all caps and be within curly brackets eg. {FOOBAR}.
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	protected $format = '{DATETIME}	{PRIORITY}	{CATEGORY}	{MESSAGE}';
 
 	/**
-	 * @var    array  The parsed fields from the format string.
-	 * @since  11.1
+	 * @var		array	The parsed fields from the format string.
+	 * @since	11.1
 	 */
 	protected $fields = array();
 
 	/**
-	 * @var    string  The full filesystem path for the log file.
-	 * @since  11.1
+	 * @var		string	The full filesystem path for the log file.
+	 * @since	11.1
 	 */
 	protected $path;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  &$options  Log object options.
+	 * @param	 array	&$options	Log object options.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __construct(array &$options)
 	{
@@ -94,7 +94,7 @@ class JLogLoggerFormattedtext extends JLogLogger
 	/**
 	 * Destructor.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __destruct()
 	{
@@ -107,12 +107,12 @@ class JLogLoggerFormattedtext extends JLogLogger
 	/**
 	 * Method to add an entry to the log.
 	 *
-	 * @param   JLogEntry  $entry  The log entry object to add to the log.
+	 * @param	 JLogEntry	$entry	The log entry object to add to the log.
 	 *
-	 * @return  boolean  True on success.
+	 * @return	boolean	True on success.
 	 *
-	 * @since   11.1
-	 * @throws  RuntimeException
+	 * @since	 11.1
+	 * @throws	RuntimeException
 	 */
 	public function addEntry(JLogEntry $entry)
 	{
@@ -175,9 +175,9 @@ class JLogLoggerFormattedtext extends JLogLogger
 	/**
 	 * Method to generate the log file header.
 	 *
-	 * @return  string  The log file header
+	 * @return	string	The log file header
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function generateFileHeader()
 	{
@@ -204,13 +204,13 @@ class JLogLoggerFormattedtext extends JLogLogger
 	}
 
 	/**
-	 * Method to initialise the log file.  This will create the folder path to the file if it doesn't already
-	 * exist and also get a new file header if the file doesn't already exist.  If the file already exists it
+	 * Method to initialise the log file.	This will create the folder path to the file if it doesn't already
+	 * exist and also get a new file header if the file doesn't already exist.	If the file already exists it
 	 * will simply open it for writing.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function initFile()
 	{
@@ -246,9 +246,9 @@ class JLogLoggerFormattedtext extends JLogLogger
 	/**
 	 * Method to parse the format string into an array of fields.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function parseFields()
 	{

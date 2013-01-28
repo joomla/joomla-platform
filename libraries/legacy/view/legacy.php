@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Legacy
- * @subpackage  View
+ * @package		 Joomla.Legacy
+ * @subpackage	View
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -14,31 +14,31 @@ defined('JPATH_PLATFORM') or die;
  *
  * Class holding methods for displaying presentation data.
  *
- * @package     Joomla.Legacy
- * @subpackage  View
- * @since       12.2
- * @deprecated  13.3
+ * @package		 Joomla.Legacy
+ * @subpackage	View
+ * @since			 12.2
+ * @deprecated	13.3
  */
 class JViewLegacy extends JObject
 {
 	/**
 	 * The name of the view
 	 *
-	 * @var    array
+	 * @var		array
 	 */
 	protected $_name = null;
 
 	/**
 	 * Registered models
 	 *
-	 * @var    array
+	 * @var		array
 	 */
 	protected $_models = array();
 
 	/**
 	 * The base path of the view
 	 *
-	 * @var    string
+	 * @var		string
 	 */
 	protected $_basePath = null;
 
@@ -52,21 +52,21 @@ class JViewLegacy extends JObject
 	/**
 	 * Layout name
 	 *
-	 * @var    string
+	 * @var		string
 	 */
 	protected $_layout = 'default';
 
 	/**
 	 * Layout extension
 	 *
-	 * @var    string
+	 * @var		string
 	 */
 	protected $_layoutExt = 'php';
 
 	/**
 	 * Layout template
 	 *
-	 * @var    string
+	 * @var		string
 	 */
 	protected $_layoutTemplate = '_';
 
@@ -109,16 +109,16 @@ class JViewLegacy extends JObject
 	/**
 	 * Constructor
 	 *
-	 * @param   array  $config  A named configuration array for object construction.<br/>
-	 *                          name: the name (optional) of the view (defaults to the view class name suffix).<br/>
-	 *                          charset: the character set to use for display<br/>
-	 *                          escape: the name (optional) of the function to use for escaping strings<br/>
-	 *                          base_path: the parent path (optional) of the views directory (defaults to the component folder)<br/>
-	 *                          template_plath: the path (optional) of the layout directory (defaults to base_path + /views/ + view name<br/>
-	 *                          helper_path: the path (optional) of the helper files (defaults to base_path + /helpers/)<br/>
-	 *                          layout: the layout (optional) to use to display the view<br/>
+	 * @param	 array	$config	A named configuration array for object construction.<br/>
+	 *													name: the name (optional) of the view (defaults to the view class name suffix).<br/>
+	 *													charset: the character set to use for display<br/>
+	 *													escape: the name (optional) of the function to use for escaping strings<br/>
+	 *													base_path: the parent path (optional) of the views directory (defaults to the component folder)<br/>
+	 *													template_plath: the path (optional) of the layout directory (defaults to base_path + /views/ + view name<br/>
+	 *													helper_path: the path (optional) of the helper files (defaults to base_path + /helpers/)<br/>
+	 *													layout: the layout (optional) to use to display the view<br/>
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function __construct($config = array())
 	{
@@ -196,12 +196,12 @@ class JViewLegacy extends JObject
 	/**
 	 * Execute and display a template script.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 * @param	 string	$tpl	The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return	mixed	A string if successful, otherwise a Error object.
 	 *
-	 * @see     fetch()
-	 * @since   12.2
+	 * @see		 fetch()
+	 * @since	 12.2
 	 */
 	public function display($tpl = null)
 	{
@@ -248,9 +248,9 @@ class JViewLegacy extends JObject
 	 *
 	 * </code>
 	 *
-	 * @return  boolean  True on success, false on failure.
+	 * @return	boolean	True on success, false on failure.
 	 *
-	 * @deprecated  13.3 Use native PHP syntax.
+	 * @deprecated	13.3 Use native PHP syntax.
 	 */
 	public function assign()
 	{
@@ -319,13 +319,13 @@ class JViewLegacy extends JObject
 	 * $view->ref = &$var1;
 	 * </code>
 	 *
-	 * @param   string  $key   The name for the reference in the view.
-	 * @param   mixed   &$val  The referenced variable.
+	 * @param	 string	$key	 The name for the reference in the view.
+	 * @param	 mixed	 &$val	The referenced variable.
 	 *
-	 * @return  boolean  True on success, false on failure.
+	 * @return	boolean	True on success, false on failure.
 	 *
-	 * @since   12.2
-	 * @deprecated  13.3  Use native PHP syntax.
+	 * @since	 12.2
+	 * @deprecated	13.3	Use native PHP syntax.
 	 */
 	public function assignRef($key, &$val)
 	{
@@ -347,11 +347,11 @@ class JViewLegacy extends JObject
 	 * If escaping mechanism is either htmlspecialchars or htmlentities, uses
 	 * {@link $_encoding} setting.
 	 *
-	 * @param   mixed  $var  The output to escape.
+	 * @param	 mixed	$var	The output to escape.
 	 *
-	 * @return  mixed  The escaped value.
+	 * @return	mixed	The escaped value.
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function escape($var)
 	{
@@ -366,12 +366,12 @@ class JViewLegacy extends JObject
 	/**
 	 * Method to get data from a registered model or a property of the view
 	 *
-	 * @param   string  $property  The name of the method to call on the model or the property to get
-	 * @param   string  $default   The name of the model to reference or the default value [optional]
+	 * @param	 string	$property	The name of the method to call on the model or the property to get
+	 * @param	 string	$default	 The name of the model to reference or the default value [optional]
 	 *
-	 * @return  mixed  The return value of the method
+	 * @return	mixed	The return value of the method
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function get($property, $default = null)
 	{
@@ -411,11 +411,11 @@ class JViewLegacy extends JObject
 	/**
 	 * Method to get the model object
 	 *
-	 * @param   string  $name  The name of the model (optional)
+	 * @param	 string	$name	The name of the model (optional)
 	 *
-	 * @return  mixed  JModelLegacy object
+	 * @return	mixed	JModelLegacy object
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function getModel($name = null)
 	{
@@ -429,7 +429,7 @@ class JViewLegacy extends JObject
 	/**
 	 * Get the layout.
 	 *
-	 * @return  string  The layout name
+	 * @return	string	The layout name
 	 */
 	public function getLayout()
 	{
@@ -439,7 +439,7 @@ class JViewLegacy extends JObject
 	/**
 	 * Get the layout template.
 	 *
-	 * @return  string  The layout template name
+	 * @return	string	The layout template name
 	 */
 	public function getLayoutTemplate()
 	{
@@ -452,10 +452,10 @@ class JViewLegacy extends JObject
 	 * The model name by default parsed using the classname, or it can be set
 	 * by passing a $config['name'] in the class constructor
 	 *
-	 * @return  string  The name of the model
+	 * @return	string	The name of the model
 	 *
-	 * @since   12.2
-	 * @throws  Exception
+	 * @since	 12.2
+	 * @throws	Exception
 	 */
 	public function getName()
 	{
@@ -476,18 +476,18 @@ class JViewLegacy extends JObject
 	}
 
 	/**
-	 * Method to add a model to the view.  We support a multiple model single
-	 * view system by which models are referenced by classname.  A caveat to the
+	 * Method to add a model to the view.	We support a multiple model single
+	 * view system by which models are referenced by classname.	A caveat to the
 	 * classname referencing is that any classname prepended by JModel will be
 	 * referenced by the name without JModel, eg. JModelCategory is just
 	 * Category.
 	 *
-	 * @param   JModelLegacy  $model    The model to add to the view.
-	 * @param   boolean       $default  Is this the default model?
+	 * @param	 JModelLegacy	$model		The model to add to the view.
+	 * @param	 boolean			 $default	Is this the default model?
 	 *
-	 * @return  object   The added model.
+	 * @return	object	 The added model.
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function setModel($model, $default = false)
 	{
@@ -504,11 +504,11 @@ class JViewLegacy extends JObject
 	/**
 	 * Sets the layout name to use
 	 *
-	 * @param   string  $layout  The layout name or a string in format <template>:<layout file>
+	 * @param	 string	$layout	The layout name or a string in format <template>:<layout file>
 	 *
-	 * @return  string  Previous value.
+	 * @return	string	Previous value.
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function setLayout($layout)
 	{
@@ -534,11 +534,11 @@ class JViewLegacy extends JObject
 	/**
 	 * Allows a different extension for the layout files to be used
 	 *
-	 * @param   string  $value  The extension.
+	 * @param	 string	$value	The extension.
 	 *
-	 * @return  string   Previous value
+	 * @return	string	 Previous value
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function setLayoutExt($value)
 	{
@@ -555,12 +555,12 @@ class JViewLegacy extends JObject
 	/**
 	 * Sets the _escape() callback.
 	 *
-	 * @param   mixed  $spec  The callback for _escape() to use.
+	 * @param	 mixed	$spec	The callback for _escape() to use.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.2
-	 * @deprecated  13.3  Override JViewLegacy::escape() instead.
+	 * @since	 12.2
+	 * @deprecated	13.3	Override JViewLegacy::escape() instead.
 	 */
 	public function setEscape($spec)
 	{
@@ -572,11 +572,11 @@ class JViewLegacy extends JObject
 	/**
 	 * Adds to the stack of view script paths in LIFO order.
 	 *
-	 * @param   mixed  $path  A directory path or an array of paths.
+	 * @param	 mixed	$path	A directory path or an array of paths.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function addTemplatePath($path)
 	{
@@ -586,11 +586,11 @@ class JViewLegacy extends JObject
 	/**
 	 * Adds to the stack of helper script paths in LIFO order.
 	 *
-	 * @param   mixed  $path  A directory path or an array of paths.
+	 * @param	 mixed	$path	A directory path or an array of paths.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function addHelperPath($path)
 	{
@@ -600,12 +600,12 @@ class JViewLegacy extends JObject
 	/**
 	 * Load a template file -- first look in the templates folder for an override
 	 *
-	 * @param   string  $tpl  The name of the template source file; automatically searches the template paths and compiles as needed.
+	 * @param	 string	$tpl	The name of the template source file; automatically searches the template paths and compiles as needed.
 	 *
-	 * @return  string  The output of the the template script.
+	 * @return	string	The output of the the template script.
 	 *
-	 * @since   12.2
-	 * @throws  Exception
+	 * @since	 12.2
+	 * @throws	Exception
 	 */
 	public function loadTemplate($tpl = null)
 	{
@@ -683,11 +683,11 @@ class JViewLegacy extends JObject
 	/**
 	 * Load a helper file
 	 *
-	 * @param   string  $hlp  The name of the helper source file automatically searches the helper paths and compiles as needed.
+	 * @param	 string	$hlp	The name of the helper source file automatically searches the helper paths and compiles as needed.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function loadHelper($hlp = null)
 	{
@@ -708,12 +708,12 @@ class JViewLegacy extends JObject
 	/**
 	 * Sets an entire array of search paths for templates or resources.
 	 *
-	 * @param   string  $type  The type of path to set, typically 'template'.
-	 * @param   mixed   $path  The new search path, or an array of search paths.  If null or false, resets to the current directory only.
+	 * @param	 string	$type	The type of path to set, typically 'template'.
+	 * @param	 mixed	 $path	The new search path, or an array of search paths.	If null or false, resets to the current directory only.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	protected function _setPath($type, $path)
 	{
@@ -744,12 +744,12 @@ class JViewLegacy extends JObject
 	/**
 	 * Adds to the search path for templates and resources.
 	 *
-	 * @param   string  $type  The type of path to add.
-	 * @param   mixed   $path  The directory or stream, or an array of either, to search.
+	 * @param	 string	$type	The type of path to add.
+	 * @param	 mixed	 $path	The directory or stream, or an array of either, to search.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	protected function _addPath($type, $path)
 	{
@@ -777,12 +777,12 @@ class JViewLegacy extends JObject
 	/**
 	 * Create the filename for a resource
 	 *
-	 * @param   string  $type   The resource type to create the filename for
-	 * @param   array   $parts  An associative array of filename information
+	 * @param	 string	$type	 The resource type to create the filename for
+	 * @param	 array	 $parts	An associative array of filename information
 	 *
-	 * @return  string  The filename
+	 * @return	string	The filename
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	protected function _createFileName($type, $parts = array())
 	{

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Legacy
- * @subpackage  Controller
+ * @package		 Joomla.Legacy
+ * @subpackage	Controller
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -15,45 +15,45 @@ defined('JPATH_PLATFORM') or die;
  * Controller (controllers are where you put all the actual code) Provides basic
  * functionality, such as rendering views (aka displaying templates).
  *
- * @package     Joomla.Legacy
- * @subpackage  Controller
- * @since       12.2
- * @deprecated  13.3
+ * @package		 Joomla.Legacy
+ * @subpackage	Controller
+ * @since			 12.2
+ * @deprecated	13.3
  */
 class JControllerAdmin extends JControllerLegacy
 {
 	/**
 	 * The URL option for the component.
 	 *
-	 * @var    string
-	 * @since  12.2
+	 * @var		string
+	 * @since	12.2
 	 */
 	protected $option;
 
 	/**
 	 * The prefix to use with controller messages.
 	 *
-	 * @var    string
-	 * @since  12.2
+	 * @var		string
+	 * @since	12.2
 	 */
 	protected $text_prefix;
 
 	/**
 	 * The URL view list variable.
 	 *
-	 * @var    string
-	 * @since  12.2
+	 * @var		string
+	 * @since	12.2
 	 */
 	protected $view_list;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param	 array	$config	An optional associative array of configuration settings.
 	 *
-	 * @see     JControllerLegacy
-	 * @since   12.2
-	 * @throws  Exception
+	 * @see		 JControllerLegacy
+	 * @since	 12.2
+	 * @throws	Exception
 	 */
 	public function __construct($config = array())
 	{
@@ -103,9 +103,9 @@ class JControllerAdmin extends JControllerLegacy
 	/**
 	 * Removes an item.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function delete()
 	{
@@ -145,12 +145,12 @@ class JControllerAdmin extends JControllerLegacy
 	/**
 	 * Display is not supported by this controller.
 	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param	 boolean	$cachable	 If true, the view output will be cached
+	 * @param	 array		$urlparams	An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
+	 * @return	JControllerLegacy	A JControllerLegacy object to support chaining.
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
@@ -160,9 +160,9 @@ class JControllerAdmin extends JControllerLegacy
 	/**
 	 * Method to publish a list of items
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function publish()
 	{
@@ -221,9 +221,9 @@ class JControllerAdmin extends JControllerLegacy
 	/**
 	 * Changes the order of one or more records.
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function reorder()
 	{
@@ -257,9 +257,9 @@ class JControllerAdmin extends JControllerLegacy
 	/**
 	 * Method to save the submitted ordering values for records.
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function saveorder()
 	{
@@ -301,9 +301,9 @@ class JControllerAdmin extends JControllerLegacy
 	/**
 	 * Check in of one or more records.
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function checkin()
 	{

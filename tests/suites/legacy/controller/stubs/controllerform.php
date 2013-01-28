@@ -1,19 +1,19 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Controller
+ * @package		 Joomla.UnitTest
+ * @subpackage	Controller
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Stub for testing the JControllerForm class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Controller
+ * @package		 Joomla.UnitTest
+ * @subpackage	Controller
  *
- * @since       12.3
+ * @since			 12.3
  */
 class MincesControllerMince extends JControllerForm
 {
@@ -22,10 +22,10 @@ class MincesControllerMince extends JControllerForm
 /**
  * Stub for testing the JControllerForm class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Controller
+ * @package		 Joomla.UnitTest
+ * @subpackage	Controller
  *
- * @since       12.3
+ * @since			 12.3
  */
 class MiniesControllerMiny extends JControllerForm
 {
@@ -34,10 +34,10 @@ class MiniesControllerMiny extends JControllerForm
 /**
  * Stub for testing the JControllerForm class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Controller
+ * @package		 Joomla.UnitTest
+ * @subpackage	Controller
  *
- * @since       12.3
+ * @since			 12.3
  */
 class MintsControllerMint extends JControllerForm
 {

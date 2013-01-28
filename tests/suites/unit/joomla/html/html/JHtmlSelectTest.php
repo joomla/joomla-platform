@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  HTML
+ * @package		 Joomla.UnitTest
+ * @subpackage	HTML
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM . '/joomla/html/select.php';
@@ -13,18 +13,18 @@ require_once 'TestHelpers/JHtmlSelect-helper-dataset.php';
 /**
  * Test class for JHtmlSelect.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Html
- * @since       11.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	Html
+ * @since			 11.1
  */
 class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * Test...
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function getOptionsData()
 	{
@@ -124,17 +124,17 @@ class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test...
 	 *
-	 * @param   string  $expected   @todo
-	 * @param   array   $arr        @todo
-	 * @param   string  $optKey     @todo
-	 * @param   string  $optText    @todo
-	 * @param   null    $selected   @todo
-	 * @param   bool    $translate  @todo
+	 * @param	 string	$expected	 @todo
+	 * @param	 array	 $arr				@todo
+	 * @param	 string	$optKey		 @todo
+	 * @param	 string	$optText		@todo
+	 * @param	 null		$selected	 @todo
+	 * @param	 bool		$translate	@todo
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @dataProvider  getOptionsData
-	 * @since   11.3
+	 * @dataProvider	getOptionsData
+	 * @since	 11.3
 	 */
 	public function testOptions($expected, $arr, $optKey = 'value', $optText = 'text', $selected = null, $translate = false)
 	{

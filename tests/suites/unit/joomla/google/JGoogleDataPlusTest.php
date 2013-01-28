@@ -1,47 +1,47 @@
 <?php
 /**
- * @package    Joomla.UnitTest
+ * @package		Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JGoogleDataPlus.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Google
- * @since       12.3
+ * @package		 Joomla.UnitTest
+ * @subpackage	Google
+ * @since			 12.3
  */
 class JGoogleDataPlusTest extends TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the JOAuth2Client object.
+	 * @var		JRegistry	Options for the JOAuth2Client object.
 	 */
 	protected $options;
 
 	/**
-	 * @var    JHttp  Mock client object.
+	 * @var		JHttp	Mock client object.
 	 */
 	protected $http;
 
 	/**
-	 * @var    JInput  The input object to use in retrieving GET/POST data.
+	 * @var		JInput	The input object to use in retrieving GET/POST data.
 	 */
 	protected $input;
 
 	/**
-	 * @var    JOAuth2Client  The OAuth client for sending requests to Google.
+	 * @var		JOAuth2Client	The OAuth client for sending requests to Google.
 	 */
 	protected $oauth;
 
 	/**
-	 * @var    JGoogleAuthOauth2  The Google OAuth client for sending requests.
+	 * @var		JGoogleAuthOauth2	The Google OAuth client for sending requests.
 	 */
 	protected $auth;
 
 	/**
-	 * @var    JGoogleDataPlus  Object under test.
+	 * @var		JGoogleDataPlus	Object under test.
 	 */
 	protected $object;
 
@@ -93,9 +93,9 @@ class JGoogleDataPlusTest extends TestCase
 	/**
 	 * Tests the magic __get method - people
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function test__GetPeople()
 	{
@@ -108,9 +108,9 @@ class JGoogleDataPlusTest extends TestCase
 	/**
 	 * Tests the magic __get method - activities
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function test__GetActivities()
 	{
@@ -123,9 +123,9 @@ class JGoogleDataPlusTest extends TestCase
 	/**
 	 * Tests the magic __get method - comments
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function test__GetComments()
 	{
@@ -138,9 +138,9 @@ class JGoogleDataPlusTest extends TestCase
 	/**
 	 * Tests the magic __get method - other (non existent)
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function test__GetOther()
 	{

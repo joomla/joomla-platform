@@ -2,12 +2,12 @@
 
 #### Version 12.3
 
-Version 12.3 ("Curiosity") of the Joomla Platform was tagged and released on 19 December 2012. 
+Version 12.3 ("Curiosity") of the Joomla Platform was tagged and released on 19 December 2012.
 [Release notes for version 12.3](http://developer.joomla.org/news/547-version-12-3-of-the-joomla-platform-released.html)
 
 #### Version 12.2
 
-Version 12.2 ("Neil Armstrong") of the Joomla Platform was tagged and released on 21 September 2012. 
+Version 12.2 ("Neil Armstrong") of the Joomla Platform was tagged and released on 21 September 2012.
 [Release notes for version 12.2](http://developer.joomla.org/news/542-version-12-2-of-the-joomla-platform-released.html)
 
 #### Version 12.1

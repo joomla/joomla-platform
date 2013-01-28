@@ -1,12 +1,12 @@
 <?php
 /**
- * Bootstrap file for the Joomla Platform.  This file becomes the PHAR stub when the platform is built
+ * Bootstrap file for the Joomla Platform.	This file becomes the PHAR stub when the platform is built
  * into a single deployable archive to be used in Joomla applications.
  *
- * @package    Joomla.Platform
+ * @package		Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE
  */
 
 // Setup the Pharsanity!

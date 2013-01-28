@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Log
+ * @package		 Joomla.Platform
+ * @subpackage	Log
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -15,24 +15,24 @@ defined('JPATH_PLATFORM') or die;
  * This class allows logging to be handled by a callback function.
  * This allows unprecedented flexibility in the way logging can be handled.
  *
- * @package     Joomla.Platform
- * @subpackage  Log
- * @since       12.2
+ * @package		 Joomla.Platform
+ * @subpackage	Log
+ * @since			 12.2
  */
 class JLogLoggerCallback extends JLogLogger
 {
 	/**
-	 * @var    callable  The function to call when an entry is added - should return True on success
-	 * @since  12.2
+	 * @var		callable	The function to call when an entry is added - should return True on success
+	 * @since	12.2
 	 */
 	protected $callback;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  &$options  Log object options.
+	 * @param	 array	&$options	Log object options.
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function __construct(array &$options)
 	{
@@ -53,12 +53,12 @@ class JLogLoggerCallback extends JLogLogger
 	/**
 	 * Method to add an entry to the log.
 	 *
-	 * @param   JLogEntry  $entry  The log entry object to add to the log.
+	 * @param	 JLogEntry	$entry	The log entry object to add to the log.
 	 *
-	 * @return  boolean  True on success.
+	 * @return	boolean	True on success.
 	 *
-	 * @since   12.2
-	 * @throws  LogException
+	 * @since	 12.2
+	 * @throws	LogException
 	 */
 	public function addEntry(JLogEntry $entry)
 	{

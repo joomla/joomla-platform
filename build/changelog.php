@@ -10,9 +10,9 @@
  *
  * php -f run.php
  *
- * @package    Joomla.Examples
- * @copyright  Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @package		Joomla.Examples
+ * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE
  */
 
 // Setup the path related constants.
@@ -27,52 +27,52 @@ require realpath('../libraries/import.php');
  * This application builds the HTML version of the Joomla Platform change log from the Github API
  * that is used in news annoucements.
  *
- * @package     Joomla.Examples
- * @subpackage  Changlog
- * @since       12.1
+ * @package		 Joomla.Examples
+ * @subpackage	Changlog
+ * @since			 12.1
  */
 class Changelog extends JApplicationCli
 {
 	/**
 	 * The github API object.
 	 *
-	 * @var    JGithub
-	 * @since  12.1
+	 * @var		JGithub
+	 * @since	12.1
 	 */
 	protected $api;
 
 	/**
 	 * Debug mode switch.
 	 *
-	 * @var    boolean
-	 * @since  12.1
+	 * @var		boolean
+	 * @since	12.1
 	 */
 	protected $debug = false;
 
 	/**
 	 * An array of output buffers.
 	 *
-	 * @var    array
-	 * @since  12.1
+	 * @var		array
+	 * @since	12.1
 	 */
 	protected $buffers = array();
 
 	/**
 	 * Overrides JGithub constructor to initialise the api property.
 	 *
-	 * @param   mixed  $input       An optional argument to provide dependency injection for the application's
-	 *                              input object.  If the argument is a JInputCli object that object will become
-	 *                              the application's input object, otherwise a default input object is created.
-	 * @param   mixed  $config      An optional argument to provide dependency injection for the application's
-	 *                              config object.  If the argument is a JRegistry object that object will become
-	 *                              the application's config object, otherwise a default config object is created.
-	 * @param   mixed  $dispatcher  An optional argument to provide dependency injection for the application's
-	 *                              event dispatcher.  If the argument is a JDispatcher object that object will become
-	 *                              the application's event dispatcher, if it is null then the default event dispatcher
-	 *                              will be created based on the application's loadDispatcher() method.
+	 * @param	 mixed	$input			 An optional argument to provide dependency injection for the application's
+	 *															input object.	If the argument is a JInputCli object that object will become
+	 *															the application's input object, otherwise a default input object is created.
+	 * @param	 mixed	$config			An optional argument to provide dependency injection for the application's
+	 *															config object.	If the argument is a JRegistry object that object will become
+	 *															the application's config object, otherwise a default config object is created.
+	 * @param	 mixed	$dispatcher	An optional argument to provide dependency injection for the application's
+	 *															event dispatcher.	If the argument is a JDispatcher object that object will become
+	 *															the application's event dispatcher, if it is null then the default event dispatcher
+	 *															will be created based on the application's loadDispatcher() method.
 	 *
-	 * @see     loadDispatcher()
-	 * @since   11.1
+	 * @see		 loadDispatcher()
+	 * @since	 11.1
 	 */
 	public function __construct(JInputCli $input = null, JRegistry $config = null, JDispatcher $dispatcher = null)
 	{
@@ -86,9 +86,9 @@ class Changelog extends JApplicationCli
 	/**
 	 * Execute the application.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function execute()
 	{
@@ -243,9 +243,9 @@ class Changelog extends JApplicationCli
 	/**
 	 * Display the help text for the app.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function help()
 	{
@@ -255,8 +255,8 @@ class Changelog extends JApplicationCli
 		$this->out();
 		$this->out('Usage: ./changelog [-l]');
 		$this->out();
-		$this->out('  -l  Build the changelog for the latest version only.');
-		$this->out('  -d  Debug mode. Test one issue.');
+		$this->out('	-l	Build the changelog for the latest version only.');
+		$this->out('	-d	Debug mode. Test one issue.');
 		$this->out();
 		$this->out('Output is sent to docs/changelog.html');
 		$this->out();
@@ -265,11 +265,11 @@ class Changelog extends JApplicationCli
 	/**
 	 * Gets a named buffer.
 	 *
-	 * @param   string  $name  the name of the buffer.
+	 * @param	 string	$name	the name of the buffer.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function getBuffer($name)
 	{
@@ -286,11 +286,11 @@ class Changelog extends JApplicationCli
 	/**
 	 * Get a page of issue data.
 	 *
-	 * @param   integer  $page  The page number.
+	 * @param	 integer	$page	The page number.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function getIssues($page)
 	{
@@ -308,11 +308,11 @@ class Changelog extends JApplicationCli
 	/**
 	 * Get information about a specific pull request.
 	 *
-	 * @param   integer  $id  The GitHub pull request number.
+	 * @param	 integer	$id	The GitHub pull request number.
 	 *
-	 * @return  object
+	 * @return	object
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function getPull($id)
 	{
@@ -324,11 +324,11 @@ class Changelog extends JApplicationCli
 	/**
 	 * Renders the output.
 	 *
-	 * @param   array  $versions  An array of the versions to render.
+	 * @param	 array	$versions	An array of the versions to render.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function render(array $versions)
 	{
@@ -412,13 +412,13 @@ class Changelog extends JApplicationCli
 	/**
 	 * Sets a named buffer.
 	 *
-	 * @param   string   $name    The name of the buffer.
-	 * @param   mixed    $text    The text to put into/append to the buffer.
-	 * @param   boolean  $append  Append to the array buffer.
+	 * @param	 string	 $name		The name of the buffer.
+	 * @param	 mixed		$text		The text to put into/append to the buffer.
+	 * @param	 boolean	$append	Append to the array buffer.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function setBuffer($name, $text, $append = true)
 	{

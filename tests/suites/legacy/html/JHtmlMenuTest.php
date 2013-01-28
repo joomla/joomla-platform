@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  HTML
+ * @package		 Joomla.UnitTest
+ * @subpackage	HTML
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM . '/legacy/html/menu.php';
@@ -13,19 +13,19 @@ jimport('joomla.html.html');
 /**
  * Test class for JHtmlMenu.
  *
- * @package     Joomla.UnitTest
- * @subpackage  HTML
+ * @package		 Joomla.UnitTest
+ * @subpackage	HTML
  *
- * @since       11.3
+ * @since			 11.3
  */
 class JHtmlMenuTest extends TestCaseDatabase
 {
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 *
-	 * @return  xml dataset
+	 * @return	xml dataset
 	 */
 	protected function getDataSet()
 	{
@@ -35,9 +35,9 @@ class JHtmlMenuTest extends TestCaseDatabase
 	/**
 	 * Tests the JHtmlMenu::menus method.
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testMenus()
 	{
@@ -50,9 +50,9 @@ class JHtmlMenuTest extends TestCaseDatabase
 	/**
 	 * Tests the JHtmlMenu::menuitems method.
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testMenuitems()
 	{
@@ -67,7 +67,7 @@ class JHtmlMenuTest extends TestCaseDatabase
 	 *
 	 * @todo Implement testMenuitemlist().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testMenuitemlist()
 	{
@@ -82,7 +82,7 @@ class JHtmlMenuTest extends TestCaseDatabase
 	 *
 	 * @todo Implement testOrdering().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testOrdering()
 	{
@@ -97,7 +97,7 @@ class JHtmlMenuTest extends TestCaseDatabase
 	 *
 	 * @todo Implement testLinkoptions().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testLinkoptions()
 	{
@@ -112,7 +112,7 @@ class JHtmlMenuTest extends TestCaseDatabase
 	 *
 	 * @todo Implement testTreerecurse().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testTreerecurse()
 	{

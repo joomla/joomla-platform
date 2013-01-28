@@ -95,22 +95,22 @@ keychain.php [--keychain=/path/to/keychain]
 
 ##### Options
 
-Option                                 | Description
+Option																 | Description
 -------------------------------------- | -----------------------------
-`--keychain=/path/to/keychain`         | Path to a keychain file to manipulate.
+`--keychain=/path/to/keychain`				 | Path to a keychain file to manipulate.
 `--passphrase=/path/to/passphrase.dat` | Path to a passphrase file containing the encryption/decryption key.
-`--public-key=/path/to/public.pem`     | Path to a public key file to decrypt the passphrase file.
+`--public-key=/path/to/public.pem`		 | Path to a public key file to decrypt the passphrase file.
 
 ##### Commands
 
-Command                         | Description
+Command												 | Description
 ------------------------------- | -------------------------------
-`list [--print-values]`         | Lists all entries in the keychain. Optionally pass --print-values to     print the values as well.
-`create entry_name entry_value` | Creates a new entry in the keychain called "entry\_name" with the     plaintext value "entry\_value". NOTE: This is an alias for change.
-`change entry_name entry_value` | Updates the keychain entry called "entry\_name" with the value     "entry\_value".
-`delete entry_name`             | Removes an entry called "entry\_name" from the keychain.
-`read entry\_name`              | Outputs the plaintext value of "entry\_name" from the keychain.
-`init`                          | Creates a new passphrase file and prompts for a new passphrase.
+`list [--print-values]`				 | Lists all entries in the keychain. Optionally pass --print-values to		 print the values as well.
+`create entry_name entry_value` | Creates a new entry in the keychain called "entry\_name" with the		 plaintext value "entry\_value". NOTE: This is an alias for change.
+`change entry_name entry_value` | Updates the keychain entry called "entry\_name" with the value		 "entry\_value".
+`delete entry_name`						 | Removes an entry called "entry\_name" from the keychain.
+`read entry\_name`							| Outputs the plaintext value of "entry\_name" from the keychain.
+`init`													| Creates a new passphrase file and prompts for a new passphrase.
 
 #### Generating Keys
 
@@ -160,7 +160,7 @@ keychain.php init --passphrase=/path/to/passphrase.file --private-key=/path/to/p
 
 This will prompt for two things:
 
-* the passphrase to store in passphrase.file; 
+* the passphrase to store in passphrase.file;
 * and the passphrase for the private key.
 
 It will create a new file at `/path/to/passphrase.file` replacing any file that might be there already.
@@ -170,7 +170,7 @@ It will create a new file at `/path/to/passphrase.file` replacing any file that 
 This step requires that you have already generated the private key and the passphrase file. The following command will create or update an entry in the keychain:
 
 ```sh
-keychain.php create --passphrase=/path/to/passphrase.file --public-key=/path/to/publickey.pem --keychain=/path/to/keychain.dat  name  value
+keychain.php create --passphrase=/path/to/passphrase.file --public-key=/path/to/publickey.pem --keychain=/path/to/keychain.dat	name	value
 ```
 
 An existing keychain file will attempt to be loaded and then key name will be set to value.

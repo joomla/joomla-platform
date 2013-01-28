@@ -23,11 +23,11 @@ var JCaption = new Class({
 
 	createCaption: function(element)
 	{
-		var caption   = document.createTextNode(element.title);
+		var caption	 = document.createTextNode(element.title);
 		var container = document.createElement("div");
-		var text      = document.createElement("p");
-		var width     = element.getAttribute("width");
-		var align     = element.getAttribute("align");
+		var text			= document.createElement("p");
+		var width		 = element.getAttribute("width");
+		var align		 = element.getAttribute("align");
 
 		if(!width) {
 			width = element.width;
@@ -35,7 +35,7 @@ var JCaption = new Class({
 
 		//Windows fix
 		if (!align)
-			align = element.getStyle("float");  // Rest of the world fix
+			align = element.getStyle("float");	// Rest of the world fix
 		if (!align) // IE DOM Fix
 			align = element.style.styleFloat;
 
@@ -51,8 +51,8 @@ var JCaption = new Class({
 		if (element.title != "") {
 			container.appendChild(text);
 		}
-		container.className   = this.selector.replace('.', '_');
-		container.className   = container.className + " " + align;
+		container.className	 = this.selector.replace('.', '_');
+		container.className	 = container.className + " " + align;
 		container.setAttribute("style","float:"+align);
 
 		container.style.width = width + "px";

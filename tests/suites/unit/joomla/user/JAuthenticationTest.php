@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  User
+ * @package		 Joomla.UnitTest
+ * @subpackage	User
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM . '/joomla/user/authentication.php';
@@ -12,17 +12,17 @@ require_once JPATH_PLATFORM . '/joomla/user/authentication.php';
 /**
  * Tests for the JAuthentication class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Utilities
- * @since       11.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	Utilities
+ * @since			 11.1
  *
  * @runInSeparateProcess
  */
 class JAuthenticationTest extends TestCase
 {
 	/**
-	 * @var       JAuthentication
-	 * @since  11.1
+	 * @var			 JAuthentication
+	 * @since	11.1
 	 */
 	protected $object;
 
@@ -31,9 +31,9 @@ class JAuthenticationTest extends TestCase
 	 *
 	 * This method is called before a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function setUp()
 	{
@@ -67,10 +67,10 @@ class JAuthenticationTest extends TestCase
 	/**
 	 * Overrides the parent tearDown method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   11.1
+	 * @see		 PHPUnit_Framework_TestCase::tearDown()
+	 * @since	 11.1
 	 */
 	protected function tearDown()
 	{
@@ -86,12 +86,12 @@ class JAuthenticationTest extends TestCase
 	/**
 	 * Callback for the JEventDispatcher trigger method.
 	 *
-	 * @param   string  $event  The event to trigger.
-	 * @param   array   $args   An array of arguments.
+	 * @param	 string	$event	The event to trigger.
+	 * @param	 array	 $args	 An array of arguments.
 	 *
-	 * @return  array  An array of results from each function call.
+	 * @return	array	An array of results from each function call.
 	 *
-	 * @since  11.3
+	 * @since	11.3
 	 */
 	public function mockTrigger($event, $args = array())
 	{
@@ -130,9 +130,9 @@ class JAuthenticationTest extends TestCase
 	/**
 	 * Data cases for testAuthentication.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function casesAuthentication()
 	{
@@ -168,7 +168,7 @@ class JAuthenticationTest extends TestCase
 	/**
 	 * Test...
 	 *
-	 * @covers  JAuthentication::getInstance
+	 * @covers	JAuthentication::getInstance
 	 *
 	 * @return void
 	 */
@@ -184,14 +184,14 @@ class JAuthenticationTest extends TestCase
 	/**
 	 * This checks for the correct Long Version.
 	 *
-	 * @param   string  $input    User name
-	 * @param   string  $expect   Expected user id
-	 * @param   string  $message  Expected error info
+	 * @param	 string	$input		User name
+	 * @param	 string	$expect	 Expected user id
+	 * @param	 string	$message	Expected error info
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @dataProvider casesAuthentication
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testAuthentication($input, $expect, $message)
 	{
@@ -206,9 +206,9 @@ class JAuthenticationTest extends TestCase
 	/**
 	 * These are the authorisation test cases
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function casesAuthorise()
 	{
@@ -258,15 +258,15 @@ class JAuthenticationTest extends TestCase
 	/**
 	 * This checks for the correct response to authorising a user
 	 *
-	 * @param   string  $input    User name
-	 * @param   string  $expect   Expected user id
-	 * @param   string  $message  Expected error info
+	 * @param	 string	$input		User name
+	 * @param	 string	$expect	 Expected user id
+	 * @param	 string	$message	Expected error info
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @dataProvider casesAuthorise
-	 * @since   11.1
-	 * @covers  JAuthentication::authorise
+	 * @since	 11.1
+	 * @covers	JAuthentication::authorise
 	 */
 	public function testAuthorise($input, $expect, $message)
 	{

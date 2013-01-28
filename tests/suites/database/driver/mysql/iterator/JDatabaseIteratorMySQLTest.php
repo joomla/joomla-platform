@@ -1,28 +1,28 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Database
+ * @package		 Joomla.UnitTest
+ * @subpackage	Database
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JDatabaseResults using MySQL engine.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Database
+ * @package		 Joomla.UnitTest
+ * @subpackage	Database
  *
- * @since       12.1
+ * @since			 12.1
  */
 class JDatabaseIteratorMySQLTest extends TestCaseDatabaseMysql
 {
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  xml dataset
+	 * @return	xml dataset
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function getDataSet()
 	{
@@ -32,9 +32,9 @@ class JDatabaseIteratorMySQLTest extends TestCaseDatabaseMysql
 	/**
 	 * Data provider for the testForEach method
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function casesForEachData()
 	{
@@ -120,20 +120,20 @@ class JDatabaseIteratorMySQLTest extends TestCaseDatabaseMysql
 	/**
 	 * Test foreach control
 	 *
-	 * @param   string   $select     Fields to select
-	 * @param   string   $from       Table to search for
-	 * @param   string   $column     The column to use as a key.
-	 * @param   string   $class      The class on which to bind the result rows.
-	 * @param   integer  $limit      The result set record limit.
-	 * @param   integer  $offset     The result set record offset.
-	 * @param   array    $expected   Array of expected results
-	 * @param   mixed    $exception  Exception thrown
+	 * @param	 string	 $select		 Fields to select
+	 * @param	 string	 $from			 Table to search for
+	 * @param	 string	 $column		 The column to use as a key.
+	 * @param	 string	 $class			The class on which to bind the result rows.
+	 * @param	 integer	$limit			The result set record limit.
+	 * @param	 integer	$offset		 The result set record offset.
+	 * @param	 array		$expected	 Array of expected results
+	 * @param	 mixed		$exception	Exception thrown
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @dataProvider casesForEachData
 	 *
-	 * @since    12.1
+	 * @since		12.1
 	 */
 	public function testForEach($select, $from, $column, $class, $limit, $offset, $expected, $exception)
 	{
@@ -155,9 +155,9 @@ class JDatabaseIteratorMySQLTest extends TestCaseDatabaseMysql
 	/**
 	 * Test count
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testCount()
 	{

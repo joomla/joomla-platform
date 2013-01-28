@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Installer
+ * @package		 Joomla.Platform
+ * @subpackage	Installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -14,10 +14,10 @@ jimport('joomla.installer.extension');
 /**
  * Joomla! Package Manifest File
  *
- * @package     Joomla.Platform
- * @subpackage  Installer
- * @since       11.1
- * @deprecated  13.3
+ * @package		 Joomla.Platform
+ * @subpackage	Installer
+ * @since			 11.1
+ * @deprecated	13.3
  */
 class JInstallerManifestPackage extends JInstallerManifest
 {
@@ -44,25 +44,25 @@ class JInstallerManifestPackage extends JInstallerManifest
 	/**
 	 * Apply manifest data from a SimpleXMLElement to the object.
 	 *
-	 * @param   SimpleXMLElement  $xml  Data to load
+	 * @param	 SimpleXMLElement	$xml	Data to load
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	protected function loadManifestFromData(SimpleXmlElement $xml)
 	{
-		$this->name        = (string) $xml->name;
+		$this->name				= (string) $xml->name;
 		$this->packagename = (string) $xml->packagename;
-		$this->update      = (string) $xml->update;
-		$this->authorurl   = (string) $xml->authorUrl;
-		$this->author      = (string) $xml->author;
+		$this->update			= (string) $xml->update;
+		$this->authorurl	 = (string) $xml->authorUrl;
+		$this->author			= (string) $xml->author;
 		$this->authoremail = (string) $xml->authorEmail;
 		$this->description = (string) $xml->description;
-		$this->packager    = (string) $xml->packager;
+		$this->packager		= (string) $xml->packager;
 		$this->packagerurl = (string) $xml->packagerurl;
-		$this->scriptfile  = (string) $xml->scriptfile;
-		$this->version     = (string) $xml->version;
+		$this->scriptfile	= (string) $xml->scriptfile;
+		$this->version		 = (string) $xml->version;
 
 		if (isset($xml->files->file) && count($xml->files->file))
 		{

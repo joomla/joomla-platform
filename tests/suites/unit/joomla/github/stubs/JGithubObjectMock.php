@@ -1,34 +1,34 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Application
+ * @package		 Joomla.UnitTest
+ * @subpackage	Application
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * JGithubObjectMock class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Github
+ * @package		 Joomla.UnitTest
+ * @subpackage	Github
  *
- * @since       11.1
+ * @since			 11.1
  */
 class JGithubObjectMock extends JGithubObject
 {
 	/**
-	 * Method to build and return a full request URL for the request.  This method will
+	 * Method to build and return a full request URL for the request.	This method will
 	 * add appropriate pagination details if necessary and also prepend the API url
 	 * to have a complete URL for the request.
 	 *
-	 * @param   string   $path   URL to inflect
-	 * @param   integer  $page   Page to request
-	 * @param   integer  $limit  Number of results to return per page
+	 * @param	 string	 $path	 URL to inflect
+	 * @param	 integer	$page	 Page to request
+	 * @param	 integer	$limit	Number of results to return per page
 	 *
-	 * @return  string   The request URL.
+	 * @return	string	 The request URL.
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function fetchUrl($path, $page = 0, $limit = 0)
 	{

@@ -113,11 +113,11 @@ Joomla.combobox.transform = function(el, options)
 		{
 			/*
 			 * In some browsers a feature exists to automatically jump to select options which
-			 * have the same letter typed as the first letter of the option.  The following
+			 * have the same letter typed as the first letter of the option.	The following
 			 * section is designed to mitigate this issue when editing the custom option.
 			 *
 			 * Compare the entered character with the first character of all non-editable
-			 * select options.  If they match, then we assume the change happened because of
+			 * select options.	If they match, then we assume the change happened because of
 			 * the browser trying to auto-change for the given character.
 			 */
 			var character = String.fromCharCode(e.code).toLowerCase();

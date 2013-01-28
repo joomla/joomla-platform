@@ -1,9 +1,9 @@
 <?php
 /**
- * @package    Joomla.UnitTest
+ * @package		Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Color;
@@ -11,17 +11,17 @@ namespace Color;
 /**
  * A lambda class to test the namespace loader.
  *
- * @package  Joomla.UnitTest
- * @since    12.3
+ * @package	Joomla.UnitTest
+ * @since		12.3
  */
 class Blue
 {
 	/**
 	 * Return blue class name for testing
 	 *
-	 * @return   string
+	 * @return	 string
 	 *
-	 * @since    12.3
+	 * @since		12.3
 	 */
 	public function color()
 	{

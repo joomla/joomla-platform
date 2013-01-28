@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Google
+ * @package		 Joomla.Platform
+ * @subpackage	Google
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,19 +12,19 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Google Picasa data class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Google
- * @since       12.3
+ * @package		 Joomla.Platform
+ * @subpackage	Google
+ * @since			 12.3
  */
 class JGoogleDataPicasa extends JGoogleData
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry    $options  Google options object
-	 * @param   JGoogleAuth  $auth     Google data http client object
+	 * @param	 JRegistry		$options	Google options object
+	 * @param	 JGoogleAuth	$auth		 Google data http client object
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function __construct(JRegistry $options = null, JGoogleAuth $auth = null)
 	{
@@ -39,11 +39,11 @@ class JGoogleDataPicasa extends JGoogleData
 	/**
 	 * Method to retrieve a list of Picasa Albums
 	 *
-	 * @param   string  $userID  ID of user
+	 * @param	 string	$userID	ID of user
 	 *
-	 * @return  mixed  Data from Google
+	 * @return	mixed	Data from Google
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 * @throws UnexpectedValueException
 	 */
 	public function listAlbums($userID = 'default')
@@ -78,17 +78,17 @@ class JGoogleDataPicasa extends JGoogleData
 	/**
 	 * Method to create a Picasa Album
 	 *
-	 * @param   string  $userID    ID of user
-	 * @param   string  $title     New album title
-	 * @param   string  $access    New album access settings
-	 * @param   string  $summary   New album summary
-	 * @param   string  $location  New album location
-	 * @param   int     $time      New album timestamp
-	 * @param   array   $keywords  New album keywords
+	 * @param	 string	$userID		ID of user
+	 * @param	 string	$title		 New album title
+	 * @param	 string	$access		New album access settings
+	 * @param	 string	$summary	 New album summary
+	 * @param	 string	$location	New album location
+	 * @param	 int		 $time			New album timestamp
+	 * @param	 array	 $keywords	New album keywords
 	 *
-	 * @return  mixed  Data from Google.
+	 * @return	mixed	Data from Google.
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function createAlbum($userID = 'default', $title = '', $access = 'private', $summary = '', $location = '', $time = false, $keywords = array())
 	{
@@ -125,11 +125,11 @@ class JGoogleDataPicasa extends JGoogleData
 	/**
 	 * Get Picasa Album
 	 *
-	 * @param   string  $url  URL of album to get
+	 * @param	 string	$url	URL of album to get
 	 *
-	 * @return  mixed  Data from Google
+	 * @return	mixed	Data from Google
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 * @throws UnexpectedValueException
 	 */
 	public function getAlbum($url)

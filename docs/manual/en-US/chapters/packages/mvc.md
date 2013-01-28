@@ -84,19 +84,19 @@ allow for HMVC architectures.
 /**
  * My custom controller.
  *
- * @package  Examples
+ * @package	Examples
  *
- * @since   12.1
+ * @since	 12.1
  */
 class MyController extends JControllerBase
 {
 	/**
 	 * Method to execute the controller.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @since	 12.1
+	 * @throws	RuntimeException
 	 */
 	public function execute()
 	{
@@ -137,18 +137,18 @@ requirements of the interface are already satisfied by the base class.
 /**
  * My custom model.
  *
- * @pacakge  Examples
+ * @pacakge	Examples
  *
- * @since   12.1
+ * @since	 12.1
  */
 class MyModel extends JModelBase
 {
 	/**
 	 * Get the time.
 	 *
-	 * @return  integer
+	 * @return	integer
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getTime()
 	{
@@ -176,19 +176,19 @@ forms a base for any model that needs to interact with a database.
 /**
  * My custom database model.
  *
- * @package  Examples
+ * @package	Examples
  *
- * @since   12.1
+ * @since	 12.1
  */
 class MyDatabaseModel extends JModelDatabase
 {
 	/**
 	 * Get the content count.
 	 *
-	 * @return  integer
+	 * @return	integer
 	 *
-	 * @since   12.1
-	 * @throws  RuntimeException on database error.
+	 * @since	 12.1
+	 * @throws	RuntimeException on database error.
 	 */
 	public function getCount()
 	{
@@ -241,19 +241,19 @@ data types. This class does not support layouts.
 /**
  * My custom view.
  *
- * @package  Examples
+ * @package	Examples
  *
- * @since   12.1
+ * @since	 12.1
  */
 class MyView extends JViewBase
 {
 	/**
 	 * Render some data
 	 *
-	 * @return  string  The rendered view.
+	 * @return	string	The rendered view.
 	 *
-	 * @since   12.1
-	 * @throws  RuntimeException on database error.
+	 * @since	 12.1
+	 * @throws	RuntimeException on database error.
 	 */
 	public function render()
 	{
@@ -298,8 +298,8 @@ folder not stored under the web-server root.
 /**
  * Example layout "layouts/count.php".
  *
- * @package  Examples
- * @since    12.1
+ * @package	Examples
+ * @since		12.1
  */
 
 // Declare variables to support type hinting.
@@ -317,16 +317,16 @@ folder not stored under the web-server root.
 /**
  * My custom HTML view.
  *
- * @package  Examples
- * @since    12.1
+ * @package	Examples
+ * @since		12.1
  */
 class MyHtmlView extends JViewHtml
 {
 	/**
 	 * Redefine the model so the correct type hinting is available in the layout.
 	 *
-	 * @var     MyDatabaseModel
-	 * @since   12.1
+	 * @var		 MyDatabaseModel
+	 * @since	 12.1
 	 */
 	protected $model;
 }
@@ -361,21 +361,21 @@ The default extension for layouts is ".php". This can be modified in derived vie
 /**
  * My custom HTML view.
  *
- * @package  Examples
- * @since    12.1
+ * @package	Examples
+ * @since		12.1
  */
 class MyHtmlView extends JViewHtml
 {
 	/**
 	 * Override the parent method to use the '.phtml' extension for layout files.
 	 *
-	 * @param   string  $layout  The base name of the layout file (excluding extension).
-	 * @param   string  $ext     The extension of the layout file (default: "phtml").
+	 * @param	 string	$layout	The base name of the layout file (excluding extension).
+	 * @param	 string	$ext		 The extension of the layout file (default: "phtml").
 	 *
-	 * @return  mixed  The layout file name if found, false otherwise.
+	 * @return	mixed	The layout file name if found, false otherwise.
 	 *
-	 * @see     JViewHtml::getPath
-	 * @since   12.1
+	 * @see		 JViewHtml::getPath
+	 * @since	 12.1
 	 */
 	public function getPath($layout, $ext = 'phtml')
 	{

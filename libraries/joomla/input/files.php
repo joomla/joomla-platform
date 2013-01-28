@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Input
+ * @package		 Joomla.Platform
+ * @subpackage	Input
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,28 +12,28 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! Input Files Class
  *
- * @package     Joomla.Platform
- * @subpackage  Input
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Input
+ * @since			 11.1
  */
 class JInputFiles extends JInput
 {
 	/**
 	 * The pivoted data from a $_FILES or compatible array.
 	 *
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	protected $decodedData = array();
 
 	/**
 	 * The class constructor.
 	 *
-	 * @param   array  $source   The source argument is ignored. $_FILES is always used.
-	 * @param   array  $options  An optional array of configuration options:
-	 *                           filter : a custom JFilterInput object.
+	 * @param	 array	$source	 The source argument is ignored. $_FILES is always used.
+	 * @param	 array	$options	An optional array of configuration options:
+	 *													 filter : a custom JFilterInput object.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function __construct(array $source = null, array $options = array())
 	{
@@ -56,14 +56,14 @@ class JInputFiles extends JInput
 	/**
 	 * Gets a value from the input data.
 	 *
-	 * @param   string  $name     The name of the input property (usually the name of the files INPUT tag) to get.
-	 * @param   mixed   $default  The default value to return if the named property does not exist.
-	 * @param   string  $filter   The filter to apply to the value.
+	 * @param	 string	$name		 The name of the input property (usually the name of the files INPUT tag) to get.
+	 * @param	 mixed	 $default	The default value to return if the named property does not exist.
+	 * @param	 string	$filter	 The filter to apply to the value.
 	 *
-	 * @return  mixed  The filtered input value.
+	 * @return	mixed	The filtered input value.
 	 *
-	 * @see     JFilterInput::clean
-	 * @since   11.1
+	 * @see		 JFilterInput::clean
+	 * @since	 11.1
 	 */
 	public function get($name, $default = null, $filter = 'cmd')
 	{
@@ -89,11 +89,11 @@ class JInputFiles extends JInput
 	/**
 	 * Method to decode a data array.
 	 *
-	 * @param   array  $data  The data array to decode.
+	 * @param	 array	$data	The data array to decode.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function decodeData(array $data)
 	{
@@ -114,12 +114,12 @@ class JInputFiles extends JInput
 	/**
 	 * Sets a value.
 	 *
-	 * @param   string  $name   The name of the input property to set.
-	 * @param   mixed   $value  The value to assign to the input property.
+	 * @param	 string	$name	 The name of the input property to set.
+	 * @param	 mixed	 $value	The value to assign to the input property.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function set($name, $value)
 	{

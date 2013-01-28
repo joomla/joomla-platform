@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Log
+ * @package		 Joomla.UnitTest
+ * @subpackage	Log
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM . '/joomla/log/log.php';
@@ -15,19 +15,19 @@ require_once __DIR__ . '/stubs/log/inspector.php';
 /**
  * Test class for JLog.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Log
- * @since       11.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	Log
+ * @since			 11.1
  */
 class JLogTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * Overrides the parent tearDown method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   11.1
+	 * @see		 PHPUnit_Framework_TestCase::tearDown()
+	 * @since	 11.1
 	 */
 	protected function tearDown()
 	{
@@ -40,11 +40,11 @@ class JLogTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test the JLog::addLogEntry method to verify that if called directly it will route the entry to the
-	 * appropriate loggers.  We use the echo logger here for easy testing using the PHP output buffer.
+	 * appropriate loggers.	We use the echo logger here for easy testing using the PHP output buffer.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testAddLogEntry()
 	{
@@ -61,12 +61,12 @@ class JLogTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test that if JLog::addLogger is called and no JLog instance has been instantiated yet, that one will
-	 * be instantiated automatically and the logger will work accordingly.  We use the echo logger here for
+	 * be instantiated automatically and the logger will work accordingly.	We use the echo logger here for
 	 * easy testing using the PHP output buffer.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testAddLoggerAutoInstantiation()
 	{
@@ -80,12 +80,12 @@ class JLogTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test that if JLog::addLogger is called and no JLog instance has been instantiated yet, that one will
-	 * be instantiated automatically and the logger will work accordingly.  We use the echo logger here for
+	 * be instantiated automatically and the logger will work accordingly.	We use the echo logger here for
 	 * easy testing using the PHP output buffer.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testAddLoggerAutoInstantiationInvalidLogger()
 	{
@@ -101,12 +101,12 @@ class JLogTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test the JLog::findLoggers method to make sure given a category we are finding the correct loggers that
-	 * have been added to JLog.  It is important to note that if a logger was added with no category, then it
+	 * have been added to JLog.	It is important to note that if a logger was added with no category, then it
 	 * will be returned for all categories.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testFindLoggersByCategory()
 	{
@@ -191,11 +191,11 @@ class JLogTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test the JLog::findLoggers method to make sure given a category we are finding the correct loggers that
-	 * have been added to JLog (using exclusion).  It is important to note that empty category can also be excluded.
+	 * have been added to JLog (using exclusion).	It is important to note that empty category can also be excluded.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testFindLoggersByNotCategory()
 	{
@@ -301,12 +301,12 @@ class JLogTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test the JLog::findLoggers method to make sure given a priority we are finding the correct loggers that
-	 * have been added to JLog.  It is important to test not only straight values but also bitwise combinations
+	 * have been added to JLog.	It is important to test not only straight values but also bitwise combinations
 	 * and the catch all JLog::ALL as registered loggers.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testFindLoggersByPriority()
 	{
@@ -388,9 +388,9 @@ class JLogTest extends PHPUnit_Framework_TestCase
 	 * Test the JLog::findLoggers method to make sure given a priority and category we are finding the correct
 	 * loggers that have been added to JLog.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testFindLoggersByPriorityAndCategory()
 	{
@@ -473,15 +473,15 @@ class JLogTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test the JLog::setInstance method to make sure that if we set a logger instance JLog is actually going
-	 * to use it.  We accomplish this by setting an instance of JLogInspector and then performing some
-	 * operations using JLog::addLogger() to alter the state of the internal instance.  We then check that the
+	 * to use it.	We accomplish this by setting an instance of JLogInspector and then performing some
+	 * operations using JLog::addLogger() to alter the state of the internal instance.	We then check that the
 	 * JLogInspector instance we created (and set) has the same values we would expect for lookup and configuration
 	 * so we can assert that the operations we performed using JLog::addLogger() were actually performed on our
 	 * instance of JLogInspector that was set.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testSetInstance()
 	{

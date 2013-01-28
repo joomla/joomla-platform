@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  HTTP
+ * @package		 Joomla.Platform
+ * @subpackage	HTTP
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,31 +12,31 @@ defined('JPATH_PLATFORM') or die;
 /**
  * HTTP transport class for using sockets directly.
  *
- * @package     Joomla.Platform
- * @subpackage  HTTP
- * @since       11.3
+ * @package		 Joomla.Platform
+ * @subpackage	HTTP
+ * @since			 11.3
  */
 class JHttpTransportSocket implements JHttpTransport
 {
 	/**
-	 * @var    array  Reusable socket connections.
-	 * @since  11.3
+	 * @var		array	Reusable socket connections.
+	 * @since	11.3
 	 */
 	protected $connections;
 
 	/**
-	 * @var    JRegistry  The client options.
-	 * @since  11.3
+	 * @var		JRegistry	The client options.
+	 * @since	11.3
 	 */
 	protected $options;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry  $options  Client options object.
+	 * @param	 JRegistry	$options	Client options object.
 	 *
-	 * @since   11.3
-	 * @throws  RuntimeException
+	 * @since	 11.3
+	 * @throws	RuntimeException
 	 */
 	public function __construct(JRegistry $options)
 	{
@@ -51,17 +51,17 @@ class JHttpTransportSocket implements JHttpTransport
 	/**
 	 * Send a request to the server and return a JHttpResponse object with the response.
 	 *
-	 * @param   string   $method     The HTTP method for sending the request.
-	 * @param   JUri     $uri        The URI to the resource to request.
-	 * @param   mixed    $data       Either an associative array or a string to be sent with the request.
-	 * @param   array    $headers    An array of request headers to send with the request.
-	 * @param   integer  $timeout    Read timeout in seconds.
-	 * @param   string   $userAgent  The optional user agent string to send with the request.
+	 * @param	 string	 $method		 The HTTP method for sending the request.
+	 * @param	 JUri		 $uri				The URI to the resource to request.
+	 * @param	 mixed		$data			 Either an associative array or a string to be sent with the request.
+	 * @param	 array		$headers		An array of request headers to send with the request.
+	 * @param	 integer	$timeout		Read timeout in seconds.
+	 * @param	 string	 $userAgent	The optional user agent string to send with the request.
 	 *
-	 * @return  JHttpResponse
+	 * @return	JHttpResponse
 	 *
-	 * @since   11.3
-	 * @throws  RuntimeException
+	 * @since	 11.3
+	 * @throws	RuntimeException
 	 */
 	public function request($method, JUri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
 	{
@@ -148,12 +148,12 @@ class JHttpTransportSocket implements JHttpTransport
 	/**
 	 * Method to get a response object from a server response.
 	 *
-	 * @param   string  $content  The complete server response, including headers.
+	 * @param	 string	$content	The complete server response, including headers.
 	 *
-	 * @return  JHttpResponse
+	 * @return	JHttpResponse
 	 *
-	 * @since   11.3
-	 * @throws  UnexpectedValueException
+	 * @since	 11.3
+	 * @throws	UnexpectedValueException
 	 */
 	protected function getResponse($content)
 	{
@@ -202,13 +202,13 @@ class JHttpTransportSocket implements JHttpTransport
 	/**
 	 * Method to connect to a server and get the resource.
 	 *
-	 * @param   JUri     $uri      The URI to connect with.
-	 * @param   integer  $timeout  Read timeout in seconds.
+	 * @param	 JUri		 $uri			The URI to connect with.
+	 * @param	 integer	$timeout	Read timeout in seconds.
 	 *
-	 * @return  resource  Socket connection resource.
+	 * @return	resource	Socket connection resource.
 	 *
-	 * @since   11.3
-	 * @throws  RuntimeException
+	 * @since	 11.3
+	 * @throws	RuntimeException
 	 */
 	protected function connect(JUri $uri, $timeout = null)
 	{
@@ -299,9 +299,9 @@ class JHttpTransportSocket implements JHttpTransport
 	/**
 	 * Method to check if http transport socket available for use
 	 *
-	 * @return  boolean   True if available else false
+	 * @return	boolean	 True if available else false
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	static public function isSupported()
 	{

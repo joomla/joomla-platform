@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Updater
+ * @package		 Joomla.Platform
+ * @subpackage	Updater
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -14,34 +14,34 @@ jimport('joomla.updater.updateadapter');
 /**
  * Collection Update Adapter Class
  *
- * @package     Joomla.Platform
- * @subpackage  Updater
- * @since       11.1
- * @deprecated  13.3
+ * @package		 Joomla.Platform
+ * @subpackage	Updater
+ * @since			 11.1
+ * @deprecated	13.3
  */
 class JUpdaterCollection extends JUpdateAdapter
 {
 	/**
 	 * Root of the tree
 	 *
-	 * @var    object
-	 * @since  11.1
+	 * @var		object
+	 * @since	11.1
 	 */
 	protected $base;
 
 	/**
 	 * Tree of objects
 	 *
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	protected $parent = array(0);
 
 	/**
 	 * Used to control if an item has a child or not
 	 *
-	 * @var    boolean
-	 * @since  11.1
+	 * @var		boolean
+	 * @since	11.1
 	 */
 	protected $pop_parent = 0;
 
@@ -60,9 +60,9 @@ class JUpdaterCollection extends JUpdateAdapter
 	/**
 	 * Gets the reference to the current direct parent
 	 *
-	 * @return  object
+	 * @return	object
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function _getStackLocation()
 	{
@@ -72,9 +72,9 @@ class JUpdaterCollection extends JUpdateAdapter
 	/**
 	 * Get the parent tag
 	 *
-	 * @return  string   parent
+	 * @return	string	 parent
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function _getParent()
 	{
@@ -84,13 +84,13 @@ class JUpdaterCollection extends JUpdateAdapter
 	/**
 	 * Opening an XML element
 	 *
-	 * @param   object  $parser  Parser object
-	 * @param   string  $name    Name of element that is opened
-	 * @param   array   $attrs   Array of attributes for the element
+	 * @param	 object	$parser	Parser object
+	 * @param	 string	$name		Name of element that is opened
+	 * @param	 array	 $attrs	 Array of attributes for the element
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function _startElement($parser, $name, $attrs = array())
 	{
@@ -181,12 +181,12 @@ class JUpdaterCollection extends JUpdateAdapter
 	 * Closing an XML element
 	 * Note: This is a protected function though has to be exposed externally as a callback
 	 *
-	 * @param   object  $parser  Parser object
-	 * @param   string  $name    Name of the element closing
+	 * @param	 object	$parser	Parser object
+	 * @param	 string	$name		Name of the element closing
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function _endElement($parser, $name)
 	{
@@ -209,11 +209,11 @@ class JUpdaterCollection extends JUpdateAdapter
 	/**
 	 * Finds an update
 	 *
-	 * @param   array  $options  Options to use: update_site_id: the unique ID of the update site to look at
+	 * @param	 array	$options	Options to use: update_site_id: the unique ID of the update site to look at
 	 *
-	 * @return  array  Update_sites and updates discovered
+	 * @return	array	Update_sites and updates discovered
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function findUpdate($options)
 	{

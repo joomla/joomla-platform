@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Google
+ * @package		 Joomla.Platform
+ * @subpackage	Google
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,19 +12,19 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Google Adsense data class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Google
- * @since       12.3
+ * @package		 Joomla.Platform
+ * @subpackage	Google
+ * @since			 12.3
  */
 class JGoogleDataAdsense extends JGoogleData
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry    $options  Google options object
-	 * @param   JGoogleAuth  $auth     Google data http client object
+	 * @param	 JRegistry		$options	Google options object
+	 * @param	 JGoogleAuth	$auth		 Google data http client object
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function __construct(JRegistry $options = null, JGoogleAuth $auth = null)
 	{
@@ -39,12 +39,12 @@ class JGoogleDataAdsense extends JGoogleData
 	/**
 	 * Method to get an Adsense account's settings from Google
 	 *
-	 * @param   string   $accountID    ID of account to get
-	 * @param   boolean  $subaccounts  Include list of subaccounts
+	 * @param	 string	 $accountID		ID of account to get
+	 * @param	 boolean	$subaccounts	Include list of subaccounts
 	 *
-	 * @return  mixed  Data from Google
+	 * @return	mixed	Data from Google
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function getAccount($accountID, $subaccounts = true)
 	{
@@ -71,12 +71,12 @@ class JGoogleDataAdsense extends JGoogleData
 	/**
 	 * Method to retrieve a list of AdSense accounts from Google
 	 *
-	 * @param   array  $options   Search settings
-	 * @param   int    $maxpages  Maximum number of pages of accounts to return
+	 * @param	 array	$options	 Search settings
+	 * @param	 int		$maxpages	Maximum number of pages of accounts to return
 	 *
-	 * @return  mixed  Data from Google
+	 * @return	mixed	Data from Google
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 * @throws UnexpectedValueException
 	 */
 	public function listAccounts($options = array(), $maxpages = 1)
@@ -98,13 +98,13 @@ class JGoogleDataAdsense extends JGoogleData
 	/**
 	 * Method to retrieve a list of AdSense clients from Google
 	 *
-	 * @param   string  $accountID  ID of account to list the clients from
-	 * @param   array   $options    Search settings
-	 * @param   int     $maxpages   Maximum number of pages of accounts to return
+	 * @param	 string	$accountID	ID of account to list the clients from
+	 * @param	 array	 $options		Search settings
+	 * @param	 int		 $maxpages	 Maximum number of pages of accounts to return
 	 *
-	 * @return  mixed  Data from Google
+	 * @return	mixed	Data from Google
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 * @throws UnexpectedValueException
 	 */
 	public function listClients($accountID, $options = array(), $maxpages = 1)
@@ -126,13 +126,13 @@ class JGoogleDataAdsense extends JGoogleData
 	/**
 	 * Method to get an AdSense AdUnit
 	 *
-	 * @param   string  $accountID   ID of account to get
-	 * @param   string  $adclientID  ID of client to get
-	 * @param   string  $adunitID    ID of adunit to get
+	 * @param	 string	$accountID	 ID of account to get
+	 * @param	 string	$adclientID	ID of client to get
+	 * @param	 string	$adunitID		ID of adunit to get
 	 *
-	 * @return  mixed  Data from Google
+	 * @return	mixed	Data from Google
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function getUnit($accountID, $adclientID, $adunitID)
 	{
@@ -160,15 +160,15 @@ class JGoogleDataAdsense extends JGoogleData
 	/**
 	 * Method to retrieve a list of AdSense Custom Channels for a specific Adunit
 	 *
-	 * @param   string  $accountID   ID of account
-	 * @param   string  $adclientID  ID of client
-	 * @param   string  $adunitID    ID of adunit to list channels from
-	 * @param   array   $options     Search settings
-	 * @param   int     $maxpages    Maximum number of pages of accounts to return
+	 * @param	 string	$accountID	 ID of account
+	 * @param	 string	$adclientID	ID of client
+	 * @param	 string	$adunitID		ID of adunit to list channels from
+	 * @param	 array	 $options		 Search settings
+	 * @param	 int		 $maxpages		Maximum number of pages of accounts to return
 	 *
-	 * @return  mixed  Data from Google
+	 * @return	mixed	Data from Google
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 * @throws UnexpectedValueException
 	 */
 	public function listUnitChannels($accountID, $adclientID, $adunitID, $options = array(), $maxpages = 1)
@@ -191,13 +191,13 @@ class JGoogleDataAdsense extends JGoogleData
 	/**
 	 * Method to get an Adsense Channel
 	 *
-	 * @param   string  $accountID   ID of account to get
-	 * @param   string  $adclientID  ID of client to get
-	 * @param   string  $channelID   ID of channel to get
+	 * @param	 string	$accountID	 ID of account to get
+	 * @param	 string	$adclientID	ID of client to get
+	 * @param	 string	$channelID	 ID of channel to get
 	 *
-	 * @return  mixed  Data from Google
+	 * @return	mixed	Data from Google
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function getChannel($accountID, $adclientID, $channelID)
 	{
@@ -225,14 +225,14 @@ class JGoogleDataAdsense extends JGoogleData
 	/**
 	 * Method to retrieve a list of AdSense Custom Channels
 	 *
-	 * @param   string  $accountID   ID of account
-	 * @param   string  $adclientID  ID of client to list channels from
-	 * @param   array   $options     Search settings
-	 * @param   int     $maxpages    Maximum number of pages of accounts to return
+	 * @param	 string	$accountID	 ID of account
+	 * @param	 string	$adclientID	ID of client to list channels from
+	 * @param	 array	 $options		 Search settings
+	 * @param	 int		 $maxpages		Maximum number of pages of accounts to return
 	 *
-	 * @return  mixed  Data from Google
+	 * @return	mixed	Data from Google
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 * @throws UnexpectedValueException
 	 */
 	public function listChannels($accountID, $adclientID, $options = array(), $maxpages = 1)
@@ -255,15 +255,15 @@ class JGoogleDataAdsense extends JGoogleData
 	/**
 	 * Method to retrieve a list of AdSense Adunits for a specific Custom Channel
 	 *
-	 * @param   string  $accountID   ID of account
-	 * @param   string  $adclientID  ID of client
-	 * @param   string  $channelID   ID of channel to list units from
-	 * @param   array   $options     Search settings
-	 * @param   int     $maxpages    Maximum number of pages of accounts to return
+	 * @param	 string	$accountID	 ID of account
+	 * @param	 string	$adclientID	ID of client
+	 * @param	 string	$channelID	 ID of channel to list units from
+	 * @param	 array	 $options		 Search settings
+	 * @param	 int		 $maxpages		Maximum number of pages of accounts to return
 	 *
-	 * @return  mixed  Data from Google
+	 * @return	mixed	Data from Google
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 * @throws UnexpectedValueException
 	 */
 	public function listChannelUnits($accountID, $adclientID, $channelID, $options = array(), $maxpages = 1)
@@ -286,14 +286,14 @@ class JGoogleDataAdsense extends JGoogleData
 	/**
 	 * Method to generate a report from Google AdSense
 	 *
-	 * @param   string  $accountID   ID of account
-	 * @param   string  $adclientID  ID of client
-	 * @param   array   $options     Search settings
-	 * @param   int     $maxpages    Maximum number of pages of accounts to return
+	 * @param	 string	$accountID	 ID of account
+	 * @param	 string	$adclientID	ID of client
+	 * @param	 array	 $options		 Search settings
+	 * @param	 int		 $maxpages		Maximum number of pages of accounts to return
 	 *
-	 * @return  mixed  Data from Google
+	 * @return	mixed	Data from Google
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 * @throws UnexpectedValueException
 	 */
 	public function listUrlChannels($accountID, $adclientID, $options = array(), $maxpages = 1)
@@ -316,15 +316,15 @@ class JGoogleDataAdsense extends JGoogleData
 	/**
 	 * Method to retrieve a list of AdSense Channel URLs
 	 *
-	 * @param   string  $accountID  ID of account
-	 * @param   mixed   $start      Start day
-	 * @param   mixed   $end        End day
-	 * @param   array   $options    Search settings
-	 * @param   int     $maxpages   Maximum number of pages of accounts to return
+	 * @param	 string	$accountID	ID of account
+	 * @param	 mixed	 $start			Start day
+	 * @param	 mixed	 $end				End day
+	 * @param	 array	 $options		Search settings
+	 * @param	 int		 $maxpages	 Maximum number of pages of accounts to return
 	 *
-	 * @return  mixed  Data from Google
+	 * @return	mixed	Data from Google
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 * @throws UnexpectedValueException
 	 */
 	public function generateReport($accountID, $start, $end = false, $options = array(), $maxpages = 1)

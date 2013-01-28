@@ -1,27 +1,27 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Keychain
+ * @package		 Joomla.Platform
+ * @subpackage	Keychain
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Tests for the Joomla Platform Keychain Class
  *
- * @package     Joomla.UnitTest
- * @subpackage  Keychain
- * @since       12.3
+ * @package		 Joomla.UnitTest
+ * @subpackage	Keychain
+ * @since			 12.3
  */
 class JKeychainTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * Set up the system by ensuring some files aren't there.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public static function setUpBeforeClass()
 	{
@@ -35,9 +35,9 @@ class JKeychainTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Clean up afterwards.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public static function tearDownAfterClass()
 	{
@@ -50,9 +50,9 @@ class JKeychainTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test loading a file created in the CLI client (Joomla! Platform)
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testLoadCLIKeychain()
 	{
@@ -70,9 +70,9 @@ class JKeychainTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test trying to create a new passphrase file
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testCreatePassphraseFile()
 	{
@@ -90,12 +90,12 @@ class JKeychainTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Try to load a keychain that liaosn't exist (this shouldn't cause an error)
 	 *
-	 * @expectedException         RuntimeException
-	 * @expectedExceptionMessage  Attempting to load non-existent keychain file
+	 * @expectedException				 RuntimeException
+	 * @expectedExceptionMessage	Attempting to load non-existent keychain file
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testLoadKeychainNonexistant()
 	{
@@ -111,13 +111,13 @@ class JKeychainTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Try to load a keychain that isn't a keychain
 	 *
-	 * @depends                   testCreatePassphraseFile
-	 * @expectedException         RuntimeException
-	 * @expectedExceptionMessage  Failed to decrypt keychain file
+	 * @depends									 testCreatePassphraseFile
+	 * @expectedException				 RuntimeException
+	 * @expectedExceptionMessage	Failed to decrypt keychain file
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testLoadKeychainInvalid()
 	{
@@ -132,11 +132,11 @@ class JKeychainTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Create a new keychain and persist it to a new file.
 	 *
-	 * @depends  testCreatePassphraseFile
+	 * @depends	testCreatePassphraseFile
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testSaveKeychain()
 	{
@@ -154,11 +154,11 @@ class JKeychainTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Load a keychain file we just created
 	 *
-	 * @depends  testSaveKeychain
+	 * @depends	testSaveKeychain
 	 *
-	 * @return   void
+	 * @return	 void
 	 *
-	 * @since    12.3
+	 * @since		12.3
 	 */
 	public function testLoadKeychain()
 	{
@@ -176,11 +176,11 @@ class JKeychainTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Delete a value from the keychain
 	 *
-	 * @depends  testSaveKeychain
+	 * @depends	testSaveKeychain
 	 *
-	 * @return   void
+	 * @return	 void
 	 *
-	 * @since    12.3
+	 * @since		12.3
 	 */
 	public function testDeleteValue()
 	{

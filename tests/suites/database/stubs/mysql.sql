@@ -1,4 +1,3 @@
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -14,11 +13,11 @@
 DROP TABLE IF EXISTS `jos_dbtest`;
 
 CREATE TABLE `jos_dbtest` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `title` varchar(50) NOT NULL,
-  `start_date` datetime NOT NULL,
-  `description` text NOT NULL,
-  PRIMARY KEY (`id`)
+	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+	`title` varchar(50) NOT NULL,
+	`start_date` datetime NOT NULL,
+	`description` text NOT NULL,
+	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 

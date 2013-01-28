@@ -1,24 +1,24 @@
 <?php
 /**
- * @package    Joomla.Test
+ * @package		Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Class to mock JApplicationWeb.
  *
- * @package  Joomla.Test
- * @since    12.1
+ * @package	Joomla.Test
+ * @since		12.1
  */
 class TestMockApplicationWeb
 {
 	/**
 	 * Mock storage for the response body.
 	 *
-	 * @var    array
-	 * @since  12.2
+	 * @var		array
+	 * @since	12.2
 	 */
 	public static $body = array();
 
@@ -33,12 +33,12 @@ class TestMockApplicationWeb
 	 *
 	 * If any *Body methods are implemented in the test class, all should be implemented otherwise behaviour will be unreliable.
 	 *
-	 * @param   TestCase  $test     A test object.
-	 * @param   array     $options  A set of options to configure the mock.
+	 * @param	 TestCase	$test		 A test object.
+	 * @param	 array		 $options	A set of options to configure the mock.
 	 *
-	 * @return  PHPUnit_Framework_MockObject_MockObject
+	 * @return	PHPUnit_Framework_MockObject_MockObject
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public static function create($test, $options = array())
 	{
@@ -125,11 +125,11 @@ class TestMockApplicationWeb
 	/**
 	 * Mock JApplicationWeb->appendBody method.
 	 *
-	 * @param   string  $content  The content to append to the response body.
+	 * @param	 string	$content	The content to append to the response body.
 	 *
-	 * @return  mixed
+	 * @return	mixed
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public static function mockAppendBody($content)
 	{
@@ -139,11 +139,11 @@ class TestMockApplicationWeb
 	/**
 	 * Mock JApplicationWeb->getBody method.
 	 *
-	 * @param   boolean  $asArray  True to return the body as an array of strings.
+	 * @param	 boolean	$asArray	True to return the body as an array of strings.
 	 *
-	 * @return  mixed
+	 * @return	mixed
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public static function mockGetBody($asArray = false)
 	{
@@ -153,11 +153,11 @@ class TestMockApplicationWeb
 	/**
 	 * Mock JApplicationWeb->appendBody method.
 	 *
-	 * @param   string  $content  The content to append to the response body.
+	 * @param	 string	$content	The content to append to the response body.
 	 *
-	 * @return  mixed
+	 * @return	mixed
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public static function mockPrependBody($content)
 	{
@@ -167,11 +167,11 @@ class TestMockApplicationWeb
 	/**
 	 * Mock JApplicationWeb->setBody method.
 	 *
-	 * @param   string  $content  The body of the response.
+	 * @param	 string	$content	The body of the response.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public static function mockSetBody($content)
 	{

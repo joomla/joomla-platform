@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Crypt
+ * @package		 Joomla.Platform
+ * @subpackage	Crypt
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,37 +12,37 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JCrypt cipher for mcrypt algorithm encryption, decryption and key generation.
  *
- * @package     Joomla.Platform
- * @subpackage  Crypt
- * @since       12.1
+ * @package		 Joomla.Platform
+ * @subpackage	Crypt
+ * @since			 12.1
  */
 abstract class JCryptCipherMcrypt implements JCryptCipher
 {
 	/**
-	 * @var    integer  The mcrypt cipher constant.
-	 * @see    http://www.php.net/manual/en/mcrypt.ciphers.php
-	 * @since  12.1
+	 * @var		integer	The mcrypt cipher constant.
+	 * @see		http://www.php.net/manual/en/mcrypt.ciphers.php
+	 * @since	12.1
 	 */
 	protected $type;
 
 	/**
-	 * @var    integer  The mcrypt block cipher mode.
-	 * @see    http://www.php.net/manual/en/mcrypt.constants.php
-	 * @since  12.1
+	 * @var		integer	The mcrypt block cipher mode.
+	 * @see		http://www.php.net/manual/en/mcrypt.constants.php
+	 * @since	12.1
 	 */
 	protected $mode;
 
 	/**
-	 * @var    string  The JCrypt key type for validation.
-	 * @since  12.1
+	 * @var		string	The JCrypt key type for validation.
+	 * @since	12.1
 	 */
 	protected $keyType;
 
 	/**
 	 * Constructor.
 	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @since	 12.1
+	 * @throws	RuntimeException
 	 */
 	public function __construct()
 	{
@@ -55,19 +55,19 @@ abstract class JCryptCipherMcrypt implements JCryptCipher
 	/**
 	 * Method to decrypt a data string.
 	 *
-	 * @param   string     $data  The encrypted string to decrypt.
-	 * @param   JCryptKey  $key   The key object to use for decryption.
+	 * @param	 string		 $data	The encrypted string to decrypt.
+	 * @param	 JCryptKey	$key	 The key object to use for decryption.
 	 *
-	 * @return  string  The decrypted data string.
+	 * @return	string	The decrypted data string.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function decrypt($data, JCryptKey $key)
 	{
 		// Validate key.
 		if ($key->type != $this->keyType)
 		{
-			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected ' . $this->keyType . '.');
+			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.	Expected ' . $this->keyType . '.');
 		}
 
 		// Decrypt the data.
@@ -79,19 +79,19 @@ abstract class JCryptCipherMcrypt implements JCryptCipher
 	/**
 	 * Method to encrypt a data string.
 	 *
-	 * @param   string     $data  The data string to encrypt.
-	 * @param   JCryptKey  $key   The key object to use for encryption.
+	 * @param	 string		 $data	The data string to encrypt.
+	 * @param	 JCryptKey	$key	 The key object to use for encryption.
 	 *
-	 * @return  string  The encrypted data string.
+	 * @return	string	The encrypted data string.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function encrypt($data, JCryptKey $key)
 	{
 		// Validate key.
 		if ($key->type != $this->keyType)
 		{
-			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected ' . $this->keyType . '.');
+			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.	Expected ' . $this->keyType . '.');
 		}
 
 		// Encrypt the data.
@@ -103,11 +103,11 @@ abstract class JCryptCipherMcrypt implements JCryptCipher
 	/**
 	 * Method to generate a new encryption key object.
 	 *
-	 * @param   array  $options  Key generation options.
+	 * @param	 array	$options	Key generation options.
 	 *
-	 * @return  JCryptKey
+	 * @return	JCryptKey
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function generateKey(array $options = array())
 	{
@@ -130,17 +130,17 @@ abstract class JCryptCipherMcrypt implements JCryptCipher
 	/**
 	 * PBKDF2 Implementation for deriving keys.
 	 *
-	 * @param   string   $p   Password
-	 * @param   string   $s   Salt
-	 * @param   integer  $kl  Key length
-	 * @param   integer  $c   Iteration count
-	 * @param   string   $a   Hash algorithm
+	 * @param	 string	 $p	 Password
+	 * @param	 string	 $s	 Salt
+	 * @param	 integer	$kl	Key length
+	 * @param	 integer	$c	 Iteration count
+	 * @param	 string	 $a	 Hash algorithm
 	 *
-	 * @return  string  The derived key.
+	 * @return	string	The derived key.
 	 *
-	 * @see     http://en.wikipedia.org/wiki/PBKDF2
-	 * @see     http://www.ietf.org/rfc/rfc2898.txt
-	 * @since   12.1
+	 * @see		 http://en.wikipedia.org/wiki/PBKDF2
+	 * @see		 http://www.ietf.org/rfc/rfc2898.txt
+	 * @since	 12.1
 	 */
 	public function pbkdf2($p, $s, $kl, $c = 10000, $a = 'sha256')
 	{

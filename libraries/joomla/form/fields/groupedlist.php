@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Form
+ * @package		 Joomla.Platform
+ * @subpackage	Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -13,27 +13,27 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * Provides a grouped list select field.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Form
+ * @since			 11.1
  */
 class JFormFieldGroupedList extends JFormField
 {
 	/**
 	 * The form field type.
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $type = 'GroupedList';
 
 	/**
 	 * Method to get the field option groups.
 	 *
-	 * @return  array  The field option objects as a nested array in groups.
+	 * @return	array	The field option objects as a nested array in groups.
 	 *
-	 * @since   11.1
-	 * @throws  UnexpectedValueException
+	 * @since	 11.1
+	 * @throws	UnexpectedValueException
 	 */
 	protected function getGroups()
 	{
@@ -129,9 +129,9 @@ class JFormFieldGroupedList extends JFormField
 	 * Method to get the field input markup fora grouped list.
 	 * Multiselect is enabled by using the multiple attribute.
 	 *
-	 * @return  string  The field input markup.
+	 * @return	string	The field input markup.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function getInput()
 	{

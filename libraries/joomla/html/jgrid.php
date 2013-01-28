@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  HTML
+ * @package		 Joomla.Platform
+ * @subpackage	HTML
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,31 +12,31 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for creating HTML Grids
  *
- * @package     Joomla.Platform
- * @subpackage  HTML
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	HTML
+ * @since			 11.1
  */
 abstract class JHtmlJGrid
 {
 	/**
 	 * Returns an action on a grid
 	 *
-	 * @param   integer       $i               The row index
-	 * @param   string        $task            The task to fire
-	 * @param   string|array  $prefix          An optional task prefix or an array of options
-	 * @param   string        $text            An optional text to display
-	 * @param   string        $active_title    An optional active tooltip to display if $enable is true
-	 * @param   string        $inactive_title  An optional inactive tooltip to display if $enable is true
-	 * @param   boolean       $tip             An optional setting for tooltip
-	 * @param   string        $active_class    An optional active HTML class
-	 * @param   string        $inactive_class  An optional inactive HTML class
-	 * @param   boolean       $enabled         An optional setting for access control on the action.
-	 * @param   boolean       $translate       An optional setting for translation.
-	 * @param   string        $checkbox	       An optional prefix for checkboxes.
+	 * @param	 integer			 $i							 The row index
+	 * @param	 string				$task						The task to fire
+	 * @param	 string|array	$prefix					An optional task prefix or an array of options
+	 * @param	 string				$text						An optional text to display
+	 * @param	 string				$active_title		An optional active tooltip to display if $enable is true
+	 * @param	 string				$inactive_title	An optional inactive tooltip to display if $enable is true
+	 * @param	 boolean			 $tip						 An optional setting for tooltip
+	 * @param	 string				$active_class		An optional active HTML class
+	 * @param	 string				$inactive_class	An optional inactive HTML class
+	 * @param	 boolean			 $enabled				 An optional setting for access control on the action.
+	 * @param	 boolean			 $translate			 An optional setting for translation.
+	 * @param	 string				$checkbox				 An optional prefix for checkboxes.
 	 *
-	 * @return string         The Html code
+	 * @return string				 The Html code
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function action($i, $task, $prefix = '', $text = '', $active_title = '', $inactive_title = '', $tip = false, $active_class = '',
 		$inactive_class = '', $enabled = true, $translate = true, $checkbox = 'cb')
@@ -84,21 +84,21 @@ abstract class JHtmlJGrid
 	/**
 	 * Returns a state on a grid
 	 *
-	 * @param   array         $states     array of value/state. Each state is an array of the form
-	 *                                    (task, text, title,html active class, HTML inactive class)
-	 *                                    or ('task'=>task, 'text'=>text, 'active_title'=>active title,
-	 *                                    'inactive_title'=>inactive title, 'tip'=>boolean, 'active_class'=>html active class,
-	 *                                    'inactive_class'=>html inactive class)
-	 * @param   integer       $value      The state value.
-	 * @param   integer       $i          The row index
-	 * @param   string|array  $prefix     An optional task prefix or an array of options
-	 * @param   boolean       $enabled    An optional setting for access control on the action.
-	 * @param   boolean       $translate  An optional setting for translation.
-	 * @param   string        $checkbox   An optional prefix for checkboxes.
+	 * @param	 array				 $states		 array of value/state. Each state is an array of the form
+	 *																		(task, text, title,html active class, HTML inactive class)
+	 *																		or ('task'=>task, 'text'=>text, 'active_title'=>active title,
+	 *																		'inactive_title'=>inactive title, 'tip'=>boolean, 'active_class'=>html active class,
+	 *																		'inactive_class'=>html inactive class)
+	 * @param	 integer			 $value			The state value.
+	 * @param	 integer			 $i					The row index
+	 * @param	 string|array	$prefix		 An optional task prefix or an array of options
+	 * @param	 boolean			 $enabled		An optional setting for access control on the action.
+	 * @param	 boolean			 $translate	An optional setting for translation.
+	 * @param	 string				$checkbox	 An optional prefix for checkboxes.
 	 *
-	 * @return  string       The Html code
+	 * @return	string			 The Html code
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function state($states, $value, $i, $prefix = '', $enabled = true, $translate = true, $checkbox = 'cb')
 	{
@@ -128,18 +128,18 @@ abstract class JHtmlJGrid
 	/**
 	 * Returns a published state on a grid
 	 *
-	 * @param   integer       $value         The state value.
-	 * @param   integer       $i             The row index
-	 * @param   string|array  $prefix        An optional task prefix or an array of options
-	 * @param   boolean       $enabled       An optional setting for access control on the action.
-	 * @param   string        $checkbox      An optional prefix for checkboxes.
-	 * @param   string        $publish_up    An optional start publishing date.
-	 * @param   string        $publish_down  An optional finish publishing date.
+	 * @param	 integer			 $value				 The state value.
+	 * @param	 integer			 $i						 The row index
+	 * @param	 string|array	$prefix				An optional task prefix or an array of options
+	 * @param	 boolean			 $enabled			 An optional setting for access control on the action.
+	 * @param	 string				$checkbox			An optional prefix for checkboxes.
+	 * @param	 string				$publish_up		An optional start publishing date.
+	 * @param	 string				$publish_down	An optional finish publishing date.
 	 *
-	 * @return  string  The Html code
+	 * @return	string	The Html code
 	 *
-	 * @see     JHtmlJGrid::state
-	 * @since   11.1
+	 * @see		 JHtmlJGrid::state
+	 * @since	 11.1
 	 */
 	public static function published($value, $i, $prefix = '', $enabled = true, $checkbox = 'cb', $publish_up = null, $publish_down = null)
 	{
@@ -217,16 +217,16 @@ abstract class JHtmlJGrid
 	/**
 	 * Returns a isDefault state on a grid
 	 *
-	 * @param   integer       $value     The state value.
-	 * @param   integer       $i         The row index
-	 * @param   string|array  $prefix    An optional task prefix or an array of options
-	 * @param   boolean       $enabled   An optional setting for access control on the action.
-	 * @param   string        $checkbox  An optional prefix for checkboxes.
+	 * @param	 integer			 $value		 The state value.
+	 * @param	 integer			 $i				 The row index
+	 * @param	 string|array	$prefix		An optional task prefix or an array of options
+	 * @param	 boolean			 $enabled	 An optional setting for access control on the action.
+	 * @param	 string				$checkbox	An optional prefix for checkboxes.
 	 *
-	 * @return  string  The HTML code
+	 * @return	string	The HTML code
 	 *
-	 * @see     JHtmlJGrid::state
-	 * @since   11.1
+	 * @see		 JHtmlJGrid::state
+	 * @since	 11.1
 	 */
 	public static function isdefault($value, $i, $prefix = '', $enabled = true, $checkbox = 'cb')
 	{
@@ -249,14 +249,14 @@ abstract class JHtmlJGrid
 	/**
 	 * Returns an array of standard published state filter options.
 	 *
-	 * @param   array  $config  An array of configuration options.
-	 *                          This array can contain a list of key/value pairs where values are boolean
-	 *                          and keys can be taken from 'published', 'unpublished', 'archived', 'trash', 'all'.
-	 *                          These pairs determine which values are displayed.
+	 * @param	 array	$config	An array of configuration options.
+	 *													This array can contain a list of key/value pairs where values are boolean
+	 *													and keys can be taken from 'published', 'unpublished', 'archived', 'trash', 'all'.
+	 *													These pairs determine which values are displayed.
 	 *
-	 * @return  string  The HTML code for the select tag
+	 * @return	string	The HTML code for the select tag
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function publishedOptions($config = array())
 	{
@@ -289,16 +289,16 @@ abstract class JHtmlJGrid
 	/**
 	 * Returns a checked-out icon
 	 *
-	 * @param   integer       $i           The row index.
-	 * @param   string        $editorName  The name of the editor.
-	 * @param   string        $time        The time that the object was checked out.
-	 * @param   string|array  $prefix      An optional task prefix or an array of options
-	 * @param   boolean       $enabled     True to enable the action.
-	 * @param   string        $checkbox    An optional prefix for checkboxes.
+	 * @param	 integer			 $i					 The row index.
+	 * @param	 string				$editorName	The name of the editor.
+	 * @param	 string				$time				The time that the object was checked out.
+	 * @param	 string|array	$prefix			An optional task prefix or an array of options
+	 * @param	 boolean			 $enabled		 True to enable the action.
+	 * @param	 string				$checkbox		An optional prefix for checkboxes.
 	 *
-	 * @return  string  The required HTML.
+	 * @return	string	The required HTML.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function checkedout($i, $editorName, $time, $prefix = '', $enabled = false, $checkbox = 'cb')
 	{
@@ -325,16 +325,16 @@ abstract class JHtmlJGrid
 	/**
 	 * Creates a order-up action icon.
 	 *
-	 * @param   integer       $i         The row index.
-	 * @param   string        $task      An optional task to fire.
-	 * @param   string|array  $prefix    An optional task prefix or an array of options
-	 * @param   string        $text      An optional text to display
-	 * @param   boolean       $enabled   An optional setting for access control on the action.
-	 * @param   string        $checkbox  An optional prefix for checkboxes.
+	 * @param	 integer			 $i				 The row index.
+	 * @param	 string				$task			An optional task to fire.
+	 * @param	 string|array	$prefix		An optional task prefix or an array of options
+	 * @param	 string				$text			An optional text to display
+	 * @param	 boolean			 $enabled	 An optional setting for access control on the action.
+	 * @param	 string				$checkbox	An optional prefix for checkboxes.
 	 *
-	 * @return  string  The required HTML.
+	 * @return	string	The required HTML.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function orderUp($i, $task = 'orderup', $prefix = '', $text = 'JLIB_HTML_MOVE_UP', $enabled = true, $checkbox = 'cb')
 	{
@@ -352,16 +352,16 @@ abstract class JHtmlJGrid
 	/**
 	 * Creates a order-down action icon.
 	 *
-	 * @param   integer       $i         The row index.
-	 * @param   string        $task      An optional task to fire.
-	 * @param   string|array  $prefix    An optional task prefix or an array of options
-	 * @param   string        $text      An optional text to display
-	 * @param   boolean       $enabled   An optional setting for access control on the action.
-	 * @param   string        $checkbox  An optional prefix for checkboxes.
+	 * @param	 integer			 $i				 The row index.
+	 * @param	 string				$task			An optional task to fire.
+	 * @param	 string|array	$prefix		An optional task prefix or an array of options
+	 * @param	 string				$text			An optional text to display
+	 * @param	 boolean			 $enabled	 An optional setting for access control on the action.
+	 * @param	 string				$checkbox	An optional prefix for checkboxes.
 	 *
-	 * @return  string  The required HTML.
+	 * @return	string	The required HTML.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function orderDown($i, $task = 'orderdown', $prefix = '', $text = 'JLIB_HTML_MOVE_DOWN', $enabled = true, $checkbox = 'cb')
 	{

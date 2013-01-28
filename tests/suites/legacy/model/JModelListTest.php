@@ -1,19 +1,19 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Model
+ * @package		 Joomla.UnitTest
+ * @subpackage	Model
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JModelList.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Model
+ * @package		 Joomla.UnitTest
+ * @subpackage	Model
  *
- * @since       12.3
+ * @since			 12.3
  */
 class JModelListTest extends TestCase
 {
@@ -22,7 +22,7 @@ class JModelListTest extends TestCase
 	 *
 	 * @todo Implement testGetItems().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetItems()
 	{
@@ -35,7 +35,7 @@ class JModelListTest extends TestCase
 	 *
 	 * @todo Implement testGetPagination().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetPagination()
 	{
@@ -48,7 +48,7 @@ class JModelListTest extends TestCase
 	 *
 	 * @todo Implement testGetTotal().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetTotal()
 	{
@@ -61,7 +61,7 @@ class JModelListTest extends TestCase
 	 *
 	 * @todo Implement testGetStart().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetStart()
 	{

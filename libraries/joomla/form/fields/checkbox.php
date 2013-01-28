@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Form
+ * @package		 Joomla.Platform
+ * @subpackage	Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -14,19 +14,19 @@ defined('JPATH_PLATFORM') or die;
  * Single check box field.
  * This is a boolean field with null for false and the specified option for true
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @link        http://www.w3.org/TR/html-markup/input.checkbox.html#input.checkbox
- * @see         JFormFieldCheckboxes
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Form
+ * @link				http://www.w3.org/TR/html-markup/input.checkbox.html#input.checkbox
+ * @see				 JFormFieldCheckboxes
+ * @since			 11.1
  */
 class JFormFieldCheckbox extends JFormField
 {
 	/**
 	 * The form field type.
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	public $type = 'Checkbox';
 
@@ -34,9 +34,9 @@ class JFormFieldCheckbox extends JFormField
 	 * Method to get the field input markup.
 	 * The checked element sets the field to selected.
 	 *
-	 * @return  string   The field input markup.
+	 * @return	string	 The field input markup.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function getInput()
 	{

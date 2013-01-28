@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Controller
+ * @package		 Joomla.Platform
+ * @subpackage	Controller
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,35 +12,35 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Base Controller Class
  *
- * @package     Joomla.Platform
- * @subpackage  Controller
- * @since       12.1
+ * @package		 Joomla.Platform
+ * @subpackage	Controller
+ * @since			 12.1
  */
 abstract class JControllerBase implements JController
 {
 	/**
 	 * The application object.
 	 *
-	 * @var    JApplicationBase
-	 * @since  12.1
+	 * @var		JApplicationBase
+	 * @since	12.1
 	 */
 	protected $app;
 
 	/**
 	 * The input object.
 	 *
-	 * @var    JInput
-	 * @since  12.1
+	 * @var		JInput
+	 * @since	12.1
 	 */
 	protected $input;
 
 	/**
 	 * Instantiate the controller.
 	 *
-	 * @param   JInput            $input  The input object.
-	 * @param   JApplicationBase  $app    The application object.
+	 * @param	 JInput						$input	The input object.
+	 * @param	 JApplicationBase	$app		The application object.
 	 *
-	 * @since  12.1
+	 * @since	12.1
 	 */
 	public function __construct(JInput $input = null, JApplicationBase $app = null)
 	{
@@ -52,9 +52,9 @@ abstract class JControllerBase implements JController
 	/**
 	 * Get the application object.
 	 *
-	 * @return  JApplicationBase  The application object.
+	 * @return	JApplicationBase	The application object.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getApplication()
 	{
@@ -64,9 +64,9 @@ abstract class JControllerBase implements JController
 	/**
 	 * Get the input object.
 	 *
-	 * @return  JInput  The input object.
+	 * @return	JInput	The input object.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getInput()
 	{
@@ -76,9 +76,9 @@ abstract class JControllerBase implements JController
 	/**
 	 * Serialize the controller.
 	 *
-	 * @return  string  The serialized controller.
+	 * @return	string	The serialized controller.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function serialize()
 	{
@@ -88,12 +88,12 @@ abstract class JControllerBase implements JController
 	/**
 	 * Unserialize the controller.
 	 *
-	 * @param   string  $input  The serialized controller.
+	 * @param	 string	$input	The serialized controller.
 	 *
-	 * @return  JController  Supports chaining.
+	 * @return	JController	Supports chaining.
 	 *
-	 * @since   12.1
-	 * @throws  UnexpectedValueException if input is not the right class.
+	 * @since	 12.1
+	 * @throws	UnexpectedValueException if input is not the right class.
 	 */
 	public function unserialize($input)
 	{
@@ -114,9 +114,9 @@ abstract class JControllerBase implements JController
 	/**
 	 * Load the application object.
 	 *
-	 * @return  JApplicationBase  The application object.
+	 * @return	JApplicationBase	The application object.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function loadApplication()
 	{
@@ -126,9 +126,9 @@ abstract class JControllerBase implements JController
 	/**
 	 * Load the input object.
 	 *
-	 * @return  JInput  The input object.
+	 * @return	JInput	The input object.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function loadInput()
 	{

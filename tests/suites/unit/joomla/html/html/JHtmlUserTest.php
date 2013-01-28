@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  HTML
+ * @package		 Joomla.UnitTest
+ * @subpackage	HTML
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM . '/joomla/html/user.php';
@@ -12,18 +12,18 @@ require_once JPATH_PLATFORM . '/joomla/html/user.php';
 /**
  * Test class for JHtmlUser.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Html
- * @since       11.4
+ * @package		 Joomla.UnitTest
+ * @subpackage	Html
+ * @since			 11.4
  */
 class JHtmlUserTest extends TestCaseDatabase
 {
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  xml dataset
+	 * @return	xml dataset
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	protected function getDataSet()
 	{
@@ -33,9 +33,9 @@ class JHtmlUserTest extends TestCaseDatabase
 	/**
 	 * Tests the JHtmlUser::groups method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testGroups()
 	{
@@ -49,9 +49,9 @@ class JHtmlUserTest extends TestCaseDatabase
 	/**
 	 * Tests the JHtmlUser::userlist method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testUserlist()
 	{

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Database
+ * @package		 Joomla.UnitTest
+ * @subpackage	Database
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once JPATH_PLATFORM . '/joomla/database/importer/postgresql.php';
@@ -12,21 +12,21 @@ require_once JPATH_PLATFORM . '/joomla/database/importer/postgresql.php';
 /**
  * Class to expose protected properties and methods in JDatabasePostgresqlImporter for testing purposes
  *
- * @package     Joomla.UnitTest
- * @subpackage  Database
+ * @package		 Joomla.UnitTest
+ * @subpackage	Database
  *
- * @since       12.1
+ * @since			 12.1
  */
 class JDatabaseImporterPostgresqlInspector extends JDatabaseImporterPostgresql
 {
 	/**
 	 * Gets any property from the class.
 	 *
-	 * @param   string  $property  The name of the class property.
+	 * @param	 string	$property	The name of the class property.
 	 *
-	 * @return  mixed   The value of the class property.
+	 * @return	mixed	 The value of the class property.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function __get($property)
 	{
@@ -36,9 +36,9 @@ class JDatabaseImporterPostgresqlInspector extends JDatabaseImporterPostgresql
 	/**
 	 * Exposes the protected check method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function check()
 	{
@@ -48,12 +48,12 @@ class JDatabaseImporterPostgresqlInspector extends JDatabaseImporterPostgresql
 	/**
 	 * Exposes the protected getAddColumnSQL method.
 	 *
-	 * @param   string            $table  The table name.
-	 * @param   SimpleXMLElement  $field  The XML field definition.
+	 * @param	 string						$table	The table name.
+	 * @param	 SimpleXMLElement	$field	The XML field definition.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getAddColumnSQL($table, SimpleXMLElement $field)
 	{
@@ -63,11 +63,11 @@ class JDatabaseImporterPostgresqlInspector extends JDatabaseImporterPostgresql
 	/**
 	 * Exposes the protected getAddKeySQL method.
 	 *
-	 * @param   SimpleXMLElement  $field  The XML index definition.
+	 * @param	 SimpleXMLElement	$field	The XML index definition.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getAddIndexSQL(SimpleXMLElement $field)
 	{
@@ -77,11 +77,11 @@ class JDatabaseImporterPostgresqlInspector extends JDatabaseImporterPostgresql
 	/**
 	 * Exposes the protected getAddSequenceSQL method.
 	 *
-	 * @param   SimpleXMLElement  $structure  The XML sequence definition.
+	 * @param	 SimpleXMLElement	$structure	The XML sequence definition.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getAddSequenceSQL(SimpleXMLElement $structure)
 	{
@@ -91,11 +91,11 @@ class JDatabaseImporterPostgresqlInspector extends JDatabaseImporterPostgresql
 	/**
 	 * Exposes the protected getAlterTableSQL method.
 	 *
-	 * @param   SimpleXMLElement  $structure  The XML structure of the table.
+	 * @param	 SimpleXMLElement	$structure	The XML structure of the table.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getAlterTableSQL(SimpleXMLElement $structure)
 	{
@@ -105,12 +105,12 @@ class JDatabaseImporterPostgresqlInspector extends JDatabaseImporterPostgresql
 	/**
 	 * Exposes the protected getChangeColumnSQL method.
 	 *
-	 * @param   string            $table  The table name.
-	 * @param   SimpleXMLElement  $field  The XML field definition.
+	 * @param	 string						$table	The table name.
+	 * @param	 SimpleXMLElement	$field	The XML field definition.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getChangeColumnSQL($table, SimpleXMLElement $field)
 	{
@@ -120,11 +120,11 @@ class JDatabaseImporterPostgresqlInspector extends JDatabaseImporterPostgresql
 	/**
 	 * Exposes the protected getColumnSQL method.
 	 *
-	 * @param   SimpleXMLElement  $field  The XML field definition.
+	 * @param	 SimpleXMLElement	$field	The XML field definition.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getColumnSQL(SimpleXMLElement $field)
 	{
@@ -134,11 +134,11 @@ class JDatabaseImporterPostgresqlInspector extends JDatabaseImporterPostgresql
 	/**
 	 * Exposes the protected getChangeSequenceSQL method.
 	 *
-	 * @param   SimpleXMLElement  $structure  The XML sequence definition.
+	 * @param	 SimpleXMLElement	$structure	The XML sequence definition.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getChangeSequenceSQL(SimpleXMLElement $structure)
 	{
@@ -148,12 +148,12 @@ class JDatabaseImporterPostgresqlInspector extends JDatabaseImporterPostgresql
 	/**
 	 * Exposes the protected getDropColumnSQL method.
 	 *
-	 * @param   string  $table  The table name.
-	 * @param   string  $name   The name of the field to drop.
+	 * @param	 string	$table	The table name.
+	 * @param	 string	$name	 The name of the field to drop.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getDropColumnSQL($table, $name)
 	{
@@ -163,12 +163,12 @@ class JDatabaseImporterPostgresqlInspector extends JDatabaseImporterPostgresql
 	/**
 	 * Exposes the protected getDropKeySQL method.
 	 *
-	 * @param   string  $table  The table name.
-	 * @param   string  $name   The name of the key to drop.
+	 * @param	 string	$table	The table name.
+	 * @param	 string	$name	 The name of the key to drop.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getDropKeySQL($table, $name)
 	{
@@ -178,12 +178,12 @@ class JDatabaseImporterPostgresqlInspector extends JDatabaseImporterPostgresql
 	/**
 	 * Exposes the protected getDropPrimaryKeySQL method.
 	 *
-	 * @param   string  $table  The table name.
-	 * @param   string  $name   The constraint name.
+	 * @param	 string	$table	The table name.
+	 * @param	 string	$name	 The constraint name.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getDropPrimaryKeySQL($table, $name)
 	{
@@ -193,11 +193,11 @@ class JDatabaseImporterPostgresqlInspector extends JDatabaseImporterPostgresql
 	/**
 	 * Exposes the protected getDropIndexSQL method.
 	 *
-	 * @param   string  $name  The index name.
+	 * @param	 string	$name	The index name.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getDropIndexSQL($name)
 	{
@@ -207,11 +207,11 @@ class JDatabaseImporterPostgresqlInspector extends JDatabaseImporterPostgresql
 	/**
 	 * Exposes the protected getDropSequenceSQL method.
 	 *
-	 * @param   string  $name  The index name.
+	 * @param	 string	$name	The index name.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getDropSequenceSQL($name)
 	{
@@ -221,11 +221,11 @@ class JDatabaseImporterPostgresqlInspector extends JDatabaseImporterPostgresql
 	/**
 	 * Exposes the protected getIdxLookup method.
 	 *
-	 * @param   array  $keys  An array of objects that comprise the indexes for the table.
+	 * @param	 array	$keys	An array of objects that comprise the indexes for the table.
 	 *
-	 * @return  array	The lookup array. array({key name} => array(object, ...))
+	 * @return	array	The lookup array. array({key name} => array(object, ...))
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 * @throws	Exception
 	 */
 	public function getIdxLookup($keys)
@@ -236,11 +236,11 @@ class JDatabaseImporterPostgresqlInspector extends JDatabaseImporterPostgresql
 	/**
 	 * Exposes the protected getSeqLookup method.
 	 *
-	 * @param   array  $sequences  An array of objects that comprise the sequences for the table.
+	 * @param	 array	$sequences	An array of objects that comprise the sequences for the table.
 	 *
-	 * @return  array	The lookup array. array({key name} => array(object, ...))
+	 * @return	array	The lookup array. array({key name} => array(object, ...))
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 * @throws	Exception
 	 */
 	public function getSeqLookup($sequences)
@@ -251,11 +251,11 @@ class JDatabaseImporterPostgresqlInspector extends JDatabaseImporterPostgresql
 	/**
 	 * Exposes the protected getRealTableName method.
 	 *
-	 * @param   string  $table  The name of the table.
+	 * @param	 string	$table	The name of the table.
 	 *
-	 * @return  string	The real name of the table.
+	 * @return	string	The real name of the table.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getRealTableName($table)
 	{
@@ -265,10 +265,10 @@ class JDatabaseImporterPostgresqlInspector extends JDatabaseImporterPostgresql
 	/**
 	 * Exposes the protected mergeStructure method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
-	 * @throws  Exception on error.
+	 * @since	 12.1
+	 * @throws	Exception on error.
 	 */
 	public function mergeStructure()
 	{
@@ -278,9 +278,9 @@ class JDatabaseImporterPostgresqlInspector extends JDatabaseImporterPostgresql
 	/**
 	 * Exposes the protected withStructure method.
 	 *
-	 * @param   boolean  $setting  True to export the structure, false to not.
+	 * @param	 boolean	$setting	True to export the structure, false to not.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @since	12.1
 	 */

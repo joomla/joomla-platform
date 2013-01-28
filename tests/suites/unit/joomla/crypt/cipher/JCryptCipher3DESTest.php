@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Crypt
+ * @package		 Joomla.UnitTest
+ * @subpackage	Crypt
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM . '/joomla/crypt/key.php';
@@ -14,24 +14,24 @@ require_once JPATH_PLATFORM . '/joomla/crypt/cipher/3des.php';
 /**
  * Test class for JCryptCipher3DES.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Crypt
- * @since       12.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	Crypt
+ * @since			 12.1
  */
 class JCryptCipher3DESTest extends TestCase
 {
 	/**
-	 * @var    JCryptCipher3DES
-	 * @since  12.1
+	 * @var		JCryptCipher3DES
+	 * @since	12.1
 	 */
 	private $_cipher;
 
 	/**
 	 * Prepares the environment before running a test.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function setUp()
 	{
@@ -54,9 +54,9 @@ class JCryptCipher3DESTest extends TestCase
 	/**
 	 * Cleans up the environment after running a test.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function tearDown()
 	{
@@ -93,13 +93,13 @@ class JCryptCipher3DESTest extends TestCase
 	/**
 	 * Tests JCryptCipher3DES->decrypt()
 	 *
-	 * @param   string  $file  @todo
-	 * @param   string  $data  @todo
+	 * @param	 string	$file	@todo
+	 * @param	 string	$data	@todo
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @dataProvider data
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testDecrypt($file, $data)
 	{
@@ -113,13 +113,13 @@ class JCryptCipher3DESTest extends TestCase
 	/**
 	 * Tests JCryptCipher3DES->encrypt()
 	 *
-	 * @param   string  $file  @todo
-	 * @param   string  $data  @todo
+	 * @param	 string	$file	@todo
+	 * @param	 string	$data	@todo
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @dataProvider data
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testEncrypt($file, $data)
 	{
@@ -135,9 +135,9 @@ class JCryptCipher3DESTest extends TestCase
 	/**
 	 * Tests JCryptCipher3DES->generateKey()
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testGenerateKey()
 	{

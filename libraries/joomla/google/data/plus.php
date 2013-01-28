@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Google
+ * @package		 Joomla.Platform
+ * @subpackage	Google
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,37 +12,37 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Google+ data class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Google
- * @since       1234
+ * @package		 Joomla.Platform
+ * @subpackage	Google
+ * @since			 1234
  */
 class JGoogleDataPlus extends JGoogleData
 {
 	/**
-	* @var    JGoogleDataPlusPeople  Google+ API object for people.
-	* @since  12.3
+	* @var		JGoogleDataPlusPeople	Google+ API object for people.
+	* @since	12.3
 	*/
 	protected $people;
 
 	/**
-	* @var    JGoogleDataPlusActivities  Google+ API object for people.
-	* @since  12.3
+	* @var		JGoogleDataPlusActivities	Google+ API object for people.
+	* @since	12.3
 	*/
 	protected $activities;
 
 	/**
-	* @var    JGoogleDataPlusComments  Google+ API object for people.
-	* @since  12.3
+	* @var		JGoogleDataPlusComments	Google+ API object for people.
+	* @since	12.3
 	*/
 	protected $comments;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry    $options  Google options object
-	 * @param   JGoogleAuth  $auth     Google data http client object
+	 * @param	 JRegistry		$options	Google options object
+	 * @param	 JGoogleAuth	$auth		 Google data http client object
 	 *
-	 * @since   1234
+	 * @since	 1234
 	 */
 	public function __construct(JRegistry $options = null, JGoogleAuth $auth = null)
 	{
@@ -60,11 +60,11 @@ class JGoogleDataPlus extends JGoogleData
 	/**
 	 * Magic method to lazily create API objects
 	 *
-	 * @param   string  $name  Name of property to retrieve
+	 * @param	 string	$name	Name of property to retrieve
 	 *
-	 * @return  JGoogleDataPlus  Google+ API object (people, activities, comments).
+	 * @return	JGoogleDataPlus	Google+ API object (people, activities, comments).
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function __get($name)
 	{

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  GitHub
+ * @package		 Joomla.Platform
+ * @subpackage	GitHub
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,25 +12,25 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API References class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub
- * @since       12.3
+ * @package		 Joomla.Platform
+ * @subpackage	GitHub
+ * @since			 12.3
  */
 class JGithubStatuses extends JGithubObject
 {
 	/**
 	 * Method to create a status.
 	 *
-	 * @param   string  $user         The name of the owner of the GitHub repository.
-	 * @param   string  $repo         The name of the GitHub repository.
-	 * @param   string  $sha          The SHA1 value for which to set the status.
-	 * @param   string  $state        The state (pending, success, error or failure).
-	 * @param   string  $targetUrl    Optional target URL.
-	 * @param   string  $description  Optional description for the status.
+	 * @param	 string	$user				 The name of the owner of the GitHub repository.
+	 * @param	 string	$repo				 The name of the GitHub repository.
+	 * @param	 string	$sha					The SHA1 value for which to set the status.
+	 * @param	 string	$state				The state (pending, success, error or failure).
+	 * @param	 string	$targetUrl		Optional target URL.
+	 * @param	 string	$description	Optional description for the status.
 	 *
-	 * @return  object
+	 * @return	object
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function create($user, $repo, $sha, $state, $targetUrl = null, $description = null)
 	{
@@ -74,13 +74,13 @@ class JGithubStatuses extends JGithubObject
 	/**
 	 * Method to list statuses for an SHA.
 	 *
-	 * @param   string  $user  The name of the owner of the GitHub repository.
-	 * @param   string  $repo  The name of the GitHub repository.
-	 * @param   string  $sha   SHA1 for which to get the statuses.
+	 * @param	 string	$user	The name of the owner of the GitHub repository.
+	 * @param	 string	$repo	The name of the GitHub repository.
+	 * @param	 string	$sha	 SHA1 for which to get the statuses.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function getList($user, $repo, $sha)
 	{

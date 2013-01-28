@@ -20,9 +20,9 @@ provides:
 if (!this.Form) this.Form = {};
 
 Form.PasswordStrength = new Class({
-	
+
 	Implements: [Options, Events],
-	
+
 	options: {
 		//onUpdate: $empty,
 		threshold: 66,
@@ -31,10 +31,10 @@ Form.PasswordStrength = new Class({
 		opacity: 1,
 		bgcolor: 'transparent'
 	},
-	
+
 	element: null,
 	fx: null,
-	
+
 	initialize: function(el, options){
 		this.element = document.id(el);
 		this.setOptions(options);
@@ -65,7 +65,7 @@ Form.PasswordStrength = new Class({
 		this.element.addEvent('keyupandchange', this.animate.bind(this));
 		if (this.element.get('value')) this.animate();
 	},
-	
+
 	animate: function(){
 		var value = this.element.get('value');
 		var color, strength = value.strength(), ratio = (strength / this.options.threshold).round(2).limit(0, 1);

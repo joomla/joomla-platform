@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Database
+ * @package		 Joomla.Platform
+ * @subpackage	Database
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,49 +12,49 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PostgreSQL export driver.
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       12.1
+ * @package		 Joomla.Platform
+ * @subpackage	Database
+ * @since			 12.1
  */
 class JDatabaseExporterPostgresql extends JDatabaseExporter
 {
 	/**
 	 * An array of cached data.
 	 *
-	 * @var    array
-	 * @since  12.1
+	 * @var		array
+	 * @since	12.1
 	 */
 	protected $cache = array();
 
 	/**
 	 * The database connector to use for exporting structure and/or data.
 	 *
-	 * @var    JDatabaseDriverPostgresql
-	 * @since  12.1
+	 * @var		JDatabaseDriverPostgresql
+	 * @since	12.1
 	 */
 	protected $db = null;
 
 	/**
 	 * An array input sources (table names).
 	 *
-	 * @var    array
-	 * @since  12.1
+	 * @var		array
+	 * @since	12.1
 	 */
 	protected $from = array();
 
 	/**
 	 * The type of output format (xml).
 	 *
-	 * @var    string
-	 * @since  12.1
+	 * @var		string
+	 * @since	12.1
 	 */
 	protected $asFormat = 'xml';
 
 	/**
 	 * An array of options for the exporter.
 	 *
-	 * @var    object
-	 * @since  12.1
+	 * @var		object
+	 * @since	12.1
 	 */
 	protected $options = null;
 
@@ -63,7 +63,7 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 	 *
 	 * Sets up the default options for the exporter.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function __construct()
 	{
@@ -85,10 +85,10 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 	/**
 	 * Magic function to exports the data to a string.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   12.1
-	 * @throws  Exception if an error is encountered.
+	 * @since	 12.1
+	 * @throws	Exception if an error is encountered.
 	 */
 	public function __toString()
 	{
@@ -112,9 +112,9 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 	/**
 	 * Set the output option for the exporter to XML format.
 	 *
-	 * @return  JDatabaseExporterPostgresql  Method supports chaining.
+	 * @return	JDatabaseExporterPostgresql	Method supports chaining.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function asXml()
 	{
@@ -126,10 +126,10 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 	/**
 	 * Builds the XML data for the tables to export.
 	 *
-	 * @return  string  An XML string
+	 * @return	string	An XML string
 	 *
-	 * @since   12.1
-	 * @throws  Exception if an error occurs.
+	 * @since	 12.1
+	 * @throws	Exception if an error occurs.
 	 */
 	protected function buildXml()
 	{
@@ -150,10 +150,10 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 	/**
 	 * Builds the XML structure to export.
 	 *
-	 * @return  array  An array of XML lines (strings).
+	 * @return	array	An array of XML lines (strings).
 	 *
-	 * @since   12.1
-	 * @throws  Exception if an error occurs.
+	 * @since	 12.1
+	 * @throws	Exception if an error occurs.
 	 */
 	protected function buildXmlStructure()
 	{
@@ -169,7 +169,7 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 			$keys = $this->db->getTableKeys($table);
 			$sequences = $this->db->getTableSequences($table);
 
-			$buffer[] = '  <table_structure name="' . $table . '">';
+			$buffer[] = '	<table_structure name="' . $table . '">';
 
 			foreach ($sequences as $sequence)
 			{
@@ -178,7 +178,7 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 					$sequence->start_value = null;
 				}
 
-				$buffer[] = '   <sequence Name="' . $sequence->sequence . '"' . ' Schema="' . $sequence->schema . '"' .
+				$buffer[] = '	 <sequence Name="' . $sequence->sequence . '"' . ' Schema="' . $sequence->schema . '"' .
 					' Table="' . $sequence->table . '"' . ' Column="' . $sequence->column . '"' . ' Type="' . $sequence->data_type . '"' .
 					' Start_Value="' . $sequence->start_value . '"' . ' Min_Value="' . $sequence->minimum_value . '"' .
 					' Max_Value="' . $sequence->maximum_value . '"' . ' Increment="' . $sequence->increment . '"' .
@@ -188,18 +188,18 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 
 			foreach ($fields as $field)
 			{
-				$buffer[] = '   <field Field="' . $field->column_name . '"' . ' Type="' . $field->type . '"' . ' Null="' . $field->null . '"' .
+				$buffer[] = '	 <field Field="' . $field->column_name . '"' . ' Type="' . $field->type . '"' . ' Null="' . $field->null . '"' .
 							(isset($field->default) ? ' Default="' . $field->default . '"' : '') . ' Comments="' . $field->comments . '"' .
 					' />';
 			}
 
 			foreach ($keys as $key)
 			{
-				$buffer[] = '   <key Index="' . $key->idxName . '"' . ' is_primary="' . $key->isPrimary . '"' . ' is_unique="' . $key->isUnique . '"' .
+				$buffer[] = '	 <key Index="' . $key->idxName . '"' . ' is_primary="' . $key->isPrimary . '"' . ' is_unique="' . $key->isUnique . '"' .
 					' Query="' . $key->Query . '" />';
 			}
 
-			$buffer[] = '  </table_structure>';
+			$buffer[] = '	</table_structure>';
 		}
 
 		return $buffer;
@@ -208,11 +208,11 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 	/**
 	 * Checks if all data and options are in order prior to exporting.
 	 *
-	 * @return  JDatabaseExporterPostgresql  Method supports chaining.
+	 * @return	JDatabaseExporterPostgresql	Method supports chaining.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 *
-	 * @throws  Exception if an error is encountered.
+	 * @throws	Exception if an error is encountered.
 	 */
 	public function check()
 	{
@@ -234,11 +234,11 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 	/**
 	 * Get the generic name of the table, converting the database prefix to the wildcard string.
 	 *
-	 * @param   string  $table  The name of the table.
+	 * @param	 string	$table	The name of the table.
 	 *
-	 * @return  string  The name of the table with the database prefix replaced with #__.
+	 * @return	string	The name of the table with the database prefix replaced with #__.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function getGenericTableName($table)
 	{
@@ -254,12 +254,12 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 	/**
 	 * Specifies a list of table names to export.
 	 *
-	 * @param   mixed  $from  The name of a single table, or an array of the table names to export.
+	 * @param	 mixed	$from	The name of a single table, or an array of the table names to export.
 	 *
-	 * @return  JDatabaseExporterPostgresql  Method supports chaining.
+	 * @return	JDatabaseExporterPostgresql	Method supports chaining.
 	 *
-	 * @since   12.1
-	 * @throws  Exception if input is not a string or array.
+	 * @since	 12.1
+	 * @throws	Exception if input is not a string or array.
 	 */
 	public function from($from)
 	{
@@ -282,11 +282,11 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 	/**
 	 * Sets the database connector to use for exporting structure and/or data from PostgreSQL.
 	 *
-	 * @param   JDatabaseDriverPostgresql  $db  The database connector.
+	 * @param	 JDatabaseDriverPostgresql	$db	The database connector.
 	 *
-	 * @return  JDatabaseExporterPostgresql  Method supports chaining.
+	 * @return	JDatabaseExporterPostgresql	Method supports chaining.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function setDbo(JDatabaseDriverPostgresql $db)
 	{
@@ -298,11 +298,11 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 	/**
 	 * Sets an internal option to export the structure of the input table(s).
 	 *
-	 * @param   boolean  $setting  True to export the structure, false to not.
+	 * @param	 boolean	$setting	True to export the structure, false to not.
 	 *
-	 * @return  JDatabaseExporterPostgresql  Method supports chaining.
+	 * @return	JDatabaseExporterPostgresql	Method supports chaining.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function withStructure($setting = true)
 	{

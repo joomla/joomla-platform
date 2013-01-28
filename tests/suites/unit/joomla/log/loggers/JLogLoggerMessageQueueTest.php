@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Log
+ * @package		 Joomla.UnitTest
+ * @subpackage	Log
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once __DIR__ . '/stubs/messagequeue/mock.application.php';
@@ -12,14 +12,14 @@ require_once __DIR__ . '/stubs/messagequeue/mock.application.php';
 /**
  * Test class for JLogLoggerMessageQueue.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Log
- * @since       11.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	Log
+ * @since			 11.1
  */
 class JLogLoggerMessageQueueTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var   mixed  The main application object from JFactory while we mock it out.
+	 * @var	 mixed	The main application object from JFactory while we mock it out.
 	 * @since 11.1
 	 */
 	protected $app;
@@ -50,7 +50,7 @@ class JLogLoggerMessageQueueTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the JLogLoggerMessageQueue::addEntry method.
 	 *
-	 * @covers  JLogLoggerMessageQueue::addEntry
+	 * @covers	JLogLoggerMessageQueue::addEntry
 	 *
 	 * @return void
 	 */

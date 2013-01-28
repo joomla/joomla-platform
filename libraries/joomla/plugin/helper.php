@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Plugin
+ * @package		 Joomla.Platform
+ * @subpackage	Plugin
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,30 +12,30 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Plugin helper class
  *
- * @package     Joomla.Platform
- * @subpackage  Plugin
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Plugin
+ * @since			 11.1
  */
 abstract class JPluginHelper
 {
 	/**
 	 * A persistent cache of the loaded plugins.
 	 *
-	 * @var    array
-	 * @since  11.3
+	 * @var		array
+	 * @since	11.3
 	 */
 	protected static $plugins = null;
 
 	/**
 	 * Get the path to a layout from a Plugin
 	 *
-	 * @param   string  $type    Plugin type
-	 * @param   string  $name    Plugin name
-	 * @param   string  $layout  Layout name
+	 * @param	 string	$type		Plugin type
+	 * @param	 string	$name		Plugin name
+	 * @param	 string	$layout	Layout name
 	 *
-	 * @return  string  Layout path
+	 * @return	string	Layout path
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public static function getLayoutPath($type, $name, $layout = 'default')
 	{
@@ -75,12 +75,12 @@ abstract class JPluginHelper
 	 * Get the plugin data of a specific type if no specific plugin is specified
 	 * otherwise only the specific plugin data is returned.
 	 *
-	 * @param   string  $type    The plugin type, relates to the sub-directory in the plugins directory.
-	 * @param   string  $plugin  The plugin name.
+	 * @param	 string	$type		The plugin type, relates to the sub-directory in the plugins directory.
+	 * @param	 string	$plugin	The plugin name.
 	 *
-	 * @return  mixed  An array of plugin data objects, or a plugin data object.
+	 * @return	mixed	An array of plugin data objects, or a plugin data object.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function getPlugin($type, $plugin = null)
 	{
@@ -118,12 +118,12 @@ abstract class JPluginHelper
 	/**
 	 * Checks if a plugin is enabled.
 	 *
-	 * @param   string  $type    The plugin type, relates to the sub-directory in the plugins directory.
-	 * @param   string  $plugin  The plugin name.
+	 * @param	 string	$type		The plugin type, relates to the sub-directory in the plugins directory.
+	 * @param	 string	$plugin	The plugin name.
 	 *
-	 * @return  boolean
+	 * @return	boolean
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function isEnabled($type, $plugin = null)
 	{
@@ -136,14 +136,14 @@ abstract class JPluginHelper
 	 * Loads all the plugin files for a particular type if no specific plugin is specified
 	 * otherwise only the specific plugin is loaded.
 	 *
-	 * @param   string            $type        The plugin type, relates to the sub-directory in the plugins directory.
-	 * @param   string            $plugin      The plugin name.
-	 * @param   boolean           $autocreate  Autocreate the plugin.
-	 * @param   JEventDispatcher  $dispatcher  Optionally allows the plugin to use a different dispatcher.
+	 * @param	 string						$type				The plugin type, relates to the sub-directory in the plugins directory.
+	 * @param	 string						$plugin			The plugin name.
+	 * @param	 boolean					 $autocreate	Autocreate the plugin.
+	 * @param	 JEventDispatcher	$dispatcher	Optionally allows the plugin to use a different dispatcher.
 	 *
-	 * @return  boolean  True on success.
+	 * @return	boolean	True on success.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function importPlugin($type, $plugin = null, $autocreate = true, JEventDispatcher $dispatcher = null)
 	{
@@ -188,13 +188,13 @@ abstract class JPluginHelper
 	/**
 	 * Loads the plugin file.
 	 *
-	 * @param   object            $plugin      The plugin.
-	 * @param   boolean           $autocreate  True to autocreate.
-	 * @param   JEventDispatcher  $dispatcher  Optionally allows the plugin to use a different dispatcher.
+	 * @param	 object						$plugin			The plugin.
+	 * @param	 boolean					 $autocreate	True to autocreate.
+	 * @param	 JEventDispatcher	$dispatcher	Optionally allows the plugin to use a different dispatcher.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected static function _import($plugin, $autocreate = true, JEventDispatcher $dispatcher = null)
 	{
@@ -249,9 +249,9 @@ abstract class JPluginHelper
 	/**
 	 * Loads the published plugins.
 	 *
-	 * @return  array  An array of published plugins
+	 * @return	array	An array of published plugins
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected static function _load()
 	{

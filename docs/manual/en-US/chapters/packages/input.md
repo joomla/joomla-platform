@@ -1,12 +1,12 @@
 ## The Input Package
 
-This package comprises of four classes, `JInput`and three sub-classes extended from it: `JInputCli`, `JInputCookie` and `JInputFiles`. It replaces the role of the now deprecated `JRequest` class. An input object is generally owned by the application and explicitly added to an application class as a public property, such as can be found in `JApplicationWeb`, `JApplicationCli` and `JApplicationDaemon`. 
+This package comprises of four classes, `JInput`and three sub-classes extended from it: `JInputCli`, `JInputCookie` and `JInputFiles`. It replaces the role of the now deprecated `JRequest` class. An input object is generally owned by the application and explicitly added to an application class as a public property, such as can be found in `JApplicationWeb`, `JApplicationCli` and `JApplicationDaemon`.
 
-The intent of this package is to abstract out the input source to allow code to be reused in different applications and in different contexts through dependency injection. For example, a controller could inspect the request variables directly using `JRequest`. But suppose there is a requirement to add a web service that carries input as a JSON payload. Instead of writing a second controller to handle the different input source, it would be much easier to inject an  input object, that is tailored for the type of input source, into the controller.
+The intent of this package is to abstract out the input source to allow code to be reused in different applications and in different contexts through dependency injection. For example, a controller could inspect the request variables directly using `JRequest`. But suppose there is a requirement to add a web service that carries input as a JSON payload. Instead of writing a second controller to handle the different input source, it would be much easier to inject an	input object, that is tailored for the type of input source, into the controller.
 
 Using a `JInput` object through dependency injection also makes code easier to test. Writing unit tests for code that relies on `JRequest` is problematic to say the least.
 
-All classes in this package are supported by the auto-loader so can be invoked at any time. 
+All classes in this package are supported by the auto-loader so can be invoked at any time.
 
 ### JInput
 
@@ -156,23 +156,23 @@ it would be used implicitly as a part of an application built from
 /**
  * This file is saved as argv.php
  *
- * @package  Examples
+ * @package	Examples
  */
 
 /**
  * An example command line application.
  *
- * @package  Examples
- * @since    1.0
+ * @package	Examples
+ * @since		1.0
  */
 class Argv extends JApplicationCli
 {
 	/**
 	 * Execute the application.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   1.0
+	 * @since	 1.0
 	 */
 	public function execute()
 	{
@@ -215,9 +215,9 @@ The `JInputFiles` class provides a way to handle file attachments as payloads of
 
 ```html
 <form method="POST" action="/files" enctype="multipart/form-data">
-   Attachments:
-   <input type="file" name="attachments[]" />
-   <button>Add another file</button>
+	 Attachments:
+	 <input type="file" name="attachments[]" />
+	 <button>Add another file</button>
 </form>
 ```
 
@@ -239,46 +239,46 @@ var_dump($files);
 Inspecting $_FILES:
 
 array
-  'name' => 
-    array
-      0 => string 'aje_sig_small.png' (length=17)
-      1 => string '' (length=0)
-  'type' => 
-    array
-      0 => string 'image/png' (length=9)
-      1 => string '' (length=0)
-  'tmp_name' => 
-    array
-      0 => string '/private/var/tmp/phpPfGfnN' (length=26)
-      1 => string '' (length=0)
-  'error' => 
-    array
-      0 => int 0
-      1 => int 4
-  'size' => 
-    array
-      0 => int 16225
-      1 => int 0
+	'name' =>
+		array
+			0 => string 'aje_sig_small.png' (length=17)
+			1 => string '' (length=0)
+	'type' =>
+		array
+			0 => string 'image/png' (length=9)
+			1 => string '' (length=0)
+	'tmp_name' =>
+		array
+			0 => string '/private/var/tmp/phpPfGfnN' (length=26)
+			1 => string '' (length=0)
+	'error' =>
+		array
+			0 => int 0
+			1 => int 4
+	'size' =>
+		array
+			0 => int 16225
+			1 => int 0
 
 Inspectiong $files:
 
 array
-  0 => 
-    array
-      'name' => string 'sig_small.png' (length=17)
-      'type' => string 'image/png' (length=9)
-      'tmp_name' => string '/private/var/tmp/phpybKghO' (length=26)
-      'error' => int 0
-      'size' => int 16225
-  1 => 
-    array
-      'name' => string '' (length=0)
-      'type' => string '' (length=0)
-      'tmp_name' => string '' (length=0)
-      'error' => int 4
-      'size' => int 0
+	0 =>
+		array
+			'name' => string 'sig_small.png' (length=17)
+			'type' => string 'image/png' (length=9)
+			'tmp_name' => string '/private/var/tmp/phpybKghO' (length=26)
+			'error' => int 0
+			'size' => int 16225
+	1 =>
+		array
+			'name' => string '' (length=0)
+			'type' => string '' (length=0)
+			'tmp_name' => string '' (length=0)
+			'error' => int 4
+			'size' => int 0
 ```
 
 Unlike the PHP `$_FILES` supergobal, this array is very easier to parse. The example above assumes two files were submitted, but only one was specified. The 'blank' file contains an error code (see [PHP file upload errors](http://php.net/manual/en/features.file-upload.errors.php)).
 
-The `set` method is disabled in `JInputFiles`. However, 
+The `set` method is disabled in `JInputFiles`. However,

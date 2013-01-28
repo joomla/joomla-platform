@@ -1,32 +1,32 @@
 <?php
 /**
- * @package    Joomla.UnitTest
+ * @package		Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JGoogle.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Google
- * @since       12.3
+ * @package		 Joomla.UnitTest
+ * @subpackage	Google
+ * @since			 12.3
  */
 class JGoogleEmbedAnalyticsTest extends TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the JOAuth2Client object.
+	 * @var		JRegistry	Options for the JOAuth2Client object.
 	 */
 	protected $options;
 
 	/**
-	 * @var    JURI  URI of the page being rendered.
+	 * @var		JURI	URI of the page being rendered.
 	 */
 	protected $uri;
 
 	/**
-	 * @var    JGoogle  Object under test.
+	 * @var		JGoogle	Object under test.
 	 */
 	protected $object;
 

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Table
+ * @package		 Joomla.Platform
+ * @subpackage	Table
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,18 +12,18 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Viewlevels table class.
  *
- * @package     Joomla.Platform
- * @subpackage  Table
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Table
+ * @since			 11.1
  */
 class JTableViewlevel extends JTable
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db  Database driver object.
+	 * @param	 JDatabaseDriver	$db	Database driver object.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __construct(JDatabaseDriver $db)
 	{
@@ -33,12 +33,12 @@ class JTableViewlevel extends JTable
 	/**
 	 * Method to bind the data.
 	 *
-	 * @param   array  $array   The data to bind.
-	 * @param   mixed  $ignore  An array or space separated list of fields to ignore.
+	 * @param	 array	$array	 The data to bind.
+	 * @param	 mixed	$ignore	An array or space separated list of fields to ignore.
 	 *
-	 * @return  boolean  True on success, false on failure.
+	 * @return	boolean	True on success, false on failure.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function bind($array, $ignore = '')
 	{
@@ -57,9 +57,9 @@ class JTableViewlevel extends JTable
 	/**
 	 * Method to check the current record to save
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function check()
 	{

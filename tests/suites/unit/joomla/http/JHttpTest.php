@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Http
+ * @package		 Joomla.UnitTest
+ * @subpackage	Http
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM . '/joomla/http/http.php';
@@ -13,28 +13,28 @@ require_once JPATH_PLATFORM . '/joomla/http/transport/stream.php';
 /**
  * Test class for JGithub.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Http
+ * @package		 Joomla.UnitTest
+ * @subpackage	Http
  *
- * @since       11.1
+ * @since			 11.1
  */
 class JHttpTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the GitHub object.
-	 * @since  11.4
+	 * @var		JRegistry	Options for the GitHub object.
+	 * @since	11.4
 	 */
 	protected $options;
 
 	/**
-	 * @var    JHttpTransport  Mock transport object.
-	 * @since  11.4
+	 * @var		JHttpTransport	Mock transport object.
+	 * @since	11.4
 	 */
 	protected $transport;
 
 	/**
-	 * @var    JHttp  Object under test.
-	 * @since  11.4
+	 * @var		JHttp	Object under test.
+	 * @since	11.4
 	 */
 	protected $object;
 

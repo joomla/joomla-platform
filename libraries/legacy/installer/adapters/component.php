@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Installer
+ * @package		 Joomla.Platform
+ * @subpackage	Installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -15,34 +15,34 @@ jimport('joomla.filesystem.folder');
 /**
  * Component installer
  *
- * @package     Joomla.Platform
- * @subpackage  Installer
- * @since       11.1
- * @deprecated  13.3
+ * @package		 Joomla.Platform
+ * @subpackage	Installer
+ * @since			 11.1
+ * @deprecated	13.3
  */
 class JInstallerComponent extends JAdapterInstance
 {
 	/**
 	 * Copy of the XML manifest file
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $manifest = null;
 
 	/**
 	 * Name of the extension
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 * */
 	protected $name = null;
 
 	/**
 	 * The unique identifier for the extension (e.g. mod_login)
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 * */
 	protected $element = null;
 
@@ -52,8 +52,8 @@ class JInstallerComponent extends JAdapterInstance
 	 * and deleting files that are in the old files list and not in the new
 	 * files list.
 	 *
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 * */
 	protected $oldAdminFiles = null;
 
@@ -63,8 +63,8 @@ class JInstallerComponent extends JAdapterInstance
 	 * and deleting files that are in the old files list and not in the new
 	 * files list.
 	 *
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 * */
 	protected $oldFiles = null;
 
@@ -72,8 +72,8 @@ class JInstallerComponent extends JAdapterInstance
 	 * A path to the PHP file that the scriptfile declaration in
 	 * the manifest refers to.
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 * */
 	protected $manifest_script = null;
 
@@ -81,19 +81,19 @@ class JInstallerComponent extends JAdapterInstance
 	 * For legacy installations this is a path to the PHP file that the scriptfile declaration in the
 	 * manifest refers to.
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 * */
 	protected $install_script = null;
 
 	/**
 	 * Custom loadLanguage method
 	 *
-	 * @param   string  $path  The path language files are on.
+	 * @param	 string	$path	The path language files are on.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function loadLanguage($path = null)
 	{
@@ -154,9 +154,9 @@ class JInstallerComponent extends JAdapterInstance
 	/**
 	 * Custom install method for components
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function install()
 	{
@@ -562,9 +562,9 @@ class JInstallerComponent extends JAdapterInstance
 	/**
 	 * Custom update method for components
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function update()
 	{
@@ -961,11 +961,11 @@ class JInstallerComponent extends JAdapterInstance
 	/**
 	 * Custom uninstall method for components
 	 *
-	 * @param   integer  $id  The unique extension id of the component to uninstall
+	 * @param	 integer	$id	The unique extension id of the component to uninstall
 	 *
-	 * @return  mixed  Return value for uninstall method in component uninstall file
+	 * @return	mixed	Return value for uninstall method in component uninstall file
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function uninstall($id)
 	{
@@ -1201,9 +1201,9 @@ class JInstallerComponent extends JAdapterInstance
 	/**
 	 * Method to build menu database entries for a component
 	 *
-	 * @return  boolean  True if successful
+	 * @return	boolean	True if successful
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function _buildAdminMenus()
 	{
@@ -1256,7 +1256,7 @@ class JInstallerComponent extends JAdapterInstance
 			$component_id = $db->loadResult();
 		}
 
-		// Ok, now its time to handle the menus.  Start with the component root menu, then handle submenus.
+		// Ok, now its time to handle the menus.	Start with the component root menu, then handle submenus.
 		$menuElement = $this->manifest->administration->menu;
 
 		if ($menuElement)
@@ -1477,11 +1477,11 @@ class JInstallerComponent extends JAdapterInstance
 	/**
 	 * Method to remove admin menu references to a component
 	 *
-	 * @param   object  &$row  Component table object.
+	 * @param	 object	&$row	Component table object.
 	 *
-	 * @return  boolean  True if successful.
+	 * @return	boolean	True if successful.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function _removeAdminMenus(&$row)
 	{
@@ -1524,11 +1524,11 @@ class JInstallerComponent extends JAdapterInstance
 	 * Custom rollback method
 	 * - Roll back the component menu item
 	 *
-	 * @param   array  $step  Installation step to rollback.
+	 * @param	 array	$step	Installation step to rollback.
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function _rollback_menu($step)
 	{
@@ -1538,9 +1538,9 @@ class JInstallerComponent extends JAdapterInstance
 	/**
 	 * Discover unregistered extensions.
 	 *
-	 * @return  array  A list of extensions.
+	 * @return	array	A list of extensions.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function discover()
 	{
@@ -1589,9 +1589,9 @@ class JInstallerComponent extends JAdapterInstance
 	/**
 	 * Install unregistered extensions that have been discovered.
 	 *
-	 * @return  mixed
+	 * @return	mixed
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function discover_install()
 	{
@@ -1846,9 +1846,9 @@ class JInstallerComponent extends JAdapterInstance
 	/**
 	 * Refreshes the extension table cache
 	 *
-	 * @return  boolean  Result of operation, true if updated, false on failure
+	 * @return	boolean	Result of operation, true if updated, false on failure
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function refreshManifestCache()
 	{

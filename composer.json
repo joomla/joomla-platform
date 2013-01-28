@@ -1,15 +1,15 @@
 {
-    "name": "joomla/joomla-platform",
-    "type": "library",
-    "description": "The Joomla Platform is a platform for writing Web and command line applications in PHP.",
-    "keywords": ["joomla","platform"],
-    "homepage": "https://github.com/joomla/joomla-platform",
-    "license": "GNU Public License",
-    "require": {
-        "php": ">=5.3.1"
-    },
-    "config": {
-	    "vendor-dir": "libraries",
-	    "bin-dir": "bin"
-    }
+		"name": "joomla/joomla-platform",
+		"type": "library",
+		"description": "The Joomla Platform is a platform for writing Web and command line applications in PHP.",
+		"keywords": ["joomla","platform"],
+		"homepage": "https://github.com/joomla/joomla-platform",
+		"license": "GNU Public License",
+		"require": {
+				"php": ">=5.3.1"
+		},
+		"config": {
+			"vendor-dir": "libraries",
+			"bin-dir": "bin"
+		}
 }

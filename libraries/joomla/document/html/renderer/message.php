@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Document
+ * @package		 Joomla.Platform
+ * @subpackage	Document
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,22 +12,22 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JDocument system message renderer
  *
- * @package     Joomla.Platform
- * @subpackage  Document
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Document
+ * @since			 11.1
  */
 class JDocumentRendererMessage extends JDocumentRenderer
 {
 	/**
 	 * Renders the error stack and returns the results as a string
 	 *
-	 * @param   string  $name     Not used.
-	 * @param   array   $params   Associative array of values
-	 * @param   string  $content  Not used.
+	 * @param	 string	$name		 Not used.
+	 * @param	 array	 $params	 Associative array of values
+	 * @param	 string	$content	Not used.
 	 *
-	 * @return  string  The output of the script
+	 * @return	string	The output of the script
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function render($name, $params = array (), $content = null)
 	{
@@ -55,9 +55,9 @@ class JDocumentRendererMessage extends JDocumentRenderer
 	/**
 	 * Get and prepare system message data for output
 	 *
-	 * @return  array  An array contains system message
+	 * @return	array	An array contains system message
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	private function getData()
 	{
@@ -85,11 +85,11 @@ class JDocumentRendererMessage extends JDocumentRenderer
 	/**
 	 * Render the system message if no message template file found
 	 *
-	 * @param   array  $msgList  An array contains system message
+	 * @param	 array	$msgList	An array contains system message
 	 *
-	 * @return  string  System message markup
+	 * @return	string	System message markup
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	private function renderDefaultMessage($msgList)
 	{

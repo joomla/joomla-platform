@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Form
+ * @package		 Joomla.UnitTest
+ * @subpackage	Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
@@ -16,18 +16,18 @@ require_once JPATH_PLATFORM . '/joomla/form/field.php';
 /**
  * JFormInspector class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Form
+ * @package		 Joomla.UnitTest
+ * @subpackage	Form
  *
- * @since       11.1
+ * @since			 11.1
  */
 class JFormInspector extends JForm
 {
 	/**
 	 * Test...
 	 *
-	 * @param   SimpleXMLElement  $source  @todo
-	 * @param   SimpleXMLElement  $new     @todo
+	 * @param	 SimpleXMLElement	$source	@todo
+	 * @param	 SimpleXMLElement	$new		 @todo
 	 *
 	 * @return void
 	 */
@@ -39,8 +39,8 @@ class JFormInspector extends JForm
 	/**
 	 * Test...
 	 *
-	 * @param   SimpleXMLElement  $source  @todo
-	 * @param   SimpleXMLElement  $new     @todo
+	 * @param	 SimpleXMLElement	$source	@todo
+	 * @param	 SimpleXMLElement	$new		 @todo
 	 *
 	 * @return void
 	 */
@@ -52,8 +52,8 @@ class JFormInspector extends JForm
 	/**
 	 * Test...
 	 *
-	 * @param   SimpleXMLElement  $source  @todo
-	 * @param   SimpleXMLElement  $new     @todo
+	 * @param	 SimpleXMLElement	$source	@todo
+	 * @param	 SimpleXMLElement	$new		 @todo
 	 *
 	 * @return void
 	 */
@@ -65,8 +65,8 @@ class JFormInspector extends JForm
 	/**
 	 * Test...
 	 *
-	 * @param   string  $element  @todo
-	 * @param   mixed   $value    @todo
+	 * @param	 string	$element	@todo
+	 * @param	 mixed	 $value		@todo
 	 *
 	 * @return void
 	 */
@@ -78,8 +78,8 @@ class JFormInspector extends JForm
 	/**
 	 * Test...
 	 *
-	 * @param   string  $name   @todo
-	 * @param   null    $group  @todo
+	 * @param	 string	$name	 @todo
+	 * @param	 null		$group	@todo
 	 *
 	 * @return void
 	 */
@@ -91,7 +91,7 @@ class JFormInspector extends JForm
 	/**
 	 * Test...
 	 *
-	 * @param   string  $group  @todo
+	 * @param	 string	$group	@todo
 	 *
 	 * @return void
 	 */
@@ -103,8 +103,8 @@ class JFormInspector extends JForm
 	/**
 	 * Test...
 	 *
-	 * @param   null  $group   @todo
-	 * @param   bool  $nested  @todo
+	 * @param	 null	$group	 @todo
+	 * @param	 bool	$nested	@todo
 	 *
 	 * @return void
 	 */
@@ -116,7 +116,7 @@ class JFormInspector extends JForm
 	/**
 	 * Test...
 	 *
-	 * @param   string  $name  @todo
+	 * @param	 string	$name	@todo
 	 *
 	 * @return void
 	 */
@@ -138,7 +138,7 @@ class JFormInspector extends JForm
 	/**
 	 * Test...
 	 *
-	 * @return  array    Return the protected options array.
+	 * @return	array		Return the protected options array.
 	 */
 	public function getOptions()
 	{
@@ -158,9 +158,9 @@ class JFormInspector extends JForm
 	/**
 	 * Test...
 	 *
-	 * @param   string  $element  @todo
-	 * @param   null    $group    @todo
-	 * @param   null    $value    @todo
+	 * @param	 string	$element	@todo
+	 * @param	 null		$group		@todo
+	 * @param	 null		$value		@todo
 	 *
 	 * @return JFormField
 	 */
@@ -172,8 +172,8 @@ class JFormInspector extends JForm
 	/**
 	 * Test...
 	 *
-	 * @param   string  $type  @todo
-	 * @param   bool    $new   @todo
+	 * @param	 string	$type	@todo
+	 * @param	 bool		$new	 @todo
 	 *
 	 * @return JFormField
 	 */
@@ -185,8 +185,8 @@ class JFormInspector extends JForm
 	/**
 	 * Test...
 	 *
-	 * @param   string  $type  @todo
-	 * @param   bool    $new   @todo
+	 * @param	 string	$type	@todo
+	 * @param	 bool		$new	 @todo
 	 *
 	 * @return JFormRule
 	 */
@@ -198,10 +198,10 @@ class JFormInspector extends JForm
 	/**
 	 * Test...
 	 *
-	 * @param   SimpleXMLElement  $element  @todo
-	 * @param   null              $group    @todo
-	 * @param   null              $value    @todo
-	 * @param   null              $input    @todo
+	 * @param	 SimpleXMLElement	$element	@todo
+	 * @param	 null							$group		@todo
+	 * @param	 null							$value		@todo
+	 * @param	 null							$input		@todo
 	 *
 	 * @return boolean
 	 */
@@ -214,17 +214,17 @@ class JFormInspector extends JForm
 /**
  * JFormFieldInspector class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Form
+ * @package		 Joomla.UnitTest
+ * @subpackage	Form
  *
- * @since       11.1
+ * @since			 11.1
  */
 class JFormFieldInspector extends JFormField
 {
 	/**
 	 * Test...
 	 *
-	 * @param   string  $name  Element name
+	 * @param	 string	$name	Element name
 	 *
 	 * @return mixed
 	 */
@@ -263,8 +263,8 @@ class JFormFieldInspector extends JFormField
 	/**
 	 * Test...
 	 *
-	 * @param   string  $fieldId    Field id
-	 * @param   string  $fieldName  Field name
+	 * @param	 string	$fieldId		Field id
+	 * @param	 string	$fieldName	Field name
 	 *
 	 * @return string
 	 */

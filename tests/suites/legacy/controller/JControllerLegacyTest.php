@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Controller
+ * @package		 Joomla.UnitTest
+ * @subpackage	Controller
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once __DIR__ . '/stubs/controller.php';
@@ -12,18 +12,18 @@ require_once __DIR__ . '/stubs/controller.php';
 /**
  * Test class for JControllerLegacy.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Controller
+ * @package		 Joomla.UnitTest
+ * @subpackage	Controller
  *
- * @since       12.3
+ * @since			 12.3
  */
 class JControllerLegacyTest extends TestCase
 {
 	/**
 	 * An instance of the test object.
 	 *
-	 * @var    JControllerLegacy
-	 * @since  11.1
+	 * @var		JControllerLegacy
+	 * @since	11.1
 	 */
 	protected $class;
 
@@ -31,7 +31,7 @@ class JControllerLegacyTest extends TestCase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	protected function setUp()
 	{
@@ -54,7 +54,7 @@ class JControllerLegacyTest extends TestCase
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	protected function tearDown()
 	{
@@ -69,7 +69,7 @@ class JControllerLegacyTest extends TestCase
 	 *
 	 * @since 11.3
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testAddModelPath()
 	{
@@ -89,9 +89,9 @@ class JControllerLegacyTest extends TestCase
 	/**
 	 * Test JController::createFileName().
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testCreateFileName()
 	{
@@ -127,9 +127,9 @@ class JControllerLegacyTest extends TestCase
 	/**
 	 * Test JControllerLegacy::getInstance
 	 *
-	 * @todo    Implement testGetInstance().
+	 * @todo		Implement testGetInstance().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetInstance()
 	{
@@ -142,7 +142,7 @@ class JControllerLegacyTest extends TestCase
 	 *
 	 * @since 11.3
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function test__construct()
 	{
@@ -162,7 +162,7 @@ class JControllerLegacyTest extends TestCase
 	 *
 	 * @since 11.3
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testAddPath()
 	{
@@ -184,9 +184,9 @@ class JControllerLegacyTest extends TestCase
 	/**
 	 * Test JControllerLegacy::addViewPath
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testAddViewPath()
 	{
@@ -206,9 +206,9 @@ class JControllerLegacyTest extends TestCase
 	/**
 	 * Test JControllerLegacy::authorise
 	 *
-	 * @todo    Implement testAuthorise().
+	 * @todo		Implement testAuthorise().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testAuthorise()
 	{
@@ -219,9 +219,9 @@ class JControllerLegacyTest extends TestCase
 	/**
 	 * Test JControllerLegacy::checkEditId
 	 *
-	 * @todo    Implement testCheckEditId().
+	 * @todo		Implement testCheckEditId().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testCheckEditId()
 	{
@@ -232,9 +232,9 @@ class JControllerLegacyTest extends TestCase
 	/**
 	 * Test JControllerLegacy::createModel
 	 *
-	 * @todo    Implement testCreateModel().
+	 * @todo		Implement testCreateModel().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testCreateModel()
 	{
@@ -245,9 +245,9 @@ class JControllerLegacyTest extends TestCase
 	/**
 	 * Test JControllerLegacy::createView
 	 *
-	 * @todo    Implement testCreateView().
+	 * @todo		Implement testCreateView().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testCreateView()
 	{
@@ -258,9 +258,9 @@ class JControllerLegacyTest extends TestCase
 	/**
 	 * Test JControllerLegacy::display
 	 *
-	 * @todo    Implement testDisplay().
+	 * @todo		Implement testDisplay().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testDisplay()
 	{
@@ -271,9 +271,9 @@ class JControllerLegacyTest extends TestCase
 	/**
 	 * Test JControllerLegacy::execute
 	 *
-	 * @todo    Implement testExecute().
+	 * @todo		Implement testExecute().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testExecute()
 	{
@@ -284,9 +284,9 @@ class JControllerLegacyTest extends TestCase
 	/**
 	 * Test JControllerLegacy::getModel
 	 *
-	 * @todo    Implement testGetModel().
+	 * @todo		Implement testGetModel().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetModel()
 	{
@@ -297,9 +297,9 @@ class JControllerLegacyTest extends TestCase
 	/**
 	 * Test JControllerLegacy::getName
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetName()
 	{
@@ -313,9 +313,9 @@ class JControllerLegacyTest extends TestCase
 	/**
 	 * Test JControllerLegacy::getTask().
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetTask()
 	{
@@ -327,9 +327,9 @@ class JControllerLegacyTest extends TestCase
 	/**
 	 * Test JControllerLegacy::getTasks
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetTasks()
 	{
@@ -342,9 +342,9 @@ class JControllerLegacyTest extends TestCase
 	/**
 	 * Test JControllerLegacy::getView
 	 *
-	 * @todo    Implement testGetView().
+	 * @todo		Implement testGetView().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetView()
 	{
@@ -355,9 +355,9 @@ class JControllerLegacyTest extends TestCase
 	/**
 	 * Test JControllerLegacy::holdEditId
 	 *
-	 * @todo    Implement testHoldEditId().
+	 * @todo		Implement testHoldEditId().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testHoldEditId()
 	{
@@ -368,9 +368,9 @@ class JControllerLegacyTest extends TestCase
 	/**
 	 * Test JControllerLegacy::redirect
 	 *
-	 * @todo    Implement testRedirect().
+	 * @todo		Implement testRedirect().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testRedirect()
 	{
@@ -381,9 +381,9 @@ class JControllerLegacyTest extends TestCase
 	/**
 	 * Test JControllerLegacy::registerDefaultTask
 	 *
-	 * @todo    Implement testRegisterDefaultTask().
+	 * @todo		Implement testRegisterDefaultTask().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testRegisterDefaultTask()
 	{
@@ -394,9 +394,9 @@ class JControllerLegacyTest extends TestCase
 	/**
 	 * Test JControllerLegacy::registerTask
 	 *
-	 * @todo    Implement testRegisterTask().
+	 * @todo		Implement testRegisterTask().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testRegisterTask()
 	{
@@ -407,9 +407,9 @@ class JControllerLegacyTest extends TestCase
 	/**
 	 * Test JControllerLegacy::unregisterTask
 	 *
-	 * @todo    Implement testUnregisterTask().
+	 * @todo		Implement testUnregisterTask().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testUnregisterTask()
 	{
@@ -420,9 +420,9 @@ class JControllerLegacyTest extends TestCase
 	/**
 	 * Test JControllerLegacy::releaseEditId
 	 *
-	 * @todo    Implement testReleaseEditId().
+	 * @todo		Implement testReleaseEditId().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testReleaseEditId()
 	{
@@ -433,9 +433,9 @@ class JControllerLegacyTest extends TestCase
 	/**
 	 * Test JControllerLegacy::setAccessControl
 	 *
-	 * @todo    Implement testSetAccessControl().
+	 * @todo		Implement testSetAccessControl().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testSetAccessControl()
 	{
@@ -446,9 +446,9 @@ class JControllerLegacyTest extends TestCase
 	/**
 	 * Test JControllerLegacy::setMessage
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testSetMessage()
 	{
@@ -466,9 +466,9 @@ class JControllerLegacyTest extends TestCase
 	/**
 	 * Test JControllerLegacy::setPath
 	 *
-	 * @todo    Implement testSetPath().
+	 * @todo		Implement testSetPath().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testSetPath()
 	{
@@ -479,9 +479,9 @@ class JControllerLegacyTest extends TestCase
 	/**
 	 * Test JControllerLegacy::setRedirect
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testSetRedirect()
 	{

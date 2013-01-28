@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Legacy
- * @subpackage  Form
+ * @package		 Joomla.Legacy
+ * @subpackage	Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -15,27 +15,27 @@ jimport('joomla.filesystem.folder');
  * Form Field to display a list of the layouts for a component view from
  * the extension or template overrides.
  *
- * @package     Joomla.Legacy
- * @subpackage  Form
- * @since       11.1
- * @deprecated  13.3
+ * @package		 Joomla.Legacy
+ * @subpackage	Form
+ * @since			 11.1
+ * @deprecated	13.3
  */
 class JFormFieldComponentlayout extends JFormField
 {
 	/**
 	 * The form field type.
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $type = 'ComponentLayout';
 
 	/**
 	 * Method to get the field input for a component layout field.
 	 *
-	 * @return  string   The field input.
+	 * @return	string	 The field input.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function getInput()
 	{

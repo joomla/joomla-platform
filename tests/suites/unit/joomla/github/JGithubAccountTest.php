@@ -1,49 +1,49 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Github
+ * @package		 Joomla.UnitTest
+ * @subpackage	Github
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JGithubAccount.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Github
+ * @package		 Joomla.UnitTest
+ * @subpackage	Github
  *
- * @since       11.1
+ * @since			 11.1
  */
 class JGithubAccountTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the GitHub object.
-	 * @since  12.3
+	 * @var		JRegistry	Options for the GitHub object.
+	 * @since	12.3
 	 */
 	protected $options;
 
 	/**
-	 * @var    JGithubHttp  Mock client object.
-	 * @since  12.3
+	 * @var		JGithubHttp	Mock client object.
+	 * @since	12.3
 	 */
 	protected $client;
 
 	/**
-	 * @var    JGithubAccount  Object under test.
-	 * @since  12.3
+	 * @var		JGithubAccount	Object under test.
+	 * @since	12.3
 	 */
 	protected $object;
 
 	/**
-	 * @var    string  Sample JSON string.
-	 * @since  12.3
+	 * @var		string	Sample JSON string.
+	 * @since	12.3
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
-	 * @var    string  Sample JSON error message.
-	 * @since  12.3
+	 * @var		string	Sample JSON error message.
+	 * @since	12.3
 	 */
 	protected $errorString = '{"message": "Generic Error"}';
 
@@ -51,9 +51,9 @@ class JGithubAccountTest extends PHPUnit_Framework_TestCase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	protected function setUp()
 	{
@@ -68,9 +68,9 @@ class JGithubAccountTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the createAuthorisation method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testCreateAuthorisation()
 	{
@@ -97,9 +97,9 @@ class JGithubAccountTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the createAuthorisation method - simulated failure
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testCreateAuthorisationFailure()
 	{
@@ -138,9 +138,9 @@ class JGithubAccountTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the deleteAuthorisation method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testDeleteAuthorisation()
 	{
@@ -162,9 +162,9 @@ class JGithubAccountTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the deleteAuthorisation method - simulated failure
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testDeleteAuthorisationFailure()
 	{
@@ -198,9 +198,9 @@ class JGithubAccountTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the editAuthorisation method - Add scopes
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testEditAuthorisationAddScopes()
 	{
@@ -227,9 +227,9 @@ class JGithubAccountTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the editAuthorisation method - Remove scopes
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testEditAuthorisationRemoveScopes()
 	{
@@ -256,9 +256,9 @@ class JGithubAccountTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the editAuthorisation method - Scopes param
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testEditAuthorisationScopes()
 	{
@@ -285,9 +285,9 @@ class JGithubAccountTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the editAuthorisation method - simulated failure
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testEditAuthorisationFailure()
 	{
@@ -326,11 +326,11 @@ class JGithubAccountTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the editAuthorisation method - too many scope params
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 *
-	 * @expectedException  RuntimeException
+	 * @expectedException	RuntimeException
 	 */
 	public function testEditAuthorisationTooManyScopes()
 	{
@@ -340,9 +340,9 @@ class JGithubAccountTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getAuthorisation method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testGetAuthorisation()
 	{
@@ -364,11 +364,11 @@ class JGithubAccountTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getAuthorisation method - failure
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 *
-	 * @expectedException  DomainException
+	 * @expectedException	DomainException
 	 */
 	public function testGetAuthorisationFailure()
 	{
@@ -387,9 +387,9 @@ class JGithubAccountTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getAuthorisations method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testGetAuthorisations()
 	{
@@ -411,11 +411,11 @@ class JGithubAccountTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getAuthorisations method - failure
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 *
-	 * @expectedException  DomainException
+	 * @expectedException	DomainException
 	 */
 	public function testGetAuthorisationsFailure()
 	{
@@ -434,9 +434,9 @@ class JGithubAccountTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getRateLimit method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testGetRateLimit()
 	{
@@ -458,11 +458,11 @@ class JGithubAccountTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getRateLimit method - failure
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 *
-	 * @expectedException  DomainException
+	 * @expectedException	DomainException
 	 */
 	public function testGetRateLimitFailure()
 	{

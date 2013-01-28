@@ -1,26 +1,26 @@
 <?php
 /**
- * @package    Joomla.Language
+ * @package		Joomla.Language
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * en-GB localise class
  *
- * @package  Joomla.Language
- * @since    1.6
+ * @package	Joomla.Language
+ * @since		1.6
  */
 abstract class En_GBLocalise
 {
 	/**
 	 * Returns the potential suffixes for a specific number of items
 	 *
-	 * @param   integer  $count  The number of items.
+	 * @param	 integer	$count	The number of items.
 	 *
-	 * @since    1.6
-	 * @return    array  An array of potential suffixes.
+	 * @since		1.6
+	 * @return		array	An array of potential suffixes.
 	 */
 	public static function getPluralSuffixes($count)
 	{
@@ -42,8 +42,8 @@ abstract class En_GBLocalise
 	/**
 	 * Returns the ignored search words
 	 *
-	 * @since    1.6
-	 * @return    array  An array of ignored search words.
+	 * @since		1.6
+	 * @return		array	An array of ignored search words.
 	 */
 	public static function getIgnoredSearchWords()
 	{
@@ -58,8 +58,8 @@ abstract class En_GBLocalise
 	/**
 	 * Returns the lower length limit of search words
 	 *
-	 * @since    1.6
-	 * @return    integer  The lower length limit of search words.
+	 * @since		1.6
+	 * @return		integer	The lower length limit of search words.
 	 */
 	public static function getLowerLimitSearchWord()
 	{
@@ -69,8 +69,8 @@ abstract class En_GBLocalise
 	/**
 	 * Returns the upper length limit of search words
 	 *
-	 * @since    1.6
-	 * @return    integer  The upper length limit of search words.
+	 * @since		1.6
+	 * @return		integer	The upper length limit of search words.
 	 */
 	public static function getUpperLimitSearchWord()
 	{
@@ -80,8 +80,8 @@ abstract class En_GBLocalise
 	/**
 	 * Returns the number of chars to display when searching
 	 *
-	 * @since    1.6
-	 * @return    integer  The number of chars to display when searching.
+	 * @since		1.6
+	 * @return		integer	The number of chars to display when searching.
 	 */
 	public static function getSearchDisplayedCharactersNumber()
 	{

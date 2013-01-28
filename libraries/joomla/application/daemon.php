@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Application
+ * @package		 Joomla.Platform
+ * @subpackage	Application
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,20 +12,20 @@ defined('JPATH_PLATFORM') or die;
 jimport('joomla.filesystem.folder');
 
 /**
- * Class to turn JCli applications into daemons.  It requires CLI and PCNTL support built into PHP.
+ * Class to turn JCli applications into daemons.	It requires CLI and PCNTL support built into PHP.
  *
- * @package     Joomla.Platform
- * @subpackage  Application
- * @see         http://www.php.net/manual/en/book.pcntl.php
- * @see         http://php.net/manual/en/features.commandline.php
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Application
+ * @see				 http://www.php.net/manual/en/book.pcntl.php
+ * @see				 http://php.net/manual/en/features.commandline.php
+ * @since			 11.1
  */
 class JApplicationDaemon extends JApplicationCli
 {
 	/**
-	 * @var    array  The available POSIX signals to be caught by default.
-	 * @see    http://php.net/manual/pcntl.constants.php
-	 * @since  11.1
+	 * @var		array	The available POSIX signals to be caught by default.
+	 * @see		http://php.net/manual/pcntl.constants.php
+	 * @since	11.1
 	 */
 	protected static $signals = array(
 		'SIGHUP',
@@ -67,45 +67,45 @@ class JApplicationDaemon extends JApplicationCli
 	);
 
 	/**
-	 * @var    boolean  True if the daemon is in the process of exiting.
-	 * @since  11.1
+	 * @var		boolean	True if the daemon is in the process of exiting.
+	 * @since	11.1
 	 */
 	protected $exiting = false;
 
 	/**
-	 * @var    integer  The parent process id.
-	 * @since  12.1
+	 * @var		integer	The parent process id.
+	 * @since	12.1
 	 */
 	protected $parentId = 0;
 
 	/**
-	 * @var    integer  The process id of the daemon.
-	 * @since  11.1
+	 * @var		integer	The process id of the daemon.
+	 * @since	11.1
 	 */
 	protected $processId = 0;
 
 	/**
-	 * @var    boolean  True if the daemon is currently running.
-	 * @since  11.1
+	 * @var		boolean	True if the daemon is currently running.
+	 * @since	11.1
 	 */
 	protected $running = false;
 
 	/**
 	 * Class constructor.
 	 *
-	 * @param   mixed  $input       An optional argument to provide dependency injection for the application's
-	 *                              input object.  If the argument is a JInputCli object that object will become
-	 *                              the application's input object, otherwise a default input object is created.
-	 * @param   mixed  $config      An optional argument to provide dependency injection for the application's
-	 *                              config object.  If the argument is a JRegistry object that object will become
-	 *                              the application's config object, otherwise a default config object is created.
-	 * @param   mixed  $dispatcher  An optional argument to provide dependency injection for the application's
-	 *                              event dispatcher.  If the argument is a JEventDispatcher object that object will become
-	 *                              the application's event dispatcher, if it is null then the default event dispatcher
-	 *                              will be created based on the application's loadDispatcher() method.
+	 * @param	 mixed	$input			 An optional argument to provide dependency injection for the application's
+	 *															input object.	If the argument is a JInputCli object that object will become
+	 *															the application's input object, otherwise a default input object is created.
+	 * @param	 mixed	$config			An optional argument to provide dependency injection for the application's
+	 *															config object.	If the argument is a JRegistry object that object will become
+	 *															the application's config object, otherwise a default config object is created.
+	 * @param	 mixed	$dispatcher	An optional argument to provide dependency injection for the application's
+	 *															event dispatcher.	If the argument is a JEventDispatcher object that object will become
+	 *															the application's event dispatcher, if it is null then the default event dispatcher
+	 *															will be created based on the application's loadDispatcher() method.
 	 *
-	 * @since   11.1
-	 * @throws  RuntimeException
+	 * @since	 11.1
+	 * @throws	RuntimeException
 	 */
 	public function __construct(JInputCli $input = null, JRegistry $config = null, JEventDispatcher $dispatcher = null)
 	{
@@ -143,13 +143,13 @@ class JApplicationDaemon extends JApplicationCli
 	/**
 	 * Method to handle POSIX signals.
 	 *
-	 * @param   integer  $signal  The received POSIX signal.
+	 * @param	 integer	$signal	The received POSIX signal.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
-	 * @see     pcntl_signal()
-	 * @throws  RuntimeException
+	 * @since	 11.1
+	 * @see		 pcntl_signal()
+	 * @throws	RuntimeException
 	 */
 	public static function signal($signal)
 	{
@@ -210,12 +210,12 @@ class JApplicationDaemon extends JApplicationCli
 	}
 
 	/**
-	 * Check to see if the daemon is active.  This does not assume that $this daemon is active, but
+	 * Check to see if the daemon is active.	This does not assume that $this daemon is active, but
 	 * only if an instance of the application is active as a daemon.
 	 *
-	 * @return  boolean  True if daemon is active.
+	 * @return	boolean	True if daemon is active.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function isActive()
 	{
@@ -256,11 +256,11 @@ class JApplicationDaemon extends JApplicationCli
 	/**
 	 * Load an object or array into the application configuration object.
 	 *
-	 * @param   mixed  $data  Either an array or object to be loaded into the configuration object.
+	 * @param	 mixed	$data	Either an array or object to be loaded into the configuration object.
 	 *
-	 * @return  JCli  Instance of $this to allow chaining.
+	 * @return	JCli	Instance of $this to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function loadConfiguration($data)
 	{
@@ -268,33 +268,33 @@ class JApplicationDaemon extends JApplicationCli
 		parent::loadConfiguration($data);
 
 		/*
-		 * Setup some application metadata options.  This is useful if we ever want to write out startup scripts
+		 * Setup some application metadata options.	This is useful if we ever want to write out startup scripts
 		 * or just have some sort of information available to share about things.
 		 */
 
-		// The application author name.  This string is used in generating startup scripts and has
+		// The application author name.	This string is used in generating startup scripts and has
 		// a maximum of 50 characters.
 		$tmp = (string) $this->config->get('author_name', 'Joomla Platform');
 		$this->config->set('author_name', (strlen($tmp) > 50) ? substr($tmp, 0, 50) : $tmp);
 
-		// The application author email.  This string is used in generating startup scripts.
+		// The application author email.	This string is used in generating startup scripts.
 		$tmp = (string) $this->config->get('author_email', 'admin@joomla.org');
 		$this->config->set('author_email', filter_var($tmp, FILTER_VALIDATE_EMAIL));
 
-		// The application name.  This string is used in generating startup scripts.
+		// The application name.	This string is used in generating startup scripts.
 		$tmp = (string) $this->config->get('application_name', 'JApplicationDaemon');
 		$this->config->set('application_name', (string) preg_replace('/[^A-Z0-9_-]/i', '', $tmp));
 
-		// The application description.  This string is used in generating startup scripts.
+		// The application description.	This string is used in generating startup scripts.
 		$tmp = (string) $this->config->get('application_description', 'A generic Joomla Platform application.');
 		$this->config->set('application_description', filter_var($tmp, FILTER_SANITIZE_STRING));
 
 		/*
-		 * Setup the application path options.  This defines the default executable name, executable directory,
+		 * Setup the application path options.	This defines the default executable name, executable directory,
 		 * and also the path to the daemon process id file.
 		 */
 
-		// The application executable daemon.  This string is used in generating startup scripts.
+		// The application executable daemon.	This string is used in generating startup scripts.
 		$tmp = (string) $this->config->get('application_executable', basename($this->input->executable));
 		$this->config->set('application_executable', $tmp);
 
@@ -302,13 +302,13 @@ class JApplicationDaemon extends JApplicationCli
 		$tmp = (string) $this->config->get('application_directory', dirname($this->input->executable));
 		$this->config->set('application_directory', $tmp);
 
-		// The pid file location.  This defaults to a path inside the /tmp directory.
+		// The pid file location.	This defaults to a path inside the /tmp directory.
 		$name = $this->config->get('application_name');
 		$tmp = (string) $this->config->get('application_pid_file', strtolower('/tmp/' . $name . '/' . $name . '.pid'));
 		$this->config->set('application_pid_file', $tmp);
 
 		/*
-		 * Setup the application identity options.  It is important to remember if the default of 0 is set for
+		 * Setup the application identity options.	It is important to remember if the default of 0 is set for
 		 * either UID or GID then changing that setting will not be attempted as there is no real way to "change"
 		 * the identity of a process from some user to root.
 		 */
@@ -328,13 +328,13 @@ class JApplicationDaemon extends JApplicationCli
 		$this->config->set('application_require_identity', $tmp);
 
 		/*
-		 * Setup the application runtime options.  By default our execution time limit is infinite obviously
-		 * because a daemon should be constantly running unless told otherwise.  The default limit for memory
+		 * Setup the application runtime options.	By default our execution time limit is infinite obviously
+		 * because a daemon should be constantly running unless told otherwise.	The default limit for memory
 		 * usage is 128M, which admittedly is a little high, but remember it is a "limit" and PHP's memory
 		 * management leaves a bit to be desired :-)
 		 */
 
-		// The maximum execution time of the application in seconds.  Zero is infinite.
+		// The maximum execution time of the application in seconds.	Zero is infinite.
 		$tmp = $this->config->get('max_execution_time');
 
 		if ($tmp !== null)
@@ -356,9 +356,9 @@ class JApplicationDaemon extends JApplicationCli
 	/**
 	 * Execute the daemon.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function execute()
 	{
@@ -403,10 +403,10 @@ class JApplicationDaemon extends JApplicationCli
 	/**
 	 * Restart daemon process.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @codeCoverageIgnore
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function restart()
 	{
@@ -417,10 +417,10 @@ class JApplicationDaemon extends JApplicationCli
 	/**
 	 * Stop daemon process.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @codeCoverageIgnore
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function stop()
 	{
@@ -431,10 +431,10 @@ class JApplicationDaemon extends JApplicationCli
 	/**
 	 * Method to change the identity of the daemon process and resources.
 	 *
-	 * @return  boolean  True if identity successfully changed
+	 * @return	boolean	True if identity successfully changed
 	 *
-	 * @since   11.1
-	 * @see     posix_setuid()
+	 * @since	 11.1
+	 * @see		 posix_setuid()
 	 */
 	protected function changeIdentity()
 	{
@@ -495,10 +495,10 @@ class JApplicationDaemon extends JApplicationCli
 	/**
 	 * Method to put the application into the background.
 	 *
-	 * @return  boolean
+	 * @return	boolean
 	 *
-	 * @since   11.1
-	 * @throws  RuntimeException
+	 * @since	 11.1
+	 * @throws	RuntimeException
 	 */
 	protected function daemonize()
 	{
@@ -591,13 +591,13 @@ class JApplicationDaemon extends JApplicationCli
 	}
 
 	/**
-	 * This is truly where the magic happens.  This is where we fork the process and kill the parent
+	 * This is truly where the magic happens.	This is where we fork the process and kill the parent
 	 * process, which is essentially what turns the application into a daemon.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @since	 12.1
+	 * @throws	RuntimeException
 	 */
 	protected function detach()
 	{
@@ -628,10 +628,10 @@ class JApplicationDaemon extends JApplicationCli
 	/**
 	 * Method to fork the process.
 	 *
-	 * @return  integer  The child process id to the parent process, zero to the child process.
+	 * @return	integer	The child process id to the parent process, zero to the child process.
 	 *
-	 * @since   11.1
-	 * @throws  RuntimeException
+	 * @since	 11.1
+	 * @throws	RuntimeException
 	 */
 	protected function fork()
 	{
@@ -663,12 +663,12 @@ class JApplicationDaemon extends JApplicationCli
 
 	/**
 	 * Method to perform basic garbage collection and memory management in the sense of clearing the
-	 * stat cache.  We will probably call this method pretty regularly in our main loop.
+	 * stat cache.	We will probably call this method pretty regularly in our main loop.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @codeCoverageIgnore
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function gc()
 	{
@@ -680,14 +680,14 @@ class JApplicationDaemon extends JApplicationCli
 	}
 
 	/**
-	 * Method to attach the JApplicationDaemon signal handler to the known signals.  Applications
+	 * Method to attach the JApplicationDaemon signal handler to the known signals.	Applications
 	 * can override these handlers by using the pcntl_signal() function and attaching a different
 	 * callback method.
 	 *
-	 * @return  boolean
+	 * @return	boolean
 	 *
-	 * @since   11.1
-	 * @see     pcntl_signal()
+	 * @since	 11.1
+	 * @see		 pcntl_signal()
 	 */
 	protected function setupSignalHandlers()
 	{
@@ -720,11 +720,11 @@ class JApplicationDaemon extends JApplicationCli
 	/**
 	 * Method to shut down the daemon and optionally restart it.
 	 *
-	 * @param   boolean  $restart  True to restart the daemon on exit.
+	 * @param	 boolean	$restart	True to restart the daemon on exit.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function shutdown($restart = false)
 	{
@@ -775,9 +775,9 @@ class JApplicationDaemon extends JApplicationCli
 	/**
 	 * Method to write the process id file out to disk.
 	 *
-	 * @return  boolean
+	 * @return	boolean
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function writeProcessIdFile()
 	{
@@ -831,9 +831,9 @@ class JApplicationDaemon extends JApplicationCli
 	/**
 	 * Method to handle post-fork triggering of the onFork event.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function postFork()
 	{
@@ -844,13 +844,13 @@ class JApplicationDaemon extends JApplicationCli
 	/**
 	 * Method to return the exit code of a terminated child process.
 	 *
-	 * @param   integer  $status  The status parameter is the status parameter supplied to a successful call to pcntl_waitpid().
+	 * @param	 integer	$status	The status parameter is the status parameter supplied to a successful call to pcntl_waitpid().
 	 *
-	 * @return  integer  The child process exit code.
+	 * @return	integer	The child process exit code.
 	 *
 	 * @codeCoverageIgnore
-	 * @see     pcntl_wexitstatus()
-	 * @since   11.3
+	 * @see		 pcntl_wexitstatus()
+	 * @since	 11.3
 	 */
 	protected function pcntlChildExitStatus($status)
 	{
@@ -860,14 +860,14 @@ class JApplicationDaemon extends JApplicationCli
 	/**
 	 * Method to return the exit code of a terminated child process.
 	 *
-	 * @return  integer  On success, the PID of the child process is returned in the parent's thread
-	 *                   of execution, and a 0 is returned in the child's thread of execution. On
-	 *                   failure, a -1 will be returned in the parent's context, no child process
-	 *                   will be created, and a PHP error is raised.
+	 * @return	integer	On success, the PID of the child process is returned in the parent's thread
+	 *									 of execution, and a 0 is returned in the child's thread of execution. On
+	 *									 failure, a -1 will be returned in the parent's context, no child process
+	 *									 will be created, and a PHP error is raised.
 	 *
 	 * @codeCoverageIgnore
-	 * @see     pcntl_fork()
-	 * @since   11.3
+	 * @see		 pcntl_fork()
+	 * @since	 11.3
 	 */
 	protected function pcntlFork()
 	{
@@ -877,17 +877,17 @@ class JApplicationDaemon extends JApplicationCli
 	/**
 	 * Method to install a signal handler.
 	 *
-	 * @param   integer   $signal   The signal number.
-	 * @param   callable  $handler  The signal handler which may be the name of a user created function,
-	 *                              or method, or either of the two global constants SIG_IGN or SIG_DFL.
-	 * @param   boolean   $restart  Specifies whether system call restarting should be used when this
-	 *                              signal arrives.
+	 * @param	 integer	 $signal	 The signal number.
+	 * @param	 callable	$handler	The signal handler which may be the name of a user created function,
+	 *															or method, or either of the two global constants SIG_IGN or SIG_DFL.
+	 * @param	 boolean	 $restart	Specifies whether system call restarting should be used when this
+	 *															signal arrives.
 	 *
-	 * @return  boolean  True on success.
+	 * @return	boolean	True on success.
 	 *
 	 * @codeCoverageIgnore
-	 * @see     pcntl_signal()
-	 * @since   11.3
+	 * @see		 pcntl_signal()
+	 * @since	 11.3
 	 */
 	protected function pcntlSignal($signal , $handler, $restart = true)
 	{
@@ -897,16 +897,16 @@ class JApplicationDaemon extends JApplicationCli
 	/**
 	 * Method to wait on or return the status of a forked child.
 	 *
-	 * @param   integer  &$status  Status information.
-	 * @param   integer  $options  If wait3 is available on your system (mostly BSD-style systems),
-	 *                             you can provide the optional options parameter.
+	 * @param	 integer	&$status	Status information.
+	 * @param	 integer	$options	If wait3 is available on your system (mostly BSD-style systems),
+	 *														 you can provide the optional options parameter.
 	 *
-	 * @return  integer  The process ID of the child which exited, -1 on error or zero if WNOHANG
-	 *                   was provided as an option (on wait3-available systems) and no child was available.
+	 * @return	integer	The process ID of the child which exited, -1 on error or zero if WNOHANG
+	 *									 was provided as an option (on wait3-available systems) and no child was available.
 	 *
 	 * @codeCoverageIgnore
-	 * @see     pcntl_wait()
-	 * @since   11.3
+	 * @see		 pcntl_wait()
+	 * @since	 11.3
 	 */
 	protected function pcntlWait(&$status, $options = 0)
 	{

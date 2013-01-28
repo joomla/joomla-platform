@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Table
+ * @package		 Joomla.Platform
+ * @subpackage	Table
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,26 +12,26 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Users table
  *
- * @package     Joomla.Platform
- * @subpackage  Table
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Table
+ * @since			 11.1
  */
 class JTableUser extends JTable
 {
 	/**
 	 * Associative array of group ids => group ids for the user
 	 *
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	public $groups;
 
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db  Database driver object.
+	 * @param	 JDatabaseDriver	$db	Database driver object.
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function __construct(JDatabaseDriver $db)
 	{
@@ -46,13 +46,13 @@ class JTableUser extends JTable
 	 * Method to load a user, user groups, and any other necessary data
 	 * from the database so that it can be bound to the user object.
 	 *
-	 * @param   integer  $userId  An optional user id.
-	 * @param   boolean  $reset   False if row not found or on error
-	 *                           (internal error state set in that case).
+	 * @param	 integer	$userId	An optional user id.
+	 * @param	 boolean	$reset	 False if row not found or on error
+	 *													 (internal error state set in that case).
 	 *
-	 * @return  boolean  True on success, false on failure.
+	 * @return	boolean	True on success, false on failure.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function load($userId = null, $reset = true)
 	{
@@ -112,12 +112,12 @@ class JTableUser extends JTable
 	/**
 	 * Method to bind the user, user groups, and any other necessary data.
 	 *
-	 * @param   array  $array   The data to bind.
-	 * @param   mixed  $ignore  An array or space separated list of fields to ignore.
+	 * @param	 array	$array	 The data to bind.
+	 * @param	 mixed	$ignore	An array or space separated list of fields to ignore.
 	 *
-	 * @return  boolean  True on success, false on failure.
+	 * @return	boolean	True on success, false on failure.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function bind($array, $ignore = '')
 	{
@@ -156,9 +156,9 @@ class JTableUser extends JTable
 	/**
 	 * Validation and filtering
 	 *
-	 * @return  boolean  True if satisfactory
+	 * @return	boolean	True if satisfactory
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function check()
 	{
@@ -270,16 +270,16 @@ class JTableUser extends JTable
 	/**
 	 * Method to store a row in the database from the JTable instance properties.
 	 * If a primary key value is set the row with that primary key value will be
-	 * updated with the instance property values.  If no primary key value is set
+	 * updated with the instance property values.	If no primary key value is set
 	 * a new row will be inserted into the database with the properties from the
 	 * JTable instance.
 	 *
-	 * @param   boolean  $updateNulls  True to update fields even if they are null.
+	 * @param	 boolean	$updateNulls	True to update fields even if they are null.
 	 *
-	 * @return  boolean  True on success.
+	 * @return	boolean	True on success.
 	 *
-	 * @link    http://docs.joomla.org/JTable/store
-	 * @since   11.1
+	 * @link		http://docs.joomla.org/JTable/store
+	 * @since	 11.1
 	 */
 	public function store($updateNulls = false)
 	{
@@ -340,11 +340,11 @@ class JTableUser extends JTable
 	/**
 	 * Method to delete a user, user groups, and any other necessary data from the database.
 	 *
-	 * @param   integer  $userId  An optional user id.
+	 * @param	 integer	$userId	An optional user id.
 	 *
-	 * @return  boolean  True on success, false on failure.
+	 * @return	boolean	True on success, false on failure.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function delete($userId = null)
 	{
@@ -396,12 +396,12 @@ class JTableUser extends JTable
 	/**
 	 * Updates last visit time of user
 	 *
-	 * @param   integer  $timeStamp  The timestamp, defaults to 'now'.
-	 * @param   integer  $userId     The user id (optional).
+	 * @param	 integer	$timeStamp	The timestamp, defaults to 'now'.
+	 * @param	 integer	$userId		 The user id (optional).
 	 *
-	 * @return  boolean  False if an error occurs
+	 * @return	boolean	False if an error occurs
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setLastVisit($timeStamp = null, $userId = null)
 	{

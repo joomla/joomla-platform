@@ -86,7 +86,7 @@ Fx.ProgressBar = new Class({
 			var css = (this.fill)
 			? (((this.fill / -2) + (to / 100) * (this.element.width || 1) || 0).round() + 'px')
 			: ((100 - to) + '%');
-		
+
 			this.element.setStyle('backgroundPosition', css + ' 0px').title = Math.round(to) + '%';
 			this.element.set('aria-valuenow', to);
 		}

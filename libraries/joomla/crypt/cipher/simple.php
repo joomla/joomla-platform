@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Crypt
+ * @package		 Joomla.Platform
+ * @subpackage	Crypt
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,29 +12,29 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JCrypt cipher for Simple encryption, decryption and key generation.
  *
- * @package     Joomla.Platform
- * @subpackage  Crypt
- * @since       12.1
+ * @package		 Joomla.Platform
+ * @subpackage	Crypt
+ * @since			 12.1
  */
 class JCryptCipherSimple implements JCryptCipher
 {
 	/**
 	 * Method to decrypt a data string.
 	 *
-	 * @param   string     $data  The encrypted string to decrypt.
-	 * @param   JCryptKey  $key   The key[/pair] object to use for decryption.
+	 * @param	 string		 $data	The encrypted string to decrypt.
+	 * @param	 JCryptKey	$key	 The key[/pair] object to use for decryption.
 	 *
-	 * @return  string  The decrypted data string.
+	 * @return	string	The decrypted data string.
 	 *
-	 * @since   12.1
-	 * @throws  InvalidArgumentException
+	 * @since	 12.1
+	 * @throws	InvalidArgumentException
 	 */
 	public function decrypt($data, JCryptKey $key)
 	{
 		// Validate key.
 		if ($key->type != 'simple')
 		{
-			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected simple.');
+			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.	Expected simple.');
 		}
 
 		$decrypted = '';
@@ -62,20 +62,20 @@ class JCryptCipherSimple implements JCryptCipher
 	/**
 	 * Method to encrypt a data string.
 	 *
-	 * @param   string     $data  The data string to encrypt.
-	 * @param   JCryptKey  $key   The key[/pair] object to use for encryption.
+	 * @param	 string		 $data	The data string to encrypt.
+	 * @param	 JCryptKey	$key	 The key[/pair] object to use for encryption.
 	 *
-	 * @return  string  The encrypted data string.
+	 * @return	string	The encrypted data string.
 	 *
-	 * @since   12.1
-	 * @throws  InvalidArgumentException
+	 * @since	 12.1
+	 * @throws	InvalidArgumentException
 	 */
 	public function encrypt($data, JCryptKey $key)
 	{
 		// Validate key.
 		if ($key->type != 'simple')
 		{
-			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected simple.');
+			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.	Expected simple.');
 		}
 
 		$encrypted = '';
@@ -103,11 +103,11 @@ class JCryptCipherSimple implements JCryptCipher
 	/**
 	 * Method to generate a new encryption key[/pair] object.
 	 *
-	 * @param   array  $options  Key generation options.
+	 * @param	 array	$options	Key generation options.
 	 *
-	 * @return  JCryptKey
+	 * @return	JCryptKey
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function generateKey(array $options = array())
 	{
@@ -116,7 +116,7 @@ class JCryptCipherSimple implements JCryptCipher
 
 		// Just a random key of a given length.
 		$key->private = $this->_getRandomKey();
-		$key->public  = $key->private;
+		$key->public	= $key->private;
 
 		return $key;
 	}
@@ -124,11 +124,11 @@ class JCryptCipherSimple implements JCryptCipher
 	/**
 	 * Method to generate a random key of a given length.
 	 *
-	 * @param   integer  $length  The length of the key to generate.
+	 * @param	 integer	$length	The length of the key to generate.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	private function _getRandomKey($length = 256)
 	{
@@ -148,12 +148,12 @@ class JCryptCipherSimple implements JCryptCipher
 	/**
 	 * Convert hex to an integer
 	 *
-	 * @param   string   $s  The hex string to convert.
-	 * @param   integer  $i  The offset?
+	 * @param	 string	 $s	The hex string to convert.
+	 * @param	 integer	$i	The offset?
 	 *
-	 * @return  integer
+	 * @return	integer
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	private function _hexToInt($s, $i)
 	{
@@ -229,11 +229,11 @@ class JCryptCipherSimple implements JCryptCipher
 	/**
 	 * Convert hex to an array of integers
 	 *
-	 * @param   string  $hex  The hex string to convert to an integer array.
+	 * @param	 string	$hex	The hex string to convert to an integer array.
 	 *
-	 * @return  array  An array of integers.
+	 * @return	array	An array of integers.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	private function _hexToIntArray($hex)
 	{
@@ -252,11 +252,11 @@ class JCryptCipherSimple implements JCryptCipher
 	/**
 	 * Convert an integer to a hexadecimal string.
 	 *
-	 * @param   integer  $i  An integer value to convert to a hex string.
+	 * @param	 integer	$i	An integer value to convert to a hex string.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	private function _intToHex($i)
 	{

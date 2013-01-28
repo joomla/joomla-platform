@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Plugin
+ * @package		 Joomla.Platform
+ * @subpackage	Plugin
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,53 +12,53 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JPlugin Class
  *
- * @package     Joomla.Platform
- * @subpackage  Plugin
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Plugin
+ * @since			 11.1
  */
 abstract class JPlugin extends JEvent
 {
 	/**
 	 * A JRegistry object holding the parameters for the plugin
 	 *
-	 * @var    JRegistry
-	 * @since  11.1
+	 * @var		JRegistry
+	 * @since	11.1
 	 */
 	public $params = null;
 
 	/**
 	 * The name of the plugin
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $_name = null;
 
 	/**
 	 * The plugin type
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $_type = null;
 
 	/**
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
 	 *
-	 * @var    boolean
-	 * @since  12.3
+	 * @var		boolean
+	 * @since	12.3
 	 */
 	protected $autoloadLanguage = false;
 
 	/**
 	 * Constructor
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
-	 *                             Recognized key values include 'name', 'group', 'params', 'language'
-	 *                             (this list is not meant to be comprehensive).
+	 * @param	 object	&$subject	The object to observe
+	 * @param	 array	 $config		An optional associative array of configuration settings.
+	 *														 Recognized key values include 'name', 'group', 'params', 'language'
+	 *														 (this list is not meant to be comprehensive).
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __construct(&$subject, $config = array())
 	{
@@ -100,12 +100,12 @@ abstract class JPlugin extends JEvent
 	/**
 	 * Loads the plugin language file
 	 *
-	 * @param   string  $extension  The extension for which a language file should be loaded
-	 * @param   string  $basePath   The basepath to use
+	 * @param	 string	$extension	The extension for which a language file should be loaded
+	 * @param	 string	$basePath	 The basepath to use
 	 *
-	 * @return  boolean  True, if the file has successfully loaded.
+	 * @return	boolean	True, if the file has successfully loaded.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function loadLanguage($extension = '', $basePath = JPATH_ADMINISTRATOR)
 	{

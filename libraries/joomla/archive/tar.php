@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Archive
+ * @package		 Joomla.Platform
+ * @subpackage	Archive
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -17,20 +17,20 @@ jimport('joomla.filesystem.folder');
  * This class is inspired from and draws heavily in code and concept from the Compress package of
  * The Horde Project <http://www.horde.org>
  *
- * @contributor  Michael Slusarz <slusarz@horde.org>
- * @contributor  Michael Cochrane <mike@graftonhall.co.nz>
+ * @contributor	Michael Slusarz <slusarz@horde.org>
+ * @contributor	Michael Cochrane <mike@graftonhall.co.nz>
  *
- * @package     Joomla.Platform
- * @subpackage  Archive
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Archive
+ * @since			 11.1
  */
 class JArchiveTar implements JArchiveExtractable
 {
 	/**
 	 * Tar file types.
 	 *
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	private $_types = array(
 		0x0 => 'Unix file',
@@ -46,30 +46,30 @@ class JArchiveTar implements JArchiveExtractable
 	/**
 	 * Tar file data buffer
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	private $_data = null;
 
 	/**
 	 * Tar file metadata array
 	 *
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	private $_metadata = null;
 
 	/**
 	 * Extract a ZIP compressed file to a given path
 	 *
-	 * @param   string  $archive      Path to ZIP archive to extract
-	 * @param   string  $destination  Path to extract archive into
-	 * @param   array   $options      Extraction options [unused]
+	 * @param	 string	$archive			Path to ZIP archive to extract
+	 * @param	 string	$destination	Path to extract archive into
+	 * @param	 array	 $options			Extraction options [unused]
 	 *
-	 * @return  boolean True if successful
+	 * @return	boolean True if successful
 	 *
-	 * @throws  RuntimeException
-	 * @since   11.1
+	 * @throws	RuntimeException
+	 * @since	 11.1
 	 */
 	public function extract($archive, $destination, array $options = array())
 	{
@@ -132,9 +132,9 @@ class JArchiveTar implements JArchiveExtractable
 	/**
 	 * Tests whether this adapter can unpack files on this computer.
 	 *
-	 * @return  boolean  True if supported
+	 * @return	boolean	True if supported
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public static function isSupported()
 	{
@@ -144,20 +144,20 @@ class JArchiveTar implements JArchiveExtractable
 	/**
 	 * Get the list of files/data from a Tar archive buffer.
 	 *
-	 * @param   string  &$data  The Tar archive buffer.
+	 * @param	 string	&$data	The Tar archive buffer.
 	 *
-	 * @return   array  Archive metadata array
+	 * @return	 array	Archive metadata array
 	 * <pre>
 	 * KEY: Position in the array
-	 * VALUES: 'attr'  --  File attributes
-	 * 'data'  --  Raw file contents
-	 * 'date'  --  File modification time
-	 * 'name'  --  Filename
-	 * 'size'  --  Original file size
-	 * 'type'  --  File type
+	 * VALUES: 'attr'	--	File attributes
+	 * 'data'	--	Raw file contents
+	 * 'date'	--	File modification time
+	 * 'name'	--	Filename
+	 * 'size'	--	Original file size
+	 * 'type'	--	File type
 	 * </pre>
 	 *
-	 * @since    11.1
+	 * @since		11.1
 	 */
 	protected function _getTarInfo(& $data)
 	{

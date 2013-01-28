@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Application
+ * @package		 Joomla.UnitTest
+ * @subpackage	Application
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once __DIR__ . '/stubs/JWebClientInspector.php';
@@ -12,26 +12,26 @@ require_once __DIR__ . '/stubs/JWebClientInspector.php';
 /**
  * Test class for JApplicationWebClient.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Application
- * @since       11.3
+ * @package		 Joomla.UnitTest
+ * @subpackage	Application
+ * @since			 11.3
  */
 class JApplicationWebClientTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * An instance of a JWebClient inspector.
 	 *
-	 * @var    JWebClientInspector
-	 * @since  11.3
+	 * @var		JWebClientInspector
+	 * @since	11.3
 	 */
 	protected $inspector;
 
 	/**
 	 * Provides test data for user agent parsing.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public static function getUserAgentData()
 	{
@@ -122,9 +122,9 @@ class JApplicationWebClientTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Provides test data for encoding parsing.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public static function getEncodingData()
 	{
@@ -143,9 +143,9 @@ class JApplicationWebClientTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Provides test data for language parsing.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public static function getLanguageData()
 	{
@@ -164,9 +164,9 @@ class JApplicationWebClientTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Provides test data for isRobot method.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public static function detectRobotData()
 	{
@@ -186,9 +186,9 @@ class JApplicationWebClientTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Setup for testing.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function setUp()
 	{
@@ -228,17 +228,17 @@ class JApplicationWebClientTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the JApplicationWebClient::detectBrowser method.
 	 *
-	 * @param   string   $p   The expected platform.
-	 * @param   boolean  $m   The expected mobile result.
-	 * @param   string   $e   The expected engine.
-	 * @param   string   $b   The expected browser.
-	 * @param   string   $v   The expected browser version.
-	 * @param   string   $ua  The input user agent.
+	 * @param	 string	 $p	 The expected platform.
+	 * @param	 boolean	$m	 The expected mobile result.
+	 * @param	 string	 $e	 The expected engine.
+	 * @param	 string	 $b	 The expected browser.
+	 * @param	 string	 $v	 The expected browser version.
+	 * @param	 string	 $ua	The input user agent.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @dataProvider getUserAgentData
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testDetectBrowser($p, $m, $e, $b, $v, $ua)
 	{
@@ -252,13 +252,13 @@ class JApplicationWebClientTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the JApplicationWebClient::detectEncoding method.
 	 *
-	 * @param   string  $ae  The input accept encoding.
-	 * @param   array   $e   The expected array of encodings.
+	 * @param	 string	$ae	The input accept encoding.
+	 * @param	 array	 $e	 The expected array of encodings.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @dataProvider getEncodingData
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testDetectEncoding($ae, $e)
 	{
@@ -271,17 +271,17 @@ class JApplicationWebClientTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the JApplicationWebClient::detectEngine method.
 	 *
-	 * @param   string   $p   The expected platform.
-	 * @param   boolean  $m   The expected mobile result.
-	 * @param   string   $e   The expected engine.
-	 * @param   string   $b   The expected browser.
-	 * @param   string   $v   The expected browser version.
-	 * @param   string   $ua  The input user agent.
+	 * @param	 string	 $p	 The expected platform.
+	 * @param	 boolean	$m	 The expected mobile result.
+	 * @param	 string	 $e	 The expected engine.
+	 * @param	 string	 $b	 The expected browser.
+	 * @param	 string	 $v	 The expected browser version.
+	 * @param	 string	 $ua	The input user agent.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @dataProvider getUserAgentData
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testDetectEngine($p, $m, $e, $b, $v, $ua)
 	{
@@ -294,13 +294,13 @@ class JApplicationWebClientTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the JApplicationWebClient::detectLanguage method.
 	 *
-	 * @param   string  $al  The input accept language.
-	 * @param   array   $l   The expected array of languages.
+	 * @param	 string	$al	The input accept language.
+	 * @param	 array	 $l	 The expected array of languages.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @dataProvider getLanguageData
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testDetectLanguage($al, $l)
 	{
@@ -313,17 +313,17 @@ class JApplicationWebClientTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the JApplicationWebClient::detectPlatform method.
 	 *
-	 * @param   string   $p   The expected platform.
-	 * @param   boolean  $m   The expected mobile result.
-	 * @param   string   $e   The expected engine.
-	 * @param   string   $b   The expected browser.
-	 * @param   string   $v   The expected browser version.
-	 * @param   string   $ua  The input user agent.
+	 * @param	 string	 $p	 The expected platform.
+	 * @param	 boolean	$m	 The expected mobile result.
+	 * @param	 string	 $e	 The expected engine.
+	 * @param	 string	 $b	 The expected browser.
+	 * @param	 string	 $v	 The expected browser version.
+	 * @param	 string	 $ua	The input user agent.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @dataProvider getUserAgentData
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testDetectPlatform($p, $m, $e, $b, $v, $ua)
 	{
@@ -337,13 +337,13 @@ class JApplicationWebClientTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the JApplicationWebClient::detectRobot method.
 	 *
-	 * @param   string   $userAgent  The user agent
-	 * @param   boolean  $expected   The expected results of the function
+	 * @param	 string	 $userAgent	The user agent
+	 * @param	 boolean	$expected	 The expected results of the function
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @dataProvider detectRobotData
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testDetectRobot($userAgent, $expected)
 	{

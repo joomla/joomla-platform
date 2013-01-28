@@ -51,14 +51,14 @@ following PHP script can be used to determine this information;
 <?php
 print "PHP Version: " .phpversion()."<br>";
 if ( extension_loaded('mbstring') ) {
-    print "mbstring available<br>";
+		print "mbstring available<br>";
 } else {
-    print "mbstring not available<br>";
+		print "mbstring not available<br>";
 }
 if ( extension_loaded('iconv') ) {
-    print "iconv available<br>";
+		print "iconv available<br>";
 } else {
-    print "iconv not available<br>";
+		print "iconv not available<br>";
 }
 ?>
 

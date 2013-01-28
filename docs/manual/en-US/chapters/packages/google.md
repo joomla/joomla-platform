@@ -53,7 +53,7 @@ See below for an example demonstrating the use of the Calendar API:
 ```php
 $options = new JRegistry;
 
-// Client ID and Client Secret can be obtained  through the Google API Console (https://code.google.com/apis/console/).
+// Client ID and Client Secret can be obtained	through the Google API Console (https://code.google.com/apis/console/).
 $options->set('clientid', 'google_client_id.apps.googleusercontent.com');
 $options->set('clientsecret', 'google_client_secret');
 $options->set('redirecturi', JURI::current());

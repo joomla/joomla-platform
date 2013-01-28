@@ -1,33 +1,33 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Database
+ * @package		 Joomla.UnitTest
+ * @subpackage	Database
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * Test class for JDatabasePostgresqlQuery.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Database
+ * @package		 Joomla.UnitTest
+ * @subpackage	Database
  *
- * @since       11.3
+ * @since			 11.3
  */
 class JDatabasePostgresqlQueryTest extends TestCase
 {
 	/**
-	 * @var  JDatabase  A mock of the JDatabase object for testing purposes.
+	 * @var	JDatabase	A mock of the JDatabase object for testing purposes.
 	 */
 	protected $dbo;
 
 	/**
 	 * Data for the testNullDate test.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function dataTestNullDate()
 	{
@@ -41,9 +41,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Data for the testNullDate test.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function dataTestQuote()
 	{
@@ -56,9 +56,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Data for the testJoin test.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function dataTestJoin()
 	{
@@ -78,11 +78,11 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	 * We use this method to ensure that JDatabaseQuery's escape method uses the
 	 * the database object's escape method.
 	 *
-	 * @param   string  $text  The input text.
+	 * @param	 string	$text	The input text.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function mockEscape($text)
 	{
@@ -95,11 +95,11 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	 * We use this method to ensure that JDatabaseQuery's quoteName method uses the
 	 * the database object's quoteName method.
 	 *
-	 * @param   string  $text  The input text.
+	 * @param	 string	$text	The input text.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function mockQuoteName($text)
 	{
@@ -110,7 +110,7 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	protected function setUp()
 	{
@@ -128,9 +128,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test for the JDatabaseQueryPostgresql::__string method for a 'select' case.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function test__toStringSelect()
 	{
@@ -162,9 +162,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test for the JDatabaseQuery::__string method for a 'update' case.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function test__toStringUpdate()
 	{
@@ -190,9 +190,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test for year extraction from date.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function test__toStringYear()
 	{
@@ -209,9 +209,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test for month extraction from date.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function test__toStringMonth()
 	{
@@ -228,9 +228,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test for day extraction from date.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function test__toStringDay()
 	{
@@ -247,9 +247,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test for hour extraction from date.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function test__toStringHour()
 	{
@@ -266,9 +266,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test for minute extraction from date.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function test__toStringMinute()
 	{
@@ -285,9 +285,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test for seconds extraction from date.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function test__toStringSecond()
 	{
@@ -304,9 +304,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test for INSERT INTO clause with subquery.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function test__toStringInsert_subquery()
 	{
@@ -332,9 +332,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test for the castAsChar method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testCastAsChar()
 	{
@@ -351,9 +351,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test for the charLength method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testCharLength()
 	{
@@ -368,9 +368,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test chaining.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testChaining()
 	{
@@ -385,9 +385,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test for the clear method (clearing all types and clauses).
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testClear_all()
 	{
@@ -443,9 +443,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test for the clear method (clearing each clause).
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testClear_clause()
 	{
@@ -505,9 +505,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test for the clear method (clearing each query type).
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testClear_type()
 	{
@@ -578,7 +578,7 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test for "concatenate" words.
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testConcatenate()
 	{
@@ -600,9 +600,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test for FROM clause.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testFrom()
 	{
@@ -633,9 +633,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test for GROUP clause.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testGroup()
 	{
@@ -666,9 +666,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test for HAVING clause using a simple condition and with glue for second one.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testHaving()
 	{
@@ -710,9 +710,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test for INNER JOIN clause.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testInnerJoin()
 	{
@@ -738,13 +738,13 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test for JOIN clause using dataprovider to test all types of join.
 	 *
-	 * @param   string  $type        Type of JOIN, could be INNER, OUTER, LEFT, RIGHT
-	 * @param   string  $conditions  Join condition
+	 * @param	 string	$type				Type of JOIN, could be INNER, OUTER, LEFT, RIGHT
+	 * @param	 string	$conditions	Join condition
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
-	 * @dataProvider  dataTestJoin
+	 * @since	 11.3
+	 * @dataProvider	dataTestJoin
 	 */
 	public function testJoin($type, $conditions)
 	{
@@ -774,9 +774,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test for LEFT JOIN clause.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testLeftJoin()
 	{
@@ -802,13 +802,13 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Tests the quoteName method.
 	 *
-	 * @param   boolean  $quoted    The value of the quoted argument.
-	 * @param   string   $expected  The expected result.
+	 * @param	 boolean	$quoted		The value of the quoted argument.
+	 * @param	 string	 $expected	The expected result.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
-	 * @dataProvider  dataTestNullDate
+	 * @since	 11.3
+	 * @dataProvider	dataTestNullDate
 	 */
 	public function testNullDate($quoted, $expected)
 	{
@@ -824,9 +824,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test for ORDER clause.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testOrder()
 	{
@@ -855,9 +855,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test for OUTER JOIN clause.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testOuterJoin()
 	{
@@ -883,14 +883,14 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Tests the quoteName method.
 	 *
-	 * @param   boolean  $text      The value to be quoted.
-	 * @param   boolean  $escape    True to escape the string, false to leave it unchanged.
-	 * @param   string   $expected  The expected result.
+	 * @param	 boolean	$text			The value to be quoted.
+	 * @param	 boolean	$escape		True to escape the string, false to leave it unchanged.
+	 * @param	 string	 $expected	The expected result.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
-	 * @dataProvider  dataTestQuote
+	 * @since	 11.3
+	 * @dataProvider	dataTestQuote
 	 */
 	public function testQuote($text, $escape, $expected)
 	{
@@ -906,9 +906,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Tests the quoteName method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testQuoteName()
 	{
@@ -924,9 +924,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test for RIGHT JOIN clause.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testRightJoin()
 	{
@@ -952,9 +952,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test for SELECT clause.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testSelect()
 	{
@@ -1002,9 +1002,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test for WHERE clause using a simple condition and with glue for second one.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testWhere()
 	{
@@ -1055,9 +1055,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Tests the JDatabaseQueryPostgresql::escape method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testEscape()
 	{
@@ -1072,9 +1072,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test for FOR UPDATE clause.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testForUpdate ()
 	{
@@ -1113,9 +1113,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test for FOR SHARE clause.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testForShare ()
 	{
@@ -1154,9 +1154,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test for NOWAIT clause.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testNoWait ()
 	{
@@ -1178,9 +1178,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test for LIMIT clause.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testLimit()
 	{
@@ -1202,9 +1202,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test for OFFSET clause.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testOffset()
 	{
@@ -1226,9 +1226,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * Test for RETURNING clause.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testReturning()
 	{

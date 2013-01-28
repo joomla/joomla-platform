@@ -1,19 +1,19 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Form
+ * @package		 Joomla.UnitTest
+ * @subpackage	Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JForm.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Form
+ * @package		 Joomla.UnitTest
+ * @subpackage	Form
  *
- * @since       11.1
+ * @since			 11.1
  */
 class JFormFieldCalendarTest extends TestCase
 {
@@ -273,11 +273,11 @@ class JFormFieldCalendarTest extends TestCase
 	/**
 	 * Tests various attribute methods - this method does not handle filters
 	 *
-	 * @param   string   $name                @todo
-	 * @param   integer  $id                  @todo
-	 * @param   mixed    $value               @todo
-	 * @param   mixed    $element             @todo
-	 * @param   string   $expectedParameters  @todo
+	 * @param	 string	 $name								@todo
+	 * @param	 integer	$id									@todo
+	 * @param	 mixed		$value							 @todo
+	 * @param	 mixed		$element						 @todo
+	 * @param	 string	 $expectedParameters	@todo
 	 *
 	 * @dataProvider attributeData
 	 *

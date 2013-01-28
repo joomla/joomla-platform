@@ -1,28 +1,28 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  HTML
+ * @package		 Joomla.UnitTest
+ * @subpackage	HTML
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 require_once JPATH_PLATFORM . '/joomla/html/number.php';
 
 /**
  * Test class for JHtmlNumberTest.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Html
- * @since       11.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	Html
+ * @since			 11.1
  */
 class JHtmlNumberTest extends TestCase
 {
 	/**
 	 * Test...
 	 *
-	 * @return    array
+	 * @return		array
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function dataTestBytes()
 	{
@@ -119,10 +119,10 @@ class JHtmlNumberTest extends TestCase
 	/**
 	 * Tests the JHtmlNumber::bytes method.
 	 *
-	 * @param   string   $result     @todo
-	 * @param   integer  $bytes      @todo
-	 * @param   string   $unit       @todo
-	 * @param   integer  $precision  @todo
+	 * @param	 string	 $result		 @todo
+	 * @param	 integer	$bytes			@todo
+	 * @param	 string	 $unit			 @todo
+	 * @param	 integer	$precision	@todo
 	 *
 	 * @dataProvider dataTestBytes
 	 *

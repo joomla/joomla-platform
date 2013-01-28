@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Controller
+ * @package		 Joomla.UnitTest
+ * @subpackage	Controller
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once __DIR__ . '/stubs/controllerform.php';
@@ -13,10 +13,10 @@ require_once __DIR__ . '/stubs/controllerform.php';
 /**
  * Test class for JControllerForm.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Component
+ * @package		 Joomla.UnitTest
+ * @subpackage	Component
  *
- * @since       12.3
+ * @since			 12.3
  */
 class JControllerFormTest extends TestCase
 {
@@ -24,7 +24,7 @@ class JControllerFormTest extends TestCase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	protected function setUp()
 	{
@@ -40,7 +40,7 @@ class JControllerFormTest extends TestCase
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	protected function tearDown()
 	{
@@ -51,9 +51,9 @@ class JControllerFormTest extends TestCase
 	/**
 	 * Tests the JControllerForm constructor.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testConstructor()
 	{
@@ -96,9 +96,9 @@ class JControllerFormTest extends TestCase
 	/**
 	 * Test JControllerForm::getModel
 	 *
-	 * @todo    Implement testGetModel().
+	 * @todo		Implement testGetModel().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetModel()
 	{
@@ -109,9 +109,9 @@ class JControllerFormTest extends TestCase
 	/**
 	 * Test JControllerForm::display
 	 *
-	 * @todo    Implement testDisplay().
+	 * @todo		Implement testDisplay().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testDisplay()
 	{
@@ -122,9 +122,9 @@ class JControllerFormTest extends TestCase
 	/**
 	 * Test JControllerForm::add
 	 *
-	 * @todo    Implement testAdd().
+	 * @todo		Implement testAdd().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testAdd()
 	{
@@ -135,9 +135,9 @@ class JControllerFormTest extends TestCase
 	/**
 	 * Test JControllerForm::edit
 	 *
-	 * @todo    Implement testEdit().
+	 * @todo		Implement testEdit().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testEdit()
 	{
@@ -148,9 +148,9 @@ class JControllerFormTest extends TestCase
 	/**
 	 * Test JControllerForm::cancel
 	 *
-	 * @todo    Implement testCancel().
+	 * @todo		Implement testCancel().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testCancel()
 	{
@@ -161,9 +161,9 @@ class JControllerFormTest extends TestCase
 	/**
 	 * Test JControllerForm::save
 	 *
-	 * @todo    Implement testSave().
+	 * @todo		Implement testSave().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testSave()
 	{

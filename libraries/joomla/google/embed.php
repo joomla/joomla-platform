@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Google
+ * @package		 Joomla.Platform
+ * @subpackage	Google
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -13,31 +13,31 @@ jimport('joomla.environment.uri');
 /**
  * Google API object class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Google
- * @since       12.3
+ * @package		 Joomla.Platform
+ * @subpackage	Google
+ * @since			 12.3
  */
 abstract class JGoogleEmbed
 {
 	/**
-	 * @var    JRegistry  Options for the Google data object.
-	 * @since  12.3
+	 * @var		JRegistry	Options for the Google data object.
+	 * @since	12.3
 	 */
 	protected $options;
 
 	/**
-	 * @var    JURI  URI of the page being rendered.
-	 * @since  12.3
+	 * @var		JURI	URI of the page being rendered.
+	 * @since	12.3
 	 */
 	protected $uri;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry  $options  Google options object
-	 * @param   JURI       $uri      URL of the page being rendered
+	 * @param	 JRegistry	$options	Google options object
+	 * @param	 JURI			 $uri			URL of the page being rendered
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function __construct(JRegistry $options = null, JURI $uri = null)
 	{
@@ -48,9 +48,9 @@ abstract class JGoogleEmbed
 	/**
 	 * Method to retrieve the javascript header for the embed API
 	 *
-	 * @return  string  The header
+	 * @return	string	The header
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function isSecure()
 	{
@@ -60,27 +60,27 @@ abstract class JGoogleEmbed
 	/**
 	 * Method to retrieve the header for the API
 	 *
-	 * @return  string  The header
+	 * @return	string	The header
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	abstract public function getHeader();
 
 	/**
 	 * Method to retrieve the body for the API
 	 *
-	 * @return  string  The body
+	 * @return	string	The body
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	abstract public function getBody();
 
 	/**
 	 * Method to output the javascript header for the embed API
 	 *
-	 * @return  null
+	 * @return	null
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function echoHeader()
 	{
@@ -90,9 +90,9 @@ abstract class JGoogleEmbed
 	/**
 	 * Method to output the body for the API
 	 *
-	 * @return  null
+	 * @return	null
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function echoBody()
 	{
@@ -102,11 +102,11 @@ abstract class JGoogleEmbed
 	/**
 	 * Get an option from the JGoogleEmbed instance.
 	 *
-	 * @param   string  $key  The name of the option to get.
+	 * @param	 string	$key	The name of the option to get.
 	 *
-	 * @return  mixed  The option value.
+	 * @return	mixed	The option value.
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function getOption($key)
 	{
@@ -116,12 +116,12 @@ abstract class JGoogleEmbed
 	/**
 	 * Set an option for the JGoogleEmbed instance.
 	 *
-	 * @param   string  $key    The name of the option to set.
-	 * @param   mixed   $value  The option value to set.
+	 * @param	 string	$key		The name of the option to set.
+	 * @param	 mixed	 $value	The option value to set.
 	 *
-	 * @return  JGoogleEmbed  This object for method chaining.
+	 * @return	JGoogleEmbed	This object for method chaining.
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function setOption($key, $value)
 	{

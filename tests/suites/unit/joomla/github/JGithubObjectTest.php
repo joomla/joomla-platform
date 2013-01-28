@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Client
+ * @package		 Joomla.UnitTest
+ * @subpackage	Client
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM . '/joomla/github/http.php';
@@ -14,28 +14,28 @@ require_once __DIR__ . '/stubs/JGithubObjectMock.php';
 /**
  * Test class for JGithub.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Github
+ * @package		 Joomla.UnitTest
+ * @subpackage	Github
  *
- * @since       11.1
+ * @since			 11.1
  */
 class JGithubObjectTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the GitHub object.
-	 * @since  11.3
+	 * @var		JRegistry	Options for the GitHub object.
+	 * @since	11.3
 	 */
 	protected $options;
 
 	/**
-	 * @var    JGithubHttp  Mock client object.
-	 * @since  11.3
+	 * @var		JGithubHttp	Mock client object.
+	 * @since	11.3
 	 */
 	protected $client;
 
 	/**
-	 * @var    JGithubIssues  Object under test.
-	 * @since  11.3
+	 * @var		JGithubIssues	Object under test.
+	 * @since	11.3
 	 */
 	protected $object;
 
@@ -75,11 +75,11 @@ class JGithubObjectTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the fetchUrl method
 	 *
-	 * @param   string   $apiUrl    @todo
-	 * @param   string   $path      @todo
-	 * @param   integer  $page      @todo
-	 * @param   integer  $limit     @todo
-	 * @param   string   $expected  @todo
+	 * @param	 string	 $apiUrl		@todo
+	 * @param	 string	 $path			@todo
+	 * @param	 integer	$page			@todo
+	 * @param	 integer	$limit		 @todo
+	 * @param	 string	 $expected	@todo
 	 *
 	 * @dataProvider fetchUrlData
 	 *

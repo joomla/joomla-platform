@@ -1,18 +1,18 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Form
+ * @package		 Joomla.UnitTest
+ * @subpackage	Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Data for JForm tests.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Form
- * @since       11.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	Form
+ * @since			 11.1
  */
 class JFormDataHelper
 {
@@ -562,7 +562,7 @@ class JFormDataHelper
 	/**
 	 * Test...
 	 *
-	 * @param   mixed  $value  Test
+	 * @param	 mixed	$value	Test
 	 *
 	 * @return void
 	 */
@@ -575,10 +575,10 @@ class JFormDataHelper
 /**
  * Test...
  *
- * @param   mixed  $value  Test
+ * @param	 mixed	$value	Test
  *
- * @package        Joomla.UnitTest
- * @subpackage     Form
+ * @package				Joomla.UnitTest
+ * @subpackage		 Form
  *
  * @return void
  */

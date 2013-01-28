@@ -1,27 +1,27 @@
 <?php
 /**
- * @package    Joomla.Test
+ * @package		Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Class to mock JController.
  *
- * @package  Joomla.Test
- * @since    12.1
+ * @package	Joomla.Test
+ * @since		12.1
  */
 class TestMockController
 {
 	/**
 	 * Creates and instance of the mock JController object.
 	 *
-	 * @param   object  $test  A test object.
+	 * @param	 object	$test	A test object.
 	 *
-	 * @return  object
+	 * @return	object
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public static function create($test)
 	{
@@ -46,7 +46,7 @@ class TestMockController
 			false
 		);
 
-		// TODO  Mock the input.
+		// TODO	Mock the input.
 		TestReflection::setValue($mockObject, 'input', new JInput);
 
 		return $mockObject;

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Installer
+ * @package		 Joomla.Platform
+ * @subpackage	Installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -15,17 +15,17 @@ jimport('joomla.filesystem.folder');
 /**
  * Module installer
  *
- * @package     Joomla.Platform
- * @subpackage  Installer
- * @since       11.1
- * @deprecated  13.3
+ * @package		 Joomla.Platform
+ * @subpackage	Installer
+ * @since			 11.1
+ * @deprecated	13.3
  */
 class JInstallerModule extends JAdapterInstance
 {
 	/**
 	 * Install function routing
 	 *
-	 * @var    string
+	 * @var		string
 	 * @since 11.1
 	 */
 	protected $route = 'Install';
@@ -46,30 +46,30 @@ class JInstallerModule extends JAdapterInstance
 	 * Extension name
 	 *
 	 * @var
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected $name = null;
 
 	/**
 	 * @var
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	protected $element = null;
 
 	/**
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $scriptElement = null;
 
 	/**
 	 * Custom loadLanguage method
 	 *
-	 * @param   string  $path  The path where we find language files
+	 * @param	 string	$path	The path where we find language files
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function loadLanguage($path = null)
 	{
@@ -126,9 +126,9 @@ class JInstallerModule extends JAdapterInstance
 	/**
 	 * Custom install method
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function install()
 	{
@@ -580,9 +580,9 @@ class JInstallerModule extends JAdapterInstance
 	 *
 	 * This is really a shell for the install system
 	 *
-	 * @return  boolean  True on success.
+	 * @return	boolean	True on success.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function update()
 	{
@@ -600,9 +600,9 @@ class JInstallerModule extends JAdapterInstance
 	/**
 	 * Custom discover method
 	 *
-	 * @return  array  JExtension list of extensions available
+	 * @return	array	JExtension list of extensions available
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function discover()
 	{
@@ -644,9 +644,9 @@ class JInstallerModule extends JAdapterInstance
 	/**
 	 * Custom discover_install method
 	 *
-	 * @return  mixed  Extension ID on success, boolean false on failure
+	 * @return	mixed	Extension ID on success, boolean false on failure
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function discover_install()
 	{
@@ -691,9 +691,9 @@ class JInstallerModule extends JAdapterInstance
 	/**
 	 * Refreshes the extension table cache
 	 *
-	 * @return  boolean  Result of operation, true if updated, false on failure.
+	 * @return	boolean	Result of operation, true if updated, false on failure.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function refreshManifestCache()
 	{
@@ -720,11 +720,11 @@ class JInstallerModule extends JAdapterInstance
 	/**
 	 * Custom uninstall method
 	 *
-	 * @param   integer  $id  The id of the module to uninstall
+	 * @param	 integer	$id	The id of the module to uninstall
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function uninstall($id)
 	{
@@ -930,11 +930,11 @@ class JInstallerModule extends JAdapterInstance
 	 * Custom rollback method
 	 * - Roll back the menu item
 	 *
-	 * @param   array  $arg  Installation step to rollback
+	 * @param	 array	$arg	Installation step to rollback
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function _rollback_menu($arg)
 	{
@@ -959,11 +959,11 @@ class JInstallerModule extends JAdapterInstance
 	 * Custom rollback method
 	 * - Roll back the module item
 	 *
-	 * @param   array  $arg  Installation step to rollback
+	 * @param	 array	$arg	Installation step to rollback
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function _rollback_module($arg)
 	{

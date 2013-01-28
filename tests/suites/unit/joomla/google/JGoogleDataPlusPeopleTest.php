@@ -1,59 +1,59 @@
 <?php
 /**
- * @package    Joomla.UnitTest
+ * @package		Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JGoogleDataPlusPeople.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Google
- * @since       12.3
+ * @package		 Joomla.UnitTest
+ * @subpackage	Google
+ * @since			 12.3
  */
 class JGoogleDataPlusPeopleTest extends TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the JOAuth2Client object.
+	 * @var		JRegistry	Options for the JOAuth2Client object.
 	 */
 	protected $options;
 
 	/**
-	 * @var    JHttp  Mock client object.
+	 * @var		JHttp	Mock client object.
 	 */
 	protected $http;
 
 	/**
-	 * @var    JInput  The input object to use in retrieving GET/POST data.
+	 * @var		JInput	The input object to use in retrieving GET/POST data.
 	 */
 	protected $input;
 
 	/**
-	 * @var    JOAuth2Client  The OAuth client for sending requests to Google.
+	 * @var		JOAuth2Client	The OAuth client for sending requests to Google.
 	 */
 	protected $oauth;
 
 	/**
-	 * @var    JGoogleAuthOauth2  The Google OAuth client for sending requests.
+	 * @var		JGoogleAuthOauth2	The Google OAuth client for sending requests.
 	 */
 	protected $auth;
 
 	/**
-	 * @var    JGoogleDataPlusPeople  Object under test.
+	 * @var		JGoogleDataPlusPeople	Object under test.
 	 */
 	protected $object;
 
 	/**
-	 * @var    string  Sample JSON string.
-	 * @since  12.3
+	 * @var		string	Sample JSON string.
+	 * @since	12.3
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
-	 * @var    string  Sample JSON error message.
-	 * @since  12.3
+	 * @var		string	Sample JSON error message.
+	 * @since	12.3
 	 */
 	protected $errorString = '{"error": {"message": "Generic Error."}}';
 
@@ -116,9 +116,9 @@ class JGoogleDataPlusPeopleTest extends TestCase
 	/**
 	 * Tests the getPeople method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testGetPeople()
 	{
@@ -152,9 +152,9 @@ class JGoogleDataPlusPeopleTest extends TestCase
 	/**
 	 * Tests the search method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testSearch()
 	{
@@ -192,9 +192,9 @@ class JGoogleDataPlusPeopleTest extends TestCase
 	/**
 	 * Tests the listByActivity method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testListByActivity()
 	{

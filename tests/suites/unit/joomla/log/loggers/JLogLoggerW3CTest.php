@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Log
+ * @package		 Joomla.UnitTest
+ * @subpackage	Log
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once __DIR__ . '/stubs/w3c/inspector.php';
@@ -12,9 +12,9 @@ require_once __DIR__ . '/stubs/w3c/inspector.php';
 /**
  * Test class for JLogLoggerW3C.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Log
- * @since       11.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	Log
+ * @since			 11.1
  */
 class JLogLoggerW3CTest extends PHPUnit_Framework_TestCase
 {
@@ -64,13 +64,13 @@ class JLogLoggerW3CTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Method to get the last line of a file.  This is fairly safe for very large files.
+	 * Method to get the last line of a file.	This is fairly safe for very large files.
 	 *
-	 * @param   string  $path  The path to the file for which to get the last line.
+	 * @param	 string	$path	The path to the file for which to get the last line.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function getLastLine($path)
 	{

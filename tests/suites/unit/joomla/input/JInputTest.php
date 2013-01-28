@@ -1,34 +1,34 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Input
+ * @package		 Joomla.UnitTest
+ * @subpackage	Input
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JInput.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Input
- * @since       11.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	Input
+ * @since			 11.1
  */
 class JInputTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * The test class.
 	 *
-	 * @var  JInput
+	 * @var	JInput
 	 */
 	protected $class;
 
 	/**
 	 * Test the JInput::__construct method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function test__construct()
 	{
@@ -38,9 +38,9 @@ class JInputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the JInput::__get method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function test__call()
 	{
@@ -50,9 +50,9 @@ class JInputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the JInput::__get method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function test__get()
 	{
@@ -79,10 +79,10 @@ class JInputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the JInput::count method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.2
-	 * @covers  JInput::count
+	 * @since	 12.2
+	 * @covers	JInput::count
 	 */
 	public function testCount()
 	{
@@ -105,9 +105,9 @@ class JInputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the JInput::get method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testGet()
 	{
@@ -141,9 +141,9 @@ class JInputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the JInput::def method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testDef()
 	{
@@ -169,9 +169,9 @@ class JInputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the JInput::set method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testSet()
 	{
@@ -188,9 +188,9 @@ class JInputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the JInput::get method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testGetArray()
 	{
@@ -236,9 +236,9 @@ class JInputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the JInput::get method using a nested data set.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testGetArrayNested()
 	{
@@ -286,9 +286,9 @@ class JInputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the JInput::getArray method without specified variables.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testGetArrayWithoutSpecifiedVariables()
 	{
@@ -309,9 +309,9 @@ class JInputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the JInput::get method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testGetFromCookie()
 	{
@@ -335,9 +335,9 @@ class JInputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the JInput::getMethod method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testGetMethod()
 	{
@@ -347,9 +347,9 @@ class JInputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the JInput::serialize method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testSerialize()
 	{
@@ -370,9 +370,9 @@ class JInputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the JInput::unserialize method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testUnserialize()
 	{
@@ -386,9 +386,9 @@ class JInputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the JInput::loadAllInputs method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testLoadAllInputs()
 	{
@@ -398,9 +398,9 @@ class JInputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Setup for testing.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function setUp()
 	{

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Document
+ * @package		 Joomla.Platform
+ * @subpackage	Document
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,32 +12,32 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JDocumentRenderer_RSS is a feed that implements RSS 2.0 Specification
  *
- * @package     Joomla.Platform
- * @subpackage  Document
- * @see         http://www.rssboard.org/rss-specification
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Document
+ * @see				 http://www.rssboard.org/rss-specification
+ * @since			 11.1
  */
 class JDocumentRendererRSS extends JDocumentRenderer
 {
 	/**
 	 * Renderer mime type
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $_mime = "application/rss+xml";
 
 	/**
 	 * Render the feed.
 	 *
-	 * @param   string  $name     The name of the element to render
-	 * @param   array   $params   Array of values
-	 * @param   string  $content  Override the output of the renderer
+	 * @param	 string	$name		 The name of the element to render
+	 * @param	 array	 $params	 Array of values
+	 * @param	 string	$content	Override the output of the renderer
 	 *
-	 * @return  string  The output of the script
+	 * @return	string	The output of the script
 	 *
 	 * @see JDocumentRenderer::render()
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function render($name = '', $params = null, $content = null)
 	{
@@ -187,7 +187,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 			/*
 			 * @todo: On hold
 			 * if ($data->items[$i]->source!="") {
-			 *   $data.= "			<source>".htmlspecialchars($data->items[$i]->source, ENT_COMPAT, 'UTF-8')."</source>\n";
+			 *	 $data.= "			<source>".htmlspecialchars($data->items[$i]->source, ENT_COMPAT, 'UTF-8')."</source>\n";
 			 * }
 			 */
 
@@ -237,11 +237,11 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	/**
 	 * Convert links in a text from relative to absolute
 	 *
-	 * @param   string  $text  The text processed
+	 * @param	 string	$text	The text processed
 	 *
-	 * @return  string   Text with converted links
+	 * @return	string	 Text with converted links
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function _relToAbs($text)
 	{

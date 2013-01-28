@@ -1,26 +1,26 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Controller
+ * @package		 Joomla.UnitTest
+ * @subpackage	Controller
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Stub for testing the JControllerLegacy class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Controller
+ * @package		 Joomla.UnitTest
+ * @subpackage	Controller
  *
- * @since       12.3
+ * @since			 12.3
  */
 class TestController extends JControllerLegacy
 {
 	/**
 	 * Stub method
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function task1()
 	{
@@ -29,7 +29,7 @@ class TestController extends JControllerLegacy
 	/**
 	 * Stub method
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function task2()
 	{
@@ -38,7 +38,7 @@ class TestController extends JControllerLegacy
 	/**
 	 * Stub method
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	protected function task3()
 	{
@@ -47,7 +47,7 @@ class TestController extends JControllerLegacy
 	/**
 	 * Stub method
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	private function _task4()
 	{
@@ -57,17 +57,17 @@ class TestController extends JControllerLegacy
 /**
  * Stub for testing the JControllerLegacy class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Controller
+ * @package		 Joomla.UnitTest
+ * @subpackage	Controller
  *
- * @since       12.3
+ * @since			 12.3
  */
 class TestTestController extends TestController
 {
 	/**
 	 * Stub method
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function task5()
 	{

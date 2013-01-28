@@ -1,19 +1,19 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Exception
+ * @package		 Joomla.UnitTest
+ * @subpackage	Exception
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JException.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Exception
+ * @package		 Joomla.UnitTest
+ * @subpackage	Exception
  *
- * @since       12.3
+ * @since			 12.3
  */
 class JExceptionTest extends TestCase
 {
@@ -22,7 +22,7 @@ class JExceptionTest extends TestCase
 	 *
 	 * @todo Implement test__toString().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function test__toString()
 	{
@@ -37,7 +37,7 @@ class JExceptionTest extends TestCase
 	 *
 	 * @todo Implement testToString().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testToString()
 	{
@@ -52,7 +52,7 @@ class JExceptionTest extends TestCase
 	 *
 	 * @todo Implement testGet().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGet()
 	{
@@ -67,7 +67,7 @@ class JExceptionTest extends TestCase
 	 *
 	 * @todo Implement testGetProperties().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetProperties()
 	{
@@ -82,7 +82,7 @@ class JExceptionTest extends TestCase
 	 *
 	 * @todo Implement testGetError().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetError()
 	{
@@ -97,7 +97,7 @@ class JExceptionTest extends TestCase
 	 *
 	 * @todo Implement testGetErrors().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetErrors()
 	{
@@ -112,7 +112,7 @@ class JExceptionTest extends TestCase
 	 *
 	 * @todo Implement testSet().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testSet()
 	{
@@ -127,7 +127,7 @@ class JExceptionTest extends TestCase
 	 *
 	 * @todo Implement testSetProperties().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testSetProperties()
 	{
@@ -142,7 +142,7 @@ class JExceptionTest extends TestCase
 	 *
 	 * @todo Implement testSetError().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testSetError()
 	{

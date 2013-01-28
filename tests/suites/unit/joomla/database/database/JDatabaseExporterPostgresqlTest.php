@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Database
+ * @package		 Joomla.UnitTest
+ * @subpackage	Database
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/JDatabaseExporterPostgresqlInspector.php';
@@ -12,37 +12,37 @@ require_once __DIR__ . '/JDatabaseExporterPostgresqlInspector.php';
 /**
  * Test the JDatabaseExporterPostgresql class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Database
+ * @package		 Joomla.UnitTest
+ * @subpackage	Database
  *
- * @since       12.1
+ * @since			 12.1
  */
 class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    object  The mocked database object for use by test methods.
-	 * @since  12.1
+	 * @var		object	The mocked database object for use by test methods.
+	 * @since	12.1
 	 */
 	protected $dbo = null;
 
 	/**
-	 * @var    string  The last query sent to the dbo setQuery method.
-	 * @since  12.1
+	 * @var		string	The last query sent to the dbo setQuery method.
+	 * @since	12.1
 	 */
 	protected $lastQuery = '';
 
 	/**
-	 * @var    bool  Boolean value to know if current database version is newer than 9.1.0
-	 * @since  12.1
+	 * @var		bool	Boolean value to know if current database version is newer than 9.1.0
+	 * @since	12.1
 	 */
 	private $_ver9dot1 = true;
 
 	/**
 	 * Sets up the testing conditions
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function setup()
 	{
@@ -213,9 +213,9 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Callback for the dbo loadObjectList method.
 	 *
-	 * @return array  An array of results based on the setting of the last query.
+	 * @return array	An array of results based on the setting of the last query.
 	 *
-	 * @since  12.1
+	 * @since	12.1
 	 */
 	public function callbackLoadObjectList()
 	{
@@ -225,11 +225,11 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Callback for the dbo quoteName method.
 	 *
-	 * @param   string  $value  The value to be quoted.
+	 * @param	 string	$value	The value to be quoted.
 	 *
-	 * @return string  The value passed wrapped in PostgreSQL quotes.
+	 * @return string	The value passed wrapped in PostgreSQL quotes.
 	 *
-	 * @since  12.1
+	 * @since	12.1
 	 */
 	public function callbackQuoteName($value)
 	{
@@ -239,11 +239,11 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Callback for the dbo setQuery method.
 	 *
-	 * @param   string  $query  The query.
+	 * @param	 string	$query	The query.
 	 *
 	 * @return void
 	 *
-	 * @since  12.1
+	 * @since	12.1
 	 */
 	public function callbackSetQuery($query)
 	{
@@ -253,9 +253,9 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the magic __toString method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function test__toString()
 	{
@@ -278,15 +278,15 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 		$expecting = '<?xml version="1.0"?>
 <postgresqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
  <database name="">
-  <table_structure name="#__test">
-   <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' .
+	<table_structure name="#__test">
+	 <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' .
 			$start_val . '" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />
-   <field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />
-   <field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />
-   <field Field="start_date" Type="timestamp without time zone" Null="NO" Default="NULL" Comments="" />
-   <field Field="description" Type="text" Null="NO" Default="NULL" Comments="" />
-   <key Index="jos_dbtest_pkey" is_primary="TRUE" is_unique="TRUE" Query="ALTER TABLE "jos_dbtest" ADD PRIMARY KEY (id)" />
-  </table_structure>
+	 <field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />
+	 <field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />
+	 <field Field="start_date" Type="timestamp without time zone" Null="NO" Default="NULL" Comments="" />
+	 <field Field="description" Type="text" Null="NO" Default="NULL" Comments="" />
+	 <key Index="jos_dbtest_pkey" is_primary="TRUE" is_unique="TRUE" Query="ALTER TABLE "jos_dbtest" ADD PRIMARY KEY (id)" />
+	</table_structure>
  </database>
 </postgresqldump>';
 
@@ -305,7 +305,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.1
+	 * @since	12.1
 	 */
 	public function testAsXml()
 	{
@@ -329,9 +329,9 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the buildXML method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testBuildXml()
 	{
@@ -354,15 +354,15 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 		$expecting = '<?xml version="1.0"?>
 <postgresqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
  <database name="">
-  <table_structure name="#__test">
-   <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' .
+	<table_structure name="#__test">
+	 <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' .
 			$start_val . '" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />
-   <field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />
-   <field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />
-   <field Field="start_date" Type="timestamp without time zone" Null="NO" Default="NULL" Comments="" />
-   <field Field="description" Type="text" Null="NO" Default="NULL" Comments="" />
-   <key Index="jos_dbtest_pkey" is_primary="TRUE" is_unique="TRUE" Query="ALTER TABLE "jos_dbtest" ADD PRIMARY KEY (id)" />
-  </table_structure>
+	 <field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />
+	 <field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />
+	 <field Field="start_date" Type="timestamp without time zone" Null="NO" Default="NULL" Comments="" />
+	 <field Field="description" Type="text" Null="NO" Default="NULL" Comments="" />
+	 <key Index="jos_dbtest_pkey" is_primary="TRUE" is_unique="TRUE" Query="ALTER TABLE "jos_dbtest" ADD PRIMARY KEY (id)" />
+	</table_structure>
  </database>
 </postgresqldump>';
 
@@ -379,9 +379,9 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the buildXmlStructure method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testBuildXmlStructure()
 	{
@@ -405,15 +405,15 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 			$instance->buildXmlStructure(),
 			$this->equalTo(
 				array(
-					'  <table_structure name="#__test">',
-					'   <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' .
+					'	<table_structure name="#__test">',
+					'	 <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' .
 					$start_val . '" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />',
-					'   <field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />',
-					'   <field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />',
-					'   <field Field="start_date" Type="timestamp without time zone" Null="NO" Default="NULL" Comments="" />',
-					'   <field Field="description" Type="text" Null="NO" Default="NULL" Comments="" />',
-					'   <key Index="jos_dbtest_pkey" is_primary="TRUE" is_unique="TRUE" Query="ALTER TABLE "jos_dbtest" ADD PRIMARY KEY (id)" />',
-					'  </table_structure>'
+					'	 <field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />',
+					'	 <field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />',
+					'	 <field Field="start_date" Type="timestamp without time zone" Null="NO" Default="NULL" Comments="" />',
+					'	 <field Field="description" Type="text" Null="NO" Default="NULL" Comments="" />',
+					'	 <key Index="jos_dbtest_pkey" is_primary="TRUE" is_unique="TRUE" Query="ALTER TABLE "jos_dbtest" ADD PRIMARY KEY (id)" />',
+					'	</table_structure>'
 				)
 			),
 			'buildXmlStructure has not returned the expected result.'
@@ -425,7 +425,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.1
+	 * @since	12.1
 	 */
 	public function testCheckWithNoDbo()
 	{
@@ -451,7 +451,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.1
+	 * @since	12.1
 	 */
 	public function testCheckWithNoTables()
 	{
@@ -478,7 +478,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.1
+	 * @since	12.1
 	 */
 	public function testCheckWithGoodInput()
 	{
@@ -509,7 +509,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.1
+	 * @since	12.1
 	 */
 	public function testFromWithBadInput()
 	{
@@ -535,7 +535,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.1
+	 * @since	12.1
 	 */
 	public function testFromWithGoodInput()
 	{
@@ -568,9 +568,9 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the method getGenericTableName method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testGetGenericTableName()
 	{
@@ -589,7 +589,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.1
+	 * @since	12.1
 	 */
 	public function testSetDboWithBadInput()
 	{
@@ -615,7 +615,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.1
+	 * @since	12.1
 	 */
 	public function testSetDboWithGoodInput()
 	{
@@ -644,9 +644,9 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the withStructure method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testWithStructure()
 	{

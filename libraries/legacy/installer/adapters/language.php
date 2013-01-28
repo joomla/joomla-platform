@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Installer
+ * @package		 Joomla.Platform
+ * @subpackage	Installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -15,18 +15,18 @@ jimport('joomla.filesystem.folder');
 /**
  * Language installer
  *
- * @package     Joomla.Platform
- * @subpackage  Installer
- * @since       11.1
- * @deprecated  13.3
+ * @package		 Joomla.Platform
+ * @subpackage	Installer
+ * @since			 11.1
+ * @deprecated	13.3
  */
 class JInstallerLanguage extends JAdapterInstance
 {
 	/**
 	 * Core language pack flag
 	 *
-	 * @var    boolean
-	 * @since  12.1
+	 * @var		boolean
+	 * @since	12.1
 	 */
 	protected $core = false;
 
@@ -37,9 +37,9 @@ class JInstallerLanguage extends JAdapterInstance
 	 * the ability to install multiple distinct packs in one install. The
 	 * preferred method is to use a package to install multiple language packs.
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function install()
 	{
@@ -88,14 +88,14 @@ class JInstallerLanguage extends JAdapterInstance
 	/**
 	 * Install function that is designed to handle individual clients
 	 *
-	 * @param   string   $cname     Cname @todo: not used
-	 * @param   string   $basePath  The base name.
-	 * @param   integer  $clientId  The client id.
-	 * @param   object   &$element  The XML element.
+	 * @param	 string	 $cname		 Cname @todo: not used
+	 * @param	 string	 $basePath	The base name.
+	 * @param	 integer	$clientId	The client id.
+	 * @param	 object	 &$element	The XML element.
 	 *
-	 * @return  boolean
+	 * @return	boolean
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	protected function _install($cname, $basePath, $clientId, &$element)
 	{
@@ -122,7 +122,7 @@ class JInstallerLanguage extends JAdapterInstance
 		// Set the language installation path
 		$this->parent->setPath('extension_site', $basePath . '/language/' . $tag);
 
-		// Do we have a meta file in the file list?  In other words... is this a core language pack?
+		// Do we have a meta file in the file list?	In other words... is this a core language pack?
 		if ($element && count($element->children()))
 		{
 			$files = $element->children();
@@ -275,9 +275,9 @@ class JInstallerLanguage extends JAdapterInstance
 	/**
 	 * Custom update method
 	 *
-	 * @return  boolean  True on success, false on failure
+	 * @return	boolean	True on success, false on failure
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function update()
 	{
@@ -322,7 +322,7 @@ class JInstallerLanguage extends JAdapterInstance
 		// Set the language installation path
 		$this->parent->setPath('extension_site', $basePath . '/language/' . $this->get('tag'));
 
-		// Do we have a meta file in the file list?  In other words... is this a core language pack?
+		// Do we have a meta file in the file list?	In other words... is this a core language pack?
 		if (count($xml->files->children()))
 		{
 			foreach ($xml->files->children() as $file)
@@ -417,11 +417,11 @@ class JInstallerLanguage extends JAdapterInstance
 	/**
 	 * Custom uninstall method
 	 *
-	 * @param   string  $eid  The tag of the language to uninstall
+	 * @param	 string	$eid	The tag of the language to uninstall
 	 *
-	 * @return  mixed  Return value for uninstall method in component uninstall file
+	 * @return	mixed	Return value for uninstall method in component uninstall file
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function uninstall($eid)
 	{
@@ -543,9 +543,9 @@ class JInstallerLanguage extends JAdapterInstance
 	 * Custom discover method
 	 * Finds language files
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function discover()
 	{
@@ -590,9 +590,9 @@ class JInstallerLanguage extends JAdapterInstance
 	 * Custom discover install method
 	 * Basically updates the manifest cache and leaves everything alone
 	 *
-	 * @return  integer  The extension id
+	 * @return	integer	The extension id
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function discover_install()
 	{
@@ -627,9 +627,9 @@ class JInstallerLanguage extends JAdapterInstance
 	/**
 	 * Refreshes the extension table cache
 	 *
-	 * @return  boolean result of operation, true if updated, false on failure
+	 * @return	boolean result of operation, true if updated, false on failure
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function refreshManifestCache()
 	{

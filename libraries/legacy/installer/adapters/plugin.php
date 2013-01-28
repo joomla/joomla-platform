@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Installer
+ * @package		 Joomla.Platform
+ * @subpackage	Installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -15,18 +15,18 @@ jimport('joomla.filesystem.folder');
 /**
  * Plugin installer
  *
- * @package     Joomla.Platform
- * @subpackage  Installer
- * @since       11.1
- * @deprecated  13.3
+ * @package		 Joomla.Platform
+ * @subpackage	Installer
+ * @since			 11.1
+ * @deprecated	13.3
  */
 class JInstallerPlugin extends JAdapterInstance
 {
 	/**
 	 * Install function routing
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 * */
 	protected $route = 'install';
 
@@ -34,7 +34,7 @@ class JInstallerPlugin extends JAdapterInstance
 	 * The installation manifest XML object
 	 *
 	 * @var
-	 * @since  11.1
+	 * @since	11.1
 	 * */
 	protected $manifest = null;
 
@@ -43,7 +43,7 @@ class JInstallerPlugin extends JAdapterInstance
 	 * the manifest refers to.
 	 *
 	 * @var
-	 * @since  11.1
+	 * @since	11.1
 	 * */
 	protected $manifest_script = null;
 
@@ -51,7 +51,7 @@ class JInstallerPlugin extends JAdapterInstance
 	 * Name of the extension
 	 *
 	 * @var
-	 * @since  11.1
+	 * @since	11.1
 	 * */
 	protected $name = null;
 
@@ -59,24 +59,24 @@ class JInstallerPlugin extends JAdapterInstance
 	 *
 	 *
 	 * @var
-	 * @since  11.1
+	 * @since	11.1
 	 * */
 	protected $scriptElement = null;
 
 	/**
 	 * @var
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	protected $oldFiles = null;
 
 	/**
 	 * Custom loadLanguage method
 	 *
-	 * @param   string  $path  The path where to find language files.
+	 * @param	 string	$path	The path where to find language files.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function loadLanguage($path = null)
 	{
@@ -127,9 +127,9 @@ class JInstallerPlugin extends JAdapterInstance
 	/**
 	 * Custom install method
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function install()
 	{
@@ -563,9 +563,9 @@ class JInstallerPlugin extends JAdapterInstance
 	/**
 	 * Custom update method
 	 *
-	 * @return   boolean  True on success
+	 * @return	 boolean	True on success
 	 *
-	 * @since    11.1
+	 * @since		11.1
 	 */
 	public function update()
 	{
@@ -583,11 +583,11 @@ class JInstallerPlugin extends JAdapterInstance
 	/**
 	 * Custom uninstall method
 	 *
-	 * @param   integer  $id  The id of the plugin to uninstall
+	 * @param	 integer	$id	The id of the plugin to uninstall
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function uninstall($id)
 	{
@@ -745,9 +745,9 @@ class JInstallerPlugin extends JAdapterInstance
 	/**
 	 * Custom discover method
 	 *
-	 * @return  array  JExtension) list of extensions available
+	 * @return	array	JExtension) list of extensions available
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function discover()
 	{
@@ -816,9 +816,9 @@ class JInstallerPlugin extends JAdapterInstance
 	/**
 	 * Custom discover_install method.
 	 *
-	 * @return  mixed
+	 * @return	mixed
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function discover_install()
 	{
@@ -872,9 +872,9 @@ class JInstallerPlugin extends JAdapterInstance
 	/**
 	 * Refreshes the extension table cache.
 	 *
-	 * @return  boolean  Result of operation, true if updated, false on failure.
+	 * @return	boolean	Result of operation, true if updated, false on failure.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function refreshManifestCache()
 	{

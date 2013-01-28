@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Database
+ * @package		 Joomla.Platform
+ * @subpackage	Database
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,47 +12,47 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PostgreSQL import driver.
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       12.1
+ * @package		 Joomla.Platform
+ * @subpackage	Database
+ * @since			 12.1
  */
 class JDatabaseImporterPostgresql extends JDatabaseImporter
 {
 	/**
-	 * @var    array  An array of cached data.
-	 * @since  12.1
+	 * @var		array	An array of cached data.
+	 * @since	12.1
 	 */
 	protected $cache = array();
 
 	/**
 	 * The database connector to use for exporting structure and/or data.
 	 *
-	 * @var    JDatabaseDriverPostgresql
-	 * @since  12.1
+	 * @var		JDatabaseDriverPostgresql
+	 * @since	12.1
 	 */
 	protected $db = null;
 
 	/**
 	 * The input source.
 	 *
-	 * @var    mixed
-	 * @since  12.1
+	 * @var		mixed
+	 * @since	12.1
 	 */
 	protected $from = array();
 
 	/**
 	 * The type of input format (XML).
 	 *
-	 * @var    string
-	 * @since  12.1
+	 * @var		string
+	 * @since	12.1
 	 */
 	protected $asFormat = 'xml';
 
 	/**
 	 * An array of options for the exporter.
 	 *
-	 * @var    object
-	 * @since  12.1
+	 * @var		object
+	 * @since	12.1
 	 */
 	protected $options = null;
 
@@ -61,7 +61,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * Sets up the default options for the exporter.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function __construct()
 	{
@@ -83,9 +83,9 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	/**
 	 * Set the output option for the exporter to XML format.
 	 *
-	 * @return  JDatabaseImporterPostgresql  Method supports chaining.
+	 * @return	JDatabaseImporterPostgresql	Method supports chaining.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function asXml()
 	{
@@ -97,10 +97,10 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	/**
 	 * Checks if all data and options are in order prior to exporting.
 	 *
-	 * @return  JDatabaseImporterPostgresql  Method supports chaining.
+	 * @return	JDatabaseImporterPostgresql	Method supports chaining.
 	 *
-	 * @since   12.1
-	 * @throws  Exception if an error is encountered.
+	 * @since	 12.1
+	 * @throws	Exception if an error is encountered.
 	 */
 	public function check()
 	{
@@ -122,11 +122,11 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	/**
 	 * Specifies the data source to import.
 	 *
-	 * @param   mixed  $from  The data source to import.
+	 * @param	 mixed	$from	The data source to import.
 	 *
-	 * @return  JDatabaseImporterPostgresql  Method supports chaining.
+	 * @return	JDatabaseImporterPostgresql	Method supports chaining.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function from($from)
 	{
@@ -138,12 +138,12 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	/**
 	 * Get the SQL syntax to add a column.
 	 *
-	 * @param   string            $table  The table name.
-	 * @param   SimpleXMLElement  $field  The XML field definition.
+	 * @param	 string						$table	The table name.
+	 * @param	 SimpleXMLElement	$field	The XML field definition.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function getAddColumnSQL($table, SimpleXMLElement $field)
 	{
@@ -155,11 +155,11 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	/**
 	 * Get the SQL syntax to add an index.
 	 *
-	 * @param   SimpleXMLElement  $field  The XML index definition.
+	 * @param	 SimpleXMLElement	$field	The XML index definition.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function getAddIndexSQL(SimpleXMLElement $field)
 	{
@@ -169,11 +169,11 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	/**
 	 * Get alters for table if there is a difference.
 	 *
-	 * @param   SimpleXMLElement  $structure  The XML structure of the table.
+	 * @param	 SimpleXMLElement	$structure	The XML structure of the table.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function getAlterTableSQL(SimpleXMLElement $structure)
 	{
@@ -314,7 +314,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 				if (!$same)
 				{
 					$alters[] = $this->getDropIndexSQL($name);
-					$alters[]  = (string) $newLookup[$name][0]['Query'];
+					$alters[]	= (string) $newLookup[$name][0]['Query'];
 				}
 
 				// Unset this field so that what we have left are fields that need to be removed.
@@ -346,11 +346,11 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	/**
 	 * Get the SQL syntax to drop a sequence.
 	 *
-	 * @param   string  $name  The name of the sequence to drop.
+	 * @param	 string	$name	The name of the sequence to drop.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function getDropSequenceSQL($name)
 	{
@@ -362,11 +362,11 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	/**
 	 * Get the syntax to add a sequence.
 	 *
-	 * @param   SimpleXMLElement  $field  The XML definition for the sequence.
+	 * @param	 SimpleXMLElement	$field	The XML definition for the sequence.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function getAddSequenceSQL($field)
 	{
@@ -394,11 +394,11 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	/**
 	 * Get the syntax to alter a sequence.
 	 *
-	 * @param   SimpleXMLElement  $field  The XML definition for the sequence.
+	 * @param	 SimpleXMLElement	$field	The XML definition for the sequence.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function getChangeSequenceSQL($field)
 	{
@@ -425,12 +425,12 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	/**
 	 * Get the syntax to alter a column.
 	 *
-	 * @param   string            $table  The name of the database table to alter.
-	 * @param   SimpleXMLElement  $field  The XML definition for the field.
+	 * @param	 string						$table	The name of the database table to alter.
+	 * @param	 SimpleXMLElement	$field	The XML definition for the field.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function getChangeColumnSQL($table, SimpleXMLElement $field)
 	{
@@ -443,12 +443,12 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	/**
 	 * Get the SQL syntax for a single column that would be included in a table create statement.
 	 *
-	 * @param   string            $table  The name of the database table to alter.
-	 * @param   SimpleXMLElement  $field  The XML field definition.
+	 * @param	 string						$table	The name of the database table to alter.
+	 * @param	 SimpleXMLElement	$field	The XML field definition.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function getAlterColumnSQL($table, $field)
 	{
@@ -498,11 +498,11 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	/**
 	 * Get the SQL syntax for a single column that would be included in a table create statement.
 	 *
-	 * @param   SimpleXMLElement  $field  The XML field definition.
+	 * @param	 SimpleXMLElement	$field	The XML field definition.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function getColumnSQL(SimpleXMLElement $field)
 	{
@@ -551,12 +551,12 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	/**
 	 * Get the SQL syntax to drop a column.
 	 *
-	 * @param   string  $table  The table name.
-	 * @param   string  $name   The name of the field to drop.
+	 * @param	 string	$table	The table name.
+	 * @param	 string	$name	 The name of the field to drop.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function getDropColumnSQL($table, $name)
 	{
@@ -568,11 +568,11 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	/**
 	 * Get the SQL syntax to drop an index.
 	 *
-	 * @param   string  $name  The name of the key to drop.
+	 * @param	 string	$name	The name of the key to drop.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function getDropIndexSQL($name)
 	{
@@ -584,12 +584,12 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	/**
 	 * Get the SQL syntax to drop a key.
 	 *
-	 * @param   string  $table  The table name.
-	 * @param   string  $name   The constraint name.
+	 * @param	 string	$table	The table name.
+	 * @param	 string	$name	 The constraint name.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function getDropPrimaryKeySQL($table, $name)
 	{
@@ -601,12 +601,12 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	/**
 	 * Get the details list of keys for a table.
 	 *
-	 * @param   array  $keys  An array of objects that comprise the keys for the table.
+	 * @param	 array	$keys	An array of objects that comprise the keys for the table.
 	 *
-	 * @return  array  The lookup array. array({key name} => array(object, ...))
+	 * @return	array	The lookup array. array({key name} => array(object, ...))
 	 *
-	 * @since   12.1
-	 * @throws  Exception
+	 * @since	 12.1
+	 * @throws	Exception
 	 */
 	protected function getIdxLookup($keys)
 	{
@@ -636,12 +636,12 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	/**
 	 * Get the details list of sequences for a table.
 	 *
-	 * @param   array  $sequences  An array of objects that comprise the sequences for the table.
+	 * @param	 array	$sequences	An array of objects that comprise the sequences for the table.
 	 *
-	 * @return  array  The lookup array. array({key name} => array(object, ...))
+	 * @return	array	The lookup array. array({key name} => array(object, ...))
 	 *
-	 * @since   12.1
-	 * @throws  Exception
+	 * @since	 12.1
+	 * @throws	Exception
 	 */
 	protected function getSeqLookup($sequences)
 	{
@@ -671,11 +671,11 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	/**
 	 * Get the real name of the table, converting the prefix wildcard string if present.
 	 *
-	 * @param   string  $table  The name of the table.
+	 * @param	 string	$table	The name of the table.
 	 *
-	 * @return  string	The real name of the table.
+	 * @return	string	The real name of the table.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function getRealTableName($table)
 	{
@@ -691,12 +691,12 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	/**
 	 * Merges the incoming structure definition with the existing structure.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @note    Currently only supports XML format.
-	 * @since   12.1
-	 * @throws  Exception on error.
-	 * @todo    If it's not XML convert to XML first.
+	 * @note		Currently only supports XML format.
+	 * @since	 12.1
+	 * @throws	Exception on error.
+	 * @todo		If it's not XML convert to XML first.
 	 */
 	protected function mergeStructure()
 	{
@@ -769,11 +769,11 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	/**
 	 * Sets the database connector to use for exporting structure and/or data from PostgreSQL.
 	 *
-	 * @param   JDatabaseDriverPostgresql  $db  The database connector.
+	 * @param	 JDatabaseDriverPostgresql	$db	The database connector.
 	 *
-	 * @return  JDatabaseImporterPostgresql  Method supports chaining.
+	 * @return	JDatabaseImporterPostgresql	Method supports chaining.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function setDbo(JDatabaseDriverPostgresql $db)
 	{
@@ -785,11 +785,11 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	/**
 	 * Sets an internal option to merge the structure based on the input data.
 	 *
-	 * @param   boolean  $setting  True to export the structure, false to not.
+	 * @param	 boolean	$setting	True to export the structure, false to not.
 	 *
-	 * @return  JDatabaseImporterPostgresql  Method supports chaining.
+	 * @return	JDatabaseImporterPostgresql	Method supports chaining.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function withStructure($setting = true)
 	{

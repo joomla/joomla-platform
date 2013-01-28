@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Cache
+ * @package		 Joomla.Platform
+ * @subpackage	Cache
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,40 +12,40 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! Cache page type object
  *
- * @package     Joomla.Platform
- * @subpackage  Cache
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Cache
+ * @since			 11.1
  */
 class JCacheControllerPage extends JCacheController
 {
 	/**
-	 * @var    integer  ID property for the cache page object.
-	 * @since  11.1
+	 * @var		integer	ID property for the cache page object.
+	 * @since	11.1
 	 */
 	protected $_id;
 
 	/**
-	 * @var    string  Cache group
-	 * @since  11.1
+	 * @var		string	Cache group
+	 * @since	11.1
 	 */
 	protected $_group;
 
 	/**
-	 * @var    object  Cache lock test
-	 * @since  11.1
+	 * @var		object	Cache lock test
+	 * @since	11.1
 	 */
 	protected $_locktest = null;
 
 	/**
 	 * Get the cached page data
 	 *
-	 * @param   string   $id          The cache data id
-	 * @param   string   $group       The cache data group
-	 * @param   boolean  $wrkarounds  True to use wrkarounds
+	 * @param	 string	 $id					The cache data id
+	 * @param	 string	 $group			 The cache data group
+	 * @param	 boolean	$wrkarounds	True to use wrkarounds
 	 *
-	 * @return  boolean  True if the cache is hit (false else)
+	 * @return	boolean	True if the cache is hit (false else)
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function get($id = false, $group = 'page', $wrkarounds = true)
 	{
@@ -116,11 +116,11 @@ class JCacheControllerPage extends JCacheController
 	/**
 	 * Stop the cache buffer and store the cached data
 	 *
-	 * @param   boolean  $wrkarounds  True to use wrkarounds
+	 * @param	 boolean	$wrkarounds	True to use wrkarounds
 	 *
-	 * @return  boolean  True if cache stored
+	 * @return	boolean	True if cache stored
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function store($wrkarounds = true)
 	{
@@ -158,10 +158,10 @@ class JCacheControllerPage extends JCacheController
 	/**
 	 * Generate a page cache id
 	 *
-	 * @return  string  MD5 Hash : page cache id
+	 * @return	string	MD5 Hash : page cache id
 	 *
-	 * @since   11.1
-	 * @todo    Discuss whether this should be coupled to a data hash or a request
+	 * @since	 11.1
+	 * @todo		Discuss whether this should be coupled to a data hash or a request
 	 * hash ... perhaps hashed with a serialized request
 	 */
 	protected function _makeId()
@@ -173,9 +173,9 @@ class JCacheControllerPage extends JCacheController
 	 * There is no change in page data so send an
 	 * unmodified header and die gracefully
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function _noChange()
 	{
@@ -189,11 +189,11 @@ class JCacheControllerPage extends JCacheController
 	/**
 	 * Set the ETag header in the response
 	 *
-	 * @param   string  $etag  The entity tag (etag) to set
+	 * @param	 string	$etag	The entity tag (etag) to set
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function _setEtag($etag)
 	{

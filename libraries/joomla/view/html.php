@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  View
+ * @package		 Joomla.Platform
+ * @subpackage	View
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -14,35 +14,35 @@ jimport('joomla.filesystem.path');
 /**
  * Joomla Platform HTML View Class
  *
- * @package     Joomla.Platform
- * @subpackage  View
- * @since       12.1
+ * @package		 Joomla.Platform
+ * @subpackage	View
+ * @since			 12.1
  */
 abstract class JViewHtml extends JViewBase
 {
 	/**
 	 * The view layout.
 	 *
-	 * @var    string
-	 * @since  12.1
+	 * @var		string
+	 * @since	12.1
 	 */
 	protected $layout = 'default';
 
 	/**
 	 * The paths queue.
 	 *
-	 * @var    SplPriorityQueue
-	 * @since  12.1
+	 * @var		SplPriorityQueue
+	 * @since	12.1
 	 */
 	protected $paths;
 
 	/**
 	 * Method to instantiate the view.
 	 *
-	 * @param   JModel            $model  The model object.
-	 * @param   SplPriorityQueue  $paths  The paths queue.
+	 * @param	 JModel						$model	The model object.
+	 * @param	 SplPriorityQueue	$paths	The paths queue.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function __construct(JModel $model, SplPriorityQueue $paths = null)
 	{
@@ -55,9 +55,9 @@ abstract class JViewHtml extends JViewBase
 	/**
 	 * Magic toString method that is a proxy for the render method.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function __toString()
 	{
@@ -67,12 +67,12 @@ abstract class JViewHtml extends JViewBase
 	/**
 	 * Method to escape output.
 	 *
-	 * @param   string  $output  The output to escape.
+	 * @param	 string	$output	The output to escape.
 	 *
-	 * @return  string  The escaped output.
+	 * @return	string	The escaped output.
 	 *
-	 * @see     JView::escape()
-	 * @since   12.1
+	 * @see		 JView::escape()
+	 * @since	 12.1
 	 */
 	public function escape($output)
 	{
@@ -83,9 +83,9 @@ abstract class JViewHtml extends JViewBase
 	/**
 	 * Method to get the view layout.
 	 *
-	 * @return  string  The layout name.
+	 * @return	string	The layout name.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getLayout()
 	{
@@ -95,12 +95,12 @@ abstract class JViewHtml extends JViewBase
 	/**
 	 * Method to get the layout path.
 	 *
-	 * @param   string  $layout  The base name of the layout file (excluding extension).
-	 * @param   string  $ext     The extension of the layout file (default: "php").
+	 * @param	 string	$layout	The base name of the layout file (excluding extension).
+	 * @param	 string	$ext		 The extension of the layout file (default: "php").
 	 *
-	 * @return  mixed  The layout file name if found, false otherwise.
+	 * @return	mixed	The layout file name if found, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getPath($layout, $ext = 'php')
 	{
@@ -116,9 +116,9 @@ abstract class JViewHtml extends JViewBase
 	/**
 	 * Method to get the view paths.
 	 *
-	 * @return  SplPriorityQueue  The paths queue.
+	 * @return	SplPriorityQueue	The paths queue.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getPaths()
 	{
@@ -128,10 +128,10 @@ abstract class JViewHtml extends JViewBase
 	/**
 	 * Method to render the view.
 	 *
-	 * @return  string  The rendered view.
+	 * @return	string	The rendered view.
 	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @since	 12.1
+	 * @throws	RuntimeException
 	 */
 	public function render()
 	{
@@ -159,11 +159,11 @@ abstract class JViewHtml extends JViewBase
 	/**
 	 * Method to set the view layout.
 	 *
-	 * @param   string  $layout  The layout name.
+	 * @param	 string	$layout	The layout name.
 	 *
-	 * @return  JViewHtml  Method supports chaining.
+	 * @return	JViewHtml	Method supports chaining.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function setLayout($layout)
 	{
@@ -175,11 +175,11 @@ abstract class JViewHtml extends JViewBase
 	/**
 	 * Method to set the view paths.
 	 *
-	 * @param   SplPriorityQueue  $paths  The paths queue.
+	 * @param	 SplPriorityQueue	$paths	The paths queue.
 	 *
-	 * @return  JViewHtml  Method supports chaining.
+	 * @return	JViewHtml	Method supports chaining.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function setPaths(SplPriorityQueue $paths)
 	{
@@ -191,9 +191,9 @@ abstract class JViewHtml extends JViewBase
 	/**
 	 * Method to load the paths queue.
 	 *
-	 * @return  SplPriorityQueue  The paths queue.
+	 * @return	SplPriorityQueue	The paths queue.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function loadPaths()
 	{

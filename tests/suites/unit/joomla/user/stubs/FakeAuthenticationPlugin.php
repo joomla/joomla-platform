@@ -1,37 +1,37 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  User
+ * @package		 Joomla.UnitTest
+ * @subpackage	User
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * A mock user authentication plugin.
  *
- * @package     Joomla.UnitTest
- * @subpackage  User
- * @since       11.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	User
+ * @since			 11.1
  */
 class PlgAuthenticationFake
 {
 	/**
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	public $name = 'fake';
 
 	/**
 	 * Test...
 	 *
-	 * @param   array                   $credentials  @todo
-	 * @param   array                   $options      @todo
-	 * @param   JAuthenicationResponse  &$response    @todo
+	 * @param	 array									 $credentials	@todo
+	 * @param	 array									 $options			@todo
+	 * @param	 JAuthenicationResponse	&$response		@todo
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function onUserAuthenticate($credentials, $options, &$response)
 	{

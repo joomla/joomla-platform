@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Model
+ * @package		 Joomla.UnitTest
+ * @subpackage	Model
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 JLoader::register('BaseModel', __DIR__ . '/stubs/tbase.php');
@@ -12,25 +12,25 @@ JLoader::register('BaseModel', __DIR__ . '/stubs/tbase.php');
 /**
  * Tests for the JViewBase class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Mapper
- * @since       12.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	Mapper
+ * @since			 12.1
  */
 class JModelBaseTest extends TestCase
 {
 	/**
-	 * @var    BaseModel
-	 * @since  12.1
+	 * @var		BaseModel
+	 * @since	12.1
 	 */
 	private $_instance;
 
 	/**
 	 * Tests the __construct method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JModelBase::__construct
-	 * @since   12.1
+	 * @covers	JModelBase::__construct
+	 * @since	 12.1
 	 */
 	public function test__construct()
 	{
@@ -47,10 +47,10 @@ class JModelBaseTest extends TestCase
 	/**
 	 * Tests the getState method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JModelBase::getState
-	 * @since   12.1
+	 * @covers	JModelBase::getState
+	 * @since	 12.1
 	 */
 	public function testGetState()
 	{
@@ -63,10 +63,10 @@ class JModelBaseTest extends TestCase
 	/**
 	 * Tests the setState method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JModelBase::setState
-	 * @since   12.1
+	 * @covers	JModelBase::setState
+	 * @since	 12.1
 	 */
 	public function testSetState()
 	{
@@ -78,10 +78,10 @@ class JModelBaseTest extends TestCase
 	/**
 	 * Tests the loadState method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JModelBase::loadState
-	 * @since   12.1
+	 * @covers	JModelBase::loadState
+	 * @since	 12.1
 	 */
 	public function testLoadState()
 	{
@@ -91,9 +91,9 @@ class JModelBaseTest extends TestCase
 	/**
 	 * Setup the tests.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function setUp()
 	{

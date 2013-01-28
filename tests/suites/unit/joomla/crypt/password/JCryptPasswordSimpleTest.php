@@ -1,19 +1,19 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Hash
+ * @package		 Joomla.UnitTest
+ * @subpackage	Hash
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 
 /**
  * Test class for JCryptPasswordSimple.
  *
- * @package  Joomla.UnitTest
+ * @package	Joomla.UnitTest
  *
- * @since    11.1
+ * @since		11.1
  */
 class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 {
@@ -44,9 +44,9 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Data provider for testCreateException method.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function createExceptionData()
 	{
@@ -58,21 +58,21 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests create method for expected exception
 	 *
-	 * @param   string   $password  The password to create
-	 * @param   string   $type      The type of hash
-	 * @param   string   $salt      The salt to be used
-	 * @param   string   $expected  The expected result
-	 * @param   integer  $cost      The cost value
+	 * @param	 string	 $password	The password to create
+	 * @param	 string	 $type			The type of hash
+	 * @param	 string	 $salt			The salt to be used
+	 * @param	 string	 $expected	The expected result
+	 * @param	 integer	$cost			The cost value
 	 *
-	 * @covers  JCryptPasswordSimple::create
+	 * @covers	JCryptPasswordSimple::create
 	 *
-	 * @expectedException  InvalidArgumentException
+	 * @expectedException	InvalidArgumentException
 	 *
 	 * @return void
 	 *
-	 * @dataProvider  createExceptionData
+	 * @dataProvider	createExceptionData
 	 *
-	 * @since    12.3
+	 * @since		12.3
 	 */
 	public function testCreateException($password, $type, $salt, $expected, $cost)
 	{
@@ -93,17 +93,17 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the JCryptPasswordSimple::Create method.
 	 *
-	 * @param   string   $password  The password to create
-	 * @param   string   $type      The type of hash
-	 * @param   string   $salt      The salt to be used
-	 * @param   string   $expected  The expected result
-	 * @param   integer  $cost      The cost value
+	 * @param	 string	 $password	The password to create
+	 * @param	 string	 $type			The type of hash
+	 * @param	 string	 $salt			The salt to be used
+	 * @param	 string	 $expected	The expected result
+	 * @param	 integer	$cost			The cost value
 	 *
-	 * @return        void
+	 * @return				void
 	 *
-	 * @dataProvider  createData
+	 * @dataProvider	createData
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testCreate($password, $type, $salt, $expected, $cost = 10)
 	{
@@ -143,12 +143,12 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the verify method.
 	 *
-	 * @param   string  $password     The password to verify
-	 * @param   string  $hash         The hash
-	 * @param   string  $expectation  The expected result
+	 * @param	 string	$password		 The password to verify
+	 * @param	 string	$hash				 The hash
+	 * @param	 string	$expectation	The expected result
 	 *
-	 * @covers        JCryptPasswordSimple::verify
-	 * @dataProvider  verifyData
+	 * @covers				JCryptPasswordSimple::verify
+	 * @dataProvider	verifyData
 	 *
 	 * @return void
 	 */
@@ -161,10 +161,10 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Data Provider for testDefaultType
-	 * 
+	 *
 	 * @return array
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function defaultTypeData()
 	{
@@ -178,15 +178,15 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the setDefaultType method.
 	 *
-	 * @param   string  $type         The proposed default type
-	 * @param   string  $expectation  The expected value of $this->defaultType
+	 * @param	 string	$type				 The proposed default type
+	 * @param	 string	$expectation	The expected value of $this->defaultType
 	 *
-	 * @covers        JCryptPasswordSimple::setDefaultType
-	 * @dataProvider  defaultTypeData
+	 * @covers				JCryptPasswordSimple::setDefaultType
+	 * @dataProvider	defaultTypeData
 	 *
 	 * @return void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testSetDefaultType($type, $expectation)
 	{
@@ -201,15 +201,15 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getDefaultType method.
 	 *
-	 * @param   string  $type         The proposed default type
-	 * @param   string  $expectation  The expected value of $this->defaultType
+	 * @param	 string	$type				 The proposed default type
+	 * @param	 string	$expectation	The expected value of $this->defaultType
 	 *
-	 * @covers        JCryptPasswordSimple::getDefaultType
-	 * @dataProvider  defaultTypeData
+	 * @covers				JCryptPasswordSimple::getDefaultType
+	 * @dataProvider	defaultTypeData
 	 *
 	 * @return void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testGetDefaultType($type, $expectation)
 	{

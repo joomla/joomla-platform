@@ -1,47 +1,47 @@
 <?php
 /**
- * @package    Joomla.UnitTest
+ * @package		Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JGoogle.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Google
- * @since       12.3
+ * @package		 Joomla.UnitTest
+ * @subpackage	Google
+ * @since			 12.3
  */
 class JGoogleTest extends TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the JOAuth2Client object.
+	 * @var		JRegistry	Options for the JOAuth2Client object.
 	 */
 	protected $options;
 
 	/**
-	 * @var    JHttp  Mock client object.
+	 * @var		JHttp	Mock client object.
 	 */
 	protected $http;
 
 	/**
-	 * @var    JInput  The input object to use in retrieving GET/POST data.
+	 * @var		JInput	The input object to use in retrieving GET/POST data.
 	 */
 	protected $input;
 
 	/**
-	 * @var    JOAuth2Client  The OAuth client for sending requests to Google.
+	 * @var		JOAuth2Client	The OAuth client for sending requests to Google.
 	 */
 	protected $oauth;
 
 	/**
-	 * @var    JGoogleAuth  The authentication wrapper for sending requests to Google.
+	 * @var		JGoogleAuth	The authentication wrapper for sending requests to Google.
 	 */
 	protected $auth;
 
 	/**
-	 * @var    JGoogle  Object under test.
+	 * @var		JGoogle	Object under test.
 	 */
 	protected $object;
 

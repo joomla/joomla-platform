@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Application
+ * @package		 Joomla.UnitTest
+ * @subpackage	Application
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 include_once __DIR__ . '/stubs/JApplicationDaemonInspector.php';
@@ -12,26 +12,26 @@ include_once __DIR__ . '/stubs/JApplicationDaemonInspector.php';
 /**
  * Test class for JApplicationDaemon.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Application
- * @since       11.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	Application
+ * @since			 11.1
  */
 class JApplicationDaemonTest extends TestCase
 {
 	/**
 	 * An instance of a JApplicationDaemon inspector.
 	 *
-	 * @var    JApplicationDaemonInspector
-	 * @since  11.3
+	 * @var		JApplicationDaemonInspector
+	 * @since	11.3
 	 */
 	protected $inspector;
 
 	/**
 	 * Setup for testing.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function setUp()
 	{
@@ -56,10 +56,10 @@ class JApplicationDaemonTest extends TestCase
 	/**
 	 * Overrides the parent tearDown method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   11.3
+	 * @see		 PHPUnit_Framework_TestCase::tearDown()
+	 * @since	 11.3
 	 */
 	protected function tearDown()
 	{
@@ -83,10 +83,10 @@ class JApplicationDaemonTest extends TestCase
 	/**
 	 * Overrides the parent tearDown method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDownAfterClass()
-	 * @since   11.3
+	 * @see		 PHPUnit_Framework_TestCase::tearDownAfterClass()
+	 * @since	 11.3
 	 */
 	public static function tearDownAfterClass()
 	{
@@ -104,9 +104,9 @@ class JApplicationDaemonTest extends TestCase
 	/**
 	 * Tests the JApplicationDaemon::changeIdentity method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testChangeIdentity()
 	{
@@ -116,9 +116,9 @@ class JApplicationDaemonTest extends TestCase
 	/**
 	 * Tests the JApplicationDaemon::daemonize method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testDaemonize()
 	{
@@ -128,9 +128,9 @@ class JApplicationDaemonTest extends TestCase
 	/**
 	 * Tests the JApplicationDaemon::fork method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testFork()
 	{
@@ -140,9 +140,9 @@ class JApplicationDaemonTest extends TestCase
 	/**
 	 * Tests the JApplicationDaemon::gc method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testGc()
 	{
@@ -152,9 +152,9 @@ class JApplicationDaemonTest extends TestCase
 	/**
 	 * Tests the JApplicationDaemon::isActive method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testIsActive()
 	{
@@ -164,9 +164,9 @@ class JApplicationDaemonTest extends TestCase
 	/**
 	 * Tests the JApplicationDaemon::loadConfiguration method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testLoadConfiguration()
 	{
@@ -176,9 +176,9 @@ class JApplicationDaemonTest extends TestCase
 	/**
 	 * Tests the JApplicationDaemon::setupSignalHandlers method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testSetupSignalHandlers()
 	{
@@ -200,9 +200,9 @@ class JApplicationDaemonTest extends TestCase
 	/**
 	 * Tests the JApplicationDaemon::setupSignalHandlers method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testSetupSignalHandlersFailure()
 	{
@@ -225,9 +225,9 @@ class JApplicationDaemonTest extends TestCase
 	/**
 	 * Tests the JApplicationDaemon::shutdown method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testShutdown()
 	{
@@ -237,9 +237,9 @@ class JApplicationDaemonTest extends TestCase
 	/**
 	 * Tests the JApplicationDaemon::signal method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testSignal()
 	{
@@ -249,9 +249,9 @@ class JApplicationDaemonTest extends TestCase
 	/**
 	 * Tests the JApplicationDaemon::execute method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testExecute()
 	{
@@ -261,9 +261,9 @@ class JApplicationDaemonTest extends TestCase
 	/**
 	 * Tests the JApplicationDaemon::writeProcessIdFile method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testWriteProcessIdFile()
 	{

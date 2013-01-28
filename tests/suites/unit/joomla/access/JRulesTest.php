@@ -1,18 +1,18 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Access
+ * @package		 Joomla.UnitTest
+ * @subpackage	Access
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JAccessRules.
  *
- * @package  Joomla.Platform
+ * @package	Joomla.Platform
  *
- * @since    11.1
+ * @since		11.1
  */
 class JAccessRulesTest extends PHPUnit_Framework_TestCase
 {
@@ -20,14 +20,14 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 	 * This method tests both the contructor and the __toString magic method.
 	 *
 	 * The input for this class could come from a posted form, or from a JSON string
-	 * stored in the database.  We need to ensure that the resulting JSON is the same
+	 * stored in the database.	We need to ensure that the resulting JSON is the same
 	 * as the input.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
-	 * @covers  JAccessRules::__construct
-	 * @covers  JAccessRules::__toString
+	 * @since	 11.1
+	 * @covers	JAccessRules::__construct
+	 * @covers	JAccessRules::__toString
 	 */
 	public function test__constructString()
 	{
@@ -53,10 +53,10 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the JAccessRules::getData method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.2
-	 * @covers  JAccessRules::getData
+	 * @since	 12.2
+	 * @covers	JAccessRules::getData
 	 */
 	public function testGetData()
 	{
@@ -86,10 +86,10 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test...
 	 *
-	 * @covers  JAccessRules::__construct
-	 * @covers  JAccessRules::__toString
+	 * @covers	JAccessRules::__construct
+	 * @covers	JAccessRules::__toString
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function test__constructArray()
 	{
@@ -114,10 +114,10 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test...
 	 *
-	 * @covers  JAccessRules::__construct
-	 * @covers  JAccessRules::__toString
+	 * @covers	JAccessRules::__construct
+	 * @covers	JAccessRules::__toString
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function test__constructObject()
 	{
@@ -144,10 +144,10 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the JAccessRules::mergeAction method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
-	 * @covers  JAccessRules::mergeAction
+	 * @since	 11.1
+	 * @covers	JAccessRules::mergeAction
 	 */
 	public function testMergeRule()
 	{
@@ -203,10 +203,10 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the JAccessRules::merge method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
-	 * @covers  JAccessRules::merge
+	 * @since	 11.1
+	 * @covers	JAccessRules::merge
 	 */
 	public function testMerge()
 	{
@@ -254,9 +254,9 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test...
 	 *
-	 * @covers  JAccessRules::merge
+	 * @covers	JAccessRules::merge
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testMergeArray()
 	{
@@ -282,9 +282,9 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test...
 	 *
-	 * @covers  JAccessRules::merge
+	 * @covers	JAccessRules::merge
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testMergeRulesNull()
 	{
@@ -312,7 +312,7 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test...
 	 *
-	 * @covers  JAccessRules::merge
+	 * @covers	JAccessRules::merge
 	 *
 	 * @return void
 	 */
@@ -363,10 +363,10 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the JAccessRules::allow method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
-	 * @covers  JAccessRules::allow
+	 * @since	 11.1
+	 * @covers	JAccessRules::allow
 	 */
 	public function testAllow()
 	{
@@ -421,10 +421,10 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the JAccessRules::getAllowed method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
-	 * @covers  JAccessRules::getAllowed
+	 * @since	 11.1
+	 * @covers	JAccessRules::getAllowed
 	 */
 	public function testGetAllowed()
 	{

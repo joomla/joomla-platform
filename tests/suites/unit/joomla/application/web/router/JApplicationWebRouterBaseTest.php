@@ -1,39 +1,39 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Application
+ * @package		 Joomla.UnitTest
+ * @subpackage	Application
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JApplicationWebRouterBase.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Application
- * @since       12.3
+ * @package		 Joomla.UnitTest
+ * @subpackage	Application
+ * @since			 12.3
  */
 class JApplicationWebRouterBaseTest extends TestCase
 {
 	/**
-	 * @var    JApplicationWebRouterBase  The object to be tested.
-	 * @since  12.3
+	 * @var		JApplicationWebRouterBase	The object to be tested.
+	 * @since	12.3
 	 */
 	private $_instance;
 
 	/**
-	 * @var    JInput  The JInput object to be inspected for route variables.
-	 * @since  12.3
+	 * @var		JInput	The JInput object to be inspected for route variables.
+	 * @since	12.3
 	 */
 	private $_input;
 
 	/**
 	 * Provides test data for route parsing.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public static function getParseRouteData()
 	{
@@ -63,10 +63,10 @@ class JApplicationWebRouterBaseTest extends TestCase
 	/**
 	 * Tests the addMap method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JApplicationWebRouterBase::addMap
-	 * @since   12.3
+	 * @covers	JApplicationWebRouterBase::addMap
+	 * @since	 12.3
 	 */
 	public function testAddMap()
 	{
@@ -88,10 +88,10 @@ class JApplicationWebRouterBaseTest extends TestCase
 	/**
 	 * Tests the addMaps method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JApplicationWebRouterBase::addMaps
-	 * @since   12.3
+	 * @covers	JApplicationWebRouterBase::addMaps
+	 * @since	 12.3
 	 */
 	public function testAddMaps()
 	{
@@ -133,17 +133,17 @@ class JApplicationWebRouterBaseTest extends TestCase
 	/**
 	 * Tests the JApplicationWebRouterBase::parseRoute method.
 	 *
-	 * @param   string   $r  The route to parse.
-	 * @param   boolean  $e  True if an exception is expected.
-	 * @param   string   $c  The expected controller name.
-	 * @param   array    $i  The expected input object data.
-	 * @param   integer  $m  The map set to use for setting up the router.
+	 * @param	 string	 $r	The route to parse.
+	 * @param	 boolean	$e	True if an exception is expected.
+	 * @param	 string	 $c	The expected controller name.
+	 * @param	 array		$i	The expected input object data.
+	 * @param	 integer	$m	The map set to use for setting up the router.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers       JApplicationWebRouterBase::parseRoute
+	 * @covers			 JApplicationWebRouterBase::parseRoute
 	 * @dataProvider getParseRouteData
-	 * @since        12.3
+	 * @since				12.3
 	 */
 	public function testParseRoute($r, $e, $c, $i, $m)
 	{
@@ -170,9 +170,9 @@ class JApplicationWebRouterBaseTest extends TestCase
 	 *
 	 * This has no routes but has a default controller for the home page.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	protected function setMaps1()
 	{
@@ -183,9 +183,9 @@ class JApplicationWebRouterBaseTest extends TestCase
 	/**
 	 * Setup the router maps to option 2.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	protected function setMaps2()
 	{
@@ -206,9 +206,9 @@ class JApplicationWebRouterBaseTest extends TestCase
 	/**
 	 * Prepares the environment before running a test.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	protected function setUp()
 	{
@@ -224,9 +224,9 @@ class JApplicationWebRouterBaseTest extends TestCase
 	/**
 	 * Cleans up the environment after running a test.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	protected function tearDown()
 	{

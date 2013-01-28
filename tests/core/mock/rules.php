@@ -1,27 +1,27 @@
 <?php
 /**
- * @package    Joomla.Test
+ * @package		Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Class to mock JRules.
  *
- * @package  Joomla.Test
- * @since    12.1
+ * @package	Joomla.Test
+ * @since		12.1
  */
 class TestMockRules
 {
 	/**
 	 * Creates an instance of the mock JDatabase object.
 	 *
-	 * @param   object  $test  A test object.
+	 * @param	 object	$test	A test object.
 	 *
-	 * @return  object
+	 * @return	object
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public static function create($test)
 	{
@@ -55,12 +55,12 @@ class TestMockRules
 	/**
 	 * Mocking the allow method.
 	 *
-	 * @param   string   $action    The action.
-	 * @param   integer  $identity  The identity ID.
+	 * @param	 string	 $action		The action.
+	 * @param	 integer	$identity	The identity ID.
 	 *
-	 * @return  mixed  Boolean or null.
+	 * @return	mixed	Boolean or null.
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function mockAllow($action, $identity)
 	{

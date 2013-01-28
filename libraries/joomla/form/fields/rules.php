@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Form
+ * @package		 Joomla.Platform
+ * @subpackage	Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -13,18 +13,18 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * Field for assigning permissions to groups for a given asset
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @see         JAccess
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Form
+ * @see				 JAccess
+ * @since			 11.1
  */
 class JFormFieldRules extends JFormField
 {
 	/**
 	 * The form field type.
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	public $type = 'Rules';
 
@@ -34,9 +34,9 @@ class JFormFieldRules extends JFormField
 	 *
 	 * TODO: Add access check.
 	 *
-	 * @return  string  The field input markup.
+	 * @return	string	The field input markup.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function getInput()
 	{
@@ -235,7 +235,7 @@ class JFormFieldRules extends JFormField
 					}
 					else
 					{
-						// Special handling for  groups that have global admin because they can't  be denied.
+						// Special handling for	groups that have global admin because they can't	be denied.
 						// The admin rights can be changed.
 						if ($action->name === 'core.admin')
 						{
@@ -302,9 +302,9 @@ class JFormFieldRules extends JFormField
 	/**
 	 * Get a list of the user groups.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function getUserGroups()
 	{

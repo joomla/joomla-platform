@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Document
+ * @package		 Joomla.Platform
+ * @subpackage	Document
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -16,32 +16,32 @@ defined('JPATH_PLATFORM') or die;
  * produce valid atom files. For example, you have to specify either an editor
  * for the feed or an author for every single feed item.
  *
- * @package     Joomla.Platform
- * @subpackage  Document
- * @see         http://www.atomenabled.org/developers/syndication/atom-format-spec.php
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Document
+ * @see				 http://www.atomenabled.org/developers/syndication/atom-format-spec.php
+ * @since			 11.1
  */
 class JDocumentRendererAtom extends JDocumentRenderer
 {
 	/**
 	 * Document mime type
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $_mime = "application/atom+xml";
 
 	/**
 	 * Render the feed.
 	 *
-	 * @param   string  $name     The name of the element to render
-	 * @param   array   $params   Array of values
-	 * @param   string  $content  Override the output of the renderer
+	 * @param	 string	$name		 The name of the element to render
+	 * @param	 array	 $params	 Array of values
+	 * @param	 string	$content	Override the output of the renderer
 	 *
-	 * @return  string  The output of the script
+	 * @return	string	The output of the script
 	 *
 	 * @see JDocumentRenderer::render()
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function render($name = '', $params = null, $content = null)
 	{
@@ -172,7 +172,7 @@ class JDocumentRendererAtom extends JDocumentRenderer
 			if ($data->items[$i]->enclosure != null)
 			{
 				$feed .= "		<link rel=\"enclosure\" href=\"" . $data->items[$i]->enclosure->url . "\" type=\""
-					. $data->items[$i]->enclosure->type . "\"  length=\"" . $data->items[$i]->enclosure->length . "\" />\n";
+					. $data->items[$i]->enclosure->type . "\"	length=\"" . $data->items[$i]->enclosure->length . "\" />\n";
 			}
 			$feed .= "	</entry>\n";
 		}
