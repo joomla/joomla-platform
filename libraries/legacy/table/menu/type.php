@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Legacy
- * @subpackage  Table
+ * @package		 Joomla.Legacy
+ * @subpackage	Table
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,19 +12,19 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Menu Types table
  *
- * @package     Joomla.Legacy
- * @subpackage  Table
- * @since       11.1
- * @deprecated  13.3
+ * @package		 Joomla.Legacy
+ * @subpackage	Table
+ * @since			 11.1
+ * @deprecated	13.3
  */
 class JTableMenuType extends JTable
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db  Database driver object.
+	 * @param	 JDatabaseDriver	$db	Database driver object.
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function __construct(JDatabaseDriver $db)
 	{
@@ -34,10 +34,10 @@ class JTableMenuType extends JTable
 	/**
 	 * Overloaded check function
 	 *
-	 * @return  boolean  True on success, false on failure
+	 * @return	boolean	True on success, false on failure
 	 *
-	 * @see     JTable::check
-	 * @since   11.1
+	 * @see		 JTable::check
+	 * @since	 11.1
 	 */
 	public function check()
 	{
@@ -77,16 +77,16 @@ class JTableMenuType extends JTable
 	/**
 	 * Method to store a row in the database from the JTable instance properties.
 	 * If a primary key value is set the row with that primary key value will be
-	 * updated with the instance property values.  If no primary key value is set
+	 * updated with the instance property values.	If no primary key value is set
 	 * a new row will be inserted into the database with the properties from the
 	 * JTable instance.
 	 *
-	 * @param   boolean  $updateNulls  True to update fields even if they are null.
+	 * @param	 boolean	$updateNulls	True to update fields even if they are null.
 	 *
-	 * @return  boolean  True on success.
+	 * @return	boolean	True on success.
 	 *
-	 * @link    http://docs.joomla.org/JTable/store
-	 * @since   11.1
+	 * @link		http://docs.joomla.org/JTable/store
+	 * @since	 11.1
 	 */
 	public function store($updateNulls = false)
 	{
@@ -162,12 +162,12 @@ class JTableMenuType extends JTable
 	/**
 	 * Method to delete a row from the database table by primary key value.
 	 *
-	 * @param   mixed  $pk  An optional primary key value to delete.  If not set the instance property value is used.
+	 * @param	 mixed	$pk	An optional primary key value to delete.	If not set the instance property value is used.
 	 *
-	 * @return  boolean  True on success.
+	 * @return	boolean	True on success.
 	 *
-	 * @link    http://docs.joomla.org/JTable/delete
-	 * @since   11.1
+	 * @link		http://docs.joomla.org/JTable/delete
+	 * @since	 11.1
 	 */
 	public function delete($pk = null)
 	{

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Table
+ * @package		 Joomla.Platform
+ * @subpackage	Table
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,18 +12,18 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Languages table.
  *
- * @package     Joomla.Platform
- * @subpackage  Table
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Table
+ * @since			 11.1
  */
 class JTableLanguage extends JTable
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db  Database driver object.
+	 * @param	 JDatabaseDriver	$db	Database driver object.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __construct(JDatabaseDriver $db)
 	{
@@ -33,9 +33,9 @@ class JTableLanguage extends JTable
 	/**
 	 * Overloaded check method to ensure data integrity
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function check()
 	{
@@ -52,11 +52,11 @@ class JTableLanguage extends JTable
 	/**
 	 * Overrides JTable::store to check unique fields.
 	 *
-	 * @param   boolean  $updateNulls  True to update fields even if they are null.
+	 * @param	 boolean	$updateNulls	True to update fields even if they are null.
 	 *
-	 * @return  boolean  True on success.
+	 * @return	boolean	True on success.
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function store($updateNulls = false)
 	{

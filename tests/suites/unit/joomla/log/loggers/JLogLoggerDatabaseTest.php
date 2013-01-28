@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Log
+ * @package		 Joomla.UnitTest
+ * @subpackage	Log
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once __DIR__ . '/stubs/database/inspector.php';
@@ -12,9 +12,9 @@ require_once __DIR__ . '/stubs/database/inspector.php';
 /**
  * Test class for JLogLoggerDatabase.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Log
- * @since       11.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	Log
+ * @since			 11.1
  */
 class JLogLoggerDatabaseTest extends TestCaseDatabase
 {
@@ -129,9 +129,9 @@ class JLogLoggerDatabaseTest extends TestCaseDatabase
 	/**
 	 * Failing test for the JLogLoggerDatabase::connect method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 *
 	 * @expectedException RuntimeException
 	 */

@@ -1,27 +1,27 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Database
+ * @package		 Joomla.UnitTest
+ * @subpackage	Database
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JDatabaseMySQL.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Database
- * @since       11.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	Database
+ * @since			 11.1
  */
 class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 {
 	/**
 	 * Data for the testEscape test.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function dataTestEscape()
 	{
@@ -34,9 +34,9 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	/**
 	 * Test __destruct method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function test__destruct()
 	{
@@ -46,9 +46,9 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	/**
 	 * Test connected method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testConnected()
 	{
@@ -58,9 +58,9 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	/**
 	 * Tests the dropTable method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testDropTable()
 	{
@@ -70,14 +70,14 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	/**
 	 * Tests the escape method.
 	 *
-	 * @param   string   $text      The string to be escaped.
-	 * @param   boolean  $extra     Optional parameter to provide extra escaping.
-	 * @param   string   $expected  The expected result.
+	 * @param	 string	 $text			The string to be escaped.
+	 * @param	 boolean	$extra		 Optional parameter to provide extra escaping.
+	 * @param	 string	 $expected	The expected result.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @dataProvider  dataTestEscape
-	 * @since         11.4
+	 * @dataProvider	dataTestEscape
+	 * @since				 11.4
 	 */
 	public function testEscape($text, $extra, $expected)
 	{
@@ -87,9 +87,9 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	/**
 	 * Test getAffectedRows method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testGetAffectedRows()
 	{
@@ -106,9 +106,9 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	/**
 	 * Test getExporter method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testGetExporter()
 	{
@@ -122,9 +122,9 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	/**
 	 * Test getImporter method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testGetImporter()
 	{
@@ -138,9 +138,9 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	/**
 	 * Test getNumRows method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testGetNumRows()
 	{
@@ -150,9 +150,9 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	/**
 	 * Tests the getTableCreate method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testGetTableCreate()
 	{
@@ -166,9 +166,9 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	/**
 	 * Tests the getTableKeys method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testGetTableKeys()
 	{
@@ -182,9 +182,9 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	/**
 	 * Tests the getTableList method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testGetTableList()
 	{
@@ -198,9 +198,9 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	/**
 	 * Test getVersion method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testGetVersion()
 	{
@@ -214,9 +214,9 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	/**
 	 * Test insertid method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testInsertid()
 	{
@@ -226,9 +226,9 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	/**
 	 * Test insertObject method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testInsertObject()
 	{
@@ -238,9 +238,9 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	/**
 	 * Test loadAssoc method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testLoadAssoc()
 	{
@@ -256,9 +256,9 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	/**
 	 * Test loadAssocList method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testLoadAssocList()
 	{
@@ -278,9 +278,9 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	/**
 	 * Test loadColumn method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testLoadColumn()
 	{
@@ -296,9 +296,9 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	/**
 	 * Test loadNextObject method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testLoadNextObject()
 	{
@@ -308,9 +308,9 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	/**
 	 * Test loadNextRow method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testLoadNextRow()
 	{
@@ -320,9 +320,9 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	/**
 	 * Test loadObject method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testLoadObject()
 	{
@@ -345,9 +345,9 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	/**
 	 * Test loadObjectList method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testLoadObjectList()
 	{
@@ -398,9 +398,9 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	/**
 	 * Test loadResult method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testLoadResult()
 	{
@@ -419,9 +419,9 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	/**
 	 * Test loadRow method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testLoadRow()
 	{
@@ -440,9 +440,9 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	/**
 	 * Test loadRowList method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testLoadRowList()
 	{
@@ -461,9 +461,9 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	/**
 	 * Test the JDatabaseDriverMysqli::query() method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testQuery()
 	{
@@ -478,9 +478,9 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	/**
 	 * Test select method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testSelect()
 	{
@@ -490,9 +490,9 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	/**
 	 * Test setUTF method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testSetUTF()
 	{
@@ -502,9 +502,9 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	/**
 	 * Test isSupported method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testIsSupported()
 	{
@@ -514,9 +514,9 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	/**
 	 * Test updateObject method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testUpdateObject()
 	{
@@ -526,9 +526,9 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  xml dataset
+	 * @return	xml dataset
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	protected function getDataSet()
 	{

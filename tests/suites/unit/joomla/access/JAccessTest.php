@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Access
+ * @package		 Joomla.UnitTest
+ * @subpackage	Access
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM . '/joomla/filesystem/path.php';
@@ -12,25 +12,25 @@ require_once JPATH_PLATFORM . '/joomla/filesystem/path.php';
 /**
  * Test class for JAccess.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Access
- * @since       11.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	Access
+ * @since			 11.1
  */
 class JAccessTest extends TestCaseDatabase
 {
 	/**
-	 * @var    JAccess
-	 * @since  11.1
+	 * @var		JAccess
+	 * @since	11.1
 	 */
 	protected $object;
 
 	/**
 	 * Tests the JAccess::getAuthorisedViewLevels method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
-	 * @covers  JAccess::getAuthorisedViewLevels
+	 * @since	 11.1
+	 * @covers	JAccess::getAuthorisedViewLevels
 	 */
 	public function testGetAuthorisedViewLevels()
 	{
@@ -56,16 +56,16 @@ class JAccessTest extends TestCaseDatabase
 	 * Test cases for testCheck
 	 *
 	 * Each test case provides
-	 * - integer        userid    a user id
-	 * - integer        groupid  a group id
-	 * - string        action    an action to test permission for
-	 * - integer        assetid id of asset to check
-	 * - mixed        true is have permission, null if no permission
-	 * - string        message if fails
+	 * - integer				userid		a user id
+	 * - integer				groupid	a group id
+	 * - string				action		an action to test permission for
+	 * - integer				assetid id of asset to check
+	 * - mixed				true is have permission, null if no permission
+	 * - string				message if fails
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function casesCheck()
 	{
@@ -97,17 +97,17 @@ class JAccessTest extends TestCaseDatabase
 	/**
 	 * Tests the JAccess::check method.
 	 *
-	 * @param   integer  $userId   user id
-	 * @param   string   $action   action to test
-	 * @param   integer  $assetId  asset id
-	 * @param   mixed    $result   true if success, null if not
-	 * @param   string   $message  fail message
+	 * @param	 integer	$userId	 user id
+	 * @param	 string	 $action	 action to test
+	 * @param	 integer	$assetId	asset id
+	 * @param	 mixed		$result	 true if success, null if not
+	 * @param	 string	 $message	fail message
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 * @dataProvider casesCheck()
-	 * @covers  JAccess::check
+	 * @covers	JAccess::check
 	 *
 	 * @return void
 	 */
@@ -121,16 +121,16 @@ class JAccessTest extends TestCaseDatabase
 	 * Test cases for testCheckGroups
 	 *
 	 * Each test case provides
-	 * - integer        userid    a user id
-	 * - integer        groupid  a group id
-	 * - string        action    an action to test permission for
-	 * - integer        assetid id of asset to check
-	 * - mixed        true is have permission, null if no permission
-	 * - string        message if fails
+	 * - integer				userid		a user id
+	 * - integer				groupid	a group id
+	 * - string				action		an action to test permission for
+	 * - integer				assetid id of asset to check
+	 * - mixed				true is have permission, null if no permission
+	 * - string				message if fails
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function casesCheckGroup()
 	{
@@ -157,17 +157,17 @@ class JAccessTest extends TestCaseDatabase
 	/**
 	 * Tests the JAccess::checkGroup method.
 	 *
-	 * @param   integer  $groupId  group id
-	 * @param   string   $action   action to test
-	 * @param   integer  $assetId  asset id
-	 * @param   mixed    $result   true if success, null if not
-	 * @param   string   $message  fail message
+	 * @param	 integer	$groupId	group id
+	 * @param	 string	 $action	 action to test
+	 * @param	 integer	$assetId	asset id
+	 * @param	 mixed		$result	 true if success, null if not
+	 * @param	 string	 $message	fail message
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 * @dataProvider casesCheckGroup()
-	 * @covers  JAccess::checkGroup
+	 * @covers	JAccess::checkGroup
 	 */
 	public function testCheckGroup($groupId, $action, $assetId, $result, $message)
 	{
@@ -178,10 +178,10 @@ class JAccessTest extends TestCaseDatabase
 	/**
 	 * Tests the JAccess::getAssetRules method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
-	 * @covers  JAccess::getAssetRules
+	 * @since	 11.1
+	 * @covers	JAccess::getAssetRules
 	 */
 	public function testGetAssetRulesValidTrue()
 	{
@@ -195,10 +195,10 @@ class JAccessTest extends TestCaseDatabase
 	/**
 	 * Tests the JAccess::getAssetRules method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
-	 * @covers  JAccess::getAssetRules
+	 * @since	 11.1
+	 * @covers	JAccess::getAssetRules
 	 *
 	 * @return void
 	 */
@@ -213,10 +213,10 @@ class JAccessTest extends TestCaseDatabase
 	/**
 	 * Tests the JAccess::getAssetRules method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
-	 * @covers  JAccess::getAssetRules
+	 * @since	 11.1
+	 * @covers	JAccess::getAssetRules
 	 *
 	 * @return void
 	 */
@@ -232,10 +232,10 @@ class JAccessTest extends TestCaseDatabase
 	/**
 	 * Tests the JAccess::getAssetRules method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
-	 * @covers  JAccess::getAssetRules
+	 * @since	 11.1
+	 * @covers	JAccess::getAssetRules
 	 *
 	 * @return void
 	 */
@@ -251,10 +251,10 @@ class JAccessTest extends TestCaseDatabase
 	/**
 	 * Tests the JAccess::getAssetRules method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
-	 * @covers  JAccess::getAssetRules
+	 * @since	 11.1
+	 * @covers	JAccess::getAssetRules
 	 *
 	 * @return void
 	 */
@@ -270,10 +270,10 @@ class JAccessTest extends TestCaseDatabase
 	/**
 	 * Tests the JAccess::getUsersByGroup method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
-	 * @covers  JAccess::getUsersByGroup
+	 * @since	 11.1
+	 * @covers	JAccess::getUsersByGroup
 	 */
 	public function testGetUsersByGroupSimple()
 	{
@@ -285,10 +285,10 @@ class JAccessTest extends TestCaseDatabase
 	/**
 	 * Tests the JAccess::getUsersByGroup method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
-	 * @covers  JAccess::getUsersByGroup
+	 * @since	 11.1
+	 * @covers	JAccess::getUsersByGroup
 	 *
 	 * @return void
 	 */
@@ -303,10 +303,10 @@ class JAccessTest extends TestCaseDatabase
 	/**
 	 * Tests the JAccess::getUsersByGroup method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
-	 * @covers  JAccess::getUsersByGroup
+	 * @since	 11.1
+	 * @covers	JAccess::getUsersByGroup
 	 *
 	 * @return void
 	 */
@@ -321,10 +321,10 @@ class JAccessTest extends TestCaseDatabase
 	/**
 	 * Tests the JAccess::getGroupsByUser method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
-	 * @covers  JAccess::getGroupsByUser
+	 * @since	 11.1
+	 * @covers	JAccess::getGroupsByUser
 	 */
 	public function testGetGroupsByUser()
 	{
@@ -342,9 +342,9 @@ class JAccessTest extends TestCaseDatabase
 	/**
 	 * Data provider for the JAccess::getActionsFromData method.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function casesGetActionsFromData()
 	{
@@ -410,17 +410,17 @@ class JAccessTest extends TestCaseDatabase
 	/**
 	 * Tests the JAccess::getActionsFromData method.
 	 *
-	 * @param   string  $data      The XML string representing the actions.
-	 * @param   string  $xpath     The XPath query to extract the action elements.
-	 * @param   mixed   $expected  The expected array of actions.
-	 * @param   string  $msg       The failure message.
+	 * @param	 string	$data			The XML string representing the actions.
+	 * @param	 string	$xpath		 The XPath query to extract the action elements.
+	 * @param	 mixed	 $expected	The expected array of actions.
+	 * @param	 string	$msg			 The failure message.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 *
 	 * @dataProvider casesGetActionsFromData
-	 * @covers  JAccess::getActionsFromData
+	 * @covers	JAccess::getActionsFromData
 	 */
 	public function testGetActionsFromData($data, $xpath, $expected, $msg)
 	{
@@ -430,10 +430,10 @@ class JAccessTest extends TestCaseDatabase
 	/**
 	 * Tests the JAccess::getActionsFromFile method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
-	 * @covers  JAccess::getActionsFromFile
+	 * @since	 12.1
+	 * @covers	JAccess::getActionsFromFile
 	 */
 	public function testGetActionsFromFile()
 	{
@@ -482,9 +482,9 @@ class JAccessTest extends TestCaseDatabase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  xml dataset
+	 * @return	xml dataset
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function getDataSet()
 	{
@@ -495,9 +495,9 @@ class JAccessTest extends TestCaseDatabase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function setUp()
 	{
@@ -518,9 +518,9 @@ class JAccessTest extends TestCaseDatabase
 	/**
 	 * Remove created files
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since       12.1
+	 * @since			 12.1
 	 */
 	protected function tearDown()
 	{
@@ -530,9 +530,9 @@ class JAccessTest extends TestCaseDatabase
 	/**
 	 * Convenience method to cleanup before and after test
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	private function _cleanupTestFiles()
 	{
@@ -543,11 +543,11 @@ class JAccessTest extends TestCaseDatabase
 	/**
 	 * Convenience method to clean up for files test
 	 *
-	 * @param   string  $path  The path to clean
+	 * @param	 string	$path	The path to clean
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	private function _cleanupFile($path)
 	{

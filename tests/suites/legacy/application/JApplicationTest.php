@@ -1,19 +1,19 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Application
+ * @package		 Joomla.UnitTest
+ * @subpackage	Application
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JApplication.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Application
+ * @package		 Joomla.UnitTest
+ * @subpackage	Application
  *
- * @since       12.2
+ * @since			 12.2
  */
 class JApplicationTest extends TestCase
 {
@@ -21,7 +21,7 @@ class JApplicationTest extends TestCase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	protected function setUp()
 	{
@@ -33,7 +33,7 @@ class JApplicationTest extends TestCase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	protected function tearDown()
 	{
@@ -44,9 +44,9 @@ class JApplicationTest extends TestCase
 	/**
 	 * Test JApplication::getInstance
 	 *
-	 * @todo    Implement testGetInstance().
+	 * @todo		Implement testGetInstance().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetInstance()
 	{
@@ -57,9 +57,9 @@ class JApplicationTest extends TestCase
 	/**
 	 * Test JApplication::initialise
 	 *
-	 * @todo    Implement testInitialise().
+	 * @todo		Implement testInitialise().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testInitialise()
 	{
@@ -70,9 +70,9 @@ class JApplicationTest extends TestCase
 	/**
 	 * Test JApplication::__construct
 	 *
-	 * @todo    Implement testInitialise().
+	 * @todo		Implement testInitialise().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testConstruct()
 	{
@@ -92,9 +92,9 @@ class JApplicationTest extends TestCase
 	/**
 	 * Test JApplication::route
 	 *
-	 * @todo    Implement testRoute().
+	 * @todo		Implement testRoute().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testRoute()
 	{
@@ -105,9 +105,9 @@ class JApplicationTest extends TestCase
 	/**
 	 * Test JApplication::dispatch
 	 *
-	 * @todo    Implement testDispatch().
+	 * @todo		Implement testDispatch().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testDispatch()
 	{
@@ -118,9 +118,9 @@ class JApplicationTest extends TestCase
 	/**
 	 * Test JApplication::render
 	 *
-	 * @todo    Implement testRender().
+	 * @todo		Implement testRender().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testRender()
 	{
@@ -131,9 +131,9 @@ class JApplicationTest extends TestCase
 	/**
 	 * Test JApplication::close
 	 *
-	 * @todo    Implement testClose().
+	 * @todo		Implement testClose().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testClose()
 	{
@@ -144,9 +144,9 @@ class JApplicationTest extends TestCase
 	/**
 	 * Test JApplication::redirect
 	 *
-	 * @todo    Implement testRedirect().
+	 * @todo		Implement testRedirect().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testRedirect()
 	{
@@ -157,9 +157,9 @@ class JApplicationTest extends TestCase
 	/**
 	 * Test JApplication::enqueueMessage
 	 *
-	 * @todo    Implement testEnqueueMessage().
+	 * @todo		Implement testEnqueueMessage().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testEnqueueMessage()
 	{
@@ -170,9 +170,9 @@ class JApplicationTest extends TestCase
 	/**
 	 * Test JApplication::getMessageQueue
 	 *
-	 * @todo    Implement testGetMessageQueue().
+	 * @todo		Implement testGetMessageQueue().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetMessageQueue()
 	{
@@ -183,9 +183,9 @@ class JApplicationTest extends TestCase
 	/**
 	 * Test JApplication::getCfg
 	 *
-	 * @todo    Implement testGetCfg().
+	 * @todo		Implement testGetCfg().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetCfg()
 	{
@@ -196,9 +196,9 @@ class JApplicationTest extends TestCase
 	/**
 	 * Test JApplication::getName
 	 *
-	 * @todo    Implement testGetName().
+	 * @todo		Implement testGetName().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetName()
 	{
@@ -209,9 +209,9 @@ class JApplicationTest extends TestCase
 	/**
 	 * Test JApplication::getUserState
 	 *
-	 * @todo    Implement testGetUserState().
+	 * @todo		Implement testGetUserState().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetUserState()
 	{
@@ -222,9 +222,9 @@ class JApplicationTest extends TestCase
 	/**
 	 * Test JApplication::setUserState
 	 *
-	 * @todo    Implement testSetUserState().
+	 * @todo		Implement testSetUserState().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testSetUserState()
 	{
@@ -235,9 +235,9 @@ class JApplicationTest extends TestCase
 	/**
 	 * Test JApplication::getUserStateFromRequest
 	 *
-	 * @todo    Implement testGetUserStateFromRequest().
+	 * @todo		Implement testGetUserStateFromRequest().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetUserStateFromRequest()
 	{
@@ -248,9 +248,9 @@ class JApplicationTest extends TestCase
 	/**
 	 * Test JApplication::registerEvent
 	 *
-	 * @todo    Implement testRegisterEvent().
+	 * @todo		Implement testRegisterEvent().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testRegisterEvent()
 	{
@@ -261,9 +261,9 @@ class JApplicationTest extends TestCase
 	/**
 	 * Test JApplication::triggerEvent
 	 *
-	 * @todo    Implement testTriggerEvent().
+	 * @todo		Implement testTriggerEvent().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testTriggerEvent()
 	{
@@ -274,9 +274,9 @@ class JApplicationTest extends TestCase
 	/**
 	 * Test JApplication::login
 	 *
-	 * @todo    Implement testLogin().
+	 * @todo		Implement testLogin().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testLogin()
 	{
@@ -287,9 +287,9 @@ class JApplicationTest extends TestCase
 	/**
 	 * Test JApplication::logout
 	 *
-	 * @todo    Implement testLogout().
+	 * @todo		Implement testLogout().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testLogout()
 	{
@@ -300,9 +300,9 @@ class JApplicationTest extends TestCase
 	/**
 	 * Test JApplication::getTemplate
 	 *
-	 * @todo    Implement testGetTemplate().
+	 * @todo		Implement testGetTemplate().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetTemplate()
 	{
@@ -313,9 +313,9 @@ class JApplicationTest extends TestCase
 	/**
 	 * Test JApplication::getRouter
 	 *
-	 * @todo    Implement testGetRouter().
+	 * @todo		Implement testGetRouter().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetRouter()
 	{
@@ -326,9 +326,9 @@ class JApplicationTest extends TestCase
 	/**
 	 * Test JApplication::stringUrlSafe
 	 *
-	 * @todo    Implement testStringURLSafe().
+	 * @todo		Implement testStringURLSafe().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testStringURLSafe()
 	{
@@ -339,9 +339,9 @@ class JApplicationTest extends TestCase
 	/**
 	 * Test JApplication::getPathway
 	 *
-	 * @todo    Implement testGetPathway().
+	 * @todo		Implement testGetPathway().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetPathway()
 	{
@@ -352,9 +352,9 @@ class JApplicationTest extends TestCase
 	/**
 	 * Test JApplication::getMenu
 	 *
-	 * @todo    Implement testGetMenu().
+	 * @todo		Implement testGetMenu().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetMenu()
 	{
@@ -365,7 +365,7 @@ class JApplicationTest extends TestCase
 	/**
 	 * Testing JApplication::getHash
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetHash()
 	{
@@ -385,9 +385,9 @@ class JApplicationTest extends TestCase
 	/**
 	 * Test JApplication::checkSession
 	 *
-	 * @todo    Implement testCheckSession().
+	 * @todo		Implement testCheckSession().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testCheckSession()
 	{
@@ -398,9 +398,9 @@ class JApplicationTest extends TestCase
 	/**
 	 * Test JApplication::getClientId
 	 *
-	 * @todo    Implement testGetClientId().
+	 * @todo		Implement testGetClientId().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetClientId()
 	{
@@ -411,9 +411,9 @@ class JApplicationTest extends TestCase
 	/**
 	 * Test JApplication::isAdmin
 	 *
-	 * @todo    Implement testIsAdmin().
+	 * @todo		Implement testIsAdmin().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testIsAdmin()
 	{
@@ -424,9 +424,9 @@ class JApplicationTest extends TestCase
 	/**
 	 * Test JApplication::isSite
 	 *
-	 * @todo    Implement testIsSite().
+	 * @todo		Implement testIsSite().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testIsSite()
 	{
@@ -437,9 +437,9 @@ class JApplicationTest extends TestCase
 	/**
 	 * Test JApplication::isWinOs
 	 *
-	 * @todo    Implement testIsWinOS().
+	 * @todo		Implement testIsWinOS().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testIsWinOS()
 	{
@@ -450,7 +450,7 @@ class JApplicationTest extends TestCase
 	/**
 	 * Test JApplication::isSSLConnection
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testIsSSLConnection()
 	{

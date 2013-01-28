@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Log
+ * @package		 Joomla.Platform
+ * @subpackage	Log
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -18,107 +18,107 @@ defined('JPATH_PLATFORM') or die;
  * or plain Formattedtext) and finally MySQL offers the most features (e.g. rapid searching)
  * but will incur a performance hit due to INSERT being issued.
  *
- * @package     Joomla.Platform
- * @subpackage  Log
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Log
+ * @since			 11.1
  */
 class JLog
 {
 	/**
 	 * All log priorities.
-	 * @var    integer
-	 * @since  11.1
+	 * @var		integer
+	 * @since	11.1
 	 */
 	const ALL = 30719;
 
 	/**
 	 * The system is unusable.
-	 * @var    integer
-	 * @since  11.1
+	 * @var		integer
+	 * @since	11.1
 	 */
 	const EMERGENCY = 1;
 
 	/**
 	 * Action must be taken immediately.
-	 * @var    integer
-	 * @since  11.1
+	 * @var		integer
+	 * @since	11.1
 	 */
 	const ALERT = 2;
 
 	/**
 	 * Critical conditions.
-	 * @var    integer
-	 * @since  11.1
+	 * @var		integer
+	 * @since	11.1
 	 */
 	const CRITICAL = 4;
 
 	/**
 	 * Error conditions.
-	 * @var    integer
-	 * @since  11.1
+	 * @var		integer
+	 * @since	11.1
 	 */
 	const ERROR = 8;
 
 	/**
 	 * Warning conditions.
-	 * @var    integer
-	 * @since  11.1
+	 * @var		integer
+	 * @since	11.1
 	 */
 	const WARNING = 16;
 
 	/**
 	 * Normal, but significant condition.
-	 * @var    integer
-	 * @since  11.1
+	 * @var		integer
+	 * @since	11.1
 	 */
 	const NOTICE = 32;
 
 	/**
 	 * Informational message.
-	 * @var    integer
-	 * @since  11.1
+	 * @var		integer
+	 * @since	11.1
 	 */
 	const INFO = 64;
 
 	/**
 	 * Debugging message.
-	 * @var    integer
-	 * @since  11.1
+	 * @var		integer
+	 * @since	11.1
 	 */
 	const DEBUG = 128;
 
 	/**
 	 * The global JLog instance.
-	 * @var    JLog
-	 * @since  11.1
+	 * @var		JLog
+	 * @since	11.1
 	 */
 	protected static $instance;
 
 	/**
 	 * Container for JLogLogger configurations.
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	protected $configurations = array();
 
 	/**
 	 * Container for JLogLogger objects.
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	protected $loggers = array();
 
 	/**
 	 * Lookup array for loggers.
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	protected $lookup = array();
 
 	/**
 	 * Constructor.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function __construct()
 	{
@@ -127,14 +127,14 @@ class JLog
 	/**
 	 * Method to add an entry to the log.
 	 *
-	 * @param   mixed    $entry     The JLogEntry object to add to the log or the message for a new JLogEntry object.
-	 * @param   integer  $priority  Message priority.
-	 * @param   string   $category  Type of entry
-	 * @param   string   $date      Date of entry (defaults to now if not specified or blank)
+	 * @param	 mixed		$entry		 The JLogEntry object to add to the log or the message for a new JLogEntry object.
+	 * @param	 integer	$priority	Message priority.
+	 * @param	 string	 $category	Type of entry
+	 * @param	 string	 $date			Date of entry (defaults to now if not specified or blank)
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function add($entry, $priority = self::INFO, $category = '', $date = null)
 	{
@@ -154,16 +154,16 @@ class JLog
 	}
 
 	/**
-	 * Add a logger to the JLog instance.  Loggers route log entries to the correct files/systems to be logged.
+	 * Add a logger to the JLog instance.	Loggers route log entries to the correct files/systems to be logged.
 	 *
-	 * @param   array    $options     The object configuration array.
-	 * @param   integer  $priorities  Message priority
-	 * @param   array    $categories  Types of entry
-	 * @param   boolean  $exclude     If true, all categories will be logged except those in the $categories array
+	 * @param	 array		$options		 The object configuration array.
+	 * @param	 integer	$priorities	Message priority
+	 * @param	 array		$categories	Types of entry
+	 * @param	 boolean	$exclude		 If true, all categories will be logged except those in the $categories array
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function addLogger(array $options, $priorities = self::ALL, $categories = array(), $exclude = false)
 	{
@@ -213,11 +213,11 @@ class JLog
 	 * Returns a reference to the a JLog object, only creating it if it doesn't already exist.
 	 * Note: This is principally made available for testing and internal purposes.
 	 *
-	 * @param   JLog  $instance  The logging object instance to be used by the static methods.
+	 * @param	 JLog	$instance	The logging object instance to be used by the static methods.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function setInstance($instance)
 	{
@@ -230,12 +230,12 @@ class JLog
 	/**
 	 * Method to add an entry to the appropriate loggers.
 	 *
-	 * @param   JLogEntry  $entry  The JLogEntry object to send to the loggers.
+	 * @param	 JLogEntry	$entry	The JLogEntry object to send to the loggers.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
-	 * @throws  RuntimeException
+	 * @since	 11.1
+	 * @throws	RuntimeException
 	 */
 	protected function addLogEntry(JLogEntry $entry)
 	{
@@ -268,12 +268,12 @@ class JLog
 	/**
 	 * Method to find the loggers to use based on priority and category values.
 	 *
-	 * @param   integer  $priority  Message priority.
-	 * @param   string   $category  Type of entry
+	 * @param	 integer	$priority	Message priority.
+	 * @param	 string	 $category	Type of entry
 	 *
-	 * @return  array  The array of loggers to use for the given priority and category values.
+	 * @return	array	The array of loggers to use for the given priority and category values.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function findLoggers($priority, $category)
 	{

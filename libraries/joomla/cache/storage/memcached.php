@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Cache
+ * @package		 Joomla.Platform
+ * @subpackage	Cache
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,37 +12,37 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Memcached cache storage handler
  *
- * @package     Joomla.Platform
- * @subpackage  Cache
- * @see         http://php.net/manual/en/book.memcached.php
- * @since       12.1
+ * @package		 Joomla.Platform
+ * @subpackage	Cache
+ * @see				 http://php.net/manual/en/book.memcached.php
+ * @since			 12.1
  */
 class JCacheStorageMemcached extends JCacheStorage
 {
 	/**
-	 * @var    Memcached
-	 * @since  12.1
+	 * @var		Memcached
+	 * @since	12.1
 	 */
 	protected static $_db = null;
 
 	/**
-	 * @var    boolean
-	 * @since  12.1
+	 * @var		boolean
+	 * @since	12.1
 	 */
 	protected $_persistent = false;
 
 	/**
 	 * @var
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected $_compress = 0;
 
 	/**
 	 * Constructor
 	 *
-	 * @param   array  $options  Optional parameters.
+	 * @param	 array	$options	Optional parameters.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function __construct($options = array())
 	{
@@ -57,10 +57,10 @@ class JCacheStorageMemcached extends JCacheStorage
 	/**
 	 * Return memcached connection object
 	 *
-	 * @return  object   memcached connection object
+	 * @return	object	 memcached connection object
 	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @since	 12.1
+	 * @throws	RuntimeException
 	 */
 	protected function getConnection()
 	{
@@ -114,13 +114,13 @@ class JCacheStorageMemcached extends JCacheStorage
 	/**
 	 * Get cached data from memcached by id and group
 	 *
-	 * @param   string   $id         The cache data id
-	 * @param   string   $group      The cache data group
-	 * @param   boolean  $checkTime  True to verify cache time expiration threshold
+	 * @param	 string	 $id				 The cache data id
+	 * @param	 string	 $group			The cache data group
+	 * @param	 boolean	$checkTime	True to verify cache time expiration threshold
 	 *
-	 * @return  mixed  Boolean false on failure or a cached data string
+	 * @return	mixed	Boolean false on failure or a cached data string
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
@@ -133,9 +133,9 @@ class JCacheStorageMemcached extends JCacheStorage
 	/**
 	 * Get all cached data
 	 *
-	 * @return  array    data
+	 * @return	array		data
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getAll()
 	{
@@ -183,13 +183,13 @@ class JCacheStorageMemcached extends JCacheStorage
 	/**
 	 * Store the data to memcached by id and group
 	 *
-	 * @param   string  $id     The cache data id
-	 * @param   string  $group  The cache data group
-	 * @param   string  $data   The data to store in cache
+	 * @param	 string	$id		 The cache data id
+	 * @param	 string	$group	The cache data group
+	 * @param	 string	$data	 The data to store in cache
 	 *
-	 * @return  boolean  True on success, false otherwise
+	 * @return	boolean	True on success, false otherwise
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function store($id, $group, $data)
 	{
@@ -226,12 +226,12 @@ class JCacheStorageMemcached extends JCacheStorage
 	/**
 	 * Remove a cached data entry by id and group
 	 *
-	 * @param   string  $id     The cache data id
-	 * @param   string  $group  The cache data group
+	 * @param	 string	$id		 The cache data id
+	 * @param	 string	$group	The cache data group
 	 *
-	 * @return  boolean  True on success, false otherwise
+	 * @return	boolean	True on success, false otherwise
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function remove($id, $group)
 	{
@@ -266,14 +266,14 @@ class JCacheStorageMemcached extends JCacheStorage
 	/**
 	 * Clean cache for a group given a mode.
 	 *
-	 * @param   string  $group  The cache data group
-	 * @param   string  $mode   The mode for cleaning cache [group|notgroup]
-	 * group mode    : cleans all cache in the group
+	 * @param	 string	$group	The cache data group
+	 * @param	 string	$mode	 The mode for cleaning cache [group|notgroup]
+	 * group mode		: cleans all cache in the group
 	 * notgroup mode : cleans all cache not in the group
 	 *
-	 * @return  boolean  True on success, false otherwise
+	 * @return	boolean	True on success, false otherwise
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function clean($group, $mode = null)
 	{
@@ -309,9 +309,9 @@ class JCacheStorageMemcached extends JCacheStorage
 	/**
 	 * Test to see if the cache storage is available.
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return	boolean	True on success, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public static function isSupported()
 	{
@@ -340,13 +340,13 @@ class JCacheStorageMemcached extends JCacheStorage
 	/**
 	 * Lock cached item - override parent as this is more efficient
 	 *
-	 * @param   string   $id        The cache data id
-	 * @param   string   $group     The cache data group
-	 * @param   integer  $locktime  Cached item max lock time
+	 * @param	 string	 $id				The cache data id
+	 * @param	 string	 $group		 The cache data group
+	 * @param	 integer	$locktime	Cached item max lock time
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return	boolean	True on success, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function lock($id, $group, $locktime)
 	{
@@ -411,12 +411,12 @@ class JCacheStorageMemcached extends JCacheStorage
 	/**
 	 * Unlock cached item - override parent for cacheid compatibility with lock
 	 *
-	 * @param   string  $id     The cache data id
-	 * @param   string  $group  The cache data group
+	 * @param	 string	$id		 The cache data id
+	 * @param	 string	$group	The cache data group
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return	boolean	True on success, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function unlock($id, $group = null)
 	{
@@ -452,9 +452,9 @@ class JCacheStorageMemcached extends JCacheStorage
 	/**
 	 * Lock cache index
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return	boolean	True on success, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function lockindex()
 	{
@@ -466,7 +466,7 @@ class JCacheStorageMemcached extends JCacheStorage
 
 			$lock_counter = 0;
 
-			// Loop until you find that the lock has been released.  that implies that data get from other thread has finished
+			// Loop until you find that the lock has been released.	that implies that data get from other thread has finished
 			while ($data_lock === false)
 			{
 				if ($lock_counter > $looptime)
@@ -487,9 +487,9 @@ class JCacheStorageMemcached extends JCacheStorage
 	/**
 	 * Unlock cache index
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return	boolean	True on success, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function unlockindex()
 	{

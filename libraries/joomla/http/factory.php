@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  HTTP
+ * @package		 Joomla.Platform
+ * @subpackage	HTTP
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,21 +12,21 @@ defined('JPATH_PLATFORM') or die;
 /**
  * HTTP factory class.
  *
- * @package     Joomla.Platform
- * @subpackage  HTTP
- * @since       12.1
+ * @package		 Joomla.Platform
+ * @subpackage	HTTP
+ * @since			 12.1
  */
 class JHttpFactory
 {
 	/**
 	 * Method to recieve Http instance.
 	 *
-	 * @param   JRegistry  $options   Client options object.
-	 * @param   mixed      $adapters  Adapter (string) or queue of adapters (array) to use for communication.
+	 * @param	 JRegistry	$options	 Client options object.
+	 * @param	 mixed			$adapters	Adapter (string) or queue of adapters (array) to use for communication.
 	 *
-	 * @return  JHttp      Joomla Http class
+	 * @return	JHttp			Joomla Http class
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public static function getHttp(JRegistry $options = null, $adapters = null)
 	{
@@ -40,12 +40,12 @@ class JHttpFactory
 	/**
 	 * Finds an available http transport object for communication
 	 *
-	 * @param   JRegistry  $options  Option for creating http transport object
-	 * @param   mixed      $default  Adapter (string) or queue of adapters (array) to use
+	 * @param	 JRegistry	$options	Option for creating http transport object
+	 * @param	 mixed			$default	Adapter (string) or queue of adapters (array) to use
 	 *
-	 * @return  JHttpTransport Interface sub-class
+	 * @return	JHttpTransport Interface sub-class
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public static function getAvailableDriver(JRegistry $options, $default = null)
 	{
@@ -78,9 +78,9 @@ class JHttpFactory
 	/**
 	 * Get the http transport handlers
 	 *
-	 * @return  array  An array of available transport handlers
+	 * @return	array	An array of available transport handlers
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public static function getHttpTransports()
 	{

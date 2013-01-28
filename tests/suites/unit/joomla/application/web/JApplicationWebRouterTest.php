@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Application
+ * @package		 Joomla.UnitTest
+ * @subpackage	Application
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 JLoader::register('TControllerBar', __DIR__ . '/stubs/controllers/bar.php');
@@ -14,25 +14,25 @@ JLoader::register('MyTestControllerFoo', __DIR__ . '/stubs/controllers/foo.php')
 /**
  * Test class for JApplicationWebRouter.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Application
- * @since       12.3
+ * @package		 Joomla.UnitTest
+ * @subpackage	Application
+ * @since			 12.3
  */
 class JApplicationWebRouterTest extends TestCase
 {
 	/**
-	 * @var    JApplicationWebRouter  The object to be tested.
-	 * @since  12.3
+	 * @var		JApplicationWebRouter	The object to be tested.
+	 * @since	12.3
 	 */
 	private $_instance;
 
 	/**
 	 * Tests the __construct method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JApplicationWebRouter::__construct
-	 * @since   12.3
+	 * @covers	JApplicationWebRouter::__construct
+	 * @since	 12.3
 	 */
 	public function test__construct()
 	{
@@ -43,10 +43,10 @@ class JApplicationWebRouterTest extends TestCase
 	/**
 	 * Tests the setControllerPrefix method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JApplicationWebRouter::setControllerPrefix
-	 * @since   12.3
+	 * @covers	JApplicationWebRouter::setControllerPrefix
+	 * @since	 12.3
 	 */
 	public function testSetControllerPrefix()
 	{
@@ -57,10 +57,10 @@ class JApplicationWebRouterTest extends TestCase
 	/**
 	 * Tests the setDefaultController method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JApplicationWebRouter::setDefaultController
-	 * @since   12.3
+	 * @covers	JApplicationWebRouter::setDefaultController
+	 * @since	 12.3
 	 */
 	public function testSetDefaultController()
 	{
@@ -71,10 +71,10 @@ class JApplicationWebRouterTest extends TestCase
 	/**
 	 * Tests the fetchController method if the controller class is missing.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JApplicationWebRouter::fetchController
-	 * @since   12.3
+	 * @covers	JApplicationWebRouter::fetchController
+	 * @since	 12.3
 	 */
 	public function testFetchControllerWithMissingClass()
 	{
@@ -85,10 +85,10 @@ class JApplicationWebRouterTest extends TestCase
 	/**
 	 * Tests the fetchController method if the class not a controller.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JApplicationWebRouter::fetchController
-	 * @since   12.3
+	 * @covers	JApplicationWebRouter::fetchController
+	 * @since	 12.3
 	 */
 	public function testFetchControllerWithNonController()
 	{
@@ -99,10 +99,10 @@ class JApplicationWebRouterTest extends TestCase
 	/**
 	 * Tests the fetchController method with a prefix set.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JApplicationWebRouter::fetchController
-	 * @since   12.3
+	 * @covers	JApplicationWebRouter::fetchController
+	 * @since	 12.3
 	 */
 	public function testFetchControllerWithPrefixSet()
 	{
@@ -113,10 +113,10 @@ class JApplicationWebRouterTest extends TestCase
 	/**
 	 * Tests the fetchController method without a prefix set even though it is necessary.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JApplicationWebRouter::fetchController
-	 * @since   12.3
+	 * @covers	JApplicationWebRouter::fetchController
+	 * @since	 12.3
 	 */
 	public function testFetchControllerWithoutPrefixSetThoughNecessary()
 	{
@@ -127,10 +127,10 @@ class JApplicationWebRouterTest extends TestCase
 	/**
 	 * Tests the fetchController method without a prefix set.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JApplicationWebRouter::fetchController
-	 * @since   12.3
+	 * @covers	JApplicationWebRouter::fetchController
+	 * @since	 12.3
 	 */
 	public function testFetchControllerWithoutPrefixSet()
 	{
@@ -140,9 +140,9 @@ class JApplicationWebRouterTest extends TestCase
 	/**
 	 * Prepares the environment before running a test.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	protected function setUp()
 	{
@@ -154,9 +154,9 @@ class JApplicationWebRouterTest extends TestCase
 	/**
 	 * Cleans up the environment after running a test.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	protected function tearDown()
 	{

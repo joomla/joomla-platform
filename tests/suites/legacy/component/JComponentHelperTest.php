@@ -1,28 +1,28 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Component
+ * @package		 Joomla.UnitTest
+ * @subpackage	Component
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JComponentHelper.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Component
+ * @package		 Joomla.UnitTest
+ * @subpackage	Component
  *
- * @since       12.3
+ * @since			 12.3
  */
 class JComponentHelperTest extends TestCase
 {
 	/**
 	 * Test JComponentHelper::getComponent
 	 *
-	 * @todo    Implement testGetComponent().
+	 * @todo		Implement testGetComponent().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetComponent()
 	{
@@ -32,9 +32,9 @@ class JComponentHelperTest extends TestCase
 	/**
 	 * Test JComponentHelper::isEnabled
 	 *
-	 * @todo    Implement testIsEnabled().
+	 * @todo		Implement testIsEnabled().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testIsEnabled()
 	{
@@ -44,9 +44,9 @@ class JComponentHelperTest extends TestCase
 	/**
 	 * Test JComponentHelper::getParams
 	 *
-	 * @todo    Implement testGetParams().
+	 * @todo		Implement testGetParams().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetParams()
 	{
@@ -56,9 +56,9 @@ class JComponentHelperTest extends TestCase
 	/**
 	 * Test JComponentHelper::renderComponent
 	 *
-	 * @todo    Implement testRenderComponent().
+	 * @todo		Implement testRenderComponent().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testRenderComponent()
 	{

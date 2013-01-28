@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Github
+ * @package		 Joomla.UnitTest
+ * @subpackage	Github
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM . '/joomla/github/github.php';
@@ -14,40 +14,40 @@ require_once JPATH_PLATFORM . '/joomla/github/commits.php';
 /**
  * Test class for JGitHubCommits.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Github
+ * @package		 Joomla.UnitTest
+ * @subpackage	Github
  *
- * @since       11.1
+ * @since			 11.1
  */
 class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the GitHub object.
-	 * @since  12.1
+	 * @var		JRegistry	Options for the GitHub object.
+	 * @since	12.1
 	 */
 	protected $options;
 
 	/**
-	 * @var    JGithubHttp  Mock client object.
-	 * @since  12.1
+	 * @var		JGithubHttp	Mock client object.
+	 * @since	12.1
 	 */
 	protected $client;
 
 	/**
-	 * @var    JGithubCommits  Object under test.
-	 * @since  12.1
+	 * @var		JGithubCommits	Object under test.
+	 * @since	12.1
 	 */
 	protected $object;
 
 	/**
-	 * @var    string  Sample JSON string.
-	 * @since  12.1
+	 * @var		string	Sample JSON string.
+	 * @since	12.1
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
-	 * @var    string  Sample JSON error message.
-	 * @since  12.1
+	 * @var		string	Sample JSON error message.
+	 * @since	12.1
 	 */
 	protected $errorString = '{"message": "Generic Error"}';
 
@@ -55,9 +55,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function setUp()
 	{
@@ -72,9 +72,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the create method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testCreate()
 	{
@@ -101,9 +101,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the create method - simulated failure
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testCreateFailure()
 	{
@@ -142,9 +142,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the createCommitComment method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testCreateCommitComment()
 	{
@@ -174,9 +174,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the createCommitComment method - simulated failure
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testCreateCommitCommentFailure()
 	{
@@ -218,9 +218,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the deleteCommitComment method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testDeleteCommitComment()
 	{
@@ -242,9 +242,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the deleteCommitComment method - simulated failure
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testDeleteCommitCommentFailure()
 	{
@@ -278,9 +278,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the editCommitComment method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testEditCommitComment()
 	{
@@ -306,9 +306,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the editCommitComment method - simulated failure
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testEditCommitCommentFailure()
 	{
@@ -346,9 +346,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getCommit method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testGetCommit()
 	{
@@ -370,11 +370,11 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getCommit method - failure
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 *
-	 * @expectedException  DomainException
+	 * @expectedException	DomainException
 	 */
 	public function testGetCommitFailure()
 	{
@@ -393,9 +393,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getCommitComment method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testGetCommitComment()
 	{
@@ -417,11 +417,11 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getCommitComment method - failure
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 *
-	 * @expectedException  DomainException
+	 * @expectedException	DomainException
 	 */
 	public function testGetCommitCommentFailure()
 	{
@@ -440,9 +440,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getCommitComments method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testGetCommitComments()
 	{
@@ -464,11 +464,11 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getCommitComments method - failure
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 *
-	 * @expectedException  DomainException
+	 * @expectedException	DomainException
 	 */
 	public function testGetCommitCommentsFailure()
 	{
@@ -487,9 +487,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getDiff method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testGetDiff()
 	{
@@ -511,11 +511,11 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getDiff method - failure
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 *
-	 * @expectedException  DomainException
+	 * @expectedException	DomainException
 	 */
 	public function testGetDiffFailure()
 	{
@@ -534,9 +534,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getList method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testGetList()
 	{
@@ -558,11 +558,11 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getList method - failure
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 *
-	 * @expectedException  DomainException
+	 * @expectedException	DomainException
 	 */
 	public function testGetListFailure()
 	{
@@ -581,9 +581,9 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getListComments method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testGetListComments()
 	{
@@ -605,11 +605,11 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getListComments method - failure
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 *
-	 * @expectedException  DomainException
+	 * @expectedException	DomainException
 	 */
 	public function testGetListCommentsFailure()
 	{

@@ -24,18 +24,18 @@ finished.
 
 To run the specific database tests:
 
--   Create your database and use the appropriate database-specific DDL
-    located in tests/suites/database/stubs to create the database tables
-    required.
+-	 Create your database and use the appropriate database-specific DDL
+		located in tests/suites/database/stubs to create the database tables
+		required.
 
--   In the root directory, copy the file named phpunit.xml.dist, leaving
-    it in the same folder and naming it phpunit.xml.
+-	 In the root directory, copy the file named phpunit.xml.dist, leaving
+		it in the same folder and naming it phpunit.xml.
 
--   Uncomment the php block and include the const line(s) related to the
-    database(s) you will be testing.
+-	 Uncomment the php block and include the const line(s) related to the
+		database(s) you will be testing.
 
--   Set up the database configuration values for your specific
-    environment.
+-	 Set up the database configuration values for your specific
+		environment.
 
 ##### Configuring Your Environment: The JHttpTransport Test Stubs
 
@@ -44,17 +44,17 @@ transports so that actual web requests can be simulated and assertions
 can be made about the results. To set these up, you'll need to do the
 following:
 
--   In the root directory, copy the file named phpunit.xml.dist, leaving
-    it in the same folder and naming it phpunit.xml.
+-	 In the root directory, copy the file named phpunit.xml.dist, leaving
+		it in the same folder and naming it phpunit.xml.
 
--   Uncomment the php block and include the "JTEST\_HTTP\_STUB" const.
+-	 Uncomment the php block and include the "JTEST\_HTTP\_STUB" const.
 
--   The default file path for the const assumes that you have checked
-    out the Joomla Platform to the web root of your test environment
-    inside a folder named "joomla-platform". If this is not the case,
-    you can change the path to suit your environment and, if need be,
-    copy the file from its default location to be available within your
-    web environment.
+-	 The default file path for the const assumes that you have checked
+		out the Joomla Platform to the web root of your test environment
+		inside a folder named "joomla-platform". If this is not the case,
+		you can change the path to suit your environment and, if need be,
+		copy the file from its default location to be available within your
+		web environment.
 
 ##### Running the Tests
 
@@ -85,7 +85,7 @@ installing PHP\_CodeSniffer on your system.
 
 You can run the CodeSniffer by going to the platform root directory and
 executing `phpcs --report=checkstyle
-      --report-file=build/logs/checkstyle.xml --standard=/path/to/platform/build/phpcs/Joomla /path/to/platform`
+			--report-file=build/logs/checkstyle.xml --standard=/path/to/platform/build/phpcs/Joomla /path/to/platform`
 
 Alternatively, if you have Ant installed on your system, you may run the
 CodeSniffer by going to the platform root directory and executing
@@ -93,8 +93,8 @@ CodeSniffer by going to the platform root directory and executing
 
 ##### Known Issues
 
--   There is currently an issue with running the Code Sniffer on the
-    Simplepie library. Pointing the sniffs at the libraries/joomla
-    directory or below will avoid the issue.
+-	 There is currently an issue with running the Code Sniffer on the
+		Simplepie library. Pointing the sniffs at the libraries/joomla
+		directory or below will avoid the issue.
 
 

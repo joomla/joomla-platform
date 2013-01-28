@@ -1,26 +1,26 @@
 /***
- *  - mooRainbow: defaultCSS
+ *	- mooRainbow: defaultCSS
  * author: w00fz <w00fzPuppy@gmail.com>
  */
 
 { font-size: 11px; color: #000; }
 
 .moor-box {
-	width: 125px; 
-	height: 110px; 
-	border: 1px solid #636163; 
+	width: 125px;
+	height: 110px;
+	border: 1px solid #636163;
 	background-color: #f9f9f9;
 }
 .moor-overlayBox {
 	width: 80px; /* Width and Height of the overlay must be setted here: default 256x256 */
-	height: 80px; 
-	margin-top: 3px; 
+	height: 80px;
+	margin-top: 3px;
 	margin-left: 3px;
 	border: 1px solid #000;
 }
 .moor-slider {
 	border: 1px solid #000;
-	margin-top: 3px; 
+	margin-top: 3px;
 	margin-left: 86px;
 	width: 10px; /* if you want a bigger or smaller slider... */
 	height: 80px;
@@ -28,19 +28,19 @@
 .moor-colorBox {
 	/*display: none;*/
 	visibility: hidden;
-	border: 1px solid #000; 
-	width: 59px; 
-	height: 68px; 
-	margin-top: 20px; 
+	border: 1px solid #000;
+	width: 59px;
+	height: 68px;
+	margin-top: 20px;
 	margin-left: 315px;
 }
 
 .moor-currentColor { /* Bottom Box Color, the backup one */
 	/*display: none;*/
 	visibility: hidden;
-	margin-top: 55px; 
-	margin-left: 316px; 
-	width: 59px; 
+	margin-top: 55px;
+	margin-left: 316px;
+	width: 59px;
 	height: 34px;
 }
 .moor-okButton {
@@ -106,7 +106,7 @@ span.moor-ballino { /* Style hue º (degree) !! */
 }
 
 /* <input> */
-.moor-rInput, .moor-gInput, .moor-bInput, .moor-HueInput, .moor-SatuInput, .moor-BrighInput { 
+.moor-rInput, .moor-gInput, .moor-bInput, .moor-HueInput, .moor-SatuInput, .moor-BrighInput {
 	/*display: none;*/
 	visibility: hidden;
 	width: 30px;
@@ -124,7 +124,7 @@ span.moor-ballino { /* Style hue º (degree) !! */
 	/*display: none;*/
 	visibility: hidden;
 	/*background-image: url(images/moor_arrows.gif);*/
-	top: 9px; 
+	top: 9px;
 	left: 270px;
 	width: 41px;
 	height: 9px;

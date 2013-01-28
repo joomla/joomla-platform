@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Event
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package		 Joomla.UnitTest
+ * @subpackage	Event
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM . '/joomla/plugin/helper.php';
@@ -11,20 +11,20 @@ require_once JPATH_PLATFORM . '/joomla/plugin/helper.php';
 /**
  * Inspector for the JPluginHelper class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Event
- * @since       11.3
+ * @package		 Joomla.UnitTest
+ * @subpackage	Event
+ * @since			 11.3
  */
 class JPluginHelperInspector extends JPluginHelper
 {
 	/**
 	 * Allows the internal plugins store to be set and mocked.
 	 *
-	 * @param   mixed  $plugins  The value to set.
+	 * @param	 mixed	$plugins	The value to set.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function setPlugins($plugins)
 	{

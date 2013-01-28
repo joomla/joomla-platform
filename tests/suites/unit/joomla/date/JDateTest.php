@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Date
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @package		 Joomla.UnitTest
+ * @subpackage	Date
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once JPATH_PLATFORM . '/joomla/date/date.php';
@@ -11,9 +11,9 @@ require_once JPATH_PLATFORM . '/joomla/date/date.php';
 /**
  * Tests for JDate class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Date
- * @since       11.3
+ * @package		 Joomla.UnitTest
+ * @subpackage	Date
+ * @since			 11.3
  */
 class JDateTest extends TestCaseDatabase
 {
@@ -22,9 +22,9 @@ class JDateTest extends TestCaseDatabase
 	/**
 	 * Test Cases for __construct
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function cases__construct()
 	{
@@ -62,9 +62,9 @@ class JDateTest extends TestCaseDatabase
 	/**
 	 * Test Cases for __get
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function cases__get()
 	{
@@ -135,9 +135,9 @@ class JDateTest extends TestCaseDatabase
 	/**
 	 * Test Cases for format
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function casesFormat()
 	{
@@ -158,7 +158,7 @@ class JDateTest extends TestCaseDatabase
 				'122007 164456',
 			),
 			/*
-			@TODO  Need to fix up language string/file dependancies before we can do these properly.
+			@TODO	Need to fix up language string/file dependancies before we can do these properly.
  			'Long' => array(
  				'D F j, Y H:i:s',
 				true,
@@ -196,9 +196,9 @@ class JDateTest extends TestCaseDatabase
 	/**
 	 * Test Cases for getOffsetFromGMT
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function casesGetOffsetFromGMT()
 	{
@@ -239,9 +239,9 @@ class JDateTest extends TestCaseDatabase
 	/**
 	 * Test Cases for setTimezone
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function casesSetTimezone()
 	{
@@ -276,9 +276,9 @@ class JDateTest extends TestCaseDatabase
 	/**
 	 * Test Cases for toISO8601
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function casesToISO8601()
 	{
@@ -319,9 +319,9 @@ class JDateTest extends TestCaseDatabase
 	/**
 	 * Test Cases for toMySQL
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function casesToSQL()
 	{
@@ -362,9 +362,9 @@ class JDateTest extends TestCaseDatabase
 	/**
 	 * Test Cases for toRFC822
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function casesToRFC822()
 	{
@@ -405,9 +405,9 @@ class JDateTest extends TestCaseDatabase
 	/**
 	 * Test Cases for __toString
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function casesToString()
 	{
@@ -430,9 +430,9 @@ class JDateTest extends TestCaseDatabase
 	/**
 	 * Test Cases for toUnix
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function casesToUnix()
 	{
@@ -470,9 +470,9 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * This method is called before a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	protected function setUp()
 	{
@@ -486,9 +486,9 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * This method is called after a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function tearDown()
 	{
@@ -497,15 +497,15 @@ class JDateTest extends TestCaseDatabase
 	/**
 	 * Testing the Constructor
 	 *
-	 * @param   string  $date          What time should be set?
-	 * @param   mixed   $tz            Which time zone? (can be string or numeric
-	 * @param   string  $expectedTime  What should the resulting time string look like?
+	 * @param	 string	$date					What time should be set?
+	 * @param	 mixed	 $tz						Which time zone? (can be string or numeric
+	 * @param	 string	$expectedTime	What should the resulting time string look like?
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @dataProvider  cases__construct
-	 * @since   11.3
-	 * @covers  JDate::__construct
+	 * @dataProvider	cases__construct
+	 * @since	 11.3
+	 * @covers	JDate::__construct
 	 */
 	public function test__construct($date, $tz, $expectedTime)
 	{
@@ -528,15 +528,15 @@ class JDateTest extends TestCaseDatabase
 	/**
 	 * Testing the Constructor
 	 *
-	 * @param   string  $date      The date.
-	 * @param   string  $property  The property to test.
-	 * @param   string  $expected  The expected value.
+	 * @param	 string	$date			The date.
+	 * @param	 string	$property	The property to test.
+	 * @param	 string	$expected	The expected value.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @dataProvider  cases__get
-	 * @since   11.3
-	 * @covers  JDate::__get
+	 * @dataProvider	cases__get
+	 * @since	 11.3
+	 * @covers	JDate::__get
 	 */
 	public function test__get($date, $property, $expected)
 	{
@@ -551,10 +551,10 @@ class JDateTest extends TestCaseDatabase
 	/**
 	 * Tests the magic __toString method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
-	 * @covers  JDate::__toString
+	 * @since	 11.3
+	 * @covers	JDate::__toString
 	 */
 	public function test__toString()
 	{
@@ -571,14 +571,14 @@ class JDateTest extends TestCaseDatabase
 	/**
 	 * Testing toString
 	 *
-	 * @param   string  $format        How should the time be formatted?
-	 * @param   string  $expectedTime  What should the resulting time string look like?
+	 * @param	 string	$format				How should the time be formatted?
+	 * @param	 string	$expectedTime	What should the resulting time string look like?
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @dataProvider casesToString
-	 * @since   11.3
-	 * @covers  JDate::__toString
+	 * @since	 11.3
+	 * @covers	JDate::__toString
 	 */
 	public function testToString($format, $expectedTime)
 	{
@@ -596,10 +596,10 @@ class JDateTest extends TestCaseDatabase
 	/**
 	 * Tests the getInstance method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
-	 * @covers  JDate::getInstance
+	 * @since	 11.3
+	 * @covers	JDate::getInstance
 	 */
 	public function testGetInstance()
 	{
@@ -619,16 +619,16 @@ class JDateTest extends TestCaseDatabase
 	/**
 	 * Testing getOffsetFromGMT
 	 *
-	 * @param   mixed    $tz        Which time zone? (can be string or numeric
-	 * @param   string   $setTime   What time should be set?
-	 * @param   boolean  $hours     Return offset in hours (true) or seconds?
-	 * @param   string   $expected  What should the resulting time string look like?
+	 * @param	 mixed		$tz				Which time zone? (can be string or numeric
+	 * @param	 string	 $setTime	 What time should be set?
+	 * @param	 boolean	$hours		 Return offset in hours (true) or seconds?
+	 * @param	 string	 $expected	What should the resulting time string look like?
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @dataProvider casesGetOffsetFromGMT
-	 * @since   11.3
-	 * @covers  JDate::getOffsetFromGMT
+	 * @since	 11.3
+	 * @covers	JDate::getOffsetFromGMT
 	 */
 	public function testGetOffsetFromGMT($tz, $setTime, $hours, $expected)
 	{
@@ -656,15 +656,15 @@ class JDateTest extends TestCaseDatabase
 	/**
 	 * Testing format
 	 *
-	 * @param   string   $format    How should the time be formatted?
-	 * @param   boolean  $local     Local (true) or GMT?
-	 * @param   string   $expected  What should the resulting time string look like?
+	 * @param	 string	 $format		How should the time be formatted?
+	 * @param	 boolean	$local		 Local (true) or GMT?
+	 * @param	 string	 $expected	What should the resulting time string look like?
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @dataProvider casesFormat
-	 * @since   11.3
-	 * @covers  JDate::format
+	 * @since	 11.3
+	 * @covers	JDate::format
 	 */
 	public function testFormat($format, $local, $expected)
 	{
@@ -677,16 +677,16 @@ class JDateTest extends TestCaseDatabase
 	/**
 	 * Testing toRFC822
 	 *
-	 * @param   mixed   $tz        Which time zone? (can be string or numeric
-	 * @param   string  $setTime   What time should be set?
-	 * @param   bool    $local     Local (true) or GMT?
-	 * @param   string  $expected  What should the resulting time string look like?
+	 * @param	 mixed	 $tz				Which time zone? (can be string or numeric
+	 * @param	 string	$setTime	 What time should be set?
+	 * @param	 bool		$local		 Local (true) or GMT?
+	 * @param	 string	$expected	What should the resulting time string look like?
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @dataProvider casesToRFC822
-	 * @since   11.3
-	 * @covers  JDate::toRFC822
+	 * @since	 11.3
+	 * @covers	JDate::toRFC822
 	 */
 	public function testToRFC822($tz, $setTime, $local, $expected)
 	{
@@ -712,16 +712,16 @@ class JDateTest extends TestCaseDatabase
 	/**
 	 * Testing toISO8601
 	 *
-	 * @param   mixed    $tz        Which time zone? (can be string or numeric
-	 * @param   string   $setTime   What time should be set?
-	 * @param   boolean  $local     Local (true) or GMT?
-	 * @param   string   $expected  What should the resulting time string look like?
+	 * @param	 mixed		$tz				Which time zone? (can be string or numeric
+	 * @param	 string	 $setTime	 What time should be set?
+	 * @param	 boolean	$local		 Local (true) or GMT?
+	 * @param	 string	 $expected	What should the resulting time string look like?
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @dataProvider casesToISO8601
-	 * @since   11.3
-	 * @covers  JDate::toISO8601
+	 * @since	 11.3
+	 * @covers	JDate::toISO8601
 	 */
 	public function testToISO8601($tz, $setTime, $local, $expected)
 	{
@@ -743,16 +743,16 @@ class JDateTest extends TestCaseDatabase
 	/**
 	 * Testing toSql
 	 *
-	 * @param   mixed    $tz        Which time zone? (can be string or numeric
-	 * @param   string   $setTime   What time should be set?
-	 * @param   boolean  $local     Local (true) or GMT?
-	 * @param   string   $expected  What should the resulting time string look like?
+	 * @param	 mixed		$tz				Which time zone? (can be string or numeric
+	 * @param	 string	 $setTime	 What time should be set?
+	 * @param	 boolean	$local		 Local (true) or GMT?
+	 * @param	 string	 $expected	What should the resulting time string look like?
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @dataProvider casesToSQL
-	 * @since   11.3
-	 * @covers  JDate::toSql
+	 * @since	 11.3
+	 * @covers	JDate::toSql
 	 */
 	public function testToSql($tz, $setTime, $local, $expected)
 	{
@@ -774,15 +774,15 @@ class JDateTest extends TestCaseDatabase
 	/**
 	 * Testing toUnix
 	 *
-	 * @param   mixed   $tz        Which time zone? (can be string or numeric
-	 * @param   string  $setTime   What time should be set?
-	 * @param   string  $expected  What should the resulting time string look like?
+	 * @param	 mixed	 $tz				Which time zone? (can be string or numeric
+	 * @param	 string	$setTime	 What time should be set?
+	 * @param	 string	$expected	What should the resulting time string look like?
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @dataProvider casesToUnix
-	 * @since   11.3
-	 * @covers  JDate::toUnix
+	 * @since	 11.3
+	 * @covers	JDate::toUnix
 	 */
 	public function testToUnix($tz, $setTime, $expected)
 	{
@@ -804,14 +804,14 @@ class JDateTest extends TestCaseDatabase
 	/**
 	 * Testing setTimezone
 	 *
-	 * @param   string  $tz        Which Time Zone should it be?
-	 * @param   string  $expected  What should the resulting time string look like?
+	 * @param	 string	$tz				Which Time Zone should it be?
+	 * @param	 string	$expected	What should the resulting time string look like?
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @dataProvider casesSetTimezone
-	 * @since   11.3
-	 * @covers  JDate::setTimezone
+	 * @since	 11.3
+	 * @covers	JDate::setTimezone
 	 */
 	public function testSetTimezone($tz, $expected)
 	{

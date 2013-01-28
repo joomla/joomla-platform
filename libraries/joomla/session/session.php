@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Session
+ * @package		 Joomla.Platform
+ * @subpackage	Session
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -17,9 +17,9 @@ defined('JPATH_PLATFORM') or die;
  * Based on the standard PHP session handling mechanism it provides
  * more advanced features such as expire timeouts.
  *
- * @package     Joomla.Platform
- * @subpackage  Session
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Session
+ * @since			 11.1
  */
 class JSession implements IteratorAggregate
 {
@@ -27,25 +27,25 @@ class JSession implements IteratorAggregate
 	 * Internal state.
 	 * One of 'inactive'|'active'|'expired'|'destroyed'|'error'
 	 *
-	 * @var    string
-	 * @see    getState()
-	 * @since  11.1
+	 * @var		string
+	 * @see		getState()
+	 * @since	11.1
 	 */
 	protected $_state = 'inactive';
 
 	/**
 	 * Maximum age of unused session in minutes
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $_expire = 15;
 
 	/**
 	 * The session store object.
 	 *
-	 * @var    JSessionStorage
-	 * @since  11.1
+	 * @var		JSessionStorage
+	 * @since	11.1
 	 */
 	protected $_store = null;
 
@@ -58,54 +58,54 @@ class JSession implements IteratorAggregate
 	 * - fix_adress
 	 *
 	 * @var array
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	protected $_security = array('fix_browser');
 
 	/**
 	 * Force cookies to be SSL only
-	 * Default  false
+	 * Default	false
 	 *
-	 * @var    boolean
-	 * @since  11.1
+	 * @var		boolean
+	 * @since	11.1
 	 */
 	protected $_force_ssl = false;
 
 	/**
-	 * @var    JSession  JSession instances container.
-	 * @since  11.3
+	 * @var		JSession	JSession instances container.
+	 * @since	11.3
 	 */
 	protected static $instance;
 
 	/**
-	 * @var    string
-	 * @since  12.2
+	 * @var		string
+	 * @since	12.2
 	 */
 	protected $storeName;
 
 	/**
 	 * Holds the JInput object
 	 *
-	 * @var    JInput
-	 * @since  12.2
+	 * @var		JInput
+	 * @since	12.2
 	 */
 	private $_input = null;
 
 	/**
 	 * Holds the event dispatcher object
 	 *
-	 * @var    JEventDispatcher
-	 * @since  12.2
+	 * @var		JEventDispatcher
+	 * @since	12.2
 	 */
 	private $_dispatcher = null;
 
 	/**
 	 * Constructor
 	 *
-	 * @param   string  $store    The type of storage for the session.
-	 * @param   array   $options  Optional parameters
+	 * @param	 string	$store		The type of storage for the session.
+	 * @param	 array	 $options	Optional parameters
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __construct($store = 'none', array $options = array())
 	{
@@ -138,11 +138,11 @@ class JSession implements IteratorAggregate
 	/**
 	 * Magic method to get read-only access to properties.
 	 *
-	 * @param   string  $name  Name of property to retrieve
+	 * @param	 string	$name	Name of property to retrieve
 	 *
-	 * @return  mixed   The value of the property
+	 * @return	mixed	 The value of the property
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function __get($name)
 	{
@@ -163,12 +163,12 @@ class JSession implements IteratorAggregate
 	 * Returns the global Session object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @param   string  $handler  The type of session handler.
-	 * @param   array   $options  An array of configuration options (for new sessions only).
+	 * @param	 string	$handler	The type of session handler.
+	 * @param	 array	 $options	An array of configuration options (for new sessions only).
 	 *
-	 * @return  JSession  The Session object.
+	 * @return	JSession	The Session object.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function getInstance($handler, array $options = array ())
 	{
@@ -183,9 +183,9 @@ class JSession implements IteratorAggregate
 	/**
 	 * Get current state of session
 	 *
-	 * @return  string  The session state
+	 * @return	string	The session state
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getState()
 	{
@@ -195,9 +195,9 @@ class JSession implements IteratorAggregate
 	/**
 	 * Get expiration time in minutes
 	 *
-	 * @return  integer  The session expiration time in minutes
+	 * @return	integer	The session expiration time in minutes
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getExpire()
 	{
@@ -211,11 +211,11 @@ class JSession implements IteratorAggregate
 	 * has been generated the system will check the post request to see if
 	 * it is present, if not it will invalidate the session.
 	 *
-	 * @param   boolean  $forceNew  If true, force a new token to be created
+	 * @param	 boolean	$forceNew	If true, force a new token to be created
 	 *
-	 * @return  string  The session token
+	 * @return	string	The session token
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getToken($forceNew = false)
 	{
@@ -235,12 +235,12 @@ class JSession implements IteratorAggregate
 	 * Method to determine if a token exists in the session. If not the
 	 * session will be set to expired
 	 *
-	 * @param   string   $tCheck       Hashed token to be verified
-	 * @param   boolean  $forceExpire  If true, expires the session
+	 * @param	 string	 $tCheck			 Hashed token to be verified
+	 * @param	 boolean	$forceExpire	If true, expires the session
 	 *
-	 * @return  boolean
+	 * @return	boolean
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function hasToken($tCheck, $forceExpire = true)
 	{
@@ -263,15 +263,15 @@ class JSession implements IteratorAggregate
 	/**
 	 * Method to determine a hash for anti-spoofing variable names
 	 *
-	 * @param   boolean  $forceNew  If true, force a new token to be created
+	 * @param	 boolean	$forceNew	If true, force a new token to be created
 	 *
-	 * @return  string  Hashed var name
+	 * @return	string	Hashed var name
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function getFormToken($forceNew = false)
 	{
-		$user    = JFactory::getUser();
+		$user		= JFactory::getUser();
 		$session = JFactory::getSession();
 
 		// TODO: Decouple from legacy JApplication class.
@@ -290,9 +290,9 @@ class JSession implements IteratorAggregate
 	/**
 	 * Retrieve an external iterator.
 	 *
-	 * @return  ArrayIterator  Return an ArrayIterator of $_SESSION.
+	 * @return	ArrayIterator	Return an ArrayIterator of $_SESSION.
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function getIterator()
 	{
@@ -304,11 +304,11 @@ class JSession implements IteratorAggregate
 	 *
 	 * Use in conjunction with JHtml::_('form.token') or JSession::getFormToken.
 	 *
-	 * @param   string  $method  The request method in which to look for the token key.
+	 * @param	 string	$method	The request method in which to look for the token key.
 	 *
-	 * @return  boolean  True if found and valid, false otherwise.
+	 * @return	boolean	True if found and valid, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public static function checkToken($method = 'post')
 	{
@@ -339,9 +339,9 @@ class JSession implements IteratorAggregate
 	/**
 	 * Get session name
 	 *
-	 * @return  string  The session name
+	 * @return	string	The session name
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getName()
 	{
@@ -356,9 +356,9 @@ class JSession implements IteratorAggregate
 	/**
 	 * Get session id
 	 *
-	 * @return  string  The session name
+	 * @return	string	The session name
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getId()
 	{
@@ -373,9 +373,9 @@ class JSession implements IteratorAggregate
 	/**
 	 * Get the session handlers
 	 *
-	 * @return  array  An array of available session handlers
+	 * @return	array	An array of available session handlers
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function getStores()
 	{
@@ -404,7 +404,7 @@ class JSession implements IteratorAggregate
 				continue;
 			}
 
-			// Sweet!  Our class exists, so now we just need to know if it passes its test method.
+			// Sweet!	Our class exists, so now we just need to know if it passes its test method.
 			if ($class::isSupported())
 			{
 				// Connector names should not have file extensions.
@@ -418,9 +418,9 @@ class JSession implements IteratorAggregate
 	/**
 	 * Shorthand to check if the session is active
 	 *
-	 * @return  boolean
+	 * @return	boolean
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function isActive()
 	{
@@ -430,9 +430,9 @@ class JSession implements IteratorAggregate
 	/**
 	 * Check whether this session is currently created
 	 *
-	 * @return  boolean  True on success.
+	 * @return	boolean	True on success.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function isNew()
 	{
@@ -444,29 +444,29 @@ class JSession implements IteratorAggregate
 	/**
 	 * Check whether this session is currently created
 	 *
-	 * @param   JInput            $input       JInput object for the session to use.
-	 * @param   JEventDispatcher  $dispatcher  Dispatcher object for the session to use.
+	 * @param	 JInput						$input			 JInput object for the session to use.
+	 * @param	 JEventDispatcher	$dispatcher	Dispatcher object for the session to use.
 	 *
-	 * @return  void.
+	 * @return	void.
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function initialise(JInput $input, JEventDispatcher $dispatcher = null)
 	{
-		$this->_input      = $input;
+		$this->_input			= $input;
 		$this->_dispatcher = $dispatcher;
 	}
 
 	/**
 	 * Get data from the session store
 	 *
-	 * @param   string  $name       Name of a variable
-	 * @param   mixed   $default    Default value of a variable if not set
-	 * @param   string  $namespace  Namespace to use, default to 'default'
+	 * @param	 string	$name			 Name of a variable
+	 * @param	 mixed	 $default		Default value of a variable if not set
+	 * @param	 string	$namespace	Namespace to use, default to 'default'
 	 *
-	 * @return  mixed  Value of a variable
+	 * @return	mixed	Value of a variable
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function get($name, $default = null, $namespace = 'default')
 	{
@@ -491,13 +491,13 @@ class JSession implements IteratorAggregate
 	/**
 	 * Set data into the session store.
 	 *
-	 * @param   string  $name       Name of a variable.
-	 * @param   mixed   $value      Value of a variable.
-	 * @param   string  $namespace  Namespace to use, default to 'default'.
+	 * @param	 string	$name			 Name of a variable.
+	 * @param	 mixed	 $value			Value of a variable.
+	 * @param	 string	$namespace	Namespace to use, default to 'default'.
 	 *
-	 * @return  mixed  Old value of a variable.
+	 * @return	mixed	Old value of a variable.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function set($name, $value = null, $namespace = 'default')
 	{
@@ -527,12 +527,12 @@ class JSession implements IteratorAggregate
 	/**
 	 * Check whether data exists in the session store
 	 *
-	 * @param   string  $name       Name of variable
-	 * @param   string  $namespace  Namespace to use, default to 'default'
+	 * @param	 string	$name			 Name of variable
+	 * @param	 string	$namespace	Namespace to use, default to 'default'
 	 *
-	 * @return  boolean  True if the variable exists
+	 * @return	boolean	True if the variable exists
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function has($name, $namespace = 'default')
 	{
@@ -551,12 +551,12 @@ class JSession implements IteratorAggregate
 	/**
 	 * Unset data from the session store
 	 *
-	 * @param   string  $name       Name of variable
-	 * @param   string  $namespace  Namespace to use, default to 'default'
+	 * @param	 string	$name			 Name of variable
+	 * @param	 string	$namespace	Namespace to use, default to 'default'
 	 *
-	 * @return  mixed   The value from session or NULL if not set
+	 * @return	mixed	 The value from session or NULL if not set
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function clear($name, $namespace = 'default')
 	{
@@ -583,9 +583,9 @@ class JSession implements IteratorAggregate
 	/**
 	 * Start a session.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function start()
 	{
@@ -616,9 +616,9 @@ class JSession implements IteratorAggregate
 	 *
 	 * Creates a session (or resumes the current one based on the state of the session)
 	 *
-	 * @return  boolean  true on success
+	 * @return	boolean	true on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function _start()
 	{
@@ -668,11 +668,11 @@ class JSession implements IteratorAggregate
 	 * with the current session in its storage (file or DB). It forces new session to be
 	 * started after this method is called. It does not unset the session cookie.
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @see     session_destroy()
-	 * @see     session_unset()
-	 * @since   11.1
+	 * @see		 session_destroy()
+	 * @see		 session_unset()
+	 * @since	 11.1
 	 */
 	public function destroy()
 	{
@@ -706,10 +706,10 @@ class JSession implements IteratorAggregate
 	/**
 	 * Restart an expired or locked session.
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @see     destroy
-	 * @since   11.1
+	 * @see		 destroy
+	 * @since	 11.1
 	 */
 	public function restart()
 	{
@@ -740,9 +740,9 @@ class JSession implements IteratorAggregate
 	/**
 	 * Create a new session and copy variables from the old one
 	 *
-	 * @return  boolean $result true on success
+	 * @return	boolean $result true on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function fork()
 	{
@@ -785,10 +785,10 @@ class JSession implements IteratorAggregate
 	 * frames by ending the session as soon as all changes to session variables are
 	 * done.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @see     session_write_close()
-	 * @since   11.1
+	 * @see		 session_write_close()
+	 * @since	 11.1
 	 */
 	public function close()
 	{
@@ -798,9 +798,9 @@ class JSession implements IteratorAggregate
 	/**
 	 * Set session cookie parameters
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function _setCookieParams()
 	{
@@ -828,11 +828,11 @@ class JSession implements IteratorAggregate
 	/**
 	 * Create a token-string
 	 *
-	 * @param   integer  $length  Length of string
+	 * @param	 integer	$length	Length of string
 	 *
-	 * @return  string  Generated token
+	 * @return	string	Generated token
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function _createToken($length = 32)
 	{
@@ -852,9 +852,9 @@ class JSession implements IteratorAggregate
 	/**
 	 * Set counter of session usage
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function _setCounter()
 	{
@@ -869,9 +869,9 @@ class JSession implements IteratorAggregate
 	/**
 	 * Set the session timers
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function _setTimers()
 	{
@@ -893,11 +893,11 @@ class JSession implements IteratorAggregate
 	/**
 	 * Set additional session options
 	 *
-	 * @param   array  $options  List of parameter
+	 * @param	 array	$options	List of parameter
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function _setOptions(array $options)
 	{
@@ -945,12 +945,12 @@ class JSession implements IteratorAggregate
 	 *
 	 * If one check failed, session data has to be cleaned.
 	 *
-	 * @param   boolean  $restart  Reactivate session
+	 * @param	 boolean	$restart	Reactivate session
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @see     http://shiflett.org/articles/the-truth-about-sessions
-	 * @since   11.1
+	 * @see		 http://shiflett.org/articles/the-truth-about-sessions
+	 * @since	 11.1
 	 */
 	protected function _validate($restart = false)
 	{

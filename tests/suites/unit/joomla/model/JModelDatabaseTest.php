@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Model
+ * @package		 Joomla.UnitTest
+ * @subpackage	Model
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 JLoader::register('DatabaseModel', __DIR__ . '/stubs/tdatabase.php');
@@ -12,25 +12,25 @@ JLoader::register('DatabaseModel', __DIR__ . '/stubs/tdatabase.php');
 /**
  * Tests for the JViewBase class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Mapper
- * @since       12.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	Mapper
+ * @since			 12.1
  */
 class JModelDatabaseTest extends TestCase
 {
 	/**
-	 * @var    DatabaseModel
-	 * @since  12.1
+	 * @var		DatabaseModel
+	 * @since	12.1
 	 */
 	private $_instance;
 
 	/**
 	 * Tests the __construct method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JModelDatabase::__construct
-	 * @since   12.1
+	 * @covers	JModelDatabase::__construct
+	 * @since	 12.1
 	 */
 	public function test__construct()
 	{
@@ -45,10 +45,10 @@ class JModelDatabaseTest extends TestCase
 	/**
 	 * Tests the getDb method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JModelDatabase::getDb
-	 * @since   12.1
+	 * @covers	JModelDatabase::getDb
+	 * @since	 12.1
 	 */
 	public function testGetDb()
 	{
@@ -61,10 +61,10 @@ class JModelDatabaseTest extends TestCase
 	/**
 	 * Tests the setDb method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JModelDatabase::setDb
-	 * @since   12.1
+	 * @covers	JModelDatabase::setDb
+	 * @since	 12.1
 	 */
 	public function testSetDb()
 	{
@@ -77,10 +77,10 @@ class JModelDatabaseTest extends TestCase
 	/**
 	 * Tests the loadDb method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JModelDatabase::loadDb
-	 * @since   12.1
+	 * @covers	JModelDatabase::loadDb
+	 * @since	 12.1
 	 */
 	public function testLoadDb()
 	{
@@ -91,9 +91,9 @@ class JModelDatabaseTest extends TestCase
 	/**
 	 * Setup the tests.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function setUp()
 	{
@@ -109,9 +109,9 @@ class JModelDatabaseTest extends TestCase
 	/**
 	 * Method to tear down whatever was set up before the test.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function tearDown()
 	{

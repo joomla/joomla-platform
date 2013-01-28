@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Database
+ * @package		 Joomla.UnitTest
+ * @subpackage	Database
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/JDatabaseImporterMySqlInspector.php';
@@ -12,28 +12,28 @@ require_once __DIR__ . '/JDatabaseImporterMySqlInspector.php';
 /**
  * Tests the JDatabaseMySqlExporter class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Database
+ * @package		 Joomla.UnitTest
+ * @subpackage	Database
  *
- * @since       11.1
+ * @since			 11.1
  */
 class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    object  The mocked database object for use by test methods.
-	 * @since  11.1
+	 * @var		object	The mocked database object for use by test methods.
+	 * @since	11.1
 	 */
 	protected $dbo = null;
 
 	/**
-	 * @var    string  The last query sent to the dbo setQuery method.
-	 * @since  11.1
+	 * @var		string	The last query sent to the dbo setQuery method.
+	 * @since	11.1
 	 */
 	protected $lastQuery = '';
 
 	/**
-	 * @var    array  Selected sample data for tests.
-	 * @since  11.1
+	 * @var		array	Selected sample data for tests.
+	 * @since	11.1
 	 */
 	protected $sample = array(
 		'xml-id-field' =>
@@ -49,9 +49,9 @@ class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Sets up the testing conditions
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setup()
 	{
@@ -187,9 +187,9 @@ class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Callback for the dbo loadObjectList method.
 	 *
-	 * @return array  An array of results based on the setting of the last query.
+	 * @return array	An array of results based on the setting of the last query.
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function callbackLoadObjectList()
 	{
@@ -199,11 +199,11 @@ class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Callback for the dbo quote method.
 	 *
-	 * @param   string  $value  The value to be quoted.
+	 * @param	 string	$value	The value to be quoted.
 	 *
-	 * @return string  The value passed wrapped in MySQL quotes.
+	 * @return string	The value passed wrapped in MySQL quotes.
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function callbackQuote($value)
 	{
@@ -213,11 +213,11 @@ class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Callback for the dbo quoteName method.
 	 *
-	 * @param   string  $value  The value to be quoted.
+	 * @param	 string	$value	The value to be quoted.
 	 *
-	 * @return string  The value passed wrapped in MySQL quotes.
+	 * @return string	The value passed wrapped in MySQL quotes.
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function callbackQuoteName($value)
 	{
@@ -227,11 +227,11 @@ class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Callback for the dbo setQuery method.
 	 *
-	 * @param   string  $query  The query.
+	 * @param	 string	$query	The query.
 	 *
 	 * @return void
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function callbackSetQuery($query)
 	{
@@ -241,9 +241,9 @@ class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Data for the testGetAlterTableSQL test.
 	 *
-	 * @return  array  Each array element must be an array with 3 elements: SimpleXMLElement field, expected result, error message.
+	 * @return	array	Each array element must be an array with 3 elements: SimpleXMLElement field, expected result, error message.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function dataGetAlterTableSQL()
 	{
@@ -296,9 +296,9 @@ class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Data for the testGetColumnSQL test.
 	 *
-	 * @return  array  Each array element must be an array with 3 elements: SimpleXMLElement field, expected result, error message.
+	 * @return	array	Each array element must be an array with 3 elements: SimpleXMLElement field, expected result, error message.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function dataGetColumnSQL()
 	{
@@ -330,9 +330,9 @@ class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Data for the testGetColumnSQL test.
 	 *
-	 * @return  array  Each array element must be an array with 3 elements: SimpleXMLElement field, expected result, error message.
+	 * @return	array	Each array element must be an array with 3 elements: SimpleXMLElement field, expected result, error message.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function dataGetKeySQL()
 	{
@@ -344,7 +344,7 @@ class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 						$this->sample['xml-primary-key']
 					),
 				),
-				"primary key  (`id`)",
+				"primary key	(`id`)",
 				'Typical primary key index',
 			),
 		);
@@ -355,7 +355,7 @@ class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function testAsXml()
 	{
@@ -381,7 +381,7 @@ class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function testCheckWithNoDbo()
 	{
@@ -407,7 +407,7 @@ class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function testCheckWithNoFrom()
 	{
@@ -434,7 +434,7 @@ class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function testCheckWithGoodInput()
 	{
@@ -465,7 +465,7 @@ class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function testFromWithGoodInput()
 	{
@@ -500,9 +500,9 @@ class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * Note that combinations of fields is tested in testGetColumnSQL.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testGetAddColumnSQL()
 	{
@@ -526,9 +526,9 @@ class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * Note that combinations of keys is tested in testGetKeySQL.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testGetAddKeySQL()
 	{
@@ -543,7 +543,7 @@ class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 				)
 			),
 			$this->equalTo(
-				"ALTER TABLE `jos_test` ADD PRIMARY KEY  (`id`)"
+				"ALTER TABLE `jos_test` ADD PRIMARY KEY	(`id`)"
 			),
 			'testGetAddKeySQL did not yield the expected result.'
 		);
@@ -552,13 +552,13 @@ class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getAlterTableSQL method.
 	 *
-	 * @param   string  $structure  @todo
-	 * @param   string  $expected   @todo
-	 * @param   string  $message    @todo
+	 * @param	 string	$structure	@todo
+	 * @param	 string	$expected	 @todo
+	 * @param	 string	$message		@todo
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 *
 	 * @dataProvider dataGetAlterTableSQL
 	 */
@@ -581,9 +581,9 @@ class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * Note that combinations of fields is tested in testGetColumnSQL.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testGetChangeColumnSQL()
 	{
@@ -605,14 +605,14 @@ class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getColumnSQL method.
 	 *
-	 * @param   string  $field     @todo
-	 * @param   string  $expected  The expected result from the getColumnSQL method.
-	 * @param   string  $message   The error message to display if the result does not match the expected value.
+	 * @param	 string	$field		 @todo
+	 * @param	 string	$expected	The expected result from the getColumnSQL method.
+	 * @param	 string	$message	 The error message to display if the result does not match the expected value.
 	 *
 	 * @internal param \SimpleXmlElement $xml The database field as an object.
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since    11.1
+	 * @since		11.1
 	 *
 	 * @dataProvider dataGetColumnSQL
 	 */
@@ -631,9 +631,9 @@ class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getDropColumnSQL method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testGetDropColumnSQL()
 	{
@@ -655,9 +655,9 @@ class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getDropKeySQL method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testGetDropKeySQL()
 	{
@@ -679,9 +679,9 @@ class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getDropPrimaryKeySQL method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testGetDropPrimaryKeySQL()
 	{
@@ -702,9 +702,9 @@ class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getKeyLookup method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testGetKeyLookup()
 	{
@@ -748,14 +748,14 @@ class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getKeySQL method.
 	 *
-	 * @param   string  $field     @todo
-	 * @param   string  $expected  The expected result from the getKeySQL method.
-	 * @param   string  $message   The error message to display if the result does not match the expected value.
+	 * @param	 string	$field		 @todo
+	 * @param	 string	$expected	The expected result from the getKeySQL method.
+	 * @param	 string	$message	 The error message to display if the result does not match the expected value.
 	 *
 	 * @internal param \SimpleXmlElement $xml The database key as an object.
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since    11.1
+	 * @since		11.1
 	 *
 	 * @dataProvider dataGetKeySQL
 	 */
@@ -776,7 +776,7 @@ class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function testGetRealTableName()
 	{
@@ -795,7 +795,7 @@ class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function testSetDboWithBadInput()
 	{
@@ -821,7 +821,7 @@ class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function testSetDboWithGoodInput()
 	{
@@ -850,9 +850,9 @@ class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the withStructure method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testWithStructure()
 	{

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Application
+ * @package		 Joomla.UnitTest
+ * @subpackage	Application
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 include_once __DIR__ . '/stubs/JApplicationWebInspector.php';
@@ -12,50 +12,50 @@ include_once __DIR__ . '/stubs/JApplicationWebInspector.php';
 /**
  * Test class for JApplicationWeb.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Application
- * @since       11.3
+ * @package		 Joomla.UnitTest
+ * @subpackage	Application
+ * @since			 11.3
  */
 class JApplicationWebTest extends TestCase
 {
 	/**
 	 * Value for test host.
 	 *
-	 * @var    string
-	 * @since  11.3
+	 * @var		string
+	 * @since	11.3
 	 */
 	const TEST_HTTP_HOST = 'mydomain.com';
 
 	/**
 	 * Value for test user agent.
 	 *
-	 * @var    string
-	 * @since  11.3
+	 * @var		string
+	 * @since	11.3
 	 */
 	const TEST_USER_AGENT = 'Mozilla/5.0';
 
 	/**
 	 * Value for test user agent.
 	 *
-	 * @var    string
-	 * @since  11.3
+	 * @var		string
+	 * @since	11.3
 	 */
 	const TEST_REQUEST_URI = '/index.php';
 
 	/**
 	 * An instance of the class to test.
 	 *
-	 * @var    JApplicationWebInspector
-	 * @since  11.3
+	 * @var		JApplicationWebInspector
+	 * @since	11.3
 	 */
 	protected $class;
 
 	/**
 	 * Data for detectRequestUri method.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function getDetectRequestUriData()
 	{
@@ -71,9 +71,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Data for fetchConfigurationData method.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function getRedirectData()
 	{
@@ -87,9 +87,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Setup for testing.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function setUp()
 	{
@@ -113,10 +113,10 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Overrides the parent tearDown method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   11.1
+	 * @see		 PHPUnit_Framework_TestCase::tearDown()
+	 * @since	 11.1
 	 */
 	protected function tearDown()
 	{
@@ -135,9 +135,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::__construct method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function test__construct()
 	{
@@ -183,9 +183,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::__construct method with dependancy injection.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function test__constructDependancyInjection()
 	{
@@ -237,9 +237,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::allowCache method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testAllowCache()
 	{
@@ -265,9 +265,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::appendBody method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testAppendBody()
 	{
@@ -298,9 +298,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::clearHeaders method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testClearHeaders()
 	{
@@ -327,9 +327,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::close method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testClose()
 	{
@@ -353,9 +353,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::compress method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testCompressWithGzipEncoding()
 	{
@@ -409,9 +409,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::compress method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testCompressWithDeflateEncoding()
 	{
@@ -465,9 +465,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::compress method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testCompressWithNoAcceptEncodings()
 	{
@@ -519,9 +519,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::compress method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testCompressWithHeadersSent()
 	{
@@ -579,9 +579,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::compress method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testCompressWithUnsupportedEncodings()
 	{
@@ -633,18 +633,18 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::detectRequestUri method.
 	 *
-	 * @param   string  $https        @todo
-	 * @param   string  $phpSelf      @todo
-	 * @param   string  $requestUri   @todo
-	 * @param   string  $httpHost     @todo
-	 * @param   string  $scriptName   @todo
-	 * @param   string  $queryString  @todo
-	 * @param   string  $expects      @todo
+	 * @param	 string	$https				@todo
+	 * @param	 string	$phpSelf			@todo
+	 * @param	 string	$requestUri	 @todo
+	 * @param	 string	$httpHost		 @todo
+	 * @param	 string	$scriptName	 @todo
+	 * @param	 string	$queryString	@todo
+	 * @param	 string	$expects			@todo
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @dataProvider getDetectRequestUriData
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testDetectRequestUri($https, $phpSelf, $requestUri, $httpHost, $scriptName, $queryString, $expects)
 	{
@@ -668,9 +668,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::Execute method without a document.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testExecuteWithoutDocument()
 	{
@@ -704,9 +704,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::Execute method with a document.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testExecuteWithDocument()
 	{
@@ -766,9 +766,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Data for fetchConfigurationData method.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function getFetchConfigurationData()
 	{
@@ -782,16 +782,16 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JCli::fetchConfigurationData method.
 	 *
-	 * @param   string   $file               The name of the configuration file.
-	 * @param   string   $class              The name of the class.
-	 * @param   boolean  $expectsClass       The result is expected to be a class.
-	 * @param   array    $expects            The expected result as an array.
-	 * @param   bool     $expectedException  The expected exception.
+	 * @param	 string	 $file							 The name of the configuration file.
+	 * @param	 string	 $class							The name of the class.
+	 * @param	 boolean	$expectsClass			 The result is expected to be a class.
+	 * @param	 array		$expects						The expected result as an array.
+	 * @param	 bool		 $expectedException	The expected exception.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @dataProvider getFetchConfigurationData
-	 * @since    11.3
+	 * @since		11.3
 	 */
 	public function testFetchConfigurationData($file, $class, $expectsClass, $expects, $expectedException = false)
 	{
@@ -838,9 +838,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::get method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testGet()
 	{
@@ -864,9 +864,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::getBody method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testGetBody()
 	{
@@ -903,9 +903,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::getHeaders method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testGetHeaders()
 	{
@@ -930,9 +930,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::getInstance method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testGetInstance()
 	{
@@ -962,9 +962,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::initialise method with default settings.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testInitialiseWithDefaults()
 	{
@@ -994,9 +994,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::initialise method with false injection.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testInitialiseWithFalse()
 	{
@@ -1024,9 +1024,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::initialise method with dependancy injection.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testInitialiseWithInjection()
 	{
@@ -1092,9 +1092,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::loadConfiguration method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testLoadConfiguration()
 	{
@@ -1130,9 +1130,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::loadDocument method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testLoadDocument()
 	{
@@ -1157,9 +1157,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::loadLanguage method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testLoadLanguage()
 	{
@@ -1181,9 +1181,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::loadSession method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testLoadSession()
 	{
@@ -1193,9 +1193,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::loadSystemUris method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testLoadSystemUrisWithSiteUriSet()
 	{
@@ -1239,9 +1239,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::loadSystemUris method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testLoadSystemUrisWithoutSiteUriSet()
 	{
@@ -1281,9 +1281,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::loadSystemUris method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testLoadSystemUrisWithoutSiteUriWithMediaUriSet()
 	{
@@ -1328,9 +1328,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::loadSystemUris method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testLoadSystemUrisWithoutSiteUriWithRelativeMediaUriSet()
 	{
@@ -1375,9 +1375,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::prependBody method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testPrependBody()
 	{
@@ -1408,9 +1408,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::redirect method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testRedirect()
 	{
@@ -1449,9 +1449,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::redirect method with headers already sent.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testRedirectWithHeadersSent()
 	{
@@ -1482,9 +1482,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::redirect method with headers already sent.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testRedirectWithJavascriptRedirect()
 	{
@@ -1519,9 +1519,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::redirect method with moved option.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testRedirectWithMoved()
 	{
@@ -1553,15 +1553,15 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::redirect method with assorted URL's.
 	 *
-	 * @param   string  $url       @todo
-	 * @param   string  $base      @todo
-	 * @param   string  $request   @todo
-	 * @param   string  $expected  @todo
+	 * @param	 string	$url			 @todo
+	 * @param	 string	$base			@todo
+	 * @param	 string	$request	 @todo
+	 * @param	 string	$expected	@todo
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @dataProvider  getRedirectData
-	 * @since   11.3
+	 * @dataProvider	getRedirectData
+	 * @since	 11.3
 	 */
 	public function testRedirectWithUrl($url, $base, $request, $expected)
 	{
@@ -1592,9 +1592,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::registerEvent method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testRegisterEvent()
 	{
@@ -1616,9 +1616,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::render method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testRender()
 	{
@@ -1642,9 +1642,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::respond method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testRespond()
 	{
@@ -1654,9 +1654,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::sendHeaders method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testSendHeaders()
 	{
@@ -1686,9 +1686,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::set method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testSet()
 	{
@@ -1712,9 +1712,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::setBody method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testSetBody()
 	{
@@ -1742,9 +1742,9 @@ class JApplicationWebTest extends TestCase
 	/**
 	 * Tests the JApplicationWeb::setHeader method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testSetHeader()
 	{

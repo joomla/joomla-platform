@@ -1,20 +1,20 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Installer
+ * @package		 Joomla.UnitTest
+ * @subpackage	Installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 
 /**
  * Test class for JInstaller.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Installer
+ * @package		 Joomla.UnitTest
+ * @subpackage	Installer
  *
- * @since       11.1
+ * @since			 11.1
  */
 class JInstallerTest extends TestCase
 {
@@ -54,7 +54,7 @@ class JInstallerTest extends TestCase
 	/**
 	 * Test...
 	 *
-	 * @covers  JInstaller::getInstance
+	 * @covers	JInstaller::getInstance
 	 *
 	 * @return void
 	 */
@@ -70,8 +70,8 @@ class JInstallerTest extends TestCase
 	/**
 	 * Test...
 	 *
-	 * @covers  JInstaller::setOverwrite
-	 * @covers  JInstaller::isOverwrite
+	 * @covers	JInstaller::setOverwrite
+	 * @covers	JInstaller::isOverwrite
 	 *
 	 * @return void
 	 */
@@ -101,8 +101,8 @@ class JInstallerTest extends TestCase
 	/**
 	 * Test...
 	 *
-	 * @covers  JInstaller::setRedirectUrl
-	 * @covers  JInstaller::getRedirectUrl
+	 * @covers	JInstaller::setRedirectUrl
+	 * @covers	JInstaller::getRedirectUrl
 	 *
 	 * @return void
 	 */
@@ -120,8 +120,8 @@ class JInstallerTest extends TestCase
 	/**
 	 * Test...
 	 *
-	 * @covers  JInstaller::setUpgrade
-	 * @covers  JInstaller::isUpgrade
+	 * @covers	JInstaller::setUpgrade
+	 * @covers	JInstaller::isUpgrade
 	 *
 	 * @return void
 	 */
@@ -151,7 +151,7 @@ class JInstallerTest extends TestCase
 	/**
 	 * Test...
 	 *
-	 * @covers  JInstaller::getPath
+	 * @covers	JInstaller::getPath
 	 *
 	 * @return void
 	 */
@@ -175,7 +175,7 @@ class JInstallerTest extends TestCase
 	/**
 	 * Test...
 	 *
-	 * @covers  JInstaller::abort
+	 * @covers	JInstaller::abort
 	 *
 	 * @return void
 	 */
@@ -192,7 +192,7 @@ class JInstallerTest extends TestCase
 	/**
 	 * Test...
 	 *
-	 * @covers  JInstaller::abort
+	 * @covers	JInstaller::abort
 	 *
 	 * @return void
 	 */
@@ -218,7 +218,7 @@ class JInstallerTest extends TestCase
 	/**
 	 * Test that if the type is not good we fall back properly
 	 *
-	 * @covers  JInstaller::abort
+	 * @covers	JInstaller::abort
 	 *
 	 * @return void
 	 */
@@ -235,9 +235,9 @@ class JInstallerTest extends TestCase
 	/**
 	 * This test is weak and may need removal at some point
 	 *
-	 * @covers  JInstaller::abort
+	 * @covers	JInstaller::abort
 	 *
-	 * @expectedException  RuntimeException
+	 * @expectedException	RuntimeException
 	 *
 	 * @return void
 	 */

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Installer
+ * @package		 Joomla.Platform
+ * @subpackage	Installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -16,22 +16,22 @@ jimport('joomla.filesystem.path');
 /**
  * Installer helper class
  *
- * @package     Joomla.Platform
- * @subpackage  Installer
- * @since       11.1
- * @deprecated  13.3
+ * @package		 Joomla.Platform
+ * @subpackage	Installer
+ * @since			 11.1
+ * @deprecated	13.3
  */
 abstract class JInstallerHelper
 {
 	/**
 	 * Downloads a package
 	 *
-	 * @param   string  $url     URL of file to download
-	 * @param   string  $target  Download target filename [optional]
+	 * @param	 string	$url		 URL of file to download
+	 * @param	 string	$target	Download target filename [optional]
 	 *
-	 * @return  mixed  Path to downloaded package or boolean false on failure
+	 * @return	mixed	Path to downloaded package or boolean false on failure
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function downloadPackage($url, $target = false)
 	{
@@ -92,11 +92,11 @@ abstract class JInstallerHelper
 	 * Unpacks a file and verifies it as a Joomla element package
 	 * Supports .gz .tar .tar.gz and .zip
 	 *
-	 * @param   string  $p_filename  The uploaded package filename or install directory
+	 * @param	 string	$p_filename	The uploaded package filename or install directory
 	 *
-	 * @return  mixed  Array on success or boolean false on failure
+	 * @return	mixed	Array on success or boolean false on failure
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function unpack($p_filename)
 	{
@@ -128,10 +128,10 @@ abstract class JInstallerHelper
 		$retval['packagefile'] = $archivename;
 
 		/*
-		 * Try to find the correct install directory.  In case the package is inside a
+		 * Try to find the correct install directory.	In case the package is inside a
 		 * subdirectory detect this and set the install directory to the correct path.
 		 *
-		 * List all the items in the installation directory.  If there is only one, and
+		 * List all the items in the installation directory.	If there is only one, and
 		 * it is a folder, then we will set that folder to be the installation folder.
 		 */
 		$dirList = array_merge(JFolder::files($extractdir, ''), JFolder::folders($extractdir, ''));
@@ -169,11 +169,11 @@ abstract class JInstallerHelper
 	/**
 	 * Method to detect the extension type from a package directory
 	 *
-	 * @param   string  $p_dir  Path to package directory
+	 * @param	 string	$p_dir	Path to package directory
 	 *
-	 * @return  mixed  Extension type string or boolean false on fail
+	 * @return	mixed	Extension type string or boolean false on fail
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function detectType($p_dir)
 	{
@@ -221,11 +221,11 @@ abstract class JInstallerHelper
 	/**
 	 * Gets a file name out of a url
 	 *
-	 * @param   string  $url  URL to get name from
+	 * @param	 string	$url	URL to get name from
 	 *
-	 * @return  mixed   String filename or boolean false if failed
+	 * @return	mixed	 String filename or boolean false if failed
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function getFilenameFromURL($url)
 	{
@@ -241,12 +241,12 @@ abstract class JInstallerHelper
 	/**
 	 * Clean up temporary uploaded package and unpacked extension
 	 *
-	 * @param   string  $package    Path to the uploaded package file
-	 * @param   string  $resultdir  Path to the unpacked extension
+	 * @param	 string	$package		Path to the uploaded package file
+	 * @param	 string	$resultdir	Path to the unpacked extension
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function cleanupInstall($package, $resultdir)
 	{
@@ -274,12 +274,12 @@ abstract class JInstallerHelper
 	 * Splits contents of a sql file into array of discreet queries.
 	 * Queries need to be delimited with end of statement marker ';'
 	 *
-	 * @param   string  $sql  The SQL statement.
+	 * @param	 string	$sql	The SQL statement.
 	 *
-	 * @return  array  Array of queries
+	 * @return	array	Array of queries
 	 *
-	 * @since   11.1
-	 * @deprecated  13.3  Use JDatabaseDriver::splitSql() directly
+	 * @since	 11.1
+	 * @deprecated	13.3	Use JDatabaseDriver::splitSql() directly
 	 */
 	public static function splitSql($sql)
 	{

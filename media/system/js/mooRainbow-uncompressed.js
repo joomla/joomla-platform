@@ -6,18 +6,18 @@ version: 1.3
 description: MooRainbow is a ColorPicker for MooTools 1.3 and higher
 license: MIT-Style
 authors:
-  - Djamil Legato (w00fz)
-  - Christopher Beloch
+	- Djamil Legato (w00fz)
+	- Christopher Beloch
 
 requires:
-  core:1.3: [*]
-  more:1.3: [Slider, Drag, Color]
+	core:1.3: [*]
+	more:1.3: [Slider, Drag, Color]
 
 provides: [mooRainbow]
 
 ...
 */
- 
+
 var MooRainbow = new Class({
 	options: {
 		id: 'mooRainbow',
@@ -28,11 +28,11 @@ var MooRainbow = new Class({
 		onComplete: Class.empty,
 		onChange: Class.empty
 	},
-	
+
 	initialize: function(el, options) {
 		this.element = document.id(el); if (!this.element) return;
 		this.setOptions(options);
-		
+
 		this.sliderPos = 0;
 		this.pickerPos = {x: 0, y: 0};
 		this.backupColor = this.options.startColor;
@@ -40,60 +40,60 @@ var MooRainbow = new Class({
 		this.sets = {
 			rgb: [],
 			hsb: [],
-			hex: []	
+			hex: []
 		};
-		this.pickerClick = this.sliderClick  = false;
+		this.pickerClick = this.sliderClick	= false;
 		if (!this.layout) this.doLayout();
 		this.OverlayEvents();
 		this.sliderEvents();
 		this.backupEvent();
 		if (this.options.wheel) this.wheelEvents();
 		this.element.addEvent('click', function(e) { this.toggle(e); }.bind(this));
-				
+
 		this.layout.overlay.setStyle('background-color', this.options.startColor.rgbToHex());
 		this.layout.backup.setStyle('background-color', this.backupColor.rgbToHex());
 
 		this.pickerPos.x = this.snippet('curPos').l + this.snippet('curSize', 'int').w;
 		this.pickerPos.y = this.snippet('curPos').t + this.snippet('curSize', 'int').h;
-		
+
 		this.manualSet(this.options.startColor);
-		
+
 		this.pickerPos.x = this.snippet('curPos').l + this.snippet('curSize', 'int').w;
 		this.pickerPos.y = this.snippet('curPos').t + this.snippet('curSize', 'int').h;
 		this.sliderPos = this.snippet('arrPos') - this.snippet('arrSize', 'int');
 
 		if (window.khtml) this.hide();
 	},
-	
+
 	toggle: function() {
 		this[this.visible ? 'hide' : 'show']()
 	},
-	
+
 	show: function() {
 		this.rePosition();
 		this.layout.setStyle('display', 'block');
 		this.layout.set('aria-hidden', 'false');
 		this.visible = true;
 	},
-	
+
 	hide: function() {
 		this.layout.setStyles({'display': 'none'});
 		this.layout.set('aria-hidden', 'true');
 		this.visible = false;
 	},
-	
+
 	manualSet: function(color, type) {
 		if (!type || (type != 'hsb' && type != 'hex')) type = 'rgb';
 		var rgb, hsb, hex;
 
-		if (type == 'rgb') { rgb = color; hsb = color.rgbToHsb(); hex = color.rgbToHex(); } 
+		if (type == 'rgb') { rgb = color; hsb = color.rgbToHsb(); hex = color.rgbToHex(); }
 		else if (type == 'hsb') { hsb = color; rgb = color.hsbToRgb(); hex = rgb.rgbToHex(); }
 		else { hex = color; rgb = color.hexToRgb(true); hsb = rgb.rgbToHsb(); }
-		
+
 		this.setMooRainbow(rgb);
 		this.autoSet(hsb);
 	},
-	
+
 	autoSet: function(hsb) {
 		var curH = this.snippet('curSize', 'int').h;
 		var curW = this.snippet('curSize', 'int').w;
@@ -102,14 +102,14 @@ var MooRainbow = new Class({
 		var sliH = this.layout.slider.height;
 		var arwH = this.snippet('arrSize', 'int');
 		var hue;
-		
+
 		var posx = Math.round(((oveW * hsb[1]) / 100) - curW);
 		var posy = Math.round(- ((oveH * hsb[2]) / 100) + oveH - curH);
 
 		var c = Math.round(((sliH * hsb[0]) / 360)); c = (c == 360) ? 0 : c;
 		var position = sliH - c + this.snippet('slider') - arwH;
 		hue = [this.sets.hsb[0], 100, 100].hsbToRgb().rgbToHex();
-		
+
 		this.layout.cursor.setStyles({'top': posy, 'left': posx});
 		this.layout.arrows.setStyle('top', position);
 		this.layout.overlay.setStyle('background-color', hue);
@@ -117,12 +117,12 @@ var MooRainbow = new Class({
 		this.pickerPos.x = this.snippet('curPos').l + curW;
 		this.pickerPos.y = this.snippet('curPos').t + curH;
 	},
-	
+
 	setMooRainbow: function(color, type) {
 		if (!type || (type != 'hsb' && type != 'hex')) type = 'rgb';
 		var rgb, hsb, hex;
 
-		if (type == 'rgb') { rgb = color; hsb = color.rgbToHsb(); hex = color.rgbToHex(); } 
+		if (type == 'rgb') { rgb = color; hsb = color.rgbToHsb(); hex = color.rgbToHex(); }
 		else if (type == 'hsb') { hsb = color; rgb = color.hsbToRgb(); hex = rgb.rgbToHex(); }
 		else { hex = color; rgb = color.hexToRgb(); hsb = rgb.rgbToHsb(); }
 
@@ -133,23 +133,23 @@ var MooRainbow = new Class({
 		};
 
 		if (!this.pickerPos.x)
-			this.autoSet(hsb);		
+			this.autoSet(hsb);
 
 		this.RedInput.value = rgb[0];
 		this.GreenInput.value = rgb[1];
 		this.BlueInput.value = rgb[2];
 		this.HueInput.value = hsb[0];
-		this.SatuInput.value =  hsb[1];
+		this.SatuInput.value =	hsb[1];
 		this.BrighInput.value = hsb[2];
 		this.hexInput.value = hex;
-		
+
 		this.currentColor = rgb;
 
 		this.chooseColor.setStyle('background-color', rgb.rgbToHex());
-		
+
 		this.fireEvent('onChange', [this.sets, this]);
 	},
-	
+
 	parseColors: function(x, y, z) {
 		var s = Math.round((x * 100) / this.layout.overlay.width);
 		var b = 100 - Math.round((y * 100) / this.layout.overlay.height);
@@ -161,15 +161,15 @@ var MooRainbow = new Class({
 
 		return [h, s, b];
 	},
-	
+
 	OverlayEvents: function() {
 		var lim, curH, curW, inputs;
 		curH = this.snippet('curSize', 'int').h;
 		curW = this.snippet('curSize', 'int').w;
 		inputs = this.arrRGB.concat(this.arrHSB, this.hexInput);
 
-		document.addEvent('click', function() { 
-			if(this.visible) this.hide(this.layout); 
+		document.addEvent('click', function() {
+			if(this.visible) this.hide(this.layout);
 		}.bind(this));
 
 		inputs.each(function(el) {
@@ -184,7 +184,7 @@ var MooRainbow = new Class({
 				}.bind(this)
 			}, this);
 		}, this);
-		
+
 		lim = {
 			x: [0 - curW, (this.layout.overlay.width - curW)],
 			y: [0 - curH, (this.layout.overlay.height - curH)]
@@ -194,17 +194,17 @@ var MooRainbow = new Class({
 			onStart: this.overlayDrag.bind(this),
 			onDrag: this.overlayDrag.bind(this),
 			snap: 0
-		});	
-		
+		});
+
 		this.layout.overlay2.addEvent('mousedown', function(e){
 			this.layout.cursor.setStyles({
 				'top': e.page.y - this.layout.overlay.getTop() - curH,
 				'left': e.page.x - this.layout.overlay.getLeft() - curW
 			});
-                        this.overlayDrag.call(this);
+												this.overlayDrag.call(this);
 			this.layout.drag.start(e);
 		}.bind(this));
-		
+
 		this.okButton.addEvent('click', function() {
 			if(this.currentColor == this.options.startColor) {
 				this.hide();
@@ -218,17 +218,17 @@ var MooRainbow = new Class({
 			}
 		}.bind(this));
 	},
-	
+
 	overlayDrag: function() {
 		var curH = this.snippet('curSize', 'int').h;
 		var curW = this.snippet('curSize', 'int').w;
 		this.pickerPos.x = this.snippet('curPos').l + curW;
 		this.pickerPos.y = this.snippet('curPos').t + curH;
-		
+
 		this.setMooRainbow(this.parseColors(this.pickerPos.x, this.pickerPos.y, this.sliderPos), 'hsb');
 		this.fireEvent('onChange', [this.sets, this]);
 	},
-	
+
 	sliderEvents: function() {
 		var arwH = this.snippet('arrSize', 'int'), lim;
 
@@ -239,34 +239,34 @@ var MooRainbow = new Class({
 			onStart: this.sliderDrag.bind(this),
 			onDrag: this.sliderDrag.bind(this),
 			snap: 0
-		});	
-	
+		});
+
 		this.layout.slider.addEvent('mousedown', function(e){
 			this.layout.arrows.setStyle(
 				'top', e.page.y - this.layout.slider.getTop() + this.snippet('slider') - arwH
 			);
-                        this.sliderDrag.call(this);
+												this.sliderDrag.call(this);
 			this.layout.sliderDrag.start(e);
 		}.bind(this));
 	},
 
 	sliderDrag: function() {
 		var arwH = this.snippet('arrSize', 'int'), hue;
-		
+
 		this.sliderPos = this.snippet('arrPos') - arwH;
 		this.setMooRainbow(this.parseColors(this.pickerPos.x, this.pickerPos.y, this.sliderPos), 'hsb');
 		hue = [this.sets.hsb[0], 100, 100].hsbToRgb().rgbToHex();
 		this.layout.overlay.setStyle('background-color', hue);
 		this.fireEvent('onChange', [this.sets, this]);
 	},
-	
+
 	backupEvent: function() {
 		this.layout.backup.addEvent('click', function() {
 			this.manualSet(this.backupColor);
 			this.fireEvent('onChange', [this.sets, this]);
 		}.bind(this));
 	},
-	
+
 	wheelEvents: function() {
 		var arrColors = this.arrRGB.copy().extend(this.arrHSB);
 
@@ -281,7 +281,7 @@ var MooRainbow = new Class({
 
 			});
 		}, this);
-		
+
 		[this.layout.arrows, this.layout.slider].each(function(el) {
 			el.addEvents({
 				'mousewheel': function(e) {
@@ -293,9 +293,9 @@ var MooRainbow = new Class({
 			});
 		}, this);
 	},
-	
+
 	eventKeys: function(e, el, id) {
-		var wheel, type;		
+		var wheel, type;
 		id = (!id) ? el.id : this.arrHSB[0];
 
 		if (e.type == 'keydown') {
@@ -339,7 +339,7 @@ var MooRainbow = new Class({
 		}
 		e.stop();
 	},
-	
+
 	eventKeydown: function(el, e) {
 		var n = e.code, k = e.key;
 
@@ -347,7 +347,7 @@ var MooRainbow = new Class({
 			(k!='backspace' && k!='tab' && k !='delete' && k!='left' && k!='right'))
 		e.stop();
 	},
-	
+
 	eventKeyup: function(el, e) {
 		var n = e.code, k = e.key, pass, prefix, chr = el.value.charAt(0);
 
@@ -358,11 +358,11 @@ var MooRainbow = new Class({
 		} else {
 			if (!(n >= 48 && n <= 57) && (!['backspace', 'tab', 'delete', 'left', 'right'].test(k)) && el.value.length > 3) return;
 		}
-		
+
 		prefix = this.options.prefix;
 
 		if (el.className.test(/(rInput|gInput|bInput)/)) {
-			if (el.value  < 0 || el.value > 255) return;
+			if (el.value	< 0 || el.value > 255) return;
 			switch(el.className){
 				case prefix + 'rInput': pass = [el.value, this.sets.rgb[1], this.sets.rgb[2]]; break;
 				case prefix + 'gInput': pass = [this.sets.rgb[0], el.value, this.sets.rgb[2]]; break;
@@ -373,9 +373,9 @@ var MooRainbow = new Class({
 			this.fireEvent('onChange', [this.sets, this]);
 		}
 		else if (!el.className.test(/hexInput/)) {
-			if (el.className.test(/HueInput/) && el.value  < 0 || el.value > 360) return;
+			if (el.className.test(/HueInput/) && el.value	< 0 || el.value > 360) return;
 			else if (el.className.test(/HueInput/) && el.value == 360) el.value = 0;
-			else if (el.className.test(/(SatuInput|BrighInput)/) && el.value  < 0 || el.value > 100) return;
+			else if (el.className.test(/(SatuInput|BrighInput)/) && el.value	< 0 || el.value > 100) return;
 			switch(el.className){
 				case prefix + 'HueInput': pass = [el.value, this.sets.hsb[1], this.sets.hsb[2]]; break;
 				case prefix + 'SatuInput': pass = [this.sets.hsb[0], el.value, this.sets.hsb[2]]; break;
@@ -393,9 +393,9 @@ var MooRainbow = new Class({
 				this.fireEvent('onChange', [this.sets, this]);
 			}
 		}
-			
+
 	},
-			
+
 	doLayout: function() {
 		var id = this.options.id, prefix = this.options.prefix;
 		var idPrefix = id + ' .' + prefix;
@@ -406,34 +406,34 @@ var MooRainbow = new Class({
 		}).inject(document.body);
 
 		var box = new Element('div', {
-			'styles':  {'position': 'relative'},
+			'styles':	{'position': 'relative'},
 			'class': prefix + 'box'
 		}).inject(this.layout);
-			
+
 		var div = new Element('div', {
 			'styles': {'position': 'absolute', 'overflow': 'hidden'},
 			'class': prefix + 'overlayBox'
 		}).inject(box);
-		
+
 		var ar = new Element('div', {
 			'styles': {'position': 'absolute', 'zIndex': 1},
 			'class': prefix + 'arrows'
 		}).inject(box);
 		ar.width = ar.getStyle('width').toInt();
 		ar.height = ar.getStyle('height').toInt();
-		
+
 		var ov = new Element('img', {
 			'styles': {'background-color': '#fff', 'position': 'relative', 'zIndex': 2},
 			'src': this.options.imgPath + 'moor_woverlay.png',
 			'class': prefix + 'overlay'
 		}).inject(div);
-		
+
 		var ov2 = new Element('img', {
 			'styles': {'position': 'absolute', 'top': 0, 'left': 0, 'zIndex': 2},
 			'src': this.options.imgPath + 'moor_boverlay.png',
 			'class': prefix + 'overlay'
 		}).inject(div);
-		
+
 		if (window.ie6) {
 			div.setStyle('overflow', '');
 			var src = ov.src;
@@ -448,11 +448,11 @@ var MooRainbow = new Class({
 
 		var cr = new Element('div', {
 			'styles': {'overflow': 'hidden', 'position': 'absolute', 'zIndex': 2},
-			'class': prefix + 'cursor'	
+			'class': prefix + 'cursor'
 		}).inject(div);
 		cr.width = cr.getStyle('width').toInt();
 		cr.height = cr.getStyle('height').toInt();
-		
+
 		var sl = new Element('img', {
 			'styles': {'position': 'absolute', 'z-index': 2},
 			'src': this.options.imgPath + 'moor_slider.png',
@@ -471,22 +471,22 @@ var MooRainbow = new Class({
 			'styles': {'zIndex': 2, 'position': 'absolute'},
 			'class': prefix + 'chooseColor'
 		}).inject(box);
-			
+
 		this.layout.backup = new Element('div', {
 			'styles': {'zIndex': 2, 'position': 'absolute', 'cursor': 'pointer'},
 			'class': prefix + 'currentColor'
 		}).inject(box);
-		
+
 		var R = new Element('label').inject(box).setStyle('position', 'absolute');
 		var G = R.clone().inject(box).addClass(prefix + 'gLabel').appendText('G: ');
 		var B = R.clone().inject(box).addClass(prefix + 'bLabel').appendText('B: ');
 		R.appendText('R: ').addClass(prefix + 'rLabel');
-		
+
 		var inputR = new Element('input');
 		var inputG = inputR.clone().inject(G).addClass(prefix + 'gInput');
 		var inputB = inputR.clone().inject(B).addClass(prefix + 'bInput');
 		inputR.inject(R).addClass(prefix + 'rInput');
-		
+
 		var HU = new Element('label').inject(box).setStyle('position', 'absolute');
 		var SA = HU.clone().inject(box).addClass(prefix + 'SatuLabel').appendText('S: ');
 		var BR = HU.clone().inject(box).addClass(prefix + 'BrighLabel').appendText('B: ');
@@ -500,14 +500,14 @@ var MooRainbow = new Class({
 		(new Element('span', {'styles': {'position': 'absolute'}, 'class': prefix + 'ballino'}).set('html', " &deg;").inject(HU, 'after'));
 
 		var hex = new Element('label').inject(box).setStyle('position', 'absolute').addClass(prefix + 'hexLabel').appendText('#hex: ').adopt(new Element('input').addClass(prefix + 'hexInput'));
-		
+
 		var ok = new Element('input', {
 			'styles': {'position': 'absolute'},
 			'type': 'button',
 			'value': 'Select',
 			'class': prefix + 'okButton'
 		}).inject(box);
-		
+
 		this.rePosition();
 
 		var overlays = $$('#' + idPrefix + 'overlay');
@@ -528,9 +528,9 @@ var MooRainbow = new Class({
 		this.arrRGB = [this.RedInput, this.GreenInput, this.BlueInput];
 		this.arrHSB = [this.HueInput, this.SatuInput, this.BrighInput];
 		this.okButton = Slick.find(document, '#' + idPrefix + 'okButton');
-		
+
 		this.layout.cursor.setStyle('background-image', 'url(' + this.options.imgPath + 'moor_cursor.gif)');
-		
+
 		if (!window.khtml) this.hide();
 	},
 	rePosition: function() {
@@ -540,7 +540,7 @@ var MooRainbow = new Class({
 			'top': coords.top + coords.height + 1
 		});
 	},
-	
+
 	snippet: function(mode, type) {
 		var size; type = (type) ? type : 'none';
 
@@ -549,11 +549,11 @@ var MooRainbow = new Class({
 				var t = this.layout.arrows.getStyle('top').toInt();
 				size = t;
 				break;
-			case 'arrSize': 
+			case 'arrSize':
 				var h = this.layout.arrows.height;
 				h = (type == 'int') ? (h/2).toInt() : h;
 				size = h;
-				break;		
+				break;
 			case 'curPos':
 				var l = this.layout.cursor.getStyle('left').toInt();
 				var t = this.layout.cursor.getStyle('top').toInt();

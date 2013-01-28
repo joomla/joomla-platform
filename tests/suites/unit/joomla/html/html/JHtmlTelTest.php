@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  HTML
+ * @package		 Joomla.UnitTest
+ * @subpackage	HTML
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM . '/joomla/html/tel.php';
@@ -12,24 +12,24 @@ require_once JPATH_PLATFORM . '/joomla/html/tel.php';
 /**
  * Test class for JHtmlTel.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Html
- * @since       11.3
+ * @package		 Joomla.UnitTest
+ * @subpackage	Html
+ * @since			 11.3
  */
 class JHtmlTelTest extends TestCase
 {
 	/**
-	 * @var    JHtmlTel
-	 * @since  11.3
+	 * @var		JHtmlTel
+	 * @since	11.3
 	 */
 	protected $object;
 
 	/**
 	 * Tests the JHtmlTel::tel method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testTel()
 	{

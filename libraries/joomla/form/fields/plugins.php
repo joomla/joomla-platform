@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Form
+ * @package		 Joomla.Platform
+ * @subpackage	Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -14,17 +14,17 @@ JFormHelper::loadFieldClass('list');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @since       11.4
+ * @package		 Joomla.Platform
+ * @subpackage	Form
+ * @since			 11.4
  */
 class JFormFieldPlugins extends JFormFieldList
 {
 	/**
 	 * The field type.
 	 *
-	 * @var    string
-	 * @since  11.4
+	 * @var		string
+	 * @since	11.4
 	 */
 	protected $type = 'Plugins';
 
@@ -33,7 +33,7 @@ class JFormFieldPlugins extends JFormFieldList
 	 *
 	 * @return	array		An array of JHtml options.
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	protected function getOptions()
 	{
@@ -42,8 +42,8 @@ class JFormFieldPlugins extends JFormFieldList
 		if (!empty($folder))
 		{
 			// Get list of plugins
-			$db     = JFactory::getDbo();
-			$query  = $db->getQuery(true);
+			$db		 = JFactory::getDbo();
+			$query	= $db->getQuery(true);
 			$query->select('element AS value, name AS text');
 			$query->from('#__extensions');
 			$query->where('folder = ' . $db->q($folder));

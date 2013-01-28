@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Archive
+ * @package		 Joomla.Platform
+ * @subpackage	Archive
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -14,31 +14,31 @@ jimport('joomla.filesystem.stream');
 /**
  * Bzip2 format adapter for the JArchive class
  *
- * @package     Joomla.Platform
- * @subpackage  Archive
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Archive
+ * @since			 11.1
  */
 class JArchiveBzip2 implements JArchiveExtractable
 {
 	/**
 	 * Bzip2 file data buffer
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	private $_data = null;
 
 	/**
 	 * Extract a Bzip2 compressed file to a given path
 	 *
-	 * @param   string  $archive      Path to Bzip2 archive to extract
-	 * @param   string  $destination  Path to extract archive to
-	 * @param   array   $options      Extraction options [unused]
+	 * @param	 string	$archive			Path to Bzip2 archive to extract
+	 * @param	 string	$destination	Path to extract archive to
+	 * @param	 array	 $options			Extraction options [unused]
 	 *
-	 * @return  boolean  True if successful
+	 * @return	boolean	True if successful
 	 *
-	 * @since   11.1
-	 * @throws  RuntimeException
+	 * @since	 11.1
+	 * @throws	RuntimeException
 	 */
 	public function extract($archive, $destination, array $options = array ())
 	{
@@ -170,9 +170,9 @@ class JArchiveBzip2 implements JArchiveExtractable
 	/**
 	 * Tests whether this adapter can unpack files on this computer.
 	 *
-	 * @return  boolean  True if supported
+	 * @return	boolean	True if supported
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public static function isSupported()
 	{

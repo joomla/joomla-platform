@@ -1,28 +1,28 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Menu
+ * @package		 Joomla.UnitTest
+ * @subpackage	Menu
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JMenu.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Menu
+ * @package		 Joomla.UnitTest
+ * @subpackage	Menu
  *
- * @since       12.3
+ * @since			 12.3
  */
 class JMenuTest extends TestCase
 {
 	/**
 	 * Test JMenu::getInstance
 	 *
-	 * @todo    Implement testGetInstance().
+	 * @todo		Implement testGetInstance().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetInstance()
 	{
@@ -33,9 +33,9 @@ class JMenuTest extends TestCase
 	/**
 	 * Test JMenu::getItem
 	 *
-	 * @todo    Implement testGetItem().
+	 * @todo		Implement testGetItem().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetItem()
 	{
@@ -46,9 +46,9 @@ class JMenuTest extends TestCase
 	/**
 	 * Test JMenu::setDefault
 	 *
-	 * @todo    Implement testSetDefault().
+	 * @todo		Implement testSetDefault().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testSetDefault()
 	{
@@ -59,9 +59,9 @@ class JMenuTest extends TestCase
 	/**
 	 * Test JMenu::getDefaul
 	 *
-	 * @todo    Implement testGetDefault().
+	 * @todo		Implement testGetDefault().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetDefault()
 	{
@@ -72,9 +72,9 @@ class JMenuTest extends TestCase
 	/**
 	 * Test JMenu::setActive
 	 *
-	 * @todo    Implement testSetActive().
+	 * @todo		Implement testSetActive().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testSetActive()
 	{
@@ -85,9 +85,9 @@ class JMenuTest extends TestCase
 	/**
 	 * Test JMenu::getActive
 	 *
-	 * @todo    Implement testGetActive().
+	 * @todo		Implement testGetActive().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetActive()
 	{
@@ -98,9 +98,9 @@ class JMenuTest extends TestCase
 	/**
 	 * Test JMenu::getItems
 	 *
-	 * @todo    Implement testGetItems().
+	 * @todo		Implement testGetItems().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetItems()
 	{
@@ -111,9 +111,9 @@ class JMenuTest extends TestCase
 	/**
 	 * Test JMenu::getParams
 	 *
-	 * @todo    Implement testGetParams().
+	 * @todo		Implement testGetParams().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetParams()
 	{
@@ -124,9 +124,9 @@ class JMenuTest extends TestCase
 	/**
 	 * Test JMenu::getMenu
 	 *
-	 * @todo    Implement testGetMenu().
+	 * @todo		Implement testGetMenu().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetMenu()
 	{
@@ -137,9 +137,9 @@ class JMenuTest extends TestCase
 	/**
 	 * Test JMenu::authorise
 	 *
-	 * @todo    Implement testAuthorise().
+	 * @todo		Implement testAuthorise().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testAuthorise()
 	{
@@ -150,9 +150,9 @@ class JMenuTest extends TestCase
 	/**
 	 * Test JMenu::load
 	 *
-	 * @todo    Implement testLoad().
+	 * @todo		Implement testLoad().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testLoad()
 	{

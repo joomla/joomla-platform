@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Registry
+ * @package		 Joomla.Platform
+ * @subpackage	Registry
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,9 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * XML format handler for JRegistry.
  *
- * @package     Joomla.Platform
- * @subpackage  Registry
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Registry
+ * @since			 11.1
  */
 class JRegistryFormatXML extends JRegistryFormat
 {
@@ -23,12 +23,12 @@ class JRegistryFormatXML extends JRegistryFormat
 	 * -	If more than two levels of nested groups are necessary, since INI is not
 	 * useful, XML or another format should be used.
 	 *
-	 * @param   object  $object   Data source object.
-	 * @param   array   $options  Options used by the formatter.
+	 * @param	 object	$object	 Data source object.
+	 * @param	 array	 $options	Options used by the formatter.
 	 *
-	 * @return  string  XML formatted string.
+	 * @return	string	XML formatted string.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function objectToString($object, $options = array())
 	{
@@ -47,12 +47,12 @@ class JRegistryFormatXML extends JRegistryFormat
 	/**
 	 * Parse a XML formatted string and convert it into an object.
 	 *
-	 * @param   string  $data     XML formatted string to convert.
-	 * @param   array   $options  Options used by the formatter.
+	 * @param	 string	$data		 XML formatted string to convert.
+	 * @param	 array	 $options	Options used by the formatter.
 	 *
-	 * @return  object   Data object.
+	 * @return	object	 Data object.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function stringToObject($data, array $options = array())
 	{
@@ -72,11 +72,11 @@ class JRegistryFormatXML extends JRegistryFormat
 	/**
 	 * Method to get a PHP native value for a SimpleXMLElement object. -- called recursively
 	 *
-	 * @param   object  $node  SimpleXMLElement object for which to get the native value.
+	 * @param	 object	$node	SimpleXMLElement object for which to get the native value.
 	 *
-	 * @return  mixed  Native value of the SimpleXMLElement object.
+	 * @return	mixed	Native value of the SimpleXMLElement object.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function getValueFromNode($node)
 	{
@@ -124,13 +124,13 @@ class JRegistryFormatXML extends JRegistryFormat
 	/**
 	 * Method to build a level of the XML string -- called recursively
 	 *
-	 * @param   SimpleXMLElement  $node      SimpleXMLElement object to attach children.
-	 * @param   object            $var       Object that represents a node of the XML document.
-	 * @param   string            $nodeName  The name to use for node elements.
+	 * @param	 SimpleXMLElement	$node			SimpleXMLElement object to attach children.
+	 * @param	 object						$var			 Object that represents a node of the XML document.
+	 * @param	 string						$nodeName	The name to use for node elements.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function getXmlChildren(SimpleXMLElement $node, $var, $nodeName)
 	{

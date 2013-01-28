@@ -1,30 +1,30 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Cache
+ * @package		 Joomla.UnitTest
+ * @subpackage	Cache
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JCacheStorageMemcache.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Cache
+ * @package		 Joomla.UnitTest
+ * @subpackage	Cache
  *
- * @since       11.1
+ * @since			 11.1
  */
 class JCacheStorageMemcacheTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    JCacheStorageMemcache
+	 * @var		JCacheStorageMemcache
 	 * @access protected
 	 */
 	protected $object;
 
 	/**
-	 * @var    memcacheAvailable
+	 * @var		memcacheAvailable
 	 * @access protected
 	 */
 	protected $memcacheAvailable;

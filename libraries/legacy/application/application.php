@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Legacy
- * @subpackage  Application
+ * @package		 Joomla.Legacy
+ * @subpackage	Application
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -18,80 +18,80 @@ jimport('joomla.environment.response');
  * supporting API functions. Derived clases should supply the route(), dispatch()
  * and render() functions.
  *
- * @package     Joomla.Legacy
- * @subpackage  Application
- * @since       11.1
- * @deprecated  13.3
+ * @package		 Joomla.Legacy
+ * @subpackage	Application
+ * @since			 11.1
+ * @deprecated	13.3
  */
 class JApplication extends JApplicationBase
 {
 	/**
 	 * The client identifier.
 	 *
-	 * @var    integer
-	 * @since  11.1
+	 * @var		integer
+	 * @since	11.1
 	 */
 	protected $_clientId = null;
 
 	/**
 	 * The application message queue.
 	 *
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	protected $_messageQueue = array();
 
 	/**
 	 * The name of the application.
 	 *
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	protected $_name = null;
 
 	/**
 	 * The scope of the application.
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	public $scope = null;
 
 	/**
 	 * The time the request was made.
 	 *
-	 * @var    date
-	 * @since  11.1
+	 * @var		date
+	 * @since	11.1
 	 */
 	public $requestTime = null;
 
 	/**
 	 * The time the request was made as Unix timestamp.
 	 *
-	 * @var    integer
-	 * @since  11.1
+	 * @var		integer
+	 * @since	11.1
 	 */
 	public $startTime = null;
 
 	/**
-	 * @var    JApplicationWebClient  The application client object.
-	 * @since  12.2
+	 * @var		JApplicationWebClient	The application client object.
+	 * @since	12.2
 	 */
 	public $client;
 
 	/**
-	 * @var    array  JApplication instances container.
-	 * @since  11.3
+	 * @var		array	JApplication instances container.
+	 * @since	11.3
 	 */
 	protected static $instances = array();
 
 	/**
 	 * Class constructor.
 	 *
-	 * @param   array  $config  A configuration array including optional elements such as session
-	 *                          session_name, clientId and others. This is not exhaustive.
+	 * @param	 array	$config	A configuration array including optional elements such as session
+	 *													session_name, clientId and others. This is not exhaustive.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __construct($config = array())
 	{
@@ -151,13 +151,13 @@ class JApplication extends JApplicationBase
 	 * Returns the global JApplication object, only creating it if it
 	 * doesn't already exist.
 	 *
-	 * @param   mixed   $client  A client identifier or name.
-	 * @param   array   $config  An optional associative array of configuration settings.
-	 * @param   string  $prefix  A prefix for class names
+	 * @param	 mixed	 $client	A client identifier or name.
+	 * @param	 array	 $config	An optional associative array of configuration settings.
+	 * @param	 string	$prefix	A prefix for class names
 	 *
-	 * @return  JApplication A JApplication object.
+	 * @return	JApplication A JApplication object.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function getInstance($client, $config = array(), $prefix = 'J')
 	{
@@ -192,11 +192,11 @@ class JApplication extends JApplicationBase
 	/**
 	 * Initialise the application.
 	 *
-	 * @param   array  $options  An optional associative array of configuration settings.
+	 * @param	 array	$options	An optional associative array of configuration settings.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function initialise($options = array())
 	{
@@ -238,9 +238,9 @@ class JApplication extends JApplicationBase
 	 * are then set in the request object to be processed when the application is being
 	 * dispatched.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function route()
 	{
@@ -267,11 +267,11 @@ class JApplication extends JApplicationBase
 	 * mapping them to a component. If the component does not exist, it handles
 	 * determining a default component to dispatch.
 	 *
-	 * @param   string  $component  The component to dispatch.
+	 * @param	 string	$component	The component to dispatch.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function dispatch($component = null)
 	{
@@ -292,9 +292,9 @@ class JApplication extends JApplicationBase
 	 * placeholders, retrieving data from the document and pushing it into
 	 * the JResponse buffer.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function render()
 	{
@@ -325,16 +325,16 @@ class JApplication extends JApplicationBase
 	 * code in the header pointing to the new location. If the headers have already been
 	 * sent this will be accomplished using a JavaScript statement.
 	 *
-	 * @param   string   $url      The URL to redirect to. Can only be http/https URL
-	 * @param   string   $msg      An optional message to display on redirect.
-	 * @param   string   $msgType  An optional message type. Defaults to message.
-	 * @param   boolean  $moved    True if the page is 301 Permanently Moved, otherwise 303 See Other is assumed.
+	 * @param	 string	 $url			The URL to redirect to. Can only be http/https URL
+	 * @param	 string	 $msg			An optional message to display on redirect.
+	 * @param	 string	 $msgType	An optional message type. Defaults to message.
+	 * @param	 boolean	$moved		True if the page is 301 Permanently Moved, otherwise 303 See Other is assumed.
 	 *
-	 * @return  void  Calls exit().
+	 * @return	void	Calls exit().
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 *
-	 * @see     JApplication::enqueueMessage()
+	 * @see		 JApplication::enqueueMessage()
 	 */
 	public function redirect($url, $msg = '', $msgType = 'message', $moved = false)
 	{
@@ -418,12 +418,12 @@ class JApplication extends JApplicationBase
 	/**
 	 * Enqueue a system message.
 	 *
-	 * @param   string  $msg   The message to enqueue.
-	 * @param   string  $type  The message type. Default is message.
+	 * @param	 string	$msg	 The message to enqueue.
+	 * @param	 string	$type	The message type. Default is message.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function enqueueMessage($msg, $type = 'message')
 	{
@@ -447,9 +447,9 @@ class JApplication extends JApplicationBase
 	/**
 	 * Get the system message queue.
 	 *
-	 * @return  array  The system message queue.
+	 * @return	array	The system message queue.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getMessageQueue()
 	{
@@ -474,12 +474,12 @@ class JApplication extends JApplicationBase
 	 *
 	 * An example is in application/japplication-getcfg.php Getting a configuration
 	 *
-	 * @param   string  $varname  The name of the value to get.
-	 * @param   string  $default  Default value to return
+	 * @param	 string	$varname	The name of the value to get.
+	 * @param	 string	$default	Default value to return
 	 *
-	 * @return  mixed  The user state.
+	 * @return	mixed	The user state.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getCfg($varname, $default = null)
 	{
@@ -494,9 +494,9 @@ class JApplication extends JApplicationBase
 	 * The dispatcher name is by default parsed using the classname, or it can be set
 	 * by passing a $config['name'] in the class constructor.
 	 *
-	 * @return  string  The name of the dispatcher.
+	 * @return	string	The name of the dispatcher.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getName()
 	{
@@ -519,12 +519,12 @@ class JApplication extends JApplicationBase
 	/**
 	 * Gets a user state.
 	 *
-	 * @param   string  $key      The path of the state.
-	 * @param   mixed   $default  Optional default value, returned if the internal value is null.
+	 * @param	 string	$key			The path of the state.
+	 * @param	 mixed	 $default	Optional default value, returned if the internal value is null.
 	 *
-	 * @return  mixed  The user state or null.
+	 * @return	mixed	The user state or null.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getUserState($key, $default = null)
 	{
@@ -542,12 +542,12 @@ class JApplication extends JApplicationBase
 	/**
 	 * Sets the value of a user state variable.
 	 *
-	 * @param   string  $key    The path of the state.
-	 * @param   string  $value  The value of the variable.
+	 * @param	 string	$key		The path of the state.
+	 * @param	 string	$value	The value of the variable.
 	 *
-	 * @return  mixed  The previous state, if one existed.
+	 * @return	mixed	The previous state, if one existed.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setUserState($key, $value)
 	{
@@ -565,14 +565,14 @@ class JApplication extends JApplicationBase
 	/**
 	 * Gets the value of a user state variable.
 	 *
-	 * @param   string  $key      The key of the user state variable.
-	 * @param   string  $request  The name of the variable passed in a request.
-	 * @param   string  $default  The default value for the variable if not found. Optional.
-	 * @param   string  $type     Filter for the variable, for valid values see {@link JFilterInput::clean()}. Optional.
+	 * @param	 string	$key			The key of the user state variable.
+	 * @param	 string	$request	The name of the variable passed in a request.
+	 * @param	 string	$default	The default value for the variable if not found. Optional.
+	 * @param	 string	$type		 Filter for the variable, for valid values see {@link JFilterInput::clean()}. Optional.
 	 *
-	 * @return  The request user state.
+	 * @return	The request user state.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none')
 	{
@@ -601,15 +601,15 @@ class JApplication extends JApplicationBase
 	 *
 	 * Username and encoded password are sent as credentials (along with other
 	 * possibilities) to each observer (authentication plugin) for user
-	 * validation.  Successful validation will update the current session with
+	 * validation.	Successful validation will update the current session with
 	 * the user details.
 	 *
-	 * @param   array  $credentials  Array('username' => string, 'password' => string)
-	 * @param   array  $options      Array('remember' => boolean)
+	 * @param	 array	$credentials	Array('username' => string, 'password' => string)
+	 * @param	 array	$options			Array('remember' => boolean)
 	 *
-	 * @return  boolean  True on success.
+	 * @return	boolean	True on success.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function login($credentials, $options = array())
 	{
@@ -659,7 +659,7 @@ class JApplication extends JApplicationBase
 			// Import the user plugin group.
 			JPluginHelper::importPlugin('user');
 
-			// OK, the credentials are authenticated and user is authorised.  Lets fire the onLogin event.
+			// OK, the credentials are authenticated and user is authorised.	Lets fire the onLogin event.
 			$results = $this->triggerEvent('onUserLogin', array((array) $response, $options));
 
 			/*
@@ -721,12 +721,12 @@ class JApplication extends JApplicationBase
 	 * should be done in the plugin as this provides the ability to give
 	 * much more information about why the routine may have failed.
 	 *
-	 * @param   integer  $userid   The user to load - Can be an integer or string - If string, it is converted to ID automatically
-	 * @param   array    $options  Array('clientid' => array of client id's)
+	 * @param	 integer	$userid	 The user to load - Can be an integer or string - If string, it is converted to ID automatically
+	 * @param	 array		$options	Array('clientid' => array of client id's)
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function logout($userid = null, $options = array())
 	{
@@ -770,11 +770,11 @@ class JApplication extends JApplicationBase
 	/**
 	 * Gets the name of the current template.
 	 *
-	 * @param   array  $params  An optional associative array of configuration settings
+	 * @param	 array	$params	An optional associative array of configuration settings
 	 *
-	 * @return  string  System is the fallback.
+	 * @return	string	System is the fallback.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getTemplate($params = array())
 	{
@@ -784,12 +784,12 @@ class JApplication extends JApplicationBase
 	/**
 	 * Returns the application JRouter object.
 	 *
-	 * @param   string  $name     The name of the application.
-	 * @param   array   $options  An optional associative array of configuration settings.
+	 * @param	 string	$name		 The name of the application.
+	 * @param	 array	 $options	An optional associative array of configuration settings.
 	 *
-	 * @return  JRouter  A JRouter object
+	 * @return	JRouter	A JRouter object
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	static public function getRouter($name = null, array $options = array())
 	{
@@ -818,11 +818,11 @@ class JApplication extends JApplicationBase
 	 * safe string or returns a URL safe UTF-8 string
 	 * based on the global configuration
 	 *
-	 * @param   string  $string  String to process
+	 * @param	 string	$string	String to process
 	 *
-	 * @return  string  Processed string
+	 * @return	string	Processed string
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	static public function stringURLSafe($string)
 	{
@@ -841,12 +841,12 @@ class JApplication extends JApplicationBase
 	/**
 	 * Returns the application JPathway object.
 	 *
-	 * @param   string  $name     The name of the application.
-	 * @param   array   $options  An optional associative array of configuration settings.
+	 * @param	 string	$name		 The name of the application.
+	 * @param	 array	 $options	An optional associative array of configuration settings.
 	 *
-	 * @return  JPathway  A JPathway object
+	 * @return	JPathway	A JPathway object
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getPathway($name = null, $options = array())
 	{
@@ -870,12 +870,12 @@ class JApplication extends JApplicationBase
 	/**
 	 * Returns the application JPathway object.
 	 *
-	 * @param   string  $name     The name of the application/client.
-	 * @param   array   $options  An optional associative array of configuration settings.
+	 * @param	 string	$name		 The name of the application/client.
+	 * @param	 array	 $options	An optional associative array of configuration settings.
 	 *
-	 * @return  JMenu  JMenu object.
+	 * @return	JMenu	JMenu object.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getMenu($name = null, $options = array())
 	{
@@ -899,11 +899,11 @@ class JApplication extends JApplicationBase
 	/**
 	 * Provides a secure hash based on a seed
 	 *
-	 * @param   string  $seed  Seed string.
+	 * @param	 string	$seed	Seed string.
 	 *
-	 * @return  string  A secure hash
+	 * @return	string	A secure hash
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function getHash($seed)
 	{
@@ -913,11 +913,11 @@ class JApplication extends JApplicationBase
 	/**
 	 * Create the configuration registry.
 	 *
-	 * @param   string  $file  The path to the configuration file
+	 * @param	 string	$file	The path to the configuration file
 	 *
-	 * @return  JConfig  A JConfig object
+	 * @return	JConfig	A JConfig object
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function _createConfiguration($file)
 	{
@@ -943,11 +943,11 @@ class JApplication extends JApplicationBase
 	 * If a new session, a session id is generated and a record is created in
 	 * the #__sessions table.
 	 *
-	 * @param   string  $name  The sessions name.
+	 * @param	 string	$name	The sessions name.
 	 *
-	 * @return  JSession  JSession on success. May call exit() on database error.
+	 * @return	JSession	JSession on success. May call exit() on database error.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function _createSession($name)
 	{
@@ -1014,9 +1014,9 @@ class JApplication extends JApplicationBase
 	 * If the session record doesn't exist, initialise it.
 	 * If session is new, create session variables
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function checkSession()
 	{
@@ -1074,9 +1074,9 @@ class JApplication extends JApplicationBase
 	/**
 	 * After the session has been started we need to populate it with some default values.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function afterSessionStart()
 	{
@@ -1092,9 +1092,9 @@ class JApplication extends JApplicationBase
 	/**
 	 * Gets the client id of the current running application.
 	 *
-	 * @return  integer  A client identifier.
+	 * @return	integer	A client identifier.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getClientId()
 	{
@@ -1104,9 +1104,9 @@ class JApplication extends JApplicationBase
 	/**
 	 * Is admin interface?
 	 *
-	 * @return  boolean  True if this application is administrator.
+	 * @return	boolean	True if this application is administrator.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function isAdmin()
 	{
@@ -1116,9 +1116,9 @@ class JApplication extends JApplicationBase
 	/**
 	 * Is site interface?
 	 *
-	 * @return  boolean  True if this application is site.
+	 * @return	boolean	True if this application is site.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function isSite()
 	{
@@ -1126,12 +1126,12 @@ class JApplication extends JApplicationBase
 	}
 
 	/**
-	 * Method to determine if the host OS is  Windows
+	 * Method to determine if the host OS is	Windows
 	 *
-	 * @return  boolean  True if Windows OS
+	 * @return	boolean	True if Windows OS
 	 *
-	 * @since   11.1
-	 * @deprecated  13.3 Use the IS_WIN constant instead.
+	 * @since	 11.1
+	 * @deprecated	13.3 Use the IS_WIN constant instead.
 	 */
 	public static function isWinOS()
 	{
@@ -1143,9 +1143,9 @@ class JApplication extends JApplicationBase
 	/**
 	 * Determine if we are using a secure (SSL) connection.
 	 *
-	 * @return  boolean  True if using SSL, false if not.
+	 * @return	boolean	True if using SSL, false if not.
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function isSSLConnection()
 	{
@@ -1155,9 +1155,9 @@ class JApplication extends JApplicationBase
 	/**
 	 * Returns the response as a string.
 	 *
-	 * @return  string  The response
+	 * @return	string	The response
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __toString()
 	{

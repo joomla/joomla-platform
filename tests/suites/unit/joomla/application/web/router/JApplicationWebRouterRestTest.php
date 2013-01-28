@@ -1,40 +1,40 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Application
+ * @package		 Joomla.UnitTest
+ * @subpackage	Application
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JApplicationWebRouterRest.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Application
- * @since       12.3
+ * @package		 Joomla.UnitTest
+ * @subpackage	Application
+ * @since			 12.3
  */
 class JApplicationWebRouterRestTest extends TestCase
 {
 	/**
-	 * @var    JApplicationWebRouterRest  The object to be tested.
-	 * @since  12.3
+	 * @var		JApplicationWebRouterRest	The object to be tested.
+	 * @since	12.3
 	 */
 	private $_instance;
 
 	/**
-	 * @var    string  The server REQUEST_METHOD cached to keep it clean.
-	 * @since  12.3
+	 * @var		string	The server REQUEST_METHOD cached to keep it clean.
+	 * @since	12.3
 	 */
 	private $_method;
 
 	/**
 	 * Tests the setHttpMethodSuffix method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JApplicationWebRouterRest::setHttpMethodSuffix
-	 * @since   12.3
+	 * @covers	JApplicationWebRouterRest::setHttpMethodSuffix
+	 * @since	 12.3
 	 */
 	public function testSetHttpMethodSuffix()
 	{
@@ -46,10 +46,10 @@ class JApplicationWebRouterRestTest extends TestCase
 	/**
 	 * Tests the fetchControllerSuffix method if the suffix map is missing.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JApplicationWebRouterRest::fetchControllerSuffix
-	 * @since   12.3
+	 * @covers	JApplicationWebRouterRest::fetchControllerSuffix
+	 * @since	 12.3
 	 */
 	public function testFetchControllerSuffixWithMissingSuffixMap()
 	{
@@ -62,9 +62,9 @@ class JApplicationWebRouterRestTest extends TestCase
 	/**
 	 * Provides test data for testing fetch controller sufix
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   1.0
+	 * @since	 1.0
 	 */
 	public function seedFetchControllerSuffixData()
 	{
@@ -111,17 +111,17 @@ class JApplicationWebRouterRestTest extends TestCase
 	/**
 	 * Tests the fetchControllerSuffix method.
 	 *
-	 * @param   string   $input        Input string to test.
-	 * @param   string   $expected     Expected fetched string.
-	 * @param   mixed    $method       Method to override POST request
-	 * @param   boolean  $exception    True if an RuntimeException is expected based on invalid input
-	 * @param   boolean  $allowMethod  Allow or not to pass method in post request as parameter
+	 * @param	 string	 $input				Input string to test.
+	 * @param	 string	 $expected		 Expected fetched string.
+	 * @param	 mixed		$method			 Method to override POST request
+	 * @param	 boolean	$exception		True if an RuntimeException is expected based on invalid input
+	 * @param	 boolean	$allowMethod	Allow or not to pass method in post request as parameter
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers        JApplicationWebRouterRest::fetchControllerSuffix
-	 * @dataProvider  seedFetchControllerSuffixData
-	 * @since         12.3
+	 * @covers				JApplicationWebRouterRest::fetchControllerSuffix
+	 * @dataProvider	seedFetchControllerSuffixData
+	 * @since				 12.3
 	 */
 	public function testFetchControllerSuffix($input, $expected, $method, $exception, $allowMethod=false)
 	{
@@ -149,11 +149,11 @@ class JApplicationWebRouterRestTest extends TestCase
 	/**
 	 * Tests the setMethodInPostRequest and isMethodInPostRequest.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JApplicationWebRouterRest::setMethodInPostRequest
-	 * @covers  JApplicationWebRouterRest::isMethodInPostRequest
-	 * @since   12.3
+	 * @covers	JApplicationWebRouterRest::setMethodInPostRequest
+	 * @covers	JApplicationWebRouterRest::isMethodInPostRequest
+	 * @since	 12.3
 	 */
 	public function testMethodInPostRequest()
 	{
@@ -172,9 +172,9 @@ class JApplicationWebRouterRestTest extends TestCase
 	/**
 	 * Prepares the environment before running a test.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	protected function setUp()
 	{
@@ -187,9 +187,9 @@ class JApplicationWebRouterRestTest extends TestCase
 	/**
 	 * Cleans up the environment after running a test.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	protected function tearDown()
 	{

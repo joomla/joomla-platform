@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Registry
+ * @package		 Joomla.Platform
+ * @subpackage	Registry
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,9 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PHP class format handler for JRegistry
  *
- * @package     Joomla.Platform
- * @subpackage  Registry
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Registry
+ * @since			 11.1
  */
 class JRegistryFormatPHP extends JRegistryFormat
 {
@@ -22,12 +22,12 @@ class JRegistryFormatPHP extends JRegistryFormat
 	 * Converts an object into a php class string.
 	 * - NOTE: Only one depth level is supported.
 	 *
-	 * @param   object  $object  Data Source Object
-	 * @param   array   $params  Parameters used by the formatter
+	 * @param	 object	$object	Data Source Object
+	 * @param	 array	 $params	Parameters used by the formatter
 	 *
-	 * @return  string  Config class formatted string
+	 * @return	string	Config class formatted string
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function objectToString($object, $params = array())
 	{
@@ -62,12 +62,12 @@ class JRegistryFormatPHP extends JRegistryFormat
 	/**
 	 * Parse a PHP class formatted string and convert it into an object.
 	 *
-	 * @param   string  $data     PHP Class formatted string to convert.
-	 * @param   array   $options  Options used by the formatter.
+	 * @param	 string	$data		 PHP Class formatted string to convert.
+	 * @param	 array	 $options	Options used by the formatter.
 	 *
-	 * @return  object   Data object.
+	 * @return	object	 Data object.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function stringToObject($data, array $options = array())
 	{
@@ -77,11 +77,11 @@ class JRegistryFormatPHP extends JRegistryFormat
 	/**
 	 * Method to get an array as an exported string.
 	 *
-	 * @param   array  $a  The array to get as a string.
+	 * @param	 array	$a	The array to get as a string.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function getArrayString($a)
 	{

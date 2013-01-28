@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Cache
+ * @package		 Joomla.Platform
+ * @subpackage	Cache
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,30 +12,30 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Public cache handler
  *
- * @package     Joomla.Platform
- * @subpackage  Cache
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Cache
+ * @since			 11.1
  */
 class JCacheController
 {
 	/**
-	 * @var    JCache
-	 * @since  11.1
+	 * @var		JCache
+	 * @since	11.1
 	 */
 	public $cache;
 
 	/**
-	 * @var    array  Array of options
-	 * @since  11.1
+	 * @var		array	Array of options
+	 * @since	11.1
 	 */
 	public $options;
 
 	/**
 	 * Constructor
 	 *
-	 * @param   array  $options  Array of options
+	 * @param	 array	$options	Array of options
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __construct($options)
 	{
@@ -55,12 +55,12 @@ class JCacheController
 	/**
 	 * Magic method to proxy JCacheControllerMethods
 	 *
-	 * @param   string  $name       Name of the function
-	 * @param   array   $arguments  Array of arguments for the function
+	 * @param	 string	$name			 Name of the function
+	 * @param	 array	 $arguments	Array of arguments for the function
 	 *
-	 * @return  mixed
+	 * @return	mixed
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __call($name, $arguments)
 	{
@@ -72,13 +72,13 @@ class JCacheController
 	/**
 	 * Returns a reference to a cache adapter object, always creating it
 	 *
-	 * @param   string  $type     The cache object type to instantiate; default is output.
-	 * @param   array   $options  Array of options
+	 * @param	 string	$type		 The cache object type to instantiate; default is output.
+	 * @param	 array	 $options	Array of options
 	 *
-	 * @return  JCache  A JCache object
+	 * @return	JCache	A JCache object
 	 *
-	 * @since   11.1
-	 * @throws  RuntimeException
+	 * @since	 11.1
+	 * @throws	RuntimeException
 	 */
 	public static function getInstance($type = 'output', $options = array())
 	{
@@ -109,11 +109,11 @@ class JCacheController
 	/**
 	 * Set caching enabled state
 	 *
-	 * @param   boolean  $enabled  True to enable caching
+	 * @param	 boolean	$enabled	True to enable caching
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setCaching($enabled)
 	{
@@ -123,11 +123,11 @@ class JCacheController
 	/**
 	 * Set cache lifetime
 	 *
-	 * @param   integer  $lt  Cache lifetime
+	 * @param	 integer	$lt	Cache lifetime
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setLifeTime($lt)
 	{
@@ -138,11 +138,11 @@ class JCacheController
 	 * Add a directory where JCache should search for controllers. You may
 	 * either pass a string or an array of directories.
 	 *
-	 * @param   string  $path  A path to search.
+	 * @param	 string	$path	A path to search.
 	 *
-	 * @return  array   An array with directory elements
+	 * @return	array	 An array with directory elements
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function addIncludePath($path = '')
 	{
@@ -163,12 +163,12 @@ class JCacheController
 	/**
 	 * Get stored cached data by id and group
 	 *
-	 * @param   string  $id     The cache data id
-	 * @param   string  $group  The cache data group
+	 * @param	 string	$id		 The cache data id
+	 * @param	 string	$group	The cache data group
 	 *
-	 * @return  mixed   False on no result, cached object otherwise
+	 * @return	mixed	 False on no result, cached object otherwise
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function get($id, $group = null)
 	{
@@ -204,13 +204,13 @@ class JCacheController
 	/**
 	 * Store data to cache by id and group
 	 *
-	 * @param   mixed   $data   The data to store
-	 * @param   string  $id     The cache data id
-	 * @param   string  $group  The cache data group
+	 * @param	 mixed	 $data	 The data to store
+	 * @param	 string	$id		 The cache data id
+	 * @param	 string	$group	The cache data group
 	 *
-	 * @return  boolean  True if cache was stored
+	 * @return	boolean	True if cache was stored
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function store($data, $id, $group = null)
 	{

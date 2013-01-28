@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Client
+ * @package		 Joomla.Platform
+ * @subpackage	Client
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,98 +12,98 @@ defined('JPATH_PLATFORM') or die;
 /**
  * LDAP client class
  *
- * @package     Joomla.Platform
- * @subpackage  Client
- * @since       12.1
+ * @package		 Joomla.Platform
+ * @subpackage	Client
+ * @since			 12.1
  */
 class JClientLdap
 {
 	/**
-	 * @var    string  Hostname of LDAP server
-	 * @since  12.1
+	 * @var		string	Hostname of LDAP server
+	 * @since	12.1
 	 */
 	public $host = null;
 
 	/**
-	 * @var    bool  Authorization Method to use
-	 * @since  12.1
+	 * @var		bool	Authorization Method to use
+	 * @since	12.1
 	 */
 	public $auth_method = null;
 
 	/**
-	 * @var    int  Port of LDAP server
-	 * @since  12.1
+	 * @var		int	Port of LDAP server
+	 * @since	12.1
 	 */
 	public $port = null;
 
 	/**
-	 * @var    string  Base DN (e.g. o=MyDir)
-	 * @since  12.1
+	 * @var		string	Base DN (e.g. o=MyDir)
+	 * @since	12.1
 	 */
 	public $base_dn = null;
 
 	/**
-	 * @var    string  User DN (e.g. cn=Users,o=MyDir)
-	 * @since  12.1
+	 * @var		string	User DN (e.g. cn=Users,o=MyDir)
+	 * @since	12.1
 	 */
 	public $users_dn = null;
 
 	/**
-	 * @var    string  Search String
-	 * @since  12.1
+	 * @var		string	Search String
+	 * @since	12.1
 	 */
 	public $search_string = null;
 
 	/**
-	 * @var    boolean  Use LDAP Version 3
-	 * @since  12.1
+	 * @var		boolean	Use LDAP Version 3
+	 * @since	12.1
 	 */
 	public $use_ldapV3 = null;
 
 	/**
-	 * @var    boolean  No referrals (server transfers)
-	 * @since  11.1
+	 * @var		boolean	No referrals (server transfers)
+	 * @since	11.1
 	 */
 	public $no_referrals = null;
 
 	/**
-	 * @var    boolean  Negotiate TLS (encrypted communications)
-	 * @since  12.1
+	 * @var		boolean	Negotiate TLS (encrypted communications)
+	 * @since	12.1
 	 */
 	public $negotiate_tls = null;
 
 	/**
-	 * @var    string  Username to connect to server
-	 * @since  12.1
+	 * @var		string	Username to connect to server
+	 * @since	12.1
 	 */
 	public $username = null;
 
 	/**
 	 *
-	 * @var    string  Password to connect to server
-	 * @since  12.1
+	 * @var		string	Password to connect to server
+	 * @since	12.1
 	 */
 	public $password = null;
 
 	/**
-	 * @var    mixed  LDAP Resource Identifier
-	 * @since  12.1
+	 * @var		mixed	LDAP Resource Identifier
+	 * @since	12.1
 	 */
 	private $_resource = null;
 
 	/**
 	 *
-	 * @var    string  Current DN
-	 * @since  12.1
+	 * @var		string	Current DN
+	 * @since	12.1
 	 */
 	private $_dn = null;
 
 	/**
 	 * Constructor
 	 *
-	 * @param   object  $configObj  An object of configuration variables
+	 * @param	 object	$configObj	An object of configuration variables
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function __construct($configObj = null)
 	{
@@ -129,9 +129,9 @@ class JClientLdap
 	/**
 	 * Connect to server
 	 *
-	 * @return  boolean  True if successful
+	 * @return	boolean	True if successful
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function connect()
 	{
@@ -172,9 +172,9 @@ class JClientLdap
 	/**
 	 * Close the connection
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function close()
 	{
@@ -184,12 +184,12 @@ class JClientLdap
 	/**
 	 * Sets the DN with some template replacements
 	 *
-	 * @param   string  $username  The username
-	 * @param   string  $nosub     ...
+	 * @param	 string	$username	The username
+	 * @param	 string	$nosub		 ...
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function setDN($username, $nosub = 0)
 	{
@@ -210,9 +210,9 @@ class JClientLdap
 	/**
 	 * Get the DN
 	 *
-	 * @return  string  The current dn
+	 * @return	string	The current dn
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getDN()
 	{
@@ -222,9 +222,9 @@ class JClientLdap
 	/**
 	 * Anonymously binds to LDAP directory
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function anonymous_bind()
 	{
@@ -236,13 +236,13 @@ class JClientLdap
 	/**
 	 * Binds to the LDAP directory
 	 *
-	 * @param   string  $username  The username
-	 * @param   string  $password  The password
-	 * @param   string  $nosub     ...
+	 * @param	 string	$username	The username
+	 * @param	 string	$password	The password
+	 * @param	 string	$nosub		 ...
 	 *
-	 * @return  boolean
+	 * @return	boolean
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function bind($username = null, $password = null, $nosub = 0)
 	{
@@ -263,11 +263,11 @@ class JClientLdap
 	/**
 	 * Perform an LDAP search using comma separated search strings
 	 *
-	 * @param   string  $search  search string of search values
+	 * @param	 string	$search	search string of search values
 	 *
-	 * @return  array  Search results
+	 * @return	array	Search results
 	 *
-	 * @since    12.1
+	 * @since		12.1
 	 */
 	public function simple_search($search)
 	{
@@ -283,13 +283,13 @@ class JClientLdap
 	/**
 	 * Performs an LDAP search
 	 *
-	 * @param   array   $filters     Search Filters (array of strings)
-	 * @param   string  $dnoverride  DN Override
-	 * @param   array   $attributes  An array of attributes to return (if empty, all fields are returned).
+	 * @param	 array	 $filters		 Search Filters (array of strings)
+	 * @param	 string	$dnoverride	DN Override
+	 * @param	 array	 $attributes	An array of attributes to return (if empty, all fields are returned).
 	 *
-	 * @return  array  Multidimensional array of results
+	 * @return	array	Multidimensional array of results
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function search(array $filters, $dnoverride = null, array $attributes = array())
 	{
@@ -353,12 +353,12 @@ class JClientLdap
 	/**
 	 * Replace an entry and return a true or false result
 	 *
-	 * @param   string  $dn         The DN which contains the attribute you want to replace
-	 * @param   string  $attribute  The attribute values you want to replace
+	 * @param	 string	$dn				 The DN which contains the attribute you want to replace
+	 * @param	 string	$attribute	The attribute values you want to replace
 	 *
-	 * @return  mixed  result of comparison (true, false, -1 on error)
+	 * @return	mixed	result of comparison (true, false, -1 on error)
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function replace($dn, $attribute)
 	{
@@ -368,12 +368,12 @@ class JClientLdap
 	/**
 	 * Modifies an entry and return a true or false result
 	 *
-	 * @param   string  $dn         The DN which contains the attribute you want to modify
-	 * @param   string  $attribute  The attribute values you want to modify
+	 * @param	 string	$dn				 The DN which contains the attribute you want to modify
+	 * @param	 string	$attribute	The attribute values you want to modify
 	 *
-	 * @return  mixed  result of comparison (true, false, -1 on error)
+	 * @return	mixed	result of comparison (true, false, -1 on error)
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function modify($dn, $attribute)
 	{
@@ -383,12 +383,12 @@ class JClientLdap
 	/**
 	 * Removes attribute value from given dn and return a true or false result
 	 *
-	 * @param   string  $dn         The DN which contains the attribute you want to remove
-	 * @param   string  $attribute  The attribute values you want to remove
+	 * @param	 string	$dn				 The DN which contains the attribute you want to remove
+	 * @param	 string	$attribute	The attribute values you want to remove
 	 *
-	 * @return  mixed  result of comparison (true, false, -1 on error)
+	 * @return	mixed	result of comparison (true, false, -1 on error)
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function remove($dn, $attribute)
 	{
@@ -400,13 +400,13 @@ class JClientLdap
 	/**
 	 * Compare an entry and return a true or false result
 	 *
-	 * @param   string  $dn         The DN which contains the attribute you want to compare
-	 * @param   string  $attribute  The attribute whose value you want to compare
-	 * @param   string  $value      The value you want to check against the LDAP attribute
+	 * @param	 string	$dn				 The DN which contains the attribute you want to compare
+	 * @param	 string	$attribute	The attribute whose value you want to compare
+	 * @param	 string	$value			The value you want to check against the LDAP attribute
 	 *
-	 * @return  mixed  result of comparison (true, false, -1 on error)
+	 * @return	mixed	result of comparison (true, false, -1 on error)
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function compare($dn, $attribute, $value)
 	{
@@ -416,11 +416,11 @@ class JClientLdap
 	/**
 	 * Read all or specified attributes of given dn
 	 *
-	 * @param   string  $dn  The DN of the object you want to read
+	 * @param	 string	$dn	The DN of the object you want to read
 	 *
-	 * @return  mixed  array of attributes or -1 on error
+	 * @return	mixed	array of attributes or -1 on error
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function read($dn)
 	{
@@ -441,11 +441,11 @@ class JClientLdap
 	/**
 	 * Deletes a given DN from the tree
 	 *
-	 * @param   string  $dn  The DN of the object you want to delete
+	 * @param	 string	$dn	The DN of the object you want to delete
 	 *
-	 * @return  boolean  Result of operation
+	 * @return	boolean	Result of operation
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function delete($dn)
 	{
@@ -455,12 +455,12 @@ class JClientLdap
 	/**
 	 * Create a new DN
 	 *
-	 * @param   string  $dn       The DN where you want to put the object
-	 * @param   array   $entries  An array of arrays describing the object to add
+	 * @param	 string	$dn			 The DN where you want to put the object
+	 * @param	 array	 $entries	An array of arrays describing the object to add
 	 *
-	 * @return  boolean  Result of operation
+	 * @return	boolean	Result of operation
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function create($dn, array $entries)
 	{
@@ -471,12 +471,12 @@ class JClientLdap
 	 * Add an attribute to the given DN
 	 * Note: DN has to exist already
 	 *
-	 * @param   string  $dn     The DN of the entry to add the attribute
-	 * @param   array   $entry  An array of arrays with attributes to add
+	 * @param	 string	$dn		 The DN of the entry to add the attribute
+	 * @param	 array	 $entry	An array of arrays with attributes to add
 	 *
-	 * @return  boolean   Result of operation
+	 * @return	boolean	 Result of operation
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function add($dn, array $entry)
 	{
@@ -486,14 +486,14 @@ class JClientLdap
 	/**
 	 * Rename the entry
 	 *
-	 * @param   string   $dn           The DN of the entry at the moment
-	 * @param   string   $newdn        The DN of the entry should be (only cn=newvalue)
-	 * @param   string   $newparent    The full DN of the parent (null by default)
-	 * @param   boolean  $deleteolddn  Delete the old values (default)
+	 * @param	 string	 $dn					 The DN of the entry at the moment
+	 * @param	 string	 $newdn				The DN of the entry should be (only cn=newvalue)
+	 * @param	 string	 $newparent		The full DN of the parent (null by default)
+	 * @param	 boolean	$deleteolddn	Delete the old values (default)
 	 *
-	 * @return  boolean  Result of operation
+	 * @return	boolean	Result of operation
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function rename($dn, $newdn, $newparent, $deleteolddn)
 	{
@@ -503,9 +503,9 @@ class JClientLdap
 	/**
 	 * Returns the error message
 	 *
-	 * @return  string   error message
+	 * @return	string	 error message
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getErrorMsg()
 	{
@@ -515,11 +515,11 @@ class JClientLdap
 	/**
 	 * Converts a dot notation IP address to net address (e.g. for Netware, etc)
 	 *
-	 * @param   string  $ip  IP Address (e.g. xxx.xxx.xxx.xxx)
+	 * @param	 string	$ip	IP Address (e.g. xxx.xxx.xxx.xxx)
 	 *
-	 * @return  string  Net address
+	 * @return	string	Net address
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public static function ipToNetAddress($ip)
 	{
@@ -552,16 +552,16 @@ class JClientLdap
 	 * byte 1 = char = "#" - separator
 	 * byte 2+ = octetstring - the ordinal value of the address
 	 * Note: with eDirectory 8.6.2, the IP address (type 1) returns
-	 * correctly, however, an IPX address does not seem to.  eDir 8.7 may correct this.
+	 * correctly, however, an IPX address does not seem to.	eDir 8.7 may correct this.
 	 * Enhancement made by Merijn van de Schoot:
 	 * If addresstype is 8 (UDP) or 9 (TCP) do some additional parsing like still returning the IP address
 	 *
-	 * @param   string  $networkaddress  The network address
+	 * @param	 string	$networkaddress	The network address
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @author  Jay Burrell, Systems & Networks, Mississippi State University
-	 * @since   12.1
+	 * @author	Jay Burrell, Systems & Networks, Mississippi State University
+	 * @since	 12.1
 	 */
 	public static function LDAPNetAddr($networkaddress)
 	{
@@ -624,12 +624,12 @@ class JClientLdap
 	/**
 	 * Generates a LDAP compatible password
 	 *
-	 * @param   string  $password  Clear text password to encrypt
-	 * @param   string  $type      Type of password hash, either md5 or SHA
+	 * @param	 string	$password	Clear text password to encrypt
+	 * @param	 string	$type			Type of password hash, either md5 or SHA
 	 *
-	 * @return  string   Encrypted password
+	 * @return	string	 Encrypted password
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public static function generatePassword($password, $type = 'md5')
 	{

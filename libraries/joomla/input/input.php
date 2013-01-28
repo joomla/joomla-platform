@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Input
+ * @package		 Joomla.Platform
+ * @subpackage	Input
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -14,71 +14,71 @@ defined('JPATH_PLATFORM') or die;
  *
  * This is an abstracted input class used to manage retrieving data from the application environment.
  *
- * @package     Joomla.Platform
- * @subpackage  Input
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Input
+ * @since			 11.1
  *
- * @property-read    JInput        $get
- * @property-read    JInput        $post
- * @property-read    JInput        $request
- * @property-read    JInput        $server
- * @property-read    JInputFiles   $files
- * @property-read    JInputCookie  $cookie
+ * @property-read		JInput				$get
+ * @property-read		JInput				$post
+ * @property-read		JInput				$request
+ * @property-read		JInput				$server
+ * @property-read		JInputFiles	 $files
+ * @property-read		JInputCookie	$cookie
  *
- * @method      integer  getInt()       getInt($name, $default = null)    Get a signed integer.
- * @method      integer  getUint()      getUint($name, $default = null)   Get an unsigned integer.
- * @method      float    getFloat()     getFloat($name, $default = null)  Get a floating-point number.
- * @method      boolean  getBool()      getBool($name, $default = null)   Get a boolean.
- * @method      string   getWord()      getWord($name, $default = null)
- * @method      string   getAlnum()     getAlnum($name, $default = null)
- * @method      string   getCmd()       getCmd($name, $default = null)
- * @method      string   getBase64()    getBase64($name, $default = null)
- * @method      string   getString()    getString($name, $default = null)
- * @method      string   getHtml()      getHtml($name, $default = null)
- * @method      string   getPath()      getPath($name, $default = null)
- * @method      string   getUsername()  getUsername($name, $default = null)
+ * @method			integer	getInt()			 getInt($name, $default = null)		Get a signed integer.
+ * @method			integer	getUint()			getUint($name, $default = null)	 Get an unsigned integer.
+ * @method			float		getFloat()		 getFloat($name, $default = null)	Get a floating-point number.
+ * @method			boolean	getBool()			getBool($name, $default = null)	 Get a boolean.
+ * @method			string	 getWord()			getWord($name, $default = null)
+ * @method			string	 getAlnum()		 getAlnum($name, $default = null)
+ * @method			string	 getCmd()			 getCmd($name, $default = null)
+ * @method			string	 getBase64()		getBase64($name, $default = null)
+ * @method			string	 getString()		getString($name, $default = null)
+ * @method			string	 getHtml()			getHtml($name, $default = null)
+ * @method			string	 getPath()			getPath($name, $default = null)
+ * @method			string	 getUsername()	getUsername($name, $default = null)
  */
 class JInput implements Serializable, Countable
 {
 	/**
 	 * Options array for the JInput instance.
 	 *
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	protected $options = array();
 
 	/**
 	 * Filter object to use.
 	 *
-	 * @var    JFilterInput
-	 * @since  11.1
+	 * @var		JFilterInput
+	 * @since	11.1
 	 */
 	protected $filter = null;
 
 	/**
 	 * Input data.
 	 *
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	protected $data = array();
 
 	/**
 	 * Input objects
 	 *
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	protected $inputs = array();
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $source   Source data (Optional, default is $_REQUEST)
-	 * @param   array  $options  Array of configuration parameters (Optional)
+	 * @param	 array	$source	 Source data (Optional, default is $_REQUEST)
+	 * @param	 array	$options	Array of configuration parameters (Optional)
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __construct($source = null, array $options = array())
 	{
@@ -107,11 +107,11 @@ class JInput implements Serializable, Countable
 	/**
 	 * Magic method to get an input object
 	 *
-	 * @param   mixed  $name  Name of the input object to retrieve.
+	 * @param	 mixed	$name	Name of the input object to retrieve.
 	 *
-	 * @return  JInput  The request input object
+	 * @return	JInput	The request input object
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __get($name)
 	{
@@ -144,10 +144,10 @@ class JInput implements Serializable, Countable
 	/**
 	 * Get the number of variables.
 	 *
-	 * @return  integer  The number of variables in the input.
+	 * @return	integer	The number of variables in the input.
 	 *
-	 * @since   12.2
-	 * @see     Countable::count()
+	 * @since	 12.2
+	 * @see		 Countable::count()
 	 */
 	public function count()
 	{
@@ -157,13 +157,13 @@ class JInput implements Serializable, Countable
 	/**
 	 * Gets a value from the input data.
 	 *
-	 * @param   string  $name     Name of the value to get.
-	 * @param   mixed   $default  Default value to return if variable does not exist.
-	 * @param   string  $filter   Filter to apply to the value.
+	 * @param	 string	$name		 Name of the value to get.
+	 * @param	 mixed	 $default	Default value to return if variable does not exist.
+	 * @param	 string	$filter	 Filter to apply to the value.
 	 *
-	 * @return  mixed  The filtered input value.
+	 * @return	mixed	The filtered input value.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function get($name, $default = null, $filter = 'cmd')
 	{
@@ -178,14 +178,14 @@ class JInput implements Serializable, Countable
 	/**
 	 * Gets an array of values from the request.
 	 *
-	 * @param   array  $vars        Associative array of keys and filter types to apply.
-	 *                              If empty and datasource is null, all the input data will be returned
-	 *                              but filtered using the default case in JFilterInput::clean.
-	 * @param   mixed  $datasource  Array to retrieve data from, or null
+	 * @param	 array	$vars				Associative array of keys and filter types to apply.
+	 *															If empty and datasource is null, all the input data will be returned
+	 *															but filtered using the default case in JFilterInput::clean.
+	 * @param	 mixed	$datasource	Array to retrieve data from, or null
 	 *
-	 * @return  mixed  The filtered input data.
+	 * @return	mixed	The filtered input data.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getArray(array $vars = array(), $datasource = null)
 	{
@@ -232,12 +232,12 @@ class JInput implements Serializable, Countable
 	/**
 	 * Sets a value
 	 *
-	 * @param   string  $name   Name of the value to set.
-	 * @param   mixed   $value  Value to assign to the input.
+	 * @param	 string	$name	 Name of the value to set.
+	 * @param	 mixed	 $value	Value to assign to the input.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function set($name, $value)
 	{
@@ -247,12 +247,12 @@ class JInput implements Serializable, Countable
 	/**
 	 * Define a value. The value will only be set if there's no value for the name or if it is null.
 	 *
-	 * @param   string  $name   Name of the value to define.
-	 * @param   mixed   $value  Value to assign to the input.
+	 * @param	 string	$name	 Name of the value to define.
+	 * @param	 mixed	 $value	Value to assign to the input.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function def($name, $value)
 	{
@@ -267,12 +267,12 @@ class JInput implements Serializable, Countable
 	/**
 	 * Magic method to get filtered input data.
 	 *
-	 * @param   string  $name       Name of the filter type prefixed with 'get'.
-	 * @param   array   $arguments  [0] The name of the variable [1] The default value.
+	 * @param	 string	$name			 Name of the filter type prefixed with 'get'.
+	 * @param	 array	 $arguments	[0] The name of the variable [1] The default value.
 	 *
-	 * @return  mixed   The filtered input value.
+	 * @return	mixed	 The filtered input value.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __call($name, $arguments)
 	{
@@ -295,9 +295,9 @@ class JInput implements Serializable, Countable
 	/**
 	 * Gets the request method.
 	 *
-	 * @return  string   The request method.
+	 * @return	string	 The request method.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getMethod()
 	{
@@ -309,9 +309,9 @@ class JInput implements Serializable, Countable
 	/**
 	 * Method to serialize the input.
 	 *
-	 * @return  string  The serialized input.
+	 * @return	string	The serialized input.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function serialize()
 	{
@@ -330,11 +330,11 @@ class JInput implements Serializable, Countable
 	/**
 	 * Method to unserialize the input.
 	 *
-	 * @param   string  $input  The serialized input.
+	 * @param	 string	$input	The serialized input.
 	 *
-	 * @return  JInput  The input object.
+	 * @return	JInput	The input object.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function unserialize($input)
 	{
@@ -355,9 +355,9 @@ class JInput implements Serializable, Countable
 	/**
 	 * Method to load all of the global inputs.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function loadAllInputs()
 	{

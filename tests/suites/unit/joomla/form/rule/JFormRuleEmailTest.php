@@ -1,19 +1,19 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Form
+ * @package		 Joomla.UnitTest
+ * @subpackage	Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JForm.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Form
+ * @package		 Joomla.UnitTest
+ * @subpackage	Form
  *
- * @since       11.1
+ * @since			 11.1
  */
 class JFormRuleEmailTest extends TestCase
 {
@@ -79,7 +79,7 @@ class JFormRuleEmailTest extends TestCase
 	}
 
 	/**
-	 * Data Provider  for email rule test with no multiple attribute and no tld attribute
+	 * Data Provider	for email rule test with no multiple attribute and no tld attribute
 	 *
 	 * @return array
 	 *
@@ -103,13 +103,13 @@ class JFormRuleEmailTest extends TestCase
 	/**
 	 * Test the email rule
 	 *
-	 * @param   string   $emailAddress    Email to be tested
-	 * @param   boolean  $expectedResult  Result of test
+	 * @param	 string	 $emailAddress		Email to be tested
+	 * @param	 boolean	$expectedResult	Result of test
 	 *
 	 * @dataProvider emailData1
 	 *
 	 * @return void
-	 * 
+	 *
 	 * @since 11.1
 	 */
 	public function testEmailData($emailAddress, $expectedResult)
@@ -124,7 +124,7 @@ class JFormRuleEmailTest extends TestCase
 	}
 
 	/**
-	 * Data Provider  for email rule test with multiple attribute and no tld attribute
+	 * Data Provider	for email rule test with multiple attribute and no tld attribute
 	 *
 	 * @return array
 	 *
@@ -141,8 +141,8 @@ class JFormRuleEmailTest extends TestCase
 	/**
 	 * Test the email rule with the multiple attribute
 	 *
-	 * @param   string   $emailAddress    Email to be tested
-	 * @param   boolean  $expectedResult  Result of test
+	 * @param	 string	 $emailAddress		Email to be tested
+	 * @param	 boolean	$expectedResult	Result of test
 	 *
 	 * @dataProvider emailData2
 	 *
@@ -161,7 +161,7 @@ class JFormRuleEmailTest extends TestCase
 		);
 	}
 	/**
-	 * Data Provider  for email rule test with tld attribute
+	 * Data Provider	for email rule test with tld attribute
 	 *
 	 * @return array
 	 *
@@ -181,8 +181,8 @@ class JFormRuleEmailTest extends TestCase
 	/**
 	 * Test the email rule with the tld attribute
 	 *
-	 * @param   string   $emailAddress    Email to be tested
-	 * @param   boolean  $expectedResult  Result of test
+	 * @param	 string	 $emailAddress		Email to be tested
+	 * @param	 boolean	$expectedResult	Result of test
 	 *
 	 * @dataProvider emailData3
 	 *

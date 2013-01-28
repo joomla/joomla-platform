@@ -1,28 +1,28 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Module
+ * @package		 Joomla.UnitTest
+ * @subpackage	Module
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JModuleHelper.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Module
+ * @package		 Joomla.UnitTest
+ * @subpackage	Module
  *
- * @since       12.3
+ * @since			 12.3
  */
 class JModuleHelperTest extends TestCase
 {
 	/**
 	 * Test JModuleHelper::getModule
 	 *
-	 * @todo    Implement testGetModule().
+	 * @todo		Implement testGetModule().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetModule()
 	{
@@ -33,9 +33,9 @@ class JModuleHelperTest extends TestCase
 	/**
 	 * Test JModuleHelper::getModules
 	 *
-	 * @todo    Implement testGetModules().
+	 * @todo		Implement testGetModules().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetModules()
 	{
@@ -46,9 +46,9 @@ class JModuleHelperTest extends TestCase
 	/**
 	 * Test JModuleHelper::isEnabled
 	 *
-	 * @todo    Implement testIsEnabled().
+	 * @todo		Implement testIsEnabled().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testIsEnabled()
 	{
@@ -59,9 +59,9 @@ class JModuleHelperTest extends TestCase
 	/**
 	 * Test JModuleHelper::renderModule
 	 *
-	 * @todo    Implement testRenderModule().
+	 * @todo		Implement testRenderModule().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testRenderModule()
 	{
@@ -72,9 +72,9 @@ class JModuleHelperTest extends TestCase
 	/**
 	 * Test JModuleHelper::getLayoutPath
 	 *
-	 * @todo    Implement testGetLayoutPath().
+	 * @todo		Implement testGetLayoutPath().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetLayoutPath()
 	{

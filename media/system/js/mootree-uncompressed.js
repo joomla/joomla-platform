@@ -80,21 +80,21 @@ var MooTreeControl = new Class({
 
 	initialize: function(config, options) {
 
-		options.control = this;               // make sure our new MooTreeNode knows who it's owner control is
-		options.div = config.div;             // tells the root node which div to insert itself into
+		options.control = this;							 // make sure our new MooTreeNode knows who it's owner control is
+		options.div = config.div;						 // tells the root node which div to insert itself into
 		this.root = new MooTreeNode(options); // create the root node of this tree control
 
-		this.index = new Object();            // used by the get() method
+		this.index = new Object();						// used by the get() method
 
-		this.enabled = true;                  // enable visual updates of the control
+		this.enabled = true;									// enable visual updates of the control
 
 		this.theme = config.theme || 'mootree.gif';
 
 		this.loader = config.loader || {icon:'mootree_loader.gif', text:'Loading...', color:'#a0a0a0'};
 
-		this.selected = null;                 // set the currently selected node to nothing
-		this.mode = config.mode;              // mode can be "folders" or "files", and affects the default icons
-		this.grid = config.grid;              // grid can be turned on (true) or off (false)
+		this.selected = null;								 // set the currently selected node to nothing
+		this.mode = config.mode;							// mode can be "folders" or "files", and affects the default icons
+		this.grid = config.grid;							// grid can be turned on (true) or off (false)
 
 		this.onExpand = config.onExpand || new Function(); // called when any node in the tree is expanded/collapsed
 		this.onSelect = config.onSelect || new Function(); // called when any node in the tree is selected/deselected
@@ -188,14 +188,14 @@ var MooTreeControl = new Class({
 		The ul/li structure must be properly nested, and each li-element must contain one a-element, e.g.:
 
 		><ul id="mytree">
-		>  <li><a href="test.html">Item One</a></li>
-		>  <li><a href="test.html">Item Two</a>
-		>    <ul>
-		>      <li><a href="test.html">Item Two Point One</a></li>
-		>      <li><a href="test.html">Item Two Point Two</a></li>
-		>    </ul>
-		>  </li>
-		>  <li><a href="test.html"><!-- icon:_doc; color:#ff0000 -->Item Three</a></li>
+		>	<li><a href="test.html">Item One</a></li>
+		>	<li><a href="test.html">Item Two</a>
+		>		<ul>
+		>			<li><a href="test.html">Item Two Point One</a></li>
+		>			<li><a href="test.html">Item Two Point Two</a></li>
+		>		</ul>
+		>	</li>
+		>	<li><a href="test.html"><!-- icon:_doc; color:#ff0000 -->Item Three</a></li>
 		></ul>
 
 		The "href", "target", "title" and "name" attributes of the a-tags are picked up and stored in the
@@ -321,13 +321,13 @@ var MooTreeNode = new Class({
 
 	initialize: function(options) {
 
-		this.text = options.text;       // the text displayed by this node
-		this.id = options.id || null;   // the node's unique id
-		this.nodes = new Array();       // subnodes nested beneath this node (MooTreeNode objects)
-		this.parent = null;             // this node's parent node (another MooTreeNode object)
-		this.last = true;               // a flag telling whether this node is the last (bottom) node of it's parent
+		this.text = options.text;			 // the text displayed by this node
+		this.id = options.id || null;	 // the node's unique id
+		this.nodes = new Array();			 // subnodes nested beneath this node (MooTreeNode objects)
+		this.parent = null;						 // this node's parent node (another MooTreeNode object)
+		this.last = true;							 // a flag telling whether this node is the last (bottom) node of it's parent
 		this.control = options.control; // owner control of this node's tree
-		this.selected = false;          // a flag telling whether this node is the currently selected node in it's tree
+		this.selected = false;					// a flag telling whether this node is the currently selected node in it's tree
 
 		this.color = options.color || null; // text color of this node
 
@@ -615,7 +615,7 @@ var MooTreeNode = new Class({
 	load: function(url, vars) {
 
 		if (this.loading) return; // if this node is already loading, return
-		this.loading = true;      // flag this node as loading
+		this.loading = true;			// flag this node as loading
 
 		this.toggle(false, true); // expand the node to make the loader visible
 

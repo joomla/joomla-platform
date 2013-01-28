@@ -12,15 +12,15 @@
  * permitted provided that the following conditions are met:
  *
  * 	* Redistributions of source code must retain the above copyright notice, this list of
- * 	  conditions and the following disclaimer.
+ * 		conditions and the following disclaimer.
  *
  * 	* Redistributions in binary form must reproduce the above copyright notice, this list
- * 	  of conditions and the following disclaimer in the documentation and/or other materials
- * 	  provided with the distribution.
+ * 		of conditions and the following disclaimer in the documentation and/or other materials
+ * 		provided with the distribution.
  *
  * 	* Neither the name of the SimplePie Team nor the names of its contributors may be used
- * 	  to endorse or promote products derived from this software without specific prior
- * 	  written permission.
+ * 		to endorse or promote products derived from this software without specific prior
+ * 		written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
  * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
@@ -1363,7 +1363,7 @@ class SimplePie
 	}
 
 	/**
-	 * Set options to make SP as fast as possible.  Forgoes a
+	 * Set options to make SP as fast as possible.	Forgoes a
 	 * substantial amount of data sanitization in favor of speed.
 	 *
 	 * @access public
@@ -3777,7 +3777,7 @@ class SimplePie_Item
 	 *
 	 * Supports the <enclosure> RSS tag, as well as Media RSS and iTunes RSS.
 	 *
-	 * At this point, we're pretty much assuming that all enclosures for an item are the same content.  Anything else is too complicated to properly support.
+	 * At this point, we're pretty much assuming that all enclosures for an item are the same content.	Anything else is too complicated to properly support.
 	 *
 	 * @todo Add support for end-user defined sorting of enclosures by type/handler (so we can prefer the faster-loading FLV over MP4).
 	 * @todo If an element exists at a level, but it's value is empty, we should fall back to the value from the parent (if it exists).
@@ -7118,7 +7118,7 @@ class SimplePie_Enclosure
 			}
 		}
 
-		// QuickTime 7 file types.  Need to test with QuickTime 6.
+		// QuickTime 7 file types.	Need to test with QuickTime 6.
 		// Only handle MP3's if the Flash Media Player is not present.
 		elseif ($handler === 'quicktime' || ($handler === 'mp3' && $mediaplayer === ''))
 		{
@@ -9242,7 +9242,7 @@ class SimplePie_Misc
 	 * If a file has been cached, retrieve and display it.
 	 *
 	 * This is most useful for caching images (get_favicon(), etc.),
-	 * however it works for all cached files.  This WILL NOT display ANY
+	 * however it works for all cached files.	This WILL NOT display ANY
 	 * file/image/page/whatever, but rather only display what has already
 	 * been cached by SimplePie.
 	 *
@@ -9250,12 +9250,12 @@ class SimplePie_Misc
 	 * @see SimplePie::get_favicon()
 	 * @param str $identifier_url URL that is used to identify the content.
 	 * This may or may not be the actual URL of the live content.
-	 * @param str $cache_location Location of SimplePie's cache.  Defaults
+	 * @param str $cache_location Location of SimplePie's cache.	Defaults
 	 * to './cache'.
 	 * @param str $cache_extension The file extension that the file was
-	 * cached with.  Defaults to 'spc'.
+	 * cached with.	Defaults to 'spc'.
 	 * @param str $cache_class Name of the cache-handling class being used
-	 * in SimplePie.  Defaults to 'SimplePie_Cache', and should be left
+	 * in SimplePie.	Defaults to 'SimplePie_Cache', and should be left
 	 * as-is unless you've overloaded the class.
 	 * @param str $cache_name_function Obsolete. Exists for backwards
 	 * compatibility reasons only.
@@ -11151,11 +11151,11 @@ class SimplePie_Misc
 	 * @access string
 	 * @param object $haystack
 	 * @param string $needle Note that the needle may be a string of one or more
-	 *     characters. If needle is not a string, it is converted to an integer
-	 *     and applied as the ordinal value of a character.
+	 *		 characters. If needle is not a string, it is converted to an integer
+	 *		 and applied as the ordinal value of a character.
 	 * @param int $offset The optional offset parameter allows you to specify which
-	 *     character in haystack to start searching. The position returned is still
-	 *     relative to the beginning of haystack.
+	 *		 character in haystack to start searching. The position returned is still
+	 *		 relative to the beginning of haystack.
 	 * @return bool If needle is not found, stripos() will return boolean false.
 	 */
 	function stripos($haystack, $needle, $offset = 0)

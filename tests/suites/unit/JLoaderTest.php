@@ -1,72 +1,72 @@
 <?php
 /**
- * @package    Joomla.UnitTest
+ * @package		Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JLoader.
  *
- * @package  Joomla.UnitTest
- * @since    11.1
+ * @package	Joomla.UnitTest
+ * @since		11.1
  */
 class JLoaderTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * Container for JLoader static values during tests.
 	 *
-	 * @var    array
-	 * @since  12.3
+	 * @var		array
+	 * @since	12.3
 	 */
 	protected static $cache = array();
 
 	/**
 	 * JLoader is an abstract class of static functions and variables, so will test without instantiation
 	 *
-	 * @var    object
-	 * @since  11.1
+	 * @var		object
+	 * @since	11.1
 	 */
 	protected $object;
 
 	/**
 	 * The path to the bogus object for loader testing.
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $bogusPath;
 
 	/**
 	 * The full path (including filename) to the bogus object.
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $bogusFullPath;
 
 	/**
 	 * Cache the JLoader settings while we are resetting things for testing.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public static function setUpBeforeClass()
 	{
-		self::$cache['classes']    = TestReflection::getValue('JLoader', 'classes');
-		self::$cache['imported']   = TestReflection::getValue('JLoader', 'imported');
-		self::$cache['prefixes']   = TestReflection::getValue('JLoader', 'prefixes');
+		self::$cache['classes']		= TestReflection::getValue('JLoader', 'classes');
+		self::$cache['imported']	 = TestReflection::getValue('JLoader', 'imported');
+		self::$cache['prefixes']	 = TestReflection::getValue('JLoader', 'prefixes');
 		self::$cache['namespaces'] = TestReflection::getValue('JLoader', 'namespaces');
 	}
 
 	/**
 	 * Restore the JLoader cache settings after testing the class.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public static function tearDownAfterClass()
 	{
@@ -80,9 +80,9 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	/**
 	 * The test cases for importing classes
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function casesImport()
 	{
@@ -97,9 +97,9 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	/**
 	 * The test cases for jimport-ing classes
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function casesJimport()
 	{
@@ -111,10 +111,10 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the JLoader::discover method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
-	 * @covers  JLoader::discover
+	 * @since	 11.3
+	 * @covers	JLoader::discover
 	 */
 	public function testDiscover()
 	{
@@ -187,10 +187,10 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the JLoader::getClassList method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
-	 * @covers  JLoader::getClassList
+	 * @since	 11.3
+	 * @covers	JLoader::getClassList
 	 */
 	public function testGetClassList()
 	{
@@ -200,10 +200,10 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the JLoader::load method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
-	 * @covers  JLoader::load
+	 * @since	 11.3
+	 * @covers	JLoader::load
 	 */
 	public function testLoad()
 	{
@@ -224,10 +224,10 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * Test the JLoader::loadByNamespaceLowerCase method
 	 * with lower case namespace and path.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
-	 * @covers  JLoader::loadByNamespaceLowerCase
+	 * @since	 12.3
+	 * @covers	JLoader::loadByNamespaceLowerCase
 	 */
 	public function testLoadByNamespaceLowerCase()
 	{
@@ -250,10 +250,10 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * Test the JLoader::loadByNamespaceLowerCase method
 	 * with camel case namespace and lower case path.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
-	 * @covers  JLoader::loadByNamespaceLowerCase
+	 * @since	 12.3
+	 * @covers	JLoader::loadByNamespaceLowerCase
 	 */
 	public function testLoadByNamespaceLowerCaseCamelCaseNamespace()
 	{
@@ -269,10 +269,10 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * Tests the JLoader::loadByNamespaceNaturalCase method
 	 * with lower case namespace and lower case path.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
-	 * @covers  JLoader::loadByNamespaceNaturalCase
+	 * @since	 12.3
+	 * @covers	JLoader::loadByNamespaceNaturalCase
 	 */
 	public function testLoadByNamespaceNaturalCaseLowCase()
 	{
@@ -287,10 +287,10 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * Tests the JLoader::loadByNamespaceNaturalCase method
 	 * with a camel case namespace and camel case path.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
-	 * @covers  JLoader::loadByNamespaceNaturalCase
+	 * @since	 12.3
+	 * @covers	JLoader::loadByNamespaceNaturalCase
 	 */
 	public function testLoadByNamespaceNaturalCaseCamelCase()
 	{
@@ -313,10 +313,10 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * Tests the JLoader::loadByNamespaceMixedCase method
 	 * with a lower case namespace and path.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
-	 * @covers  JLoader::loadByNamespaceMixedCase
+	 * @since	 12.3
+	 * @covers	JLoader::loadByNamespaceMixedCase
 	 */
 	public function testLoadByNamespaceMixedCaseLow()
 	{
@@ -339,10 +339,10 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * Tests the JLoader::loadByNamespaceMixedCase method
 	 * with a camel case namespace and path.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
-	 * @covers  JLoader::loadByNamespaceMixedCase
+	 * @since	 12.3
+	 * @covers	JLoader::loadByNamespaceMixedCase
 	 */
 	public function testLoadByNamespaceMixedCaseCamelCase()
 	{
@@ -365,10 +365,10 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * Tests the JLoader::loadByNamespaceMixedCase method
 	 * with a camel case namespace and low case path.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
-	 * @covers  JLoader::loadByNamespaceMixedCase
+	 * @since	 12.3
+	 * @covers	JLoader::loadByNamespaceMixedCase
 	 */
 	public function testLoadByNamespaceMixedCaseCamelCaseNamespaceLowCasePath()
 	{
@@ -383,18 +383,18 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	/**
 	 * The success of this test depends on some files being in the file system to be imported. If the FS changes, this test may need revisited.
 	 *
-	 * @param   string   $filePath     Path to object
-	 * @param   string   $base         Path to location of object
-	 * @param   string   $libraries    Which libraries to use
-	 * @param   boolean  $expect       Result of import (True = success)
-	 * @param   string   $message      Failure message
-	 * @param   boolean  $useDefaults  Use the default function arguments
+	 * @param	 string	 $filePath		 Path to object
+	 * @param	 string	 $base				 Path to location of object
+	 * @param	 string	 $libraries		Which libraries to use
+	 * @param	 boolean	$expect			 Result of import (True = success)
+	 * @param	 string	 $message			Failure message
+	 * @param	 boolean	$useDefaults	Use the default function arguments
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @dataProvider casesImport
-	 * @since   11.1
-	 * @covers  JLoader::import
+	 * @since	 11.1
+	 * @covers	JLoader::import
 	 */
 	public function testImport($filePath, $base, $libraries, $expect, $message, $useDefaults)
 	{
@@ -413,14 +413,14 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	/**
 	 * This tests the convenience function jimport.
 	 *
-	 * @param   string   $object   Name of object to be imported
-	 * @param   boolean  $expect   Expected result
-	 * @param   string   $message  Failure message to be displayed
+	 * @param	 string	 $object	 Name of object to be imported
+	 * @param	 boolean	$expect	 Expected result
+	 * @param	 string	 $message	Failure message to be displayed
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @dataProvider casesJimport
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testJimport($object, $expect, $message)
 	{
@@ -430,10 +430,10 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the JLoader::register method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
-	 * @covers  JLoader::register
+	 * @since	 11.1
+	 * @covers	JLoader::register
 	 */
 	public function testRegister()
 	{
@@ -457,10 +457,10 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the JLoader::registerNamespace method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
-	 * @covers  JLoader::registerNamespace
+	 * @since	 12.3
+	 * @covers	JLoader::registerNamespace
 	 */
 	public function testRegisterNamespace()
 	{
@@ -484,10 +484,10 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the JLoader::registerNamespace method when reseting the paths.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
-	 * @covers  JLoader::registerNamespace
+	 * @since	 12.3
+	 * @covers	JLoader::registerNamespace
 	 */
 	public function testRegisterNamespaceResetPath()
 	{
@@ -507,11 +507,11 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the exception thrown by the JLoader::registerNamespace method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
-	 * @covers  JLoader::registerNamespace
-	 * @expectedException  RuntimeException
+	 * @since	 12.3
+	 * @covers	JLoader::registerNamespace
+	 * @expectedException	RuntimeException
 	 */
 	public function testRegisterNamespaceException()
 	{
@@ -521,11 +521,11 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the JLoader::registerPrefix method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
-	 * @covers  JLoader::registerPrefix
-	 * @todo    Implement testRegisterPrefix().
+	 * @since	 12.1
+	 * @covers	JLoader::registerPrefix
+	 * @todo		Implement testRegisterPrefix().
 	 */
 	public function testRegisterPrefix()
 	{
@@ -538,10 +538,10 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the exception thrown by the JLoader::registerPrefix method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
-	 * @covers  JLoader::registerPrefix
+	 * @since	 12.1
+	 * @covers	JLoader::registerPrefix
 	 * @expectedException RuntimeException
 	 */
 	public function testRegisterPrefixException()
@@ -553,10 +553,10 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * Tests the JLoader::setup method with the default parameters.
 	 * We expect the class map, prefix loaders and the J prefix to be registered correctly.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
-	 * @covers  JLoader::setup
+	 * @since	 12.3
+	 * @covers	JLoader::setup
 	 */
 	public function testSetupDefaultParameters()
 	{
@@ -629,10 +629,10 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the JLoader::setup method with $enableClasses = false.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
-	 * @covers  JLoader::setup
+	 * @since	 12.3
+	 * @covers	JLoader::setup
 	 */
 	public function testSetupWithoutClasses()
 	{
@@ -666,10 +666,10 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the JLoader::setup method with $enablePrefixes = false.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
-	 * @covers  JLoader::setup
+	 * @since	 12.3
+	 * @covers	JLoader::setup
 	 */
 	public function testSetupWithoutPrefixes()
 	{
@@ -711,10 +711,10 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * Tests the JLoader::setup method.
 	 * We test the registration of the lower case namespace loader.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
-	 * @covers  JLoader::setup
+	 * @since	 12.3
+	 * @covers	JLoader::setup
 	 */
 	public function testSetupNamespacesLowerCase()
 	{
@@ -749,10 +749,10 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * Tests the JLoader::setup method.
 	 * We test the registration of the Natural case namespace loader.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
-	 * @covers  JLoader::setup
+	 * @since	 12.3
+	 * @covers	JLoader::setup
 	 */
 	public function testSetupNamespacesNaturalCase()
 	{
@@ -787,10 +787,10 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * Tests the JLoader::setup method.
 	 * We test the registration of the Mixed case namespace loader.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
-	 * @covers  JLoader::setup
+	 * @since	 12.3
+	 * @covers	JLoader::setup
 	 */
 	public function testSetupNamespacesMixedCase()
 	{
@@ -826,10 +826,10 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * We test the registration of the namespace loader with an invalid case strategy.
 	 * We expect the lower case namespace loader to be registered by default.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
-	 * @covers  JLoader::setup
+	 * @since	 12.3
+	 * @covers	JLoader::setup
 	 */
 	public function testSetupNamespacesInvalidCase()
 	{
@@ -877,9 +877,9 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	/**
 	 * A function to unregister the Joomla auto loaders.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	protected function unregisterLoaders()
 	{
@@ -906,9 +906,9 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 *
 	 * This method is called before a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function setUp()
 	{

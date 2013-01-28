@@ -1,27 +1,27 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Form
+ * @package		 Joomla.UnitTest
+ * @subpackage	Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JFormFieldImageList.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Form
- * @since       12.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	Form
+ * @since			 12.1
  */
 class JFormFieldImageListTest extends TestCase
 {
 	/**
 	 * Sets up dependencies for the test.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function setUp()
 	{
@@ -34,9 +34,9 @@ class JFormFieldImageListTest extends TestCase
 	/**
 	 * Test the getInput method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testGetInput()
 	{

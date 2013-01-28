@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Database
+ * @package		 Joomla.Platform
+ * @subpackage	Database
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,17 +12,17 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Database Factory class
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       12.1
+ * @package		 Joomla.Platform
+ * @subpackage	Database
+ * @since			 12.1
  */
 class JDatabaseFactory
 {
 	/**
 	 * Contains the current JDatabaseFactory instance
 	 *
-	 * @var    JDatabaseFactory
-	 * @since  12.1
+	 * @var		JDatabaseFactory
+	 * @since	12.1
 	 */
 	private static $_instance = null;
 
@@ -33,26 +33,26 @@ class JDatabaseFactory
 	 * the chosen database.
 	 *
 	 * Instances are unique to the given options and new objects are only created when a unique options array is
-	 * passed into the method.  This ensures that we don't end up with unnecessary database connection resources.
+	 * passed into the method.	This ensures that we don't end up with unnecessary database connection resources.
 	 *
-	 * @param   string  $name     Name of the database driver you'd like to instantiate
-	 * @param   array   $options  Parameters to be passed to the database driver.
+	 * @param	 string	$name		 Name of the database driver you'd like to instantiate
+	 * @param	 array	 $options	Parameters to be passed to the database driver.
 	 *
-	 * @return  JDatabaseDriver  A database driver object.
+	 * @return	JDatabaseDriver	A database driver object.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getDriver($name = 'mysqli', $options = array())
 	{
 		// Sanitize the database connector options.
-		$options['driver']   = preg_replace('/[^A-Z0-9_\.-]/i', '', $name);
+		$options['driver']	 = preg_replace('/[^A-Z0-9_\.-]/i', '', $name);
 		$options['database'] = (isset($options['database'])) ? $options['database'] : null;
-		$options['select']   = (isset($options['select'])) ? $options['select'] : true;
+		$options['select']	 = (isset($options['select'])) ? $options['select'] : true;
 
 		// Derive the class name from the driver.
 		$class = 'JDatabaseDriver' . ucfirst(strtolower($options['driver']));
 
-		// If the class still doesn't exist we have nothing left to do but throw an exception.  We did our best.
+		// If the class still doesn't exist we have nothing left to do but throw an exception.	We did our best.
 		if (!class_exists($class))
 		{
 			throw new RuntimeException(sprintf('Unable to load Database Driver: %s', $options['driver']));
@@ -74,13 +74,13 @@ class JDatabaseFactory
 	/**
 	 * Gets an exporter class object.
 	 *
-	 * @param   string           $name  Name of the driver you want an exporter for.
-	 * @param   JDatabaseDriver  $db    Optional JDatabaseDriver instance
+	 * @param	 string					 $name	Name of the driver you want an exporter for.
+	 * @param	 JDatabaseDriver	$db		Optional JDatabaseDriver instance
 	 *
-	 * @return  JDatabaseExporter  An exporter object.
+	 * @return	JDatabaseExporter	An exporter object.
 	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @since	 12.1
+	 * @throws	RuntimeException
 	 */
 	public function getExporter($name, JDatabaseDriver $db = null)
 	{
@@ -107,13 +107,13 @@ class JDatabaseFactory
 	/**
 	 * Gets an importer class object.
 	 *
-	 * @param   string           $name  Name of the driver you want an importer for.
-	 * @param   JDatabaseDriver  $db    Optional JDatabaseDriver instance
+	 * @param	 string					 $name	Name of the driver you want an importer for.
+	 * @param	 JDatabaseDriver	$db		Optional JDatabaseDriver instance
 	 *
-	 * @return  JDatabaseImporter  An importer object.
+	 * @return	JDatabaseImporter	An importer object.
 	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @since	 12.1
+	 * @throws	RuntimeException
 	 */
 	public function getImporter($name, JDatabaseDriver $db = null)
 	{
@@ -140,9 +140,9 @@ class JDatabaseFactory
 	/**
 	 * Gets an instance of the factory object.
 	 *
-	 * @return  JDatabaseFactory
+	 * @return	JDatabaseFactory
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public static function getInstance()
 	{
@@ -152,13 +152,13 @@ class JDatabaseFactory
 	/**
 	 * Get the current query object or a new JDatabaseQuery object.
 	 *
-	 * @param   string           $name  Name of the driver you want an query object for.
-	 * @param   JDatabaseDriver  $db    Optional JDatabaseDriver instance
+	 * @param	 string					 $name	Name of the driver you want an query object for.
+	 * @param	 JDatabaseDriver	$db		Optional JDatabaseDriver instance
 	 *
-	 * @return  JDatabaseQuery  The current query object or a new object extending the JDatabaseQuery class.
+	 * @return	JDatabaseQuery	The current query object or a new object extending the JDatabaseQuery class.
 	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @since	 12.1
+	 * @throws	RuntimeException
 	 */
 	public function getQuery($name, JDatabaseDriver $db = null)
 	{
@@ -178,11 +178,11 @@ class JDatabaseFactory
 	/**
 	 * Gets an instance of a factory object to return on subsequent calls of getInstance.
 	 *
-	 * @param   JDatabaseFactory  $instance  A JDatabaseFactory object.
+	 * @param	 JDatabaseFactory	$instance	A JDatabaseFactory object.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public static function setInstance(JDatabaseFactory $instance = null)
 	{

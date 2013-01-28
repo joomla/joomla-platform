@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Utilities
+ * @package		 Joomla.Platform
+ * @subpackage	Utilities
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,20 +12,20 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JUtility is a utility functions class
  *
- * @package     Joomla.Platform
- * @subpackage  Utilities
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Utilities
+ * @since			 11.1
  */
 class JUtility
 {
 	/**
 	 * Method to extract key/value pairs out of a string with XML style attributes
 	 *
-	 * @param   string  $string  String containing XML style attributes
+	 * @param	 string	$string	String containing XML style attributes
 	 *
-	 * @return  array  Key/Value pairs for the attributes
+	 * @return	array	Key/Value pairs for the attributes
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function parseAttributes($string)
 	{

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Installer
+ * @package		 Joomla.Platform
+ * @subpackage	Installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -17,41 +17,41 @@ jimport('joomla.base.adapter');
 /**
  * Joomla base installer class
  *
- * @package     Joomla.Platform
- * @subpackage  Installer
- * @since       11.1
- * @deprecated  13.3
+ * @package		 Joomla.Platform
+ * @subpackage	Installer
+ * @since			 11.1
+ * @deprecated	13.3
  */
 class JInstaller extends JAdapter
 {
 	/**
 	 * Array of paths needed by the installer
 	 *
-	 * @var    array
-	 * @since  12.1
+	 * @var		array
+	 * @since	12.1
 	 */
 	protected $paths = array();
 
 	/**
 	 * True if package is an upgrade
 	 *
-	 * @var    boolean
-	 * @since  12.1
+	 * @var		boolean
+	 * @since	12.1
 	 */
 	protected $upgrade = null;
 
 	/**
 	 * The manifest trigger class
 	 *
-	 * @var    object
-	 * @since  11.1
+	 * @var		object
+	 * @since	11.1
 	 */
 	public $manifestClass = null;
 
 	/**
 	 * True if existing files can be overwritten
-	 * @var    boolean
-	 * @since  12.1
+	 * @var		boolean
+	 * @since	12.1
 	 */
 	protected $overwrite = false;
 
@@ -59,61 +59,61 @@ class JInstaller extends JAdapter
 	 * Stack of installation steps
 	 * - Used for installation rollback
 	 *
-	 * @var    array
-	 * @since  12.1
+	 * @var		array
+	 * @since	12.1
 	 */
 	protected $stepStack = array();
 
 	/**
 	 * Extension Table Entry
 	 *
-	 * @var    JTableExtension
-	 * @since  11.1
+	 * @var		JTableExtension
+	 * @since	11.1
 	 */
 	public $extension = null;
 
 	/**
 	 * The output from the install/uninstall scripts
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 * */
 	public $message = null;
 
 	/**
 	 * The installation manifest XML object
 	 *
-	 * @var    object
-	 * @since  11.1
+	 * @var		object
+	 * @since	11.1
 	 */
 	public $manifest = null;
 
 	/**
 	 * The extension message that appears
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $extension_message = null;
 
 	/**
 	 * The redirect URL if this extension (can be null if no redirect)
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $redirect_url = null;
 
 	/**
-	 * @var    JInstaller  JInstaller instance container.
-	 * @since  11.3
+	 * @var		JInstaller	JInstaller instance container.
+	 * @since	11.3
 	 */
 	protected static $instance;
 
 	/**
 	 * Constructor
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __construct()
 	{
@@ -124,9 +124,9 @@ class JInstaller extends JAdapter
 	 * Returns the global Installer object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @return  JInstaller  An installer object
+	 * @return	JInstaller	An installer object
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function getInstance()
 	{
@@ -140,9 +140,9 @@ class JInstaller extends JAdapter
 	/**
 	 * Get the allow overwrite switch
 	 *
-	 * @return  boolean  Allow overwrite switch
+	 * @return	boolean	Allow overwrite switch
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function isOverwrite()
 	{
@@ -152,11 +152,11 @@ class JInstaller extends JAdapter
 	/**
 	 * Set the allow overwrite switch
 	 *
-	 * @param   boolean  $state  Overwrite switch state
+	 * @param	 boolean	$state	Overwrite switch state
 	 *
-	 * @return  boolean  True it state is set, false if it is not
+	 * @return	boolean	True it state is set, false if it is not
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setOverwrite($state = false)
 	{
@@ -177,9 +177,9 @@ class JInstaller extends JAdapter
 	/**
 	 * Get the redirect location
 	 *
-	 * @return  string  Redirect location (or null)
+	 * @return	string	Redirect location (or null)
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getRedirectURL()
 	{
@@ -189,11 +189,11 @@ class JInstaller extends JAdapter
 	/**
 	 * Set the redirect location
 	 *
-	 * @param   string  $newurl  New redirect location
+	 * @param	 string	$newurl	New redirect location
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setRedirectURL($newurl)
 	{
@@ -203,9 +203,9 @@ class JInstaller extends JAdapter
 	/**
 	 * Get the upgrade switch
 	 *
-	 * @return  boolean
+	 * @return	boolean
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function isUpgrade()
 	{
@@ -215,11 +215,11 @@ class JInstaller extends JAdapter
 	/**
 	 * Set the upgrade switch
 	 *
-	 * @param   boolean  $state  Upgrade switch state
+	 * @param	 boolean	$state	Upgrade switch state
 	 *
-	 * @return  boolean  True if upgrade, false otherwise
+	 * @return	boolean	True if upgrade, false otherwise
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setUpgrade($state = false)
 	{
@@ -240,9 +240,9 @@ class JInstaller extends JAdapter
 	/**
 	 * Get the installation manifest object
 	 *
-	 * @return  object  Manifest object
+	 * @return	object	Manifest object
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getManifest()
 	{
@@ -257,12 +257,12 @@ class JInstaller extends JAdapter
 	/**
 	 * Get an installer path by name
 	 *
-	 * @param   string  $name     Path name
-	 * @param   string  $default  Default value
+	 * @param	 string	$name		 Path name
+	 * @param	 string	$default	Default value
 	 *
-	 * @return  string  Path
+	 * @return	string	Path
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getPath($name, $default = null)
 	{
@@ -272,12 +272,12 @@ class JInstaller extends JAdapter
 	/**
 	 * Sets an installer path by name
 	 *
-	 * @param   string  $name   Path name
-	 * @param   string  $value  Path
+	 * @param	 string	$name	 Path name
+	 * @param	 string	$value	Path
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setPath($name, $value)
 	{
@@ -287,11 +287,11 @@ class JInstaller extends JAdapter
 	/**
 	 * Pushes a step onto the installer stack for rolling back steps
 	 *
-	 * @param   array  $step  Installer step
+	 * @param	 array	$step	Installer step
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function pushStep($step)
 	{
@@ -301,13 +301,13 @@ class JInstaller extends JAdapter
 	/**
 	 * Installation abort method
 	 *
-	 * @param   string  $msg   Abort message from the installer
-	 * @param   string  $type  Package type if defined
+	 * @param	 string	$msg	 Abort message from the installer
+	 * @param	 string	$type	Package type if defined
 	 *
-	 * @return  boolean  True if successful
+	 * @return	boolean	True if successful
 	 *
-	 * @since   11.1
-	 * @throws  RuntimeException
+	 * @since	 11.1
+	 * @throws	RuntimeException
 	 */
 	public function abort($msg = null, $type = null)
 	{
@@ -399,11 +399,11 @@ class JInstaller extends JAdapter
 	/**
 	 * Package installation method
 	 *
-	 * @param   string  $path  Path to package source folder
+	 * @param	 string	$path	Path to package source folder
 	 *
-	 * @return  boolean  True if successful
+	 * @return	boolean	True if successful
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function install($path = null)
 	{
@@ -468,11 +468,11 @@ class JInstaller extends JAdapter
 	/**
 	 * Discovered package installation method
 	 *
-	 * @param   integer  $eid  Extension ID
+	 * @param	 integer	$eid	Extension ID
 	 *
-	 * @return  boolean  True if successful
+	 * @return	boolean	True if successful
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function discover_install($eid = null)
 	{
@@ -566,9 +566,9 @@ class JInstaller extends JAdapter
 	 * Extension discover method
 	 * Asks each adapter to find extensions
 	 *
-	 * @return  array  JExtension
+	 * @return	array	JExtension
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function discover()
 	{
@@ -597,11 +597,11 @@ class JInstaller extends JAdapter
 	/**
 	 * Package update method
 	 *
-	 * @param   string  $path  Path to package source folder
+	 * @param	 string	$path	Path to package source folder
 	 *
-	 * @return  boolean  True if successful
+	 * @return	boolean	True if successful
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function update($path = null)
 	{
@@ -659,13 +659,13 @@ class JInstaller extends JAdapter
 	/**
 	 * Package uninstallation method
 	 *
-	 * @param   string   $type        Package type
-	 * @param   mixed    $identifier  Package identifier for adapter
-	 * @param   integer  $cid         Application ID; deprecated in 1.6
+	 * @param	 string	 $type				Package type
+	 * @param	 mixed		$identifier	Package identifier for adapter
+	 * @param	 integer	$cid				 Application ID; deprecated in 1.6
 	 *
-	 * @return  boolean  True if successful
+	 * @return	boolean	True if successful
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function uninstall($type, $identifier, $cid = 0)
 	{
@@ -704,11 +704,11 @@ class JInstaller extends JAdapter
 	/**
 	 * Refreshes the manifest cache stored in #__extensions
 	 *
-	 * @param   integer  $eid  Extension ID
+	 * @param	 integer	$eid	Extension ID
 	 *
-	 * @return  mixed  void on success, false on error @todo missing return value ?
+	 * @return	mixed	void on success, false on error @todo missing return value ?
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function refreshManifestCache($eid)
 	{
@@ -778,9 +778,9 @@ class JInstaller extends JAdapter
 	 * Prepare for installation: this method sets the installation directory, finds
 	 * and checks the installation file and verifies the installation type.
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setupInstall()
 	{
@@ -809,11 +809,11 @@ class JInstaller extends JAdapter
 	 * Backward compatible method to parse through a queries element of the
 	 * installation manifest file and take appropriate action.
 	 *
-	 * @param   SimpleXMLElement  $element  The XML node to process
+	 * @param	 SimpleXMLElement	$element	The XML node to process
 	 *
-	 * @return  mixed  Number of queries processed or False on error
+	 * @return	mixed	Number of queries processed or False on error
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function parseQueries(SimpleXMLElement $element)
 	{
@@ -854,11 +854,11 @@ class JInstaller extends JAdapter
 	/**
 	 * Method to extract the name of a discreet installation sql file from the installation manifest file.
 	 *
-	 * @param   object  $element  The XML node to process
+	 * @param	 object	$element	The XML node to process
 	 *
-	 * @return  mixed  Number of queries processed or False on error
+	 * @return	mixed	Number of queries processed or False on error
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function parseSQLFiles($element)
 	{
@@ -945,12 +945,12 @@ class JInstaller extends JAdapter
 	/**
 	 * Set the schema version for an extension by looking at its latest update
 	 *
-	 * @param   SimpleXMLElement  $schema  Schema Tag
-	 * @param   integer           $eid     Extension ID
+	 * @param	 SimpleXMLElement	$schema	Schema Tag
+	 * @param	 integer					 $eid		 Extension ID
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setSchemaVersion(SimpleXMLElement $schema, $eid)
 	{
@@ -1015,12 +1015,12 @@ class JInstaller extends JAdapter
 	/**
 	 * Method to process the updates for an item
 	 *
-	 * @param   SimpleXMLElement  $schema  The XML node to process
-	 * @param   integer           $eid     Extension Identifier
+	 * @param	 SimpleXMLElement	$schema	The XML node to process
+	 * @param	 integer					 $eid		 Extension Identifier
 	 *
-	 * @return  boolean           Result of the operations
+	 * @return	boolean					 Result of the operations
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function parseSchemaUpdates(SimpleXMLElement $schema, $eid)
 	{
@@ -1148,14 +1148,14 @@ class JInstaller extends JAdapter
 	 * Method to parse through a files element of the installation manifest and take appropriate
 	 * action.
 	 *
-	 * @param   SimpleXMLElement  $element   The XML node to process
-	 * @param   integer           $cid       Application ID of application to install to
-	 * @param   array             $oldFiles  List of old files (SimpleXMLElement's)
-	 * @param   array             $oldMD5    List of old MD5 sums (indexed by filename with value as MD5)
+	 * @param	 SimpleXMLElement	$element	 The XML node to process
+	 * @param	 integer					 $cid			 Application ID of application to install to
+	 * @param	 array						 $oldFiles	List of old files (SimpleXMLElement's)
+	 * @param	 array						 $oldMD5		List of old MD5 sums (indexed by filename with value as MD5)
 	 *
-	 * @return  boolean      True on success
+	 * @return	boolean			True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function parseFiles(SimpleXMLElement $element, $cid = 0, $oldFiles = null, $oldMD5 = null)
 	{
@@ -1276,12 +1276,12 @@ class JInstaller extends JAdapter
 	 * Method to parse through a languages element of the installation manifest and take appropriate
 	 * action.
 	 *
-	 * @param   SimpleXMLElement  $element  The XML node to process
-	 * @param   integer           $cid      Application ID of application to install to
+	 * @param	 SimpleXMLElement	$element	The XML node to process
+	 * @param	 integer					 $cid			Application ID of application to install to
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function parseLanguages(SimpleXMLElement $element, $cid = 0)
 	{
@@ -1392,12 +1392,12 @@ class JInstaller extends JAdapter
 	 * Method to parse through a media element of the installation manifest and take appropriate
 	 * action.
 	 *
-	 * @param   SimpleXMLElement  $element  The XML node to process
-	 * @param   integer           $cid      Application ID of application to install to
+	 * @param	 SimpleXMLElement	$element	The XML node to process
+	 * @param	 integer					 $cid			Application ID of application to install to
 	 *
-	 * @return  boolean     True on success
+	 * @return	boolean		 True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function parseMedia(SimpleXMLElement $element, $cid = 0)
 	{
@@ -1473,9 +1473,9 @@ class JInstaller extends JAdapter
 	 * Method to parse the parameters of an extension, build the INI
 	 * string for its default parameters, and return the INI string.
 	 *
-	 * @return  string   INI string of parameter values
+	 * @return	string	 INI string of parameter values
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getParams()
 	{
@@ -1527,18 +1527,18 @@ class JInstaller extends JAdapter
 	 *
 	 * Copy files from source directory to the target directory
 	 *
-	 * @param   array    $files      Array with filenames
-	 * @param   boolean  $overwrite  True if existing files can be replaced
+	 * @param	 array		$files			Array with filenames
+	 * @param	 boolean	$overwrite	True if existing files can be replaced
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function copyFiles($files, $overwrite = null)
 	{
 		/*
 		 * To allow for manual override on the overwriting flag, we check to see if
-		 * the $overwrite flag was set and is a boolean value.  If not, use the object
+		 * the $overwrite flag was set and is a boolean value.	If not, use the object
 		 * allowOverwrite flag.
 		 */
 
@@ -1548,7 +1548,7 @@ class JInstaller extends JAdapter
 		}
 
 		/*
-		 * $files must be an array of filenames.  Verify that it is an array with
+		 * $files must be an array of filenames.	Verify that it is an array with
 		 * at least one file to copy.
 		 */
 		if (is_array($files) && count($files) > 0)
@@ -1564,7 +1564,7 @@ class JInstaller extends JAdapter
 				if (!file_exists($filesource))
 				{
 					/*
-					 * The source file does not exist.  Nothing to copy so set an error
+					 * The source file does not exist.	Nothing to copy so set an error
 					 * and return false.
 					 */
 					JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_NO_FILE', $filesource), JLog::WARNING, 'jerror');
@@ -1636,12 +1636,12 @@ class JInstaller extends JAdapter
 	 * Method to parse through a files element of the installation manifest and remove
 	 * the files that were installed
 	 *
-	 * @param   object   $element  The XML node to process
-	 * @param   integer  $cid      Application ID of application to remove from
+	 * @param	 object	 $element	The XML node to process
+	 * @param	 integer	$cid			Application ID of application to remove from
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function removeFiles($element, $cid = 0)
 	{
@@ -1682,7 +1682,7 @@ class JInstaller extends JAdapter
 		$folder = '';
 
 		/*
-		 * Here we set the folder we are going to remove the files from.  There are a few
+		 * Here we set the folder we are going to remove the files from.	There are a few
 		 * special cases that need to be considered for certain reserved tags.
 		 */
 		switch ($element->getName())
@@ -1742,7 +1742,7 @@ class JInstaller extends JAdapter
 		foreach ($files as $file)
 		{
 			/*
-			 * If the file is a language, we must handle it differently.  Language files
+			 * If the file is a language, we must handle it differently.	Language files
 			 * go in a subdirectory based on the language code, ie.
 			 * <language tag="en_US">en_US.mycomponent.ini</language>
 			 * would go in the en_US subdirectory of the languages directory.
@@ -1800,11 +1800,11 @@ class JInstaller extends JAdapter
 	/**
 	 * Copies the installation manifest file to the extension folder in the given client
 	 *
-	 * @param   integer  $cid  Where to copy the installfile [optional: defaults to 1 (admin)]
+	 * @param	 integer	$cid	Where to copy the installfile [optional: defaults to 1 (admin)]
 	 *
-	 * @return  boolean  True on success, False on error
+	 * @return	boolean	True on success, False on error
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function copyManifest($cid = 1)
 	{
@@ -1830,7 +1830,7 @@ class JInstaller extends JAdapter
 	/**
 	 * Tries to find the package manifest file
 	 *
-	 * @return  boolean  True on success, False on error
+	 * @return	boolean	True on success, False on error
 	 *
 	 * @since 11.1
 	 */
@@ -1891,11 +1891,11 @@ class JInstaller extends JAdapter
 	/**
 	 * Is the XML file a valid Joomla installation manifest file.
 	 *
-	 * @param   string  $file  An xmlfile path to check
+	 * @param	 string	$file	An xmlfile path to check
 	 *
-	 * @return  mixed  A SimpleXMLElement, or null if the file failed to parse
+	 * @return	mixed	A SimpleXMLElement, or null if the file failed to parse
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function isManifest($file)
 	{
@@ -1922,7 +1922,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return string serialised manifest data
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function generateManifestCache()
 	{
@@ -1932,14 +1932,14 @@ class JInstaller extends JAdapter
 	/**
 	 * Cleans up discovered extensions if they're being installed some other way
 	 *
-	 * @param   string   $type     The type of extension (component, etc)
-	 * @param   string   $element  Unique element identifier (e.g. com_content)
-	 * @param   string   $folder   The folder of the extension (plugins; e.g. system)
-	 * @param   integer  $client   The client application (administrator or site)
+	 * @param	 string	 $type		 The type of extension (component, etc)
+	 * @param	 string	 $element	Unique element identifier (e.g. com_content)
+	 * @param	 string	 $folder	 The folder of the extension (plugins; e.g. system)
+	 * @param	 integer	$client	 The client application (administrator or site)
 	 *
-	 * @return  object    Result of query
+	 * @return	object		Result of query
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function cleanDiscoveredExtension($type, $element, $folder = '', $client = 0)
 	{
@@ -1958,12 +1958,12 @@ class JInstaller extends JAdapter
 	/**
 	 * Compares two "files" entries to find deleted files/folders
 	 *
-	 * @param   array  $old_files  An array of SimpleXMLElement objects that are the old files
-	 * @param   array  $new_files  An array of SimpleXMLElement objects that are the new files
+	 * @param	 array	$old_files	An array of SimpleXMLElement objects that are the old files
+	 * @param	 array	$new_files	An array of SimpleXMLElement objects that are the new files
 	 *
-	 * @return  array  An array with the delete files and folders in findDeletedFiles[files] and findDeletedFiles[folders] respectively
+	 * @return	array	An array with the delete files and folders in findDeletedFiles[files] and findDeletedFiles[folders] respectively
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function findDeletedFiles($old_files, $new_files)
 	{
@@ -2063,11 +2063,11 @@ class JInstaller extends JAdapter
 	/**
 	 * Loads an MD5SUMS file into an associative array
 	 *
-	 * @param   string  $filename  Filename to load
+	 * @param	 string	$filename	Filename to load
 	 *
-	 * @return  array  Associative array with filenames as the index and the MD5 as the value
+	 * @return	array	Associative array with filenames as the index and the MD5 as the value
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function loadMD5Sum($filename)
 	{
@@ -2083,7 +2083,7 @@ class JInstaller extends JAdapter
 		foreach ($data as $row)
 		{
 			// Split up the data
-			$results = explode('  ', $row);
+			$results = explode('	', $row);
 
 			// Cull any potential prefix
 			$results[1] = str_replace('./', '', $results[1]);
@@ -2100,11 +2100,11 @@ class JInstaller extends JAdapter
 	 *
 	 * XML Root tag should be 'install' except for languages which use meta file.
 	 *
-	 * @param   string  $path  Full path to XML file.
+	 * @param	 string	$path	Full path to XML file.
 	 *
-	 * @return  array  XML metadata.
+	 * @return	array	XML metadata.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public static function parseXMLInstallFile($path)
 	{
@@ -2118,7 +2118,7 @@ class JInstaller extends JAdapter
 
 		// Check for a valid XML root tag.
 
-		// Extensions use 'extension' as the root tag.  Languages use 'metafile' instead
+		// Extensions use 'extension' as the root tag.	Languages use 'metafile' instead
 
 		if ($xml->getName() != 'extension' && $xml->getName() != 'metafile')
 		{

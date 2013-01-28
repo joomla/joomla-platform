@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Application
+ * @package		 Joomla.Platform
+ * @subpackage	Application
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,22 +12,22 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Class to model a Web Client.
  *
- * @property-read  integer  $platform        The detected platform on which the web client runs.
- * @property-read  boolean  $mobile          True if the web client is a mobile device.
- * @property-read  integer  $engine          The detected rendering engine used by the web client.
- * @property-read  integer  $browser         The detected browser used by the web client.
- * @property-read  string   $browserVersion  The detected browser version used by the web client.
- * @property-read  array    $languages       The priority order detected accepted languages for the client.
- * @property-read  array    $encodings       The priority order detected accepted encodings for the client.
- * @property-read  string   $userAgent       The web client's user agent string.
- * @property-read  string   $acceptEncoding  The web client's accepted encoding string.
- * @property-read  string   $acceptLanguage  The web client's accepted languages string.
- * @property-read  array    $detection       An array of flags determining whether or not a detection routine has been run.
- * @property-read  boolean  $robot           True if the web client is a robot
+ * @property-read	integer	$platform				The detected platform on which the web client runs.
+ * @property-read	boolean	$mobile					True if the web client is a mobile device.
+ * @property-read	integer	$engine					The detected rendering engine used by the web client.
+ * @property-read	integer	$browser				 The detected browser used by the web client.
+ * @property-read	string	 $browserVersion	The detected browser version used by the web client.
+ * @property-read	array		$languages			 The priority order detected accepted languages for the client.
+ * @property-read	array		$encodings			 The priority order detected accepted encodings for the client.
+ * @property-read	string	 $userAgent			 The web client's user agent string.
+ * @property-read	string	 $acceptEncoding	The web client's accepted encoding string.
+ * @property-read	string	 $acceptLanguage	The web client's accepted languages string.
+ * @property-read	array		$detection			 An array of flags determining whether or not a detection routine has been run.
+ * @property-read	boolean	$robot					 True if the web client is a robot
  *
- * @package     Joomla.Platform
- * @subpackage  Application
- * @since       12.1
+ * @package		 Joomla.Platform
+ * @subpackage	Application
+ * @since			 12.1
  */
 class JApplicationWebClient
 {
@@ -55,85 +55,85 @@ class JApplicationWebClient
 	const ANDROIDTABLET = 22;
 
 	/**
-	 * @var    integer  The detected platform on which the web client runs.
-	 * @since  12.1
+	 * @var		integer	The detected platform on which the web client runs.
+	 * @since	12.1
 	 */
 	protected $platform;
 
 	/**
-	 * @var    boolean  True if the web client is a mobile device.
-	 * @since  12.1
+	 * @var		boolean	True if the web client is a mobile device.
+	 * @since	12.1
 	 */
 	protected $mobile = false;
 
 	/**
-	 * @var    integer  The detected rendering engine used by the web client.
-	 * @since  12.1
+	 * @var		integer	The detected rendering engine used by the web client.
+	 * @since	12.1
 	 */
 	protected $engine;
 
 	/**
-	 * @var    integer  The detected browser used by the web client.
-	 * @since  12.1
+	 * @var		integer	The detected browser used by the web client.
+	 * @since	12.1
 	 */
 	protected $browser;
 
 	/**
-	 * @var    string  The detected browser version used by the web client.
-	 * @since  12.1
+	 * @var		string	The detected browser version used by the web client.
+	 * @since	12.1
 	 */
 	protected $browserVersion;
 
 	/**
-	 * @var    array  The priority order detected accepted languages for the client.
-	 * @since  12.1
+	 * @var		array	The priority order detected accepted languages for the client.
+	 * @since	12.1
 	 */
 	protected $languages = array();
 
 	/**
-	 * @var    array  The priority order detected accepted encodings for the client.
-	 * @since  12.1
+	 * @var		array	The priority order detected accepted encodings for the client.
+	 * @since	12.1
 	 */
 	protected $encodings = array();
 
 	/**
-	 * @var    string  The web client's user agent string.
-	 * @since  12.1
+	 * @var		string	The web client's user agent string.
+	 * @since	12.1
 	 */
 	protected $userAgent;
 
 	/**
-	 * @var    string  The web client's accepted encoding string.
-	 * @since  12.1
+	 * @var		string	The web client's accepted encoding string.
+	 * @since	12.1
 	 */
 	protected $acceptEncoding;
 
 	/**
-	 * @var    string  The web client's accepted languages string.
-	 * @since  12.1
+	 * @var		string	The web client's accepted languages string.
+	 * @since	12.1
 	 */
 	protected $acceptLanguage;
 
 	/**
-	 * @var    boolean  True if the web client is a robot.
-	 * @since  12.3
+	 * @var		boolean	True if the web client is a robot.
+	 * @since	12.3
 	 */
 	protected $robot = false;
 
 	/**
-	 * @var    array  An array of flags determining whether or not a detection routine has been run.
-	 * @since  12.1
+	 * @var		array	An array of flags determining whether or not a detection routine has been run.
+	 * @since	12.1
 	 */
 	protected $detection = array();
 
 	/**
 	 * Class constructor.
 	 *
-	 * @param   string  $userAgent       The optional user-agent string to parse.
-	 * @param   string  $acceptEncoding  The optional client accept encoding string to parse.
-	 * @param   string  $acceptLanguage  The optional client accept language string to parse.
+	 * @param	 string	$userAgent			 The optional user-agent string to parse.
+	 * @param	 string	$acceptEncoding	The optional client accept encoding string to parse.
+	 * @param	 string	$acceptLanguage	The optional client accept language string to parse.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function __construct($userAgent = null, $acceptEncoding = null, $acceptLanguage = null)
 	{
@@ -171,11 +171,11 @@ class JApplicationWebClient
 	/**
 	 * Magic method to get an object property's value by name.
 	 *
-	 * @param   string  $name  Name of the property for which to return a value.
+	 * @param	 string	$name	Name of the property for which to return a value.
 	 *
-	 * @return  mixed  The requested value if it exists.
+	 * @return	mixed	The requested value if it exists.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function __get($name)
 	{
@@ -236,15 +236,15 @@ class JApplicationWebClient
 	/**
 	 * Detects the client browser and version in a user agent string.
 	 *
-	 * @param   string  $userAgent  The user-agent string to parse.
+	 * @param	 string	$userAgent	The user-agent string to parse.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function detectBrowser($userAgent)
 	{
-		// Attempt to detect the browser type.  Obviously we are only worried about major browsers.
+		// Attempt to detect the browser type.	Obviously we are only worried about major browsers.
 		if ((stripos($userAgent, 'MSIE') !== false) && (stripos($userAgent, 'Opera') === false))
 		{
 			$this->browser = self::IE;
@@ -319,11 +319,11 @@ class JApplicationWebClient
 	/**
 	 * Method to detect the accepted response encoding by the client.
 	 *
-	 * @param   string  $acceptEncoding  The client accept encoding string to parse.
+	 * @param	 string	$acceptEncoding	The client accept encoding string to parse.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function detectEncoding($acceptEncoding)
 	{
@@ -337,11 +337,11 @@ class JApplicationWebClient
 	/**
 	 * Detects the client rendering engine in a user agent string.
 	 *
-	 * @param   string  $userAgent  The user-agent string to parse.
+	 * @param	 string	$userAgent	The user-agent string to parse.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function detectEngine($userAgent)
 	{
@@ -350,7 +350,7 @@ class JApplicationWebClient
 		{
 			$this->engine = self::TRIDENT;
 		}
-		// Evidently blackberry uses WebKit and doesn't necessarily report it.  Bad RIM.
+		// Evidently blackberry uses WebKit and doesn't necessarily report it.	Bad RIM.
 		elseif (stripos($userAgent, 'AppleWebKit') !== false || stripos($userAgent, 'blackberry') !== false)
 		{
 			$this->engine = self::WEBKIT;
@@ -383,11 +383,11 @@ class JApplicationWebClient
 	/**
 	 * Method to detect the accepted languages by the client.
 	 *
-	 * @param   mixed  $acceptLanguage  The client accept language string to parse.
+	 * @param	 mixed	$acceptLanguage	The client accept language string to parse.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function detectLanguage($acceptLanguage)
 	{
@@ -401,11 +401,11 @@ class JApplicationWebClient
 	/**
 	 * Detects the client platform in a user agent string.
 	 *
-	 * @param   string  $userAgent  The user-agent string to parse.
+	 * @param	 string	$userAgent	The user-agent string to parse.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function detectPlatform($userAgent)
 	{
@@ -471,10 +471,10 @@ class JApplicationWebClient
 			/**
 			 * Attempt to distinguish between Android phones and tablets
 			 * There is no totally foolproof method but certain rules almost always hold
-			 *   Android 3.x is only used for tablets
-			 *   Some devices and browsers encourage users to change their UA string to include Tablet.
-			 *   Google encourages manufacturers to exclude the string Mobile from tablet device UA strings.
-			 *   In some modes Kindle Android devices include the string Mobile but they include the string Silk.
+			 *	 Android 3.x is only used for tablets
+			 *	 Some devices and browsers encourage users to change their UA string to include Tablet.
+			 *	 Google encourages manufacturers to exclude the string Mobile from tablet device UA strings.
+			 *	 In some modes Kindle Android devices include the string Mobile but they include the string Silk.
 			 */
 			if (stripos($userAgent, 'Android 3') !== false || stripos($userAgent, 'Tablet') !== false
 				|| stripos($userAgent, 'Mobile') === false || stripos($userAgent, 'Silk') !== false )
@@ -494,11 +494,11 @@ class JApplicationWebClient
 	/**
 	 * Determines if the browser is a robot or not.
 	 *
-	 * @param   string  $userAgent  The user-agent string to parse.
+	 * @param	 string	$userAgent	The user-agent string to parse.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	protected function detectRobot($userAgent)
 	{

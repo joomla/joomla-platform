@@ -1,24 +1,24 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Cache
+ * @package		 Joomla.UnitTest
+ * @subpackage	Cache
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JCache.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Cache
+ * @package		 Joomla.UnitTest
+ * @subpackage	Cache
  *
- * @since       11.1
+ * @since			 11.1
  */
 class JCacheTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    JCache
+	 * @var		JCache
 	 * @access protected
 	 */
 	protected $object;
@@ -100,9 +100,9 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Testing getInstance, set_state, setCaching, and setLifeTime
 	 *
-	 * @param   string  $handler   cache handler
-	 * @param   array   $options   options for cache handler
-	 * @param   string  $expClass  name of expected cache class
+	 * @param	 string	$handler	 cache handler
+	 * @param	 array	 $options	 options for cache handler
+	 * @param	 string	$expClass	name of expected cache class
 	 *
 	 * @return void
 	 *
@@ -179,8 +179,8 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Testing setCaching
 	 *
-	 * @param   string  $handler  cache handler
-	 * @param   array   $options  options for cache handler
+	 * @param	 string	$handler	cache handler
+	 * @param	 array	 $options	options for cache handler
 	 *
 	 * @return void
 	 *
@@ -257,9 +257,9 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Testing setLifeTime
 	 *
-	 * @param   string   $handler   cache handler
-	 * @param   array    $options   options for cache handler
-	 * @param   integer  $lifetime  lifetime of cache to be set
+	 * @param	 string	 $handler	 cache handler
+	 * @param	 array		$options	 options for cache handler
+	 * @param	 integer	$lifetime	lifetime of cache to be set
 	 *
 	 * @return void
 	 *
@@ -332,15 +332,15 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 *    Testing getStores
+	 *		Testing getStores
 	 *
-	 * @param   string  $handler   cache handler
-	 * @param   array   $options   options for cache handler
-	 * @param   string  $expected  returned stores
+	 * @param	 string	$handler	 cache handler
+	 * @param	 array	 $options	 options for cache handler
+	 * @param	 string	$expected	returned stores
 	 *
 	 * @return void
 	 *
-	 * @dataProvider    casesGetStores
+	 * @dataProvider		casesGetStores
 	 */
 	public function testGetStores($handler, $options, $expected)
 	{
@@ -400,12 +400,12 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Testing store() and get()
 	 *
-	 * @param   string  $handler   cache handler
-	 * @param   array   $options   options for cache handler
-	 * @param   string  $id        cache element ID
-	 * @param   string  $group     cache group
-	 * @param   string  $data      data to be cached
-	 * @param   string  $expected  expected return
+	 * @param	 string	$handler	 cache handler
+	 * @param	 array	 $options	 options for cache handler
+	 * @param	 string	$id				cache element ID
+	 * @param	 string	$group		 cache group
+	 * @param	 string	$data			data to be cached
+	 * @param	 string	$expected	expected return
 	 *
 	 * @return void
 	 *
@@ -611,9 +611,9 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Testing getStorage
 	 *
-	 * @param   string  $handler   cache handler
-	 * @param   array   $options   options for cache handler
-	 * @param   string  $expected  expected storage class
+	 * @param	 string	$handler	 cache handler
+	 * @param	 array	 $options	 options for cache handler
+	 * @param	 string	$expected	expected storage class
 	 *
 	 * @return void
 	 *

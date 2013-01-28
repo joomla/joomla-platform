@@ -1,26 +1,26 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Form
+ * @package		 Joomla.UnitTest
+ * @subpackage	Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JForm.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Form
+ * @package		 Joomla.UnitTest
+ * @subpackage	Form
  *
- * @since       11.1
+ * @since			 11.1
  */
 class JFormTest extends TestCase
 {
 	/**
 	 * Test showXml
 	 *
-	 * @param   string  $form  The form.
+	 * @param	 string	$form	The form.
 	 *
 	 * @return void
 	 */
@@ -2225,10 +2225,10 @@ class JFormTest extends TestCase
 	/**
 	 * Test for JForm::validateField method.
 	 *
-	 * return   void
+	 * return	 void
 	 *
-	 * @covers  JForm::validateField
-	 * @since   11.1
+	 * @covers	JForm::validateField
+	 * @since	 11.1
 	 *
 	 * @return void
 	 */
@@ -2289,12 +2289,12 @@ class JFormTest extends TestCase
 	/**
 	 * Test for JForm::validateField method for missing rule exception.
 	 *
-	 * return   void
+	 * return	 void
 	 *
-	 * @covers  JForm::validateField
-	 * @since   12.1
+	 * @covers	JForm::validateField
+	 * @since	 12.1
 	 *
-	 * @expectedException  UnexpectedValueException
+	 * @expectedException	UnexpectedValueException
 	 *
 	 * @return void
 	 */

@@ -1,33 +1,33 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Database
+ * @package		 Joomla.UnitTest
+ * @subpackage	Database
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JDatabaseSQLSrv.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Database
- * @since       12.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	Database
+ * @since			 12.1
  */
 class JDatabaseSQLSrvTest extends TestCaseDatabase
 {
 	/**
-	 * @var    JDatabaseSQLSrv
-	 * @since  12.1
+	 * @var		JDatabaseSQLSrv
+	 * @since	12.1
 	 */
 	protected $object;
 
 	/**
 	 * Data for the testEscape test.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function dataTestEscape()
 	{
@@ -40,9 +40,9 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  xml dataset
+	 * @return	xml dataset
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function getDataSet()
 	{
@@ -53,9 +53,9 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function setUp()
 	{
@@ -111,9 +111,9 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	/**
 	 * Tests the JDatabaseSQLSrv dropTable method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testDropTable()
 	{
@@ -205,9 +205,9 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	/**
 	 * Tests the JDatabaseSQLSrv getTableCreate method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testGetTableCreate()
 	{
@@ -234,9 +234,9 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	/**
 	 * Tests the JDatabaseSQLSrv getTableKeys method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testGetTableKeys()
 	{
@@ -250,9 +250,9 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	/**
 	 * Tests the JDatabaseSQLSrv getTableList method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testGetTableList()
 	{
@@ -266,9 +266,9 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	/**
 	 * Test getVersion method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testGetVersion()
 	{

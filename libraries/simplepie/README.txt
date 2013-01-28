@@ -6,7 +6,7 @@ BSD-LICENSED
 http://www.opensource.org/licenses/bsd-license.php
 
 WHAT COMES IN THE PACKAGE?
-1) simplepie.inc - The SimplePie library.  This is all that's required for your pages.
+1) simplepie.inc - The SimplePie library.	This is all that's required for your pages.
 2) README.txt - This document.
 3) LICENSE.txt - A copy of the BSD license.
 4) compatibility_test - The SimplePie compatibility test that checks your server for required settings.

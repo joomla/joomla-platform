@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Application
+ * @package		 Joomla.Platform
+ * @subpackage	Application
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,22 +12,22 @@ defined('JPATH_PLATFORM') or die;
 /**
  * RESTful Web application router class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Application
- * @since       12.2
+ * @package		 Joomla.Platform
+ * @subpackage	Application
+ * @since			 12.2
  */
 class JApplicationWebRouterRest extends JApplicationWebRouterBase
 {
 	/**
-	 * @var     boolean  A boolean allowing to pass _method as parameter in POST requests
+	 * @var		 boolean	A boolean allowing to pass _method as parameter in POST requests
 	 *
-	 * @since  12.2
+	 * @since	12.2
 	 */
 	protected $methodInPostRequest = false;
 
 	/**
-	 * @var    array  An array of HTTP Method => controller suffix pairs for routing the request.
-	 * @since  12.2
+	 * @var		array	An array of HTTP Method => controller suffix pairs for routing the request.
+	 * @since	12.2
 	 */
 	protected $suffixMap = array(
 		'GET' => 'Get',
@@ -42,13 +42,13 @@ class JApplicationWebRouterRest extends JApplicationWebRouterBase
 	/**
 	 * Find and execute the appropriate controller based on a given route.
 	 *
-	 * @param   string  $route  The route string for which to find and execute a controller.
+	 * @param	 string	$route	The route string for which to find and execute a controller.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.2
-	 * @throws  InvalidArgumentException
-	 * @throws  RuntimeException
+	 * @since	 12.2
+	 * @throws	InvalidArgumentException
+	 * @throws	RuntimeException
 	 */
 	public function execute($route)
 	{
@@ -68,12 +68,12 @@ class JApplicationWebRouterRest extends JApplicationWebRouterBase
 	/**
 	 * Set a controller class suffix for a given HTTP method.
 	 *
-	 * @param   string  $method  The HTTP method for which to set the class suffix.
-	 * @param   string  $suffix  The class suffix to use when fetching the controller name for a given request.
+	 * @param	 string	$method	The HTTP method for which to set the class suffix.
+	 * @param	 string	$suffix	The class suffix to use when fetching the controller name for a given request.
 	 *
-	 * @return  JApplicationWebRouter  This object for method chaining.
+	 * @return	JApplicationWebRouter	This object for method chaining.
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function setHttpMethodSuffix($method, $suffix)
 	{
@@ -85,11 +85,11 @@ class JApplicationWebRouterRest extends JApplicationWebRouterBase
 	/**
 	 * Set to allow or not method in POST request
 	 *
-	 * @param   boolean  $value  A boolean to allow or not method in POST request
+	 * @param	 boolean	$value	A boolean to allow or not method in POST request
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function setMethodInPostRequest($value)
 	{
@@ -99,9 +99,9 @@ class JApplicationWebRouterRest extends JApplicationWebRouterBase
 	/**
 	 * Get the property to allow or not method in POST request
 	 *
-	 * @return  boolean
+	 * @return	boolean
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function isMethodInPostRequest()
 	{
@@ -111,10 +111,10 @@ class JApplicationWebRouterRest extends JApplicationWebRouterBase
 	/**
 	 * Get the controller class suffix string.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   12.2
-	 * @throws  RuntimeException
+	 * @since	 12.2
+	 * @throws	RuntimeException
 	 */
 	protected function fetchControllerSuffix()
 	{

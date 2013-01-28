@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Language
+ * @package		 Joomla.Platform
+ * @subpackage	Language
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,23 +12,23 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Language helper class
  *
- * @package     Joomla.Platform
- * @subpackage  Language
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Language
+ * @since			 11.1
  */
 class JLanguageHelper
 {
 	/**
 	 * Builds a list of the system languages which can be used in a select option
 	 *
-	 * @param   string   $actualLanguage  Client key for the area
-	 * @param   string   $basePath        Base path to use
-	 * @param   boolean  $caching         True if caching is used
-	 * @param   boolean  $installed       Get only installed languages
+	 * @param	 string	 $actualLanguage	Client key for the area
+	 * @param	 string	 $basePath				Base path to use
+	 * @param	 boolean	$caching				 True if caching is used
+	 * @param	 boolean	$installed			 Get only installed languages
 	 *
-	 * @return  array  List of system languages
+	 * @return	array	List of system languages
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = false, $installed = false)
 	{
@@ -74,9 +74,9 @@ class JLanguageHelper
 	/**
 	 * Tries to detect the language.
 	 *
-	 * @return  string  locale or null if not found
+	 * @return	string	locale or null if not found
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function detectLanguage()
 	{
@@ -122,11 +122,11 @@ class JLanguageHelper
 	/**
 	 * Get available languages
 	 *
-	 * @param   string  $key  Array key
+	 * @param	 string	$key	Array key
 	 *
-	 * @return  array  An array of published languages
+	 * @return	array	An array of published languages
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function getLanguages($key = 'default')
 	{

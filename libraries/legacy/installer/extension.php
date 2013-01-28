@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Installer
+ * @package		 Joomla.Platform
+ * @subpackage	Installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,42 +12,42 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Extension object
  *
- * @package     Joomla.Platform
- * @subpackage  Installer
- * @since       11.1
- * @deprecated  13.3
+ * @package		 Joomla.Platform
+ * @subpackage	Installer
+ * @since			 11.1
+ * @deprecated	13.3
  */
 class JExtension extends JObject
 {
 	/**
 	 * Filename of the extension
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	public $filename = '';
 
 	/**
 	 * Type of the extension
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	public $type = '';
 
 	/**
 	 * Unique Identifier for the extension
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	public $id = '';
 
 	/**
 	 * The status of the extension
 	 *
-	 * @var    boolean
-	 * @since  11.1
+	 * @var		boolean
+	 * @since	11.1
 	 */
 	public $published = false;
 
@@ -55,8 +55,8 @@ class JExtension extends JObject
 	 * String representation of client. Valid for modules, templates and languages.
 	 * Set by default to site.
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	public $client = 'site';
 
@@ -64,7 +64,7 @@ class JExtension extends JObject
 	 * The group name of the plugin. Not used for other known extension types (only plugins)
 	 *
 	 * @var string
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public $group = '';
 
@@ -72,24 +72,24 @@ class JExtension extends JObject
 	 * An object representation of the manifest file stored metadata
 	 *
 	 * @var object
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public $manifest_cache = null;
 
 	/**
 	 * An object representation of the extension params
 	 *
-	 * @var    object
-	 * @since  11.1
+	 * @var		object
+	 * @since	11.1
 	 */
 	public $params = null;
 
 	/**
 	 * Constructor
 	 *
-	 * @param   SimpleXMLElement  $element  A SimpleXMLElement from which to load data from
+	 * @param	 SimpleXMLElement	$element	A SimpleXMLElement from which to load data from
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function __construct(SimpleXMLElement $element = null)
 	{

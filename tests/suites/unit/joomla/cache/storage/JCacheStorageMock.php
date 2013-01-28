@@ -1,21 +1,21 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Cache
+ * @package		 Joomla.UnitTest
+ * @subpackage	Cache
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 JLoader::register('JCacheStorage', JPATH_PLATFORM . '/joomla/cache/storage.php');
 
 /**
- * Mock of JCacheStorage Backend Class.  Used for testing of cache handlers.
+ * Mock of JCacheStorage Backend Class.	Used for testing of cache handlers.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Cache
+ * @package		 Joomla.UnitTest
+ * @subpackage	Cache
  *
- * @since       11.1
+ * @since			 11.1
  */
 class JCacheStorageMock extends JCacheStorage
 {
@@ -24,7 +24,7 @@ class JCacheStorageMock extends JCacheStorage
 	/**
 	 * Constructor
 	 *
-	 * @param   array  $options  optional parameters
+	 * @param	 array	$options	optional parameters
 	 */
 	public function __construct($options = array())
 	{
@@ -37,13 +37,13 @@ class JCacheStorageMock extends JCacheStorage
 	/**
 	 * Get cached data from y id and group
 	 *
-	 * @param   string   $id         The cache data id
-	 * @param   string   $group      The cache data group
-	 * @param   boolean  $checkTime  True to verify cache time expiration threshold
+	 * @param	 string	 $id				 The cache data id
+	 * @param	 string	 $group			The cache data group
+	 * @param	 boolean	$checkTime	True to verify cache time expiration threshold
 	 *
-	 * @return    mixed    Boolean false on failure or a cached data string
+	 * @return		mixed		Boolean false on failure or a cached data string
 	 *
-	 * @since    11.1
+	 * @since		11.1
 	 */
 	public function get($id, $group, $checkTime)
 	{
@@ -60,13 +60,13 @@ class JCacheStorageMock extends JCacheStorage
 	/**
 	 * Store the data
 	 *
-	 * @param   string  $id     The cache data id
-	 * @param   string  $group  The cache data group
-	 * @param   string  $data   The data to store in cache
+	 * @param	 string	$id		 The cache data id
+	 * @param	 string	$group	The cache data group
+	 * @param	 string	$data	 The data to store in cache
 	 *
-	 * @return    boolean    True on success, false otherwise
+	 * @return		boolean		True on success, false otherwise
 	 *
-	 * @since    11.1
+	 * @since		11.1
 	 */
 	public function store($id, $group, $data)
 	{
@@ -78,12 +78,12 @@ class JCacheStorageMock extends JCacheStorage
 	/**
 	 * Remove a cached data entry by id and group
 	 *
-	 * @param   string  $id     The cache data id
-	 * @param   string  $group  The cache data group
+	 * @param	 string	$id		 The cache data id
+	 * @param	 string	$group	The cache data group
 	 *
-	 * @return    boolean    True on success, false otherwise
+	 * @return		boolean		True on success, false otherwise
 	 *
-	 * @since    11.1
+	 * @since		11.1
 	 */
 	public function remove($id, $group)
 	{
@@ -94,15 +94,15 @@ class JCacheStorageMock extends JCacheStorage
 	/**
 	 * Clean cache for a group given a mode.
 	 *
-	 * group mode        : cleans all cache in the group
-	 * notgroup mode    : cleans all cache not in the group
+	 * group mode				: cleans all cache in the group
+	 * notgroup mode		: cleans all cache not in the group
 	 *
-	 * @param   string  $group  The cache data group
-	 * @param   string  $mode   The mode for cleaning cache [group|notgroup]
+	 * @param	 string	$group	The cache data group
+	 * @param	 string	$mode	 The mode for cleaning cache [group|notgroup]
 	 *
-	 * @return    boolean    True on success, false otherwise
+	 * @return		boolean		True on success, false otherwise
 	 *
-	 * @since    11.1
+	 * @since		11.1
 	 */
 	public function clean($group, $mode)
 	{
@@ -112,7 +112,7 @@ class JCacheStorageMock extends JCacheStorage
 	/**
 	 * Test to see if the cache storage is available.
 	 *
-	 * @return boolean  True on success, false otherwise.
+	 * @return boolean	True on success, false otherwise.
 	 */
 	public static function isSupported()
 	{
@@ -122,12 +122,12 @@ class JCacheStorageMock extends JCacheStorage
 	/**
 	 * Get a cache_id string from an id/group pair
 	 *
-	 * @param   string  $id     The cache data id
-	 * @param   string  $group  The cache data group
+	 * @param	 string	$id		 The cache data id
+	 * @param	 string	$group	The cache data group
 	 *
-	 * @return    string    The cache_id string
+	 * @return		string		The cache_id string
 	 *
-	 * @since    11.1
+	 * @since		11.1
 	 */
 	public function _getCacheId($id, $group)
 	{

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Filter
+ * @package		 Joomla.Platform
+ * @subpackage	Filter
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,9 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JFilterOutput
  *
- * @package     Joomla.Platform
- * @subpackage  Filter
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Filter
+ * @since			 11.1
  */
 class JFilterOutput
 {
@@ -24,14 +24,14 @@ class JFilterOutput
 	 * Object parameters that are non-string, array, object or start with underscore
 	 * will be converted
 	 *
-	 * @param   object   &$mixed        An object to be parsed
-	 * @param   integer  $quote_style   The optional quote style for the htmlspecialchars function
-	 * @param   mixed    $exclude_keys  An optional string single field name or array of field names not
-	 *                                  to be parsed (eg, for a textarea)
+	 * @param	 object	 &$mixed				An object to be parsed
+	 * @param	 integer	$quote_style	 The optional quote style for the htmlspecialchars function
+	 * @param	 mixed		$exclude_keys	An optional string single field name or array of field names not
+	 *																	to be parsed (eg, for a textarea)
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function objectHTMLSafe(&$mixed, $quote_style = ENT_QUOTES, $exclude_keys = '')
 	{
@@ -61,11 +61,11 @@ class JFilterOutput
 	/**
 	 * This method processes a string and replaces all instances of & with &amp; in links only.
 	 *
-	 * @param   string  $input  String to process
+	 * @param	 string	$input	String to process
 	 *
-	 * @return  string  Processed string
+	 * @return	string	Processed string
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function linkXHTMLSafe($input)
 	{
@@ -78,11 +78,11 @@ class JFilterOutput
 	 * This method processes a string and replaces all accented UTF-8 characters by unaccented
 	 * ASCII-7 "equivalents", whitespaces are replaced by hyphens and the string is lowercase.
 	 *
-	 * @param   string  $string  String to process
+	 * @param	 string	$string	String to process
 	 *
-	 * @return  string  Processed string
+	 * @return	string	Processed string
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function stringURLSafe($string)
 	{
@@ -107,11 +107,11 @@ class JFilterOutput
 	/**
 	 * This method implements unicode slugs instead of transliteration.
 	 *
-	 * @param   string  $string  String to process
+	 * @param	 string	$string	String to process
 	 *
-	 * @return  string  Processed string
+	 * @return	string	Processed string
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function stringURLUnicodeSlug($string)
 	{
@@ -141,11 +141,11 @@ class JFilterOutput
 	/**
 	 * Replaces &amp; with & for XHTML compliance
 	 *
-	 * @param   string  $text  Text to process
+	 * @param	 string	$text	Text to process
 	 *
-	 * @return  string  Processed string.
+	 * @return	string	Processed string.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 *
 	 * @todo There must be a better way???
 	 */
@@ -164,11 +164,11 @@ class JFilterOutput
 	/**
 	 * Callback method for replacing & with &amp; in a string
 	 *
-	 * @param   string  $m  String to process
+	 * @param	 string	$m	String to process
 	 *
-	 * @return  string  Replaced string
+	 * @return	string	Replaced string
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function _ampReplaceCallback($m)
 	{
@@ -180,11 +180,11 @@ class JFilterOutput
 	/**
 	 * Cleans text of all formatting and scripting code
 	 *
-	 * @param   string  &$text  Text to clean
+	 * @param	 string	&$text	Text to clean
 	 *
-	 * @return  string  Cleaned text.
+	 * @return	string	Cleaned text.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function cleanText(&$text)
 	{
@@ -204,11 +204,11 @@ class JFilterOutput
 	/**
 	 * Strip img-tags from string
 	 *
-	 * @param   string  $string  Sting to be cleaned.
+	 * @param	 string	$string	Sting to be cleaned.
 	 *
-	 * @return  string  Cleaned string
+	 * @return	string	Cleaned string
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function stripImages($string)
 	{
@@ -218,11 +218,11 @@ class JFilterOutput
 	/**
 	 * Strip iframe-tags from string
 	 *
-	 * @param   string  $string  Sting to be cleaned.
+	 * @param	 string	$string	Sting to be cleaned.
 	 *
-	 * @return  string  Cleaned string
+	 * @return	string	Cleaned string
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public static function stripIframes($string)
 	{

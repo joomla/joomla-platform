@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Archive
+ * @package		 Joomla.Platform
+ * @subpackage	Archive
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -15,28 +15,28 @@ jimport('joomla.filesystem.folder');
 /**
  * An Archive handling class
  *
- * @package     Joomla.Platform
- * @subpackage  Archive
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Archive
+ * @since			 11.1
  */
 class JArchive
 {
 	/**
-	 * @var    array  The array of instantiated archive adapters.
-	 * @since  12.1
+	 * @var		array	The array of instantiated archive adapters.
+	 * @since	12.1
 	 */
 	protected static $adapters = array();
 
 	/**
 	 * Extract an archive file to a directory.
 	 *
-	 * @param   string  $archivename  The name of the archive file
-	 * @param   string  $extractdir   Directory to unpack into
+	 * @param	 string	$archivename	The name of the archive file
+	 * @param	 string	$extractdir	 Directory to unpack into
 	 *
-	 * @return  boolean  True for success
+	 * @return	boolean	True for success
 	 *
-	 * @since   11.1
-	 * @throws  InvalidArgumentException
+	 * @since	 11.1
+	 * @throws	InvalidArgumentException
 	 */
 	public static function extract($archivename, $extractdir)
 	{
@@ -171,12 +171,12 @@ class JArchive
 	/**
 	 * Get a file compression adapter.
 	 *
-	 * @param   string  $type  The type of adapter (bzip2|gzip|tar|zip).
+	 * @param	 string	$type	The type of adapter (bzip2|gzip|tar|zip).
 	 *
-	 * @return  JArchiveExtractable  Adapter for the requested type
+	 * @return	JArchiveExtractable	Adapter for the requested type
 	 *
-	 * @since   11.1
-	 * @throws  UnexpectedValueException
+	 * @since	 11.1
+	 * @throws	UnexpectedValueException
 	 */
 	public static function getAdapter($type)
 	{

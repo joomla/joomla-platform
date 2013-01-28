@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Session
+ * @package		 Joomla.Platform
+ * @subpackage	Session
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,19 +12,19 @@ defined('JPATH_PLATFORM') or die;
 /**
  * XCache session storage handler
  *
- * @package     Joomla.Platform
- * @subpackage  Session
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Session
+ * @since			 11.1
  */
 class JSessionStorageXcache extends JSessionStorage
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   array  $options  Optional parameters.
+	 * @param	 array	$options	Optional parameters.
 	 *
-	 * @since   11.1
-	 * @throws  RuntimeException
+	 * @since	 11.1
+	 * @throws	RuntimeException
 	 */
 	public function __construct($options = array())
 	{
@@ -39,11 +39,11 @@ class JSessionStorageXcache extends JSessionStorage
 	/**
 	 * Read the data for a particular session identifier from the SessionHandler backend.
 	 *
-	 * @param   string  $id  The session identifier.
+	 * @param	 string	$id	The session identifier.
 	 *
-	 * @return  string  The session data.
+	 * @return	string	The session data.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function read($id)
 	{
@@ -61,12 +61,12 @@ class JSessionStorageXcache extends JSessionStorage
 	/**
 	 * Write session data to the SessionHandler backend.
 	 *
-	 * @param   string  $id            The session identifier.
-	 * @param   string  $session_data  The session data.
+	 * @param	 string	$id						The session identifier.
+	 * @param	 string	$session_data	The session data.
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return	boolean	True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function write($id, $session_data)
 	{
@@ -78,11 +78,11 @@ class JSessionStorageXcache extends JSessionStorage
 	/**
 	 * Destroy the data for a particular session identifier in the SessionHandler backend.
 	 *
-	 * @param   string  $id  The session identifier.
+	 * @param	 string	$id	The session identifier.
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return	boolean	True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function destroy($id)
 	{
@@ -99,9 +99,9 @@ class JSessionStorageXcache extends JSessionStorage
 	/**
 	 * Test to see if the SessionHandler is available.
 	 *
-	 * @return boolean  True on success, false otherwise.
+	 * @return boolean	True on success, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	static public function isSupported()
 	{

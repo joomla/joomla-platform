@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Legacy
- * @subpackage  Table
+ * @package		 Joomla.Legacy
+ * @subpackage	Table
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,19 +12,19 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Category table
  *
- * @package     Joomla.Legacy
- * @subpackage  Table
- * @since       11.1
- * @deprecated  13.3
+ * @package		 Joomla.Legacy
+ * @subpackage	Table
+ * @since			 11.1
+ * @deprecated	13.3
  */
 class JTableCategory extends JTableNested
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db  Database driver object.
+	 * @param	 JDatabaseDriver	$db	Database driver object.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __construct(JDatabaseDriver $db)
 	{
@@ -38,9 +38,9 @@ class JTableCategory extends JTableNested
 	 * The default name is in the form table_name.id
 	 * where id is the value of the primary key of the table.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function _getAssetName()
 	{
@@ -52,9 +52,9 @@ class JTableCategory extends JTableNested
 	/**
 	 * Method to return the title to use for the asset table.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function _getAssetTitle()
 	{
@@ -64,12 +64,12 @@ class JTableCategory extends JTableNested
 	/**
 	 * Get the parent asset id for the record
 	 *
-	 * @param   JTable   $table  A JTable object for the asset parent.
-	 * @param   integer  $id     The id for the asset
+	 * @param	 JTable	 $table	A JTable object for the asset parent.
+	 * @param	 integer	$id		 The id for the asset
 	 *
-	 * @return  integer  The id of the asset's parent
+	 * @return	integer	The id of the asset's parent
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function _getAssetParentId(JTable $table = null, $id = null)
 	{
@@ -124,10 +124,10 @@ class JTableCategory extends JTableNested
 	/**
 	 * Override check function
 	 *
-	 * @return  boolean
+	 * @return	boolean
 	 *
-	 * @see     JTable::check
-	 * @since   11.1
+	 * @see		 JTable::check
+	 * @since	 11.1
 	 */
 	public function check()
 	{
@@ -158,14 +158,14 @@ class JTableCategory extends JTableNested
 	/**
 	 * Overloaded bind function.
 	 *
-	 * @param   array   $array   named array
-	 * @param   string  $ignore  An optional array or space separated list of properties
-	 *                           to ignore while binding.
+	 * @param	 array	 $array	 named array
+	 * @param	 string	$ignore	An optional array or space separated list of properties
+	 *													 to ignore while binding.
 	 *
-	 * @return  mixed   Null if operation was satisfactory, otherwise returns an error
+	 * @return	mixed	 Null if operation was satisfactory, otherwise returns an error
 	 *
-	 * @see     JTable::bind
-	 * @since   11.1
+	 * @see		 JTable::bind
+	 * @since	 11.1
 	 */
 	public function bind($array, $ignore = '')
 	{
@@ -196,11 +196,11 @@ class JTableCategory extends JTableNested
 	/**
 	 * Overridden JTable::store to set created/modified and user id.
 	 *
-	 * @param   boolean  $updateNulls  True to update fields even if they are null.
+	 * @param	 boolean	$updateNulls	True to update fields even if they are null.
 	 *
-	 * @return  boolean  True on success.
+	 * @return	boolean	True on success.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function store($updateNulls = false)
 	{

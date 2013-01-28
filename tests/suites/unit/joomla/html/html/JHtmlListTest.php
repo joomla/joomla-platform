@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  HTML
+ * @package		 Joomla.UnitTest
+ * @subpackage	HTML
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM . '/joomla/html/list.php';
@@ -12,24 +12,24 @@ require_once JPATH_PLATFORM . '/joomla/html/list.php';
 /**
  * Test class for JHtmlList.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Html
- * @since       11.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	Html
+ * @since			 11.1
  */
 class JHtmlListTest extends TestCaseDatabase
 {
 	/**
-	 * @var    JHtmlList
-	 * @since  11.3
+	 * @var		JHtmlList
+	 * @since	11.3
 	 */
 	protected $object;
 
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  xml dataset
+	 * @return	xml dataset
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	protected function getDataSet()
 	{
@@ -84,9 +84,9 @@ class JHtmlListTest extends TestCaseDatabase
 	/**
 	 * Tests the JHtmlList::users method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testUsers()
 	{
@@ -104,9 +104,9 @@ class JHtmlListTest extends TestCaseDatabase
 	/**
 	 * Tests the JHtmlList::positions method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testPositions()
 	{

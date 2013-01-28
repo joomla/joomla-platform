@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Updater
+ * @package		 Joomla.Platform
+ * @subpackage	Updater
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -18,23 +18,23 @@ jimport('joomla.utilities.arrayhelper');
 /**
  * Updater Class
  *
- * @package     Joomla.Platform
- * @subpackage  Updater
- * @since       11.1
- * @deprecated  13.3
+ * @package		 Joomla.Platform
+ * @subpackage	Updater
+ * @since			 11.1
+ * @deprecated	13.3
  */
 class JUpdater extends JAdapter
 {
 	/**
-	 * @var    JUpdater  JUpdater instance container.
-	 * @since  11.3
+	 * @var		JUpdater	JUpdater instance container.
+	 * @since	11.3
 	 */
 	protected static $instance;
 
 	/**
 	 * Constructor
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __construct()
 	{
@@ -46,9 +46,9 @@ class JUpdater extends JAdapter
 	 * Returns a reference to the global Installer object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @return  object  An installer object
+	 * @return	object	An installer object
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function getInstance()
 	{
@@ -62,12 +62,12 @@ class JUpdater extends JAdapter
 	/**
 	 * Finds an update for an extension
 	 *
-	 * @param   integer  $eid           Extension Identifier; if zero use all sites
-	 * @param   integer  $cacheTimeout  How many seconds to cache update information; if zero, force reload the update information
+	 * @param	 integer	$eid					 Extension Identifier; if zero use all sites
+	 * @param	 integer	$cacheTimeout	How many seconds to cache update information; if zero, force reload the update information
 	 *
-	 * @return  boolean True if there are updates
+	 * @return	boolean True if there are updates
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function findUpdates($eid = 0, $cacheTimeout = 0)
 	{
@@ -84,7 +84,7 @@ class JUpdater extends JAdapter
 		{
 			$query = 'SELECT DISTINCT update_site_id, type, location, last_check_timestamp FROM #__update_sites' .
 				' WHERE update_site_id IN' .
-				'  (SELECT update_site_id FROM #__update_sites_extensions WHERE extension_id IN (' . implode(',', $eid) . '))';
+				'	(SELECT update_site_id FROM #__update_sites_extensions WHERE extension_id IN (' . implode(',', $eid) . '))';
 		}
 		$dbo->setQuery($query);
 		$results = $dbo->loadAssocList();
@@ -199,11 +199,11 @@ class JUpdater extends JAdapter
 	/**
 	 * Finds an update for an extension
 	 *
-	 * @param   integer  $id  Id of the extension
+	 * @param	 integer	$id	Id of the extension
 	 *
-	 * @return  mixed
+	 * @return	mixed
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function update($id)
 	{

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Mail
+ * @package		 Joomla.Platform
+ * @subpackage	Mail
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,23 +12,23 @@ defined('JPATH_PLATFORM') or die;
 jimport('phpmailer.phpmailer');
 
 /**
- * Email Class.  Provides a common interface to send email from the Joomla! Platform
+ * Email Class.	Provides a common interface to send email from the Joomla! Platform
  *
- * @package     Joomla.Platform
- * @subpackage  Mail
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Mail
+ * @since			 11.1
  */
 class JMail extends PHPMailer
 {
 	/**
-	 * @var    array  JMail instances container.
-	 * @since  11.3
+	 * @var		array	JMail instances container.
+	 * @since	11.3
 	 */
 	protected static $instances = array();
 
 	/**
-	 * @var    string  Charset of the message.
-	 * @since  11.1
+	 * @var		string	Charset of the message.
+	 * @since	11.1
 	 */
 	public $CharSet = 'utf-8';
 
@@ -48,11 +48,11 @@ class JMail extends PHPMailer
 	 * NOTE: If you need an instance to use that does not have the global configuration
 	 * values, use an id string that is not 'Joomla'.
 	 *
-	 * @param   string  $id  The id string for the JMail instance [optional]
+	 * @param	 string	$id	The id string for the JMail instance [optional]
 	 *
-	 * @return  JMail  The global JMail object
+	 * @return	JMail	The global JMail object
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function getInstance($id = 'Joomla')
 	{
@@ -67,10 +67,10 @@ class JMail extends PHPMailer
 	/**
 	 * Send the mail
 	 *
-	 * @return  mixed  True if successful; JError if using legacy tree (no exception thrown in that case).
+	 * @return	mixed	True if successful; JError if using legacy tree (no exception thrown in that case).
 	 *
-	 * @since   11.1
-	 * @throws  RuntimeException
+	 * @since	 11.1
+	 * @throws	RuntimeException
 	 */
 	public function Send()
 	{
@@ -106,13 +106,13 @@ class JMail extends PHPMailer
 	/**
 	 * Set the email sender
 	 *
-	 * @param   mixed  $from  email address and Name of sender
-	 *                        <code>array([0] => email Address, [1] => Name)</code>
-	 *                        or as a string
+	 * @param	 mixed	$from	email address and Name of sender
+	 *												<code>array([0] => email Address, [1] => Name)</code>
+	 *												or as a string
 	 *
-	 * @return  JMail  Returns this object for chaining.
+	 * @return	JMail	Returns this object for chaining.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setSender($from)
 	{
@@ -146,11 +146,11 @@ class JMail extends PHPMailer
 	/**
 	 * Set the email subject
 	 *
-	 * @param   string  $subject  Subject of the email
+	 * @param	 string	$subject	Subject of the email
 	 *
-	 * @return  JMail  Returns this object for chaining.
+	 * @return	JMail	Returns this object for chaining.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setSubject($subject)
 	{
@@ -162,11 +162,11 @@ class JMail extends PHPMailer
 	/**
 	 * Set the email body
 	 *
-	 * @param   string  $content  Body of the email
+	 * @param	 string	$content	Body of the email
 	 *
-	 * @return  JMail  Returns this object for chaining.
+	 * @return	JMail	Returns this object for chaining.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setBody($content)
 	{
@@ -182,13 +182,13 @@ class JMail extends PHPMailer
 	/**
 	 * Add recipients to the email.
 	 *
-	 * @param   mixed   $recipient  Either a string or array of strings [email address(es)]
-	 * @param   mixed   $name       Either a string or array of strings [name(s)]
-	 * @param   string  $method     The parent method's name.
+	 * @param	 mixed	 $recipient	Either a string or array of strings [email address(es)]
+	 * @param	 mixed	 $name			 Either a string or array of strings [name(s)]
+	 * @param	 string	$method		 The parent method's name.
 	 *
-	 * @return  JMail  Returns this object for chaining.
+	 * @return	JMail	Returns this object for chaining.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function add($recipient, $name = '', $method = 'AddAddress')
 	{
@@ -234,12 +234,12 @@ class JMail extends PHPMailer
 	/**
 	 * Add recipients to the email
 	 *
-	 * @param   mixed  $recipient  Either a string or array of strings [email address(es)]
-	 * @param   mixed  $name       Either a string or array of strings [name(s)]
+	 * @param	 mixed	$recipient	Either a string or array of strings [email address(es)]
+	 * @param	 mixed	$name			 Either a string or array of strings [name(s)]
 	 *
-	 * @return  JMail  Returns this object for chaining.
+	 * @return	JMail	Returns this object for chaining.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function addRecipient($recipient, $name = '')
 	{
@@ -251,12 +251,12 @@ class JMail extends PHPMailer
 	/**
 	 * Add carbon copy recipients to the email
 	 *
-	 * @param   mixed  $cc    Either a string or array of strings [email address(es)]
-	 * @param   mixed  $name  Either a string or array of strings [name(s)]
+	 * @param	 mixed	$cc		Either a string or array of strings [email address(es)]
+	 * @param	 mixed	$name	Either a string or array of strings [name(s)]
 	 *
-	 * @return  JMail  Returns this object for chaining.
+	 * @return	JMail	Returns this object for chaining.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function addCC($cc, $name = '')
 	{
@@ -272,12 +272,12 @@ class JMail extends PHPMailer
 	/**
 	 * Add blind carbon copy recipients to the email
 	 *
-	 * @param   mixed  $bcc   Either a string or array of strings [email address(es)]
-	 * @param   mixed  $name  Either a string or array of strings [name(s)]
+	 * @param	 mixed	$bcc	 Either a string or array of strings [email address(es)]
+	 * @param	 mixed	$name	Either a string or array of strings [name(s)]
 	 *
-	 * @return  JMail  Returns this object for chaining.
+	 * @return	JMail	Returns this object for chaining.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function addBCC($bcc, $name = '')
 	{
@@ -293,15 +293,15 @@ class JMail extends PHPMailer
 	/**
 	 * Add file attachments to the email
 	 *
-	 * @param   mixed  $attachment  Either a string or array of strings [filenames]
-	 * @param   mixed  $name        Either a string or array of strings [names]
-	 * @param   mixed  $encoding    The encoding of the attachment
-	 * @param   mixed  $type        The mime type
+	 * @param	 mixed	$attachment	Either a string or array of strings [filenames]
+	 * @param	 mixed	$name				Either a string or array of strings [names]
+	 * @param	 mixed	$encoding		The encoding of the attachment
+	 * @param	 mixed	$type				The mime type
 	 *
-	 * @return  JMail  Returns this object for chaining.
+	 * @return	JMail	Returns this object for chaining.
 	 *
-	 * @since   12.2
-	 * @throws  InvalidArgumentException
+	 * @since	 12.2
+	 * @throws	InvalidArgumentException
 	 */
 	public function addAttachment($attachment, $name = '', $encoding = 'base64', $type = 'application/octet-stream')
 	{
@@ -339,12 +339,12 @@ class JMail extends PHPMailer
 	/**
 	 * Add Reply to email address(es) to the email
 	 *
-	 * @param   mixed  $replyto  Either a string or array of strings [email address(es)]
-	 * @param   mixed  $name     Either a string or array of strings [name(s)]
+	 * @param	 mixed	$replyto	Either a string or array of strings [email address(es)]
+	 * @param	 mixed	$name		 Either a string or array of strings [name(s)]
 	 *
-	 * @return  JMail  Returns this object for chaining.
+	 * @return	JMail	Returns this object for chaining.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function addReplyTo($replyto, $name = '')
 	{
@@ -356,11 +356,11 @@ class JMail extends PHPMailer
 	/**
 	 * Sets message type to HTML
 	 *
-	 * @param   bool  $ishtml  Boolean true or false.
+	 * @param	 bool	$ishtml	Boolean true or false.
 	 *
-	 * @return  JMail  Returns this object for chaining.
+	 * @return	JMail	Returns this object for chaining.
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function isHtml($ishtml = true)
 	{
@@ -372,11 +372,11 @@ class JMail extends PHPMailer
 	/**
 	 * Use sendmail for sending the email
 	 *
-	 * @param   string  $sendmail  Path to sendmail [optional]
+	 * @param	 string	$sendmail	Path to sendmail [optional]
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function useSendmail($sendmail = null)
 	{
@@ -399,16 +399,16 @@ class JMail extends PHPMailer
 	/**
 	 * Use SMTP for sending the email
 	 *
-	 * @param   string   $auth    SMTP Authentication [optional]
-	 * @param   string   $host    SMTP Host [optional]
-	 * @param   string   $user    SMTP Username [optional]
-	 * @param   string   $pass    SMTP Password [optional]
-	 * @param   string   $secure  Use secure methods
-	 * @param   integer  $port    The SMTP port
+	 * @param	 string	 $auth		SMTP Authentication [optional]
+	 * @param	 string	 $host		SMTP Host [optional]
+	 * @param	 string	 $user		SMTP Username [optional]
+	 * @param	 string	 $pass		SMTP Password [optional]
+	 * @param	 string	 $secure	Use secure methods
+	 * @param	 integer	$port		The SMTP port
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function useSMTP($auth = null, $host = null, $user = null, $pass = null, $secure = null, $port = 25)
 	{
@@ -441,21 +441,21 @@ class JMail extends PHPMailer
 	/**
 	 * Function to send an email
 	 *
-	 * @param   string   $from         From email address
-	 * @param   string   $fromName     From name
-	 * @param   mixed    $recipient    Recipient email address(es)
-	 * @param   string   $subject      email subject
-	 * @param   string   $body         Message body
-	 * @param   boolean  $mode         false = plain text, true = HTML
-	 * @param   mixed    $cc           CC email address(es)
-	 * @param   mixed    $bcc          BCC email address(es)
-	 * @param   mixed    $attachment   Attachment file name(s)
-	 * @param   mixed    $replyTo      Reply to email address(es)
-	 * @param   mixed    $replyToName  Reply to name(s)
+	 * @param	 string	 $from				 From email address
+	 * @param	 string	 $fromName		 From name
+	 * @param	 mixed		$recipient		Recipient email address(es)
+	 * @param	 string	 $subject			email subject
+	 * @param	 string	 $body				 Message body
+	 * @param	 boolean	$mode				 false = plain text, true = HTML
+	 * @param	 mixed		$cc					 CC email address(es)
+	 * @param	 mixed		$bcc					BCC email address(es)
+	 * @param	 mixed		$attachment	 Attachment file name(s)
+	 * @param	 mixed		$replyTo			Reply to email address(es)
+	 * @param	 mixed		$replyToName	Reply to name(s)
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function sendMail($from, $fromName, $recipient, $subject, $body, $mode = false, $cc = null, $bcc = null, $attachment = null,
 		$replyTo = null, $replyToName = null)
@@ -499,17 +499,17 @@ class JMail extends PHPMailer
 	/**
 	 * Sends mail to administrator for approval of a user submission
 	 *
-	 * @param   string  $adminName   Name of administrator
-	 * @param   string  $adminEmail  Email address of administrator
-	 * @param   string  $email       [NOT USED TODO: Deprecate?]
-	 * @param   string  $type        Type of item to approve
-	 * @param   string  $title       Title of item to approve
-	 * @param   string  $author      Author of item to approve
-	 * @param   string  $url         A URL to included in the mail
+	 * @param	 string	$adminName	 Name of administrator
+	 * @param	 string	$adminEmail	Email address of administrator
+	 * @param	 string	$email			 [NOT USED TODO: Deprecate?]
+	 * @param	 string	$type				Type of item to approve
+	 * @param	 string	$title			 Title of item to approve
+	 * @param	 string	$author			Author of item to approve
+	 * @param	 string	$url				 A URL to included in the mail
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function sendAdminMail($adminName, $adminEmail, $email, $type, $title, $author, $url = null)
 	{

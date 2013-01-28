@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Document
+ * @package		 Joomla.Platform
+ * @subpackage	Document
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,26 +12,26 @@ defined('JPATH_PLATFORM') or die;
 /**
  * DocumentError class, provides an easy interface to parse and display an error page
  *
- * @package     Joomla.Platform
- * @subpackage  Document
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Document
+ * @since			 11.1
  */
 class JDocumentError extends JDocument
 {
 	/**
 	 * Error Object
 	 *
-	 * @var    object
-	 * @since  11.1
+	 * @var		object
+	 * @since	11.1
 	 */
 	protected $_error;
 
 	/**
 	 * Class constructor
 	 *
-	 * @param   array  $options  Associative array of attributes
+	 * @param	 array	$options	Associative array of attributes
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __construct($options = array())
 	{
@@ -47,11 +47,11 @@ class JDocumentError extends JDocument
 	/**
 	 * Set error object
 	 *
-	 * @param   object  $error  Error object to set
+	 * @param	 object	$error	Error object to set
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setError($error)
 	{
@@ -70,12 +70,12 @@ class JDocumentError extends JDocument
 	/**
 	 * Render the document
 	 *
-	 * @param   boolean  $cache   If true, cache the output
-	 * @param   array    $params  Associative array of attributes
+	 * @param	 boolean	$cache	 If true, cache the output
+	 * @param	 array		$params	Associative array of attributes
 	 *
-	 * @return  string   The rendered data
+	 * @return	string	 The rendered data
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function render($cache = false, $params = array())
 	{
@@ -115,12 +115,12 @@ class JDocumentError extends JDocument
 	/**
 	 * Load a template file
 	 *
-	 * @param   string  $directory  The name of the template
-	 * @param   string  $filename   The actual filename
+	 * @param	 string	$directory	The name of the template
+	 * @param	 string	$filename	 The actual filename
 	 *
-	 * @return  string  The contents of the template
+	 * @return	string	The contents of the template
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function _loadTemplate($directory, $filename)
 	{
@@ -145,9 +145,9 @@ class JDocumentError extends JDocument
 	/**
 	 * Render the backtrace
 	 *
-	 * @return  string  The contents of the backtrace
+	 * @return	string	The contents of the backtrace
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function renderBacktrace()
 	{

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Controller
+ * @package		 Joomla.UnitTest
+ * @subpackage	Controller
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 JLoader::register('BaseController', __DIR__ . '/stubs/tbase.php');
@@ -12,25 +12,25 @@ JLoader::register('BaseController', __DIR__ . '/stubs/tbase.php');
 /**
  * Tests for the JController class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Controller
- * @since       12.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	Controller
+ * @since			 12.1
  */
 class JControllerBaseTest extends TestCase
 {
 	/**
-	 * @var    JControllerBase
-	 * @since  12.1
+	 * @var		JControllerBase
+	 * @since	12.1
 	 */
 	private $_instance;
 
 	/**
 	 * Tests the __construct method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JControllerBase::__construct
-	 * @since   12.1
+	 * @covers	JControllerBase::__construct
+	 * @since	 12.1
 	 */
 	public function test__construct()
 	{
@@ -50,10 +50,10 @@ class JControllerBaseTest extends TestCase
 	/**
 	 * Tests the getApplication method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JControllerBase::getApplication
-	 * @since   12.1
+	 * @covers	JControllerBase::getApplication
+	 * @since	 12.1
 	 */
 	public function testGetApplication()
 	{
@@ -64,10 +64,10 @@ class JControllerBaseTest extends TestCase
 	/**
 	 * Tests the getInput method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JControllerBase::getInput
-	 * @since   12.1
+	 * @covers	JControllerBase::getInput
+	 * @since	 12.1
 	 */
 	public function testGetInput()
 	{
@@ -78,10 +78,10 @@ class JControllerBaseTest extends TestCase
 	/**
 	 * Tests the serialize method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JControllerBase::serialize
-	 * @since   12.1
+	 * @covers	JControllerBase::serialize
+	 * @since	 12.1
 	 */
 	public function testSerialise()
 	{
@@ -91,10 +91,10 @@ class JControllerBaseTest extends TestCase
 	/**
 	 * Tests the unserialize method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JControllerBase::unserialize
-	 * @since   12.1
+	 * @covers	JControllerBase::unserialize
+	 * @since	 12.1
 	 */
 	public function testUnserialise()
 	{
@@ -107,12 +107,12 @@ class JControllerBaseTest extends TestCase
 	/**
 	 * Tests the unserialize method for an expected exception.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JControllerBase::unserialize
-	 * @since   12.1
+	 * @covers	JControllerBase::unserialize
+	 * @since	 12.1
 	 *
-	 * @expectedException  UnexpectedValueException
+	 * @expectedException	UnexpectedValueException
 	 */
 	public function testUnserialise_exception()
 	{
@@ -122,10 +122,10 @@ class JControllerBaseTest extends TestCase
 	/**
 	 * Tests the loadApplication method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JControllerBase::loadApplication
-	 * @since   12.1
+	 * @covers	JControllerBase::loadApplication
+	 * @since	 12.1
 	 */
 	public function testLoadApplication()
 	{
@@ -136,10 +136,10 @@ class JControllerBaseTest extends TestCase
 	/**
 	 * Tests the loadInput method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JControllerBase::loadInput
-	 * @since   12.1
+	 * @covers	JControllerBase::loadInput
+	 * @since	 12.1
 	 */
 	public function testLoadInput()
 	{
@@ -152,9 +152,9 @@ class JControllerBaseTest extends TestCase
 	/**
 	 * Setup the tests.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function setUp()
 	{
@@ -173,9 +173,9 @@ class JControllerBaseTest extends TestCase
 	/**
 	 * Method to tear down whatever was set up before the test.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function tearDown()
 	{

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Legacy
- * @subpackage  Categories
+ * @package		 Joomla.Legacy
+ * @subpackage	Categories
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,91 +12,91 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JCategories Class.
  *
- * @package     Joomla.Legacy
- * @subpackage  Categories
- * @since       11.1
- * @deprecated  13.3
+ * @package		 Joomla.Legacy
+ * @subpackage	Categories
+ * @since			 11.1
+ * @deprecated	13.3
  */
 class JCategories
 {
 	/**
 	 * Array to hold the object instances
 	 *
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	public static $instances = array();
 
 	/**
 	 * Array of category nodes
 	 *
-	 * @var    mixed
-	 * @since  11.1
+	 * @var		mixed
+	 * @since	11.1
 	 */
 	protected $_nodes;
 
 	/**
 	 * Array of checked categories -- used to save values when _nodes are null
 	 *
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	protected $_checkedCategories;
 
 	/**
 	 * Name of the extension the categories belong to
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $_extension = null;
 
 	/**
 	 * Name of the linked content table to get category content count
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $_table = null;
 
 	/**
 	 * Name of the category field
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $_field = null;
 
 	/**
 	 * Name of the key field
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $_key = null;
 
 	/**
 	 * Name of the items state field
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $_statefield = null;
 
 	/**
 	 * Array of options
 	 *
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	protected $_options = null;
 
 	/**
 	 * Class constructor
 	 *
-	 * @param   array  $options  Array of options
+	 * @param	 array	$options	Array of options
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __construct($options)
 	{
@@ -115,12 +115,12 @@ class JCategories
 	/**
 	 * Returns a reference to a JCategories object
 	 *
-	 * @param   string  $extension  Name of the categories extension
-	 * @param   array   $options    An array of options
+	 * @param	 string	$extension	Name of the categories extension
+	 * @param	 array	 $options		An array of options
 	 *
-	 * @return  JCategories         JCategories object
+	 * @return	JCategories				 JCategories object
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function getInstance($extension, $options = array())
 	{
@@ -158,12 +158,12 @@ class JCategories
 	/**
 	 * Loads a specific category and all its children in a JCategoryNode object
 	 *
-	 * @param   mixed    $id         an optional id integer or equal to 'root'
-	 * @param   boolean  $forceload  True to force  the _load method to execute
+	 * @param	 mixed		$id				 an optional id integer or equal to 'root'
+	 * @param	 boolean	$forceload	True to force	the _load method to execute
 	 *
-	 * @return  mixed    JCategoryNode object or null if $id is not valid
+	 * @return	mixed		JCategoryNode object or null if $id is not valid
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function get($id = 'root', $forceload = false)
 	{
@@ -200,11 +200,11 @@ class JCategories
 	/**
 	 * Load method
 	 *
-	 * @param   integer  $id  Id of category to load
+	 * @param	 integer	$id	Id of category to load
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function _load($id)
 	{
@@ -375,263 +375,263 @@ class JCategories
 /**
  * Helper class to load Categorytree
  *
- * @package     Joomla.Legacy
- * @subpackage  Categories
- * @since       11.1
+ * @package		 Joomla.Legacy
+ * @subpackage	Categories
+ * @since			 11.1
  */
 class JCategoryNode extends JObject
 {
 	/**
 	 * Primary key
 	 *
-	 * @var    integer
-	 * @since  11.1
+	 * @var		integer
+	 * @since	11.1
 	 */
 	public $id = null;
 
 	/**
 	 * The id of the category in the asset table
 	 *
-	 * @var    integer
-	 * @since  11.1
+	 * @var		integer
+	 * @since	11.1
 	 */
 	public $asset_id = null;
 
 	/**
 	 * The id of the parent of category in the asset table, 0 for category root
 	 *
-	 * @var    integer
-	 * @since  11.1
+	 * @var		integer
+	 * @since	11.1
 	 */
 	public $parent_id = null;
 
 	/**
 	 * The lft value for this category in the category tree
 	 *
-	 * @var    integer
-	 * @since  11.1
+	 * @var		integer
+	 * @since	11.1
 	 */
 	public $lft = null;
 
 	/**
 	 * The rgt value for this category in the category tree
 	 *
-	 * @var    integer
-	 * @since  11.1
+	 * @var		integer
+	 * @since	11.1
 	 */
 	public $rgt = null;
 
 	/**
 	 * The depth of this category's position in the category tree
 	 *
-	 * @var    integer
-	 * @since  11.1
+	 * @var		integer
+	 * @since	11.1
 	 */
 	public $level = null;
 
 	/**
 	 * The extension this category is associated with
 	 *
-	 * @var    integer
-	 * @since  11.1
+	 * @var		integer
+	 * @since	11.1
 	 */
 	public $extension = null;
 
 	/**
 	 * The menu title for the category (a short name)
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	public $title = null;
 
 	/**
 	 * The the alias for the category
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	public $alias = null;
 
 	/**
 	 * Description of the category.
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	public $description = null;
 
 	/**
 	 * The publication status of the category
 	 *
-	 * @var    boolean
-	 * @since  11.1
+	 * @var		boolean
+	 * @since	11.1
 	 */
 	public $published = null;
 
 	/**
 	 * Whether the category is or is not checked out
 	 *
-	 * @var    boolean
-	 * @since  11.1
+	 * @var		boolean
+	 * @since	11.1
 	 */
 	public $checked_out = 0;
 
 	/**
 	 * The time at which the category was checked out
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	public $checked_out_time = 0;
 
 	/**
 	 * Access level for the category
 	 *
-	 * @var    integer
-	 * @since  11.1
+	 * @var		integer
+	 * @since	11.1
 	 */
 	public $access = null;
 
 	/**
 	 * JSON string of parameters
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	public $params = null;
 
 	/**
 	 * Metadata description
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	public $metadesc = null;
 
 	/**
 	 * Key words for meta data
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	public $metakey = null;
 
 	/**
 	 * JSON string of other meta data
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	public $metadata = null;
 
 	/**
 	 * The ID of the user who created the category
 	 *
-	 * @var    integer
-	 * @since  11.1
+	 * @var		integer
+	 * @since	11.1
 	 */
 	public $created_user_id = null;
 
 	/**
 	 * The time at which the category was created
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	public $created_time = null;
 
 	/**
 	 * The ID of the user who last modified the category
 	 *
-	 * @var    integer
-	 * @since  11.1
+	 * @var		integer
+	 * @since	11.1
 	 */
 	public $modified_user_id = null;
 
 	/**
 	 * The time at which the category was modified
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	public $modified_time = null;
 
 	/**
 	 * Nmber of times the category has been viewed
 	 *
-	 * @var    integer
-	 * @since  11.1
+	 * @var		integer
+	 * @since	11.1
 	 */
 	public $hits = null;
 
 	/**
 	 * The language for the category in xx-XX format
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	public $language = null;
 
 	/**
 	 * Number of items in this category or descendants of this category
 	 *
-	 * @var    integer
-	 * @since  11.1
+	 * @var		integer
+	 * @since	11.1
 	 */
 	public $numitems = null;
 
 	/**
 	 * Number of children items
 	 *
-	 * @var    integer
-	 * @since  11.1
+	 * @var		integer
+	 * @since	11.1
 	 */
 	public $childrennumitems = null;
 
 	/**
 	 * Slug fo the category (used in URL)
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	public $slug = null;
 
 	/**
-	 * Array of  assets
+	 * Array of	assets
 	 *
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	public $assets = null;
 
 	/**
 	 * Parent Category object
 	 *
-	 * @var    object
-	 * @since  11.1
+	 * @var		object
+	 * @since	11.1
 	 */
 	protected $_parent = null;
 
 	/**
 	 * @var Array of Children
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	protected $_children = array();
 
 	/**
 	 * Path from root to this category
 	 *
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	protected $_path = array();
 
 	/**
 	 * Category left of this one
 	 *
-	 * @var    integer
-	 * @since  11.1
+	 * @var		integer
+	 * @since	11.1
 	 */
 	protected $_leftSibling = null;
 
@@ -639,7 +639,7 @@ class JCategoryNode extends JObject
 	 * Category right of this one
 	 *
 	 * @var
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	protected $_rightSibling = null;
 
@@ -647,7 +647,7 @@ class JCategoryNode extends JObject
 	 * true if all children have been loaded
 	 *
 	 * @var boolean
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	protected $_allChildrenloaded = false;
 
@@ -655,17 +655,17 @@ class JCategoryNode extends JObject
 	 * Constructor of this tree
 	 *
 	 * @var
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	protected $_constructor = null;
 
 	/**
 	 * Class constructor
 	 *
-	 * @param   array          $category     The category data.
-	 * @param   JCategoryNode  $constructor  The tree constructor.
+	 * @param	 array					$category		 The category data.
+	 * @param	 JCategoryNode	$constructor	The tree constructor.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __construct($category = null, JCategoryNode $constructor = null)
 	{
@@ -689,11 +689,11 @@ class JCategoryNode extends JObject
 	 *
 	 * If the category already has a parent, the link is unset
 	 *
-	 * @param   mixed  $parent  JCategoryNode for the parent to be set or null
+	 * @param	 mixed	$parent	JCategoryNode for the parent to be set or null
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setParent($parent)
 	{
@@ -735,11 +735,11 @@ class JCategoryNode extends JObject
 	 *
 	 * If the child already has a parent, the link is unset
 	 *
-	 * @param   JCategoryNode  $child  The child to be added.
+	 * @param	 JCategoryNode	$child	The child to be added.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function addChild(JCategoryNode $child)
 	{
@@ -749,11 +749,11 @@ class JCategoryNode extends JObject
 	/**
 	 * Remove a specific child
 	 *
-	 * @param   integer  $id  ID of a category
+	 * @param	 integer	$id	ID of a category
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function removeChild($id)
 	{
@@ -764,11 +764,11 @@ class JCategoryNode extends JObject
 	/**
 	 * Get the children of this node
 	 *
-	 * @param   boolean  $recursive  False by default
+	 * @param	 boolean	$recursive	False by default
 	 *
-	 * @return  array  The children
+	 * @return	array	The children
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function &getChildren($recursive = false)
 	{
@@ -803,9 +803,9 @@ class JCategoryNode extends JObject
 	/**
 	 * Get the parent of this node
 	 *
-	 * @return  mixed  JCategoryNode or null
+	 * @return	mixed	JCategoryNode or null
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getParent()
 	{
@@ -815,9 +815,9 @@ class JCategoryNode extends JObject
 	/**
 	 * Test if this node has children
 	 *
-	 * @return  boolean  True if there is a child
+	 * @return	boolean	True if there is a child
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function hasChildren()
 	{
@@ -827,9 +827,9 @@ class JCategoryNode extends JObject
 	/**
 	 * Test if this node has a parent
 	 *
-	 * @return  boolean    True if there is a parent
+	 * @return	boolean		True if there is a parent
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function hasParent()
 	{
@@ -839,12 +839,12 @@ class JCategoryNode extends JObject
 	/**
 	 * Function to set the left or right sibling of a category
 	 *
-	 * @param   JCategoryNode  $sibling  JCategoryNode object for the sibling
-	 * @param   boolean        $right    If set to false, the sibling is the left one
+	 * @param	 JCategoryNode	$sibling	JCategoryNode object for the sibling
+	 * @param	 boolean				$right		If set to false, the sibling is the left one
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setSibling(JCategoryNode $sibling, $right = true)
 	{
@@ -861,12 +861,12 @@ class JCategoryNode extends JObject
 	/**
 	 * Returns the right or left sibling of a category
 	 *
-	 * @param   boolean  $right  If set to false, returns the left sibling
+	 * @param	 boolean	$right	If set to false, returns the left sibling
 	 *
-	 * @return  mixed  JCategoryNode object with the sibling information or
-	 *                 NULL if there is no sibling on that side.
+	 * @return	mixed	JCategoryNode object with the sibling information or
+	 *								 NULL if there is no sibling on that side.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getSibling($right = true)
 	{
@@ -892,9 +892,9 @@ class JCategoryNode extends JObject
 	/**
 	 * Returns the category parameters
 	 *
-	 * @return  JRegistry
+	 * @return	JRegistry
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getParams()
 	{
@@ -911,9 +911,9 @@ class JCategoryNode extends JObject
 	/**
 	 * Returns the category metadata
 	 *
-	 * @return  JRegistry  A JRegistry object containing the metadata
+	 * @return	JRegistry	A JRegistry object containing the metadata
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getMetadata()
 	{
@@ -930,9 +930,9 @@ class JCategoryNode extends JObject
 	/**
 	 * Returns the category path to the root category
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getPath()
 	{
@@ -942,11 +942,11 @@ class JCategoryNode extends JObject
 	/**
 	 * Returns the user that created the category
 	 *
-	 * @param   boolean  $modified_user  Returns the modified_user when set to true
+	 * @param	 boolean	$modified_user	Returns the modified_user when set to true
 	 *
-	 * @return  JUser  A JUser object containing a userid
+	 * @return	JUser	A JUser object containing a userid
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getAuthor($modified_user = false)
 	{
@@ -961,7 +961,7 @@ class JCategoryNode extends JObject
 	/**
 	 * Set to load all children
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @since 11.1
 	 */
@@ -978,9 +978,9 @@ class JCategoryNode extends JObject
 	/**
 	 * Returns the number of items.
 	 *
-	 * @param   boolean  $recursive  If false number of children, if true number of descendants
+	 * @param	 boolean	$recursive	If false number of children, if true number of descendants
 	 *
-	 * @return  integer  Number of children or descendants
+	 * @return	integer	Number of children or descendants
 	 *
 	 * @since 11.1
 	 */

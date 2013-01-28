@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @package     Joomla.Platform
- * @subpackage  FileSystem
+ * @package		 Joomla.Platform
+ * @subpackage	FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -15,11 +15,11 @@ jimport('joomla.filesystem.file');
 /**
  * A Unified Diff Format Patcher class
  *
- * @package     Joomla.Platform
- * @subpackage  FileSystem
+ * @package		 Joomla.Platform
+ * @subpackage	FileSystem
  *
- * @link        http://sourceforge.net/projects/phppatcher/ This has been derived from the PhpPatcher version 0.1.1 written by Giuseppe Mazzotta
- * @since       12.1
+ * @link				http://sourceforge.net/projects/phppatcher/ This has been derived from the PhpPatcher version 0.1.1 written by Giuseppe Mazzotta
+ * @since			 12.1
  */
 class JFilesystemPatcher
 {
@@ -44,37 +44,37 @@ class JFilesystemPatcher
 	const SPLIT = '/(\r\n)|(\r)|(\n)/';
 
 	/**
-	 * @var  array  sources files
+	 * @var	array	sources files
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected $sources = array();
 
 	/**
-	 * @var  array  destination files
+	 * @var	array	destination files
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected $destinations = array();
 
 	/**
-	 * @var  array  removal files
+	 * @var	array	removal files
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected $removals = array();
 
 	/**
-	 * @var  array  patches
+	 * @var	array	patches
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected $patches = array();
 
 	/**
-	 * @var  array  instance of this class
+	 * @var	array	instance of this class
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected static $instance;
 
@@ -83,7 +83,7 @@ class JFilesystemPatcher
 	 *
 	 * The constructor is protected to force the use of JFilesystemPatcher::getInstance()
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function __construct()
 	{
@@ -92,9 +92,9 @@ class JFilesystemPatcher
 	/**
 	 * Method to get a patcher
 	 *
-	 * @return  JFilesystemPatcher  an instance of the patcher
+	 * @return	JFilesystemPatcher	an instance of the patcher
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public static function getInstance()
 	{
@@ -108,7 +108,7 @@ class JFilesystemPatcher
 	/**
 	 * Reset the pacher
 	 *
-	 * @return  JFilesystemPatcher  This object for chaining
+	 * @return	JFilesystemPatcher	This object for chaining
 	 */
 	public function reset()
 	{
@@ -123,7 +123,7 @@ class JFilesystemPatcher
 	/**
 	 * Apply the patches
 	 *
-	 * @throw  RuntimeException
+	 * @throw	RuntimeException
 	 *
 	 * @return integer the number of files patched
 	 */
@@ -211,13 +211,13 @@ class JFilesystemPatcher
 	/**
 	 * Add a unified diff file to the patcher
 	 *
-	 * @param   string  $filename  Path to the unified diff file
-	 * @param   string  $root      The files root path
-	 * @param   string  $strip     The number of '/' to strip
+	 * @param	 string	$filename	Path to the unified diff file
+	 * @param	 string	$root			The files root path
+	 * @param	 string	$strip		 The number of '/' to strip
 	 *
 	 * @return	JFilesystemPatch $this for chaining
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function addFile($filename, $root = JPATH_BASE, $strip = 0)
 	{
@@ -227,13 +227,13 @@ class JFilesystemPatcher
 	/**
 	 * Add a unified diff string to the patcher
 	 *
-	 * @param   string  $udiff  Unified diff input string
-	 * @param   string  $root   The files root path
-	 * @param   string  $strip  The number of '/' to strip
+	 * @param	 string	$udiff	Unified diff input string
+	 * @param	 string	$root	 The files root path
+	 * @param	 string	$strip	The number of '/' to strip
 	 *
 	 * @return	JFilesystemPatch $this for chaining
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function add($udiff, $root = JPATH_BASE, $strip = 0)
 	{
@@ -249,11 +249,11 @@ class JFilesystemPatcher
 	/**
 	 * Separate CR or CRLF lines
 	 *
-	 * @param   string  $data  Input string
+	 * @param	 string	$data	Input string
 	 *
-	 * @return  array  The lines of the inputdestination file
+	 * @return	array	The lines of the inputdestination file
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected static function splitLines($data)
 	{
@@ -265,13 +265,13 @@ class JFilesystemPatcher
 	 *
 	 * The internal array pointer of $lines is on the next line after the finding
 	 *
-	 * @param   array   &$lines  The udiff array of lines
-	 * @param   string  &$src    The source file
-	 * @param   string  &$dst    The destination file
+	 * @param	 array	 &$lines	The udiff array of lines
+	 * @param	 string	&$src		The source file
+	 * @param	 string	&$dst		The destination file
 	 *
-	 * @return  boolean  TRUE in case of success, FALSE in case of failure
+	 * @return	boolean	TRUE in case of success, FALSE in case of failure
 	 *
-	 * @throw  RuntimeException
+	 * @throw	RuntimeException
 	 */
 	protected static function findHeader(&$lines, &$src, &$dst)
 	{
@@ -324,15 +324,15 @@ class JFilesystemPatcher
 	 *
 	 * The internal array pointer of $lines is on the next line after the finding
 	 *
-	 * @param   array   &$lines     The udiff array of lines
-	 * @param   string  &$src_line  The beginning of the patch for the source file
-	 * @param   string  &$src_size  The size of the patch for the source file
-	 * @param   string  &$dst_line  The beginning of the patch for the destination file
-	 * @param   string  &$dst_size  The size of the patch for the destination file
+	 * @param	 array	 &$lines		 The udiff array of lines
+	 * @param	 string	&$src_line	The beginning of the patch for the source file
+	 * @param	 string	&$src_size	The size of the patch for the source file
+	 * @param	 string	&$dst_line	The beginning of the patch for the destination file
+	 * @param	 string	&$dst_size	The size of the patch for the destination file
 	 *
-	 * @return  boolean  TRUE in case of success, false in case of failure
+	 * @return	boolean	TRUE in case of success, false in case of failure
 	 *
-	 * @throw  RuntimeException
+	 * @throw	RuntimeException
 	 */
 	protected static function findHunk(&$lines, &$src_line, &$src_size, &$dst_line, &$dst_size)
 	{
@@ -378,17 +378,17 @@ class JFilesystemPatcher
 	/**
 	 * Apply the patch
 	 *
-	 * @param   array   &$lines    The udiff array of lines
-	 * @param   string  $src       The source file
-	 * @param   string  $dst       The destination file
-	 * @param   string  $src_line  The beginning of the patch for the source file
-	 * @param   string  $src_size  The size of the patch for the source file
-	 * @param   string  $dst_line  The beginning of the patch for the destination file
-	 * @param   string  $dst_size  The size of the patch for the destination file
+	 * @param	 array	 &$lines		The udiff array of lines
+	 * @param	 string	$src			 The source file
+	 * @param	 string	$dst			 The destination file
+	 * @param	 string	$src_line	The beginning of the patch for the source file
+	 * @param	 string	$src_size	The size of the patch for the source file
+	 * @param	 string	$dst_line	The beginning of the patch for the destination file
+	 * @param	 string	$dst_size	The size of the patch for the destination file
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @throw  RuntimeException
+	 * @throw	RuntimeException
 	 */
 	protected function applyHunk(&$lines, $src, $dst, $src_line, $src_size, $dst_line, $dst_size)
 	{
@@ -490,11 +490,11 @@ class JFilesystemPatcher
 	/**
 	 * Get the lines of a source file
 	 *
-	 * @param   string  $src  The path of a file
+	 * @param	 string	$src	The path of a file
 	 *
-	 * @return  array  The lines of the source file
+	 * @return	array	The lines of the source file
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function &getSource($src)
 	{
@@ -515,12 +515,12 @@ class JFilesystemPatcher
 	/**
 	 * Get the lines of a destination file
 	 *
-	 * @param   string  $dst  The path of a destination file
-	 * @param   string  $src  The path of a source file
+	 * @param	 string	$dst	The path of a destination file
+	 * @param	 string	$src	The path of a source file
 	 *
-	 * @return  array  The lines of the destination file
+	 * @return	array	The lines of the destination file
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function &getDestination($dst, $src)
 	{

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Google
+ * @package		 Joomla.Platform
+ * @subpackage	Google
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,26 +12,26 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Google Picasa data class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Google
- * @since       12.3
+ * @package		 Joomla.Platform
+ * @subpackage	Google
+ * @since			 12.3
  */
 class JGoogleDataPicasaAlbum extends JGoogleData
 {
 	/**
-	 * @var    SimpleXMLElement  The album's XML
-	 * @since  12.3
+	 * @var		SimpleXMLElement	The album's XML
+	 * @since	12.3
 	 */
 	protected $xml;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   SimpleXMLElement  $xml      XML from Google
-	 * @param   JRegistry         $options  Google options object
-	 * @param   JGoogleAuth       $auth     Google data http client object
+	 * @param	 SimpleXMLElement	$xml			XML from Google
+	 * @param	 JRegistry				 $options	Google options object
+	 * @param	 JGoogleAuth			 $auth		 Google data http client object
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function __construct(SimpleXMLElement $xml, JRegistry $options = null, JGoogleAuth $auth = null)
 	{
@@ -48,11 +48,11 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	/**
 	 * Method to delete a Picasa album
 	 *
-	 * @param   mixed  $match  Check for most up to date album
+	 * @param	 mixed	$match	Check for most up to date album
 	 *
-	 * @return  boolean  Success or failure.
+	 * @return	boolean	Success or failure.
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 * @throws UnexpectedValueException
 	 */
 	public function delete($match = '*')
@@ -97,11 +97,11 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	/**
 	 * Method to get the album link
 	 *
-	 * @param   string  $type  Type of link to return
+	 * @param	 string	$type	Type of link to return
 	 *
-	 * @return  string  Link or false on failure
+	 * @return	string	Link or false on failure
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function getLink($type = 'edit')
 	{
@@ -120,9 +120,9 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	/**
 	 * Method to get the title of the album
 	 *
-	 * @return  string  Album title
+	 * @return	string	Album title
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function getTitle()
 	{
@@ -132,9 +132,9 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	/**
 	 * Method to get the summary of the album
 	 *
-	 * @return  string  Album summary
+	 * @return	string	Album summary
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function getSummary()
 	{
@@ -144,9 +144,9 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	/**
 	 * Method to get the location of the album
 	 *
-	 * @return  string  Album location
+	 * @return	string	Album location
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function getLocation()
 	{
@@ -156,9 +156,9 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	/**
 	 * Method to get the access level of the album
 	 *
-	 * @return  string  Album access level
+	 * @return	string	Album access level
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function getAccess()
 	{
@@ -168,9 +168,9 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	/**
 	 * Method to get the time of the album
 	 *
-	 * @return  double  Album time
+	 * @return	double	Album time
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function getTime()
 	{
@@ -180,11 +180,11 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	/**
 	 * Method to set the title of the album
 	 *
-	 * @param   string  $title  New album title
+	 * @param	 string	$title	New album title
 	 *
-	 * @return  JGoogleDataPicasaAlbum  The object for method chaining
+	 * @return	JGoogleDataPicasaAlbum	The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function setTitle($title)
 	{
@@ -196,11 +196,11 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	/**
 	 * Method to set the summary of the album
 	 *
-	 * @param   string  $summary  New album summary
+	 * @param	 string	$summary	New album summary
 	 *
-	 * @return  JGoogleDataPicasaAlbum  The object for method chaining
+	 * @return	JGoogleDataPicasaAlbum	The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function setSummary($summary)
 	{
@@ -212,11 +212,11 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	/**
 	 * Method to set the location of the album
 	 *
-	 * @param   string  $location  New album location
+	 * @param	 string	$location	New album location
 	 *
-	 * @return  JGoogleDataPicasaAlbum  The object for method chaining
+	 * @return	JGoogleDataPicasaAlbum	The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function setLocation($location)
 	{
@@ -228,11 +228,11 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	/**
 	 * Method to set the access level of the album
 	 *
-	 * @param   string  $access  New album access
+	 * @param	 string	$access	New album access
 	 *
-	 * @return  JGoogleDataPicasaAlbum  The object for method chaining
+	 * @return	JGoogleDataPicasaAlbum	The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function setAccess($access)
 	{
@@ -244,11 +244,11 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	/**
 	 * Method to set the time of the album
 	 *
-	 * @param   int  $time  New album time
+	 * @param	 int	$time	New album time
 	 *
-	 * @return  JGoogleDataPicasaAlbum  The object for method chaining
+	 * @return	JGoogleDataPicasaAlbum	The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function setTime($time)
 	{
@@ -260,11 +260,11 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	/**
 	 * Method to modify a Picasa Album
 	 *
-	 * @param   string  $match  Optional eTag matching parameter
+	 * @param	 string	$match	Optional eTag matching parameter
 	 *
-	 * @return  mixed  Data from Google.
+	 * @return	mixed	Data from Google.
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function save($match = '*')
 	{
@@ -305,9 +305,9 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	/**
 	 * Refresh Picasa Album
 	 *
-	 * @return  mixed  Data from Google
+	 * @return	mixed	Data from Google
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 * @throws UnexpectedValueException
 	 */
 	public function refresh()
@@ -329,9 +329,9 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	/**
 	 * Method to retrieve a list of Picasa Photos
 	 *
-	 * @return  mixed  Data from Google
+	 * @return	mixed	Data from Google
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 * @throws UnexpectedValueException
 	 */
 	public function listPhotos()
@@ -366,13 +366,13 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	/**
 	 * Add photo
 	 *
-	 * @param   string  $file     Path of file to upload
-	 * @param   string  $title    Title to give to file (defaults to filename)
-	 * @param   string  $summary  Description of the file
+	 * @param	 string	$file		 Path of file to upload
+	 * @param	 string	$title		Title to give to file (defaults to filename)
+	 * @param	 string	$summary	Description of the file
 	 *
-	 * @return  mixed  Data from Google
+	 * @return	mixed	Data from Google
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 * @throws UnexpectedValueException
 	 */
 	public function upload($file, $title = '', $summary = '')
@@ -419,11 +419,11 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	/**
 	 * Add photo
 	 *
-	 * @param   string  $file  Filename
+	 * @param	 string	$file	Filename
 	 *
-	 * @return  mixed  Data from Google
+	 * @return	mixed	Data from Google
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 * @throws UnexpectedValueException
 	 */
 	protected function getMIME($file)

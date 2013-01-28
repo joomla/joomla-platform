@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Legacy
- * @subpackage  Application
+ * @package		 Joomla.Legacy
+ * @subpackage	Application
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,29 +12,29 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Application helper functions
  *
- * @package     Joomla.Legacy
- * @subpackage  Application
- * @since       11.1
- * @deprecated  13.3
+ * @package		 Joomla.Legacy
+ * @subpackage	Application
+ * @since			 11.1
+ * @deprecated	13.3
  */
 class JApplicationHelper
 {
 	/**
 	 * Client information array
 	 *
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	protected static $_clients = null;
 
 	/**
 	 * Return the name of the request component [main component]
 	 *
-	 * @param   string  $default  The default option
+	 * @param	 string	$default	The default option
 	 *
-	 * @return  string  Option (e.g. com_something)
+	 * @return	string	Option (e.g. com_something)
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function getComponentName($default = null)
 	{
@@ -59,18 +59,18 @@ class JApplicationHelper
 	}
 
 	/**
-	 * Gets information on a specific client id.  This method will be useful in
+	 * Gets information on a specific client id.	This method will be useful in
 	 * future versions when we start mapping applications in the database.
 	 *
 	 * This method will return a client information array if called
 	 * with no arguments which can be used to add custom application information.
 	 *
-	 * @param   integer  $id      A client identifier
-	 * @param   boolean  $byName  If True, find the client by its name
+	 * @param	 integer	$id			A client identifier
+	 * @param	 boolean	$byName	If True, find the client by its name
 	 *
-	 * @return  mixed  Object describing the client or false if not known
+	 * @return	mixed	Object describing the client or false if not known
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function getClientInfo($id = null, $byName = false)
 	{
@@ -129,11 +129,11 @@ class JApplicationHelper
 	/**
 	 * Adds information for a client.
 	 *
-	 * @param   mixed  $client  A client identifier either an array or object
+	 * @param	 mixed	$client	A client identifier either an array or object
 	 *
-	 * @return  boolean  True if the information is added. False on error
+	 * @return	boolean	True if the information is added. False on error
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function addClientInfo($client)
 	{
@@ -164,12 +164,12 @@ class JApplicationHelper
 	 *
 	 * XML Root tag should be 'install' except for languages which use meta file.
 	 *
-	 * @param   string  $path  Full path to XML file.
+	 * @param	 string	$path	Full path to XML file.
 	 *
-	 * @return  array  XML metadata.
+	 * @return	array	XML metadata.
 	 *
-	 * @since   11.1
-	 * @deprecated  13.3 Use JInstaller::parseXMLInstallFile instead.
+	 * @since	 11.1
+	 * @deprecated	13.3 Use JInstaller::parseXMLInstallFile instead.
 	 */
 	public static function parseXMLInstallFile($path)
 	{
@@ -181,13 +181,13 @@ class JApplicationHelper
 	/**
 	 * Parse a XML language meta file.
 	 *
-	 * XML Root tag  for languages which is meta file.
+	 * XML Root tag	for languages which is meta file.
 	 *
-	 * @param   string  $path  Full path to XML file.
+	 * @param	 string	$path	Full path to XML file.
 	 *
-	 * @return  array  XML metadata.
+	 * @return	array	XML metadata.
 	 *
-	 * @deprecated  13.3 Use JInstaller::parseXMLInstallFile instead.
+	 * @deprecated	13.3 Use JInstaller::parseXMLInstallFile instead.
 	 */
 	public static function parseXMLLangMetaFile($path)
 	{

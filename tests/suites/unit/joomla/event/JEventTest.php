@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Event
+ * @package		 Joomla.UnitTest
+ * @subpackage	Event
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once __DIR__ . '/JEventInspector.php';
@@ -14,9 +14,9 @@ require_once __DIR__ . '/JEventStub.php';
 /**
  * Test class for JEvent.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Event
- * @since       11.3
+ * @package		 Joomla.UnitTest
+ * @subpackage	Event
+ * @since			 11.3
  */
 class JEventTest extends PHPUnit_Framework_TestCase
 {
@@ -104,7 +104,7 @@ class JEventTest extends PHPUnit_Framework_TestCase
 		// We create our object and pass our mock
 		$object = new JEventStub($observable);
 
-		// We reset the calls property.  Our stub method will populate this when it gets called
+		// We reset the calls property.	Our stub method will populate this when it gets called
 		$object->calls = array();
 
 		// We setup the arguments to pass to update and call it.
@@ -155,7 +155,7 @@ class JEventTest extends PHPUnit_Framework_TestCase
 		// We create our object and pass our mock
 		$object = new JEventStub($observable);
 
-		// We reset the calls property.  Our stub method will populate this when it gets called
+		// We reset the calls property.	Our stub method will populate this when it gets called
 		$object->calls = array();
 
 		// We setup the arguments to pass to update and call it.
@@ -205,7 +205,7 @@ class JEventTest extends PHPUnit_Framework_TestCase
 		// We create our object and pass our mock
 		$object = new JEventStub($observable);
 
-		// We reset the calls property.  Our stub method will populate this when it gets called
+		// We reset the calls property.	Our stub method will populate this when it gets called
 		$object->calls = array();
 
 		// We setup the arguments to pass to update and call it.
@@ -255,7 +255,7 @@ class JEventTest extends PHPUnit_Framework_TestCase
 		// We create our object and pass our mock
 		$object = new JEventStub($observable);
 
-		// We reset the calls property.  Our stub method will populate this when it gets called
+		// We reset the calls property.	Our stub method will populate this when it gets called
 		$object->calls = array();
 
 		// We setup the arguments to pass to update and call it.

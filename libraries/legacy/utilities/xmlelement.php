@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Legacy
- * @subpackage  Utilities
+ * @package		 Joomla.Legacy
+ * @subpackage	Utilities
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -14,20 +14,20 @@ JLog::add('JXMLElement is deprecated. Use SimpleXMLElement.', JLog::WARNING, 'de
 /**
  * Wrapper class for php SimpleXMLElement.
  *
- * @package     Joomla.Legacy
- * @subpackage  Utilities
- * @since       11.1
- * @deprecated  13.3 Use SimpleXMLElement instead.
+ * @package		 Joomla.Legacy
+ * @subpackage	Utilities
+ * @since			 11.1
+ * @deprecated	13.3 Use SimpleXMLElement instead.
  */
 class JXMLElement extends SimpleXMLElement
 {
 	/**
 	 * Get the name of the element.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   11.1
-	 * @deprecated 13.3  Use SimpleXMLElement::getName() instead.
+	 * @since	 11.1
+	 * @deprecated 13.3	Use SimpleXMLElement::getName() instead.
 	 */
 	public function name()
 	{
@@ -39,14 +39,14 @@ class JXMLElement extends SimpleXMLElement
 	/**
 	 * Return a well-formed XML string based on SimpleXML element
 	 *
-	 * @param   boolean  $compressed  Should we use indentation and newlines ?
-	 * @param   string   $indent      Indention character.
-	 * @param   integer  $level       The level within the document which informs the indentation.
+	 * @param	 boolean	$compressed	Should we use indentation and newlines ?
+	 * @param	 string	 $indent			Indention character.
+	 * @param	 integer	$level			 The level within the document which informs the indentation.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   11.1
-	 * @deprecated 13.3  Use SimpleXMLElement::asXML() instead.
+	 * @since	 11.1
+	 * @deprecated 13.3	Use SimpleXMLElement::asXML() instead.
 	 */
 	public function asFormattedXML($compressed = false, $indent = "\t", $level = 0)
 	{

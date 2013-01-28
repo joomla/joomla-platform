@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Log
+ * @package		 Joomla.UnitTest
+ * @subpackage	Log
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
@@ -14,9 +14,9 @@
 /**
  * JLogInspector class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Log
- * @since       11.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	Log
+ * @since			 11.1
  */
 class JLogInspector extends JLog
 {
@@ -49,7 +49,7 @@ class JLogInspector extends JLog
 	/**
 	 * Test...
 	 *
-	 * @param   JLogEntry  $entry  The entry to add.
+	 * @param	 JLogEntry	$entry	The entry to add.
 	 *
 	 * @return void
 	 */
@@ -63,8 +63,8 @@ class JLogInspector extends JLog
 	/**
 	 * Test...
 	 *
-	 * @param   int     $priority  Priority.
-	 * @param   string  $category  Category.
+	 * @param	 int		 $priority	Priority.
+	 * @param	 string	$category	Category.
 	 *
 	 * @return void
 	 */

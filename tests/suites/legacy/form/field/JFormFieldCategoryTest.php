@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Form
+ * @package		 Joomla.UnitTest
+ * @subpackage	Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_TESTS . '/suites/unit/joomla/form/inspectors.php';
@@ -12,19 +12,19 @@ require_once JPATH_TESTS . '/suites/unit/joomla/form/inspectors.php';
 /**
  * Test class for JFormFieldCategory.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Form
+ * @package		 Joomla.UnitTest
+ * @subpackage	Form
  *
- * @since       11.1
+ * @since			 11.1
  */
 class JFormFieldCategoryTest extends TestCaseDatabase
 {
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  xml  dataset
+	 * @return	xml	dataset
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function getDataSet()
 	{
@@ -34,10 +34,10 @@ class JFormFieldCategoryTest extends TestCaseDatabase
 	/**
 	 * Test the getInput method.
 	 *
-	 * @since   11.1
-	 * @todo    Should check all the attributes have come in properly.
+	 * @since	 11.1
+	 * @todo		Should check all the attributes have come in properly.
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetInput()
 	{

@@ -14,7 +14,7 @@ $object1 = new JData;
 
 // Create an object with data. You can use an array or another object.
 $data = array(
-    'foo' => 'bar',
+		'foo' => 'bar',
 );
 
 $object2 = new JData($data);
@@ -57,7 +57,7 @@ $foo = $object->foo ?: 'The default';
 // Iterate over the properties as if the object were a real array.
 foreach ($object as $key => $value)
 {
-    echo "\n$key = $value";
+		echo "\n$key = $value";
 }
 
 if (version_compare(PHP_VERSION, '5.4') >= 0)
@@ -83,10 +83,10 @@ A typical `JDataSet` object will be instantiated by passing an array of `JData` 
 ```php
 // Create an empty object.
 $players = new JDataSet(
-    array(
-        new JData(array('race' => 'Elf', 'level' => 1)),
-        new JData(array('race' => 'Chaos Dwarf', 'level' => 2)),
-    )
+		array(
+				new JData(array('race' => 'Elf', 'level' => 1)),
+				new JData(array('race' => 'Chaos Dwarf', 'level' => 2)),
+		)
 );
 ```
 
@@ -128,32 +128,32 @@ $players->clear();
 /**
  * A custom JData.
  *
- * @package   Joomla\Examples
- * @since     12.1
+ * @package	 Joomla\Examples
+ * @since		 12.1
  */
 class PlayerObject extends JData
 {
-    /**
-     * Get player damage.
-     *
-     * @return  integer  The amount of damage the player has received.
-     *
-     * @since   12.1
-     */
-    public function hurt()
-    {
-        return (int) $this->maxHealth - $this->actualHealth;
-    }
+		/**
+		 * Get player damage.
+		 *
+		 * @return	integer	The amount of damage the player has received.
+		 *
+		 * @since	 12.1
+		 */
+		public function hurt()
+		{
+				return (int) $this->maxHealth - $this->actualHealth;
+		}
 }
 
 $players = new JDataSet(
-    array(
-        // Add a normal player.
-        new PlayerObject(array('race' => 'Chaos Dwarf', 'level' => 2,
-        	'maxHealth' => 40, 'actualHealth' => '32')),
-        // Add an invincible player.
-        new JData(array('race' => 'Elf', 'level' => 1)),
-    )
+		array(
+				// Add a normal player.
+				new PlayerObject(array('race' => 'Chaos Dwarf', 'level' => 2,
+					'maxHealth' => 40, 'actualHealth' => '32')),
+				// Add an invincible player.
+				new JData(array('race' => 'Elf', 'level' => 1)),
+		)
 );
 
 // Get an array of the hurt players.
@@ -161,13 +161,13 @@ $hurt = $players->hurt();
 
 if (!empty($hurt))
 {
-    // In this case, $hurt = array(0 => 8);
-    // There is no entry for the second player
-    // because that object does not have a "hurt" method.
-    foreach ($hurt as $playerKey => $player)
-    {
-        // Do something with the hurt players.
-    }
+		// In this case, $hurt = array(0 => 8);
+		// There is no entry for the second player
+		// because that object does not have a "hurt" method.
+		foreach ($hurt as $playerKey => $player)
+		{
+				// Do something with the hurt players.
+		}
 };
 ```
 

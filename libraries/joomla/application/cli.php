@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Application
+ * @package		 Joomla.Platform
+ * @subpackage	Application
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,40 +12,40 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Base class for a Joomla! command line application.
  *
- * @package     Joomla.Platform
- * @subpackage  Application
- * @since       11.4
+ * @package		 Joomla.Platform
+ * @subpackage	Application
+ * @since			 11.4
  */
 class JApplicationCli extends JApplicationBase
 {
 	/**
-	 * @var    JRegistry  The application configuration object.
-	 * @since  11.1
+	 * @var		JRegistry	The application configuration object.
+	 * @since	11.1
 	 */
 	protected $config;
 
 	/**
-	 * @var    JApplicationCli  The application instance.
-	 * @since  11.1
+	 * @var		JApplicationCli	The application instance.
+	 * @since	11.1
 	 */
 	protected static $instance;
 
 	/**
 	 * Class constructor.
 	 *
-	 * @param   mixed  $input       An optional argument to provide dependency injection for the application's
-	 *                              input object.  If the argument is a JInputCli object that object will become
-	 *                              the application's input object, otherwise a default input object is created.
-	 * @param   mixed  $config      An optional argument to provide dependency injection for the application's
-	 *                              config object.  If the argument is a JRegistry object that object will become
-	 *                              the application's config object, otherwise a default config object is created.
-	 * @param   mixed  $dispatcher  An optional argument to provide dependency injection for the application's
-	 *                              event dispatcher.  If the argument is a JEventDispatcher object that object will become
-	 *                              the application's event dispatcher, if it is null then the default event dispatcher
-	 *                              will be created based on the application's loadDispatcher() method.
+	 * @param	 mixed	$input			 An optional argument to provide dependency injection for the application's
+	 *															input object.	If the argument is a JInputCli object that object will become
+	 *															the application's input object, otherwise a default input object is created.
+	 * @param	 mixed	$config			An optional argument to provide dependency injection for the application's
+	 *															config object.	If the argument is a JRegistry object that object will become
+	 *															the application's config object, otherwise a default config object is created.
+	 * @param	 mixed	$dispatcher	An optional argument to provide dependency injection for the application's
+	 *															event dispatcher.	If the argument is a JEventDispatcher object that object will become
+	 *															the application's event dispatcher, if it is null then the default event dispatcher
+	 *															will be created based on the application's loadDispatcher() method.
 	 *
-	 * @see     loadDispatcher()
-	 * @since   11.1
+	 * @see		 loadDispatcher()
+	 * @since	 11.1
 	 */
 	public function __construct(JInputCli $input = null, JRegistry $config = null, JEventDispatcher $dispatcher = null)
 	{
@@ -98,12 +98,12 @@ class JApplicationCli extends JApplicationBase
 	/**
 	 * Returns a property of the object or the default value if the property is not set.
 	 *
-	 * @param   string  $key      The name of the property.
-	 * @param   mixed   $default  The default value (optional) if none is set.
+	 * @param	 string	$key			The name of the property.
+	 * @param	 mixed	 $default	The default value (optional) if none is set.
 	 *
-	 * @return  mixed   The value of the configuration.
+	 * @return	mixed	 The value of the configuration.
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function get($key, $default = null)
 	{
@@ -115,11 +115,11 @@ class JApplicationCli extends JApplicationBase
 	 *
 	 * This method must be invoked as: $cli = JApplicationCli::getInstance();
 	 *
-	 * @param   string  $name  The name (optional) of the JApplicationCli class to instantiate.
+	 * @param	 string	$name	The name (optional) of the JApplicationCli class to instantiate.
 	 *
-	 * @return  JApplicationCli
+	 * @return	JApplicationCli
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function getInstance($name = null)
 	{
@@ -142,9 +142,9 @@ class JApplicationCli extends JApplicationBase
 	/**
 	 * Execute the application.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function execute()
 	{
@@ -161,11 +161,11 @@ class JApplicationCli extends JApplicationBase
 	/**
 	 * Load an object or array into the application configuration object.
 	 *
-	 * @param   mixed  $data  Either an array or object to be loaded into the configuration object.
+	 * @param	 mixed	$data	Either an array or object to be loaded into the configuration object.
 	 *
-	 * @return  JApplicationCli  Instance of $this to allow chaining.
+	 * @return	JApplicationCli	Instance of $this to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function loadConfiguration($data)
 	{
@@ -185,13 +185,13 @@ class JApplicationCli extends JApplicationBase
 	/**
 	 * Write a string to standard output.
 	 *
-	 * @param   string   $text  The text to display.
-	 * @param   boolean  $nl    True (default) to append a new line at the end of the output string.
+	 * @param	 string	 $text	The text to display.
+	 * @param	 boolean	$nl		True (default) to append a new line at the end of the output string.
 	 *
-	 * @return  JApplicationCli  Instance of $this to allow chaining.
+	 * @return	JApplicationCli	Instance of $this to allow chaining.
 	 *
 	 * @codeCoverageIgnore
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function out($text = '', $nl = true)
 	{
@@ -203,10 +203,10 @@ class JApplicationCli extends JApplicationBase
 	/**
 	 * Get a value from standard input.
 	 *
-	 * @return  string  The input string from standard input.
+	 * @return	string	The input string from standard input.
 	 *
 	 * @codeCoverageIgnore
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function in()
 	{
@@ -216,12 +216,12 @@ class JApplicationCli extends JApplicationBase
 	/**
 	 * Modifies a property of the object, creating it if it does not already exist.
 	 *
-	 * @param   string  $key    The name of the property.
-	 * @param   mixed   $value  The value of the property to set (optional).
+	 * @param	 string	$key		The name of the property.
+	 * @param	 mixed	 $value	The value of the property to set (optional).
 	 *
-	 * @return  mixed   Previous value of the property
+	 * @return	mixed	 Previous value of the property
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function set($key, $value = null)
 	{
@@ -232,17 +232,17 @@ class JApplicationCli extends JApplicationBase
 	}
 
 	/**
-	 * Method to load a PHP configuration class file based on convention and return the instantiated data object.  You
+	 * Method to load a PHP configuration class file based on convention and return the instantiated data object.	You
 	 * will extend this method in child classes to provide configuration data from whatever data source is relevant
 	 * for your specific application.
 	 *
-	 * @param   string  $file   The path and filename of the configuration file. If not provided, configuration.php
-	 *                          in JPATH_BASE will be used.
-	 * @param   string  $class  The class name to instantiate.
+	 * @param	 string	$file	 The path and filename of the configuration file. If not provided, configuration.php
+	 *													in JPATH_BASE will be used.
+	 * @param	 string	$class	The class name to instantiate.
 	 *
-	 * @return  mixed   Either an array or object to be loaded into the configuration object.
+	 * @return	mixed	 Either an array or object to be loaded into the configuration object.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function fetchConfigurationData($file = '', $class = 'JConfig')
 	{
@@ -279,13 +279,13 @@ class JApplicationCli extends JApplicationBase
 	}
 
 	/**
-	 * Method to run the application routines.  Most likely you will want to instantiate a controller
+	 * Method to run the application routines.	Most likely you will want to instantiate a controller
 	 * and execute it, or perform some sort of task directly.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @codeCoverageIgnore
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	protected function doExecute()
 	{

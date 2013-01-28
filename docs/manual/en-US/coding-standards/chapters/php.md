@@ -183,25 +183,25 @@ Files included from third party sources must leave DocBlocks intact. Layout file
 
 The file header DocBlock consists of the following required and optiona elements in the following order:
 
--   Short description (optional unless the file contains more than two classes or functions), followed by a blank line).
--   Long description (optional, followed by a blank line).
--   `@category` (optional and rarely used)
--   `@package` (generally optional but required when files contain only procedural code)
--   `@subpackage` (optional)
--   `@author` (optional but only permitted in non-Joomla source files, for example, included third-party libraries like Geshi)
--   `@copyright` (required)
--   `@license` (required and must be compatible with the Joomla license)
--   `@deprecated` (optional)
--   `@link` (optional)
--   `@see` (optional)
--   `@since` (generally optional but required when files contain only procedural code)
+-	 Short description (optional unless the file contains more than two classes or functions), followed by a blank line).
+-	 Long description (optional, followed by a blank line).
+-	 `@category` (optional and rarely used)
+-	 `@package` (generally optional but required when files contain only procedural code)
+-	 `@subpackage` (optional)
+-	 `@author` (optional but only permitted in non-Joomla source files, for example, included third-party libraries like Geshi)
+-	 `@copyright` (required)
+-	 `@license` (required and must be compatible with the Joomla license)
+-	 `@deprecated` (optional)
+-	 `@link` (optional)
+-	 `@see` (optional)
+-	 `@since` (generally optional but required when files contain only procedural code)
 
 ```
 /**
- * @package     Joomla.Platform
- * @subpackage  Database
- * @copyright   Copyright 2005 - 2010 Open Source Matters. All rights re-served.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @package		 Joomla.Platform
+ * @subpackage	Database
+ * @copyright	 Copyright 2005 - 2010 Open Source Matters. All rights re-served.
+ * @license		 GNU General Public License version 2 or later; see LICENSE.txt
  */
 ```
 
@@ -214,9 +214,9 @@ Functions should be called with no spaces between the function name and the open
 $foo = bar($var1, $var2);
 
 // Multiple aligned function calls.
-$short  = bar('short');
+$short	= bar('short');
 $medium = bar('medium');
-$long   = bar('long');
+$long	 = bar('long');
 ```
 
 ## Function Definitions
@@ -225,25 +225,25 @@ Function definitions start on a new line and the opening and closing braces are 
 
 Function definitions must include a documentation comment in accordance with the Commenting section of this document.
 
--   Short description (required, followed by a blank line)
--   Long description (optional, followed by a blank line)
--   `@param` (required if there are method or function arguments, the last `@param` tag is followed by a blank line)
--   `@return` (required, followed by a blank line)
--   All other tags in alphabetical order, however @since is always required.
+-	 Short description (required, followed by a blank line)
+-	 Long description (optional, followed by a blank line)
+-	 `@param` (required if there are method or function arguments, the last `@param` tag is followed by a blank line)
+-	 `@return` (required, followed by a blank line)
+-	 All other tags in alphabetical order, however @since is always required.
 
 
 ```php
 /**
  * A utility class.
  *
- * @package     Joomla.Platform
- * @subpackage  XBase
+ * @package		 Joomla.Platform
+ * @subpackage	XBase
  *
- * @param       string  $path  The library path in dot notation.
+ * @param			 string	$path	The library path in dot notation.
  *
- * @return      void
+ * @return			void
  *
- * @since       1.6
+ * @since			 1.6
  */
 function jimport($path)
 {
@@ -272,27 +272,27 @@ Class definitions, properties and methods must each be provided with a DocBlock 
 
 The class Docblock consists of the following required and optional elements in the fol-lowing order.
 
--   Short description (required, unless the file contains more than two classes or functions), followed by a blank line).
--   Long description (optional, followed by a blank line).
--   `@category` (optional and rarely used)
--   `@package` (required)
--   `@subpackage` (optional)
--   `@author` (optional but only permitted in non-Joomla source files, for example, included third-party libraries like Geshi)
--   `@copyright` (optional unless different from the file Docblock)
--   `@license` (optional unless different from the file Docblock)
--   `@deprecated` (optional)
--   `@link` (optional)
--   `@see` (optional)
--   `@since` (required, being the version of the software the class was introduced)
+-	 Short description (required, unless the file contains more than two classes or functions), followed by a blank line).
+-	 Long description (optional, followed by a blank line).
+-	 `@category` (optional and rarely used)
+-	 `@package` (required)
+-	 `@subpackage` (optional)
+-	 `@author` (optional but only permitted in non-Joomla source files, for example, included third-party libraries like Geshi)
+-	 `@copyright` (optional unless different from the file Docblock)
+-	 `@license` (optional unless different from the file Docblock)
+-	 `@deprecated` (optional)
+-	 `@link` (optional)
+-	 `@see` (optional)
+-	 `@since` (required, being the version of the software the class was introduced)
 
 ### Class Property DocBlocks
 
 The class property Docblock consists of the following required and optional elements in the following order.
 
--   Short description (required, followed by a blank line)
--   `@var` (required, followed by the property type)
--   `@deprecated` (optional)
--   `@since` (required)
+-	 Short description (required, followed by a blank line)
+-	 `@var` (required, followed by the property type)
+-	 `@deprecated` (optional)
+-	 `@since` (required)
 
 ### Class Method DocBlocks
 
@@ -302,28 +302,28 @@ The DocBlock for class methods follows the same convention as for PHP functions 
 /**
  * A utility class.
  *
- * @package     Joomla.Platform
- * @subpackage  XBase
- * @since       1.6
+ * @package		 Joomla.Platform
+ * @subpackage	XBase
+ * @since			 1.6
  */
 class JClass extends JObject
 {
 	/**
 	 * Human readable name
 	 *
-	 * @var    string
-	 * @since  1.6
+	 * @var		string
+	 * @since	1.6
 	 */
 	public $name;
 
 	/**
 	 * Method to get the name of the class.
 	 *
-	 * @param   string  $case  Optionally return in upper/lower case.
+	 * @param	 string	$case	Optionally return in upper/lower case.
 	 *
-	 * @return  boolean  True if successfully loaded, false otherwise.
+	 * @return	boolean	True if successfully loaded, false otherwise.
 	 *
-	 * @since   1.6
+	 * @since	 1.6
 	 */
 	public function getName($case = null)
 	{
@@ -342,9 +342,9 @@ Classes should be given descriptive names. Avoid using abbreviations where possi
 
 For example:
 
--   JHtmlHelper
--   JXmlParser
--   JModel
+-	 JHtmlHelper
+-	 JXmlParser
+-	 JModel
 
 ### Functions and Methods
 
@@ -352,11 +352,11 @@ Functions and methods should be named using the "studly caps" style (also referr
 
 For example:
 
--   connect();
--   getData();
--   buildSomeWidget();
--   jImport();
--   jDoSomething();
+-	 connect();
+-	 getData();
+-	 buildSomeWidget();
+-	 jImport();
+-	 jDoSomething();
 
 Private class members (meaning class members that are intended to be used only from within the same class in which they are declared) are preceded by a single underscore. Properties are to be written in underscore format (that is, logical words separated by underscores) and should be all lowercase.
 
@@ -407,7 +407,7 @@ This exception can be thrown if a callback refers to an undefined function or if
 
 #### BadMethodCallException
 
-This exception can be thrown if a callback refers to an undefined method or if some arguments are missing. For example `is_callable()`, or similar, fails on a class method.  Another example might be if arguments passed to a magic call method are missing.
+This exception can be thrown if a callback refers to an undefined method or if some arguments are missing. For example `is_callable()`, or similar, fails on a class method.	Another example might be if arguments passed to a magic call method are missing.
 
 #### InvalidArgumentException
 
@@ -427,7 +427,7 @@ This exception has few practical applications but can be thrown when an illegal 
 
 ### Runtime Exceptions
 
-The RuntimeException is thrown when some sort of external entity or environment causes a problem that is beyond your control providing the input is valid. This exception is the default case for when the cause of an error can't explicitly be determined. For example you tried to connect to a database but the database was not available (server down, etc).  Another example might be if an SQL query failed.
+The RuntimeException is thrown when some sort of external entity or environment causes a problem that is beyond your control providing the input is valid. This exception is the default case for when the cause of an error can't explicitly be determined. For example you tried to connect to a database but the database was not available (server down, etc).	Another example might be if an SQL query failed.
 
 #### UnexpectedValueException
 

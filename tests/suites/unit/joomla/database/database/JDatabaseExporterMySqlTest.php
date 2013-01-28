@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Database
+ * @package		 Joomla.UnitTest
+ * @subpackage	Database
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/JDatabaseExporterMySqlInspector.php';
@@ -12,30 +12,30 @@ require_once __DIR__ . '/JDatabaseExporterMySqlInspector.php';
 /**
  * Tests the JDatabaseExporterMySql class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Database
- * @since       11.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	Database
+ * @since			 11.1
  */
 class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    object  The mocked database object for use by test methods.
-	 * @since  11.1
+	 * @var		object	The mocked database object for use by test methods.
+	 * @since	11.1
 	 */
 	protected $dbo = null;
 
 	/**
-	 * @var    string  The last query sent to the dbo setQuery method.
-	 * @since  11.1
+	 * @var		string	The last query sent to the dbo setQuery method.
+	 * @since	11.1
 	 */
 	protected $lastQuery = '';
 
 	/**
 	 * Sets up the testing conditions
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setup()
 	{
@@ -159,9 +159,9 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Callback for the dbo loadObjectList method.
 	 *
-	 * @return array  An array of results based on the setting of the last query.
+	 * @return array	An array of results based on the setting of the last query.
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function callbackLoadObjectList()
 	{
@@ -171,11 +171,11 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Callback for the dbo quoteName method.
 	 *
-	 * @param   string  $value  The value to be quoted.
+	 * @param	 string	$value	The value to be quoted.
 	 *
-	 * @return string  The value passed wrapped in MySQL quotes.
+	 * @return string	The value passed wrapped in MySQL quotes.
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function callbackQuoteName($value)
 	{
@@ -185,11 +185,11 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Callback for the dbo setQuery method.
 	 *
-	 * @param   string  $query  The query.
+	 * @param	 string	$query	The query.
 	 *
 	 * @return void
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function callbackSetQuery($query)
 	{
@@ -199,9 +199,9 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the magic __toString method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function test__toString()
 	{
@@ -216,11 +216,11 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 		$expecting = '<?xml version="1.0"?>
 <mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
  <database name="">
-  <table_structure name="#__test">
-   <field Field="id" Type="int(11) unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" />
-   <field Field="title" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" />
-   <key Table="#__test" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="id" Collation="A" Null="" Index_type="BTREE" Comment="" />
-  </table_structure>
+	<table_structure name="#__test">
+	 <field Field="id" Type="int(11) unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" />
+	 <field Field="title" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" />
+	 <key Table="#__test" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="id" Collation="A" Null="" Index_type="BTREE" Comment="" />
+	</table_structure>
  </database>
 </mysqldump>';
 
@@ -238,7 +238,7 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function testAsXml()
 	{
@@ -262,9 +262,9 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the buildXML method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testBuildXml()
 	{
@@ -279,11 +279,11 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 		$expecting = '<?xml version="1.0"?>
 <mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
  <database name="">
-  <table_structure name="#__test">
-   <field Field="id" Type="int(11) unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" />
-   <field Field="title" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" />
-   <key Table="#__test" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="id" Collation="A" Null="" Index_type="BTREE" Comment="" />
-  </table_structure>
+	<table_structure name="#__test">
+	 <field Field="id" Type="int(11) unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" />
+	 <field Field="title" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" />
+	 <key Table="#__test" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="id" Collation="A" Null="" Index_type="BTREE" Comment="" />
+	</table_structure>
  </database>
 </mysqldump>';
 
@@ -300,9 +300,9 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the buildXmlStructure method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testBuildXmlStructure()
 	{
@@ -318,12 +318,12 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 			$instance->buildXmlStructure(),
 			$this->equalTo(
 				array(
-					'  <table_structure name="#__test">',
-					'   <field Field="id" Type="int(11) unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" />',
-					'   <field Field="title" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" />',
-					'   <key Table="#__test" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="id" Collation="A" ' .
+					'	<table_structure name="#__test">',
+					'	 <field Field="id" Type="int(11) unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" />',
+					'	 <field Field="title" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" />',
+					'	 <key Table="#__test" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="id" Collation="A" ' .
 					'Null="" Index_type="BTREE" Comment="" />',
-					'  </table_structure>'
+					'	</table_structure>'
 				)
 			),
 			'buildXmlStructure has not returned the expected result.'
@@ -335,7 +335,7 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function testCheckWithNoDbo()
 	{
@@ -361,7 +361,7 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function testCheckWithNoTables()
 	{
@@ -388,7 +388,7 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function testCheckWithGoodInput()
 	{
@@ -419,7 +419,7 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function testFromWithBadInput()
 	{
@@ -445,7 +445,7 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function testFromWithGoodInput()
 	{
@@ -478,9 +478,9 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the method getGenericTableName method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testGetGenericTableName()
 	{
@@ -499,7 +499,7 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function testSetDboWithBadInput()
 	{
@@ -525,7 +525,7 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function testSetDboWithGoodInput()
 	{
@@ -554,9 +554,9 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the withStructure method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testWithStructure()
 	{

@@ -9,13 +9,13 @@ This is the introduction to the Joomla Platform.
 The following outlines the purpose of the top-level folder structure of
 the Joomla Platform as found in the [GitHub repository](https://github.com/joomla/joomla-platform/ "Joomla Platform Github repository").
 
-Folder     | Description
+Folder		 | Description
 ---------- | --------------------
-/build     | Contains information relevant for building code style reports about the platform. Output from various automated processes may also end up in this folder.
-/docs      | Contain developer manuals in Markdown format.
+/build		 | Contains information relevant for building code style reports about the platform. Output from various automated processes may also end up in this folder.
+/docs			| Contain developer manuals in Markdown format.
 /libraries | Contains all the server-side PHP code used in the Joomla Platform API.
-/media     | Contains any client-side resources used by the platform.
-/tests     | Contains all of the unit tests used for quality control.
+/media		 | Contains any client-side resources used by the platform.
+/tests		 | Contains all of the unit tests used for quality control.
 
 ## Bootstrapping
 
@@ -24,12 +24,12 @@ Bootstrapping the Joomla Platform is done by including
 number of constants if they are not already defined by the developer
 prior to including the import.php file:
 
-Name             | Description
+Name						 | Description
 ---------------- | -----------------------
-JPATH\_PLATFORM  | The path to the Joomla Platform (where `loader.php` or `platform.php` is located, usually in the same folder as `import.php`).
-IS\_WIN          | A boolean value, true if the platform is Microsoft Windows based.
-IS\_MAC          | A boolean value, true if the platform is Apple OSX based.
-IS\_UNIX         | A bollean value, true is the platform is some flavor or Unix, Linux or similar (but not Mac).
+JPATH\_PLATFORM	| The path to the Joomla Platform (where `loader.php` or `platform.php` is located, usually in the same folder as `import.php`).
+IS\_WIN					| A boolean value, true if the platform is Microsoft Windows based.
+IS\_MAC					| A boolean value, true if the platform is Apple OSX based.
+IS\_UNIX				 | A bollean value, true is the platform is some flavor or Unix, Linux or similar (but not Mac).
 
 The bootstrap file will load the `JPlatform` and `JLoader` classes and
 also `JFactory`, `JException` (legacy), `JObject`, `JRequest` (legacy), `JText`
@@ -98,37 +98,37 @@ some static utility methods.
 
 #### Constants
 
-Name                           | Description
+Name													 | Description
 ------------------------------ | ---------------------------
-JPlatform::PRODUCT             | Joomla Platform
-JPlatform::RELEASE             | The release number of the platform.
-JPlatform::MAINTENANCE         | The point maintenance version if applicable.
-JPlatform::STATUS              | The development status.
-JPlatform::BUILD               | The build number for the platform, if applicable.
-JPlatform::CODE\_NAME          | A human readable code name for this version.
-JPlatform::RELEASE\_DATE       | The official release date for this version.
-JPlatform::RELEASE\_TIME       | The official release time for this version, if applicable.
+JPlatform::PRODUCT						 | Joomla Platform
+JPlatform::RELEASE						 | The release number of the platform.
+JPlatform::MAINTENANCE				 | The point maintenance version if applicable.
+JPlatform::STATUS							| The development status.
+JPlatform::BUILD							 | The build number for the platform, if applicable.
+JPlatform::CODE\_NAME					| A human readable code name for this version.
+JPlatform::RELEASE\_DATE			 | The official release date for this version.
+JPlatform::RELEASE\_TIME			 | The official release time for this version, if applicable.
 JPlatform::RELEASE\_TIME\_ZONE | The timezone for the official release date and time.
-JPlatform::COPYRIGHT           | The copyright statement.
-JPlatform::LINK\_TEXT          | An HTML hyperlink to the Joomla Project.
+JPlatform::COPYRIGHT					 | The copyright statement.
+JPlatform::LINK\_TEXT					| An HTML hyperlink to the Joomla Project.
 
 #### Methods
 
 `JPlatform` has three utility methods, one for testing the version and two
 for display.
 
-Method                            | Description
+Method														| Description
 --------------------------------- | ------------------------
 JPlatform::isCompatible($version) | Tests if $version is the installed version of the platform.
-JPlatform::getShortVersion()      | A short textual representation of the platform version.
-JPlatform::getLongVersion()       | A really verbose representation of the platform version.
+JPlatform::getShortVersion()			| A short textual representation of the platform version.
+JPlatform::getLongVersion()			 | A really verbose representation of the platform version.
 
 ```php
-    // Tests the required version of the platform.
-    if (!JPlatform::isCompatible('11.4'))
-    {
-        throw new LogicException(sprintf('Platform version %s not compatible.', JPlatform::getShortVersion());
-    }
+		// Tests the required version of the platform.
+		if (!JPlatform::isCompatible('11.4'))
+		{
+				throw new LogicException(sprintf('Platform version %s not compatible.', JPlatform::getShortVersion());
+		}
 ```
 
 ## Class Auto-loading
@@ -356,6 +356,6 @@ arguments can be used to update the class register and recurse into
 sub-folders.
 
 ```php
-// Register all files in the /the/path/ folder as classes with a name like:  Prefix<Filename>
+// Register all files in the /the/path/ folder as classes with a name like:	Prefix<Filename>
 JLoader::discover('Prefix', '/the/path/');
 ```

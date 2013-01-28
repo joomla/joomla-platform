@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  HTML
+ * @package		 Joomla.Platform
+ * @subpackage	HTML
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,23 +12,23 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Extended Utility class for handling date display.
  *
- * @package     Joomla.Platform
- * @subpackage  HTML
- * @since       11.3
+ * @package		 Joomla.Platform
+ * @subpackage	HTML
+ * @since			 11.3
  */
 abstract class JHtmlDate
 {
 	/**
 	 * Function to convert a static time into a relative measurement
 	 *
-	 * @param   string  $date  The date to convert
-	 * @param   string  $unit  The optional unit of measurement to return
-	 *                         if the value of the diff is greater than one
-	 * @param   string  $time  An optional time to compare to, defaults to now
+	 * @param	 string	$date	The date to convert
+	 * @param	 string	$unit	The optional unit of measurement to return
+	 *												 if the value of the diff is greater than one
+	 * @param	 string	$time	An optional time to compare to, defaults to now
 	 *
-	 * @return  string  The converted time string
+	 * @return	string	The converted time string
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public static function relative($date, $unit = null, $time = null)
 	{

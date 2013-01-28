@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  View
+ * @package		 Joomla.Platform
+ * @subpackage	View
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,26 +12,26 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Base View Class
  *
- * @package     Joomla.Platform
- * @subpackage  View
- * @since       12.1
+ * @package		 Joomla.Platform
+ * @subpackage	View
+ * @since			 12.1
  */
 abstract class JViewBase implements JView
 {
 	/**
 	 * The model object.
 	 *
-	 * @var    JModel
-	 * @since  12.1
+	 * @var		JModel
+	 * @since	12.1
 	 */
 	protected $model;
 
 	/**
 	 * Method to instantiate the view.
 	 *
-	 * @param   JModel  $model  The model object.
+	 * @param	 JModel	$model	The model object.
 	 *
-	 * @since  12.1
+	 * @since	12.1
 	 */
 	public function __construct(JModel $model)
 	{
@@ -42,12 +42,12 @@ abstract class JViewBase implements JView
 	/**
 	 * Method to escape output.
 	 *
-	 * @param   string  $output  The output to escape.
+	 * @param	 string	$output	The output to escape.
 	 *
-	 * @return  string  The escaped output.
+	 * @return	string	The escaped output.
 	 *
-	 * @see     JView::escape()
-	 * @since   12.1
+	 * @see		 JView::escape()
+	 * @since	 12.1
 	 */
 	public function escape($output)
 	{

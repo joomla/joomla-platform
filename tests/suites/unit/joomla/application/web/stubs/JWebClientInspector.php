@@ -1,27 +1,27 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Application
+ * @package		 Joomla.UnitTest
+ * @subpackage	Application
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * JWebClientInspector
  *
- * @package  Joomla.UnitTest
+ * @package	Joomla.UnitTest
  *
- * @since    11.3
+ * @since		11.3
  */
 class JWebClientInspector extends JApplicationWebClient
 {
 	/**
 	 * Allows public access to protected method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function detectRequestURI()
 	{
@@ -31,11 +31,11 @@ class JWebClientInspector extends JApplicationWebClient
 	/**
 	 * Allows public access to protected method.
 	 *
-	 * @param   string  $userAgent  The user-agent string to parse.
+	 * @param	 string	$userAgent	The user-agent string to parse.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function detectBrowser($userAgent)
 	{
@@ -45,11 +45,11 @@ class JWebClientInspector extends JApplicationWebClient
 	/**
 	 * Allows public access to protected method.
 	 *
-	 * @param   string  $userAgent  The user-agent string to parse.
+	 * @param	 string	$userAgent	The user-agent string to parse.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function detectEngine($userAgent)
 	{
@@ -59,11 +59,11 @@ class JWebClientInspector extends JApplicationWebClient
 	/**
 	 * Allows public access to protected method.
 	 *
-	 * @param   string  $userAgent  The user-agent string to parse.
+	 * @param	 string	$userAgent	The user-agent string to parse.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function detectPlatform($userAgent)
 	{
@@ -73,11 +73,11 @@ class JWebClientInspector extends JApplicationWebClient
 	/**
 	 * Allows public access to protected method.
 	 *
-	 * @param   string  $acceptEncoding  The accept encoding string to parse.
+	 * @param	 string	$acceptEncoding	The accept encoding string to parse.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function detectEncoding($acceptEncoding)
 	{
@@ -87,11 +87,11 @@ class JWebClientInspector extends JApplicationWebClient
 	/**
 	 * Allows public access to protected method.
 	 *
-	 * @param   string  $acceptLanguage  The accept language string to parse.
+	 * @param	 string	$acceptLanguage	The accept language string to parse.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function detectLanguage($acceptLanguage)
 	{
@@ -101,11 +101,11 @@ class JWebClientInspector extends JApplicationWebClient
 	/**
 	 * Allows public access to protected method.
 	 *
-	 * @param   string  $userAgent  The user-agent string to parse.
+	 * @param	 string	$userAgent	The user-agent string to parse.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function detectRobot($userAgent)
 	{
@@ -115,11 +115,11 @@ class JWebClientInspector extends JApplicationWebClient
 	/**
 	 * Method for inspecting protected variables.
 	 *
-	 * @param   string  $name  The name of the property.
+	 * @param	 string	$name	The name of the property.
 	 *
-	 * @return  mixed  The value of the class variable.
+	 * @return	mixed	The value of the class variable.
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function getProperty($name)
 	{
@@ -136,11 +136,11 @@ class JWebClientInspector extends JApplicationWebClient
 	/**
 	 * loadClientInformation()
 	 *
-	 * @param   string  $userAgent  The user-agent string to parse.
+	 * @param	 string	$userAgent	The user-agent string to parse.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function loadClientInformation($userAgent = null)
 	{
@@ -150,9 +150,9 @@ class JWebClientInspector extends JApplicationWebClient
 	/**
 	 * fetchConfigurationData()
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function fetchConfigurationData()
 	{
@@ -162,9 +162,9 @@ class JWebClientInspector extends JApplicationWebClient
 	/**
 	 * loadSystemURIs()
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function loadSystemURIs()
 	{
@@ -174,11 +174,11 @@ class JWebClientInspector extends JApplicationWebClient
 	/**
 	 * loadSystemURIs()
 	 *
-	 * @param   string  $ua  The user-agent string to parse.
+	 * @param	 string	$ua	The user-agent string to parse.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testHelperClient($ua)
 	{

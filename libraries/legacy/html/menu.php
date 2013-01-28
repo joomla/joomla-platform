@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Legacy
- * @subpackage  HTML
+ * @package		 Joomla.Legacy
+ * @subpackage	HTML
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,35 +12,35 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class working with menu select lists
  *
- * @package     Joomla.Legacy
- * @subpackage  HTML
- * @since       11.1
- * @deprecated  13.3
+ * @package		 Joomla.Legacy
+ * @subpackage	HTML
+ * @since			 11.1
+ * @deprecated	13.3
  */
 abstract class JHtmlMenu
 {
 	/**
 	 * Cached array of the menus.
 	 *
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	protected static $menus = null;
 
 	/**
 	 * Cached array of the menus items.
 	 *
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	protected static $items = null;
 
 	/**
 	 * Get a list of the available menus.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function menus()
 	{
@@ -61,9 +61,9 @@ abstract class JHtmlMenu
 	/**
 	 * Returns an array of menu items grouped by menu.
 	 *
-	 * @param   array  $config  An array of configuration options.
+	 * @param	 array	$config	An array of configuration options.
 	 *
-	 * @return  array
+	 * @return	array
 	 */
 	public static function menuitems($config = array())
 	{
@@ -145,12 +145,12 @@ abstract class JHtmlMenu
 	/**
 	 * Displays an HTML select list of menu items.
 	 *
-	 * @param   string  $name      The name of the control.
-	 * @param   string  $selected  The value of the selected option.
-	 * @param   string  $attribs   Attributes for the control.
-	 * @param   array   $config    An array of options for the control.
+	 * @param	 string	$name			The name of the control.
+	 * @param	 string	$selected	The value of the selected option.
+	 * @param	 string	$attribs	 Attributes for the control.
+	 * @param	 array	 $config		An array of options for the control.
 	 *
-	 * @return  string
+	 * @return	string
 	 */
 	public static function menuitemlist($name, $selected = null, $attribs = null, $config = array())
 	{
@@ -172,12 +172,12 @@ abstract class JHtmlMenu
 	/**
 	 * Build the select list for Menu Ordering
 	 *
-	 * @param   object   &$row  The row object
-	 * @param   integer  $id    The id for the row. Must exist to enable menu ordering
+	 * @param	 object	 &$row	The row object
+	 * @param	 integer	$id		The id for the row. Must exist to enable menu ordering
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function ordering(&$row, $id)
 	{
@@ -209,12 +209,12 @@ abstract class JHtmlMenu
 	/**
 	 * Build the multiple select list for Menu Links/Pages
 	 *
-	 * @param   boolean  $all         True if all can be selected
-	 * @param   boolean  $unassigned  True if unassigned can be selected
+	 * @param	 boolean	$all				 True if all can be selected
+	 * @param	 boolean	$unassigned	True if unassigned can be selected
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function linkoptions($all = false, $unassigned = false)
 	{
@@ -298,17 +298,17 @@ abstract class JHtmlMenu
 	/**
 	 * Build the list representing the menu tree
 	 *
-	 * @param   integer  $id         Id of the menu item
-	 * @param   string   $indent     The indentation string
-	 * @param   array    $list       The list to process
-	 * @param   array    &$children  The children of the current item
-	 * @param   integer  $maxlevel   The maximum number of levels in the tree
-	 * @param   integer  $level      The starting level
-	 * @param   string   $type       Type of link: component, URL, alias, separator
+	 * @param	 integer	$id				 Id of the menu item
+	 * @param	 string	 $indent		 The indentation string
+	 * @param	 array		$list			 The list to process
+	 * @param	 array		&$children	The children of the current item
+	 * @param	 integer	$maxlevel	 The maximum number of levels in the tree
+	 * @param	 integer	$level			The starting level
+	 * @param	 string	 $type			 Type of link: component, URL, alias, separator
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function treerecurse($id, $indent, $list, &$children, $maxlevel = 9999, $level = 0, $type = 1)
 	{

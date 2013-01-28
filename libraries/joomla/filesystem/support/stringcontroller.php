@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  FileSystem
+ * @package		 Joomla.Platform
+ * @subpackage	FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,18 +12,18 @@ defined('JPATH_PLATFORM') or die;
 /**
  * String Controller
  *
- * @package     Joomla.Platform
- * @subpackage  FileSystem
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	FileSystem
+ * @since			 11.1
  */
 class JStringController
 {
 	/**
 	 * Defines a variable as an array
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function _getArray()
 	{
@@ -35,12 +35,12 @@ class JStringController
 	/**
 	 * Create a reference
 	 *
-	 * @param   string  $reference  The key
-	 * @param   string  &$string    The value
+	 * @param	 string	$reference	The key
+	 * @param	 string	&$string		The value
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function createRef($reference, &$string)
 	{
@@ -51,11 +51,11 @@ class JStringController
 	/**
 	 * Get reference
 	 *
-	 * @param   string  $reference  The key for the reference.
+	 * @param	 string	$reference	The key for the reference.
 	 *
-	 * @return  mixed  False if not set, reference if it it exists
+	 * @return	mixed	False if not set, reference if it it exists
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getRef($reference)
 	{

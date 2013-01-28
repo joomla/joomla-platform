@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  HTML
+ * @package		 Joomla.Platform
+ * @subpackage	HTML
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,34 +12,34 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Extended Utility class for all HTML drawing classes.
  *
- * @package     Joomla.Platform
- * @subpackage  HTML
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	HTML
+ * @since			 11.1
  */
 abstract class JHtmlAccess
 {
 	/**
 	 * A cached array of the asset groups
 	 *
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	protected static $asset_groups = null;
 
 	/**
 	 * Displays a list of the available access view levels
 	 *
-	 * @param   string  $name      The form field name.
-	 * @param   string  $selected  The name of the selected section.
-	 * @param   string  $attribs   Additional attributes to add to the select field.
-	 * @param   mixed   $params    True to add "All Sections" option or and array of options
-	 * @param   string  $id        The form field id
+	 * @param	 string	$name			The form field name.
+	 * @param	 string	$selected	The name of the selected section.
+	 * @param	 string	$attribs	 Additional attributes to add to the select field.
+	 * @param	 mixed	 $params		True to add "All Sections" option or and array of options
+	 * @param	 string	$id				The form field id
 	 *
-	 * @return  string  The required HTML for the SELECT tag.
+	 * @return	string	The required HTML for the SELECT tag.
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 *
-	 * @see    JFormFieldAccessLevel
+	 * @see		JFormFieldAccessLevel
 	 */
 	public static function level($name, $selected, $attribs = '', $params = true, $id = false)
 	{
@@ -82,16 +82,16 @@ abstract class JHtmlAccess
 	/**
 	 * Displays a list of the available user groups.
 	 *
-	 * @param   string   $name      The form field name.
-	 * @param   string   $selected  The name of the selected section.
-	 * @param   string   $attribs   Additional attributes to add to the select field.
-	 * @param   boolean  $allowAll  True to add "All Groups" option.
+	 * @param	 string	 $name			The form field name.
+	 * @param	 string	 $selected	The name of the selected section.
+	 * @param	 string	 $attribs	 Additional attributes to add to the select field.
+	 * @param	 boolean	$allowAll	True to add "All Groups" option.
 	 *
-	 * @return  string   The required HTML for the SELECT tag.
+	 * @return	string	 The required HTML for the SELECT tag.
 	 *
-	 * @see     JFormFieldUsergroup
+	 * @see		 JFormFieldUsergroup
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function usergroup($name, $selected, $attribs = '', $allowAll = true)
 	{
@@ -122,13 +122,13 @@ abstract class JHtmlAccess
 	/**
 	 * Returns a UL list of user groups with check boxes
 	 *
-	 * @param   string   $name             The name of the checkbox controls array
-	 * @param   array    $selected         An array of the checked boxes
-	 * @param   boolean  $checkSuperAdmin  If false only super admins can add to super admin groups
+	 * @param	 string	 $name						 The name of the checkbox controls array
+	 * @param	 array		$selected				 An array of the checked boxes
+	 * @param	 boolean	$checkSuperAdmin	If false only super admins can add to super admin groups
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function usergroups($name, $selected, $checkSuperAdmin = false)
 	{
@@ -159,7 +159,7 @@ abstract class JHtmlAccess
 			// If checkSuperAdmin is true, only add item if the user is superadmin or the group is not super admin
 			if ((!$checkSuperAdmin) || $isSuperAdmin || (!JAccess::checkGroup($item->id, 'core.admin')))
 			{
-				// Setup  the variable attributes.
+				// Setup	the variable attributes.
 				$eid = $count . 'group_' . $item->id;
 
 				// Don't call in_array unless something is selected
@@ -189,15 +189,15 @@ abstract class JHtmlAccess
 	/**
 	 * Returns a UL list of actions with check boxes
 	 *
-	 * @param   string  $name       The name of the checkbox controls array
-	 * @param   array   $selected   An array of the checked boxes
-	 * @param   string  $component  The component the permissions apply to
-	 * @param   string  $section    The section (within a component) the permissions apply to
+	 * @param	 string	$name			 The name of the checkbox controls array
+	 * @param	 array	 $selected	 An array of the checked boxes
+	 * @param	 string	$component	The component the permissions apply to
+	 * @param	 string	$section		The section (within a component) the permissions apply to
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @see     JAccess
-	 * @since   11.1
+	 * @see		 JAccess
+	 * @since	 11.1
 	 */
 	public static function actions($name, $selected, $component, $section = 'global')
 	{
@@ -217,7 +217,7 @@ abstract class JHtmlAccess
 		{
 			$item = &$actions[$i];
 
-			// Setup  the variable attributes.
+			// Setup	the variable attributes.
 			$eid = $count . 'action_' . $item->id;
 			$checked = in_array($item->id, $selected) ? ' checked="checked"' : '';
 
@@ -238,9 +238,9 @@ abstract class JHtmlAccess
 	/**
 	 * Gets a list of the asset groups as an array of JHtml compatible options.
 	 *
-	 * @return  mixed  An array or false if an error occurs
+	 * @return	mixed	An array or false if an error occurs
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function assetgroups()
 	{
@@ -264,14 +264,14 @@ abstract class JHtmlAccess
 	/**
 	 * Displays a Select list of the available asset groups
 	 *
-	 * @param   string  $name      The name of the select element
-	 * @param   mixed   $selected  The selected asset group id
-	 * @param   string  $attribs   Optional attributes for the select field
-	 * @param   array   $config    An array of options for the control
+	 * @param	 string	$name			The name of the select element
+	 * @param	 mixed	 $selected	The selected asset group id
+	 * @param	 string	$attribs	 Optional attributes for the select field
+	 * @param	 array	 $config		An array of options for the control
 	 *
-	 * @return  mixed  An HTML string or null if an error occurs
+	 * @return	mixed	An HTML string or null if an error occurs
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function assetgrouplist($name, $selected, $attribs = null, $config = array())
 	{

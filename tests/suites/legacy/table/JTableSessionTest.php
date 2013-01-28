@@ -1,28 +1,28 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Table
+ * @package		 Joomla.UnitTest
+ * @subpackage	Table
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JTableMenuType.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Table
+ * @package		 Joomla.UnitTest
+ * @subpackage	Table
  *
- * @since       12.3
+ * @since			 12.3
  */
 class JTableSessionTest extends TestCase
 {
 	/**
 	 * Tests JTableSession::insert
 	 *
-	 * @todo   Implement testInsert().
+	 * @todo	 Implement testInsert().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testInsert()
 	{
@@ -33,9 +33,9 @@ class JTableSessionTest extends TestCase
 	/**
 	 * Tests JTableSession::update
 	 *
-	 * @todo   Implement testUpdate().
+	 * @todo	 Implement testUpdate().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testUpdate()
 	{
@@ -46,9 +46,9 @@ class JTableSessionTest extends TestCase
 	/**
 	 * Tests JTableSession::destroy
 	 *
-	 * @todo   Implement testDestroy().
+	 * @todo	 Implement testDestroy().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testDestroy()
 	{
@@ -59,9 +59,9 @@ class JTableSessionTest extends TestCase
 	/**
 	 * Tests JTableSession::purge
 	 *
-	 * @todo   Implement testPurge().
+	 * @todo	 Implement testPurge().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testPurge()
 	{
@@ -72,9 +72,9 @@ class JTableSessionTest extends TestCase
 	/**
 	 * Tests JTableSession::exists
 	 *
-	 * @todo   Implement testExists().
+	 * @todo	 Implement testExists().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testExists()
 	{
@@ -85,9 +85,9 @@ class JTableSessionTest extends TestCase
 	/**
 	 * Tests JTableSession::delete
 	 *
-	 * @todo   Implement testDelete().
+	 * @todo	 Implement testDelete().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testDelete()
 	{

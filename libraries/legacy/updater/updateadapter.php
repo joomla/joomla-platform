@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Updater
+ * @package		 Joomla.Platform
+ * @subpackage	Updater
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -14,47 +14,47 @@ jimport('joomla.base.adapterinstance');
 /**
  * UpdateAdapter class.
  *
- * @package     Joomla.Platform
- * @subpackage  Updater
- * @since       11.1
- * @deprecated  13.3
+ * @package		 Joomla.Platform
+ * @subpackage	Updater
+ * @since			 11.1
+ * @deprecated	13.3
  */
 class JUpdateAdapter extends JAdapterInstance
 {
 	/**
-	 * @var    resource
-	 * @since  12.1
+	 * @var		resource
+	 * @since	12.1
 	 */
 	protected $xmlParser;
 
 	/**
-	 * @var    array
-	 * @since  12.1
+	 * @var		array
+	 * @since	12.1
 	 */
 	protected $stack = array('base');
 
 	/**
 	 * ID of update site
 	 *
-	 * @var    string
-	 * @since  12.1
+	 * @var		string
+	 * @since	12.1
 	 */
 	protected $updateSiteId = 0;
 
 	/**
 	 * Columns in the extensions table to be updated
 	 *
-	 * @var    array
-	 * @since  12.1
+	 * @var		array
+	 * @since	12.1
 	 */
 	protected $updatecols = array('NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT', 'VERSION', 'DESCRIPTION', 'INFOURL');
 
 	/**
 	 * Gets the reference to the current direct parent
 	 *
-	 * @return  object
+	 * @return	object
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function _getStackLocation()
 	{
@@ -64,9 +64,9 @@ class JUpdateAdapter extends JAdapterInstance
 	/**
 	 * Gets the reference to the last tag
 	 *
-	 * @return  object
+	 * @return	object
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function _getLastTag()
 	{

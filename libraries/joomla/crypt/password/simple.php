@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Crypt
+ * @package		 Joomla.Platform
+ * @subpackage	Crypt
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,33 +12,33 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Password Crypter
  *
- * @package     Joomla.Platform
- * @subpackage  Crypt
- * @since       12.2
+ * @package		 Joomla.Platform
+ * @subpackage	Crypt
+ * @since			 12.2
  */
 class JCryptPasswordSimple implements JCryptPassword
 {
 	/**
-	 * @var    integer  The cost parameter for hashing algorithms.
-	 * @since  12.2
+	 * @var		integer	The cost parameter for hashing algorithms.
+	 * @since	12.2
 	 */
 	protected $cost = 10;
 
 	/**
-	 * @var    string   The default hash type
-	 * @since  12.3
+	 * @var		string	 The default hash type
+	 * @since	12.3
 	 */
 	protected $defaultType = '$2y$';
 
 	/**
 	 * Creates a password hash
 	 *
-	 * @param   string  $password  The password to hash.
-	 * @param   string  $type      The hash type.
+	 * @param	 string	$password	The password to hash.
+	 * @param	 string	$type			The hash type.
 	 *
-	 * @return  string  The hashed password.
+	 * @return	string	The hashed password.
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function create($password, $type = null)
 	{
@@ -86,11 +86,11 @@ class JCryptPasswordSimple implements JCryptPassword
 	/**
 	 * Sets the cost parameter for the generated hash for algorithms that use a cost factor.
 	 *
-	 * @param   integer  $cost  The new cost value.
+	 * @param	 integer	$cost	The new cost value.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function setCost($cost)
 	{
@@ -100,11 +100,11 @@ class JCryptPasswordSimple implements JCryptPassword
 	/**
 	 * Generates a salt of specified length. The salt consists of characters in the set [./0-9A-Za-z].
 	 *
-	 * @param   integer  $length  The number of characters to return.
+	 * @param	 integer	$length	The number of characters to return.
 	 *
-	 * @return  string  The string of random characters.
+	 * @return	string	The string of random characters.
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	protected function getSalt($length)
 	{
@@ -118,12 +118,12 @@ class JCryptPasswordSimple implements JCryptPassword
 	/**
 	 * Verifies a password hash
 	 *
-	 * @param   string  $password  The password to verify.
-	 * @param   string  $hash      The password hash to check.
+	 * @param	 string	$password	The password to verify.
+	 * @param	 string	$hash			The password hash to check.
 	 *
-	 * @return  boolean  True if the password is valid, false otherwise.
+	 * @return	boolean	True if the password is valid, false otherwise.
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function verify($password, $hash)
 	{
@@ -160,11 +160,11 @@ class JCryptPasswordSimple implements JCryptPassword
 	/**
 	 * Sets a default type
 	 *
-	 * @param   string  $type  The value to set as default.
+	 * @param	 string	$type	The value to set as default.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function setDefaultType($type)
 	{
@@ -176,9 +176,9 @@ class JCryptPasswordSimple implements JCryptPassword
 	/**
 	 * Gets the default type
 	 *
-	 * @return   string  $type  The default type
+	 * @return	 string	$type	The default type
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function getDefaultType()
 	{

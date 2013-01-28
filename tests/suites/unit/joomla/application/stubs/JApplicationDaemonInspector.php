@@ -1,60 +1,60 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Application
+ * @package		 Joomla.UnitTest
+ * @subpackage	Application
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Inspector for the JApplicationDaemon class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Application
+ * @package		 Joomla.UnitTest
+ * @subpackage	Application
  *
- * @since       11.1
+ * @since			 11.1
  */
 class JApplicationDaemonInspector extends JApplicationDaemon
 {
 	/**
-	 * @var     integer  Mimic the response of the pcntlChildExitStatus method.
-	 * @since   11.3
+	 * @var		 integer	Mimic the response of the pcntlChildExitStatus method.
+	 * @since	 11.3
 	 */
 	public static $pcntlChildExitStatus = 0;
 
 	/**
-	 * @var     integer  Mimic the response of the pcntlFork method.
-	 * @since   11.3
+	 * @var		 integer	Mimic the response of the pcntlFork method.
+	 * @since	 11.3
 	 */
 	public static $pcntlFork = 0;
 
 	/**
-	 * @var     boolean  Mimic the response of the pcntlSignal method.
-	 * @since   11.3
+	 * @var		 boolean	Mimic the response of the pcntlSignal method.
+	 * @since	 11.3
 	 */
 	public static $pcntlSignal = true;
 
 	/**
-	 * @var     integer  Mimic the response of the pcntlWait method.
-	 * @since   11.3
+	 * @var		 integer	Mimic the response of the pcntlWait method.
+	 * @since	 11.3
 	 */
 	public static $pcntlWait = 0;
 
 	/**
-	 * @var     array  Container for successfully setup signal handlers.
-	 * @since   11.3
+	 * @var		 array	Container for successfully setup signal handlers.
+	 * @since	 11.3
 	 */
 		public $setupSignalHandlers = array();
 
 	/**
 	 * Method for inspecting protected variables.
 	 *
-	 * @param   string  $name  The name of the property.
+	 * @param	 string	$name	The name of the property.
 	 *
-	 * @return  mixed  The value of the class variable.
+	 * @return	mixed	The value of the class variable.
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function getClassProperty($name)
 	{
@@ -71,11 +71,11 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	/**
 	 * Method for setting protected static $instance.
 	 *
-	 * @param   mixed  $value  The value of the property.
+	 * @param	 mixed	$value	The value of the property.
 	 *
-	 * @return  void.
+	 * @return	void.
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function setClassInstance($value)
 	{
@@ -85,11 +85,11 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	/**
 	 * Method for setting protected static $signals.
 	 *
-	 * @param   mixed  $value  The value of the property.
+	 * @param	 mixed	$value	The value of the property.
 	 *
-	 * @return  void.
+	 * @return	void.
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function setClassSignals(array $value)
 	{
@@ -99,12 +99,12 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	/**
 	 * Method for setting protected variables.
 	 *
-	 * @param   string  $name   The name of the property.
-	 * @param   mixed   $value  The value of the property.
+	 * @param	 string	$name	 The name of the property.
+	 * @param	 mixed	 $value	The value of the property.
 	 *
-	 * @return  void.
+	 * @return	void.
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function setClassProperty($name, $value)
 	{
@@ -121,9 +121,9 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	/**
 	 * Allows public access to protected method.
 	 *
-	 * @return  boolean  True if identity successfully changed
+	 * @return	boolean	True if identity successfully changed
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function changeIdentity()
 	{
@@ -133,9 +133,9 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	/**
 	 * Allows public access to protected method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function gc()
 	{
@@ -145,9 +145,9 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	/**
 	 * Allows public access to protected method.
 	 *
-	 * @return  boolean
+	 * @return	boolean
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function daemonize()
 	{
@@ -157,9 +157,9 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	/**
 	 * Allows public access to protected method.
 	 *
-	 * @return  boolean
+	 * @return	boolean
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setupSignalHandlers()
 	{
@@ -169,9 +169,9 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	/**
 	 * Allows public access to protected method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function fork()
 	{
@@ -181,9 +181,9 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	/**
 	 * Allows public access to protected method.
 	 *
-	 * @return  boolean
+	 * @return	boolean
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function writeProcessIdFile()
 	{
@@ -193,11 +193,11 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	/**
 	 * Allows public access to protected method.
 	 *
-	 * @param   boolean  $restart  True to restart the daemon on exit.
+	 * @param	 boolean	$restart	True to restart the daemon on exit.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function shutdown($restart = false)
 	{
@@ -207,12 +207,12 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	/**
 	 * Method to return the exit code of a terminated child process.
 	 *
-	 * @param   integer  $status  The status parameter is the status parameter supplied to a successful call to pcntl_waitpid().
+	 * @param	 integer	$status	The status parameter is the status parameter supplied to a successful call to pcntl_waitpid().
 	 *
-	 * @return  integer  The child process exit code.
+	 * @return	integer	The child process exit code.
 	 *
-	 * @see     pcntl_wexitstatus()
-	 * @since   11.3
+	 * @see		 pcntl_wexitstatus()
+	 * @since	 11.3
 	 */
 	public function pcntlChildExitStatus($status)
 	{
@@ -222,13 +222,13 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	/**
 	 * Method to return the exit code of a terminated child process.
 	 *
-	 * @return  integer  On success, the PID of the child process is returned in the parent's thread
-	 *                   of execution, and a 0 is returned in the child's thread of execution. On
-	 *                   failure, a -1 will be returned in the parent's context, no child process
-	 *                   will be created, and a PHP error is raised.
+	 * @return	integer	On success, the PID of the child process is returned in the parent's thread
+	 *									 of execution, and a 0 is returned in the child's thread of execution. On
+	 *									 failure, a -1 will be returned in the parent's context, no child process
+	 *									 will be created, and a PHP error is raised.
 	 *
-	 * @see     pcntl_fork()
-	 * @since   11.3
+	 * @see		 pcntl_fork()
+	 * @since	 11.3
 	 */
 	public function pcntlFork()
 	{
@@ -238,16 +238,16 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	/**
 	 * Method to install a signal handler.
 	 *
-	 * @param   integer   $signal   The signal number.
-	 * @param   callback  $handler  The signal handler which may be the name of a user created function,
-	 *                              or method, or either of the two global constants SIG_IGN or SIG_DFL.
-	 * @param   boolean   $restart  Specifies whether system call restarting should be used when this
-	 *                              signal arrives.
+	 * @param	 integer	 $signal	 The signal number.
+	 * @param	 callback	$handler	The signal handler which may be the name of a user created function,
+	 *															or method, or either of the two global constants SIG_IGN or SIG_DFL.
+	 * @param	 boolean	 $restart	Specifies whether system call restarting should be used when this
+	 *															signal arrives.
 	 *
-	 * @return  boolean  True on success.
+	 * @return	boolean	True on success.
 	 *
-	 * @see     pcntl_signal()
-	 * @since   11.3
+	 * @see		 pcntl_signal()
+	 * @since	 11.3
 	 */
 	public function pcntlSignal($signal , $handler, $restart = true)
 	{
@@ -262,15 +262,15 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	/**
 	 * Method to wait on or return the status of a forked child.
 	 *
-	 * @param   integer  &$status  Status information.
-	 * @param   integer  $options  If wait3 is available on your system (mostly BSD-style systems),
-	 *                             you can provide the optional options parameter.
+	 * @param	 integer	&$status	Status information.
+	 * @param	 integer	$options	If wait3 is available on your system (mostly BSD-style systems),
+	 *														 you can provide the optional options parameter.
 	 *
-	 * @return  integer  The process ID of the child which exited, -1 on error or zero if WNOHANG
-	 *                   was provided as an option (on wait3-available systems) and no child was available.
+	 * @return	integer	The process ID of the child which exited, -1 on error or zero if WNOHANG
+	 *									 was provided as an option (on wait3-available systems) and no child was available.
 	 *
-	 * @see     pcntl_wait()
-	 * @since   11.3
+	 * @see		 pcntl_wait()
+	 * @since	 11.3
 	 */
 	public function pcntlWait(&$status, $options = 0)
 	{

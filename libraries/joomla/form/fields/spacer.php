@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Form
+ * @package		 Joomla.Platform
+ * @subpackage	Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -13,17 +13,17 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * Provides spacer markup to be used in form layouts.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Form
+ * @since			 11.1
  */
 class JFormFieldSpacer extends JFormField
 {
 	/**
 	 * The form field type.
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $type = 'Spacer';
 
@@ -31,9 +31,9 @@ class JFormFieldSpacer extends JFormField
 	 * Method to get the field input markup for a spacer.
 	 * The spacer does not have accept input.
 	 *
-	 * @return  string  The field input markup.
+	 * @return	string	The field input markup.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function getInput()
 	{
@@ -45,9 +45,9 @@ class JFormFieldSpacer extends JFormField
 	 * Use the label text or name from the XML element as the spacer or
 	 * Use a hr="true" to automatically generate plain hr markup
 	 *
-	 * @return  string  The field label markup.
+	 * @return	string	The field label markup.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function getLabel()
 	{
@@ -101,9 +101,9 @@ class JFormFieldSpacer extends JFormField
 	/**
 	 * Method to get the field title.
 	 *
-	 * @return  string  The field title.
+	 * @return	string	The field title.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function getTitle()
 	{

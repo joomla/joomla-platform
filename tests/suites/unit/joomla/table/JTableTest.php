@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Table
+ * @package		 Joomla.UnitTest
+ * @subpackage	Table
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once __DIR__ . '/stubs/dbtestcomposite.php';
@@ -12,10 +12,10 @@ require_once __DIR__ . '/stubs/dbtestcomposite.php';
 /**
  * Test class for JTable.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Table
+ * @package		 Joomla.UnitTest
+ * @subpackage	Table
  *
- * @since       12.3
+ * @since			 12.3
  */
 class JTableTest extends TestCaseDatabase
 {
@@ -28,7 +28,7 @@ class JTableTest extends TestCaseDatabase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	protected function setUp()
 	{
@@ -41,7 +41,7 @@ class JTableTest extends TestCaseDatabase
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	protected function tearDown()
 	{
@@ -53,9 +53,9 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @covers JTable::getFields
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testGetFields()
 	{
@@ -148,9 +148,9 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @covers JTable::getInstance
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testGetInstance()
 	{
@@ -165,9 +165,9 @@ class JTableTest extends TestCaseDatabase
 	/**
 	 * Tests the JTable addIncludePath method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testAddIncludePath()
 	{
@@ -203,9 +203,9 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @covers JTable::getTableName
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testGetTableName()
 	{
@@ -220,9 +220,9 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @covers JTable::getKeyName
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testGetKeyName()
 	{
@@ -237,9 +237,9 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @covers JTable::getKeyName
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testGetKeyNameComposite()
 	{
@@ -254,9 +254,9 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @covers JTable::getDbo
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testGetDbo()
 	{
@@ -271,9 +271,9 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @covers JTable::setDbo
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testSetDBO()
 	{
@@ -294,9 +294,9 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @covers JTable::setRules
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @todo   Implement testSetRules().
+	 * @todo	 Implement testSetRules().
 	 */
 	public function testSetRules()
 	{
@@ -311,7 +311,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return void
 	 *
-	 * @todo   Implement testGetRules().
+	 * @todo	 Implement testGetRules().
 	 */
 	public function testGetRules()
 	{
@@ -324,9 +324,9 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @covers JTable::reset
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testReset()
 	{
@@ -359,9 +359,9 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @covers JTable::bind
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testBind()
 	{
@@ -386,9 +386,9 @@ class JTableTest extends TestCaseDatabase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  CSV database tables
+	 * @return	CSV database tables
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	protected function getDataSet()
 	{
@@ -406,9 +406,9 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @covers JTable::load
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testLoad()
 	{
@@ -425,9 +425,9 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @covers JTable::check
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testCheck()
 	{
@@ -441,9 +441,9 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @covers JTable::store
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testStoreInsert()
 	{
@@ -461,9 +461,9 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @covers JTable::store
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testStoreUpdate()
 	{
@@ -485,7 +485,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @covers JTable::save
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @since 12.3
 	 */
@@ -522,9 +522,9 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @covers JTable::delete
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testDelete()
 	{
@@ -542,9 +542,9 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @covers JTable::delete
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testDeleteKeysProvided()
 	{
@@ -560,9 +560,9 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @covers JTable::checkOut
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testCheckOut()
 	{
@@ -584,9 +584,9 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @covers JTable::checkIn
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testCheckIn()
 	{
@@ -613,9 +613,9 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @covers JTable::hasPrimaryKey
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testHasPrimaryKeyNoAutoincrementTrue()
 	{
@@ -630,9 +630,9 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @covers JTable::hasPrimaryKey
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testHasPrimaryKeyNoAutoincrementFalse()
 	{
@@ -647,9 +647,9 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @covers JTable::hasPrimaryKey
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testHasPrimaryKeyAutoincrementTrue()
 	{
@@ -666,9 +666,9 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @covers JTable::hasPrimaryKey
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testHasPrimaryKeyAutoincrementFalse()
 	{
@@ -685,9 +685,9 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @covers JTable::hit
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testHit()
 	{
@@ -707,9 +707,9 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @covers JTable::isCheckedOut
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testIsCheckedOutFalse()
 	{
@@ -723,9 +723,9 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @covers JTable::isCheckedOut
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testIsCheckedOutTrue()
 	{
@@ -744,9 +744,9 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @covers JTable::getNextOrder
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testGetNextOrder()
 	{
@@ -758,9 +758,9 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @covers JTable::reorder
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testReorder()
 	{
@@ -786,9 +786,9 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @covers JTable::move
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testMove()
 	{
@@ -811,9 +811,9 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @covers JTable::publish
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testPublish()
 	{

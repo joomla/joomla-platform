@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Form
+ * @package		 Joomla.Platform
+ * @subpackage	Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -14,9 +14,9 @@ JFormHelper::loadFieldClass('groupedlist');
 /**
  * Form Field class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Form
+ * @since			 11.1
  */
 class JFormFieldTimezone extends JFormFieldGroupedList
 {
@@ -24,26 +24,26 @@ class JFormFieldTimezone extends JFormFieldGroupedList
 	/**
 	 * The form field type.
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $type = 'Timezone';
 
 	/**
 	 * The list of available timezone groups to use.
 	 *
-	 * @var    array
+	 * @var		array
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	protected static $zones = array('Africa', 'America', 'Antarctica', 'Arctic', 'Asia', 'Atlantic', 'Australia', 'Europe', 'Indian', 'Pacific');
 
 	/**
 	 * Method to get the time zone field option groups.
 	 *
-	 * @return  array  The field option objects as a nested array in groups.
+	 * @return	array	The field option objects as a nested array in groups.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function getGroups()
 	{

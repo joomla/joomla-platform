@@ -1,26 +1,26 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Categories
+ * @package		 Joomla.UnitTest
+ * @subpackage	Categories
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JCategoryNode.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Categories
+ * @package		 Joomla.UnitTest
+ * @subpackage	Categories
  *
- * @since       12.3
+ * @since			 12.3
  */
 class JCategoryNodeTest extends TestCase
 {
 	/**
 	 * Test JCategoryNode::addChild
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @todo Implement testAddChild().
 	 */
@@ -33,7 +33,7 @@ class JCategoryNodeTest extends TestCase
 	/**
 	 * Test JCategoryNode::getParent
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @todo Implement testGetParent().
 	 */
@@ -46,7 +46,7 @@ class JCategoryNodeTest extends TestCase
 	/**
 	 * Test JCategoryNode::setParent
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @todo Implement testSetParent().
 	 */
@@ -59,7 +59,7 @@ class JCategoryNodeTest extends TestCase
 	/**
 	 * Test JCategoryNode::hasChildren
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @todo Implement testHasChildren().
 	 */
@@ -72,7 +72,7 @@ class JCategoryNodeTest extends TestCase
 	/**
 	 * Test JCategoryNode::getChildren
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @todo Implement testGetChildren().
 	 */

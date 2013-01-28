@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Html
+ * @package		 Joomla.UnitTest
+ * @subpackage	Html
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM . '/joomla/html/behavior.php';
@@ -12,19 +12,19 @@ require_once JPATH_PLATFORM . '/joomla/html/behavior.php';
 /**
  * Inspector class for JHtmlBehavior.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Html
+ * @package		 Joomla.UnitTest
+ * @subpackage	Html
  *
- * @since       11.3
+ * @since			 11.3
  */
 class JHtmlBehaviorInspector extends JHtmlBehavior
 {
 	/**
 	 * Method for resetting the loaded files.
 	 *
-	 * @return  mixed  void.
+	 * @return	mixed	void.
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public static function resetLoaded()
 	{
@@ -34,9 +34,9 @@ class JHtmlBehaviorInspector extends JHtmlBehavior
 	/**
 	 * Method for inspecting protected variables.
 	 *
-	 * @return  mixed  The value of the class variable.
+	 * @return	mixed	The value of the class variable.
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public static function getLoaded()
 	{
@@ -47,10 +47,10 @@ class JHtmlBehaviorInspector extends JHtmlBehavior
 /**
  * Test class for JHtmlBehavior.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Html
+ * @package		 Joomla.UnitTest
+ * @subpackage	Html
  *
- * @since       11.1
+ * @since			 11.1
  */
 class JHtmlBehaviorTest extends TestCase
 {
@@ -58,7 +58,7 @@ class JHtmlBehaviorTest extends TestCase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	protected function setUp()
 	{
@@ -72,7 +72,7 @@ class JHtmlBehaviorTest extends TestCase
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	protected function tearDown()
 	{
@@ -82,9 +82,9 @@ class JHtmlBehaviorTest extends TestCase
 	/**
 	 * Test...
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function getFrameworkData()
 	{
@@ -103,15 +103,15 @@ class JHtmlBehaviorTest extends TestCase
 	/**
 	 * testFramework().
 	 *
-	 * @param   string   $expected  @todo
-	 * @param   boolean  $extras    @todo
-	 * @param   boolean  $debug     @todo
+	 * @param	 string	 $expected	@todo
+	 * @param	 boolean	$extras		@todo
+	 * @param	 boolean	$debug		 @todo
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @dataProvider  getFrameworkData
+	 * @dataProvider	getFrameworkData
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testFramework($expected, $extras = false, $debug = null)
 	{
@@ -141,9 +141,9 @@ class JHtmlBehaviorTest extends TestCase
 	/**
 	 * Test...
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function getCaptionData()
 	{
@@ -158,14 +158,14 @@ class JHtmlBehaviorTest extends TestCase
 	/**
 	 * testCaption().
 	 *
-	 * @param   string  $expected  @todo
-	 * @param   string  $selector  @todo
+	 * @param	 string	$expected	@todo
+	 * @param	 string	$selector	@todo
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @dataProvider  getCaptionData
+	 * @dataProvider	getCaptionData
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testCaption($expected, $selector = 'img.caption')
 	{
@@ -195,9 +195,9 @@ class JHtmlBehaviorTest extends TestCase
 	/**
 	 * testFormvalidation().
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testFormvalidation()
 	{
@@ -227,9 +227,9 @@ class JHtmlBehaviorTest extends TestCase
 	/**
 	 * testSwitcher().
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testSwitcher()
 	{
@@ -259,9 +259,9 @@ class JHtmlBehaviorTest extends TestCase
 	/**
 	 * testCombobox().
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testCombobox()
 	{
@@ -291,9 +291,9 @@ class JHtmlBehaviorTest extends TestCase
 	/**
 	 * Test...
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function getTooltipData()
 	{
@@ -333,15 +333,15 @@ class JHtmlBehaviorTest extends TestCase
 	/**
 	 * testTooltip().
 	 *
-	 * @param   string  $expected  @todo
-	 * @param   string  $selector  @todo
-	 * @param   array   $params    @todo
+	 * @param	 string	$expected	@todo
+	 * @param	 string	$selector	@todo
+	 * @param	 array	 $params		@todo
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @dataProvider  getTooltipData
+	 * @dataProvider	getTooltipData
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testTooltip($expected, $selector = '.hasTip', $params = array())
 	{
@@ -371,9 +371,9 @@ class JHtmlBehaviorTest extends TestCase
 	/**
 	 * Test...
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function getModalData()
 	{
@@ -413,15 +413,15 @@ class JHtmlBehaviorTest extends TestCase
 	/**
 	 * testModal().
 	 *
-	 * @param   string  $expected  @todo
-	 * @param   string  $selector  @todo
-	 * @param   array   $params    @todo
+	 * @param	 string	$expected	@todo
+	 * @param	 string	$selector	@todo
+	 * @param	 array	 $params		@todo
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @dataProvider  getModalData
+	 * @dataProvider	getModalData
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testModal($expected, $selector = 'a.modal', $params = array())
 	{
@@ -451,9 +451,9 @@ class JHtmlBehaviorTest extends TestCase
 	/**
 	 * Test...
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function getMultiselectData()
 	{
@@ -479,14 +479,14 @@ class JHtmlBehaviorTest extends TestCase
 	/**
 	 * testMultiselect().
 	 *
-	 * @param   string  $expected  @todo
-	 * @param   string  $id        @todo
+	 * @param	 string	$expected	@todo
+	 * @param	 string	$id				@todo
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @dataProvider  getMultiselectData
+	 * @dataProvider	getMultiselectData
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testMultiselect($expected, $id = 'adminForm')
 	{
@@ -516,9 +516,9 @@ class JHtmlBehaviorTest extends TestCase
 	/**
 	 * Test getUploaderData
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function getUploaderData()
 	{
@@ -544,16 +544,16 @@ class JHtmlBehaviorTest extends TestCase
 	/**
 	 * testUploader().
 	 *
-	 * @param   string  $expected      @todo
-	 * @param   string  $id            @todo
-	 * @param   array   $params        @todo
-	 * @param   string  $upload_queue  @todo
+	 * @param	 string	$expected			@todo
+	 * @param	 string	$id						@todo
+	 * @param	 array	 $params				@todo
+	 * @param	 string	$upload_queue	@todo
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @dataProvider  getUploaderData
+	 * @dataProvider	getUploaderData
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testUploader($expected, $id = 'file-upload', $params = array(), $upload_queue = 'upload-queue')
 	{
@@ -583,9 +583,9 @@ class JHtmlBehaviorTest extends TestCase
 	/**
 	 * Test getTreeData
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function getTreeData()
 	{
@@ -605,16 +605,16 @@ class JHtmlBehaviorTest extends TestCase
 	/**
 	 * Test Tree().
 	 *
-	 * @param   string   $expected  @todo
-	 * @param   integer  $id        @todo
-	 * @param   array    $params    @todo
-	 * @param   array    $root      @todo
+	 * @param	 string	 $expected	@todo
+	 * @param	 integer	$id				@todo
+	 * @param	 array		$params		@todo
+	 * @param	 array		$root			@todo
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @dataProvider  getTreeData
+	 * @dataProvider	getTreeData
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testTree($expected, $id, $params = array(), $root = array())
 	{
@@ -644,9 +644,9 @@ class JHtmlBehaviorTest extends TestCase
 	/**
 	 * Test Calendar().
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testCalendar()
 	{
@@ -676,9 +676,9 @@ class JHtmlBehaviorTest extends TestCase
 	/**
 	 * Test Colorpicker().
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testColorpicker()
 	{
@@ -708,9 +708,9 @@ class JHtmlBehaviorTest extends TestCase
 	/**
 	 * Test Keepalive().
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testKeepalive()
 	{
@@ -740,9 +740,9 @@ class JHtmlBehaviorTest extends TestCase
 	/**
 	 * Test NoFrames().
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testNoFrames()
 	{

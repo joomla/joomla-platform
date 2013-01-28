@@ -1,36 +1,36 @@
 <?php
 /**
- * @package    Joomla.Test
+ * @package		Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Class to mock JCache.
  *
- * @package  Joomla.Test
- * @since    12.1
+ * @package	Joomla.Test
+ * @since		12.1
  */
 class TestMockCache
 {
 	/**
 	 * Public cache to inject faux data.
 	 *
-	 * @var    array
-	 * @since  12.1
+	 * @var		array
+	 * @since	12.1
 	 */
 	public static $cache = array();
 
 	/**
 	 * Creates and instance of the mock JApplication object.
 	 *
-	 * @param   TestCase  $test  A test object.
-	 * @param   array     $data  Data to prime the cache with.
+	 * @param	 TestCase	$test	A test object.
+	 * @param	 array		 $data	Data to prime the cache with.
 	 *
-	 * @return  object
+	 * @return	object
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public static function create(TestCase $test, $data = array())
 	{
@@ -68,11 +68,11 @@ class TestMockCache
 	/**
 	 * Callback for the cache get method.
 	 *
-	 * @param   string  $id  The name of the cache key to retrieve.
+	 * @param	 string	$id	The name of the cache key to retrieve.
 	 *
-	 * @return  mixed  The value of the key or null if it does not exist.
+	 * @return	mixed	The value of the key or null if it does not exist.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function mockGet($id)
 	{
@@ -82,12 +82,12 @@ class TestMockCache
 	/**
 	 * Callback for the cache get method.
 	 *
-	 * @param   string  $value  The value to store.
-	 * @param   string  $id     The name of the cache key.
+	 * @param	 string	$value	The value to store.
+	 * @param	 string	$id		 The name of the cache key.
 	 *
-	 * @return  mixed  The value of the key or null if it does not exist.
+	 * @return	mixed	The value of the key or null if it does not exist.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function mockStore($value, $id)
 	{

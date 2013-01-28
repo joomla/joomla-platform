@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  HTML
+ * @package		 Joomla.Platform
+ * @subpackage	HTML
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,9 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for cloaking email addresses
  *
- * @package     Joomla.Platform
- * @subpackage  HTML
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	HTML
+ * @since			 11.1
  */
 abstract class JHtmlEmail
 {
@@ -23,14 +23,14 @@ abstract class JHtmlEmail
 	 *
 	 * By default replaces an email with a mailto link with email cloaked
 	 *
-	 * @param   string   $mail    The -mail address to cloak.
-	 * @param   boolean  $mailto  True if text and mailing address differ
-	 * @param   string   $text    Text for the link
-	 * @param   boolean  $email   True if text is an e-mail address
+	 * @param	 string	 $mail		The -mail address to cloak.
+	 * @param	 boolean	$mailto	True if text and mailing address differ
+	 * @param	 string	 $text		Text for the link
+	 * @param	 boolean	$email	 True if text is an e-mail address
 	 *
-	 * @return  string  The cloaked email.
+	 * @return	string	The cloaked email.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function cloak($mail, $mailto = true, $text = '', $email = true)
 	{
@@ -109,11 +109,11 @@ abstract class JHtmlEmail
 	/**
 	 * Convert encoded text
 	 *
-	 * @param   string  $text  Text to convert
+	 * @param	 string	$text	Text to convert
 	 *
-	 * @return  string  The converted text.
+	 * @return	string	The converted text.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected static function _convertEncoding($text)
 	{

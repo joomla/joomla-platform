@@ -1,33 +1,33 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Database
+ * @package		 Joomla.UnitTest
+ * @subpackage	Database
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * Tests the JDatabaseMySqlImporter class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Database
- * @since       11.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	Database
+ * @since			 11.1
  */
 class JDatabaseImporterMySQLiTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    object  The mocked database object for use by test methods.
-	 * @since  11.1
+	 * @var		object	The mocked database object for use by test methods.
+	 * @since	11.1
 	 */
 	protected $dbo = null;
 
 	/**
 	 * Sets up the testing conditions
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function setup()
 	{
@@ -48,7 +48,7 @@ class JDatabaseImporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function testCheckWithNoDbo()
 	{
@@ -74,7 +74,7 @@ class JDatabaseImporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function testCheckWithNoTables()
 	{
@@ -101,7 +101,7 @@ class JDatabaseImporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function testCheckWithGoodInput()
 	{
@@ -132,7 +132,7 @@ class JDatabaseImporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function testSetDboWithBadInput()
 	{
@@ -158,7 +158,7 @@ class JDatabaseImporterMySQLiTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function testSetDboWithGoodInput()
 	{

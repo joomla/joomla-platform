@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Document
+ * @package		 Joomla.Platform
+ * @subpackage	Document
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,27 +12,27 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JDocumentJSON class, provides an easy interface to parse and display JSON output
  *
- * @package     Joomla.Platform
- * @subpackage  Document
- * @see         http://www.json.org/
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Document
+ * @see				 http://www.json.org/
+ * @since			 11.1
  */
 class JDocumentJSON extends JDocument
 {
 	/**
 	 * Document name
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $_name = 'joomla';
 
 	/**
 	 * Class constructor
 	 *
-	 * @param   array  $options  Associative array of options
+	 * @param	 array	$options	Associative array of options
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function __construct($options = array())
 	{
@@ -48,12 +48,12 @@ class JDocumentJSON extends JDocument
 	/**
 	 * Render the document.
 	 *
-	 * @param   boolean  $cache   If true, cache the output
-	 * @param   array    $params  Associative array of attributes
+	 * @param	 boolean	$cache	 If true, cache the output
+	 * @param	 array		$params	Associative array of attributes
 	 *
-	 * @return  The rendered data
+	 * @return	The rendered data
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function render($cache = false, $params = array())
 	{
@@ -68,9 +68,9 @@ class JDocumentJSON extends JDocument
 	/**
 	 * Returns the document name
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	public function getName()
 	{
@@ -80,11 +80,11 @@ class JDocumentJSON extends JDocument
 	/**
 	 * Sets the document name
 	 *
-	 * @param   string  $name  Document name
+	 * @param	 string	$name	Document name
 	 *
-	 * @return  JDocumentJSON instance of $this to allow chaining
+	 * @return	JDocumentJSON instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setName($name = 'joomla')
 	{

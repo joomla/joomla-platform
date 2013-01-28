@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Cache
+ * @package		 Joomla.Platform
+ * @subpackage	Cache
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,30 +12,30 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! Cache base object
  *
- * @package     Joomla.Platform
- * @subpackage  Cache
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Cache
+ * @since			 11.1
  */
 class JCache
 {
 	/**
-	 * @var    object  Storage handler
-	 * @since  11.1
+	 * @var		object	Storage handler
+	 * @since	11.1
 	 */
 	public static $_handler = array();
 
 	/**
-	 * @var    array  Options
-	 * @since  11.1
+	 * @var		array	Options
+	 * @since	11.1
 	 */
 	public $_options;
 
 	/**
 	 * Constructor
 	 *
-	 * @param   array  $options  options
+	 * @param	 array	$options	options
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __construct($options)
 	{
@@ -70,12 +70,12 @@ class JCache
 	/**
 	 * Returns a reference to a cache adapter object, always creating it
 	 *
-	 * @param   string  $type     The cache object type to instantiate
-	 * @param   array   $options  The array of options
+	 * @param	 string	$type		 The cache object type to instantiate
+	 * @param	 array	 $options	The array of options
 	 *
-	 * @return  JCache  A JCache object
+	 * @return	JCache	A JCache object
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function getInstance($type = 'output', $options = array())
 	{
@@ -85,9 +85,9 @@ class JCache
 	/**
 	 * Get the storage handlers
 	 *
-	 * @return  array    An array of available storage handlers
+	 * @return	array		An array of available storage handlers
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function getStores()
 	{
@@ -118,7 +118,7 @@ class JCache
 				continue;
 			}
 
-			// Sweet!  Our class exists, so now we just need to know if it passes its test method.
+			// Sweet!	Our class exists, so now we just need to know if it passes its test method.
 			if ($class::isSupported())
 			{
 				// Connector names should not have file extensions.
@@ -132,11 +132,11 @@ class JCache
 	/**
 	 * Set caching enabled state
 	 *
-	 * @param   boolean  $enabled  True to enable caching
+	 * @param	 boolean	$enabled	True to enable caching
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setCaching($enabled)
 	{
@@ -146,9 +146,9 @@ class JCache
 	/**
 	 * Get caching state
 	 *
-	 * @return  boolean  Caching state
+	 * @return	boolean	Caching state
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getCaching()
 	{
@@ -158,11 +158,11 @@ class JCache
 	/**
 	 * Set cache lifetime
 	 *
-	 * @param   integer  $lt  Cache lifetime
+	 * @param	 integer	$lt	Cache lifetime
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setLifeTime($lt)
 	{
@@ -172,12 +172,12 @@ class JCache
 	/**
 	 * Get cached data by id and group
 	 *
-	 * @param   string  $id     The cache data id
-	 * @param   string  $group  The cache data group
+	 * @param	 string	$id		 The cache data id
+	 * @param	 string	$group	The cache data group
 	 *
-	 * @return  mixed  boolean  False on failure or a cached data string
+	 * @return	mixed	boolean	False on failure or a cached data string
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function get($id, $group = null)
 	{
@@ -197,9 +197,9 @@ class JCache
 	/**
 	 * Get a list of all cached data
 	 *
-	 * @return  mixed    Boolean false on failure or an object with a list of cache groups and data
+	 * @return	mixed		Boolean false on failure or an object with a list of cache groups and data
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getAll()
 	{
@@ -216,13 +216,13 @@ class JCache
 	/**
 	 * Store the cached data by id and group
 	 *
-	 * @param   mixed   $data   The data to store
-	 * @param   string  $id     The cache data id
-	 * @param   string  $group  The cache data group
+	 * @param	 mixed	 $data	 The data to store
+	 * @param	 string	$id		 The cache data id
+	 * @param	 string	$group	The cache data group
 	 *
-	 * @return  boolean  True if cache stored
+	 * @return	boolean	True if cache stored
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function store($data, $id, $group = null)
 	{
@@ -244,12 +244,12 @@ class JCache
 	/**
 	 * Remove a cached data entry by id and group
 	 *
-	 * @param   string  $id     The cache data id
-	 * @param   string  $group  The cache data group
+	 * @param	 string	$id		 The cache data id
+	 * @param	 string	$group	The cache data group
 	 *
-	 * @return  boolean  True on success, false otherwise
+	 * @return	boolean	True on success, false otherwise
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function remove($id, $group = null)
 	{
@@ -269,15 +269,15 @@ class JCache
 	/**
 	 * Clean cache for a group given a mode.
 	 *
-	 * group mode       : cleans all cache in the group
-	 * notgroup mode    : cleans all cache not in the group
+	 * group mode			 : cleans all cache in the group
+	 * notgroup mode		: cleans all cache not in the group
 	 *
-	 * @param   string  $group  The cache data group
-	 * @param   string  $mode   The mode for cleaning cache [group|notgroup]
+	 * @param	 string	$group	The cache data group
+	 * @param	 string	$mode	 The mode for cleaning cache [group|notgroup]
 	 *
-	 * @return  boolean  True on success, false otherwise
+	 * @return	boolean	True on success, false otherwise
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function clean($group = null, $mode = 'group')
 	{
@@ -297,9 +297,9 @@ class JCache
 	/**
 	 * Garbage collect expired cache data
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return	boolean	True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function gc()
 	{
@@ -316,13 +316,13 @@ class JCache
 	/**
 	 * Set lock flag on cached item
 	 *
-	 * @param   string  $id        The cache data id
-	 * @param   string  $group     The cache data group
-	 * @param   string  $locktime  The default locktime for locking the cache.
+	 * @param	 string	$id				The cache data id
+	 * @param	 string	$group		 The cache data group
+	 * @param	 string	$locktime	The default locktime for locking the cache.
 	 *
-	 * @return  object  Properties are lock and locklooped
+	 * @return	object	Properties are lock and locklooped
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function lock($id, $group = null, $locktime = null)
 	{
@@ -405,12 +405,12 @@ class JCache
 	/**
 	 * Unset lock flag on cached item
 	 *
-	 * @param   string  $id     The cache data id
-	 * @param   string  $group  The cache data group
+	 * @param	 string	$id		 The cache data id
+	 * @param	 string	$group	The cache data group
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return	boolean	True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function unlock($id, $group = null)
 	{
@@ -444,9 +444,9 @@ class JCache
 	/**
 	 * Get the cache storage handler
 	 *
-	 * @return  JCacheStorage   A JCacheStorage object
+	 * @return	JCacheStorage	 A JCacheStorage object
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function &_getStorage()
 	{
@@ -465,12 +465,12 @@ class JCache
 	/**
 	 * Perform workarounds on retrieved cached data
 	 *
-	 * @param   string  $data     Cached data
-	 * @param   array   $options  Array of options
+	 * @param	 string	$data		 Cached data
+	 * @param	 array	 $options	Array of options
 	 *
-	 * @return  string  Body of cached data
+	 * @return	string	Body of cached data
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function getWorkarounds($data, $options = array())
 	{
@@ -525,12 +525,12 @@ class JCache
 	/**
 	 * Create workarounded data to be cached
 	 *
-	 * @param   string  $data     Cached data
-	 * @param   array   $options  Array of options
+	 * @param	 string	$data		 Cached data
+	 * @param	 array	 $options	Array of options
 	 *
-	 * @return  string  Data to be cached
+	 * @return	string	Data to be cached
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function setWorkarounds($data, $options = array())
 	{
@@ -660,9 +660,9 @@ class JCache
 	/**
 	 * Create safe id for cached data from url parameters set by plugins and framework
 	 *
-	 * @return  string   md5 encoded cacheid
+	 * @return	string	 md5 encoded cacheid
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function makeId()
 	{
@@ -693,11 +693,11 @@ class JCache
 	 * Add a directory where JCache should search for handlers. You may
 	 * either pass a string or an array of directories.
 	 *
-	 * @param   string  $path  A path to search.
+	 * @param	 string	$path	A path to search.
 	 *
-	 * @return  array   An array with directory elements
+	 * @return	array	 An array with directory elements
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function addIncludePath($path = '')
 	{

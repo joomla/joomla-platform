@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Environment
+ * @package		 Joomla.Platform
+ * @subpackage	Environment
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -18,63 +18,63 @@ defined('JPATH_PLATFORM') or die;
  * This class has many influences from the lib/Browser.php code in
  * version 3 of Horde by Chuck Hagenbuch and Jon Parise.
  *
- * @package     Joomla.Platform
- * @subpackage  Environment
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Environment
+ * @since			 11.1
  */
 class JBrowser
 {
 	/**
-	 * @var    integer  Major version number
-	 * @since  12.1
+	 * @var		integer	Major version number
+	 * @since	12.1
 	 */
 	protected $majorVersion = 0;
 
 	/**
-	 * @var    integer  Minor version number
-	 * @since  12.1
+	 * @var		integer	Minor version number
+	 * @since	12.1
 	 */
 	protected $minorVersion = 0;
 
 	/**
-	 * @var    string  Browser name.
-	 * @since  12.1
+	 * @var		string	Browser name.
+	 * @since	12.1
 	 */
 	protected $browser = '';
 
 	/**
-	 * @var    string  Full user agent string.
-	 * @since  12.1
+	 * @var		string	Full user agent string.
+	 * @since	12.1
 	 */
 	protected $agent = '';
 
 	/**
-	 * @var    string  Lower-case user agent string
-	 * @since  12.1
+	 * @var		string	Lower-case user agent string
+	 * @since	12.1
 	 */
 	protected $lowerAgent = '';
 
 	/**
-	 * @var    string  HTTP_ACCEPT string.
-	 * @since  12.1
+	 * @var		string	HTTP_ACCEPT string.
+	 * @since	12.1
 	 */
 	protected $accept = '';
 
 	/**
-	 * @var    array  Parsed HTTP_ACCEPT string
-	 * @since  12.1
+	 * @var		array	Parsed HTTP_ACCEPT string
+	 * @since	12.1
 	 */
 	protected $acceptParsed = array();
 
 	/**
-	 * @var    string  Platform the browser is running on
-	 * @since  12.1
+	 * @var		string	Platform the browser is running on
+	 * @since	12.1
 	 */
 	protected $platform = '';
 
 	/**
-	 * @var    array  Known robots.
-	 * @since  12.1
+	 * @var		array	Known robots.
+	 * @since	12.1
 	 */
 	protected $robots = array(
 		/* The most common ones. */
@@ -126,8 +126,8 @@ class JBrowser
 		'ZyBorg');
 
 	/**
-	 * @var    boolean  Is this a mobile browser?
-	 * @since  12.1
+	 * @var		boolean	Is this a mobile browser?
+	 * @since	12.1
 	 */
 	protected $mobile = false;
 
@@ -135,24 +135,24 @@ class JBrowser
 	 * List of viewable image MIME subtypes.
 	 * This list of viewable images works for IE and Netscape/Mozilla.
 	 *
-	 * @var    array
-	 * @since  12.1
+	 * @var		array
+	 * @since	12.1
 	 */
 	protected $images = array('jpeg', 'gif', 'png', 'pjpeg', 'x-png', 'bmp');
 
 	/**
-	 * @var    array  JBrowser instances container.
-	 * @since  11.3
+	 * @var		array	JBrowser instances container.
+	 * @since	11.3
 	 */
 	protected static $instances = array();
 
 	/**
 	 * Create a browser instance (constructor).
 	 *
-	 * @param   string  $userAgent  The browser string to parse.
-	 * @param   string  $accept     The HTTP_ACCEPT settings to use.
+	 * @param	 string	$userAgent	The browser string to parse.
+	 * @param	 string	$accept		 The HTTP_ACCEPT settings to use.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __construct($userAgent = null, $accept = null)
 	{
@@ -163,12 +163,12 @@ class JBrowser
 	 * Returns the global Browser object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @param   string  $userAgent  The browser string to parse.
-	 * @param   string  $accept     The HTTP_ACCEPT settings to use.
+	 * @param	 string	$userAgent	The browser string to parse.
+	 * @param	 string	$accept		 The HTTP_ACCEPT settings to use.
 	 *
-	 * @return JBrowser  The Browser object.
+	 * @return JBrowser	The Browser object.
 	 *
-	 * @since  11.1
+	 * @since	11.1
 	 */
 	static public function getInstance($userAgent = null, $accept = null)
 	{
@@ -186,12 +186,12 @@ class JBrowser
 	 * Parses the user agent string and inititializes the object with
 	 * all the known features and quirks for the given browser.
 	 *
-	 * @param   string  $userAgent  The browser string to parse.
-	 * @param   string  $accept     The HTTP_ACCEPT settings to use.
+	 * @param	 string	$userAgent	The browser string to parse.
+	 * @param	 string	$accept		 The HTTP_ACCEPT settings to use.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function match($userAgent = null, $accept = null)
 	{
@@ -402,9 +402,9 @@ class JBrowser
 	 * to let us tell what line breaks to send, so it's good enough
 	 * for its purpose.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function _setPlatform()
 	{
@@ -425,9 +425,9 @@ class JBrowser
 	/**
 	 * Return the currently matched platform.
 	 *
-	 * @return  string  The user's platform.
+	 * @return	string	The user's platform.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getPlatform()
 	{
@@ -457,11 +457,11 @@ class JBrowser
 	/**
 	 * Sets the current browser.
 	 *
-	 * @param   string  $browser  The browser to set as current.
+	 * @param	 string	$browser	The browser to set as current.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setBrowser($browser)
 	{
@@ -471,9 +471,9 @@ class JBrowser
 	/**
 	 * Retrieve the current browser.
 	 *
-	 * @return  string  The current browser.
+	 * @return	string	The current browser.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getBrowser()
 	{
@@ -483,9 +483,9 @@ class JBrowser
 	/**
 	 * Retrieve the current browser's major version.
 	 *
-	 * @return  integer  The current browser's major version
+	 * @return	integer	The current browser's major version
 	 *
-	 * @since   11.1.
+	 * @since	 11.1.
 	 */
 	public function getMajor()
 	{
@@ -495,9 +495,9 @@ class JBrowser
 	/**
 	 * Retrieve the current browser's minor version.
 	 *
-	 * @return  integer  The current browser's minor version.
+	 * @return	integer	The current browser's minor version.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getMinor()
 	{
@@ -507,9 +507,9 @@ class JBrowser
 	/**
 	 * Retrieve the current browser's version.
 	 *
-	 * @return  string  The current browser's version.
+	 * @return	string	The current browser's version.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getVersion()
 	{
@@ -519,9 +519,9 @@ class JBrowser
 	/**
 	 * Return the full browser agent string.
 	 *
-	 * @return  string  The browser agent string
+	 * @return	string	The browser agent string
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getAgentString()
 	{
@@ -531,9 +531,9 @@ class JBrowser
 	/**
 	 * Returns the server protocol in use on the current server.
 	 *
-	 * @return  string  The HTTP server protocol version.
+	 * @return	string	The HTTP server protocol version.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getHTTPProtocol()
 	{
@@ -550,15 +550,15 @@ class JBrowser
 	/**
 	 * Determines if a browser can display a given MIME type.
 	 *
-	 * Note that  image/jpeg and image/pjpeg *appear* to be the same
+	 * Note that	image/jpeg and image/pjpeg *appear* to be the same
 	 * entity, but Mozilla doesn't seem to want to accept the latter.
 	 * For our purposes, we will treat them the same.
 	 *
-	 * @param   string  $mimetype  The MIME type to check.
+	 * @param	 string	$mimetype	The MIME type to check.
 	 *
-	 * @return  boolean  True if the browser can display the MIME type.
+	 * @return	boolean	True if the browser can display the MIME type.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function isViewable($mimetype)
 	{
@@ -607,11 +607,11 @@ class JBrowser
 	/**
 	 * Determine if the given browser is the same as the current.
 	 *
-	 * @param   string  $browser  The browser to check.
+	 * @param	 string	$browser	The browser to check.
 	 *
-	 * @return  boolean  Is the given browser the same as the current?
+	 * @return	boolean	Is the given browser the same as the current?
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function isBrowser($browser)
 	{
@@ -621,9 +621,9 @@ class JBrowser
 	/**
 	 * Determines if the browser is a robot or not.
 	 *
-	 * @return  boolean  True if browser is a known robot.
+	 * @return	boolean	True if browser is a known robot.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function isRobot()
 	{
@@ -640,9 +640,9 @@ class JBrowser
 	/**
 	 * Determines if the browser is mobile version or not.
 	 *
-	 * @return boolean  True if browser is a known mobile version.
+	 * @return boolean	True if browser is a known mobile version.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function isMobile()
 	{
@@ -652,10 +652,10 @@ class JBrowser
 	/**
 	 * Determine if we are using a secure (SSL) connection.
 	 *
-	 * @return  boolean  True if using SSL, false if not.
+	 * @return	boolean	True if using SSL, false if not.
 	 *
-	 * @since   11.1
-	 * @deprecated  13.3  Use the isSSLConnection method on the application object.
+	 * @since	 11.1
+	 * @deprecated	13.3	Use the isSSLConnection method on the application object.
 	 */
 	public function isSSLConnection()
 	{

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  HTML
+ * @package		 Joomla.UnitTest
+ * @subpackage	HTML
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM . '/joomla/html/form.php';
@@ -12,9 +12,9 @@ require_once JPATH_PLATFORM . '/joomla/html/form.php';
 /**
  * Test class for JHtmlForm.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Html
- * @since       11.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	Html
+ * @since			 11.1
  */
 class JHtmlFormTest extends TestCase
 {
@@ -22,9 +22,9 @@ class JHtmlFormTest extends TestCase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	protected function setUp()
 	{
@@ -40,9 +40,9 @@ class JHtmlFormTest extends TestCase
 	 *
 	 * This method is called after a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	protected function tearDown()
 	{
@@ -54,9 +54,9 @@ class JHtmlFormTest extends TestCase
 	/**
 	 * Tests the JHtmlForm::token method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testToken()
 	{

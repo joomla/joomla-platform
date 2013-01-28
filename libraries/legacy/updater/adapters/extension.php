@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Updater
+ * @package		 Joomla.Platform
+ * @subpackage	Updater
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -13,23 +13,23 @@ jimport('joomla.updater.updateadapter');
 /**
  * Extension class for updater
  *
- * @package     Joomla.Platform
- * @subpackage  Updater
- * @since       11.1
- * @deprecated  13.3
+ * @package		 Joomla.Platform
+ * @subpackage	Updater
+ * @since			 11.1
+ * @deprecated	13.3
  * */
 class JUpdaterExtension extends JUpdateAdapter
 {
 	/**
 	 * Start element parser callback.
 	 *
-	 * @param   object  $parser  The parser object.
-	 * @param   string  $name    The name of the element.
-	 * @param   array   $attrs   The attributes of the element.
+	 * @param	 object	$parser	The parser object.
+	 * @param	 string	$name		The name of the element.
+	 * @param	 array	 $attrs	 The attributes of the element.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function _startElement($parser, $name, $attrs = array())
 	{
@@ -69,12 +69,12 @@ class JUpdaterExtension extends JUpdateAdapter
 	/**
 	 * Character Parser Function
 	 *
-	 * @param   object  $parser  Parser object.
-	 * @param   object  $name    The name of the element.
+	 * @param	 object	$parser	Parser object.
+	 * @param	 object	$name		The name of the element.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function _endElement($parser, $name)
 	{
@@ -118,13 +118,13 @@ class JUpdaterExtension extends JUpdateAdapter
 	/**
 	 * Character Parser Function
 	 *
-	 * @param   object  $parser  Parser object.
-	 * @param   object  $data    The data.
+	 * @param	 object	$parser	Parser object.
+	 * @param	 object	$data		The data.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @note    This is public because its called externally.
-	 * @since   11.1
+	 * @note		This is public because its called externally.
+	 * @since	 11.1
 	 */
 	protected function _characterData($parser, $data)
 	{
@@ -144,11 +144,11 @@ class JUpdaterExtension extends JUpdateAdapter
 	/**
 	 * Finds an update.
 	 *
-	 * @param   array  $options  Update options.
+	 * @param	 array	$options	Update options.
 	 *
-	 * @return  array  Array containing the array of update sites and array of updates
+	 * @return	array	Array containing the array of update sites and array of updates
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function findUpdate($options)
 	{

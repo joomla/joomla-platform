@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @package     Joomla.UnitTest
- * @subpackage  FileSystem
+ * @package		 Joomla.UnitTest
+ * @subpackage	FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM . '/joomla/filesystem/patcher.php';
@@ -14,10 +14,10 @@ require_once JPATH_PLATFORM . '/joomla/filesystem/path.php';
 /**
  * A unit test class for JFilesystemPatcher
  *
- * @package     Joomla.UnitTest
- * @subpackage  FileSystem
+ * @package		 Joomla.UnitTest
+ * @subpackage	FileSystem
  *
- * @since       12.1
+ * @since			 12.1
  */
 class JFilesystemPatcherTest extends TestCase
 {
@@ -25,9 +25,9 @@ class JFilesystemPatcherTest extends TestCase
 	 * Sets up the fixture.
 	 * This method is called before a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since       12.1
+	 * @since			 12.1
 	 */
 	protected function setUp()
 	{
@@ -43,9 +43,9 @@ class JFilesystemPatcherTest extends TestCase
 	/**
 	 * Remove created files
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since       12.1
+	 * @since			 12.1
 	 */
 	protected function tearDown()
 	{
@@ -55,9 +55,9 @@ class JFilesystemPatcherTest extends TestCase
 	/**
 	 * Convenience method to cleanup before and after test
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	private function _cleanupTestFiles()
 	{
@@ -70,11 +70,11 @@ class JFilesystemPatcherTest extends TestCase
 	/**
 	 * Convenience method to clean up for files test
 	 *
-	 * @param   string  $path  The path to clean
+	 * @param	 string	$path	The path to clean
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	private function _cleanupFile($path)
 	{
@@ -94,9 +94,9 @@ class JFilesystemPatcherTest extends TestCase
 	/**
 	 * Data provider for testAdd
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since       12.1
+	 * @since			 12.1
 	 */
 	public function addData()
 	{
@@ -112,12 +112,12 @@ class JFilesystemPatcherTest extends TestCase
 +The named is the mother of all things.
 +
  Therefore let there always be non-being,
-   so we may see their subtlety,
+	 so we may see their subtlety,
  And let there always be being,
 @@ -9,4 +8,7 @@
  The two are the same,
  But after they are produced,
-   they have different names.
+	 they have different names.
 +They both may be called deep and profound.
 +Deeper and more profound,
 +The door of all subtleties!
@@ -179,14 +179,14 @@ class JFilesystemPatcherTest extends TestCase
 	/**
 	 * Test JFilesystemPatcher::add add a unified diff string to the patcher
 	 *
-	 * @param   string  $udiff     Unified diff input string
-	 * @param   string  $root      The files root path
-	 * @param   string  $strip     The number of '/' to strip
-	 * @param   array   $expected  The expected array patches
+	 * @param	 string	$udiff		 Unified diff input string
+	 * @param	 string	$root			The files root path
+	 * @param	 string	$strip		 The number of '/' to strip
+	 * @param	 array	 $expected	The expected array patches
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since       12.1
+	 * @since			 12.1
 	 *
 	 * @dataProvider JFilesystemPatcherTest::addData
 	 */
@@ -205,9 +205,9 @@ class JFilesystemPatcherTest extends TestCase
 	/**
 	 * Test JFilesystemPatcher::addFile add a unified diff file to the patcher
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since       12.1
+	 * @since			 12.1
 	 */
 	public function testAddFile()
 	{
@@ -223,12 +223,12 @@ class JFilesystemPatcherTest extends TestCase
 +The named is the mother of all things.
 +
  Therefore let there always be non-being,
-   so we may see their subtlety,
+	 so we may see their subtlety,
  And let there always be being,
 @@ -9,4 +8,7 @@
  The two are the same,
  But after they are produced,
-   they have different names.
+	 they have different names.
 +They both may be called deep and profound.
 +Deeper and more profound,
 +The door of all subtleties!
@@ -256,7 +256,7 @@ class JFilesystemPatcherTest extends TestCase
 	/**
 	 * JFilesystemPatcher::reset reset the patcher to its initial state
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testReset()
 	{
@@ -272,12 +272,12 @@ class JFilesystemPatcherTest extends TestCase
 +The named is the mother of all things.
 +
  Therefore let there always be non-being,
-   so we may see their subtlety,
+	 so we may see their subtlety,
  And let there always be being,
 @@ -9,4 +8,7 @@
  The two are the same,
  But after they are produced,
-   they have different names.
+	 they have different names.
 +They both may be called deep and profound.
 +Deeper and more profound,
 +The door of all subtleties!
@@ -318,9 +318,9 @@ class JFilesystemPatcherTest extends TestCase
 	/**
 	 * Data provider for testApply
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since       12.1
+	 * @since			 12.1
 	 */
 	public function applyData()
 	{
@@ -339,12 +339,12 @@ class JFilesystemPatcherTest extends TestCase
 +The named is the mother of all things.
 +
  Therefore let there always be non-being,
-   so we may see their subtlety,
+	 so we may see their subtlety,
  And let there always be being,
 @@ -9,4 +8,7 @@
  The two are the same,
  But after they are produced,
-   they have different names.
+	 they have different names.
 +They both may be called deep and profound.
 +Deeper and more profound,
 +The door of all subtleties!
@@ -358,12 +358,12 @@ The name that can be named is not the eternal name.
 The Nameless is the origin of Heaven and Earth;
 The Named is the mother of all things.
 Therefore let there always be non-being,
-  so we may see their subtlety,
+	so we may see their subtlety,
 And let there always be being,
-  so we may see their outcome.
+	so we may see their outcome.
 The two are the same,
 But after they are produced,
-  they have different names.
+	they have different names.
 '
 				),
 				array(
@@ -372,12 +372,12 @@ But after they are produced,
 The named is the mother of all things.
 
 Therefore let there always be non-being,
-  so we may see their subtlety,
+	so we may see their subtlety,
 And let there always be being,
-  so we may see their outcome.
+	so we may see their outcome.
 The two are the same,
 But after they are produced,
-  they have different names.
+	they have different names.
 They both may be called deep and profound.
 Deeper and more profound,
 The door of all subtleties!
@@ -406,12 +406,12 @@ The name that can be named is not the eternal name.
 The Nameless is the origin of Heaven and Earth;
 The Named is the mother of all things.
 Therefore let there always be non-being,
-  so we may see their subtlety,
+	so we may see their subtlety,
 And let there always be being,
-  so we may see their outcome.
+	so we may see their outcome.
 The two are the same,
 But after they are produced,
-  they have different names.
+	they have different names.
 '
 				),
 				array(
@@ -421,12 +421,12 @@ The name that can be named is not the eternal name.
 The Nameless is the origin of Heaven and Earth;
 The Named is the mother of all things.
 Therefore let there always be non-being,
-  so we may see their subtlety,
+	so we may see their subtlety,
 And let there always be being,
-  so we may see their outcome.
+	so we may see their outcome.
 The two are the same,
 But after they are produced,
-  they have different names.
+	they have different names.
 '
 				),
 				1,
@@ -447,12 +447,12 @@ But after they are produced,
 +The named is the mother of all things.
 +
  Therefore let there always be non-being,
-   so we may see their subtlety,
+	 so we may see their subtlety,
  And let there always be being,
 @@ -9,4 +8,7 @@
  The two are the same,
  But after they are produced,
-   they have different names.
+	 they have different names.
 +They both may be called deep and profound.
 +Deeper and more profound,
 +The door of all subtleties!
@@ -466,12 +466,12 @@ The name that can be named is not the eternal name.
 The Nameless is the origin of Heaven and Earth;
 The Named is the mother of all things.
 Therefore let there always be non-being,
-  so we may see their subtlety,
+	so we may see their subtlety,
 And let there always be being,
-  so we may see their outcome.
+	so we may see their outcome.
 The two are the same,
 But after they are produced,
-  they have different names.
+	they have different names.
 '
 				),
 				array(
@@ -480,12 +480,12 @@ But after they are produced,
 The named is the mother of all things.
 
 Therefore let there always be non-being,
-  so we may see their subtlety,
+	so we may see their subtlety,
 And let there always be being,
-  so we may see their outcome.
+	so we may see their outcome.
 The two are the same,
 But after they are produced,
-  they have different names.
+	they have different names.
 They both may be called deep and profound.
 Deeper and more profound,
 The door of all subtleties!
@@ -509,12 +509,12 @@ The door of all subtleties!
 +The named is the mother of all things.
 +
  Therefore let there always be non-being,
-   so we may see their subtlety,
+	 so we may see their subtlety,
  And let there always be being,
 @@ -9,4 +8,7 @@
  The two are the same,
  But after they are produced,
-   they have different names.
+	 they have different names.
 +They both may be called deep and profound.
 +Deeper and more profound,
 +The door of all subtleties!
@@ -528,12 +528,12 @@ The name that can be named is not the eternal name.
 The Nameless is the origin of Heaven and Earth;
 The Named is the mother of all things.
 Therefore let there always be non-being,
-  so we may see their subtlety,
+	so we may see their subtlety,
 And let there always be being,
-  so we may see their outcome.
+	so we may see their outcome.
 The two are the same,
 But after they are produced,
-  they have different names.
+	they have different names.
 '
 				),
 				array(
@@ -542,12 +542,12 @@ But after they are produced,
 The named is the mother of all things.
 
 Therefore let there always be non-being,
-  so we may see their subtlety,
+	so we may see their subtlety,
 And let there always be being,
-  so we may see their outcome.
+	so we may see their outcome.
 The two are the same,
 But after they are produced,
-  they have different names.
+	they have different names.
 They both may be called deep and profound.
 Deeper and more profound,
 The door of all subtleties!
@@ -568,12 +568,12 @@ The door of all subtleties!
 +The named is the mother of all things.
 +
 +Therefore let there always be non-being,
-+  so we may see their subtlety,
++	so we may see their subtlety,
 +And let there always be being,
-+  so we may see their outcome.
++	so we may see their outcome.
 +The two are the same,
 +But after they are produced,
-+  they have different names.
++	they have different names.
 +They both may be called deep and profound.
 +Deeper and more profound,
 +The door of all subtleties!
@@ -588,12 +588,12 @@ The door of all subtleties!
 The named is the mother of all things.
 
 Therefore let there always be non-being,
-  so we may see their subtlety,
+	so we may see their subtlety,
 And let there always be being,
-  so we may see their outcome.
+	so we may see their outcome.
 The two are the same,
 But after they are produced,
-  they have different names.
+	they have different names.
 They both may be called deep and profound.
 Deeper and more profound,
 The door of all subtleties!
@@ -617,12 +617,12 @@ The door of all subtleties!
 +The named is the mother of all things.
 +
  Therefore let there always be non-being,
-   so we may see their subtlety,
+	 so we may see their subtlety,
  And let there always be being,
 @@ -9,4 +8,7 @@
  The two are the same,
  But after they are produced,
-   they have different names.
+	 they have different names.
 +They both may be called deep and profound.
 +Deeper and more profound,
 +The door of all subtleties!
@@ -636,12 +636,12 @@ The name that can be named is not the eternal name.
 The Nameless is the origin of Heaven and Earth;
 The Named is the mother of all things.
 Therefore let there always be non-being,
-  so we may see their subtlety,
+	so we may see their subtlety,
 And let there always be being,
-  so we may see their outcome.
+	so we may see their outcome.
 The two are the same,
 But after they are produced,
-  they have different names.
+	they have different names.
 '
 				),
 				array(
@@ -650,12 +650,12 @@ But after they are produced,
 The named is the mother of all things.
 
 Therefore let there always be non-being,
-  so we may see their subtlety,
+	so we may see their subtlety,
 And let there always be being,
-  so we may see their outcome.
+	so we may see their outcome.
 The two are the same,
 But after they are produced,
-  they have different names.
+	they have different names.
 They both may be called deep and profound.
 Deeper and more profound,
 The door of all subtleties!
@@ -677,12 +677,12 @@ The door of all subtleties!
 -The Nameless is the origin of Heaven and Earth;
 -The Named is the mother of all things.
 -Therefore let there always be non-being,
--  so we may see their subtlety,
+-	so we may see their subtlety,
 -And let there always be being,
--  so we may see their outcome.
+-	so we may see their outcome.
 -The two are the same,
 -But after they are produced,
--  they have different names.
+-	they have different names.
 ',
 				JPATH_TESTS . '/tmp/patcher',
 				0,
@@ -693,12 +693,12 @@ The name that can be named is not the eternal name.
 The Nameless is the origin of Heaven and Earth;
 The Named is the mother of all things.
 Therefore let there always be non-being,
-  so we may see their subtlety,
+	so we may see their subtlety,
 And let there always be being,
-  so we may see their outcome.
+	so we may see their outcome.
 The two are the same,
 But after they are produced,
-  they have different names.
+	they have different names.
 '
 				),
 				array(
@@ -850,12 +850,12 @@ But after they are produced,
 +The named is the mother of all things.
 +
  Therefore let there always be non-being,
-   so we may see their subtlety,
+	 so we may see their subtlety,
  And let there always be being,
 @@ -9,4 +8,7 @@
  The two are the same,
  But after they are produced,
-   they have different names.
+	 they have different names.
 +They both may be called deep and profound.
 +Deeper and more profound,
 +The door of all subtleties!
@@ -882,12 +882,12 @@ But after they are produced,
 +The named is the mother of all things.
 +
  Therefore let there always be non-being,
-   so we may see their subtlety,
+	 so we may see their subtlety,
  And let there always be being,
 @@ -9,4 +8,7 @@
  The two are the same,
  But after they are produced,
-   they have different names.
+	 they have different names.
 +They both may be called deep and profound.
 +Deeper and more profound,
 +The door of all subtleties!
@@ -907,17 +907,17 @@ But after they are produced,
 	/**
 	 * JFilesystemPatcher::apply apply the patches
 	 *
-	 * @param   string   $udiff         Unified diff input string
-	 * @param   string   $root          The files root path
-	 * @param   string   $strip         The number of '/' to strip
-	 * @param   array    $sources       The source files
-	 * @param   array    $destinations  The destinations files
-	 * @param   integer  $result        The number of files patched
-	 * @param   mixed    $throw         The exception throw, false for no exception
+	 * @param	 string	 $udiff				 Unified diff input string
+	 * @param	 string	 $root					The files root path
+	 * @param	 string	 $strip				 The number of '/' to strip
+	 * @param	 array		$sources			 The source files
+	 * @param	 array		$destinations	The destinations files
+	 * @param	 integer	$result				The number of files patched
+	 * @param	 mixed		$throw				 The exception throw, false for no exception
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since       12.1
+	 * @since			 12.1
 	 *
 	 * @dataProvider JFilesystemPatcherTest::applyData
 	 */

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Installer
+ * @package		 Joomla.Platform
+ * @subpackage	Installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -14,10 +14,10 @@ jimport('joomla.filesystem.file');
 /**
  * Joomla! Package Manifest File
  *
- * @package     Joomla.Platform
- * @subpackage  Installer
- * @since       12.2
- * @deprecated  13.3
+ * @package		 Joomla.Platform
+ * @subpackage	Installer
+ * @since			 12.2
+ * @deprecated	13.3
  */
 abstract class JInstallerManifest
 {
@@ -64,9 +64,9 @@ abstract class JInstallerManifest
 	/**
 	 * Constructor
 	 *
-	 * @param   string  $xmlpath  Path to XML manifest file.
+	 * @param	 string	$xmlpath	Path to XML manifest file.
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function __construct($xmlpath = '')
 	{
@@ -79,11 +79,11 @@ abstract class JInstallerManifest
 	/**
 	 * Load a manifest from a file
 	 *
-	 * @param   string  $xmlfile  Path to file to load
+	 * @param	 string	$xmlfile	Path to file to load
 	 *
-	 * @return  boolean
+	 * @return	boolean
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function loadManifestFromXML($xmlfile)
 	{
@@ -108,11 +108,11 @@ abstract class JInstallerManifest
 	/**
 	 * Apply manifest data from a SimpleXMLElement to the object.
 	 *
-	 * @param   SimpleXMLElement  $xml  Data to load
+	 * @param	 SimpleXMLElement	$xml	Data to load
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	abstract protected function loadManifestFromData(SimpleXmlElement $xml);
 }

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Crypt
+ * @package		 Joomla.Platform
+ * @subpackage	Crypt
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,9 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Password Hashing Interface
  *
- * @package     Joomla.Platform
- * @subpackage  Crypt
- * @since       12.2
+ * @package		 Joomla.Platform
+ * @subpackage	Crypt
+ * @since			 12.2
  */
 interface JCryptPassword
 {
@@ -29,44 +29,44 @@ interface JCryptPassword
 	/**
 	 * Creates a password hash
 	 *
-	 * @param   string  $password  The password to hash.
-	 * @param   string  $type      The type of hash. This determines the prefix of the hashing function.
+	 * @param	 string	$password	The password to hash.
+	 * @param	 string	$type			The type of hash. This determines the prefix of the hashing function.
 	 *
-	 * @return  string  The hashed password.
+	 * @return	string	The hashed password.
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function create($password, $type = null);
 
 	/**
 	 * Verifies a password hash
 	 *
-	 * @param   string  $password  The password to verify.
-	 * @param   string  $hash      The password hash to check.
+	 * @param	 string	$password	The password to verify.
+	 * @param	 string	$hash			The password hash to check.
 	 *
-	 * @return  boolean  True if the password is valid, false otherwise.
+	 * @return	boolean	True if the password is valid, false otherwise.
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function verify($password, $hash);
 
 	/**
 	 * Sets a default prefix
 	 *
-	 * @param   string  $type  The prefix to set as default
+	 * @param	 string	$type	The prefix to set as default
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function setDefaultType($type);
 
 	/**
 	 * Gets the default type
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function getDefaultType();
 }

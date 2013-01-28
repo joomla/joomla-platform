@@ -1,9 +1,9 @@
 <?php
 /**
- * @package    Joomla.Platform
+ * @package		Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -11,8 +11,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Static class to handle loading of libraries.
  *
- * @package  Joomla.Platform
- * @since    11.1
+ * @package	Joomla.Platform
+ * @since		11.1
  */
 abstract class JLoader
 {
@@ -23,46 +23,46 @@ abstract class JLoader
 	/**
 	 * Container for already imported library paths.
 	 *
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	protected static $classes = array();
 
 	/**
 	 * Container for already imported library paths.
 	 *
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	protected static $imported = array();
 
 	/**
 	 * Container for registered library class prefixes and path lookups.
 	 *
-	 * @var    array
-	 * @since  12.1
+	 * @var		array
+	 * @since	12.1
 	 */
 	protected static $prefixes = array();
 
 	/**
 	 * Container for namespace => path map.
 	 *
-	 * @var    array
-	 * @since  12.3
+	 * @var		array
+	 * @since	12.3
 	 */
 	protected static $namespaces = array();
 
 	/**
 	 * Method to discover classes of a given type in a given path.
 	 *
-	 * @param   string   $classPrefix  The class name prefix to use for discovery.
-	 * @param   string   $parentPath   Full path to the parent folder for the classes to discover.
-	 * @param   boolean  $force        True to overwrite the autoload path value for the class if it already exists.
-	 * @param   boolean  $recurse      Recurse through all child directories as well as the parent path.
+	 * @param	 string	 $classPrefix	The class name prefix to use for discovery.
+	 * @param	 string	 $parentPath	 Full path to the parent folder for the classes to discover.
+	 * @param	 boolean	$force				True to overwrite the autoload path value for the class if it already exists.
+	 * @param	 boolean	$recurse			Recurse through all child directories as well as the parent path.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function discover($classPrefix, $parentPath, $force = true, $recurse = false)
 	{
@@ -108,9 +108,9 @@ abstract class JLoader
 	/**
 	 * Method to get the list of registered classes and their respective file paths for the autoloader.
 	 *
-	 * @return  array  The array of class => path values for the autoloader.
+	 * @return	array	The array of class => path values for the autoloader.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function getClassList()
 	{
@@ -120,9 +120,9 @@ abstract class JLoader
 	/**
 	 * Method to get the list of registered namespaces.
 	 *
-	 * @return  array  The array of namespace => path values for the autoloader.
+	 * @return	array	The array of namespace => path values for the autoloader.
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public static function getNamespaces()
 	{
@@ -132,12 +132,12 @@ abstract class JLoader
 	/**
 	 * Loads a class from specified directories.
 	 *
-	 * @param   string  $key   The class name to look for (dot notation).
-	 * @param   string  $base  Search this directory for the class.
+	 * @param	 string	$key	 The class name to look for (dot notation).
+	 * @param	 string	$base	Search this directory for the class.
 	 *
-	 * @return  boolean  True on success.
+	 * @return	boolean	True on success.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function import($key, $base = null)
 	{
@@ -198,11 +198,11 @@ abstract class JLoader
 	/**
 	 * Load the file for a class.
 	 *
-	 * @param   string  $class  The class to be loaded.
+	 * @param	 string	$class	The class to be loaded.
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function load($class)
 	{
@@ -231,11 +231,11 @@ abstract class JLoader
 	 * This loader might be used when the namespace is lower case or camel case
 	 * and the path lower case.
 	 *
-	 * @param   string  $class  The class (including namespace) to load.
+	 * @param	 string	$class	The class (including namespace) to load.
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return	boolean	True on success, false otherwise.
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public static function loadByNamespaceLowerCase($class)
 	{
@@ -278,11 +278,11 @@ abstract class JLoader
 	 * Load a class based on namespace using the Natural Case strategy.
 	 * This loader might be used when the namespace case matches the path case.
 	 *
-	 * @param   string  $class  The class (including namespace) to load.
+	 * @param	 string	$class	The class (including namespace) to load.
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return	boolean	True on success, false otherwise.
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public static function loadByNamespaceNaturalCase($class)
 	{
@@ -326,11 +326,11 @@ abstract class JLoader
 	 * This loader might be used when the namespace case matches the path case,
 	 * or when the namespace is camel case and the path lower case.
 	 *
-	 * @param   string  $class  The class (including namespace) to load.
+	 * @param	 string	$class	The class (including namespace) to load.
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return	boolean	True on success, false otherwise.
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public static function loadByNamespaceMixedCase($class)
 	{
@@ -384,13 +384,13 @@ abstract class JLoader
 	/**
 	 * Directly register a class to the autoload list.
 	 *
-	 * @param   string   $class  The class name to register.
-	 * @param   string   $path   Full path to the file that holds the class to register.
-	 * @param   boolean  $force  True to overwrite the autoload path value for the class if it already exists.
+	 * @param	 string	 $class	The class name to register.
+	 * @param	 string	 $path	 Full path to the file that holds the class to register.
+	 * @param	 boolean	$force	True to overwrite the autoload path value for the class if it already exists.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function register($class, $path, $force = true)
 	{
@@ -409,21 +409,21 @@ abstract class JLoader
 	}
 
 	/**
-	 * Register a class prefix with lookup path.  This will allow developers to register library
-	 * packages with different class prefixes to the system autoloader.  More than one lookup path
+	 * Register a class prefix with lookup path.	This will allow developers to register library
+	 * packages with different class prefixes to the system autoloader.	More than one lookup path
 	 * may be registered for the same class prefix, but if this method is called with the reset flag
 	 * set to true then any registered lookups for the given prefix will be overwritten with the current
 	 * lookup path. When loaded, prefix paths are searched in a "last in, first out" order.
 	 *
-	 * @param   string   $prefix  The class prefix to register.
-	 * @param   string   $path    Absolute file path to the library root where classes with the given prefix can be found.
-	 * @param   boolean  $reset   True to reset the prefix with only the given lookup path.
+	 * @param	 string	 $prefix	The class prefix to register.
+	 * @param	 string	 $path		Absolute file path to the library root where classes with the given prefix can be found.
+	 * @param	 boolean	$reset	 True to reset the prefix with only the given lookup path.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @throws  RuntimeException
+	 * @throws	RuntimeException
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public static function registerPrefix($prefix, $path, $reset = false)
 	{
@@ -448,15 +448,15 @@ abstract class JLoader
 	/**
 	 * Register a namespace to the autoloader. When loaded, namespace paths are searched in a "last in, first out" order.
 	 *
-	 * @param   string   $namespace  A case sensitive Namespace to register.
-	 * @param   string   $path       A case sensitive absolute file path to the library root where classes of the given namespace can be found.
-	 * @param   boolean  $reset      True to reset the namespace with only the given lookup path.
+	 * @param	 string	 $namespace	A case sensitive Namespace to register.
+	 * @param	 string	 $path			 A case sensitive absolute file path to the library root where classes of the given namespace can be found.
+	 * @param	 boolean	$reset			True to reset the namespace with only the given lookup path.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @throws  RuntimeException
+	 * @throws	RuntimeException
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public static function registerNamespace($namespace, $path, $reset = false)
 	{
@@ -486,19 +486,19 @@ abstract class JLoader
 	 * This will allow people to register a class in a specific location and override platform libraries
 	 * as was previously possible.
 	 *
-	 * @param   integer  $caseStrategy      An option to define the class finding strategy for the namespace loader
-	 *                                      depending on the namespace and class path case.
-	 *                                      The possible values are :
-	 *                                      JLoader::LOWER_CASE : The namespace can be either lower case or camel case and the path lower case.
-	 *                                      JLoader::NATURAL_CASE : The namespace case matches the path case.
-	 *                                      JLoader::MIXED_CASE : It regroups option 1 and option 2.
-	 * @param   boolean  $enableNamespaces  True to enable PHP namespace based class autoloading.
-	 * @param   boolean  $enablePrefixes    True to enable prefix based class loading (needed to auto load the Joomla core).
-	 * @param   boolean  $enableClasses     True to enable class map based class loading (needed to auto load the Joomla core).
+	 * @param	 integer	$caseStrategy			An option to define the class finding strategy for the namespace loader
+	 *																			depending on the namespace and class path case.
+	 *																			The possible values are :
+	 *																			JLoader::LOWER_CASE : The namespace can be either lower case or camel case and the path lower case.
+	 *																			JLoader::NATURAL_CASE : The namespace case matches the path case.
+	 *																			JLoader::MIXED_CASE : It regroups option 1 and option 2.
+	 * @param	 boolean	$enableNamespaces	True to enable PHP namespace based class autoloading.
+	 * @param	 boolean	$enablePrefixes		True to enable prefix based class loading (needed to auto load the Joomla core).
+	 * @param	 boolean	$enableClasses		 True to enable class map based class loading (needed to auto load the Joomla core).
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public static function setup($caseStrategy = self::LOWER_CASE, $enableNamespaces = false, $enablePrefixes = true, $enableClasses = true)
 	{
@@ -547,11 +547,11 @@ abstract class JLoader
 	/**
 	 * Autoload a class based on name.
 	 *
-	 * @param   string  $class  The class to be loaded.
+	 * @param	 string	$class	The class to be loaded.
 	 *
-	 * @return  boolean  True if the class was loaded, false otherwise.
+	 * @return	boolean	True if the class was loaded, false otherwise.
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	private static function _autoload($class)
 	{
@@ -571,12 +571,12 @@ abstract class JLoader
 	/**
 	 * Load a class based on name and lookup array.
 	 *
-	 * @param   string  $class   The class to be loaded (wihtout prefix).
-	 * @param   array   $lookup  The array of base paths to use for finding the class file.
+	 * @param	 string	$class	 The class to be loaded (wihtout prefix).
+	 * @param	 array	 $lookup	The array of base paths to use for finding the class file.
 	 *
-	 * @return  boolean  True if the class was loaded, false otherwise.
+	 * @return	boolean	True if the class was loaded, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	private static function _load($class, $lookup)
 	{
@@ -607,12 +607,12 @@ abstract class JLoader
  *
  * This function provides a single exit point for the platform.
  *
- * @param   mixed  $message  Exit code or string. Defaults to zero.
+ * @param	 mixed	$message	Exit code or string. Defaults to zero.
  *
- * @return  void
+ * @return	void
  *
  * @codeCoverageIgnore
- * @since   11.1
+ * @since	 11.1
  */
 function jexit($message = 0)
 {
@@ -622,11 +622,11 @@ function jexit($message = 0)
 /**
  * Intelligent file importer.
  *
- * @param   string  $path  A dot syntax path.
+ * @param	 string	$path	A dot syntax path.
  *
- * @return  boolean  True on success.
+ * @return	boolean	True on success.
  *
- * @since   11.1
+ * @since	 11.1
  */
 function jimport($path)
 {

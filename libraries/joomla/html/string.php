@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  HTML
+ * @package		 Joomla.Platform
+ * @subpackage	HTML
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,9 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * HTML helper class for rendering manipulated strings.
  *
- * @package     Joomla.Platform
- * @subpackage  HTML
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	HTML
+ * @since			 11.1
  */
 abstract class JHtmlString
 {
@@ -24,14 +24,14 @@ abstract class JHtmlString
 	 * word, it will find the first space that is within the limit and
 	 * truncate at that point. This method is UTF-8 safe.
 	 *
-	 * @param   string   $text       The text to truncate.
-	 * @param   integer  $length     The maximum length of the text.
-	 * @param   boolean  $noSplit    Don't split a word if that is where the cutoff occurs (default: true).
-	 * @param   boolean  $allowHtml  Allow HTML tags in the output, and close any open tags (default: true).
+	 * @param	 string	 $text			 The text to truncate.
+	 * @param	 integer	$length		 The maximum length of the text.
+	 * @param	 boolean	$noSplit		Don't split a word if that is where the cutoff occurs (default: true).
+	 * @param	 boolean	$allowHtml	Allow HTML tags in the output, and close any open tags (default: true).
 	 *
-	 * @return  string   The truncated text.
+	 * @return	string	 The truncated text.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function truncate($text, $length = 0, $noSplit = true, $allowHtml = true)
 	{
@@ -144,18 +144,18 @@ abstract class JHtmlString
 	* The goal is to get the proper length plain text string with as much of
 	* the html intact as possible with all tags properly closed.
 	*
-	* @param   string   $html       The content of the introtext to be truncated
-	* @param   integer  $maxLength  The maximum number of characters to render
-	* @param   boolean  $noSplit    Don't split a word if that is where the cutoff occurs (default: true).
+	* @param	 string	 $html			 The content of the introtext to be truncated
+	* @param	 integer	$maxLength	The maximum number of characters to render
+	* @param	 boolean	$noSplit		Don't split a word if that is where the cutoff occurs (default: true).
 	*
-	* @return  string  The truncated string. If the string is truncated an ellipsis
-	*                  (...) will be appended.
+	* @return	string	The truncated string. If the string is truncated an ellipsis
+	*									(...) will be appended.
 	*
 	* @note: If a maximum length of 3 or less is selected and the text has more than
-	*        that number of characters an ellipsis will be displayed.
-	*        This method will not create valid HTML from malformed HTML.
+	*				that number of characters an ellipsis will be displayed.
+	*				This method will not create valid HTML from malformed HTML.
 	*
-	* @since   12.2
+	* @since	 12.2
 	*/
 	public static function truncateComplex($html, $maxLength = 0, $noSplit = true)
 	{
@@ -264,13 +264,13 @@ abstract class JHtmlString
 	 *
 	 * Note that this method does not scan for HTML tags so will potentially break them.
 	 *
-	 * @param   string   $text    The text to abridge.
-	 * @param   integer  $length  The maximum length of the text (default is 50).
-	 * @param   integer  $intro   The maximum length of the intro text (default is 30).
+	 * @param	 string	 $text		The text to abridge.
+	 * @param	 integer	$length	The maximum length of the text (default is 50).
+	 * @param	 integer	$intro	 The maximum length of the intro text (default is 30).
 	 *
-	 * @return  string   The abridged text.
+	 * @return	string	 The abridged text.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function abridge($text, $length = 50, $intro = 30)
 	{

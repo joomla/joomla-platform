@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  View
+ * @package		 Joomla.UnitTest
+ * @subpackage	View
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 JLoader::register('BaseView', __DIR__ . '/stubs/tbase.php');
@@ -13,25 +13,25 @@ JLoader::register('JModelMock', __DIR__ . '/mocks/JModelMock.php');
 /**
  * Tests for the JViewBase class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  View
- * @since       12.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	View
+ * @since			 12.1
  */
 class JViewBaseTest extends TestCase
 {
 	/**
-	 * @var    JViewBase
-	 * @since  12.1
+	 * @var		JViewBase
+	 * @since	12.1
 	 */
 	private $_instance;
 
 	/**
 	 * Tests the __construct method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JViewBase::__construct
-	 * @since   12.1
+	 * @covers	JViewBase::__construct
+	 * @since	 12.1
 	 */
 	public function test__construct()
 	{
@@ -41,10 +41,10 @@ class JViewBaseTest extends TestCase
 	/**
 	 * Tests the escape method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JViewBase::escape
-	 * @since   12.1
+	 * @covers	JViewBase::escape
+	 * @since	 12.1
 	 */
 	public function testEscape()
 	{
@@ -54,9 +54,9 @@ class JViewBaseTest extends TestCase
 	/**
 	 * Setup the tests.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function setUp()
 	{

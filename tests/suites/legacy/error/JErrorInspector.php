@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Error
+ * @package		 Joomla.UnitTest
+ * @subpackage	Error
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM . '/legacy/error/error.php';
@@ -12,17 +12,17 @@ require_once JPATH_PLATFORM . '/legacy/error/error.php';
 /**
  * Stub for testing the JError class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Error
+ * @package		 Joomla.UnitTest
+ * @subpackage	Error
  *
- * @since       12.3
+ * @since			 12.3
  */
 class JErrorInspector extends JError
 {
 	/**
 	 * Stub method to get $levels
 	 *
-	 * @return  JError::$levels
+	 * @return	JError::$levels
 	 */
 	public static function inspectLevels()
 	{
@@ -32,7 +32,7 @@ class JErrorInspector extends JError
 	/**
 	 * Stub method get $handlers
 	 *
-	 * @return  JError::$handlers
+	 * @return	JError::$handlers
 	 */
 	public static function inspectHandlers()
 	{
@@ -42,7 +42,7 @@ class JErrorInspector extends JError
 	/**
 	 * Stub method to get $stack
 	 *
-	 * @return  JError::$stack
+	 * @return	JError::$stack
 	 */
 	public static function inspectStack()
 	{
@@ -52,9 +52,9 @@ class JErrorInspector extends JError
 	/**
 	 * Stub method to set $levels
 	 *
-	 * @param   array  $levels  An array of error levels
+	 * @param	 array	$levels	An array of error levels
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public static function manipulateLevels($levels)
 	{
@@ -64,9 +64,9 @@ class JErrorInspector extends JError
 	/**
 	 * Stub method to set $handlers
 	 *
-	 * @param   array  $handlers  An array of error handlers
+	 * @param	 array	$handlers	An array of error handlers
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public static function manipulateHandlers($handlers)
 	{
@@ -76,9 +76,9 @@ class JErrorInspector extends JError
 	/**
 	 * Stub method to set $stack
 	 *
-	 * @param   array  $stack  An array of error stacks
+	 * @param	 array	$stack	An array of error stacks
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public static function manipulateStack($stack)
 	{

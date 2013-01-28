@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Data
+ * @package		 Joomla.UnitTest
+ * @subpackage	Data
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 JLoader::register('JDataBuran', __DIR__ . '/stubs/buran.php');
@@ -13,22 +13,22 @@ JLoader::register('JDataCapitaliser', __DIR__ . '/stubs/capitaliser.php');
 /**
  * Tests for the JData class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Data
- * @since       12.3
+ * @package		 Joomla.UnitTest
+ * @subpackage	Data
+ * @since			 12.3
  */
 class JDataTest extends TestCase
 {
 	/**
-	 * @var    JData
-	 * @since  12.3
+	 * @var		JData
+	 * @since	12.3
 	 */
 	private $_instance;
 
 	/**
 	 * Tests the object constructor.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @covers	JData::__construct
 	 */
@@ -44,10 +44,10 @@ class JDataTest extends TestCase
 	/**
 	 * Tests the __get method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JData::__get
-	 * @since   12.3
+	 * @covers	JData::__get
+	 * @since	 12.3
 	 */
 	public function test__get()
 	{
@@ -60,10 +60,10 @@ class JDataTest extends TestCase
 	/**
 	 * Tests the __isset method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JData::__isset
-	 * @since   12.3
+	 * @covers	JData::__isset
+	 * @since	 12.3
 	 */
 	public function test__isset()
 	{
@@ -77,10 +77,10 @@ class JDataTest extends TestCase
 	/**
 	 * Tests the __set method where a custom setter is available.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JData::__set
-	 * @since   12.3
+	 * @covers	JData::__set
+	 * @since	 12.3
 	 */
 	public function test__set_setter()
 	{
@@ -97,10 +97,10 @@ class JDataTest extends TestCase
 	/**
 	 * Tests the __unset method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JData::__unset
-	 * @since   12.3
+	 * @covers	JData::__unset
+	 * @since	 12.3
 	 */
 	public function test__unset()
 	{
@@ -116,10 +116,10 @@ class JDataTest extends TestCase
 	/**
 	 * Tests the bind method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JData::bind
-	 * @since   12.3
+	 * @covers	JData::bind
+	 * @since	 12.3
 	 */
 	public function testBind()
 	{
@@ -136,10 +136,10 @@ class JDataTest extends TestCase
 	/**
 	 * Tests the bind method with array input.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JData::bind
-	 * @since   12.3
+	 * @covers	JData::bind
+	 * @since	 12.3
 	 */
 	public function testBind_array()
 	{
@@ -164,10 +164,10 @@ class JDataTest extends TestCase
 	/**
 	 * Tests the bind method with input that is a traverable object.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JData::bind
-	 * @since   12.3
+	 * @covers	JData::bind
+	 * @since	 12.3
 	 */
 	public function testBind_arrayObject()
 	{
@@ -194,10 +194,10 @@ class JDataTest extends TestCase
 	/**
 	 * Tests the bind method with object input.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JData::bind
-	 * @since   12.3
+	 * @covers	JData::bind
+	 * @since	 12.3
 	 */
 	public function testBind_object()
 	{
@@ -221,11 +221,11 @@ class JDataTest extends TestCase
 	/**
 	 * Tests the bind method for an expected exception.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers             JData::bind
-	 * @expectedException  InvalidArgumentException
-	 * @since              12.3
+	 * @covers						 JData::bind
+	 * @expectedException	InvalidArgumentException
+	 * @since							12.3
 	 */
 	public function testBind_exception()
 	{
@@ -235,10 +235,10 @@ class JDataTest extends TestCase
 	/**
 	 * Tests the count method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JData::count
-	 * @since   12.3
+	 * @covers	JData::count
+	 * @since	 12.3
 	 */
 	public function testCount()
 	{
@@ -258,10 +258,10 @@ class JDataTest extends TestCase
 	/**
 	 * Tests the dump method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JData::dump
-	 * @since   12.3
+	 * @covers	JData::dump
+	 * @since	 12.3
 	 */
 	public function testDump()
 	{
@@ -329,10 +329,10 @@ class JDataTest extends TestCase
 	/**
 	 * Tests the dumpProperty method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JData::dumpProperty
-	 * @since   12.3
+	 * @covers	JData::dumpProperty
+	 * @since	 12.3
 	 */
 	public function testDumpProperty()
 	{
@@ -348,10 +348,10 @@ class JDataTest extends TestCase
 	/**
 	 * Tests the getIterator method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @covers	JData::getIterator
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testGetIterator()
 	{
@@ -361,10 +361,10 @@ class JDataTest extends TestCase
 	/**
 	 * Tests the getProperty method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JData::getProperty
-	 * @since   12.3
+	 * @covers	JData::getProperty
+	 * @since	 12.3
 	 */
 	public function testGetProperty()
 	{
@@ -375,11 +375,11 @@ class JDataTest extends TestCase
 	/**
 	 * Tests the getProperty method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers             JData::getProperty
-	 * @expectedException  InvalidArgumentException
-	 * @since              12.3
+	 * @covers						 JData::getProperty
+	 * @expectedException	InvalidArgumentException
+	 * @since							12.3
 	 */
 	public function testGetProperty_exception()
 	{
@@ -394,10 +394,10 @@ class JDataTest extends TestCase
 	 *
 	 * Note, this is not completely backward compatible. Previous this would just return the class name.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JData::jsonSerialize
-	 * @since   12.3
+	 * @covers	JData::jsonSerialize
+	 * @since	 12.3
 	 */
 	public function testJsonSerialize()
 	{
@@ -410,10 +410,10 @@ class JDataTest extends TestCase
 	/**
 	 * Tests the setProperty method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JData::setProperty
-	 * @since   12.3
+	 * @covers	JData::setProperty
+	 * @since	 12.3
 	 */
 	public function testSetProperty()
 	{
@@ -429,11 +429,11 @@ class JDataTest extends TestCase
 	/**
 	 * Tests the setProperty method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers             JData::setProperty
-	 * @expectedException  InvalidArgumentException
-	 * @since              12.3
+	 * @covers						 JData::setProperty
+	 * @expectedException	InvalidArgumentException
+	 * @since							12.3
 	 */
 	public function testSetProperty_exception()
 	{
@@ -444,11 +444,11 @@ class JDataTest extends TestCase
 	/**
 	 * Test that JData::setProperty() will not set a property which starts with a null byte.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JData::setProperty
-	 * @see     http://us3.php.net/manual/en/language.types.array.php#language.types.array.casting
-	 * @since   12.3
+	 * @covers	JData::setProperty
+	 * @see		 http://us3.php.net/manual/en/language.types.array.php#language.types.array.casting
+	 * @since	 12.3
 	 */
 	public function testSetPropertySkipsPropertyWithNullBytes()
 	{
@@ -465,9 +465,9 @@ class JDataTest extends TestCase
 	/**
 	 * Setup the tests.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	protected function setUp()
 	{

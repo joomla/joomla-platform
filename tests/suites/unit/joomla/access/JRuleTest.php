@@ -1,29 +1,29 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Access
+ * @package		 Joomla.UnitTest
+ * @subpackage	Access
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JAccessRule.
  *
- * @package  Joomla.Platform
+ * @package	Joomla.Platform
  *
- * @since    11.1
+ * @since		11.1
  */
 class JAccessRuleTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * Tests the JAccessRule::__construct and JAccessRule::__toString methods.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
-	 * @covers  JAccessRule::__construct
-	 * @covers  JAccessRule::__toString
+	 * @since	 11.1
+	 * @covers	JAccessRule::__construct
+	 * @covers	JAccessRule::__toString
 	 */
 	public function test__construct()
 	{
@@ -68,10 +68,10 @@ class JAccessRuleTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the JAccessRule::getData method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.2
-	 * @covers  JAccessRule::getData
+	 * @since	 12.2
+	 * @covers	JAccessRule::getData
 	 */
 	public function testGetData()
 	{
@@ -92,10 +92,10 @@ class JAccessRuleTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the JAccessRule::mergeIdentity method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
-	 * @covers  JAccessRule::mergeIdentity
+	 * @since	 11.1
+	 * @covers	JAccessRule::mergeIdentity
 	 */
 	public function testMergeIdentity()
 	{
@@ -127,10 +127,10 @@ class JAccessRuleTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the JAccessRule::mergeIdentities method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
-	 * @covers  JAccessRule::mergeIdentities
+	 * @since	 11.1
+	 * @covers	JAccessRule::mergeIdentities
 	 */
 	public function testMergeIdentities()
 	{
@@ -190,10 +190,10 @@ class JAccessRuleTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the JAccessRule::allow method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
-	 * @covers  JAccessRule::allow
+	 * @since	 11.1
+	 * @covers	JAccessRule::allow
 	 */
 	public function testAllow()
 	{

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Session
+ * @package		 Joomla.Platform
+ * @subpackage	Session
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,19 +12,19 @@ defined('JPATH_PLATFORM') or die;
 /**
  * WINCACHE session storage handler for PHP
  *
- * @package     Joomla.Platform
- * @subpackage  Session
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Session
+ * @since			 11.1
  */
 class JSessionStorageWincache extends JSessionStorage
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   array  $options  Optional parameters.
+	 * @param	 array	$options	Optional parameters.
 	 *
-	 * @since   11.1
-	 * @throws  RuntimeException
+	 * @since	 11.1
+	 * @throws	RuntimeException
 	 */
 	public function __construct($options = array())
 	{
@@ -39,9 +39,9 @@ class JSessionStorageWincache extends JSessionStorage
 	/**
 	 * Register the functions of this class with PHP's session handler
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function register()
 	{
@@ -51,9 +51,9 @@ class JSessionStorageWincache extends JSessionStorage
 	/**
 	 * Test to see if the SessionHandler is available.
 	 *
-	 * @return boolean  True on success, false otherwise.
+	 * @return boolean	True on success, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	static public function isSupported()
 	{

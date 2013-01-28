@@ -1,4 +1,4 @@
-/*  Copyright Mihai Bazon, 2002-2005  |  www.bazon.net/mishoo
+/*	Copyright Mihai Bazon, 2002-2005	|	www.bazon.net/mishoo
  * -----------------------------------------------------------
  *
  * The DHTML Calendar, version 1.0 "It is happening again"
@@ -6,7 +6,7 @@
  * Details and latest version at:
  * www.dynarch.com/projects/calendar
  *
- * This script is developed by Dynarch.com.  Visit us at www.dynarch.com.
+ * This script is developed by Dynarch.com.	Visit us at www.dynarch.com.
  *
  * This script is distributed under the GNU Lesser General Public License.
  * Read the entire license text here: http://www.gnu.org/licenses/lgpl.html
@@ -83,7 +83,7 @@ Calendar._C = null;
 
 /// detect a special case of "web browser"
 Calendar.is_ie = ( /msie/i.test(navigator.userAgent) &&
-		   !/opera/i.test(navigator.userAgent) );
+			 !/opera/i.test(navigator.userAgent) );
 
 Calendar.is_ie5 = ( Calendar.is_ie && /msie 5\.0/i.test(navigator.userAgent) );
 
@@ -94,7 +94,7 @@ Calendar.is_opera = /opera/i.test(navigator.userAgent);
 Calendar.is_khtml = /Konqueror|Safari|KHTML/i.test(navigator.userAgent);
 
 // BEGIN: UTILITY FUNCTIONS; beware that these might be moved into a separate
-//        library, at some point.
+//				library, at some point.
 
 Calendar.getAbsolutePos = function(el) {
 	var SL = 0, ST = 0;
@@ -576,8 +576,8 @@ Calendar.dayMouseOut = function(ev) {
 };
 
 /**
- *  A generic "click" handler :) handles all types of buttons defined in this
- *  calendar.
+ *	A generic "click" handler :) handles all types of buttons defined in this
+ *	calendar.
  */
 Calendar.cellClick = function(el, ev) {
 	var cal = el.calendar;
@@ -628,7 +628,7 @@ Calendar.cellClick = function(el, ev) {
 			date.setMonth(m);
 		};
 		switch (el.navtype) {
-		    case 400:
+				case 400:
 			Calendar.removeClass(el, "hilite");
 			var text = Calendar._TT["ABOUT"];
 			if (typeof text != "undefined") {
@@ -638,18 +638,18 @@ Calendar.cellClick = function(el, ev) {
 				text = "Help and about box text is not translated into this language.\n" +
 					"If you know this language and you feel generous please update\n" +
 					"the corresponding file in \"lang\" subdir to match calendar-en.js\n" +
-					"and send it back to <mihai_bazon@yahoo.com> to get it into the distribution  ;-)\n\n" +
+					"and send it back to <mihai_bazon@yahoo.com> to get it into the distribution	;-)\n\n" +
 					"Thank you!\n" +
 					"http://dynarch.com/mishoo/calendar.epl\n";
 			}
 			alert(text);
 			return;
-		    case -2:
+				case -2:
 			if (year > cal.minYear) {
 				date.setFullYear(year - 1);
 			}
 			break;
-		    case -1:
+				case -1:
 			if (mon > 0) {
 				setMonth(mon - 1);
 			} else if (year-- > cal.minYear) {
@@ -657,7 +657,7 @@ Calendar.cellClick = function(el, ev) {
 				setMonth(11);
 			}
 			break;
-		    case 1:
+				case 1:
 			if (mon < 11) {
 				setMonth(mon + 1);
 			} else if (year < cal.maxYear) {
@@ -665,15 +665,15 @@ Calendar.cellClick = function(el, ev) {
 				setMonth(0);
 			}
 			break;
-		    case 2:
+				case 2:
 			if (year < cal.maxYear) {
 				date.setFullYear(year + 1);
 			}
 			break;
-		    case 100:
+				case 100:
 			cal.setFirstDayOfWeek(el.fdow);
 			return;
-		    case 50:
+				case 50:
 			var range = el._range;
 			var current = el.innerHTML;
 			for (var i = range.length; --i >= 0;)
@@ -688,10 +688,10 @@ Calendar.cellClick = function(el, ev) {
 			el.innerHTML = newval;
 			cal.onUpdateTime();
 			return;
-		    case 0:
+				case 0:
 			// TODAY will bring us here
 			if ((typeof cal.getDateStatus == "function") &&
-			    cal.getDateStatus(date, date.getFullYear(), date.getMonth(), date.getDate())) {
+					cal.getDateStatus(date, date.getFullYear(), date.getMonth(), date.getDate())) {
 				return false;
 			}
 			break;
@@ -716,10 +716,10 @@ Calendar.cellClick = function(el, ev) {
 // BEGIN: CALENDAR OBJECT FUNCTIONS
 
 /**
- *  This function creates the calendar inside the given parent.  If _par is
- *  null than it creates a popup calendar inside the BODY element.  If _par is
- *  an element, be it BODY, then it creates a non-popup calendar (still
- *  hidden).  Some properties need to be set before calling this function.
+ *	This function creates the calendar inside the given parent.	If _par is
+ *	null than it creates a popup calendar inside the BODY element.	If _par is
+ *	an element, be it BODY, then it creates a non-popup calendar (still
+ *	hidden).	Some properties need to be set before calling this function.
  */
 Calendar.prototype.create = function (_par) {
 	var parent = null;
@@ -973,32 +973,32 @@ Calendar._keyEvent = function(ev) {
 		K = ev.keyCode;
 	if (ev.ctrlKey) {
 		switch (K) {
-		    case 37: // KEY left
+				case 37: // KEY left
 			act && Calendar.cellClick(cal._nav_pm);
 			break;
-		    case 38: // KEY up
+				case 38: // KEY up
 			act && Calendar.cellClick(cal._nav_py);
 			break;
-		    case 39: // KEY right
+				case 39: // KEY right
 			act && Calendar.cellClick(cal._nav_nm);
 			break;
-		    case 40: // KEY down
+				case 40: // KEY down
 			act && Calendar.cellClick(cal._nav_ny);
 			break;
-		    default:
+				default:
 			return false;
 		}
 	} else switch (K) {
-	    case 32: // KEY space (now)
+			case 32: // KEY space (now)
 		Calendar.cellClick(cal._nav_now);
 		break;
-	    case 27: // KEY esc
+			case 27: // KEY esc
 		act && cal.callCloseHandler();
 		break;
-	    case 37: // KEY left
-	    case 38: // KEY up
-	    case 39: // KEY right
-	    case 40: // KEY down
+			case 37: // KEY left
+			case 38: // KEY up
+			case 39: // KEY right
+			case 40: // KEY down
 		if (act) {
 			var prev, x, y, ne, el, step;
 			prev = K == 37 || K == 38;
@@ -1022,7 +1022,7 @@ Calendar._keyEvent = function(ev) {
 			};
 			while (1) {
 				switch (K) {
-				    case 37: // KEY left
+						case 37: // KEY left
 					if (--x >= 0)
 						ne = cal.ar_days[y][x];
 					else {
@@ -1031,7 +1031,7 @@ Calendar._keyEvent = function(ev) {
 						continue;
 					}
 					break;
-				    case 38: // KEY up
+						case 38: // KEY up
 					if (--y >= 0)
 						ne = cal.ar_days[y][x];
 					else {
@@ -1039,7 +1039,7 @@ Calendar._keyEvent = function(ev) {
 						setVars();
 					}
 					break;
-				    case 39: // KEY right
+						case 39: // KEY right
 					if (++x < 7)
 						ne = cal.ar_days[y][x];
 					else {
@@ -1048,7 +1048,7 @@ Calendar._keyEvent = function(ev) {
 						continue;
 					}
 					break;
-				    case 40: // KEY down
+						case 40: // KEY down
 					if (++y < cal.ar_days.length)
 						ne = cal.ar_days[y][x];
 					else {
@@ -1069,18 +1069,18 @@ Calendar._keyEvent = function(ev) {
 			}
 		}
 		break;
-	    case 13: // KEY enter
+			case 13: // KEY enter
 		if (act)
 			Calendar.cellClick(cal.currentDateEl, ev);
 		break;
-	    default:
+			default:
 		return false;
 	}
 	return Calendar.stopEvent(ev);
 };
 
 /**
- *  (RE)Initializes the calendar to the given date and firstDayOfWeek
+ *	(RE)Initializes the calendar to the given date and firstDayOfWeek
  */
 Calendar.prototype._init = function (firstDayOfWeek, date) {
 	var today = new Date(),
@@ -1166,13 +1166,13 @@ Calendar.prototype._init = function (firstDayOfWeek, date) {
 				cell.caldate = new Date(date);
 				cell.ttip = "_";
 				if (!this.multiple && current_month
-				    && iday == mday && this.hiliteToday) {
+						&& iday == mday && this.hiliteToday) {
 					cell.className += " selected";
 					this.currentDateEl = cell;
 				}
 				if (date.getFullYear() == TY &&
-				    date.getMonth() == TM &&
-				    iday == TD) {
+						date.getMonth() == TM &&
+						iday == TD) {
 					cell.className += " today";
 					cell.ttip += Calendar._TT["PART_TODAY"];
 				}
@@ -1226,8 +1226,8 @@ Calendar.prototype.setDateToolTipHandler = function (unaryFunction) {
 };
 
 /**
- *  Calls _init function above for going to a certain date (but only if the
- *  date is different than the currently selected one).
+ *	Calls _init function above for going to a certain date (but only if the
+ *	date is different than the currently selected one).
  */
 Calendar.prototype.setDate = function (date) {
 	if (!date.equalsTo(this.date)) {
@@ -1236,10 +1236,10 @@ Calendar.prototype.setDate = function (date) {
 };
 
 /**
- *  Refreshes the calendar.  Useful if the "disabledHandler" function is
- *  dynamic, meaning that the list of disabled date can change at runtime.
- *  Just * call this function if you think that the list of disabled dates
- *  should * change.
+ *	Refreshes the calendar.	Useful if the "disabledHandler" function is
+ *	dynamic, meaning that the list of disabled date can change at runtime.
+ *	Just * call this function if you think that the list of disabled dates
+ *	should * change.
  */
 Calendar.prototype.refresh = function () {
 	this._init(this.firstDayOfWeek, this.date);
@@ -1252,10 +1252,10 @@ Calendar.prototype.setFirstDayOfWeek = function (firstDayOfWeek) {
 };
 
 /**
- *  Allows customization of what dates are enabled.  The "unaryFunction"
- *  parameter must be a function object that receives the date (as a JS Date
- *  object) and returns a boolean value.  If the returned value is true then
- *  the passed date will be marked as disabled.
+ *	Allows customization of what dates are enabled.	The "unaryFunction"
+ *	parameter must be a function object that receives the date (as a JS Date
+ *	object) and returns a boolean value.	If the returned value is true then
+ *	the passed date will be marked as disabled.
  */
 Calendar.prototype.setDateStatusHandler = Calendar.prototype.setDisabledHandler = function (unaryFunction) {
 	this.getDateStatus = unaryFunction;
@@ -1291,8 +1291,8 @@ Calendar.prototype.destroy = function () {
 };
 
 /**
- *  Moves the calendar element to a different section in the DOM tree (changes
- *  its parent).
+ *	Moves the calendar element to a different section in the DOM tree (changes
+ *	its parent).
  */
 Calendar.prototype.reparent = function (new_parent) {
 	var el = this.element;
@@ -1301,7 +1301,7 @@ Calendar.prototype.reparent = function (new_parent) {
 };
 
 // This gets called when the user presses a mouse button anywhere in the
-// document, if the calendar is shown.  If the click was outside the open
+// document, if the calendar is shown.	If the click was outside the open
 // calendar this function closes it.
 Calendar._checkCalendar = function(ev) {
 	var calendar = window._dynarch_popupCalendar;
@@ -1342,8 +1342,8 @@ Calendar.prototype.show = function () {
 };
 
 /**
- *  Hides the calendar.  Also removes any "hilite" from the class of any TD
- *  element.
+ *	Hides the calendar.	Also removes any "hilite" from the class of any TD
+ *	element.
  */
 Calendar.prototype.hide = function () {
 	if (this.isPopup) {
@@ -1357,9 +1357,9 @@ Calendar.prototype.hide = function () {
 };
 
 /**
- *  Shows the calendar at a given absolute position (beware that, depending on
- *  the calendar element style -- position property -- this might be relative
- *  to the parent's containing rectangle).
+ *	Shows the calendar at a given absolute position (beware that, depending on
+ *	the calendar element style -- position property -- this might be relative
+ *	to the parent's containing rectangle).
  */
 Calendar.prototype.showAt = function (x, y) {
 	var s = this.element.style;
@@ -1412,19 +1412,19 @@ Calendar.prototype.showAtElement = function (el, opts) {
 		}
 		// vertical alignment
 		switch (valign) {
-		    case "T": p.y -= h; break;
-		    case "B": p.y += el.offsetHeight; break;
-		    case "C": p.y += (el.offsetHeight - h) / 2; break;
-		    case "t": p.y += el.offsetHeight - h; break;
-		    case "b": break; // already there
+				case "T": p.y -= h; break;
+				case "B": p.y += el.offsetHeight; break;
+				case "C": p.y += (el.offsetHeight - h) / 2; break;
+				case "t": p.y += el.offsetHeight - h; break;
+				case "b": break; // already there
 		}
 		// horizontal alignment
 		switch (halign) {
-		    case "L": p.x -= w; break;
-		    case "R": p.x += el.offsetWidth; break;
-		    case "C": p.x += (el.offsetWidth - w) / 2; break;
-		    case "l": p.x += el.offsetWidth - w; break;
-		    case "r": break; // already there
+				case "L": p.x -= w; break;
+				case "R": p.x += el.offsetWidth; break;
+				case "C": p.x += (el.offsetWidth - w) / 2; break;
+				case "l": p.x += el.offsetWidth - w; break;
+				case "r": break; // already there
 		}
 		p.width = w;
 		p.height = h + 40;
@@ -1449,8 +1449,8 @@ Calendar.prototype.setTtDateFormat = function (str) {
 };
 
 /**
- *  Tries to identify the date represented in a string.  If successful it also
- *  calls this.setDate which moves the calendar to the given date.
+ *	Tries to identify the date represented in a string.	If successful it also
+ *	calls this.setDate which moves the calendar to the given date.
  */
 Calendar.prototype.parseDate = function(str, fmt) {
 	if (!fmt)
@@ -1538,13 +1538,13 @@ Calendar.prototype._displayWeekdays = function () {
 	}
 };
 
-/** Internal function.  Hides all combo boxes that might be displayed. */
+/** Internal function.	Hides all combo boxes that might be displayed. */
 Calendar.prototype._hideCombos = function () {
 	this.monthsCombo.style.display = "none";
 	this.yearsCombo.style.display = "none";
 };
 
-/** Internal function.  Starts dragging the element. */
+/** Internal function.	Starts dragging the element. */
 Calendar.prototype._dragStart = function (ev) {
 	if (this.dragging) {
 		return;
@@ -1576,9 +1576,9 @@ Date._MD = new Array(31,28,31,30,31,30,31,31,30,31,30,31);
 /** Constants used for time computations */
 Date.SECOND = 1000 /* milliseconds */;
 Date.MINUTE = 60 * Date.SECOND;
-Date.HOUR   = 60 * Date.MINUTE;
-Date.DAY    = 24 * Date.HOUR;
-Date.WEEK   =  7 * Date.DAY;
+Date.HOUR	 = 60 * Date.MINUTE;
+Date.DAY		= 24 * Date.HOUR;
+Date.WEEK	 =	7 * Date.DAY;
 
 Date.parseDate = function(str, fmt) {
 	var today = new Date();
@@ -1594,44 +1594,44 @@ Date.parseDate = function(str, fmt) {
 		if (!a[i])
 			continue;
 		switch (b[i]) {
-		    case "%d":
-		    case "%e":
+				case "%d":
+				case "%e":
 			d = parseInt(a[i], 10);
 			break;
 
-		    case "%m":
+				case "%m":
 			m = parseInt(a[i], 10) - 1;
 			break;
 
-		    case "%Y":
-		    case "%y":
+				case "%Y":
+				case "%y":
 			y = parseInt(a[i], 10);
 			(y < 100) && (y += (y > 29) ? 1900 : 2000);
 			break;
 
-		    case "%b":
-		    case "%B":
+				case "%b":
+				case "%B":
 			for (j = 0; j < 12; ++j) {
 				if (Calendar._MN[j].substr(0, a[i].length).toLowerCase() == a[i].toLowerCase()) { m = j; break; }
 			}
 			break;
 
-		    case "%H":
-		    case "%I":
-		    case "%k":
-		    case "%l":
+				case "%H":
+				case "%I":
+				case "%k":
+				case "%l":
 			hr = parseInt(a[i], 10);
 			break;
 
-		    case "%P":
-		    case "%p":
+				case "%P":
+				case "%p":
 			if (/pm/i.test(a[i]) && hr < 12)
 				hr += 12;
 			else if (/am/i.test(a[i]) && hr >= 12)
 				hr -= 12;
 			break;
 
-		    case "%M":
+				case "%M":
 			min = parseInt(a[i], 10);
 			break;
 		}

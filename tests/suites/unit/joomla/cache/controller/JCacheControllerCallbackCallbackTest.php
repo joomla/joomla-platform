@@ -1,20 +1,20 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Cache
+ * @package		 Joomla.UnitTest
+ * @subpackage	Cache
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * A unit test class for SubjectClass
- * The two annotations below are required because we use mocks.  This avoids bringing bogus classes into the main process.
+ * The two annotations below are required because we use mocks.	This avoids bringing bogus classes into the main process.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Cache
+ * @package		 Joomla.UnitTest
+ * @subpackage	Cache
  *
- * @since       11.1
+ * @since			 11.1
  */
 class JCacheControllerCallbackTest_Callback extends PHPUnit_Framework_TestCase
 {

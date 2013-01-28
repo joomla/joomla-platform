@@ -1,19 +1,19 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  View
+ * @package		 Joomla.UnitTest
+ * @subpackage	View
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Mockup object to test Model handling in JView
  *
- * @package     Joomla.UnitTest
- * @subpackage  View
+ * @package		 Joomla.UnitTest
+ * @subpackage	View
  *
- * @since       11.3
+ * @since			 11.3
  */
 class ModelMockupJView
 {
@@ -22,7 +22,7 @@ class ModelMockupJView
 	/**
 	 * Stub method
 	 *
-	 * @return  string  Name of Model
+	 * @return	string	Name of Model
 	 */
 	public function getName()
 	{
@@ -33,27 +33,27 @@ class ModelMockupJView
 /**
  * Test class for JViewLegacy.
  *
- * @package     Joomla.UnitTest
- * @subpackage  View
+ * @package		 Joomla.UnitTest
+ * @subpackage	View
  *
- * @since       12.3
+ * @since			 12.3
  */
 class JViewLegacyTest extends TestCase
 {
 	/**
 	 * An instance of the test object.
 	 *
-	 * @var     JView
-	 * @since   12.1
+	 * @var		 JView
+	 * @since	 12.1
 	 */
 	protected $class;
 
 	/**
 	 * Test JViewLegacy::__construct
 	 *
-	 * @todo    Implement test__Construct().
+	 * @todo		Implement test__Construct().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function test__Construct()
 	{
@@ -64,9 +64,9 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::display
 	 *
-	 * @todo    Implement testDisplay().
+	 * @todo		Implement testDisplay().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testDisplay()
 	{
@@ -77,9 +77,9 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::assign
 	 *
-	 * @todo    Implement testAssign().
+	 * @todo		Implement testAssign().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testAssign()
 	{
@@ -90,9 +90,9 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::assignRef
 	 *
-	 * @todo    Implement testAssignRef().
+	 * @todo		Implement testAssignRef().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testAssignRef()
 	{
@@ -103,9 +103,9 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::escape
 	 *
-	 * @todo    Implement testEscape().
+	 * @todo		Implement testEscape().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testEscape()
 	{
@@ -116,9 +116,9 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::get()
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGet()
 	{
@@ -138,9 +138,9 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::getLayout()
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetLayout()
 	{
@@ -154,9 +154,9 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::getModel()
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetModel()
 	{
@@ -188,9 +188,9 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::getLayoutTemplate()
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetLayoutTemplate()
 	{
@@ -204,9 +204,9 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::getName()
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetName()
 	{
@@ -221,9 +221,9 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::setModel()
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testSetModel()
 	{
@@ -265,9 +265,9 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::setLayout()
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testSetLayout()
 	{
@@ -287,9 +287,9 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::setLayoutExt()
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testSetLayoutExt()
 	{
@@ -303,9 +303,9 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::setEscape()
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testSetEscape()
 	{
@@ -323,9 +323,9 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::addTemplatePath()
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testAddTemplatePath()
 	{
@@ -354,9 +354,9 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::addHelperPath()
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testAddHelperPath()
 	{
@@ -385,9 +385,9 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::leadTemplate
 	 *
-	 * @todo    Implement testLoadTemplate().
+	 * @todo		Implement testLoadTemplate().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testLoadTemplate()
 	{
@@ -398,9 +398,9 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::loadHelper
 	 *
-	 * @todo    Implement testLoadHelper().
+	 * @todo		Implement testLoadHelper().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testLoadHelper()
 	{
@@ -411,9 +411,9 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::_setPath
 	 *
-	 * @todo    Implement test_setPath().
+	 * @todo		Implement test_setPath().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function test_setPath()
 	{
@@ -424,9 +424,9 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::_addPath()
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function test_addPath()
 	{
@@ -477,9 +477,9 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::_createFileName
 	 *
-	 * @todo    Implement test_createFileName().
+	 * @todo		Implement test_createFileName().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function test_createFileName()
 	{
@@ -492,9 +492,9 @@ class JViewLegacyTest extends TestCase
 	 *
 	 * This method is called before a test is executed.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	protected function setUp()
 	{
@@ -514,9 +514,9 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Overrides the parent tearDown method.
 	 *
-	 * @since    12.1
+	 * @since		12.1
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	protected function tearDown()
 	{

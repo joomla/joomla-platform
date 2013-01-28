@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Filter
+ * @package		 Joomla.UnitTest
+ * @subpackage	Filter
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM . '/joomla/string/string.php';
@@ -13,10 +13,10 @@ require_once JPATH_PLATFORM . '/joomla/filter/output.php';
 /**
  * FilterTestObject
  *
- * @package     Joomla.UnitTest
- * @subpackage  Filter
+ * @package		 Joomla.UnitTest
+ * @subpackage	Filter
  *
- * @since       11.1
+ * @since			 11.1
  */
 class FilterTestObject
 {
@@ -41,10 +41,10 @@ class FilterTestObject
 /**
  * JFilterOutputTest
  *
- * @package     Joomla.UnitTest
- * @subpackage  Filter
+ * @package		 Joomla.UnitTest
+ * @subpackage	Filter
  *
- * @since       11.1
+ * @since			 11.1
  */
 class JFilterOutputTest extends PHPUnit_Framework_TestCase
 {
@@ -138,9 +138,9 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests converting strings to URL unicoded slugs.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testStringURLUnicodeSlug()
 	{
@@ -195,8 +195,8 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	 * The test framework calls this function once for each element in the array
 	 * returned by the named data provider.
 	 *
-	 * @param   string  $data    The original output
-	 * @param   string  $expect  The expected result for this test.
+	 * @param	 string	$data		The original output
+	 * @param	 string	$expect	The expected result for this test.
 	 *
 	 * @dataProvider dataSet
 	 * @return void
@@ -209,14 +209,14 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests stripping images.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testStripImages()
 	{
 		$this->assertEquals(
-			'Hello  I am waving at you.',
+			'Hello	I am waving at you.',
 			$this->object->stripImages('Hello <img src="wave.jpg"> I am waving at you.'),
 			'Should remove img tags'
 		);
@@ -225,14 +225,14 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests stripping iFrames.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function testStripIframes()
 	{
 		$this->assertEquals(
-			'Hello  I am waving at you.',
+			'Hello	I am waving at you.',
 			$this->object->stripIframes('Hello <iframe src="http://player.vimeo.com/video/37576499" width="500"' .
 				' height="281" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> I am waving at you.'),
 				'Should remove iFrame tags'

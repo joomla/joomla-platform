@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Crypt
+ * @package		 Joomla.UnitTest
+ * @subpackage	Crypt
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM . '/joomla/crypt/key.php';
@@ -14,24 +14,24 @@ require_once JPATH_PLATFORM . '/joomla/crypt/cipher/rijndael256.php';
 /**
  * Test class for JCryptCipherRijndael256.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Crypt
- * @since       12.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	Crypt
+ * @since			 12.1
  */
 class JCryptCipherRijndael256Test extends TestCase
 {
 	/**
-	 * @var    JCryptCipherRijndael256
-	 * @since  12.1
+	 * @var		JCryptCipherRijndael256
+	 * @since	12.1
 	 */
 	private $_cipher;
 
 	/**
 	 * Prepares the environment before running a test.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function setUp()
 	{
@@ -54,9 +54,9 @@ class JCryptCipherRijndael256Test extends TestCase
 	/**
 	 * Cleans up the environment after running a test.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function tearDown()
 	{
@@ -93,13 +93,13 @@ class JCryptCipherRijndael256Test extends TestCase
 	/**
 	 * Tests JCryptCipherRijndael256Test->decrypt()
 	 *
-	 * @param   string  $file  @todo
-	 * @param   string  $data  @todo
+	 * @param	 string	$file	@todo
+	 * @param	 string	$data	@todo
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @dataProvider data
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testDecrypt($file, $data)
 	{
@@ -113,13 +113,13 @@ class JCryptCipherRijndael256Test extends TestCase
 	/**
 	 * Tests JCryptCipherRijndael256Test->encrypt()
 	 *
-	 * @param   string  $file  @todo
-	 * @param   string  $data  @todo
+	 * @param	 string	$file	@todo
+	 * @param	 string	$data	@todo
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @dataProvider data
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testEncrypt($file, $data)
 	{
@@ -135,9 +135,9 @@ class JCryptCipherRijndael256Test extends TestCase
 	/**
 	 * Tests JCryptCipherRijndael256Test->generateKey()
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function testGenerateKey()
 	{

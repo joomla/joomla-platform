@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Installer
+ * @package		 Joomla.Platform
+ * @subpackage	Installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -16,10 +16,10 @@ jimport('joomla.filesystem.folder');
 /**
  * File installer
  *
- * @package     Joomla.Platform
- * @subpackage  Installer
- * @since       11.1
- * @deprecated  13.3
+ * @package		 Joomla.Platform
+ * @subpackage	Installer
+ * @since			 11.1
+ * @deprecated	13.3
  */
 class JInstallerFile extends JAdapterInstance
 {
@@ -28,11 +28,11 @@ class JInstallerFile extends JAdapterInstance
 	/**
 	 * Custom loadLanguage method
 	 *
-	 * @param   string  $path  The path on which to find language files.
+	 * @param	 string	$path	The path on which to find language files.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function loadLanguage($path)
 	{
@@ -49,9 +49,9 @@ class JInstallerFile extends JAdapterInstance
 	/**
 	 * Custom install method
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function install()
 	{
@@ -415,9 +415,9 @@ class JInstallerFile extends JAdapterInstance
 	/**
 	 * Custom update method
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function update()
 	{
@@ -433,11 +433,11 @@ class JInstallerFile extends JAdapterInstance
 	/**
 	 * Custom uninstall method
 	 *
-	 * @param   string  $id  The id of the file to uninstall
+	 * @param	 string	$id	The id of the file to uninstall
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function uninstall($id)
 	{
@@ -629,11 +629,11 @@ class JInstallerFile extends JAdapterInstance
 	/**
 	 * Function used to check if extension is already installed
 	 *
-	 * @param   string  $extension  The element name of the extension to install
+	 * @param	 string	$extension	The element name of the extension to install
 	 *
-	 * @return  boolean  True if extension exists
+	 * @return	boolean	True if extension exists
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function extensionExistsInSystem($extension = null)
 	{
@@ -672,9 +672,9 @@ class JInstallerFile extends JAdapterInstance
 	/**
 	 * Function used to populate files and folder list
 	 *
-	 * @return  boolean  none
+	 * @return	boolean	none
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function populateFilesAndFolderList()
 	{
@@ -768,9 +768,9 @@ class JInstallerFile extends JAdapterInstance
 	/**
 	 * Refreshes the extension table cache
 	 *
-	 * @return  boolean result of operation, true if updated, false on failure
+	 * @return	boolean result of operation, true if updated, false on failure
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function refreshManifestCache()
 	{

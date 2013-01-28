@@ -1,27 +1,27 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Database
+ * @package		 Joomla.UnitTest
+ * @subpackage	Database
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JDatabaseMysql.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Database
- * @since       11.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	Database
+ * @since			 11.1
  */
 class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 {
 	/**
 	 * Data for the testEscape test.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function dataTestEscape()
 	{
@@ -34,9 +34,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Tests the __destruct method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function test__destruct()
 	{
@@ -46,9 +46,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Tests the connected method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testConnected()
 	{
@@ -58,9 +58,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Tests the dropTable method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testDropTable()
 	{
@@ -70,14 +70,14 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Tests the escape method.
 	 *
-	 * @param   string   $text      The string to be escaped.
-	 * @param   boolean  $extra     Optional parameter to provide extra escaping.
-	 * @param   string   $expected  The expected result.
+	 * @param	 string	 $text			The string to be escaped.
+	 * @param	 boolean	$extra		 Optional parameter to provide extra escaping.
+	 * @param	 string	 $expected	The expected result.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @dataProvider  dataTestEscape
-	 * @since         11.4
+	 * @dataProvider	dataTestEscape
+	 * @since				 11.4
 	 */
 	public function testEscape($text, $extra, $expected)
 	{
@@ -87,9 +87,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Test getAffectedRows method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testGetAffectedRows()
 	{
@@ -106,9 +106,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Test getCollation method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testGetCollation()
 	{
@@ -118,9 +118,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Test getExporter method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testGetExporter()
 	{
@@ -134,9 +134,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Test getImporter method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testGetImporter()
 	{
@@ -150,9 +150,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Test getNumRows method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testGetNumRows()
 	{
@@ -162,9 +162,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Tests the getTableCreate method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testGetTableCreate()
 	{
@@ -178,9 +178,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Test getTableColumns method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testGetTableColumns()
 	{
@@ -190,9 +190,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Tests the getTableKeys method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testGetTableKeys()
 	{
@@ -206,9 +206,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Tests the getTableList method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testGetTableList()
 	{
@@ -222,9 +222,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Test getVersion method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testGetVersion()
 	{
@@ -238,9 +238,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Test insertid method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testInsertid()
 	{
@@ -250,9 +250,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Test loadAssoc method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testLoadAssoc()
 	{
@@ -268,9 +268,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Test loadAssocList method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testLoadAssocList()
 	{
@@ -290,9 +290,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Test loadColumn method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testLoadColumn()
 	{
@@ -308,9 +308,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Test loadNextObject method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testLoadNextObject()
 	{
@@ -320,9 +320,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Test loadNextRow method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testLoadNextRow()
 	{
@@ -332,9 +332,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Test loadObject method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testLoadObject()
 	{
@@ -357,9 +357,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Test loadObjectList method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testLoadObjectList()
 	{
@@ -410,9 +410,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Test loadResult method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testLoadResult()
 	{
@@ -431,9 +431,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Test loadRow method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testLoadRow()
 	{
@@ -452,9 +452,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Test loadRowList method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testLoadRowList()
 	{
@@ -473,9 +473,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Test the JDatabaseMysql::query() method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function testQuery()
 	{
@@ -490,9 +490,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Test select method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testSelect()
 	{
@@ -502,9 +502,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Test setUTF method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testSetUTF()
 	{
@@ -514,9 +514,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Test isSupported method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testIsSupported()
 	{
@@ -526,9 +526,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Test updateObject method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testUpdateObject()
 	{
@@ -538,9 +538,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Gets the data set to be loaded into the database during setup.
 	 *
-	 * @return  PHPUnit_Extensions_Database_DataSet_XmlDataSet
+	 * @return	PHPUnit_Extensions_Database_DataSet_XmlDataSet
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function getDataSet()
 	{

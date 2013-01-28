@@ -1,9 +1,9 @@
 <?php
 /**
- * @package    Joomla.Test
+ * @package		Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once 'PHPUnit/Extensions/Database/TestCase.php';
@@ -14,33 +14,33 @@ require_once 'PHPUnit/Extensions/Database/DataSet/MysqlXmlDataSet.php';
 /**
  * Abstract test case class for database testing.
  *
- * @package  Joomla.Test
- * @since    12.1
+ * @package	Joomla.Test
+ * @since		12.1
  */
 abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 {
 	/**
-	 * @var    JDatabaseDriver  The active database driver being used for the tests.
-	 * @since  12.1
+	 * @var		JDatabaseDriver	The active database driver being used for the tests.
+	 * @since	12.1
 	 */
 	protected static $driver;
 
 	/**
-	 * @var    JDatabaseDriver  The saved database driver to be restored after these tests.
-	 * @since  12.1
+	 * @var		JDatabaseDriver	The saved database driver to be restored after these tests.
+	 * @since	12.1
 	 */
 	private static $_stash;
 
 	/**
-	 * @var         array  JError handler state stashed away to be restored later.
-	 * @deprecated  13.1
-	 * @since       12.1
+	 * @var				 array	JError handler state stashed away to be restored later.
+	 * @deprecated	13.1
+	 * @since			 12.1
 	 */
 	private $_stashedErrorState = array();
 
 	/**
-	 * @var    array  Various JFactory static instances stashed away to be restored later.
-	 * @since  12.1
+	 * @var		array	Various JFactory static instances stashed away to be restored later.
+	 * @since	12.1
 	 */
 	private $_stashedFactoryState = array(
 		'application' => null,
@@ -56,11 +56,11 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Receives the callback from JError and logs the required error information for the test.
 	 *
-	 * @param   JException  $error  The JException object from JError
+	 * @param	 JException	$error	The JException object from JError
 	 *
 	 * @return	bool	To not continue with JError processing
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public static function errorCallback($error)
 	{
@@ -70,9 +70,9 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * This method is called before the first test of this test class is run.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public static function setUpBeforeClass()
 	{
@@ -114,9 +114,9 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * This method is called after the last test of this test class is run.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public static function tearDownAfterClass()
 	{
@@ -127,13 +127,13 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Assigns mock callbacks to methods.
 	 *
-	 * @param   object  $mockObject  The mock object that the callbacks are being assigned to.
-	 * @param   array   $array       An array of methods names to mock with callbacks.
+	 * @param	 object	$mockObject	The mock object that the callbacks are being assigned to.
+	 * @param	 array	 $array			 An array of methods names to mock with callbacks.
 	 * This method assumes that the mock callback is named {mock}{method name}.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function assignMockCallbacks($mockObject, $array)
 	{
@@ -159,13 +159,13 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Assigns mock values to methods.
 	 *
-	 * @param   object  $mockObject  The mock object.
-	 * @param   array   $array       An associative array of methods to mock with return values:<br />
+	 * @param	 object	$mockObject	The mock object.
+	 * @param	 array	 $array			 An associative array of methods to mock with return values:<br />
 	 * string (method name) => mixed (return value)
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function assignMockReturns($mockObject, $array)
 	{
@@ -180,9 +180,9 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Gets a mock application object.
 	 *
-	 * @return  JApplication
+	 * @return	JApplication
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getMockApplication()
 	{
@@ -195,9 +195,9 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Gets a mock configuration object.
 	 *
-	 * @return  JConfig
+	 * @return	JConfig
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getMockConfig()
 	{
@@ -207,9 +207,9 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Gets a mock database object.
 	 *
-	 * @return  JDatabase
+	 * @return	JDatabase
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getMockDatabase()
 	{
@@ -222,11 +222,11 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Gets a mock dispatcher object.
 	 *
-	 * @param   boolean  $defaults  Add default register and trigger methods for testing.
+	 * @param	 boolean	$defaults	Add default register and trigger methods for testing.
 	 *
-	 * @return  JEventDispatcher
+	 * @return	JEventDispatcher
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getMockDispatcher($defaults = true)
 	{
@@ -239,9 +239,9 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Gets a mock document object.
 	 *
-	 * @return  JDocument
+	 * @return	JDocument
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getMockDocument()
 	{
@@ -254,9 +254,9 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Gets a mock language object.
 	 *
-	 * @return  JLanguage
+	 * @return	JLanguage
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getMockLanguage()
 	{
@@ -269,15 +269,15 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Gets a mock session object.
 	 *
-	 * @param   array  $options  An array of key-value options for the JSession mock.
+	 * @param	 array	$options	An array of key-value options for the JSession mock.
 	 * getId : the value to be returned by the mock getId method
 	 * get.user.id : the value to assign to the user object id returned by get('user')
 	 * get.user.name : the value to assign to the user object name returned by get('user')
 	 * get.user.username : the value to assign to the user object username returned by get('user')
 	 *
-	 * @return  JSession
+	 * @return	JSession
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getMockSession($options = array())
 	{
@@ -290,11 +290,11 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Gets a mock web object.
 	 *
-	 * @param   array  $options  A set of options to configure the mock.
+	 * @param	 array	$options	A set of options to configure the mock.
 	 *
-	 * @return  JApplicationWeb
+	 * @return	JApplicationWeb
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getMockWeb($options = array())
 	{
@@ -307,9 +307,9 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Returns the default database connection for running the tests.
 	 *
-	 * @return  PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection
+	 * @return	PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function getConnection()
 	{
@@ -326,9 +326,9 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  xml dataset
+	 * @return	xml dataset
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function getDataSet()
 	{
@@ -338,9 +338,9 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Returns the database operation executed in test setup.
 	 *
-	 * @return  PHPUnit_Extensions_Database_Operation_DatabaseOperation
+	 * @return	PHPUnit_Extensions_Database_Operation_DatabaseOperation
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function getSetUpOperation()
 	{
@@ -356,9 +356,9 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Returns the database operation executed in test cleanup.
 	 *
-	 * @return  PHPUnit_Extensions_Database_Operation_DatabaseOperation
+	 * @return	PHPUnit_Extensions_Database_Operation_DatabaseOperation
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function getTearDownOperation()
 	{
@@ -369,9 +369,9 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Sets the Factory pointers
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function restoreFactoryState()
 	{
@@ -388,10 +388,10 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Saves the current state of the JError error handlers.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @deprecated  13.1
-	 * @since       12.1
+	 * @deprecated	13.1
+	 * @since			 12.1
 	 */
 	protected function saveErrorHandlers()
 	{
@@ -409,9 +409,9 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Saves the Factory pointers
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function saveFactoryState()
 	{
@@ -428,11 +428,11 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Sets the JError error handlers.
 	 *
-	 * @param   array  $errorHandlers  araay of values and options to set the handlers
+	 * @param	 array	$errorHandlers	araay of values and options to set the handlers
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function setErrorHandlers($errorHandlers)
 	{
@@ -461,11 +461,11 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Sets the JError error handlers to callback mode and points them at the test logging method.
 	 *
-	 * @param   string  $testName  The name of the test class for which to set the error callback method.
+	 * @param	 string	$testName	The name of the test class for which to set the error callback method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function setErrorCallback($testName)
 	{
@@ -483,9 +483,9 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * This method is called before a test is executed.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function setUp()
 	{

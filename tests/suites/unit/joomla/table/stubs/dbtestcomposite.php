@@ -1,27 +1,27 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Table
+ * @package		 Joomla.UnitTest
+ * @subpackage	Table
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * DbTestComposite table connector class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Table
- * @since       12.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	Table
+ * @since			 12.1
  */
 class TableDbTestComposite extends JTable
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db  Database driver object.
+	 * @param	 JDatabaseDriver	$db	Database driver object.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function __construct($db)
 	{

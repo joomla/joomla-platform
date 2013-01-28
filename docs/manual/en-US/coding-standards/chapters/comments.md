@@ -92,6 +92,6 @@ It’s is a contraction of it is
 
 ### The correct Joomla spelling of some commonly used words.
 
--   Dependant
+-	 Dependant
 
 

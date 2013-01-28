@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  GitHub
+ * @package		 Joomla.Platform
+ * @subpackage	GitHub
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,16 +12,16 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API References class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub
- * @since       12.3
+ * @package		 Joomla.Platform
+ * @subpackage	GitHub
+ * @since			 12.3
  */
 class JGithubUsers extends JGithubObject
 {
 	/**
 	 * Get a single user.
 	 *
-	 * @param   string  $user  The users login name.
+	 * @param	 string	$user	The users login name.
 	 *
 	 * @throws DomainException
 	 *
@@ -75,13 +75,13 @@ class JGithubUsers extends JGithubObject
 	/**
 	 * Update a user.
 	 *
-	 * @param   string  $name      The full name
-	 * @param   string  $email     The email
-	 * @param   string  $blog      The blog
-	 * @param   string  $company   The company
-	 * @param   string  $location  The location
-	 * @param   string  $hireable  If he is unemplayed :P
-	 * @param   string  $bio       The biometrical DNA fingerprint (or smthng...)
+	 * @param	 string	$name			The full name
+	 * @param	 string	$email		 The email
+	 * @param	 string	$blog			The blog
+	 * @param	 string	$company	 The company
+	 * @param	 string	$location	The location
+	 * @param	 string	$hireable	If he is unemplayed :P
+	 * @param	 string	$bio			 The biometrical DNA fingerprint (or smthng...)
 	 *
 	 * @throws DomainException
 	 *
@@ -90,13 +90,13 @@ class JGithubUsers extends JGithubObject
 	public function updateUser($name = '', $email = '', $blog = '', $company = '', $location = '', $hireable = '', $bio = '')
 	{
 		$data = array(
-			'name'     => $name,
-			'email'    => $email,
-			'blog'     => $blog,
-			'company'  => $company,
+			'name'		 => $name,
+			'email'		=> $email,
+			'blog'		 => $blog,
+			'company'	=> $company,
 			'location' => $location,
 			'hireable' => $hireable,
-			'bio'      => $bio
+			'bio'			=> $bio
 		);
 
 		// Build the request path.
@@ -121,7 +121,7 @@ class JGithubUsers extends JGithubObject
 	 *
 	 * This provides a dump of every user, in the order that they signed up for GitHub.
 	 *
-	 * @param   integer  $since  The integer ID of the last User that you’ve seen.
+	 * @param	 integer	$since	The integer ID of the last User that you’ve seen.
 	 *
 	 * @throws DomainException
 	 * @return mixed

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Legacy
- * @subpackage  Table
+ * @package		 Joomla.Legacy
+ * @subpackage	Table
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,19 +12,19 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Module table
  *
- * @package     Joomla.Legacy
- * @subpackage  Table
- * @since       11.1
- * @deprecated  13.3
+ * @package		 Joomla.Legacy
+ * @subpackage	Table
+ * @since			 11.1
+ * @deprecated	13.3
  */
 class JTableModule extends JTable
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   JDatabaseDriver  $db  Database driver object.
+	 * @param	 JDatabaseDriver	$db	Database driver object.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __construct(JDatabaseDriver $db)
 	{
@@ -36,10 +36,10 @@ class JTableModule extends JTable
 	/**
 	 * Overloaded check function.
 	 *
-	 * @return  boolean  True if the instance is sane and able to be stored in the database.
+	 * @return	boolean	True if the instance is sane and able to be stored in the database.
 	 *
-	 * @see     JTable::check
-	 * @since   11.1
+	 * @see		 JTable::check
+	 * @since	 11.1
 	 */
 	public function check()
 	{
@@ -66,13 +66,13 @@ class JTableModule extends JTable
 	/**
 	 * Overloaded bind function.
 	 *
-	 * @param   array  $array   Named array.
-	 * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
+	 * @param	 array	$array	 Named array.
+	 * @param	 mixed	$ignore	An optional array or space separated list of properties to ignore while binding.
 	 *
-	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
+	 * @return	mixed	Null if operation was satisfactory, otherwise returns an error
 	 *
-	 * @see     JTable::bind
-	 * @since   11.1
+	 * @see		 JTable::bind
+	 * @since	 11.1
 	 */
 	public function bind($array, $ignore = '')
 	{

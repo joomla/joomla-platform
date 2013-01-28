@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Event
+ * @package		 Joomla.Platform
+ * @subpackage	Event
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,26 +12,26 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JEvent Class
  *
- * @package     Joomla.Platform
- * @subpackage  Event
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Event
+ * @since			 11.1
  */
 abstract class JEvent extends JObject
 {
 	/**
 	 * Event object to observe.
 	 *
-	 * @var    object
-	 * @since  11.3
+	 * @var		object
+	 * @since	11.3
 	 */
 	protected $_subject = null;
 
 	/**
 	 * Constructor
 	 *
-	 * @param   object  &$subject  The object to observe.
+	 * @param	 object	&$subject	The object to observe.
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function __construct(&$subject)
 	{
@@ -49,22 +49,22 @@ abstract class JEvent extends JObject
 	 * If the method exists it is called and returns its return value. If it does not exist it
 	 * returns null.
 	 *
-	 * @param   array  &$args  Arguments
+	 * @param	 array	&$args	Arguments
 	 *
-	 * @return  mixed  Routine return value
+	 * @return	mixed	Routine return value
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function update(&$args)
 	{
-		// First let's get the event from the argument array.  Next we will unset the
+		// First let's get the event from the argument array.	Next we will unset the
 		// event argument as it has no bearing on the method to handle the event.
 		$event = $args['event'];
 		unset($args['event']);
 
 		/*
 		 * If the method to handle an event exists, call it and return its return
-		 * value.  If it does not exist, return null.
+		 * value.	If it does not exist, return null.
 		 */
 		if (method_exists($this, $event))
 		{

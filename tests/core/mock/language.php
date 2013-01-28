@@ -1,27 +1,27 @@
 <?php
 /**
- * @package    Joomla.Test
+ * @package		Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Class to mock JLanguage.
  *
- * @package  Joomla.Test
- * @since    12.1
+ * @package	Joomla.Test
+ * @since		12.1
  */
 class TestMockLanguage
 {
 	/**
 	 * Creates and instance of the mock JLanguage object.
 	 *
-	 * @param   object  $test  A test object.
+	 * @param	 object	$test	A test object.
 	 *
-	 * @return  object
+	 * @return	object
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public static function create($test)
 	{
@@ -68,13 +68,13 @@ class TestMockLanguage
 	/**
 	 * Callback for the mock JLanguage::_ method.
 	 *
-	 * @param   string   $string                The string to translate
-	 * @param   boolean  $jsSafe                Make the result javascript safe
-	 * @param   boolean  $interpretBackSlashes  Interpret \t and \n
+	 * @param	 string	 $string								The string to translate
+	 * @param	 boolean	$jsSafe								Make the result javascript safe
+	 * @param	 boolean	$interpretBackSlashes	Interpret \t and \n
 	 *
 	 * @return void
 	 *
-	 * @since  11.3
+	 * @since	11.3
 	 */
 	public function mock_($string, $jsSafe = false, $interpretBackSlashes = true)
 	{

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Data
+ * @package		 Joomla.UnitTest
+ * @subpackage	Data
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 JLoader::register('JDataBuran', __DIR__ . '/stubs/buran.php');
@@ -13,27 +13,27 @@ JLoader::register('JDataVostok', __DIR__ . '/stubs/vostok.php');
 /**
  * Tests for the JContentHelperTest class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Data
- * @since       12.3
+ * @package		 Joomla.UnitTest
+ * @subpackage	Data
+ * @since			 12.3
  */
 class JDataSetTest extends TestCase
 {
 	/**
 	 * An instance of the object to test.
 	 *
-	 * @var    JDataSet
-	 * @since  12.3
+	 * @var		JDataSet
+	 * @since	12.3
 	 */
 	private $_instance;
 
 	/**
 	 * Tests the __construct method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JDataSet::__construct
-	 * @since   12.3
+	 * @covers	JDataSet::__construct
+	 * @since	 12.3
 	 */
 	public function test__construct()
 	{
@@ -50,11 +50,11 @@ class JDataSetTest extends TestCase
 	/**
 	 * Tests the __construct method with an array that does not contain JData objects.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers             JDataSet::__construct
-	 * @expectedException  InvalidArgumentException
-	 * @since              12.3
+	 * @covers						 JDataSet::__construct
+	 * @expectedException	InvalidArgumentException
+	 * @since							12.3
 	 */
 	public function test__construct_array()
 	{
@@ -64,11 +64,11 @@ class JDataSetTest extends TestCase
 	/**
 	 * Tests the __construct method with scalar input.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers             JDataSet::__construct
-	 * @expectedException  PHPUnit_Framework_Error
-	 * @since              12.3
+	 * @covers						 JDataSet::__construct
+	 * @expectedException	PHPUnit_Framework_Error
+	 * @since							12.3
 	 */
 	public function test__construct_scalar()
 	{
@@ -78,10 +78,10 @@ class JDataSetTest extends TestCase
 	/**
 	 * Tests the __call method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JDataSet::__call
-	 * @since   12.3
+	 * @covers	JDataSet::__call
+	 * @since	 12.3
 	 */
 	public function test__call()
 	{
@@ -94,10 +94,10 @@ class JDataSetTest extends TestCase
 	/**
 	 * Tests the __get method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JDataSet::__get
-	 * @since   12.3
+	 * @covers	JDataSet::__get
+	 * @since	 12.3
 	 */
 	public function test__get()
 	{
@@ -110,10 +110,10 @@ class JDataSetTest extends TestCase
 	/**
 	 * Tests the __isset method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JDataSet::__isset
-	 * @since   12.3
+	 * @covers	JDataSet::__isset
+	 * @since	 12.3
 	 */
 	public function test__isset()
 	{
@@ -125,10 +125,10 @@ class JDataSetTest extends TestCase
 	/**
 	 * Tests the __set method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JDataSet::__set
-	 * @since   12.3
+	 * @covers	JDataSet::__set
+	 * @since	 12.3
 	 */
 	public function test__set()
 	{
@@ -143,10 +143,10 @@ class JDataSetTest extends TestCase
 	/**
 	 * Tests the __unset method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JDataSet::__unset
-	 * @since   12.3
+	 * @covers	JDataSet::__unset
+	 * @since	 12.3
 	 */
 	public function test__unset()
 	{
@@ -158,10 +158,10 @@ class JDataSetTest extends TestCase
 	/**
 	 * Tests the count method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JDataSet::count
-	 * @since   12.3
+	 * @covers	JDataSet::count
+	 * @since	 12.3
 	 */
 	public function testCount()
 	{
@@ -171,10 +171,10 @@ class JDataSetTest extends TestCase
 	/**
 	 * Tests the clear method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JDataSet::clear
-	 * @since   12.3
+	 * @covers	JDataSet::clear
+	 * @since	 12.3
 	 */
 	public function testClear()
 	{
@@ -186,10 +186,10 @@ class JDataSetTest extends TestCase
 	/**
 	 * Tests the current method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JDataSet::current
-	 * @since   12.3
+	 * @covers	JDataSet::current
+	 * @since	 12.3
 	 */
 	public function testCurrent()
 	{
@@ -211,10 +211,10 @@ class JDataSetTest extends TestCase
 	/**
 	 * Tests the dump method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JDataSet::dump
-	 * @since   12.3
+	 * @covers	JDataSet::dump
+	 * @since	 12.3
 	 */
 	public function testDump()
 	{
@@ -233,10 +233,10 @@ class JDataSetTest extends TestCase
 	/**
 	 * Tests the jsonSerialize method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JDataSet::jsonSerialize
-	 * @since   12.3
+	 * @covers	JDataSet::jsonSerialize
+	 * @since	 12.3
 	 */
 	public function testJsonSerialize()
 	{
@@ -255,10 +255,10 @@ class JDataSetTest extends TestCase
 	/**
 	 * Tests the key method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JDataSet::key
-	 * @since   12.3
+	 * @covers	JDataSet::key
+	 * @since	 12.3
 	 */
 	public function testKey()
 	{
@@ -268,10 +268,10 @@ class JDataSetTest extends TestCase
 	/**
 	 * Tests the keys method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JDataSet::keys
-	 * @since   12.3
+	 * @covers	JDataSet::keys
+	 * @since	 12.3
 	 */
 	public function testKeys()
 	{
@@ -285,10 +285,10 @@ class JDataSetTest extends TestCase
 	/**
 	 * Tests the next method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JDataSet::next
-	 * @since   12.3
+	 * @covers	JDataSet::next
+	 * @since	 12.3
 	 */
 	public function testNext()
 	{
@@ -308,10 +308,10 @@ class JDataSetTest extends TestCase
 	/**
 	 * Tests the offsetExists method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JDataSet::offsetExists
-	 * @since   12.3
+	 * @covers	JDataSet::offsetExists
+	 * @since	 12.3
 	 */
 	public function testOffsetExists()
 	{
@@ -323,10 +323,10 @@ class JDataSetTest extends TestCase
 	/**
 	 * Tests the offsetGet method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JDataSet::offsetGet
-	 * @since   12.3
+	 * @covers	JDataSet::offsetGet
+	 * @since	 12.3
 	 */
 	public function testOffsetGet()
 	{
@@ -338,10 +338,10 @@ class JDataSetTest extends TestCase
 	/**
 	 * Tests the offsetSet method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JDataSet::OffsetSet
-	 * @since   12.3
+	 * @covers	JDataSet::OffsetSet
+	 * @since	 12.3
 	 */
 	public function testOffsetSet()
 	{
@@ -360,11 +360,11 @@ class JDataSetTest extends TestCase
 	/**
 	 * Tests the offsetSet method for an expected exception
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers             JDataSet::OffsetSet
-	 * @expectedException  InvalidArgumentException
-	 * @since              12.3
+	 * @covers						 JDataSet::OffsetSet
+	 * @expectedException	InvalidArgumentException
+	 * @since							12.3
 	 */
 	public function testOffsetSet_exception1()
 	{
@@ -375,10 +375,10 @@ class JDataSetTest extends TestCase
 	/**
 	 * Tests the offsetUnset method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JDataSet::OffsetUnset
-	 * @since   12.3
+	 * @covers	JDataSet::OffsetUnset
+	 * @since	 12.3
 	 */
 	public function testOffsetUnset()
 	{
@@ -391,10 +391,10 @@ class JDataSetTest extends TestCase
 	/**
 	 * Tests the offsetRewind method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JDataSet::rewind
-	 * @since   12.3
+	 * @covers	JDataSet::rewind
+	 * @since	 12.3
 	 */
 	public function testOffsetRewind()
 	{
@@ -410,10 +410,10 @@ class JDataSetTest extends TestCase
 	/**
 	 * Tests the valid method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JDataSet::valid
-	 * @since   12.3
+	 * @covers	JDataSet::valid
+	 * @since	 12.3
 	 */
 	public function testValid()
 	{
@@ -427,10 +427,10 @@ class JDataSetTest extends TestCase
 	/**
 	 * Test that JDataSet::_initialise method indirectly.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JDataSet::_initialise
-	 * @since   12.3
+	 * @covers	JDataSet::_initialise
+	 * @since	 12.3
 	 */
 	public function test_initialise()
 	{
@@ -445,10 +445,10 @@ class JDataSetTest extends TestCase
 	/**
 	 * Tests using JDataSet in a foreach statement.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @coversNothing  Integration test.
-	 * @since          12.3
+	 * @coversNothing	Integration test.
+	 * @since					12.3
 	 */
 	public function test_foreach()
 	{
@@ -504,9 +504,9 @@ class JDataSetTest extends TestCase
 	/**
 	 * Setup the tests.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since  12.3
+	 * @since	12.3
 	 */
 	protected function setUp()
 	{

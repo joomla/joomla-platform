@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Language
+ * @package		 Joomla.Platform
+ * @subpackage	Language
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -17,9 +17,9 @@ define('_QQ_', '"');
 /**
  * Languages/translation handler class
  *
- * @package     Joomla.Platform
- * @subpackage  Language
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Language
+ * @since			 11.1
  */
 class JLanguage
 {
@@ -27,137 +27,137 @@ class JLanguage
 
 	/**
 	 * Debug language, If true, highlights if string isn't found.
-	 * @var    boolean
-	 * @since  11.1
+	 * @var		boolean
+	 * @since	11.1
 	 */
 	protected $debug = false;
 
 	/**
 	 * The default language, used when a language file in the requested language does not exist.
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $default = 'en-GB';
 
 	/**
 	 * An array of orphaned text.
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	protected $orphans = array();
 
 	/**
 	 * Array holding the language metadata.
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	protected $metadata = null;
 
 	/**
 	 * Array holding the language locale or boolean null if none.
-	 * @var    array|boolean
-	 * @since  11.1
+	 * @var		array|boolean
+	 * @since	11.1
 	 */
 	protected $locale = null;
 
 	/**
 	 * The language to load.
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $lang = null;
 
 	/**
 	 * A nested array of language files that have been loaded
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	protected $paths = array();
 
 	/**
 	 * List of language files that are in error state
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	protected $errorfiles = array();
 
 	/**
 	 * Translations
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	protected $strings = null;
 
 	/**
 	 * An array of used text, used during debugging.
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	protected $used = array();
 
 	/**
 	 * Counter for number of loads.
-	 * @var    integer
-	 * @since  11.1
+	 * @var		integer
+	 * @since	11.1
 	 */
 	protected $counter = 0;
 
 	/**
 	 * An array used to store overrides.
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	protected $override = array();
 
 	/**
 	 * Name of the transliterator function for this language.
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $transliterator = null;
 
 	/**
 	 * Name of the pluralSuffixesCallback function for this language.
-	 * @var    callable
-	 * @since  11.1
+	 * @var		callable
+	 * @since	11.1
 	 */
 	protected $pluralSuffixesCallback = null;
 
 	/**
 	 * Name of the ignoredSearchWordsCallback function for this language.
-	 * @var    callable
-	 * @since  11.1
+	 * @var		callable
+	 * @since	11.1
 	 */
 	protected $ignoredSearchWordsCallback = null;
 
 	/**
 	 * Name of the lowerLimitSearchWordCallback function for this language.
-	 * @var    callable
-	 * @since  11.1
+	 * @var		callable
+	 * @since	11.1
 	 */
 	protected $lowerLimitSearchWordCallback = null;
 
 	/**
 	 * Name of the uppperLimitSearchWordCallback function for this language
-	 * @var    callable
-	 * @since  11.1
+	 * @var		callable
+	 * @since	11.1
 	 */
 	protected $upperLimitSearchWordCallback = null;
 
 	/**
 	 * Name of the searchDisplayedCharactersNumberCallback function for this language.
-	 * @var    callable
-	 * @since  11.1
+	 * @var		callable
+	 * @since	11.1
 	 */
 	protected $searchDisplayedCharactersNumberCallback = null;
 
 	/**
 	 * Constructor activating the default information of the language.
 	 *
-	 * @param   string   $lang   The language
-	 * @param   boolean  $debug  Indicates if language debugging is enabled.
+	 * @param	 string	 $lang	 The language
+	 * @param	 boolean	$debug	Indicates if language debugging is enabled.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __construct($lang = null, $debug = false)
 	{
@@ -261,12 +261,12 @@ class JLanguage
 	/**
 	 * Returns a language object.
 	 *
-	 * @param   string   $lang   The language to use.
-	 * @param   boolean  $debug  The debug mode.
+	 * @param	 string	 $lang	 The language to use.
+	 * @param	 boolean	$debug	The debug mode.
 	 *
-	 * @return  JLanguage  The Language object.
+	 * @return	JLanguage	The Language object.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function getInstance($lang, $debug = false)
 	{
@@ -283,13 +283,13 @@ class JLanguage
 	 *
 	 * The function checks if $jsSafe is true, then if $interpretBackslashes is true.
 	 *
-	 * @param   string   $string                The string to translate
-	 * @param   boolean  $jsSafe                Make the result javascript safe
-	 * @param   boolean  $interpretBackSlashes  Interpret \t and \n
+	 * @param	 string	 $string								The string to translate
+	 * @param	 boolean	$jsSafe								Make the result javascript safe
+	 * @param	 boolean	$interpretBackSlashes	Interpret \t and \n
 	 *
-	 * @return  string  The translation of the string
+	 * @return	string	The translation of the string
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function _($string, $jsSafe = false, $interpretBackSlashes = true)
 	{
@@ -356,11 +356,11 @@ class JLanguage
 	 * This method processes a string and replaces all accented UTF-8 characters by unaccented
 	 * ASCII-7 "equivalents".
 	 *
-	 * @param   string  $string  The string to transliterate.
+	 * @param	 string	$string	The string to transliterate.
 	 *
-	 * @return  string  The transliteration of the string.
+	 * @return	string	The transliteration of the string.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function transliterate($string)
 	{
@@ -378,9 +378,9 @@ class JLanguage
 	/**
 	 * Getter for transliteration function
 	 *
-	 * @return  callable  The transliterator function
+	 * @return	callable	The transliterator function
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getTransliterator()
 	{
@@ -390,11 +390,11 @@ class JLanguage
 	/**
 	 * Set the transliteration function.
 	 *
-	 * @param   callable  $function  Function name or the actual function.
+	 * @param	 callable	$function	Function name or the actual function.
 	 *
-	 * @return  callable  The previous function.
+	 * @return	callable	The previous function.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setTransliterator($function)
 	{
@@ -407,11 +407,11 @@ class JLanguage
 	/**
 	 * Returns an array of suffixes for plural rules.
 	 *
-	 * @param   integer  $count  The count number the rule is for.
+	 * @param	 integer	$count	The count number the rule is for.
 	 *
-	 * @return  array    The array of suffixes.
+	 * @return	array		The array of suffixes.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getPluralSuffixes($count)
 	{
@@ -428,9 +428,9 @@ class JLanguage
 	/**
 	 * Getter for pluralSuffixesCallback function.
 	 *
-	 * @return  callable  Function name or the actual function.
+	 * @return	callable	Function name or the actual function.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getPluralSuffixesCallback()
 	{
@@ -440,11 +440,11 @@ class JLanguage
 	/**
 	 * Set the pluralSuffixes function.
 	 *
-	 * @param   callable  $function  Function name or actual function.
+	 * @param	 callable	$function	Function name or actual function.
 	 *
-	 * @return  callable  The previous function.
+	 * @return	callable	The previous function.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setPluralSuffixesCallback($function)
 	{
@@ -457,9 +457,9 @@ class JLanguage
 	/**
 	 * Returns an array of ignored search words
 	 *
-	 * @return  array  The array of ignored search words.
+	 * @return	array	The array of ignored search words.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getIgnoredSearchWords()
 	{
@@ -476,9 +476,9 @@ class JLanguage
 	/**
 	 * Getter for ignoredSearchWordsCallback function.
 	 *
-	 * @return  callable  Function name or the actual function.
+	 * @return	callable	Function name or the actual function.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getIgnoredSearchWordsCallback()
 	{
@@ -488,11 +488,11 @@ class JLanguage
 	/**
 	 * Setter for the ignoredSearchWordsCallback function
 	 *
-	 * @param   callable  $function  Function name or actual function.
+	 * @param	 callable	$function	Function name or actual function.
 	 *
-	 * @return  callable  The previous function.
+	 * @return	callable	The previous function.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setIgnoredSearchWordsCallback($function)
 	{
@@ -505,9 +505,9 @@ class JLanguage
 	/**
 	 * Returns a lower limit integer for length of search words
 	 *
-	 * @return  integer  The lower limit integer for length of search words (3 if no value was set for a specific language).
+	 * @return	integer	The lower limit integer for length of search words (3 if no value was set for a specific language).
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getLowerLimitSearchWord()
 	{
@@ -524,9 +524,9 @@ class JLanguage
 	/**
 	 * Getter for lowerLimitSearchWordCallback function
 	 *
-	 * @return  callable  Function name or the actual function.
+	 * @return	callable	Function name or the actual function.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getLowerLimitSearchWordCallback()
 	{
@@ -536,11 +536,11 @@ class JLanguage
 	/**
 	 * Setter for the lowerLimitSearchWordCallback function.
 	 *
-	 * @param   callable  $function  Function name or actual function.
+	 * @param	 callable	$function	Function name or actual function.
 	 *
-	 * @return  callable  The previous function.
+	 * @return	callable	The previous function.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setLowerLimitSearchWordCallback($function)
 	{
@@ -553,9 +553,9 @@ class JLanguage
 	/**
 	 * Returns an upper limit integer for length of search words
 	 *
-	 * @return  integer  The upper limit integer for length of search words (20 if no value was set for a specific language).
+	 * @return	integer	The upper limit integer for length of search words (20 if no value was set for a specific language).
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getUpperLimitSearchWord()
 	{
@@ -572,9 +572,9 @@ class JLanguage
 	/**
 	 * Getter for upperLimitSearchWordCallback function
 	 *
-	 * @return  callable  Function name or the actual function.
+	 * @return	callable	Function name or the actual function.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getUpperLimitSearchWordCallback()
 	{
@@ -584,11 +584,11 @@ class JLanguage
 	/**
 	 * Setter for the upperLimitSearchWordCallback function
 	 *
-	 * @param   callable  $function  Function name or the actual function.
+	 * @param	 callable	$function	Function name or the actual function.
 	 *
-	 * @return  callable  The previous function.
+	 * @return	callable	The previous function.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setUpperLimitSearchWordCallback($function)
 	{
@@ -601,9 +601,9 @@ class JLanguage
 	/**
 	 * Returns the number of characters displayed in search results.
 	 *
-	 * @return  integer  The number of characters displayed (200 if no value was set for a specific language).
+	 * @return	integer	The number of characters displayed (200 if no value was set for a specific language).
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getSearchDisplayedCharactersNumber()
 	{
@@ -620,9 +620,9 @@ class JLanguage
 	/**
 	 * Getter for searchDisplayedCharactersNumberCallback function
 	 *
-	 * @return  callable  Function name or the actual function.
+	 * @return	callable	Function name or the actual function.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getSearchDisplayedCharactersNumberCallback()
 	{
@@ -632,11 +632,11 @@ class JLanguage
 	/**
 	 * Setter for the searchDisplayedCharactersNumberCallback function.
 	 *
-	 * @param   callable  $function  Function name or the actual function.
+	 * @param	 callable	$function	Function name or the actual function.
 	 *
-	 * @return  callable  The previous function.
+	 * @return	callable	The previous function.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setSearchDisplayedCharactersNumberCallback($function)
 	{
@@ -651,12 +651,12 @@ class JLanguage
 	 *
 	 * This is a simple, quick check for the directory that should contain language files for the given user.
 	 *
-	 * @param   string  $lang      Language to check.
-	 * @param   string  $basePath  Optional path to check.
+	 * @param	 string	$lang			Language to check.
+	 * @param	 string	$basePath	Optional path to check.
 	 *
-	 * @return  boolean  True if the language exists.
+	 * @return	boolean	True if the language exists.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function exists($lang, $basePath = JPATH_BASE)
 	{
@@ -685,15 +685,15 @@ class JLanguage
 	/**
 	 * Loads a single language file and appends the results to the existing strings
 	 *
-	 * @param   string   $extension  The extension for which a language file should be loaded.
-	 * @param   string   $basePath   The basepath to use.
-	 * @param   string   $lang       The language to load, default null for the current language.
-	 * @param   boolean  $reload     Flag that will force a language to be reloaded if set to true.
-	 * @param   boolean  $default    Flag that force the default language to be loaded if the current does not exist.
+	 * @param	 string	 $extension	The extension for which a language file should be loaded.
+	 * @param	 string	 $basePath	 The basepath to use.
+	 * @param	 string	 $lang			 The language to load, default null for the current language.
+	 * @param	 boolean	$reload		 Flag that will force a language to be reloaded if set to true.
+	 * @param	 boolean	$default		Flag that force the default language to be loaded if the current does not exist.
 	 *
-	 * @return  boolean  True if the file has successfully loaded.
+	 * @return	boolean	True if the file has successfully loaded.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function load($extension = 'joomla', $basePath = JPATH_BASE, $lang = null, $reload = false, $default = true)
 	{
@@ -747,13 +747,13 @@ class JLanguage
 	 *
 	 * This method will not note the successful loading of a file - use load() instead.
 	 *
-	 * @param   string  $filename   The name of the file.
-	 * @param   string  $extension  The name of the extension.
+	 * @param	 string	$filename	 The name of the file.
+	 * @param	 string	$extension	The name of the extension.
 	 *
-	 * @return  boolean  True if new strings have been added to the language
+	 * @return	boolean	True if new strings have been added to the language
 	 *
-	 * @see     JLanguage::load()
-	 * @since   11.1
+	 * @see		 JLanguage::load()
+	 * @since	 11.1
 	 */
 	protected function loadLanguage($filename, $extension = 'unknown')
 	{
@@ -778,7 +778,7 @@ class JLanguage
 
 			if (is_array($strings) && count($strings))
 			{
-				// Do not bother with ksort here.  Since the originals were sorted, PHP will already have chosen the best heap.
+				// Do not bother with ksort here.	Since the originals were sorted, PHP will already have chosen the best heap.
 				$this->strings = array_merge($this->strings, $this->override);
 				$result = true;
 			}
@@ -798,11 +798,11 @@ class JLanguage
 	/**
 	 * Parses a language file.
 	 *
-	 * @param   string  $filename  The name of the file.
+	 * @param	 string	$filename	The name of the file.
 	 *
-	 * @return  array  The array of parsed strings.
+	 * @return	array	The array of parsed strings.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function parse($filename)
 	{
@@ -884,12 +884,12 @@ class JLanguage
 	/**
 	 * Get a metadata language property.
 	 *
-	 * @param   string  $property  The name of the property.
-	 * @param   mixed   $default   The default value.
+	 * @param	 string	$property	The name of the property.
+	 * @param	 mixed	 $default	 The default value.
 	 *
-	 * @return  mixed  The value of the property.
+	 * @return	mixed	The value of the property.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function get($property, $default = null)
 	{
@@ -904,9 +904,9 @@ class JLanguage
 	/**
 	 * Determine who called JLanguage or JText.
 	 *
-	 * @return  array  Caller information.
+	 * @return	array	Caller information.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function getCallerInfo()
 	{
@@ -948,9 +948,9 @@ class JLanguage
 	/**
 	 * Getter for Name.
 	 *
-	 * @return  string  Official name element of the language.
+	 * @return	string	Official name element of the language.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getName()
 	{
@@ -960,11 +960,11 @@ class JLanguage
 	/**
 	 * Get a list of language files that have been loaded.
 	 *
-	 * @param   string  $extension  An optional extension name.
+	 * @param	 string	$extension	An optional extension name.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getPaths($extension = null)
 	{
@@ -986,9 +986,9 @@ class JLanguage
 	/**
 	 * Get a list of language files that are in error state.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getErrorFiles()
 	{
@@ -998,9 +998,9 @@ class JLanguage
 	/**
 	 * Getter for the language tag (as defined in RFC 3066)
 	 *
-	 * @return  string  The language tag.
+	 * @return	string	The language tag.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getTag()
 	{
@@ -1010,9 +1010,9 @@ class JLanguage
 	/**
 	 * Get the RTL property.
 	 *
-	 * @return  boolean  True is it an RTL language.
+	 * @return	boolean	True is it an RTL language.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function isRTL()
 	{
@@ -1022,11 +1022,11 @@ class JLanguage
 	/**
 	 * Set the Debug property.
 	 *
-	 * @param   boolean  $debug  The debug setting.
+	 * @param	 boolean	$debug	The debug setting.
 	 *
-	 * @return  boolean  Previous value.
+	 * @return	boolean	Previous value.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setDebug($debug)
 	{
@@ -1039,9 +1039,9 @@ class JLanguage
 	/**
 	 * Get the Debug property.
 	 *
-	 * @return  boolean  True is in debug mode.
+	 * @return	boolean	True is in debug mode.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getDebug()
 	{
@@ -1051,9 +1051,9 @@ class JLanguage
 	/**
 	 * Get the default language code.
 	 *
-	 * @return  string  Language code.
+	 * @return	string	Language code.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getDefault()
 	{
@@ -1063,11 +1063,11 @@ class JLanguage
 	/**
 	 * Set the default language code.
 	 *
-	 * @param   string  $lang  The language code.
+	 * @param	 string	$lang	The language code.
 	 *
-	 * @return  string  Previous value.
+	 * @return	string	Previous value.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setDefault($lang)
 	{
@@ -1080,9 +1080,9 @@ class JLanguage
 	/**
 	 * Get the list of orphaned strings if being tracked.
 	 *
-	 * @return  array  Orphaned text.
+	 * @return	array	Orphaned text.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getOrphans()
 	{
@@ -1094,9 +1094,9 @@ class JLanguage
 	 *
 	 * Used strings are those strings requested and found either as a string or a constant.
 	 *
-	 * @return  array  Used strings.
+	 * @return	array	Used strings.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getUsed()
 	{
@@ -1106,11 +1106,11 @@ class JLanguage
 	/**
 	 * Determines is a key exists.
 	 *
-	 * @param   string  $string  The key to check.
+	 * @param	 string	$string	The key to check.
 	 *
-	 * @return  boolean  True, if the key exists.
+	 * @return	boolean	True, if the key exists.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function hasKey($string)
 	{
@@ -1122,11 +1122,11 @@ class JLanguage
 	/**
 	 * Returns a associative array holding the metadata.
 	 *
-	 * @param   string  $lang  The name of the language.
+	 * @param	 string	$lang	The name of the language.
 	 *
-	 * @return  mixed  If $lang exists return key/value pair with the language metadata, otherwise return NULL.
+	 * @return	mixed	If $lang exists return key/value pair with the language metadata, otherwise return NULL.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function getMetadata($lang)
 	{
@@ -1151,11 +1151,11 @@ class JLanguage
 	/**
 	 * Returns a list of known languages for an area
 	 *
-	 * @param   string  $basePath  The basepath to use
+	 * @param	 string	$basePath	The basepath to use
 	 *
-	 * @return  array  key/value pair with the language file and real name.
+	 * @return	array	key/value pair with the language file and real name.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function getKnownLanguages($basePath = JPATH_BASE)
 	{
@@ -1168,12 +1168,12 @@ class JLanguage
 	/**
 	 * Get the path to a language
 	 *
-	 * @param   string  $basePath  The basepath to use.
-	 * @param   string  $language  The language tag.
+	 * @param	 string	$basePath	The basepath to use.
+	 * @param	 string	$language	The language tag.
 	 *
-	 * @return  string  language related path or null.
+	 * @return	string	language related path or null.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function getLanguagePath($basePath = JPATH_BASE, $language = null)
 	{
@@ -1192,11 +1192,11 @@ class JLanguage
 	 *
 	 * Once called, the language still needs to be loaded using JLanguage::load().
 	 *
-	 * @param   string  $lang  Language code.
+	 * @param	 string	$lang	Language code.
 	 *
-	 * @return  string  Previous value.
+	 * @return	string	Previous value.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setLanguage($lang)
 	{
@@ -1210,9 +1210,9 @@ class JLanguage
 	/**
 	 * Get the language locale based on current language.
 	 *
-	 * @return  array  The locale according to the language.
+	 * @return	array	The locale according to the language.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getLocale()
 	{
@@ -1236,9 +1236,9 @@ class JLanguage
 	/**
 	 * Get the first day of the week for this language.
 	 *
-	 * @return  integer  The first day of the week according to the language
+	 * @return	integer	The first day of the week according to the language
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getFirstDay()
 	{
@@ -1248,11 +1248,11 @@ class JLanguage
 	/**
 	 * Searches for language directories within a certain base dir.
 	 *
-	 * @param   string  $dir  directory of files.
+	 * @param	 string	$dir	directory of files.
 	 *
-	 * @return  array  Array holding the found languages as filename => real name pairs.
+	 * @return	array	Array holding the found languages as filename => real name pairs.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function parseLanguageFiles($dir = null)
 	{
@@ -1262,7 +1262,7 @@ class JLanguage
 
 		foreach ($iterator as $file)
 		{
-			$langs    = array();
+			$langs		= array();
 			$fileName = $file->getFilename();
 
 			if (!$file->isFile() || !preg_match("/^([-_A-Za-z]*)\.xml$/", $fileName))
@@ -1292,12 +1292,12 @@ class JLanguage
 	/**
 	 * Parse XML file for language information.
 	 *
-	 * @param   string  $path  Path to the XML files.
+	 * @param	 string	$path	Path to the XML files.
 	 *
-	 * @return  array  Array holding the found metadata as a key => value pair.
+	 * @return	array	Array holding the found metadata as a key => value pair.
 	 *
-	 * @since   11.1
-	 * @throws  RuntimeException
+	 * @since	 11.1
+	 * @throws	RuntimeException
 	 */
 	public static function parseXMLLanguageFile($path)
 	{

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Media
+ * @package		 Joomla.UnitTest
+ * @subpackage	Media
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM . '/joomla/image/filter.php';
@@ -13,18 +13,18 @@ require_once JPATH_PLATFORM . '/joomla/image/filter/edgedetect.php';
 /**
  * Test class for JImage.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Image
- * @since       11.4
+ * @package		 Joomla.UnitTest
+ * @subpackage	Image
+ * @since			 11.4
  */
 class JImageFilterEdgedetectTest extends TestCase
 {
 	/**
 	 * Setup for testing.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	protected function setUp()
 	{
@@ -40,10 +40,10 @@ class JImageFilterEdgedetectTest extends TestCase
 	/**
 	 * Overrides the parent tearDown method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   11.4
+	 * @see		 PHPUnit_Framework_TestCase::tearDown()
+	 * @since	 11.4
 	 */
 	protected function tearDown()
 	{
@@ -55,9 +55,9 @@ class JImageFilterEdgedetectTest extends TestCase
 	 *
 	 * This tests to make sure we can brighten the image.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testExecute()
 	{

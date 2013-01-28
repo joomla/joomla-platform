@@ -25,8 +25,8 @@ copyright: Copyright (c) 2006-2012 [Valerio Proietti](http://mad4milk.net/).
 authors: The MooTools production team (http://mootools.net/developers/)
 
 inspiration:
-  - Class implementation inspired by [Base.js](http://dean.edwards.name/weblog/2006/03/base/) Copyright (c) 2006 Dean Edwards, [GNU Lesser General Public License](http://opensource.org/licenses/lgpl-license.php)
-  - Some functionality inspired by [Prototype.js](http://prototypejs.org) Copyright (c) 2005-2007 Sam Stephenson, [MIT License](http://opensource.org/licenses/mit-license.php)
+	- Class implementation inspired by [Base.js](http://dean.edwards.name/weblog/2006/03/base/) Copyright (c) 2006 Dean Edwards, [GNU Lesser General Public License](http://opensource.org/licenses/lgpl-license.php)
+	- Some functionality inspired by [Prototype.js](http://prototypejs.org) Copyright (c) 2005-2007 Sam Stephenson, [MIT License](http://opensource.org/licenses/mit-license.php)
 
 provides: [Core, MooTools, Type, typeOf, instanceOf, Native]
 
@@ -174,7 +174,7 @@ var Type = this.Type = function(name, object){
 			object.prototype.$family = (function(){
 				return lower;
 			}).hide();
-			
+
 		}
 	}
 
@@ -1410,7 +1410,7 @@ this.Events = new Class({
 	addEvent: function(type, fn, internal){
 		type = removeOn(type);
 
-		
+
 
 		this.$events[type] = (this.$events[type] || []).include(fn);
 		if (internal) fn.internal = true;
@@ -1438,7 +1438,7 @@ this.Events = new Class({
 		type = removeOn(type);
 		var events = this.$events[type];
 		if (events && !fn.internal){
-			var index =  events.indexOf(fn);
+			var index =	events.indexOf(fn);
 			if (index != -1) delete events[index];
 		}
 		return this;
@@ -1556,23 +1556,23 @@ var regexp = new RegExp(
 puts "\t\t" + DATA.read.gsub(/\(\?x\)|\s+#.*$|\s+|\\$|\\n/,'')
 __END__
 	"(?x)^(?:\
-	  \\s* ( , ) \\s*               # Separator          \n\
-	| \\s* ( <combinator>+ ) \\s*   # Combinator         \n\
-	|      ( \\s+ )                 # CombinatorChildren \n\
-	|      ( <unicode>+ | \\* )     # Tag                \n\
-	| \\#  ( <unicode>+       )     # ID                 \n\
-	| \\.  ( <unicode>+       )     # ClassName          \n\
-	|                               # Attribute          \n\
-	\\[  \
-		\\s* (<unicode1>+)  (?:  \
-			\\s* ([*^$!~|]?=)  (?:  \
+		\\s* ( , ) \\s*							 # Separator					\n\
+	| \\s* ( <combinator>+ ) \\s*	 # Combinator				 \n\
+	|			( \\s+ )								 # CombinatorChildren \n\
+	|			( <unicode>+ | \\* )		 # Tag								\n\
+	| \\#	( <unicode>+			 )		 # ID								 \n\
+	| \\.	( <unicode>+			 )		 # ClassName					\n\
+	|															 # Attribute					\n\
+	\\[	\
+		\\s* (<unicode1>+)	(?:	\
+			\\s* ([*^$!~|]?=)	(?:	\
 				\\s* (?:\
 					([\"']?)(.*?)\\9 \
 				)\
-			)  \
-		)?  \\s*  \
+			)	\
+		)?	\\s*	\
 	\\](?!\\]) \n\
-	|   :+ ( <unicode>+ )(?:\
+	|	 :+ ( <unicode>+ )(?:\
 	\\( (?:\
 		(?:([\"'])([^\\12]*)\\12)|((?:\\([^)]+\\)|[^()]*)+)\
 	) \\)\
@@ -1658,11 +1658,11 @@ function parser(
 		var test, regexp;
 
 		switch (attributeOperator){
-			case '^=' : regexp = new RegExp(       '^'+ escapeRegExp(attributeValue)            ); break;
-			case '$=' : regexp = new RegExp(            escapeRegExp(attributeValue) +'$'       ); break;
+			case '^=' : regexp = new RegExp(			 '^'+ escapeRegExp(attributeValue)						); break;
+			case '$=' : regexp = new RegExp(						escapeRegExp(attributeValue) +'$'			 ); break;
 			case '~=' : regexp = new RegExp( '(^|\\s)'+ escapeRegExp(attributeValue) +'(\\s|$)' ); break;
-			case '|=' : regexp = new RegExp(       '^'+ escapeRegExp(attributeValue) +'(-|$)'   ); break;
-			case  '=' : test = function(value){
+			case '|=' : regexp = new RegExp(			 '^'+ escapeRegExp(attributeValue) +'(-|$)'	 ); break;
+			case	'=' : test = function(value){
 				return attributeValue == value;
 			}; break;
 			case '*=' : test = function(value){
@@ -1671,7 +1671,7 @@ function parser(
 			case '!=' : test = function(value){
 				return attributeValue != value;
 			}; break;
-			default   : test = function(value){
+			default	 : test = function(value){
 				return !!value;
 			};
 		}
@@ -2056,8 +2056,8 @@ local.search = function(context, expression, append, first){
 				|| (this.brokenCheckedQSA && expression.indexOf(':checked') > -1)
 				|| (this.brokenEmptyAttributeQSA && reEmptyAttribute.test(expression))
 				|| (!contextIsDocument //Abort when !contextIsDocument and...
-					//  there are multiple expressions in the selector
-					//  since we currently only fix non-document rooted QSA for single expression selectors
+					//	there are multiple expressions in the selector
+					//	since we currently only fix non-document rooted QSA for single expression selectors
 					&& expression.indexOf(',') > -1
 				)
 				|| Slick.disableQSA
@@ -2139,13 +2139,13 @@ local.search = function(context, expression, append, first){
 		combinator = 'combinator:' + currentBit.combinator;
 		if (!this[combinator]) continue search;
 
-		tag        = (this.isXMLDocument) ? currentBit.tag : currentBit.tag.toUpperCase();
-		id         = currentBit.id;
-		classList  = currentBit.classList;
-		classes    = currentBit.classes;
+		tag				= (this.isXMLDocument) ? currentBit.tag : currentBit.tag.toUpperCase();
+		id				 = currentBit.id;
+		classList	= currentBit.classList;
+		classes		= currentBit.classes;
 		attributes = currentBit.attributes;
-		pseudos    = currentBit.pseudos;
-		lastBit    = (j === (currentExpression.length - 1));
+		pseudos		= currentBit.pseudos;
+		lastBit		= (j === (currentExpression.length - 1));
 
 		this.bitUniques = {};
 
@@ -2899,7 +2899,7 @@ Array.mirror(Elements);
 /*<ltIE8>*/
 var createElementAcceptsHTML;
 try {
-    createElementAcceptsHTML = (document.createElement('<input name=x>').name == 'x');
+		createElementAcceptsHTML = (document.createElement('<input name=x>').name == 'x');
 } catch (e){}
 
 var escapeQuotes = function(html){
@@ -4259,8 +4259,8 @@ description: Contains methods to work with size, scroll, or positioning of Eleme
 license: MIT-style license.
 
 credits:
-  - Element positioning based on the [qooxdoo](http://qooxdoo.org/) code and smart browser fixes, [LGPL License](http://www.gnu.org/licenses/lgpl.html).
-  - Viewport dimensions based on [YUI](http://developer.yahoo.com/yui/) code, [BSD License](http://developer.yahoo.com/yui/license.html).
+	- Element positioning based on the [qooxdoo](http://qooxdoo.org/) code and smart browser fixes, [LGPL License](http://www.gnu.org/licenses/lgpl.html).
+	- Viewport dimensions based on [YUI](http://developer.yahoo.com/yui/) code, [BSD License](http://developer.yahoo.com/yui/license.html).
 
 requires: [Element, Element.Style]
 
@@ -4352,7 +4352,7 @@ Element.implement({
 
 			return {
 				x: bound.left.toInt() + elemScrolls.x + ((isFixed) ? 0 : htmlScroll.x) - html.clientLeft,
-				y: bound.top.toInt()  + elemScrolls.y + ((isFixed) ? 0 : htmlScroll.y) - html.clientTop
+				y: bound.top.toInt()	+ elemScrolls.y + ((isFixed) ? 0 : htmlScroll.y) - html.clientTop
 			};
 		}
 
@@ -5082,7 +5082,7 @@ description: Contains a set of advanced transitions to be used with any of the F
 license: MIT-style license.
 
 credits:
-  - Easing Equations by Robert Penner, <http://www.robertpenner.com/easing/>, modified and optimized to be used with MooTools.
+	- Easing Equations by Robert Penner, <http://www.robertpenner.com/easing/>, modified and optimized to be used with MooTools.
 
 requires: Fx
 
@@ -5687,7 +5687,7 @@ description: Class for creating, reading, and deleting browser Cookies.
 license: MIT-style license.
 
 credits:
-  - Based on the functions by Peter-Paul Koch (http://quirksmode.org).
+	- Based on the functions by Peter-Paul Koch (http://quirksmode.org).
 
 requires: [Options, Browser]
 
@@ -5814,7 +5814,7 @@ var doScrollWorks = function(){
 	return false;
 };
 // If doScroll works already, it can't be used to determine domready
-//   e.g. in an iframe
+//	 e.g. in an iframe
 if (testElement.doScroll && !doScrollWorks()){
 	checks.push(doScrollWorks);
 	shouldPoll = true;
@@ -5870,7 +5870,7 @@ description: Wrapper for embedding SWF movies. Supports External Interface Commu
 license: MIT-style license.
 
 credits:
-  - Flash detection & Internet Explorer + Flash Player 9 fix inspired by SWFObject.
+	- Flash detection & Internet Explorer + Flash Player 9 fix inspired by SWFObject.
 
 requires: [Options, Object, Element]
 

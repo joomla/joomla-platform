@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  String
+ * @package		 Joomla.Platform
+ * @subpackage	String
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -14,25 +14,25 @@ defined('JPATH_PLATFORM') or die;
  *
  * The Inflector transforms words
  *
- * @package     Joomla.Platform
- * @subpackage  String
- * @since       12.1
+ * @package		 Joomla.Platform
+ * @subpackage	String
+ * @since			 12.1
  */
 class JStringInflector
 {
 	/**
 	 * The singleton instance.
 	 *
-	 * @var    JStringInflector
-	 * @since  12.1
+	 * @var		JStringInflector
+	 * @since	12.1
 	 */
 	private static $_instance;
 
 	/**
 	 * The inflector rules for singularisation, pluralisation and countability.
 	 *
-	 * @var    array
-	 * @since  12.1
+	 * @var		array
+	 * @since	12.1
 	 */
 	private $_rules = array(
 		'singular' => array(
@@ -52,7 +52,7 @@ class JStringInflector
 		),
 		'plural' => array(
 			'/([m|l])ouse$/i' => '\1ice',
-			'/(matr|vert|ind)(ix|ex)$/i'  => '\1ices',
+			'/(matr|vert|ind)(ix|ex)$/i'	=> '\1ices',
 			'/(x|ch|ss|sh)$/i' => '\1es',
 			'/([^aeiouy]|qu)y$/i' => '\1ies',
 			'/([^aeiouy]|qu)ies$/i' => '\1y',
@@ -78,15 +78,15 @@ class JStringInflector
 	 *
 	 * The array is in the form [singular => plural]
 	 *
-	 * @var    array
-	 * @since  12.1
+	 * @var		array
+	 * @since	12.1
 	 */
 	private $_cache = array();
 
 	/**
 	 * Protected constructor.
 	 *
-	 * @since  12.1
+	 * @since	12.1
 	 */
 	protected function __construct()
 	{
@@ -120,13 +120,13 @@ class JStringInflector
 	/**
 	 * Adds inflection regex rules to the inflector.
 	 *
-	 * @param   mixed   $data      A string or an array of strings or regex rules to add.
-	 * @param   string  $ruleType  The rule type: singular | plural | countable
+	 * @param	 mixed	 $data			A string or an array of strings or regex rules to add.
+	 * @param	 string	$ruleType	The rule type: singular | plural | countable
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
-	 * @throws  InvalidArgumentException
+	 * @since	 12.1
+	 * @throws	InvalidArgumentException
 	 */
 	private function _addRule($data, $ruleType)
 	{
@@ -150,11 +150,11 @@ class JStringInflector
 	/**
 	 * Gets an inflected word from the cache where the singular form is supplied.
 	 *
-	 * @param   string  $singular  A singular form of a word.
+	 * @param	 string	$singular	A singular form of a word.
 	 *
-	 * @return  mixed  The cached inflection or false if none found.
+	 * @return	mixed	The cached inflection or false if none found.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	private function _getCachedPlural($singular)
 	{
@@ -172,11 +172,11 @@ class JStringInflector
 	/**
 	 * Gets an inflected word from the cache where the plural form is supplied.
 	 *
-	 * @param   string  $plural  A plural form of a word.
+	 * @param	 string	$plural	A plural form of a word.
 	 *
-	 * @return  mixed  The cached inflection or false if none found.
+	 * @return	mixed	The cached inflection or false if none found.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	private function _getCachedSingular($plural)
 	{
@@ -191,12 +191,12 @@ class JStringInflector
 	 * The 'plural' rule type expects a singular word.
 	 * The 'singular' rule type expects a plural word.
 	 *
-	 * @param   string  $word      The string input.
-	 * @param   string  $ruleType  String (eg, singular|plural)
+	 * @param	 string	$word			The string input.
+	 * @param	 string	$ruleType	String (eg, singular|plural)
 	 *
-	 * @return  mixed  An inflected string, or false if no rule could be applied.
+	 * @return	mixed	An inflected string, or false if no rule could be applied.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	private function _matchRegexRule($word, $ruleType)
 	{
@@ -218,12 +218,12 @@ class JStringInflector
 	/**
 	 * Sets an inflected word in the cache.
 	 *
-	 * @param   string  $singular  The singular form of the word.
-	 * @param   string  $plural    The plural form of the word. If omitted, it is assumed the singular and plural are identical.
+	 * @param	 string	$singular	The singular form of the word.
+	 * @param	 string	$plural		The plural form of the word. If omitted, it is assumed the singular and plural are identical.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	private function _setCache($singular, $plural = null)
 	{
@@ -244,11 +244,11 @@ class JStringInflector
 	/**
 	 * Adds a countable word.
 	 *
-	 * @param   mixed  $data  A string or an array of strings to add.
+	 * @param	 mixed	$data	A string or an array of strings to add.
 	 *
-	 * @return  JStringInflector  Returns this object to support chaining.
+	 * @return	JStringInflector	Returns this object to support chaining.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function addCountableRule($data)
 	{
@@ -260,12 +260,12 @@ class JStringInflector
 	/**
 	 * Adds a specific singular-plural pair for a word.
 	 *
-	 * @param   string  $singular  The singular form of the word.
-	 * @param   string  $plural    The plural form of the word. If omitted, it is assumed the singular and plural are identical.
+	 * @param	 string	$singular	The singular form of the word.
+	 * @param	 string	$plural		The plural form of the word. If omitted, it is assumed the singular and plural are identical.
 	 *
-	 * @return  JStringInflector  Returns this object to support chaining.
+	 * @return	JStringInflector	Returns this object to support chaining.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function addWord($singular, $plural =null)
 	{
@@ -277,11 +277,11 @@ class JStringInflector
 	/**
 	 * Adds a pluralisation rule.
 	 *
-	 * @param   mixed  $data  A string or an array of regex rules to add.
+	 * @param	 mixed	$data	A string or an array of regex rules to add.
 	 *
-	 * @return  JStringInflector  Returns this object to support chaining.
+	 * @return	JStringInflector	Returns this object to support chaining.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function addPluraliseRule($data)
 	{
@@ -293,11 +293,11 @@ class JStringInflector
 	/**
 	 * Adds a singularisation rule.
 	 *
-	 * @param   mixed  $data  A string or an array of regex rules to add.
+	 * @param	 mixed	$data	A string or an array of regex rules to add.
 	 *
-	 * @return  JStringInflector  Returns this object to support chaining.
+	 * @return	JStringInflector	Returns this object to support chaining.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function addSingulariseRule($data)
 	{
@@ -309,12 +309,12 @@ class JStringInflector
 	/**
 	 * Gets an instance of the JStringInflector singleton.
 	 *
-	 * @param   boolean  $new  If true (default is false), returns a new instance regardless if one exists.
-	 *                         This argument is mainly used for testing.
+	 * @param	 boolean	$new	If true (default is false), returns a new instance regardless if one exists.
+	 *												 This argument is mainly used for testing.
 	 *
-	 * @return  JStringInflector
+	 * @return	JStringInflector
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public static function getInstance($new = false)
 	{
@@ -333,11 +333,11 @@ class JStringInflector
 	/**
 	 * Checks if a word is countable.
 	 *
-	 * @param   string  $word  The string input.
+	 * @param	 string	$word	The string input.
 	 *
-	 * @return  boolean  True if word is countable, false otherwise.
+	 * @return	boolean	True if word is countable, false otherwise.
 	 *
-	 * @since  12.1
+	 * @since	12.1
 	 */
 	public function isCountable($word)
 	{
@@ -347,11 +347,11 @@ class JStringInflector
 	/**
 	 * Checks if a word is in a plural form.
 	 *
-	 * @param   string  $word  The string input.
+	 * @param	 string	$word	The string input.
 	 *
-	 * @return  boolean  True if word is plural, false if not.
+	 * @return	boolean	True if word is plural, false if not.
 	 *
-	 * @since  12.1
+	 * @since	12.1
 	 */
 	public function isPlural($word)
 	{
@@ -370,11 +370,11 @@ class JStringInflector
 	/**
 	 * Checks if a word is in a singular form.
 	 *
-	 * @param   string  $word  The string input.
+	 * @param	 string	$word	The string input.
 	 *
-	 * @return  boolean  True if word is singular, false if not.
+	 * @return	boolean	True if word is singular, false if not.
 	 *
-	 * @since  12.1
+	 * @since	12.1
 	 */
 	public function isSingular($word)
 	{
@@ -393,11 +393,11 @@ class JStringInflector
 	/**
 	 * Converts a word into its plural form.
 	 *
-	 * @param   string  $word  The singular word to pluralise.
+	 * @param	 string	$word	The singular word to pluralise.
 	 *
-	 * @return  mixed  An inflected string, or false if no rule could be applied.
+	 * @return	mixed	An inflected string, or false if no rule could be applied.
 	 *
-	 * @since  12.1
+	 * @since	12.1
 	 */
 	public function toPlural($word)
 	{
@@ -431,11 +431,11 @@ class JStringInflector
 	/**
 	 * Converts a word into its singular form.
 	 *
-	 * @param   string  $word  The plural word to singularise.
+	 * @param	 string	$word	The plural word to singularise.
 	 *
-	 * @return  mixed  An inflected string, or false if no rule could be applied.
+	 * @return	mixed	An inflected string, or false if no rule could be applied.
 	 *
-	 * @since  12.1
+	 * @since	12.1
 	 */
 	public function toSingular($word)
 	{

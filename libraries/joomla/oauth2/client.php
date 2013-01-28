@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Oauth
+ * @package		 Joomla.Platform
+ * @subpackage	Oauth
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -13,45 +13,45 @@ jimport('joomla.environment.response');
 /**
  * Joomla Platform class for interacting with an OAuth 2.0 server.
  *
- * @package     Joomla.Platform
- * @subpackage  Oauth
- * @since       12.3
+ * @package		 Joomla.Platform
+ * @subpackage	Oauth
+ * @since			 12.3
  */
 class JOAuth2Client
 {
 	/**
-	 * @var    JRegistry  Options for the JOAuth2Client object.
-	 * @since  12.3
+	 * @var		JRegistry	Options for the JOAuth2Client object.
+	 * @since	12.3
 	 */
 	protected $options;
 
 	/**
-	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
-	 * @since  12.3
+	 * @var		JHttp	The HTTP client object to use in sending HTTP requests.
+	 * @since	12.3
 	 */
 	protected $http;
 
 	/**
-	 * @var    JInput  The input object to use in retrieving GET/POST data.
-	 * @since  12.3
+	 * @var		JInput	The input object to use in retrieving GET/POST data.
+	 * @since	12.3
 	 */
 	protected $input;
 
 	/**
-	 * @var    JApplicationWeb  The application object to send HTTP headers for redirects.
-	 * @since  12.3
+	 * @var		JApplicationWeb	The application object to send HTTP headers for redirects.
+	 * @since	12.3
 	 */
 	protected $application;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry        $options      JOAuth2Client options object
-	 * @param   JHttp            $http         The HTTP client object
-	 * @param   JInput           $input        The input object
-	 * @param   JApplicationWeb  $application  The application object
+	 * @param	 JRegistry				$options			JOAuth2Client options object
+	 * @param	 JHttp						$http				 The HTTP client object
+	 * @param	 JInput					 $input				The input object
+	 * @param	 JApplicationWeb	$application	The application object
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function __construct(JRegistry $options = null, JHttp $http = null, JInput $input = null, JApplicationWeb $application = null)
 	{
@@ -64,9 +64,9 @@ class JOAuth2Client
 	/**
 	 * Get the access token or redict to the authentication URL.
 	 *
-	 * @return  string  The access token
+	 * @return	string	The access token
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function authenticate()
 	{
@@ -111,9 +111,9 @@ class JOAuth2Client
 	/**
 	 * Verify if the client has been authenticated
 	 *
-	 * @return  boolean  Is authenticated
+	 * @return	boolean	Is authenticated
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function isAuthenticated()
 	{
@@ -136,9 +136,9 @@ class JOAuth2Client
 	/**
 	 * Create the URL for authentication.
 	 *
-	 * @return  JHttpResponse  The HTTP response
+	 * @return	JHttpResponse	The HTTP response
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function createUrl()
 	{
@@ -191,15 +191,15 @@ class JOAuth2Client
 	/**
 	 * Send a signed Oauth request.
 	 *
-	 * @param   string  $url      The URL forf the request.
-	 * @param   mixed   $data     The data to include in the request
-	 * @param   array   $headers  The headers to send with the request
-	 * @param   string  $method   The method with which to send the request
-	 * @param   int     $timeout  The timeout for the request
+	 * @param	 string	$url			The URL forf the request.
+	 * @param	 mixed	 $data		 The data to include in the request
+	 * @param	 array	 $headers	The headers to send with the request
+	 * @param	 string	$method	 The method with which to send the request
+	 * @param	 int		 $timeout	The timeout for the request
 	 *
-	 * @return  string  The URL.
+	 * @return	string	The URL.
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function query($url, $data = null, $headers = array(), $method = 'get', $timeout = null)
 	{
@@ -259,11 +259,11 @@ class JOAuth2Client
 	/**
 	 * Get an option from the JOAuth2Client instance.
 	 *
-	 * @param   string  $key  The name of the option to get
+	 * @param	 string	$key	The name of the option to get
 	 *
-	 * @return  mixed  The option value
+	 * @return	mixed	The option value
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function getOption($key)
 	{
@@ -273,12 +273,12 @@ class JOAuth2Client
 	/**
 	 * Set an option for the JOAuth2Client instance.
 	 *
-	 * @param   string  $key    The name of the option to set
-	 * @param   mixed   $value  The option value to set
+	 * @param	 string	$key		The name of the option to set
+	 * @param	 mixed	 $value	The option value to set
 	 *
-	 * @return  JOAuth2Client  This object for method chaining
+	 * @return	JOAuth2Client	This object for method chaining
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function setOption($key, $value)
 	{
@@ -290,9 +290,9 @@ class JOAuth2Client
 	/**
 	 * Get the access token from the JOAuth2Client instance.
 	 *
-	 * @return  array  The access token
+	 * @return	array	The access token
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function getToken()
 	{
@@ -302,11 +302,11 @@ class JOAuth2Client
 	/**
 	 * Set an option for the JOAuth2Client instance.
 	 *
-	 * @param   array  $value  The access token
+	 * @param	 array	$value	The access token
 	 *
-	 * @return  JOAuth2Client  This object for method chaining
+	 * @return	JOAuth2Client	This object for method chaining
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function setToken($value)
 	{
@@ -323,11 +323,11 @@ class JOAuth2Client
 	/**
 	 * Refresh the access token instance.
 	 *
-	 * @param   string  $token  The refresh token
+	 * @param	 string	$token	The refresh token
 	 *
-	 * @return  array  The new access token
+	 * @return	array	The new access token
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function refreshToken($token = null)
 	{

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  HTML
+ * @package		 Joomla.Platform
+ * @subpackage	HTML
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,21 +12,21 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for Sliders elements
  *
- * @package     Joomla.Platform
- * @subpackage  HTML
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	HTML
+ * @since			 11.1
  */
 abstract class JHtmlSliders
 {
 	/**
 	 * Creates a panes and loads the javascript behavior for it.
 	 *
-	 * @param   string  $group   The pane identifier.
-	 * @param   array   $params  An array of options.
+	 * @param	 string	$group	 The pane identifier.
+	 * @param	 array	 $params	An array of options.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function start($group = 'sliders', $params = array())
 	{
@@ -38,9 +38,9 @@ abstract class JHtmlSliders
 	/**
 	 * Close the current pane.
 	 *
-	 * @return  string  hTML to close the pane
+	 * @return	string	hTML to close the pane
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function end()
 	{
@@ -50,12 +50,12 @@ abstract class JHtmlSliders
 	/**
 	 * Begins the display of a new panel.
 	 *
-	 * @param   string  $text  Text to display.
-	 * @param   string  $id    Identifier of the panel.
+	 * @param	 string	$text	Text to display.
+	 * @param	 string	$id		Identifier of the panel.
 	 *
-	 * @return  string  HTML to start a panel
+	 * @return	string	HTML to start a panel
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function panel($text, $id)
 	{
@@ -66,12 +66,12 @@ abstract class JHtmlSliders
 	/**
 	 * Load the JavaScript behavior.
 	 *
-	 * @param   string  $group   The pane identifier.
-	 * @param   array   $params  Array of options.
+	 * @param	 string	$group	 The pane identifier.
+	 * @param	 array	 $params	Array of options.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected static function _loadBehavior($group, $params = array())
 	{

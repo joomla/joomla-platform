@@ -1,26 +1,26 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Form
+ * @package		 Joomla.UnitTest
+ * @subpackage	Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * JFormFieldCalendarInspector
  *
- * @package     Joomla.UnitTest
- * @subpackage  Filter
+ * @package		 Joomla.UnitTest
+ * @subpackage	Filter
  *
- * @since       11.1
+ * @since			 11.1
  */
 class JFormFieldCalendarInspector extends JFormFieldCalendar
 {
 	/**
 	 * Test...
 	 *
-	 * @param   string  $property  The property to retrieve.
+	 * @param	 string	$property	The property to retrieve.
 	 *
 	 * @return mixed
 	 */
@@ -32,8 +32,8 @@ class JFormFieldCalendarInspector extends JFormFieldCalendar
 	/**
 	 * Test...
 	 *
-	 * @param   string  $property  The property to set.
-	 * @param   mixed   $value     The value.
+	 * @param	 string	$property	The property to set.
+	 * @param	 mixed	 $value		 The value.
 	 *
 	 * @return void
 	 */

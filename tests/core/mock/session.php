@@ -1,36 +1,36 @@
 <?php
 /**
- * @package    Joomla.Test
+ * @package		Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Class to mock JSession.
  *
- * @package  Joomla.Test
- * @since    12.1
+ * @package	Joomla.Test
+ * @since		12.1
  */
 class TestMockSession
 {
 	/**
 	 * An array of options.
 	 *
-	 * @var    array
-	 * @since  11.3
+	 * @var		array
+	 * @since	11.3
 	 */
 	protected static $options = array();
 
 	/**
 	 * Gets an option.
 	 *
-	 * @param   string  $name     The name of the option.
-	 * @param   string  $default  The default value to use if the option is not found.
+	 * @param	 string	$name		 The name of the option.
+	 * @param	 string	$default	The default value to use if the option is not found.
 	 *
-	 * @return  mixed  The value of the option, or the default if not found.
+	 * @return	mixed	The value of the option, or the default if not found.
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function getOption($name, $default = null)
 	{
@@ -40,16 +40,16 @@ class TestMockSession
 	/**
 	 * Creates an instance of the mock JSession object.
 	 *
-	 * @param   object  $test     A test object.
-	 * @param   array   $options  An array of optional configuration values.
-	 *                            getId : the value to be returned by the mock getId method
-	 *                            get.user.id : the value to assign to the user object id returned by get('user')
-	 *                            get.user.name : the value to assign to the user object name returned by get('user')
-	 *                            get.user.username : the value to assign to the user object username returned by get('user')
+	 * @param	 object	$test		 A test object.
+	 * @param	 array	 $options	An array of optional configuration values.
+	 *														getId : the value to be returned by the mock getId method
+	 *														get.user.id : the value to assign to the user object id returned by get('user')
+	 *														get.user.name : the value to assign to the user object name returned by get('user')
+	 *														get.user.username : the value to assign to the user object username returned by get('user')
 	 *
-	 * @return  object
+	 * @return	object
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public static function create($test, $options = array())
 	{
@@ -113,11 +113,11 @@ class TestMockSession
 	/**
 	 * Mocking the get method.
 	 *
-	 * @param   string  $key  The key to get.
+	 * @param	 string	$key	The key to get.
 	 *
-	 * @return  mixed
+	 * @return	mixed
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function mockGet($key)
 	{

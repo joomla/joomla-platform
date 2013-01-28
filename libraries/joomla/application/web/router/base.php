@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Application
+ * @package		 Joomla.Platform
+ * @subpackage	Application
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,28 +12,28 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Basic Web application router class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Application
- * @since       12.2
+ * @package		 Joomla.Platform
+ * @subpackage	Application
+ * @since			 12.2
  */
 class JApplicationWebRouterBase extends JApplicationWebRouter
 {
 	/**
-	 * @var    array  An array of rules, each rule being an associative array('regex'=> $regex, 'vars' => $vars, 'controller' => $controller)
-	 *                for routing the request.
-	 * @since  12.2
+	 * @var		array	An array of rules, each rule being an associative array('regex'=> $regex, 'vars' => $vars, 'controller' => $controller)
+	 *								for routing the request.
+	 * @since	12.2
 	 */
 	protected $maps = array();
 
 	/**
-	 * Add a route map to the router.  If the pattern already exists it will be overwritten.
+	 * Add a route map to the router.	If the pattern already exists it will be overwritten.
 	 *
-	 * @param   string  $pattern     The route pattern to use for matching.
-	 * @param   string  $controller  The controller name to map to the given pattern.
+	 * @param	 string	$pattern		 The route pattern to use for matching.
+	 * @param	 string	$controller	The controller name to map to the given pattern.
 	 *
-	 * @return  JApplicationWebRouter  This object for method chaining.
+	 * @return	JApplicationWebRouter	This object for method chaining.
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function addMap($pattern, $controller)
 	{
@@ -98,13 +98,13 @@ class JApplicationWebRouterBase extends JApplicationWebRouter
 	}
 
 	/**
-	 * Add a route map to the router.  If the pattern already exists it will be overwritten.
+	 * Add a route map to the router.	If the pattern already exists it will be overwritten.
 	 *
-	 * @param   array  $maps  A list of route maps to add to the router as $pattern => $controller.
+	 * @param	 array	$maps	A list of route maps to add to the router as $pattern => $controller.
 	 *
-	 * @return  JApplicationWebRouter  This object for method chaining.
+	 * @return	JApplicationWebRouter	This object for method chaining.
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function addMaps($maps)
 	{
@@ -119,12 +119,12 @@ class JApplicationWebRouterBase extends JApplicationWebRouter
 	/**
 	 * Parse the given route and return the name of a controller mapped to the given route.
 	 *
-	 * @param   string  $route  The route string for which to find and execute a controller.
+	 * @param	 string	$route	The route string for which to find and execute a controller.
 	 *
-	 * @return  string  The controller name for the given route excluding prefix.
+	 * @return	string	The controller name for the given route excluding prefix.
 	 *
-	 * @since   12.2
-	 * @throws  InvalidArgumentException
+	 * @since	 12.2
+	 * @throws	InvalidArgumentException
 	 */
 	protected function parseRoute($route)
 	{
@@ -136,7 +136,7 @@ class JApplicationWebRouterBase extends JApplicationWebRouter
 		// Sanitize and explode the route.
 		$route = trim(parse_url($route, PHP_URL_PATH), ' /');
 
-		// If the route is empty then simply return the default route.  No parsing necessary.
+		// If the route is empty then simply return the default route.	No parsing necessary.
 		if ($route == '')
 		{
 			return $this->default;
@@ -166,7 +166,7 @@ class JApplicationWebRouterBase extends JApplicationWebRouter
 			}
 		}
 
-		// We were unable to find a route match for the request.  Panic.
+		// We were unable to find a route match for the request.	Panic.
 		if (!$controller)
 		{
 			throw new InvalidArgumentException(sprintf('Unable to handle request for route `%s`.', $route), 404);

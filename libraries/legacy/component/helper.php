@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Legacy
- * @subpackage  Component
+ * @package		 Joomla.Legacy
+ * @subpackage	Component
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,30 +12,30 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Component helper class
  *
- * @package     Joomla.Legacy
- * @subpackage  Component
- * @since       11.1
- * @deprecated  13.3
+ * @package		 Joomla.Legacy
+ * @subpackage	Component
+ * @since			 11.1
+ * @deprecated	13.3
  */
 class JComponentHelper
 {
 	/**
 	 * The component list cache
 	 *
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	protected static $components = array();
 
 	/**
 	 * Get the component information.
 	 *
-	 * @param   string   $option  The component option.
-	 * @param   boolean  $strict  If set and the component does not exist, the enabled attribute will be set to false.
+	 * @param	 string	 $option	The component option.
+	 * @param	 boolean	$strict	If set and the component does not exist, the enabled attribute will be set to false.
 	 *
-	 * @return  object   An object with the information for the component.
+	 * @return	object	 An object with the information for the component.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function getComponent($option, $strict = false)
 	{
@@ -63,11 +63,11 @@ class JComponentHelper
 	/**
 	 * Checks if the component is enabled
 	 *
-	 * @param   string  $option  The component option.
+	 * @param	 string	$option	The component option.
 	 *
-	 * @return  boolean
+	 * @return	boolean
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function isEnabled($option)
 	{
@@ -79,13 +79,13 @@ class JComponentHelper
 	/**
 	 * Gets the parameter object for the component
 	 *
-	 * @param   string   $option  The option for the component.
-	 * @param   boolean  $strict  If set and the component does not exist, false will be returned
+	 * @param	 string	 $option	The option for the component.
+	 * @param	 boolean	$strict	If set and the component does not exist, false will be returned
 	 *
-	 * @return  JRegistry  A JRegistry object.
+	 * @return	JRegistry	A JRegistry object.
 	 *
-	 * @see     JRegistry
-	 * @since   11.1
+	 * @see		 JRegistry
+	 * @since	 11.1
 	 */
 	public static function getParams($option, $strict = false)
 	{
@@ -97,11 +97,11 @@ class JComponentHelper
 	/**
 	 * Applies the global text filters to arbitrary text as per settings for current user groups
 	 *
-	 * @param   string  $text  The string to filter
+	 * @param	 string	$text	The string to filter
 	 *
-	 * @return  string  The filtered string
+	 * @return	string	The filtered string
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public static function filterText($text)
 	{
@@ -278,12 +278,12 @@ class JComponentHelper
 	/**
 	 * Render the component.
 	 *
-	 * @param   string  $option  The component option.
+	 * @param	 string	$option	The component option.
 	 *
-	 * @return  object
+	 * @return	object
 	 *
-	 * @since   11.1
-	 * @throws  Exception
+	 * @since	 11.1
+	 * @throws	Exception
 	 */
 	public static function renderComponent($option)
 	{
@@ -345,11 +345,11 @@ class JComponentHelper
 	/**
 	 * Execute the component.
 	 *
-	 * @param   string  $path  The component path.
+	 * @param	 string	$path	The component path.
 	 *
-	 * @return  string  The component output
+	 * @return	string	The component output
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	protected static function executeComponent($path)
 	{
@@ -364,11 +364,11 @@ class JComponentHelper
 	/**
 	 * Load the installed components into the components property.
 	 *
-	 * @param   string  $option  The element value for the extension
+	 * @param	 string	$option	The element value for the extension
 	 *
-	 * @return  boolean  True on success
+	 * @return	boolean	True on success
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected static function _load($option)
 	{

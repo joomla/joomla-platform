@@ -1,5 +1,5 @@
 // MooTools: the javascript framework.
-// Load this file's selection again by visiting: http://mootools.net/more/065f2f092ece4e3b32bb5214464cf926 
+// Load this file's selection again by visiting: http://mootools.net/more/065f2f092ece4e3b32bb5214464cf926
 // Or build this file again with packager using: packager build More/More More/Events.Pseudos More/Class.Refactor More/Class.Binds More/Class.Occlude More/Chain.Wait More/Array.Extras More/Date More/Date.Extras More/Number.Format More/Object.Extras More/String.Extras More/String.QueryString More/URI More/URI.Relative More/Hash More/Hash.Extras More/Element.Forms More/Elements.From More/Element.Event.Pseudos More/Element.Event.Pseudos.Keys More/Element.Measure More/Element.Pin More/Element.Position More/Element.Shortcuts More/Form.Request More/Form.Request.Append More/Form.Validator More/Form.Validator.Inline More/Form.Validator.Extras More/OverText More/Fx.Elements More/Fx.Accordion More/Fx.Move More/Fx.Reveal More/Fx.Scroll More/Fx.Slide More/Fx.SmoothScroll More/Fx.Sort More/Drag More/Drag.Move More/Slider More/Sortables More/Request.JSONP More/Request.Queue More/Request.Periodical More/Assets More/Color More/Group More/Hash.Cookie More/IframeShim More/Table More/HtmlTable More/HtmlTable.Zebra More/HtmlTable.Sort More/HtmlTable.Select More/Keyboard More/Keyboard.Extras More/Mask More/Scroller More/Tips More/Spinner More/Locale More/Locale.Set.From More/Locale.en-US.Date More/Locale.en-US.Form.Validator More/Locale.en-US.Number More/Locale.ar.Date More/Locale.ar.Form.Validator More/Locale.ca-CA.Date More/Locale.ca-CA.Form.Validator More/Locale.cs-CZ.Date More/Locale.cs-CZ.Form.Validator More/Locale.da-DK.Date More/Locale.da-DK.Form.Validator More/Locale.de-CH.Date More/Locale.de-CH.Form.Validator More/Locale.de-DE.Date More/Locale.de-DE.Form.Validator More/Locale.de-DE.Number More/Locale.en-GB.Date More/Locale.es-AR.Date More/Locale.es-AR.Form.Validator More/Locale.es-ES.Date More/Locale.es-ES.Form.Validator More/Locale.et-EE.Date More/Locale.et-EE.Form.Validator More/Locale.EU.Number More/Locale.fa.Date More/Locale.fa.Form.Validator More/Locale.fi-FI.Date More/Locale.fi-FI.Form.Validator More/Locale.fi-FI.Number More/Locale.fr-FR.Date More/Locale.fr-FR.Form.Validator More/Locale.fr-FR.Number More/Locale.he-IL.Date More/Locale.he-IL.Form.Validator More/Locale.he-IL.Number More/Locale.hu-HU.Date More/Locale.hu-HU.Form.Validator More/Locale.it-IT.Date More/Locale.it-IT.Form.Validator More/Locale.ja-JP.Date More/Locale.ja-JP.Form.Validator More/Locale.ja-JP.Number More/Locale.nl-NL.Date More/Locale.nl-NL.Form.Validator More/Locale.nl-NL.Number More/Locale.no-NO.Date More/Locale.no-NO.Form.Validator More/Locale.pl-PL.Date More/Locale.pl-PL.Form.Validator More/Locale.pt-BR.Date More/Locale.pt-BR.Form.Validator More/Locale.pt-PT.Date More/Locale.pt-PT.Form.Validator More/Locale.ru-RU-unicode.Date More/Locale.ru-RU-unicode.Form.Validator More/Locale.si-SI.Date More/Locale.si-SI.Form.Validator More/Locale.sv-SE.Date More/Locale.sv-SE.Form.Validator More/Locale.uk-UA.Date More/Locale.uk-UA.Form.Validator More/Locale.zh-CH.Date More/Locale.zh-CH.Form.Validator
 /*
 ---
@@ -13,17 +13,17 @@ description: MooTools More
 license: MIT-style license
 
 authors:
-  - Guillermo Rauch
-  - Thomas Aylott
-  - Scott Kyle
-  - Arian Stolwijk
-  - Tim Wienk
-  - Christoph Pojer
-  - Aaron Newton
-  - Jacob Thornton
+	- Guillermo Rauch
+	- Thomas Aylott
+	- Scott Kyle
+	- Arian Stolwijk
+	- Tim Wienk
+	- Christoph Pojer
+	- Aaron Newton
+	- Jacob Thornton
 
 requires:
-  - Core/MooTools
+	- Core/MooTools
 
 provides: [MooTools.More]
 
@@ -46,7 +46,7 @@ description: Adds the functionality to add pseudo events
 license: MIT-style license
 
 authors:
-  - Arian Stolwijk
+	- Arian Stolwijk
 
 requires: [Core/Class.Extras, Core/Slick.Parser, More/MooTools.More]
 
@@ -207,11 +207,11 @@ description: Extends a class onto itself with new property, preserving any items
 license: MIT-style license
 
 authors:
-  - Aaron Newton
+	- Aaron Newton
 
 requires:
-  - Core/Class
-  - /MooTools.More
+	- Core/Class
+	- /MooTools.More
 
 # Some modules declare themselves dependent on Class.Refactor
 provides: [Class.refactor, Class.Refactor]
@@ -250,11 +250,11 @@ description: Automagically binds specified methods in a class to the instance of
 license: MIT-style license
 
 authors:
-  - Aaron Newton
+	- Aaron Newton
 
 requires:
-  - Core/Class
-  - /MooTools.More
+	- Core/Class
+	- /MooTools.More
 
 provides: [Class.Binds]
 
@@ -289,12 +289,12 @@ description: Prevents a class from being applied to a DOM element twice.
 license: MIT-style license.
 
 authors:
-  - Aaron Newton
+	- Aaron Newton
 
 requires:
-  - Core/Class
-  - Core/Element
-  - /MooTools.More
+	- Core/Class
+	- Core/Element
+	- /MooTools.More
 
 provides: [Class.Occlude]
 
@@ -329,13 +329,13 @@ description: value, Adds a method to inject pauses between chained events.
 license: MIT-style license.
 
 authors:
-  - Aaron Newton
+	- Aaron Newton
 
 requires:
-  - Core/Chain
-  - Core/Element
-  - Core/Fx
-  - /MooTools.More
+	- Core/Chain
+	- Core/Element
+	- Core/Fx
+	- /MooTools.More
 
 provides: [Chain.Wait]
 
@@ -394,12 +394,12 @@ description: Extends the Array native object to include useful methods to work w
 license: MIT-style license
 
 authors:
-  - Christoph Pojer
-  - Sebastian Markbåge
+	- Christoph Pojer
+	- Sebastian Markbåge
 
 requires:
-  - Core/Array
-  - MooTools.More
+	- Core/Array
+	- MooTools.More
 
 provides: [Array.Extras]
 
@@ -475,11 +475,11 @@ description: Extra Object generics, like getFromPath which allows a path notatio
 license: MIT-style license
 
 authors:
-  - Aaron Newton
+	- Aaron Newton
 
 requires:
-  - Core/Object
-  - /MooTools.More
+	- Core/Object
+	- /MooTools.More
 
 provides: [Object.Extras]
 
@@ -543,13 +543,13 @@ description: Provides methods for localization.
 license: MIT-style license
 
 authors:
-  - Aaron Newton
-  - Arian Stolwijk
+	- Aaron Newton
+	- Arian Stolwijk
 
 requires:
-  - Core/Events
-  - /Object.Extras
-  - /MooTools.More
+	- Core/Events
+	- /Object.Extras
+	- /MooTools.More
 
 provides: [Locale, Lang]
 
@@ -582,7 +582,7 @@ var Locale = this.Locale = {
 
 		if (set) locale.define(set, key, value);
 
-		
+
 
 		if (!current) current = locale;
 
@@ -597,7 +597,7 @@ var Locale = this.Locale = {
 
 			this.fireEvent('change', locale);
 
-			
+
 		}
 
 		return this;
@@ -709,10 +709,10 @@ description: Date messages for US English.
 license: MIT-style license
 
 authors:
-  - Aaron Newton
+	- Aaron Newton
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.en-US.Date]
 
@@ -783,18 +783,18 @@ description: Extends the Date native object to include methods useful in managin
 license: MIT-style license
 
 authors:
-  - Aaron Newton
-  - Nicholas Barthelemy - https://svn.nbarthelemy.com/date-js/
-  - Harald Kirshner - mail [at] digitarald.de; http://digitarald.de
-  - Scott Kyle - scott [at] appden.com; http://appden.com
+	- Aaron Newton
+	- Nicholas Barthelemy - https://svn.nbarthelemy.com/date-js/
+	- Harald Kirshner - mail [at] digitarald.de; http://digitarald.de
+	- Scott Kyle - scott [at] appden.com; http://appden.com
 
 requires:
-  - Core/Array
-  - Core/String
-  - Core/Number
-  - MooTools.More
-  - Locale
-  - Locale.en-US.Date
+	- Core/Array
+	- Core/String
+	- Core/Number
+	- MooTools.More
+	- Locale
+	- Locale.en-US.Date
 
 provides: [Date]
 
@@ -1176,7 +1176,7 @@ Date.extend({
 		return this;
 	},
 
-	
+
 
 	defineParser: function(pattern){
 		parsePatterns.push((pattern.re && pattern.handler) ? pattern : build(pattern));
@@ -1343,11 +1343,11 @@ description: Extends the Date native object to include extra methods (on top of 
 license: MIT-style license
 
 authors:
-  - Aaron Newton
-  - Scott Kyle
+	- Aaron Newton
+	- Scott Kyle
 
 requires:
-  - /Date
+	- /Date
 
 provides: [Date.Extras]
 
@@ -1460,10 +1460,10 @@ description: Number messages for US English.
 license: MIT-style license
 
 authors:
-  - Arian Stolwijk
+	- Arian Stolwijk
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.en-US.Number]
 
@@ -1624,14 +1624,14 @@ description: Extends the String native object to include methods useful in manag
 license: MIT-style license
 
 authors:
-  - Aaron Newton
-  - Guillermo Rauch
-  - Christopher Pitt
+	- Aaron Newton
+	- Guillermo Rauch
+	- Christopher Pitt
 
 requires:
-  - Core/String
-  - Core/Array
-  - MooTools.More
+	- Core/String
+	- Core/Array
+	- MooTools.More
 
 provides: [String.Extras]
 
@@ -1774,15 +1774,15 @@ description: Methods for dealing with URI query strings.
 license: MIT-style license
 
 authors:
-  - Sebastian Markbåge
-  - Aaron Newton
-  - Lennart Pilon
-  - Valerio Proietti
+	- Sebastian Markbåge
+	- Aaron Newton
+	- Lennart Pilon
+	- Valerio Proietti
 
 requires:
-  - Core/Array
-  - Core/String
-  - /MooTools.More
+	- Core/Array
+	- Core/String
+	- /MooTools.More
 
 provides: [String.QueryString]
 
@@ -1844,15 +1844,15 @@ description: Provides methods useful in managing the window location and uris.
 license: MIT-style license
 
 authors:
-  - Sebastian Markbåge
-  - Aaron Newton
+	- Sebastian Markbåge
+	- Aaron Newton
 
 requires:
-  - Core/Object
-  - Core/Class
-  - Core/Class.Extras
-  - Core/Element
-  - /String.QueryString
+	- Core/Object
+	- Core/Class
+	- Core/Class.Extras
+	- Core/Element
+	- /String.QueryString
 
 provides: [URI]
 
@@ -2015,12 +2015,12 @@ description: Extends the URI class to add methods for computing relative and abs
 license: MIT-style license
 
 authors:
-  - Sebastian Markbåge
+	- Sebastian Markbåge
 
 
 requires:
-  - /Class.refactor
-  - /URI
+	- /Class.refactor
+	- /URI
 
 provides: [URI.Relative]
 
@@ -2072,8 +2072,8 @@ description: Contains Hash Prototypes. Provides a means for overcoming the JavaS
 license: MIT-style license.
 
 requires:
-  - Core/Object
-  - /MooTools.More
+	- Core/Object
+	- /MooTools.More
 
 provides: [Hash]
 
@@ -2221,11 +2221,11 @@ description: Extends the Hash Type to include getFromPath which allows a path no
 license: MIT-style license
 
 authors:
-  - Aaron Newton
+	- Aaron Newton
 
 requires:
-  - /Hash
-  - /Object.Extras
+	- /Hash
+	- /Object.Extras
 
 provides: [Hash.Extras]
 
@@ -2261,12 +2261,12 @@ description: Extends the Element native object to include methods useful in mana
 license: MIT-style license
 
 authors:
-  - Aaron Newton
+	- Aaron Newton
 
 requires:
-  - Core/Element
-  - /String.Extras
-  - /MooTools.More
+	- Core/Element
+	- /String.Extras
+	- /MooTools.More
 
 provides: [Element.Forms]
 
@@ -2403,12 +2403,12 @@ description: Returns a collection of elements from a string of html.
 license: MIT-style license
 
 authors:
-  - Aaron Newton
+	- Aaron Newton
 
 requires:
-  - Core/String
-  - Core/Element
-  - /MooTools.More
+	- Core/String
+	- Core/Element
+	- /MooTools.More
 
 provides: [Elements.from, Elements.From]
 
@@ -2443,7 +2443,7 @@ description: Adds the functionality to add pseudo events for Elements
 license: MIT-style license
 
 authors:
-  - Arian Stolwijk
+	- Arian Stolwijk
 
 requires: [Core/Element.Event, Core/Element.Delegation, Events.Pseudos]
 
@@ -2481,7 +2481,7 @@ description: Adds functionality fire events if certain keycombinations are press
 license: MIT-style license
 
 authors:
-  - Arian Stolwijk
+	- Arian Stolwijk
 
 requires: [Element.Event.Pseudos]
 
@@ -2568,12 +2568,12 @@ credits: "Element.measure / .expose methods by Daniel Steigerwald License: MIT-s
 license: MIT-style license
 
 authors:
-  - Aaron Newton
+	- Aaron Newton
 
 requires:
-  - Core/Element.Style
-  - Core/Element.Dimensions
-  - /MooTools.More
+	- Core/Element.Style
+	- Core/Element.Dimensions
+	- /MooTools.More
 
 provides: [Element.Measure]
 
@@ -2670,7 +2670,7 @@ Element.implement({
 	},
 
 	getComputedSize: function(options){
-		
+
 
 		options = Object.merge({
 			styles: ['padding','border'],
@@ -2735,13 +2735,13 @@ description: Extends the Element native object to include the pin method useful 
 license: MIT-style license
 
 authors:
-  - Aaron Newton
+	- Aaron Newton
 
 requires:
-  - Core/Element.Event
-  - Core/Element.Dimensions
-  - Core/Element.Style
-  - /MooTools.More
+	- Core/Element.Event
+	- Core/Element.Dimensions
+	- Core/Element.Style
+	- /MooTools.More
 
 provides: [Element.Pin]
 
@@ -2865,13 +2865,13 @@ description: Extends the Element native object to include methods useful positio
 license: MIT-style license
 
 authors:
-  - Aaron Newton
-  - Jacob Thornton
+	- Aaron Newton
+	- Jacob Thornton
 
 requires:
-  - Core/Options
-  - Core/Element.Dimensions
-  - Element.Measure
+	- Core/Options
+	- Core/Element.Dimensions
+	- Element.Measure
 
 provides: [Element.Position]
 
@@ -3102,11 +3102,11 @@ description: Extends the Element native object to include some shortcut methods.
 license: MIT-style license
 
 authors:
-  - Aaron Newton
+	- Aaron Newton
 
 requires:
-  - Core/Element.Style
-  - /MooTools.More
+	- Core/Element.Style
+	- /MooTools.More
 
 provides: [Element.Shortcuts]
 
@@ -3180,15 +3180,15 @@ description: Defines IframeShim, a class for obscuring select lists and flash ob
 license: MIT-style license
 
 authors:
-  - Aaron Newton
+	- Aaron Newton
 
 requires:
-  - Core/Element.Event
-  - Core/Element.Style
-  - Core/Options
-  - Core/Events
-  - /Element.Position
-  - /Class.Occlude
+	- Core/Element.Event
+	- Core/Element.Style
+	- Core/Options
+	- Core/Events
+	- /Element.Position
+	- /Class.Occlude
 
 provides: [IframeShim]
 
@@ -3312,15 +3312,15 @@ description: Creates a mask element to cover another.
 license: MIT-style license
 
 authors:
-  - Aaron Newton
+	- Aaron Newton
 
 requires:
-  - Core/Options
-  - Core/Events
-  - Core/Element.Event
-  - /Class.Binds
-  - /Element.Position
-  - /IframeShim
+	- Core/Options
+	- Core/Events
+	- Core/Element.Event
+	- /Class.Binds
+	- /Element.Position
+	- /IframeShim
 
 provides: [Mask]
 
@@ -3525,13 +3525,13 @@ description: Adds a semi-transparent overlay over a dom element with a spinnin a
 license: MIT-style license
 
 authors:
-  - Aaron Newton
+	- Aaron Newton
 
 requires:
-  - Core/Fx.Tween
-  - Core/Request
-  - /Class.refactor
-  - /Mask
+	- Core/Fx.Tween
+	- Core/Request
+	- /Class.refactor
+	- /Mask
 
 provides: [Spinner]
 
@@ -3743,15 +3743,15 @@ description: Handles the basic functionality of submitting a form and updating a
 license: MIT-style license
 
 authors:
-  - Aaron Newton
+	- Aaron Newton
 
 requires:
-  - Core/Request.HTML
-  - /Class.Binds
-  - /Class.Occlude
-  - /Spinner
-  - /String.QueryString
-  - /Element.Delegation
+	- Core/Request.HTML
+	- /Class.Binds
+	- /Class.Occlude
+	- /Spinner
+	- /String.QueryString
+	- /Element.Delegation
 
 provides: [Form.Request]
 
@@ -3948,12 +3948,12 @@ description: Defines Fx.Reveal, a class that shows and hides elements with a tra
 license: MIT-style license
 
 authors:
-  - Aaron Newton
+	- Aaron Newton
 
 requires:
-  - Core/Fx.Morph
-  - /Element.Shortcuts
-  - /Element.Measure
+	- Core/Fx.Morph
+	- /Element.Shortcuts
+	- /Element.Measure
 
 provides: [Fx.Reveal]
 
@@ -4196,12 +4196,12 @@ description: Handles the basic functionality of submitting a form and updating a
 license: MIT-style license
 
 authors:
-  - Aaron Newton
+	- Aaron Newton
 
 requires:
-  - /Form.Request
-  - /Fx.Reveal
-  - /Elements.from
+	- /Form.Request
+	- /Fx.Reveal
+	- /Elements.from
 
 provides: [Form.Request.Append]
 
@@ -4273,10 +4273,10 @@ description: Form Validator messages for English.
 license: MIT-style license
 
 authors:
-  - Aaron Newton
+	- Aaron Newton
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.en-US.Form.Validator]
 
@@ -4333,21 +4333,21 @@ description: A css-class based form validation system.
 license: MIT-style license
 
 authors:
-  - Aaron Newton
+	- Aaron Newton
 
 requires:
-  - Core/Options
-  - Core/Events
-  - Core/Slick.Finder
-  - Core/Element.Event
-  - Core/Element.Style
-  - Core/JSON
-  - /Locale
-  - /Class.Binds
-  - /Date
-  - /Element.Forms
-  - /Locale.en-US.Form.Validator
-  - /Element.Shortcuts
+	- Core/Options
+	- Core/Events
+	- Core/Slick.Finder
+	- Core/Element.Event
+	- Core/Element.Style
+	- Core/JSON
+	- /Locale
+	- /Class.Binds
+	- /Date
+	- /Element.Forms
+	- /Locale.en-US.Form.Validator
+	- /Element.Shortcuts
 
 provides: [Form.Validator, InputValidator, FormValidator.BaseValidators]
 
@@ -4686,7 +4686,7 @@ Form.Validator.addAllThese([
 			if (typeOf(props.length) != 'null') return (element.get('value').length == props.length || element.get('value').length == 0);
 			else return true;
 		}
-	}],	
+	}],
 
 	['minLength', {
 		errorMsg: function(element, props){
@@ -4867,10 +4867,10 @@ description: Extends Form.Validator to add inline messages.
 license: MIT-style license
 
 authors:
-  - Aaron Newton
+	- Aaron Newton
 
 requires:
-  - /Form.Validator
+	- /Form.Validator
 
 provides: [Form.Validator.Inline]
 
@@ -5059,10 +5059,10 @@ description: Additional validators for the Form.Validator class.
 license: MIT-style license
 
 authors:
-  - Aaron Newton
+	- Aaron Newton
 
 requires:
-  - /Form.Validator
+	- /Form.Validator
 
 provides: [Form.Validator.Extras]
 
@@ -5292,16 +5292,16 @@ description: Shows text over an input that disappears when the user clicks into 
 license: MIT-style license
 
 authors:
-  - Aaron Newton
+	- Aaron Newton
 
 requires:
-  - Core/Options
-  - Core/Events
-  - Core/Element.Event
-  - Class.Binds
-  - Class.Occlude
-  - Element.Position
-  - Element.Shortcuts
+	- Core/Options
+	- Core/Events
+	- Core/Element.Event
+	- Class.Binds
+	- Class.Occlude
+	- Element.Position
+	- Element.Shortcuts
 
 provides: [OverText]
 
@@ -5551,11 +5551,11 @@ description: Effect to change any number of CSS properties of any number of Elem
 license: MIT-style license
 
 authors:
-  - Valerio Proietti
+	- Valerio Proietti
 
 requires:
-  - Core/Fx.CSS
-  - /MooTools.More
+	- Core/Fx.CSS
+	- /MooTools.More
 
 provides: [Fx.Elements]
 
@@ -5627,11 +5627,11 @@ description: An Fx.Elements extension which allows you to easily create accordio
 license: MIT-style license
 
 authors:
-  - Valerio Proietti
+	- Valerio Proietti
 
 requires:
-  - Core/Element.Event
-  - /Fx.Elements
+	- Core/Element.Event
+	- /Fx.Elements
 
 provides: [Fx.Accordion]
 
@@ -5837,11 +5837,11 @@ description: Defines Fx.Move, a class that works with Element.Position.js to tra
 license: MIT-style license
 
 authors:
-  - Aaron Newton
+	- Aaron Newton
 
 requires:
-  - Core/Fx.Morph
-  - /Element.Position
+	- Core/Fx.Morph
+	- /Element.Position
 
 provides: [Fx.Move]
 
@@ -5910,13 +5910,13 @@ description: Effect to smoothly scroll any element, including the window.
 license: MIT-style license
 
 authors:
-  - Valerio Proietti
+	- Valerio Proietti
 
 requires:
-  - Core/Fx
-  - Core/Element.Event
-  - Core/Element.Dimensions
-  - /MooTools.More
+	- Core/Fx
+	- Core/Element.Event
+	- Core/Element.Dimensions
+	- /MooTools.More
 
 provides: [Fx.Scroll]
 
@@ -6083,12 +6083,12 @@ description: Effect to slide an element in and out of view.
 license: MIT-style license
 
 authors:
-  - Valerio Proietti
+	- Valerio Proietti
 
 requires:
-  - Core/Fx
-  - Core/Element.Style
-  - /MooTools.More
+	- Core/Fx
+	- Core/Element.Style
+	- /MooTools.More
 
 provides: [Fx.Slide]
 
@@ -6255,11 +6255,11 @@ description: Class for creating a smooth scrolling effect to all internal links 
 license: MIT-style license
 
 authors:
-  - Valerio Proietti
+	- Valerio Proietti
 
 requires:
-  - Core/Slick.Finder
-  - /Fx.Scroll
+	- Core/Slick.Finder
+	- /Fx.Scroll
 
 provides: [Fx.SmoothScroll]
 
@@ -6327,12 +6327,12 @@ description: Defines Fx.Sort, a class that reorders lists with a transition.
 license: MIT-style license
 
 authors:
-  - Aaron Newton
+	- Aaron Newton
 
 requires:
-  - Core/Element.Dimensions
-  - /Fx.Elements
-  - /Element.Measure
+	- Core/Element.Dimensions
+	- /Fx.Elements
+	- /Element.Measure
 
 provides: [Fx.Sort]
 
@@ -6501,17 +6501,17 @@ description: The base Drag Class. Can be used to drag and resize Elements using 
 license: MIT-style license
 
 authors:
-  - Valerio Proietti
-  - Tom Occhinno
-  - Jan Kassens
+	- Valerio Proietti
+	- Tom Occhinno
+	- Jan Kassens
 
 requires:
-  - Core/Events
-  - Core/Options
-  - Core/Element.Event
-  - Core/Element.Style
-  - Core/Element.Dimensions
-  - /MooTools.More
+	- Core/Events
+	- Core/Options
+	- Core/Element.Event
+	- Core/Element.Style
+	- Core/Element.Dimensions
+	- /MooTools.More
 
 provides: [Drag]
 ...
@@ -6737,15 +6737,15 @@ description: A Drag extension that provides support for the constraining of drag
 license: MIT-style license
 
 authors:
-  - Valerio Proietti
-  - Tom Occhinno
-  - Jan Kassens
-  - Aaron Newton
-  - Scott Kyle
+	- Valerio Proietti
+	- Tom Occhinno
+	- Jan Kassens
+	- Aaron Newton
+	- Scott Kyle
 
 requires:
-  - Core/Element.Dimensions
-  - /Drag
+	- Core/Element.Dimensions
+	- /Drag
 
 provides: [Drag.Move]
 
@@ -6936,13 +6936,13 @@ description: Class for creating horizontal and vertical slider controls.
 license: MIT-style license
 
 authors:
-  - Valerio Proietti
+	- Valerio Proietti
 
 requires:
-  - Core/Element.Dimensions
-  - /Class.Binds
-  - /Drag
-  - /Element.Measure
+	- Core/Element.Dimensions
+	- /Class.Binds
+	- /Drag
+	- /Element.Measure
 
 provides: [Slider]
 
@@ -7163,11 +7163,11 @@ description: Class for creating a drag and drop sorting interface for lists of i
 license: MIT-style license
 
 authors:
-  - Tom Occhino
+	- Tom Occhino
 
 requires:
-  - Core/Fx.Morph
-  - /Drag.Move
+	- Core/Fx.Morph
+	- /Drag.Move
 
 provides: [Sortables]
 
@@ -7307,7 +7307,7 @@ var Sortables = new Class({
 		this.clone = this.getClone(event, element);
 
 		this.drag = new Drag.Move(this.clone, Object.merge({
-			
+
 			droppables: this.getDroppables()
 		}, this.options.dragOptions)).addEvents({
 			onSnap: function(){
@@ -7390,14 +7390,14 @@ description: Defines Request.JSONP, a class for cross domain javascript via scri
 license: MIT-style license
 
 authors:
-  - Aaron Newton
-  - Guillermo Rauch
-  - Arian Stolwijk
+	- Aaron Newton
+	- Guillermo Rauch
+	- Arian Stolwijk
 
 requires:
-  - Core/Element
-  - Core/Request
-  - MooTools.More
+	- Core/Element
+	- Core/Request
+	- MooTools.More
 
 provides: [Request.JSONP]
 
@@ -7534,12 +7534,12 @@ description: Controls several instances of Request and its variants to run only 
 license: MIT-style license
 
 authors:
-  - Aaron Newton
+	- Aaron Newton
 
 requires:
-  - Core/Element
-  - Core/Request
-  - /Class.Binds
+	- Core/Element
+	- Core/Request
+	- /Class.Binds
 
 provides: [Request.Queue]
 
@@ -7748,11 +7748,11 @@ description: Requests the same URL to pull data from a server but increases the 
 license: MIT-style license
 
 authors:
-  - Christoph Pojer
+	- Christoph Pojer
 
 requires:
-  - Core/Request
-  - /MooTools.More
+	- Core/Request
+	- /MooTools.More
 
 provides: [Request.Periodical]
 
@@ -7801,11 +7801,11 @@ description: Provides methods to dynamically load JavaScript, CSS, and Image fil
 license: MIT-style license
 
 authors:
-  - Valerio Proietti
+	- Valerio Proietti
 
 requires:
-  - Core/Element.Event
-  - /MooTools.More
+	- Core/Element.Event
+	- /MooTools.More
 
 provides: [Assets]
 
@@ -7934,15 +7934,15 @@ description: Class for creating and manipulating colors in JavaScript. Supports 
 license: MIT-style license
 
 authors:
-  - Valerio Proietti
+	- Valerio Proietti
 
 requires:
-  - Core/Array
-  - Core/String
-  - Core/Number
-  - Core/Hash
-  - Core/Function
-  - MooTools.More
+	- Core/Array
+	- Core/String
+	- Core/Number
+	- Core/Hash
+	- Core/Function
+	- MooTools.More
 
 provides: [Color]
 
@@ -8098,11 +8098,11 @@ description: Class for monitoring collections of events
 license: MIT-style license
 
 authors:
-  - Valerio Proietti
+	- Valerio Proietti
 
 requires:
-  - Core/Events
-  - /MooTools.More
+	- Core/Events
+	- /MooTools.More
 
 provides: [Group]
 
@@ -8154,14 +8154,14 @@ description: Class for creating, reading, and deleting Cookies in JSON format.
 license: MIT-style license
 
 authors:
-  - Valerio Proietti
-  - Aaron Newton
+	- Valerio Proietti
+	- Aaron Newton
 
 requires:
-  - Core/Cookie
-  - Core/JSON
-  - /MooTools.More
-  - /Hash
+	- Core/Cookie
+	- Core/JSON
+	- /MooTools.More
+	- /Hash
 
 provides: [Hash.Cookie]
 
@@ -8211,7 +8211,7 @@ name: Table
 description: LUA-Style table implementation.
 license: MIT-style license
 authors:
-  - Valerio Proietti
+	- Valerio Proietti
 requires: [Core/Array]
 provides: [Table]
 ...
@@ -8223,8 +8223,8 @@ var Table = this.Table = function(){
 
 	this.length = 0;
 	var keys = [],
-	    values = [];
-	
+			values = [];
+
 	this.set = function(key, value){
 		var index = keys.indexOf(key);
 		if (index == -1){
@@ -8256,7 +8256,7 @@ var Table = this.Table = function(){
 	this.each = this.forEach = function(fn, bind){
 		for (var i = 0, l = this.length; i < l; i++) fn.call(bind, keys[i], values[i], this);
 	};
-	
+
 };
 
 if (this.Type) new Type('Table', Table);
@@ -8276,12 +8276,12 @@ description: Builds table elements with methods to add rows.
 license: MIT-style license
 
 authors:
-  - Aaron Newton
+	- Aaron Newton
 
 requires:
-  - Core/Options
-  - Core/Events
-  - /Class.Occlude
+	- Core/Options
+	- Core/Events
+	- /Class.Occlude
 
 provides: [HtmlTable]
 
@@ -8435,13 +8435,13 @@ description: Builds a stripy table with methods to add rows.
 license: MIT-style license
 
 authors:
-  - Harald Kirschner
-  - Aaron Newton
+	- Harald Kirschner
+	- Aaron Newton
 
 requires:
-  - /HtmlTable
-  - /Element.Shortcuts
-  - /Class.refactor
+	- /HtmlTable
+	- /Element.Shortcuts
+	- /Class.refactor
 
 provides: [HtmlTable.Zebra]
 
@@ -8501,17 +8501,17 @@ description: Builds a stripy, sortable table with methods to add rows.
 license: MIT-style license
 
 authors:
-  - Harald Kirschner
-  - Aaron Newton
-  - Jacob Thornton
+	- Harald Kirschner
+	- Aaron Newton
+	- Jacob Thornton
 
 requires:
-  - Core/Hash
-  - /HtmlTable
-  - /Class.refactor
-  - /Element.Delegation
-  - /String.Extras
-  - /Date
+	- Core/Hash
+	- /HtmlTable
+	- /Class.refactor
+	- /Element.Delegation
+	- /String.Extras
+	- /Date
 
 provides: [HtmlTable.Sort]
 
@@ -8850,15 +8850,15 @@ description: KeyboardEvents used to intercept events on a class for keyboard and
 license: MIT-style license
 
 authors:
-  - Perrin Westrich
-  - Aaron Newton
-  - Scott Kyle
+	- Perrin Westrich
+	- Aaron Newton
+	- Scott Kyle
 
 requires:
-  - Core/Events
-  - Core/Options
-  - Core/Element.Event
-  - Element.Event.Pseudos.Keys
+	- Core/Events
+	- Core/Options
+	- Core/Element.Event
+	- Element.Event.Pseudos.Keys
 
 provides: [Keyboard]
 
@@ -9094,11 +9094,11 @@ description: Enhances Keyboard by adding the ability to name and describe keyboa
 license: MIT-style license
 
 authors:
-  - Perrin Westrich
+	- Perrin Westrich
 
 requires:
-  - /Keyboard
-  - /MooTools.More
+	- /Keyboard
+	- /MooTools.More
 
 provides: [Keyboard.Extras]
 
@@ -9205,16 +9205,16 @@ description: Builds a stripy, sortable table with methods to add rows. Rows can 
 license: MIT-style license
 
 authors:
-  - Harald Kirschner
-  - Aaron Newton
+	- Harald Kirschner
+	- Aaron Newton
 
 requires:
-  - /Keyboard
-  - /Keyboard.Extras
-  - /HtmlTable
-  - /Class.refactor
-  - /Element.Delegation
-  - /Element.Shortcuts
+	- /Keyboard
+	- /Keyboard.Extras
+	- /HtmlTable
+	- /Class.refactor
+	- /Element.Delegation
+	- /Element.Shortcuts
 
 provides: [HtmlTable.Select]
 
@@ -9439,7 +9439,7 @@ HtmlTable = Class.refactor(HtmlTable, {
 			index += offset;
 		} else {
 			var limit = 0,
-			    count = 0;
+					count = 0;
 			if (offset > 0){
 				while (count < offset && index < this.body.rows.length -1){
 					if (this.body.rows[++index].isDisplayed()) count++;
@@ -9559,14 +9559,14 @@ description: Class which scrolls the contents of any Element (including the wind
 license: MIT-style license
 
 authors:
-  - Valerio Proietti
+	- Valerio Proietti
 
 requires:
-  - Core/Events
-  - Core/Options
-  - Core/Element.Event
-  - Core/Element.Dimensions
-  - MooTools.More
+	- Core/Events
+	- Core/Options
+	- Core/Element.Event
+	- Core/Element.Dimensions
+	- MooTools.More
 
 provides: [Scroller]
 
@@ -9665,17 +9665,17 @@ description: Class for creating nice tips that follow the mouse cursor when hove
 license: MIT-style license
 
 authors:
-  - Valerio Proietti
-  - Christoph Pojer
-  - Luis Merino
+	- Valerio Proietti
+	- Christoph Pojer
+	- Luis Merino
 
 requires:
-  - Core/Options
-  - Core/Events
-  - Core/Element.Event
-  - Core/Element.Style
-  - Core/Element.Dimensions
-  - /MooTools.More
+	- Core/Options
+	- Core/Events
+	- Core/Element.Event
+	- Core/Element.Style
+	- Core/Element.Dimensions
+	- /MooTools.More
 
 provides: [Tips]
 
@@ -9926,11 +9926,11 @@ description: Provides an alternative way to create Locale.Set objects.
 license: MIT-style license
 
 authors:
-  - Tim Wienk
+	- Tim Wienk
 
 requires:
-  - Core/JSON
-  - /Locale
+	- Core/JSON
+	- /Locale
 
 provides: Locale.Set.From
 
@@ -9978,10 +9978,10 @@ description: Date messages for Arabic.
 license: MIT-style license
 
 authors:
-  - Chafik Barbar
+	- Chafik Barbar
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.ar.Date]
 
@@ -10008,10 +10008,10 @@ description: Form Validator messages for Arabic.
 license: MIT-style license
 
 authors:
-  - Chafik Barbar
+	- Chafik Barbar
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.ar.Form.Validator]
 
@@ -10050,10 +10050,10 @@ description: Date messages for Catalan.
 license: MIT-style license
 
 authors:
-  - Ãlfons Sanchez
+	- Ãlfons Sanchez
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.ca-CA.Date]
 
@@ -10107,11 +10107,11 @@ description: Form Validator messages for Catalan.
 license: MIT-style license
 
 authors:
-  - Miquel Hudin
-  - Ãlfons Sanchez
+	- Miquel Hudin
+	- Ãlfons Sanchez
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.ca-CA.Form.Validator]
 
@@ -10164,11 +10164,11 @@ description: Date messages for Czech.
 license: MIT-style license
 
 authors:
-  - Jan Černý chemiX
-  - Christopher Zukowski
+	- Jan Černý chemiX
+	- Christopher Zukowski
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.cs-CZ.Date]
 
@@ -10177,9 +10177,9 @@ provides: [Locale.cs-CZ.Date]
 (function(){
 
 // Czech language pluralization rules, see http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html
-// one -> n is 1;            1
-// few -> n in 2..4;         2-4
-// other -> everything else  0, 5-999, 1.31, 2.31, 5.31...
+// one -> n is 1;						1
+// few -> n in 2..4;				 2-4
+// other -> everything else	0, 5-999, 1.31, 2.31, 5.31...
 var pluralize = function (n, one, few, other){
 	if (n == 1) return one;
 	else if (n == 2 || n == 3 || n == 4) return few;
@@ -10246,10 +10246,10 @@ description: Form Validator messages for Czech.
 license: MIT-style license
 
 authors:
-  - Jan Černý chemiX
+	- Jan Černý chemiX
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.cs-CZ.Form.Validator]
 
@@ -10303,11 +10303,11 @@ description: Date messages for Danish.
 license: MIT-style license
 
 authors:
-  - Martin Overgaard
-  - Henrik Hansen
+	- Martin Overgaard
+	- Henrik Hansen
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.da-DK.Date]
 
@@ -10373,10 +10373,10 @@ description: Form Validator messages for Danish.
 license: MIT-style license
 
 authors:
-  - Martin Overgaard
+	- Martin Overgaard
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.da-DK.Form.Validator]
 
@@ -10429,13 +10429,13 @@ description: Date messages for German.
 license: MIT-style license
 
 authors:
-  - Christoph Pojer
-  - Frank Rossi
-  - Ulrich Petri
-  - Fabian Beiner
+	- Christoph Pojer
+	- Frank Rossi
+	- Ulrich Petri
+	- Fabian Beiner
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.de-DE.Date]
 
@@ -10501,11 +10501,11 @@ description: Date messages for German (Switzerland).
 license: MIT-style license
 
 authors:
-  - Michael van der Weg
+	- Michael van der Weg
 
 requires:
-  - /Locale
-  - /Locale.de-DE.Date
+	- /Locale
+	- /Locale.de-DE.Date
 
 provides: [Locale.de-CH.Date]
 
@@ -10525,10 +10525,10 @@ description: Form Validator messages for German (Switzerland).
 license: MIT-style license
 
 authors:
-  - Michael van der Weg
+	- Michael van der Weg
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.de-CH.Form.Validator]
 
@@ -10582,12 +10582,12 @@ description: Form Validator messages for German.
 license: MIT-style license
 
 authors:
-  - Frank Rossi
-  - Ulrich Petri
-  - Fabian Beiner
+	- Frank Rossi
+	- Ulrich Petri
+	- Fabian Beiner
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.de-DE.Form.Validator]
 
@@ -10641,10 +10641,10 @@ description: Number messages for Europe.
 license: MIT-style license
 
 authors:
-  - Arian Stolwijk
+	- Arian Stolwijk
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.EU.Number]
 
@@ -10673,11 +10673,11 @@ description: Number messages for German.
 license: MIT-style license
 
 authors:
-  - Christoph Pojer
+	- Christoph Pojer
 
 requires:
-  - /Locale
-  - /Locale.EU.Number
+	- /Locale
+	- /Locale.EU.Number
 
 provides: [Locale.de-DE.Number]
 
@@ -10697,11 +10697,11 @@ description: Date messages for British English.
 license: MIT-style license
 
 authors:
-  - Aaron Newton
+	- Aaron Newton
 
 requires:
-  - /Locale
-  - /Locale.en-US.Date
+	- /Locale
+	- /Locale.en-US.Date
 
 provides: [Locale.en-GB.Date]
 
@@ -10728,10 +10728,10 @@ description: Date messages for Spanish.
 license: MIT-style license
 
 authors:
-  - Ãlfons Sanchez
+	- Ãlfons Sanchez
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.es-ES.Date]
 
@@ -10797,12 +10797,12 @@ description: Date messages for Spanish (Argentina).
 license: MIT-style license
 
 authors:
-  - Ãlfons Sanchez
-  - Diego Massanti
+	- Ãlfons Sanchez
+	- Diego Massanti
 
 requires:
-  - /Locale
-  - /Locale.es-ES.Date
+	- /Locale
+	- /Locale.es-ES.Date
 
 provides: [Locale.es-AR.Date]
 
@@ -10822,10 +10822,10 @@ description: Form Validator messages for Spanish (Argentina).
 license: MIT-style license
 
 authors:
-  - Diego Massanti
+	- Diego Massanti
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.es-AR.Form.Validator]
 
@@ -10878,10 +10878,10 @@ description: Form Validator messages for Spanish.
 license: MIT-style license
 
 authors:
-  - Ãlfons Sanchez
+	- Ãlfons Sanchez
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.es-ES.Form.Validator]
 
@@ -10934,10 +10934,10 @@ description: Date messages for Estonian.
 license: MIT-style license
 
 authors:
-  - Kevin Valdek
+	- Kevin Valdek
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.et-EE.Date]
 
@@ -11003,10 +11003,10 @@ description: Form Validator messages for Estonian.
 license: MIT-style license
 
 authors:
-  - Kevin Valdek
+	- Kevin Valdek
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.et-EE.Form.Validator]
 
@@ -11059,10 +11059,10 @@ description: Date messages for Persian.
 license: MIT-style license
 
 authors:
-  - Amir Hossein Hodjaty Pour
+	- Amir Hossein Hodjaty Pour
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.fa.Date]
 
@@ -11127,10 +11127,10 @@ description: Form Validator messages for Persian.
 license: MIT-style license
 
 authors:
-  - Amir Hossein Hodjaty Pour
+	- Amir Hossein Hodjaty Pour
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.fa.Form.Validator]
 
@@ -11184,10 +11184,10 @@ description: Date messages for Finnish.
 license: MIT-style license
 
 authors:
-  - ksel
+	- ksel
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.fi-FI.Date]
 
@@ -11258,10 +11258,10 @@ description: Form Validator messages for Finnish.
 license: MIT-style license
 
 authors:
-  - ksel
+	- ksel
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.fi-FI.Form.Validator]
 
@@ -11315,11 +11315,11 @@ description: Finnish number messages
 license: MIT-style license
 
 authors:
-  - ksel
+	- ksel
 
 requires:
-  - /Locale
-  - /Locale.EU.Number
+	- /Locale
+	- /Locale.EU.Number
 
 provides: [Locale.fi-FI.Number]
 
@@ -11343,11 +11343,11 @@ description: Date messages for French.
 license: MIT-style license
 
 authors:
-  - Nicolas Sorosac
-  - Antoine Abt
+	- Nicolas Sorosac
+	- Antoine Abt
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.fr-FR.Date]
 
@@ -11415,11 +11415,11 @@ description: Form Validator messages for French.
 license: MIT-style license
 
 authors:
-  - Miquel Hudin
-  - Nicolas Sorosac
+	- Miquel Hudin
+	- Nicolas Sorosac
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.fr-FR.Form.Validator]
 
@@ -11474,12 +11474,12 @@ description: Number messages for French.
 license: MIT-style license
 
 authors:
-  - Arian Stolwijk
-  - sv1l
+	- Arian Stolwijk
+	- sv1l
 
 requires:
-  - /Locale
-  - /Locale.EU.Number
+	- /Locale
+	- /Locale.EU.Number
 
 provides: [Locale.fr-FR.Number]
 
@@ -11503,10 +11503,10 @@ description: Date messages for Hebrew.
 license: MIT-style license
 
 authors:
-  - Elad Ossadon
+	- Elad Ossadon
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.he-IL.Date]
 
@@ -11572,10 +11572,10 @@ description: Form Validator messages for Hebrew.
 license: MIT-style license
 
 authors:
-  - Elad Ossadon
+	- Elad Ossadon
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.he-IL.Form.Validator]
 
@@ -11629,10 +11629,10 @@ description: Number messages for Hebrew.
 license: MIT-style license
 
 authors:
-  - Elad Ossadon
+	- Elad Ossadon
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.he-IL.Number]
 
@@ -11661,10 +11661,10 @@ description: Date messages for Hungarian.
 license: MIT-style license
 
 authors:
-  - Zsolt Szegheő
+	- Zsolt Szegheő
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.hu-HU.Date]
 
@@ -11730,10 +11730,10 @@ description: Form Validator messages for Hungarian.
 license: MIT-style license
 
 authors:
-  - Zsolt Szegheő
+	- Zsolt Szegheő
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.hu-HU.Form.Validator]
 
@@ -11787,11 +11787,11 @@ description: Date messages for Italian.
 license: MIT-style license.
 
 authors:
-  - Andrea Novero
-  - Valerio Proietti
+	- Andrea Novero
+	- Valerio Proietti
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.it-IT.Date]
 
@@ -11857,11 +11857,11 @@ description: Form Validator messages for Italian.
 license: MIT-style license
 
 authors:
-  - Leonardo Laureti
-  - Andrea Novero
+	- Leonardo Laureti
+	- Andrea Novero
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.it-IT.Form.Validator]
 
@@ -11914,10 +11914,10 @@ description: Date messages for Japanese.
 license: MIT-style license
 
 authors:
-  - Noritaka Horio
+	- Noritaka Horio
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.ja-JP.Date]
 
@@ -11983,10 +11983,10 @@ description: Form Validator messages for Japanese.
 license: MIT-style license
 
 authors:
-  - Noritaka Horio
+	- Noritaka Horio
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.ja-JP.Form.Validator]
 
@@ -12039,10 +12039,10 @@ description: Number messages for Japanese.
 license: MIT-style license
 
 authors:
-  - Noritaka Horio
+	- Noritaka Horio
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.ja-JP.Number]
 
@@ -12072,11 +12072,11 @@ description: Date messages for Dutch.
 license: MIT-style license
 
 authors:
-  - Lennart Pilon
-  - Tim Wienk
+	- Lennart Pilon
+	- Tim Wienk
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.nl-NL.Date]
 
@@ -12142,12 +12142,12 @@ description: Form Validator messages for Dutch.
 license: MIT-style license
 
 authors:
-  - Lennart Pilon
-  - Arian Stolwijk
-  - Tim Wienk
+	- Lennart Pilon
+	- Arian Stolwijk
+	- Tim Wienk
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.nl-NL.Form.Validator]
 
@@ -12202,11 +12202,11 @@ description: Number messages for Dutch.
 license: MIT-style license
 
 authors:
-  - Arian Stolwijk
+	- Arian Stolwijk
 
 requires:
-  - /Locale
-  - /Locale.EU.Number
+	- /Locale
+	- /Locale.EU.Number
 
 provides: [Locale.nl-NL.Number]
 
@@ -12229,10 +12229,10 @@ description: Date messages for Norwegian.
 license: MIT-style license
 
 authors:
-  - Espen 'Rexxars' Hovlandsdal
+	- Espen 'Rexxars' Hovlandsdal
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.no-NO.Date]
 
@@ -12270,10 +12270,10 @@ description: Form Validator messages for Norwegian.
 license: MIT-style license
 
 authors:
-  - Espen 'Rexxars' Hovlandsdal
+	- Espen 'Rexxars' Hovlandsdal
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.no-NO.Form.Validator]
 
@@ -12312,10 +12312,10 @@ description: Date messages for Polish.
 license: MIT-style license
 
 authors:
-  - Oskar Krawczyk
+	- Oskar Krawczyk
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.pl-PL.Date]
 
@@ -12371,10 +12371,10 @@ description: Form Validator messages for Polish.
 license: MIT-style license
 
 authors:
-  - Oskar Krawczyk
+	- Oskar Krawczyk
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.pl-PL.Form.Validator]
 
@@ -12427,10 +12427,10 @@ description: Date messages for Portuguese.
 license: MIT-style license
 
 authors:
-  - Fabio Miranda Costa
+	- Fabio Miranda Costa
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.pt-PT.Date]
 
@@ -12496,11 +12496,11 @@ description: Date messages for Portuguese (Brazil).
 license: MIT-style license
 
 authors:
-  - Fabio Miranda Costa
+	- Fabio Miranda Costa
 
 requires:
-  - /Locale
-  - /Locale.pt-PT.Date
+	- /Locale
+	- /Locale.pt-PT.Date
 
 provides: [Locale.pt-BR.Date]
 
@@ -12525,10 +12525,10 @@ description: Form Validator messages for Portuguese (Brazil).
 license: MIT-style license
 
 authors:
-  - Fábio Miranda Costa
+	- Fábio Miranda Costa
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.pt-BR.Form.Validator]
 
@@ -12582,10 +12582,10 @@ description: Form Validator messages for Portuguese.
 license: MIT-style license
 
 authors:
-  - Miquel Hudin
+	- Miquel Hudin
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.pt-PT.Form.Validator]
 
@@ -12624,11 +12624,11 @@ description: Date messages for Russian (utf-8).
 license: MIT-style license
 
 authors:
-  - Evstigneev Pavel
-  - Kuryanovich Egor
+	- Evstigneev Pavel
+	- Kuryanovich Egor
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.ru-RU.Date]
 
@@ -12720,10 +12720,10 @@ description: Form Validator messages for Russian (utf-8).
 license: MIT-style license
 
 authors:
-  - Chernodarov Egor
+	- Chernodarov Egor
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.ru-RU.Form.Validator]
 
@@ -12764,10 +12764,10 @@ description: Date messages for Slovenian.
 license: MIT-style license
 
 authors:
-  - Radovan Lozej
+	- Radovan Lozej
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.si-SI.Date]
 
@@ -12841,10 +12841,10 @@ description: Form Validator messages for Slovenian.
 license: MIT-style license
 
 authors:
-  - Radovan Lozej
+	- Radovan Lozej
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.si-SI.Form.Validator]
 
@@ -12898,10 +12898,10 @@ description: Date messages for Swedish.
 license: MIT-style license
 
 authors:
-  - Martin Lundgren
+	- Martin Lundgren
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.sv-SE.Date]
 
@@ -12955,10 +12955,10 @@ description: Form Validator messages for Swedish.
 license: MIT-style license
 
 authors:
-  - Martin Lundgren
+	- Martin Lundgren
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.sv-SE.Form.Validator]
 
@@ -13011,10 +13011,10 @@ description: Date messages for Ukrainian (utf-8).
 license: MIT-style license
 
 authors:
-  - Slik
+	- Slik
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.uk-UA.Date]
 
@@ -13095,10 +13095,10 @@ description: Form Validator messages for Ukrainian (utf-8).
 license: MIT-style license
 
 authors:
-  - Slik
+	- Slik
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.uk-UA.Form.Validator]
 
@@ -13151,10 +13151,10 @@ description: Date messages for Chinese (simplified and traditional).
 license: MIT-style license
 
 authors:
-  - YMind Chan
+	- YMind Chan
 
 requires:
-  - /Locale
+	- /Locale
 
 provides: [Locale.zh-CH.Date]
 
@@ -13270,11 +13270,11 @@ description: Form Validator messages for Chinese (simplified and traditional).
 license: MIT-style license
 
 authors:
-  - YMind Chan
+	- YMind Chan
 
 requires:
-  - /Locale
-  - /Form.Validator
+	- /Locale
+	- /Form.Validator
 
 provides: [Form.zh-CH.Form.Validator, Form.Validator.CurrencyYuanValidator]
 

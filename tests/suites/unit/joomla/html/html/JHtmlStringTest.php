@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Html
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @package		 Joomla.UnitTest
+ * @subpackage	Html
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once JPATH_PLATFORM . '/joomla/html/string.php';
@@ -11,18 +11,18 @@ require_once JPATH_PLATFORM . '/joomla/html/string.php';
 /**
  * Tests for JDate class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Html
- * @since       11.3
+ * @package		 Joomla.UnitTest
+ * @subpackage	Html
+ * @since			 11.3
  */
 class JHtmlStringTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * Test cases for truncate.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function getTestAbridgeData()
 	{
@@ -45,9 +45,9 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test cases for truncate.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function getTestTruncateData()
 	{
@@ -215,9 +215,9 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test cases for complex truncate.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	public function getTestTruncateComplexData()
 	{
@@ -389,15 +389,15 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the JHtmlString::abridge method.
 	 *
-	 * @param   string   $text      The text to truncate.
-	 * @param   integer  $length    The maximum length of the text.
-	 * @param   integer  $intro     The maximum length of the intro text.
-	 * @param   string   $expected  The expected result.
+	 * @param	 string	 $text			The text to truncate.
+	 * @param	 integer	$length		The maximum length of the text.
+	 * @param	 integer	$intro		 The maximum length of the intro text.
+	 * @param	 string	 $expected	The expected result.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @dataProvider  getTestAbridgeData
-	 * @since   11.3
+	 * @dataProvider	getTestAbridgeData
+	 * @since	 11.3
 	 */
 	public function testAbridge($text, $length, $intro, $expected)
 	{
@@ -410,16 +410,16 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the JHtmlString::truncate method.
 	 *
-	 * @param   string   $text         The text to truncate.
-	 * @param   integer  $length       The maximum length of the text.
-	 * @param   boolean  $noSplit      Don't split a word if that is where the cutoff occurs (default: true).
-	 * @param   boolean  $allowedHtml  Allow HTML tags in the output, and close any open tags (default: true).
-	 * @param   string   $expected     The expected result.
+	 * @param	 string	 $text				 The text to truncate.
+	 * @param	 integer	$length			 The maximum length of the text.
+	 * @param	 boolean	$noSplit			Don't split a word if that is where the cutoff occurs (default: true).
+	 * @param	 boolean	$allowedHtml	Allow HTML tags in the output, and close any open tags (default: true).
+	 * @param	 string	 $expected		 The expected result.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @dataProvider  getTestTruncateData
-	 * @since   11.3
+	 * @dataProvider	getTestTruncateData
+	 * @since	 11.3
 	 */
 	public function testTruncate($text, $length, $noSplit, $allowedHtml, $expected)
 	{
@@ -432,15 +432,15 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the JHtmlString::truncateComplex method.
 	 *
-	 * @param   string   $html       The text to truncate.
-	 * @param   integer  $maxLength  The maximum length of the text.
-	 * @param   boolean  $noSplit    Don't split a word if that is where the cutoff occurs (default: true)
-	 * @param   string   $expected   The expected result.
+	 * @param	 string	 $html			 The text to truncate.
+	 * @param	 integer	$maxLength	The maximum length of the text.
+	 * @param	 boolean	$noSplit		Don't split a word if that is where the cutoff occurs (default: true)
+	 * @param	 string	 $expected	 The expected result.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @dataProvider  getTestTruncateComplexData
-	 * @since   12.2
+	 * @dataProvider	getTestTruncateComplexData
+	 * @since	 12.2
 	 */
 	public function testTruncateComplex($html, $maxLength, $noSplit, $expected)
 	{

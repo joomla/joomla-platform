@@ -1,18 +1,18 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Object
+ * @package		 Joomla.UnitTest
+ * @subpackage	Object
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Derived JData class for testing.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Object
- * @since       12.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	Object
+ * @since			 12.1
  */
 class JDataBuran extends JData
 {
@@ -21,11 +21,11 @@ class JDataBuran extends JData
 	/**
 	 * Method to set the test_value.
 	 *
-	 * @param   string  $value  The test value.
+	 * @param	 string	$value	The test value.
 	 *
-	 * @return  JData  Chainable.
+	 * @return	JData	Chainable.
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	protected function setTestValue($value)
 	{

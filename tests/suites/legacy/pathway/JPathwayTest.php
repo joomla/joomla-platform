@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Pathway
+ * @package		 Joomla.UnitTest
+ * @subpackage	Pathway
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once __DIR__ . '/JPathwayInspector.php';
@@ -12,17 +12,17 @@ require_once __DIR__ . '/JPathwayInspector.php';
 /**
  * Test class for JPathway.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Pathway
+ * @package		 Joomla.UnitTest
+ * @subpackage	Pathway
  *
- * @since       12.3
+ * @since			 12.3
  */
 class JPathwayTest extends TestCase
 {
 	/**
 	 * Set up the tests
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	protected function setUp()
 	{
@@ -34,7 +34,7 @@ class JPathwayTest extends TestCase
 	/**
 	 * Tear down the tests
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	protected function tearDown()
 	{
@@ -46,7 +46,7 @@ class JPathwayTest extends TestCase
 	/**
 	 * Test JPathway::__construct().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function test__construct()
 	{
@@ -59,7 +59,7 @@ class JPathwayTest extends TestCase
 	/**
 	 * Test JPathway::getInstance().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetInstance()
 	{
@@ -117,7 +117,7 @@ class JPathwayTest extends TestCase
 	/**
 	 * Test JPathway::getPathway().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetPathway()
 	{
@@ -143,7 +143,7 @@ class JPathwayTest extends TestCase
 	/**
 	 * Test JPathway::setPathway().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testSetPathway()
 	{
@@ -181,7 +181,7 @@ class JPathwayTest extends TestCase
 	/**
 	 * Test JPathway::getPathwayNames().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testGetPathwayNames()
 	{
@@ -206,7 +206,7 @@ class JPathwayTest extends TestCase
 	/**
 	 * Test JPathway::addItem().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testAddItem()
 	{
@@ -232,7 +232,7 @@ class JPathwayTest extends TestCase
 	/**
 	 * Test JPathway::setItemName().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testSetItemName()
 	{
@@ -271,7 +271,7 @@ class JPathwayTest extends TestCase
 	/**
 	 * Test JPathway::_makeItem().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function test_makeItem()
 	{

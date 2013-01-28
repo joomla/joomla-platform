@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Legacy
- * @subpackage  Menu
+ * @package		 Joomla.Legacy
+ * @subpackage	Menu
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,49 +12,49 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JMenu class
  *
- * @package     Joomla.Legacy
- * @subpackage  Menu
- * @since       11.1
- * @deprecated  13.3
+ * @package		 Joomla.Legacy
+ * @subpackage	Menu
+ * @since			 11.1
+ * @deprecated	13.3
  */
 class JMenu
 {
 	/**
 	 * Array to hold the menu items
 	 *
-	 * @var    array
-	 * @since   11.1
+	 * @var		array
+	 * @since	 11.1
 	 */
 	protected $_items = array();
 
 	/**
 	 * Identifier of the default menu item
 	 *
-	 * @var    integer
-	 * @since   11.1
+	 * @var		integer
+	 * @since	 11.1
 	 */
 	protected $_default = array();
 
 	/**
 	 * Identifier of the active menu item
 	 *
-	 * @var    integer
-	 * @since  11.1
+	 * @var		integer
+	 * @since	11.1
 	 */
 	protected $_active = 0;
 
 	/**
-	 * @var    array  JMenu instances container.
-	 * @since  11.3
+	 * @var		array	JMenu instances container.
+	 * @since	11.3
 	 */
 	protected static $instances = array();
 
 	/**
 	 * Class constructor
 	 *
-	 * @param   array  $options  An array of configuration options.
+	 * @param	 array	$options	An array of configuration options.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __construct($options = array())
 	{
@@ -78,12 +78,12 @@ class JMenu
 	/**
 	 * Returns a JMenu object
 	 *
-	 * @param   string  $client   The name of the client
-	 * @param   array   $options  An associative array of options
+	 * @param	 string	$client	 The name of the client
+	 * @param	 array	 $options	An associative array of options
 	 *
-	 * @return  JMenu  A menu object.
+	 * @return	JMenu	A menu object.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function getInstance($client, $options = array())
 	{
@@ -126,11 +126,11 @@ class JMenu
 	/**
 	 * Get menu item by id
 	 *
-	 * @param   integer  $id  The item id
+	 * @param	 integer	$id	The item id
 	 *
-	 * @return  mixed    The item object, or null if not found
+	 * @return	mixed		The item object, or null if not found
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getItem($id)
 	{
@@ -147,12 +147,12 @@ class JMenu
 	/**
 	 * Set the default item by id and language code.
 	 *
-	 * @param   integer  $id        The menu item id.
-	 * @param   string   $language  The language cod (since 1.6).
+	 * @param	 integer	$id				The menu item id.
+	 * @param	 string	 $language	The language cod (since 1.6).
 	 *
-	 * @return  boolean  True, if successful
+	 * @return	boolean	True, if successful
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setDefault($id, $language = '')
 	{
@@ -169,11 +169,11 @@ class JMenu
 	/**
 	 * Get the default item by language code.
 	 *
-	 * @param   string  $language  The language code, default value of * means all.
+	 * @param	 string	$language	The language code, default value of * means all.
 	 *
-	 * @return  object  The item object
+	 * @return	object	The item object
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getDefault($language = '*')
 	{
@@ -194,11 +194,11 @@ class JMenu
 	/**
 	 * Set the default item by id
 	 *
-	 * @param   integer  $id  The item id
+	 * @param	 integer	$id	The item id
 	 *
-	 * @return  mixed  If successful the active item, otherwise null
+	 * @return	mixed	If successful the active item, otherwise null
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setActive($id)
 	{
@@ -216,9 +216,9 @@ class JMenu
 	/**
 	 * Get menu item by id.
 	 *
-	 * @return  object  The item object.
+	 * @return	object	The item object.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getActive()
 	{
@@ -235,13 +235,13 @@ class JMenu
 	/**
 	 * Gets menu items by attribute
 	 *
-	 * @param   string   $attributes  The field name
-	 * @param   string   $values      The value of the field
-	 * @param   boolean  $firstonly   If true, only returns the first item found
+	 * @param	 string	 $attributes	The field name
+	 * @param	 string	 $values			The value of the field
+	 * @param	 boolean	$firstonly	 If true, only returns the first item found
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getItems($attributes, $values, $firstonly = false)
 	{
@@ -295,11 +295,11 @@ class JMenu
 	/**
 	 * Gets the parameter object for a certain menu item
 	 *
-	 * @param   integer  $id  The item id
+	 * @param	 integer	$id	The item id
 	 *
-	 * @return  JRegistry  A JRegistry object
+	 * @return	JRegistry	A JRegistry object
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getParams($id)
 	{
@@ -316,9 +316,9 @@ class JMenu
 	/**
 	 * Getter for the menu array
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getMenu()
 	{
@@ -329,11 +329,11 @@ class JMenu
 	 * Method to check JMenu object authorization against an access control
 	 * object and optionally an access extension object
 	 *
-	 * @param   integer  $id  The menu id
+	 * @param	 integer	$id	The menu id
 	 *
-	 * @return  boolean  True if authorised
+	 * @return	boolean	True if authorised
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function authorise($id)
 	{
@@ -353,9 +353,9 @@ class JMenu
 	/**
 	 * Loads the menu items
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function load()
 	{

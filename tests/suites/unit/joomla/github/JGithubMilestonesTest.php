@@ -1,49 +1,49 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Github
+ * @package		 Joomla.UnitTest
+ * @subpackage	Github
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JGithubPulls.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Github
+ * @package		 Joomla.UnitTest
+ * @subpackage	Github
  *
- * @since       12.3
+ * @since			 12.3
  */
 class JGithubMilestonesTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the GitHub object.
-	 * @since  12.3
+	 * @var		JRegistry	Options for the GitHub object.
+	 * @since	12.3
 	 */
 	protected $options;
 
 	/**
-	 * @var    JGithubHttp  Mock client object.
-	 * @since  12.3
+	 * @var		JGithubHttp	Mock client object.
+	 * @since	12.3
 	 */
 	protected $client;
 
 	/**
-	 * @var    JGithubPulls  Object under test.
-	 * @since  12.3
+	 * @var		JGithubPulls	Object under test.
+	 * @since	12.3
 	 */
 	protected $object;
 
 	/**
-	 * @var    string  Sample JSON string.
-	 * @since  12.3
+	 * @var		string	Sample JSON string.
+	 * @since	12.3
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
-	 * @var    string  Sample JSON error message.
-	 * @since  12.3
+	 * @var		string	Sample JSON error message.
+	 * @since	12.3
 	 */
 	protected $errorString = '{"message": "Generic Error"}';
 
@@ -68,7 +68,7 @@ class JGithubMilestonesTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test...
 	 *
-	 * @param   string  $name  The method name.
+	 * @param	 string	$name	The method name.
 	 *
 	 * @return string
 	 */
@@ -86,7 +86,7 @@ class JGithubMilestonesTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since	12.3
 	 */
 	public function testCreate()
 	{
@@ -114,11 +114,11 @@ class JGithubMilestonesTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the create method - failure
 	 *
-	 * @expectedException  DomainException
+	 * @expectedException	DomainException
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since	12.3
 	 */
 	public function testCreateFailure()
 	{
@@ -145,7 +145,7 @@ class JGithubMilestonesTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since	12.3
 	 */
 	public function testEdit()
 	{
@@ -172,7 +172,7 @@ class JGithubMilestonesTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since	12.3
 	 */
 	public function testEditAllParameters()
 	{
@@ -202,11 +202,11 @@ class JGithubMilestonesTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the edit method - failure
 	 *
-	 * @expectedException  DomainException
+	 * @expectedException	DomainException
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since	12.3
 	 */
 	public function testEditFailure()
 	{
@@ -230,7 +230,7 @@ class JGithubMilestonesTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since	12.3
 	 */
 	public function testGet()
 	{
@@ -252,11 +252,11 @@ class JGithubMilestonesTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the get method - failure
 	 *
-	 * @expectedException  DomainException
+	 * @expectedException	DomainException
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since	12.3
 	 */
 	public function testGetFailure()
 	{
@@ -277,7 +277,7 @@ class JGithubMilestonesTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since	12.3
 	 */
 	public function testGetList()
 	{
@@ -299,11 +299,11 @@ class JGithubMilestonesTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getList method - failure
 	 *
-	 * @expectedException  DomainException
+	 * @expectedException	DomainException
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since	12.3
 	 */
 	public function testGetListFailure()
 	{
@@ -324,7 +324,7 @@ class JGithubMilestonesTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since	12.3
 	 */
 	public function testDelete()
 	{
@@ -343,11 +343,11 @@ class JGithubMilestonesTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the delete method - failure
 	 *
-	 * @expectedException  DomainException
+	 * @expectedException	DomainException
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since	12.3
 	 */
 	public function testDeleteFailure()
 	{

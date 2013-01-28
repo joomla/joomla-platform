@@ -25,9 +25,9 @@ read, modify and invoke protected and private properties and methods.
 /**
  * Tests the JClass::__construct method
  *
- * @return  void
+ * @return	void
  *
- * @since   11.3
+ * @since	 11.3
  */
 public function test__construct()
 {
@@ -48,9 +48,9 @@ like the following example to your inspector class:
 /**
  * Test that calls a protected method called 'hidden'
  *
- * @return  void
+ * @return	void
  *
- * @since   11.3
+ * @since	 11.3
  */
 public function hidden()
 {

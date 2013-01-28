@@ -1,19 +1,19 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Cache
+ * @package		 Joomla.UnitTest
+ * @subpackage	Cache
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * A testCallbackController test class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Cache
+ * @package		 Joomla.UnitTest
+ * @subpackage	Cache
  *
- * @since       11.1
+ * @since			 11.1
  */
 class TestCallbackController
 {
@@ -21,8 +21,8 @@ class TestCallbackController
 	/**
 	 * Test...
 	 *
-	 * @param   mixed  $arg1  Nr. 1
-	 * @param   mixed  $arg2  Nr. 2
+	 * @param	 mixed	$arg1	Nr. 1
+	 * @param	 mixed	$arg2	Nr. 2
 	 *
 	 * @return mixed
 	 */
@@ -36,8 +36,8 @@ class TestCallbackController
 	/**
 	 * Test...
 	 *
-	 * @param   mixed  $arg1  Nr. 1
-	 * @param   mixed  $arg2  Nr. 2
+	 * @param	 mixed	$arg1	Nr. 1
+	 * @param	 mixed	$arg2	Nr. 2
 	 *
 	 * @return mixed
 	 */
@@ -53,8 +53,8 @@ class TestCallbackController
 /**
  * Test...
  *
- * @param   mixed  $arg1  Nr. 1
- * @param   mixed  $arg2  Nr. 2
+ * @param	 mixed	$arg1	Nr. 1
+ * @param	 mixed	$arg2	Nr. 2
  *
  * @return mixed
  */

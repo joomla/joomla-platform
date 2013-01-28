@@ -1,28 +1,28 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Table
+ * @package		 Joomla.UnitTest
+ * @subpackage	Table
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JTableMenuType.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Table
+ * @package		 Joomla.UnitTest
+ * @subpackage	Table
  *
- * @since       12.3
+ * @since			 12.3
  */
 class JTableMenuTypeTest extends TestCase
 {
 	/**
 	 * Tests JTableMenuType::check
 	 *
-	 * @todo    Implement testCheck().
+	 * @todo		Implement testCheck().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testCheck()
 	{
@@ -33,9 +33,9 @@ class JTableMenuTypeTest extends TestCase
 	/**
 	 * Tests JTableMenuType::store
 	 *
-	 * @todo   Implement testStore().
+	 * @todo	 Implement testStore().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testStore()
 	{
@@ -46,9 +46,9 @@ class JTableMenuTypeTest extends TestCase
 	/**
 	 * Tests JTableMenuType::delete
 	 *
-	 * @todo   Implement testDelete().
+	 * @todo	 Implement testDelete().
 	 *
-	 * @return  void
+	 * @return	void
 	 */
 	public function testDelete()
 	{

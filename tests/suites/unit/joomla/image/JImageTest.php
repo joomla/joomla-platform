@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Media
+ * @package		 Joomla.UnitTest
+ * @subpackage	Media
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once __DIR__ . '/stubs/JImageInspector.php';
@@ -13,18 +13,18 @@ require_once __DIR__ . '/stubs/JImageFilterInspector.php';
 /**
  * Test class for JImage.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Media
- * @since       11.3
+ * @package		 Joomla.UnitTest
+ * @subpackage	Media
+ * @since			 11.3
  */
 class JImageTest extends TestCase
 {
 	/**
 	 * Setup for testing.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	protected function setUp()
 	{
@@ -48,10 +48,10 @@ class JImageTest extends TestCase
 	/**
 	 * Overrides the parent tearDown method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   11.3
+	 * @see		 PHPUnit_Framework_TestCase::tearDown()
+	 * @since	 11.3
 	 */
 	protected function tearDown()
 	{
@@ -59,13 +59,13 @@ class JImageTest extends TestCase
 	}
 
 	/**
-	 * Data for prepareDimensions method.  Don't put percentages in here.  We test elsewhere that
-	 * percentages get sanitized into appropriate integer values based on scale.  Here we just want
+	 * Data for prepareDimensions method.	Don't put percentages in here.	We test elsewhere that
+	 * percentages get sanitized into appropriate integer values based on scale.	Here we just want
 	 * to test the logic that calculates scale dimensions.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function getPrepareDimensionsData()
 	{
@@ -84,9 +84,9 @@ class JImageTest extends TestCase
 	/**
 	 * Data for sanitizeDimension methods.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function getSanitizeDimensionData()
 	{
@@ -102,13 +102,13 @@ class JImageTest extends TestCase
 	}
 
 	/**
-	 * Data for crop method.  Don't put percentages in here.  We test elsewhere that percentages get
-	 * sanitized into appropriate integer values based on scale.  Here we just want to test the logic
+	 * Data for crop method.	Don't put percentages in here.	We test elsewhere that percentages get
+	 * sanitized into appropriate integer values based on scale.	Here we just want to test the logic
 	 * that actually crops the image.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function getCropData()
 	{
@@ -123,9 +123,9 @@ class JImageTest extends TestCase
 	/**
 	 * Data for sanitizeOffset method.
 	 *
-	 * @return  array
+	 * @return	array
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function getSanitizeOffsetData()
 	{
@@ -139,9 +139,9 @@ class JImageTest extends TestCase
 	/**
 	 * Tests the JImage::__construct method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testConstructor()
 	{
@@ -162,13 +162,13 @@ class JImageTest extends TestCase
 	}
 
 	/**
-	 * Test the JImage::loadFile to makes sure images are loaded properly.  In this case we
+	 * Test the JImage::loadFile to makes sure images are loaded properly.	In this case we
 	 * are taking the simple approach of loading an image file and asserting that the dimensions
 	 * are correct.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testloadFile()
 	{
@@ -184,13 +184,13 @@ class JImageTest extends TestCase
 	}
 
 	/**
-	 * Test the JImage::loadFile to makes sure GIF images are loaded properly.  In this case we
+	 * Test the JImage::loadFile to makes sure GIF images are loaded properly.	In this case we
 	 * are taking the simple approach of loading an image file and asserting that the dimensions
 	 * are correct.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testloadFileGif()
 	{
@@ -206,13 +206,13 @@ class JImageTest extends TestCase
 	}
 
 	/**
-	 * Test the JImage::loadFile to makes sure PNG images are loaded properly.  In this case we
+	 * Test the JImage::loadFile to makes sure PNG images are loaded properly.	In this case we
 	 * are taking the simple approach of loading an image file and asserting that the dimensions
 	 * are correct.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testloadFilePng()
 	{
@@ -228,15 +228,15 @@ class JImageTest extends TestCase
 	}
 
 	/**
-	 * Test the JImage::loadFile to makes sure XCF images are not loaded properly.  In this case we
+	 * Test the JImage::loadFile to makes sure XCF images are not loaded properly.	In this case we
 	 * are taking the simple approach of loading an image file and asserting that the dimensions
 	 * are correct.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 *
-	 * @expectedException  InvalidArgumentException
+	 * @expectedException	InvalidArgumentException
 	 */
 	public function testloadFileBmp()
 	{
@@ -248,10 +248,10 @@ class JImageTest extends TestCase
 	/**
 	 * Test the JImage::loadFile to makes sure if a bogus image is given it throws an exception.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @expectedException  InvalidArgumentException
-	 * @since   11.3
+	 * @expectedException	InvalidArgumentException
+	 * @since	 11.3
 	 */
 	public function testloadFileWithInvalidFile()
 	{
@@ -263,9 +263,9 @@ class JImageTest extends TestCase
 	/**
 	 * Test the JImage::resize to make sure images are resized properly.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testResize()
 	{
@@ -284,9 +284,9 @@ class JImageTest extends TestCase
 	 * Test the JImage::resize to make sure images are resized properly and
 	 * transparency is properly set.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 */
 	public function testResizeTransparent()
 	{
@@ -310,11 +310,11 @@ class JImageTest extends TestCase
 	/**
 	 * Test the JImage::resize to make sure images are resized properly - no file loaded.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.4
+	 * @since	 11.4
 	 *
-	 * @expectedException  LogicException
+	 * @expectedException	LogicException
 	 */
 	public function testResizeNoFile()
 	{
@@ -325,13 +325,13 @@ class JImageTest extends TestCase
 	}
 
 	/**
-	 * Test the JImage::toFile when there is no image loaded.  This should throw a LogicException
+	 * Test the JImage::toFile when there is no image loaded.	This should throw a LogicException
 	 * since we cannot write an image out to file that we don't even have yet.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @expectedException  LogicException
-	 * @since   11.3
+	 * @expectedException	LogicException
+	 * @since	 11.3
 	 */
 	public function testToFileInvalid()
 	{
@@ -347,9 +347,9 @@ class JImageTest extends TestCase
 	 * to open and save the same image and then compare the checksums as the checksums
 	 * may have changed. Therefore we are limited to comparing the image properties.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testToFileGif()
 	{
@@ -382,9 +382,9 @@ class JImageTest extends TestCase
 	 * to open and save the same image and then compare the checksums as the checksums
 	 * may have changed. Therefore we are limited to comparing the image properties.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testToFilePng()
 	{
@@ -417,9 +417,9 @@ class JImageTest extends TestCase
 	 * to open and save the same image and then compare the checksums as the checksums
 	 * may have changed. Therefore we are limited to comparing the image properties.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testToFileJpg()
 	{
@@ -452,9 +452,9 @@ class JImageTest extends TestCase
 	 * to open and save the same image and then compare the checksums as the checksums
 	 * may have changed. Therefore we are limited to comparing the image properties.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testToFileDefault()
 	{
@@ -484,9 +484,9 @@ class JImageTest extends TestCase
 	/**
 	 * Test the JImage::getFilterInstance method to make sure it behaves correctly
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testGetFilterInstance()
 	{
@@ -503,9 +503,9 @@ class JImageTest extends TestCase
 	 * Test the JImage::getHeight method to make sure it gives the correct
 	 * property from the source image.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testGetHeight()
 	{
@@ -521,10 +521,10 @@ class JImageTest extends TestCase
 	/**
 	 * Test the JImage::getHeight method without a loaded image.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @expectedException  LogicException
-	 * @since   11.3
+	 * @expectedException	LogicException
+	 * @since	 11.3
 	 */
 	public function testGetHeightWithoutLoadedImage()
 	{
@@ -538,9 +538,9 @@ class JImageTest extends TestCase
 	 * Test the JImage::getWidth method to make sure it gives the correct
 	 * property from the source image
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testGetWidth()
 	{
@@ -556,10 +556,10 @@ class JImageTest extends TestCase
 	/**
 	 * Test the JImage::getWidth method without a loaded image.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @expectedException  LogicException
-	 * @since   11.3
+	 * @expectedException	LogicException
+	 * @since	 11.3
 	 */
 	public function testGetWidthWithoutLoadedImage()
 	{
@@ -572,10 +572,10 @@ class JImageTest extends TestCase
 	/**
 	 * Test the JImage::getImageFileProperties method without a valid image file.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @expectedException  InvalidArgumentException
-	 * @since   11.3
+	 * @expectedException	InvalidArgumentException
+	 * @since	 11.3
 	 */
 	public function testGetImageFilePropertiesWithInvalidFile()
 	{
@@ -585,10 +585,10 @@ class JImageTest extends TestCase
 	/**
 	 * Test the JImage::isTransparent method without a loaded image.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @expectedException  LogicException
-	 * @since   11.3
+	 * @expectedException	LogicException
+	 * @since	 11.3
 	 */
 	public function testIsTransparentWithoutLoadedImage()
 	{
@@ -602,9 +602,9 @@ class JImageTest extends TestCase
 	 * Test the JImage::isTransparent method to make sure it gives the correct
 	 * result if the image has an alpha channel.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testTransparentIsTransparent()
 	{
@@ -625,9 +625,9 @@ class JImageTest extends TestCase
 	 * Test the JImage::isTransparent method to make sure it gives the correct
 	 * result if the image does not haave an alpha channel.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testOpaqueIsNotTransparent()
 	{
@@ -644,10 +644,10 @@ class JImageTest extends TestCase
 	/**
 	 * Test the JImage::crop method without a loaded image.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @expectedException  LogicException
-	 * @since   11.3
+	 * @expectedException	LogicException
+	 * @since	 11.3
 	 */
 	public function testCropWithoutLoadedImage()
 	{
@@ -658,24 +658,24 @@ class JImageTest extends TestCase
 	}
 
 	/**
-	 * Tests the JImage::crop() method.  To test this we create an image that contains a red rectangle
-	 * of a certain size [Rectangle1].  Inside of that rectangle [Rectangle1] we draw a white
+	 * Tests the JImage::crop() method.	To test this we create an image that contains a red rectangle
+	 * of a certain size [Rectangle1].	Inside of that rectangle [Rectangle1] we draw a white
 	 * rectangle [Rectangle2] that is exactly two pixels smaller in width and height than its parent
-	 * rectangle [Rectangle1].  Then we crop the image to the exact coordinates of Rectangle1 and
+	 * rectangle [Rectangle1].	Then we crop the image to the exact coordinates of Rectangle1 and
 	 * verify both it's corners and the corners inside of it.
 	 *
-	 * @param   mixed    $startHeight  The original image height.
-	 * @param   mixed    $startWidth   The original image width.
-	 * @param   integer  $cropHeight   The height of the cropped image.
-	 * @param   integer  $cropWidth    The width of the cropped image.
-	 * @param   integer  $cropTop      The pixel offset from the top for the cropped image.
-	 * @param   integer  $cropLeft     The pixel offset from the left for the cropped image.
-	 * @param   boolean  $transparent  True to add transparency to the image.
+	 * @param	 mixed		$startHeight	The original image height.
+	 * @param	 mixed		$startWidth	 The original image width.
+	 * @param	 integer	$cropHeight	 The height of the cropped image.
+	 * @param	 integer	$cropWidth		The width of the cropped image.
+	 * @param	 integer	$cropTop			The pixel offset from the top for the cropped image.
+	 * @param	 integer	$cropLeft		 The pixel offset from the left for the cropped image.
+	 * @param	 boolean	$transparent	True to add transparency to the image.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @dataProvider getCropData
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testCrop($startHeight, $startWidth, $cropHeight, $cropWidth, $cropTop, $cropLeft, $transparent = false)
 	{
@@ -729,10 +729,10 @@ class JImageTest extends TestCase
 	/**
 	 * Test the JImage::rotate method without a loaded image.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @expectedException  LogicException
-	 * @since   11.3
+	 * @expectedException	LogicException
+	 * @since	 11.3
 	 */
 	public function testRotateWithoutLoadedImage()
 	{
@@ -743,14 +743,14 @@ class JImageTest extends TestCase
 	}
 
 	/**
-	 * Tests the JImage::rotate() method.  To test this we create an image that contains a red
+	 * Tests the JImage::rotate() method.	To test this we create an image that contains a red
 	 * horizontal line in the middle of the image, and a white vertical line in the middle of the
-	 * image.  Once the image is rotated 90 degrees we test the end points of the lines to ensure that
+	 * image.	Once the image is rotated 90 degrees we test the end points of the lines to ensure that
 	 * the colors have swapped.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testRotate()
 	{
@@ -786,9 +786,9 @@ class JImageTest extends TestCase
 	/**
 	 * Test the JImage::filter method to make sure it behaves correctly
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testFilter()
 	{
@@ -812,10 +812,10 @@ class JImageTest extends TestCase
 	/**
 	 * Test the JImage::filter method without a loaded image.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @expectedException  LogicException
-	 * @since   11.3
+	 * @expectedException	LogicException
+	 * @since	 11.3
 	 */
 	public function testFilterWithoutLoadedImage()
 	{
@@ -828,10 +828,10 @@ class JImageTest extends TestCase
 	/**
 	 * Test the JImage::filter method with a bogus filer type so that we expect an exception.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @expectedException  RuntimeException
-	 * @since   11.3
+	 * @expectedException	RuntimeException
+	 * @since	 11.3
 	 */
 	public function testFilterWithInvalidFilterType()
 	{
@@ -844,18 +844,18 @@ class JImageTest extends TestCase
 	/**
 	 * Tests the JImage::prepareDimensions method.
 	 *
-	 * @param   mixed    $inputHeight     The height input.
-	 * @param   mixed    $inputWidth      The width input.
-	 * @param   integer  $inputScale      The scaling type.
-	 * @param   integer  $imageHeight     The original image height.
-	 * @param   integer  $imageWidth      The original image width.
-	 * @param   integer  $expectedHeight  The expected result image height.
-	 * @param   integer  $expectedWidth   The expected result image width.
+	 * @param	 mixed		$inputHeight		 The height input.
+	 * @param	 mixed		$inputWidth			The width input.
+	 * @param	 integer	$inputScale			The scaling type.
+	 * @param	 integer	$imageHeight		 The original image height.
+	 * @param	 integer	$imageWidth			The original image width.
+	 * @param	 integer	$expectedHeight	The expected result image height.
+	 * @param	 integer	$expectedWidth	 The expected result image width.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @dataProvider getPrepareDimensionsData
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testPrepareDimensions($inputHeight, $inputWidth, $inputScale, $imageHeight, $imageWidth, $expectedHeight, $expectedWidth)
 	{
@@ -875,10 +875,10 @@ class JImageTest extends TestCase
 	/**
 	 * Tests the JImage::prepareDimensions method with a bogus scale so that an exception is thrown.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @expectedException  InvalidArgumentException
-	 * @since   11.3
+	 * @expectedException	InvalidArgumentException
+	 * @since	 11.3
 	 */
 	public function testPrepareDimensionsWithInvalidScale()
 	{
@@ -894,17 +894,17 @@ class JImageTest extends TestCase
 	/**
 	 * Tests the JImage::sanitizeHeight method.
 	 *
-	 * @param   mixed    $inputHeight     The height input.
-	 * @param   mixed    $inputWidth      The width input.
-	 * @param   integer  $imageHeight     The original image height.
-	 * @param   integer  $imageWidth      The original image width.
-	 * @param   integer  $expectedHeight  The expected result image height.
-	 * @param   integer  $expectedWidth   The expected result image width.
+	 * @param	 mixed		$inputHeight		 The height input.
+	 * @param	 mixed		$inputWidth			The width input.
+	 * @param	 integer	$imageHeight		 The original image height.
+	 * @param	 integer	$imageWidth			The original image width.
+	 * @param	 integer	$expectedHeight	The expected result image height.
+	 * @param	 integer	$expectedWidth	 The expected result image width.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @dataProvider getSanitizeDimensionData
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testSanitizeHeight($inputHeight, $inputWidth, $imageHeight, $imageWidth, $expectedHeight, $expectedWidth)
 	{
@@ -921,17 +921,17 @@ class JImageTest extends TestCase
 	/**
 	 * Tests the JImage::sanitizeWidth method.
 	 *
-	 * @param   mixed    $inputHeight     The height input.
-	 * @param   mixed    $inputWidth      The width input.
-	 * @param   integer  $imageHeight     The original image height.
-	 * @param   integer  $imageWidth      The original image width.
-	 * @param   integer  $expectedHeight  The expected result image height.
-	 * @param   integer  $expectedWidth   The expected result image width.
+	 * @param	 mixed		$inputHeight		 The height input.
+	 * @param	 mixed		$inputWidth			The width input.
+	 * @param	 integer	$imageHeight		 The original image height.
+	 * @param	 integer	$imageWidth			The original image width.
+	 * @param	 integer	$expectedHeight	The expected result image height.
+	 * @param	 integer	$expectedWidth	 The expected result image width.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @dataProvider getSanitizeDimensionData
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testSanitizeWidth($inputHeight, $inputWidth, $imageHeight, $imageWidth, $expectedHeight, $expectedWidth)
 	{
@@ -948,13 +948,13 @@ class JImageTest extends TestCase
 	/**
 	 * Tests the JImage::sanitizeOffset method.
 	 *
-	 * @param   mixed    $input     The input offset.
-	 * @param   integer  $expected  The expected result offest.
+	 * @param	 mixed		$input		 The input offset.
+	 * @param	 integer	$expected	The expected result offest.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
 	 * @dataProvider getSanitizeOffsetData
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function testSanitizeOffset($input, $expected)
 	{
@@ -968,9 +968,9 @@ class JImageTest extends TestCase
 	/**
 	 * Tests the JImage::destory method
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function testDestroy()
 	{

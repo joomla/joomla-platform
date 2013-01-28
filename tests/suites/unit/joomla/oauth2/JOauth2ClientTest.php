@@ -1,43 +1,43 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Client
+ * @package		 Joomla.UnitTest
+ * @subpackage	Client
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JOAuth2Client.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Oauth
- * @since       12.3
+ * @package		 Joomla.UnitTest
+ * @subpackage	Oauth
+ * @since			 12.3
  */
 class JOAuth2ClientTest extends TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the JOAuth2Client object.
+	 * @var		JRegistry	Options for the JOAuth2Client object.
 	 */
 	protected $options;
 
 	/**
-	 * @var    JHttp  Mock client object.
+	 * @var		JHttp	Mock client object.
 	 */
 	protected $client;
 
 	/**
-	 * @var    JInput  The input object to use in retrieving GET/POST data.
+	 * @var		JInput	The input object to use in retrieving GET/POST data.
 	 */
 	protected $input;
 
 	/**
-	 * @var    JApplicationWeb  The application object to send HTTP headers for redirects.
+	 * @var		JApplicationWeb	The application object to send HTTP headers for redirects.
 	 */
 	protected $application;
 
 	/**
-	 * @var    JOAuth2Client  Object under test.
+	 * @var		JOAuth2Client	Object under test.
 	 */
 	protected $object;
 
@@ -336,14 +336,14 @@ class JOAuth2ClientTest extends TestCase
 /**
  * Dummy
  *
- * @param   string   $url      Path to the resource.
- * @param   mixed    $data     Either an associative array or a string to be sent with the request.
- * @param   array    $headers  An array of name-value pairs to include in the header of the request
- * @param   integer  $timeout  Read timeout in seconds.
+ * @param	 string	 $url			Path to the resource.
+ * @param	 mixed		$data		 Either an associative array or a string to be sent with the request.
+ * @param	 array		$headers	An array of name-value pairs to include in the header of the request
+ * @param	 integer	$timeout	Read timeout in seconds.
  *
- * @return  JHttpResponse
+ * @return	JHttpResponse
  *
- * @since   12.3
+ * @since	 12.3
  */
 function encodedGrantOauthCallback($url, $data, array $headers = null, $timeout = null)
 {
@@ -359,14 +359,14 @@ function encodedGrantOauthCallback($url, $data, array $headers = null, $timeout 
 /**
  * Dummy
  *
- * @param   string   $url      Path to the resource.
- * @param   mixed    $data     Either an associative array or a string to be sent with the request.
- * @param   array    $headers  An array of name-value pairs to include in the header of the request
- * @param   integer  $timeout  Read timeout in seconds.
+ * @param	 string	 $url			Path to the resource.
+ * @param	 mixed		$data		 Either an associative array or a string to be sent with the request.
+ * @param	 array		$headers	An array of name-value pairs to include in the header of the request
+ * @param	 integer	$timeout	Read timeout in seconds.
  *
- * @return  JHttpResponse
+ * @return	JHttpResponse
  *
- * @since   12.3
+ * @since	 12.3
  */
 function jsonGrantOauthCallback($url, $data, array $headers = null, $timeout = null)
 {
@@ -383,14 +383,14 @@ function jsonGrantOauthCallback($url, $data, array $headers = null, $timeout = n
 /**
  * Dummy
  *
- * @param   string   $url      Path to the resource.
- * @param   mixed    $data     Either an associative array or a string to be sent with the request.
- * @param   array    $headers  An array of name-value pairs to include in the header of the request
- * @param   integer  $timeout  Read timeout in seconds.
+ * @param	 string	 $url			Path to the resource.
+ * @param	 mixed		$data		 Either an associative array or a string to be sent with the request.
+ * @param	 array		$headers	An array of name-value pairs to include in the header of the request
+ * @param	 integer	$timeout	Read timeout in seconds.
  *
- * @return  JHttpResponse
+ * @return	JHttpResponse
  *
- * @since   12.3
+ * @since	 12.3
  */
 function queryOauthCallback($url, $data, array $headers = null, $timeout = null)
 {
@@ -406,13 +406,13 @@ function queryOauthCallback($url, $data, array $headers = null, $timeout = null)
 /**
  * Dummy
  *
- * @param   string   $url      Path to the resource.
- * @param   array    $headers  An array of name-value pairs to include in the header of the request.
- * @param   integer  $timeout  Read timeout in seconds.
+ * @param	 string	 $url			Path to the resource.
+ * @param	 array		$headers	An array of name-value pairs to include in the header of the request.
+ * @param	 integer	$timeout	Read timeout in seconds.
  *
- * @return  JHttpResponse
+ * @return	JHttpResponse
  *
- * @since   12.3
+ * @since	 12.3
  */
 function getOauthCallback($url, array $headers = null, $timeout = null)
 {

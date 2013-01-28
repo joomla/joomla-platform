@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Table
+ * @package		 Joomla.Platform
+ * @subpackage	Table
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -13,18 +13,18 @@ defined('JPATH_PLATFORM') or die;
  * Extension table
  * Replaces plugins table
  *
- * @package     Joomla.Platform
- * @subpackage  Table
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Table
+ * @since			 11.1
  */
 class JTableExtension extends JTable
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db  Database driver object.
+	 * @param	 JDatabaseDriver	$db	Database driver object.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __construct($db)
 	{
@@ -34,10 +34,10 @@ class JTableExtension extends JTable
 	/**
 	 * Overloaded check function
 	 *
-	 * @return  boolean  True if the object is ok
+	 * @return	boolean	True if the object is ok
 	 *
-	 * @see     JTable::check
-	 * @since   11.1
+	 * @see		 JTable::check
+	 * @since	 11.1
 	 */
 	public function check()
 	{
@@ -54,14 +54,14 @@ class JTableExtension extends JTable
 	/**
 	 * Overloaded bind function
 	 *
-	 * @param   array  $array   Named array
-	 * @param   mixed  $ignore  An optional array or space separated list of properties
+	 * @param	 array	$array	 Named array
+	 * @param	 mixed	$ignore	An optional array or space separated list of properties
 	 * to ignore while binding.
 	 *
-	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
+	 * @return	mixed	Null if operation was satisfactory, otherwise returns an error
 	 *
-	 * @see     JTable::bind
-	 * @since   11.1
+	 * @see		 JTable::bind
+	 * @since	 11.1
 	 */
 	public function bind($array, $ignore = '')
 	{
@@ -85,11 +85,11 @@ class JTableExtension extends JTable
 	/**
 	 * Method to create and execute a SELECT WHERE query.
 	 *
-	 * @param   array  $options  Array of options
+	 * @param	 array	$options	Array of options
 	 *
-	 * @return  string  The database query result
+	 * @return	string	The database query result
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function find($options = array())
 	{
@@ -110,17 +110,17 @@ class JTableExtension extends JTable
 
 	/**
 	 * Method to set the publishing state for a row or list of rows in the database
-	 * table.  The method respects checked out rows by other users and will attempt
+	 * table.	The method respects checked out rows by other users and will attempt
 	 * to checkin rows that it can after adjustments are made.
 	 *
-	 * @param   mixed    $pks     An optional array of primary key values to update.  If not
-	 *                            set the instance property value is used.
-	 * @param   integer  $state   The publishing state. eg. [0 = unpublished, 1 = published]
-	 * @param   integer  $userId  The user id of the user performing the operation.
+	 * @param	 mixed		$pks		 An optional array of primary key values to update.	If not
+	 *														set the instance property value is used.
+	 * @param	 integer	$state	 The publishing state. eg. [0 = unpublished, 1 = published]
+	 * @param	 integer	$userId	The user id of the user performing the operation.
 	 *
-	 * @return  boolean  True on success.
+	 * @return	boolean	True on success.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{

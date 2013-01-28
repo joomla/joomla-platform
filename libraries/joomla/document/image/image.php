@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Document
+ * @package		 Joomla.Platform
+ * @subpackage	Document
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,18 +12,18 @@ defined('JPATH_PLATFORM') or die;
 /**
  * DocumentImage class, provides an easy interface to output image data
  *
- * @package     Joomla.Platform
- * @subpackage  Document
- * @since       12.1
+ * @package		 Joomla.Platform
+ * @subpackage	Document
+ * @since			 12.1
  */
 class JDocumentImage extends JDocument
 {
 	/**
 	 * Class constructor
 	 *
-	 * @param   array  $options  Associative array of options
+	 * @param	 array	$options	Associative array of options
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function __construct($options = array())
 	{
@@ -39,12 +39,12 @@ class JDocumentImage extends JDocument
 	/**
 	 * Render the document.
 	 *
-	 * @param   boolean  $cache   If true, cache the output
-	 * @param   array    $params  Associative array of attributes
+	 * @param	 boolean	$cache	 If true, cache the output
+	 * @param	 array		$params	Associative array of attributes
 	 *
-	 * @return  The rendered data
+	 * @return	The rendered data
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function render($cache = false, $params = array())
 	{

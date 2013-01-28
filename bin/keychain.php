@@ -1,10 +1,10 @@
 #!/usr/bin/env php
 <?php
 /**
- * @package    Joomla.Platform
+ * @package		Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE
  */
 
 define('_JEXEC', 1);
@@ -16,29 +16,29 @@ require_once realpath('../libraries/import.php');
 /**
  * Keychain Manager
  *
- * @package  Joomla.Platform
- * @since    12.3
+ * @package	Joomla.Platform
+ * @since		12.3
  */
 class KeychainManager extends JApplicationCli
 {
 	/**
-	 * @var    boolean  A flag if the keychain has been updated to trigger saving the keychain
-	 * @since  12.3
+	 * @var		boolean	A flag if the keychain has been updated to trigger saving the keychain
+	 * @since	12.3
 	 */
 	protected $updated = false;
 
 	/**
-	 * @var    JKeychain  The keychain object being manipulated.
-	 * @since  12.3
+	 * @var		JKeychain	The keychain object being manipulated.
+	 * @since	12.3
 	 */
 	protected $keychain = null;
 
 	/**
 	 * Execute the application
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function execute( )
 	{
@@ -100,9 +100,9 @@ class KeychainManager extends JApplicationCli
 	/**
 	 * Load the keychain from a file.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	protected function loadKeychain()
 	{
@@ -129,9 +129,9 @@ class KeychainManager extends JApplicationCli
 	/**
 	 * Save this keychain to a file.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	protected function saveKeychain()
 	{
@@ -151,9 +151,9 @@ class KeychainManager extends JApplicationCli
 	/**
 	 * Initialise a new passphrase file.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	protected function initPassphraseFile()
 	{
@@ -186,9 +186,9 @@ class KeychainManager extends JApplicationCli
 	/**
 	 * Create a new entry
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	protected function create()
 	{
@@ -209,9 +209,9 @@ class KeychainManager extends JApplicationCli
 	/**
 	 * Change an existing entry to a new value or create an entry if missing.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	protected function change()
 	{
@@ -227,9 +227,9 @@ class KeychainManager extends JApplicationCli
 	/**
 	 * Read an entry from the keychain
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	protected function read()
 	{
@@ -246,11 +246,11 @@ class KeychainManager extends JApplicationCli
 	/**
 	 * Get the string from var_dump
 	 *
-	 * @param   mixed  $var  The variable you want to have dumped.
+	 * @param	 mixed	$var	The variable you want to have dumped.
 	 *
-	 * @return  string  The result of var_dump
+	 * @return	string	The result of var_dump
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	private function dumpVar($var)
 	{
@@ -265,9 +265,9 @@ class KeychainManager extends JApplicationCli
 	/**
 	 * Delete an entry from the keychain
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	protected function delete()
 	{
@@ -284,9 +284,9 @@ class KeychainManager extends JApplicationCli
 	/**
 	 * List entries in the keychain
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	protected function listEntries()
 	{
@@ -305,9 +305,9 @@ class KeychainManager extends JApplicationCli
 	/**
 	 * Display the help information
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	protected function displayHelp()
 	{
@@ -318,7 +318,7 @@ COMMANDS
  - create entry_name entry_value
  - change entry_name entry_value
  - delete entry_name
- - read   entry_name
+ - read	 entry_name
 */
 
 		$help = <<<HELP
@@ -330,42 +330,42 @@ usage: {$this->input->executable} [--keychain=/path/to/keychain]
 
 OPTIONS
 
-  --keychain=/path/to/keychain
-    Path to a keychain file to manipulate.
+	--keychain=/path/to/keychain
+		Path to a keychain file to manipulate.
 
-  --passphrase=/path/to/passphrase.dat
-    Path to a passphrase file containing the encryption/decryption key.
+	--passphrase=/path/to/passphrase.dat
+		Path to a passphrase file containing the encryption/decryption key.
 
-  --public-key=/path/to/public.pem
-    Path to a public key file to decrypt the passphrase file.
+	--public-key=/path/to/public.pem
+		Path to a public key file to decrypt the passphrase file.
 
 
 COMMANDS
 
-  list:
-    Usage: list [--print-values]
-    Lists all entries in the keychain. Optionally pass --print-values to print the values as well.
+	list:
+		Usage: list [--print-values]
+		Lists all entries in the keychain. Optionally pass --print-values to print the values as well.
 
-  create:
-    Usage: create entry_name entry_value
-    Creates a new entry in the keychain called "entry_name" with the plaintext value "entry_value".
-    NOTE: This is an alias for change.
+	create:
+		Usage: create entry_name entry_value
+		Creates a new entry in the keychain called "entry_name" with the plaintext value "entry_value".
+		NOTE: This is an alias for change.
 
-  change:
-    Usage: change entry_name entry_value
-    Updates the keychain entry called "entry_name" with the value "entry_value".
+	change:
+		Usage: change entry_name entry_value
+		Updates the keychain entry called "entry_name" with the value "entry_value".
 
-  delete:
-    Usage: delete entry_name
-    Removes an entry called "entry_name" from the keychain.
+	delete:
+		Usage: delete entry_name
+		Removes an entry called "entry_name" from the keychain.
 
-  read:
-    Usage: read entry_name
-    Outputs the plaintext value of "entry_name" from the keychain.
+	read:
+		Usage: read entry_name
+		Outputs the plaintext value of "entry_name" from the keychain.
 
-  init:
-    Usage: init
-    Creates a new passphrase file and prompts for a new passphrase.
+	init:
+		Usage: init
+		Creates a new passphrase file and prompts for a new passphrase.
 
 HELP;
 		$this->out($help);

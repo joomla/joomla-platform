@@ -7,7 +7,7 @@
  * Dependencies: MooTools 1.4 or newer
  *
  * Inspired by
- *  ... Lokesh Dhakar	- The original Lightbox v2
+ *	... Lokesh Dhakar	- The original Lightbox v2
  *
  * @version		1.3
  *
@@ -129,7 +129,7 @@ var SqueezeBox = {
 			return !SqueezeBox.fromElement(this, options);
 		});
 	},
-	
+
 	open: function(subject, options) {
 		this.initialize();
 
@@ -158,7 +158,7 @@ var SqueezeBox = {
 			return false;
 		}, this);
 	},
-	
+
 	fromElement: function(from, options) {
 		return this.open(from, options);
 	},

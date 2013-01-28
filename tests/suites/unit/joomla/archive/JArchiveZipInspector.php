@@ -1,28 +1,28 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  Archive
+ * @package		 Joomla.UnitTest
+ * @subpackage	Archive
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Inspector for the JApplicationBase class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Archive
+ * @package		 Joomla.UnitTest
+ * @subpackage	Archive
  *
- * @since       12.2
+ * @since			 12.2
  */
 class JArchiveZipInspector extends JArchiveZip
 {
 	/**
 	 * Test...
 	 *
-	 * @param   string  $archive      @todo
-	 * @param   string  $destination  @todo
-	 * @param   array   $options      @todo
+	 * @param	 string	$archive			@todo
+	 * @param	 string	$destination	@todo
+	 * @param	 array	 $options			@todo
 	 *
 	 * @return mixed
 	 */
@@ -34,9 +34,9 @@ class JArchiveZipInspector extends JArchiveZip
 	/**
 	 * Test...
 	 *
-	 * @param   string  $archive      @todo
-	 * @param   string  $destination  @todo
-	 * @param   array   $options      @todo
+	 * @param	 string	$archive			@todo
+	 * @param	 string	$destination	@todo
+	 * @param	 array	 $options			@todo
 	 *
 	 * @return bool
 	 */

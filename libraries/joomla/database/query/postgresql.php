@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Database
+ * @package		 Joomla.Platform
+ * @subpackage	Database
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,54 +12,54 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Query Building Class.
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       11.3
+ * @package		 Joomla.Platform
+ * @subpackage	Database
+ * @since			 11.3
  */
 class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryLimitable
 {
 	/**
-	 * @var    object  The FOR UPDATE element used in "FOR UPDATE"  lock
-	 * @since  11.3
+	 * @var		object	The FOR UPDATE element used in "FOR UPDATE"	lock
+	 * @since	11.3
 	 */
 	protected $forUpdate = null;
 
 	/**
-	 * @var    object  The FOR SHARE element used in "FOR SHARE"  lock
-	 * @since  11.3
+	 * @var		object	The FOR SHARE element used in "FOR SHARE"	lock
+	 * @since	11.3
 	 */
 	protected $forShare = null;
 
 	/**
-	 * @var    object  The NOWAIT element used in "FOR SHARE" and "FOR UPDATE" lock
-	 * @since  11.3
+	 * @var		object	The NOWAIT element used in "FOR SHARE" and "FOR UPDATE" lock
+	 * @since	11.3
 	 */
 	protected $noWait = null;
 
 	/**
-	 * @var    object  The LIMIT element
-	 * @since  11.3
+	 * @var		object	The LIMIT element
+	 * @since	11.3
 	 */
 	protected $limit = null;
 
 	/**
-	 * @var    object  The OFFSET element
-	 * @since  11.3
+	 * @var		object	The OFFSET element
+	 * @since	11.3
 	 */
 	protected $offset = null;
 
 	/**
-	 * @var    object  The RETURNING element of INSERT INTO
-	 * @since  11.3
+	 * @var		object	The RETURNING element of INSERT INTO
+	 * @since	11.3
 	 */
 	protected $returning = null;
 
 	/**
 	 * Magic function to convert the query to a string, only for postgresql specific query
 	 *
-	 * @return  string	The completed query.
+	 * @return	string	The completed query.
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function __toString()
 	{
@@ -197,11 +197,11 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	/**
 	 * Clear data from the query or a specific clause of the query.
 	 *
-	 * @param   string  $clause  Optionally, the name of the clause to clear, or nothing to clear the whole query.
+	 * @param	 string	$clause	Optionally, the name of the clause to clear, or nothing to clear the whole query.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function clear($clause = null)
 	{
@@ -270,11 +270,11 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 * Usage:
 	 * $query->select($query->castAsChar('a'));
 	 *
-	 * @param   string  $value  The value to cast as a char.
+	 * @param	 string	$value	The value to cast as a char.
 	 *
-	 * @return  string  Returns the cast value.
+	 * @return	string	Returns the cast value.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function castAsChar($value)
 	{
@@ -287,12 +287,12 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 * Usage:
 	 * $query->select($query->concatenate(array('a', 'b')));
 	 *
-	 * @param   array   $values     An array of values to concatenate.
-	 * @param   string  $separator  As separator to place between each value.
+	 * @param	 array	 $values		 An array of values to concatenate.
+	 * @param	 string	$separator	As separator to place between each value.
 	 *
-	 * @return  string  The concatenated values.
+	 * @return	string	The concatenated values.
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function concatenate($values, $separator = null)
 	{
@@ -309,9 +309,9 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	/**
 	 * Gets the current date and time.
 	 *
-	 * @return  string  Return string used in query to obtain
+	 * @return	string	Return string used in query to obtain
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function currentTimestamp()
 	{
@@ -321,12 +321,12 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	/**
 	 * Sets the FOR UPDATE lock on select's output row
 	 *
-	 * @param   string   $table_name  The table to lock
-	 * @param   boolean  $glue        The glue by which to join the conditions. Defaults to ',' .
+	 * @param	 string	 $table_name	The table to lock
+	 * @param	 boolean	$glue				The glue by which to join the conditions. Defaults to ',' .
 	 *
-	 * @return  JDatabaseQuery  FOR UPDATE query element
+	 * @return	JDatabaseQuery	FOR UPDATE query element
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function forUpdate ($table_name, $glue = ',')
 	{
@@ -348,12 +348,12 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	/**
 	 * Sets the FOR SHARE lock on select's output row
 	 *
-	 * @param   string   $table_name  The table to lock
-	 * @param   boolean  $glue        The glue by which to join the conditions. Defaults to ',' .
+	 * @param	 string	 $table_name	The table to lock
+	 * @param	 boolean	$glue				The glue by which to join the conditions. Defaults to ',' .
 	 *
-	 * @return  JDatabaseQuery  FOR SHARE query element
+	 * @return	JDatabaseQuery	FOR SHARE query element
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function forShare ($table_name, $glue = ',')
 	{
@@ -378,11 +378,11 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 * Usage:
 	 * $query->select($query->year($query->quoteName('dateColumn')));
 	 *
-	 * @param   string  $date  Date column containing year to be extracted.
+	 * @param	 string	$date	Date column containing year to be extracted.
 	 *
-	 * @return  string  Returns string to extract year from a date.
+	 * @return	string	Returns string to extract year from a date.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function year($date)
 	{
@@ -395,11 +395,11 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 * Usage:
 	 * $query->select($query->month($query->quoteName('dateColumn')));
 	 *
-	 * @param   string  $date  Date column containing month to be extracted.
+	 * @param	 string	$date	Date column containing month to be extracted.
 	 *
-	 * @return  string  Returns string to extract month from a date.
+	 * @return	string	Returns string to extract month from a date.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function month($date)
 	{
@@ -412,11 +412,11 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 * Usage:
 	 * $query->select($query->day($query->quoteName('dateColumn')));
 	 *
-	 * @param   string  $date  Date column containing day to be extracted.
+	 * @param	 string	$date	Date column containing day to be extracted.
 	 *
-	 * @return  string  Returns string to extract day from a date.
+	 * @return	string	Returns string to extract day from a date.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function day($date)
 	{
@@ -429,11 +429,11 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 * Usage:
 	 * $query->select($query->hour($query->quoteName('dateColumn')));
 	 *
-	 * @param   string  $date  Date column containing hour to be extracted.
+	 * @param	 string	$date	Date column containing hour to be extracted.
 	 *
-	 * @return  string  Returns string to extract hour from a date.
+	 * @return	string	Returns string to extract hour from a date.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function hour($date)
 	{
@@ -446,11 +446,11 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 * Usage:
 	 * $query->select($query->minute($query->quoteName('dateColumn')));
 	 *
-	 * @param   string  $date  Date column containing minute to be extracted.
+	 * @param	 string	$date	Date column containing minute to be extracted.
 	 *
-	 * @return  string  Returns string to extract minute from a date.
+	 * @return	string	Returns string to extract minute from a date.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function minute($date)
 	{
@@ -463,11 +463,11 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 * Usage:
 	 * $query->select($query->second($query->quoteName('dateColumn')));
 	 *
-	 * @param   string  $date  Date column containing second to be extracted.
+	 * @param	 string	$date	Date column containing second to be extracted.
 	 *
-	 * @return  string  Returns string to extract second from a date.
+	 * @return	string	Returns string to extract second from a date.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function second($date)
 	{
@@ -477,9 +477,9 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	/**
 	 * Sets the NOWAIT lock on select's output row
 	 *
-	 * @return  JDatabaseQuery  NO WAIT query element
+	 * @return	JDatabaseQuery	NO WAIT query element
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function noWait ()
 	{
@@ -496,11 +496,11 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	/**
 	 * Set the LIMIT clause to the query
 	 *
-	 * @param   int  $limit  An int of how many row will be returned
+	 * @param	 int	$limit	An int of how many row will be returned
 	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function limit( $limit = 0 )
 	{
@@ -515,11 +515,11 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	/**
 	 * Set the OFFSET clause to the query
 	 *
-	 * @param   int  $offset  An int for skipping row
+	 * @param	 int	$offset	An int for skipping row
 	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function offset( $offset = 0 )
 	{
@@ -534,11 +534,11 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	/**
 	 * Add the RETURNING element to INSERT INTO statement.
 	 *
-	 * @param   mixed  $pkCol  The name of the primary key column.
+	 * @param	 mixed	$pkCol	The name of the primary key column.
 	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function returning( $pkCol )
 	{
@@ -557,16 +557,16 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 * $query->setLimit(100, 0); (retrieve 100 rows, starting at first record)
 	 * $query->setLimit(50, 50); (retrieve 50 rows, starting at 50th record)
 	 *
-	 * @param   integer  $limit   The limit for the result set
-	 * @param   integer  $offset  The offset for the result set
+	 * @param	 integer	$limit	 The limit for the result set
+	 * @param	 integer	$offset	The offset for the result set
 	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function setLimit($limit = 0, $offset = 0)
 	{
-		$this->limit  = (int) $limit;
+		$this->limit	= (int) $limit;
 		$this->offset = (int) $offset;
 
 		return $this;
@@ -577,9 +577,9 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 * additions to make the query limited to a particular number of
 	 * results, or start at a particular offset.
 	 *
-	 * @param   string   $query   The query in string format
-	 * @param   integer  $limit   The limit for the result set
-	 * @param   integer  $offset  The offset for the result set
+	 * @param	 string	 $query	 The query in string format
+	 * @param	 integer	$limit	 The limit for the result set
+	 * @param	 integer	$offset	The offset for the result set
 	 *
 	 * @return string
 	 *

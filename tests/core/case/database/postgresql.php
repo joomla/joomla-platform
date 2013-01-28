@@ -1,34 +1,34 @@
 <?php
 /**
- * @package    Joomla.Test
+ * @package		Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Abstract test case class for PostgreSQL database testing.
  *
- * @package  Joomla.Test
- * @since    12.1
+ * @package	Joomla.Test
+ * @since		12.1
  */
 abstract class TestCaseDatabasePostgresql extends TestCaseDatabase
 {
 	/**
-	 * @var    JDatabaseDriver  The active database driver being used for the tests.
-	 * @since  12.1
+	 * @var		JDatabaseDriver	The active database driver being used for the tests.
+	 * @since	12.1
 	 */
 	protected static $driver;
 
 	/**
-	 * @var    array  The JDatabaseDriver options for the connection.
-	 * @since  12.1
+	 * @var		array	The JDatabaseDriver options for the connection.
+	 * @since	12.1
 	 */
 	private static $_options = array('driver' => 'postgresql');
 
 	/**
-	 * @var    JDatabaseDriver  The saved database driver to be restored after these tests.
-	 * @since  12.1
+	 * @var		JDatabaseDriver	The saved database driver to be restored after these tests.
+	 * @since	12.1
 	 */
 	private static $_stash;
 
@@ -37,9 +37,9 @@ abstract class TestCaseDatabasePostgresql extends TestCaseDatabase
 	 *
 	 * An example DSN would be: host=localhost;port=5432;dbname=joomla_ut;user=utuser;pass=ut1234
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public static function setUpBeforeClass()
 	{
@@ -111,9 +111,9 @@ abstract class TestCaseDatabasePostgresql extends TestCaseDatabase
 	/**
 	 * This method is called after the last test of this test class is run.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public static function tearDownAfterClass()
 	{
@@ -124,9 +124,9 @@ abstract class TestCaseDatabasePostgresql extends TestCaseDatabase
 	/**
 	 * Returns the default database connection for running the tests.
 	 *
-	 * @return  PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection
+	 * @return	PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function getConnection()
 	{

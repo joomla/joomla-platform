@@ -28,9 +28,9 @@ The factory class provides access to the feed class, its children, and their pro
 
 The main class is the feed class which includes properties describing the feed as a whole: the feed uri, title, date of most recent update, description, categories and contributors. Magic get and set methods allow access to these and other methods allow more fine grained manipulation. The same is true for the child classes.
 
-The entry class, JFeedEntry, manages data about individual entries in the feed. 
+The entry class, JFeedEntry, manages data about individual entries in the feed.
 The person class JFeedPerson, manages data about individual persons connected with the feed, typically authors, contributors or the person responsible for the feed as a whole.
-The link class, JFeedLink, manages data about individual links in a feed. Among other things it is used to construct html links to entries. 
+The link class, JFeedLink, manages data about individual links in a feed. Among other things it is used to construct html links to entries.
 
 ```php
 	// Show the feed description
@@ -42,7 +42,7 @@ The link class, JFeedLink, manages data about individual links in a feed. Among 
 
 ```
 
-JFeedParser creates an XMLReader to manage parsing feed objects. Rss and atom are supported. 
+JFeedParser creates an XMLReader to manage parsing feed objects. Rss and atom are supported.
 
 This example shows a simple example of how a complete feed might be rendered. Always keep in mind that not all feeds will support all elements, which means that the existence of an element should be checked for before attempting to use it. Some differences between Atom and RSS (such as use of guid) can also be incorporated by checking for their presence.
 
@@ -61,7 +61,7 @@ if (isset($feedDoc->description))
 }
 if (isset($feedDoc->image))
 {
-	echo  '<img src="' . $feedDoc->image . '"/>';
+	echo	'<img src="' . $feedDoc->image . '"/>';
 }
 if (!empty($this->rssDoc[0]))
 {
@@ -84,7 +84,7 @@ if (!empty($this->rssDoc[0]))
 
 
 ## Namespacing Support
-Namespacing in feeds is used to add specialized elements to a feed. Some are widely used but individual feeds may also have customized namespacing. JFeed supports  dependency injection for namespacing. Currently media and itunes support is implemented. 
+Namespacing in feeds is used to add specialized elements to a feed. Some are widely used but individual feeds may also have customized namespacing. JFeed supports	dependency injection for namespacing. Currently media and itunes support is implemented.
 
 #### More Information
 

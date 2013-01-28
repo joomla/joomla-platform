@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Cache
+ * @package		 Joomla.Platform
+ * @subpackage	Cache
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,9 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! Cache callback type object
  *
- * @package     Joomla.Platform
- * @subpackage  Cache
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Cache
+ * @since			 11.1
  */
 class JCacheControllerCallback extends JCacheController
 {
@@ -30,9 +30,9 @@ class JCacheControllerCallback extends JCacheController
 	 * - Function name as a string eg. 'foo' for function foo()
 	 * - Static method name as a string eg. 'MyClass::myMethod' for method myMethod() of class MyClass
 	 *
-	 * @return  mixed  Result of the callback
+	 * @return	mixed	Result of the callback
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function call()
 	{
@@ -46,15 +46,15 @@ class JCacheControllerCallback extends JCacheController
 	/**
 	 * Executes a cacheable callback if not found in cache else returns cached output and result
 	 *
-	 * @param   mixed    $callback    Callable or string shorthand for a callback
-	 * @param   array    $args        Callback arguments
-	 * @param   string   $id          Cache id
-	 * @param   boolean  $wrkarounds  True to use wrkarounds
-	 * @param   array    $woptions    Workaround options
+	 * @param	 mixed		$callback		Callable or string shorthand for a callback
+	 * @param	 array		$args				Callback arguments
+	 * @param	 string	 $id					Cache id
+	 * @param	 boolean	$wrkarounds	True to use wrkarounds
+	 * @param	 array		$woptions		Workaround options
 	 *
-	 * @return  mixed  Result of the callback
+	 * @return	mixed	Result of the callback
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function get($callback, $args = array(), $id = false, $wrkarounds = false, $woptions = array())
 	{
@@ -74,7 +74,7 @@ class JCacheControllerCallback extends JCacheController
 		{
 			/*
 			 * This is a really not so smart way of doing this... we provide this for backward compatability but this
-			 * WILL! disappear in a future version.  If you are using this syntax change your code to use the standard
+			 * WILL! disappear in a future version.	If you are using this syntax change your code to use the standard
 			 * PHP callback array syntax: <http://php.net/callback>
 			 *
 			 * We have to use some silly global notation to pull it off and this is very unreliable
@@ -188,12 +188,12 @@ class JCacheControllerCallback extends JCacheController
 	/**
 	 * Generate a callback cache id
 	 *
-	 * @param   callable  $callback  Callback to cache
-	 * @param   array     $args      Arguments to the callback method to cache
+	 * @param	 callable	$callback	Callback to cache
+	 * @param	 array		 $args			Arguments to the callback method to cache
 	 *
-	 * @return  string  MD5 Hash : function cache id
+	 * @return	string	MD5 Hash : function cache id
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected function _makeId($callback, $args)
 	{

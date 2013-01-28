@@ -1,26 +1,26 @@
 <?php
 /**
- * @package    Joomla.UnitTest
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
- * @license    GNU General Public License
+ * @package		Joomla.UnitTest
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
+ * @license		GNU General Public License
  */
 
 /**
  * Mock class for JModel.
  *
- * @package  Joomla.UnitTest
- * @since    12.1
+ * @package	Joomla.UnitTest
+ * @since		12.1
  */
 class JModelMock
 {
 	/**
 	 * Creates and instance of the mock JModel object.
 	 *
-	 * @param   object  $test  A test object.
+	 * @param	 object	$test	A test object.
 	 *
-	 * @return  object
+	 * @return	object
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public static function create($test)
 	{

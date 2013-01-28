@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Installer
+ * @package		 Joomla.Platform
+ * @subpackage	Installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,10 +12,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! Library Manifest File
  *
- * @package     Joomla.Platform
- * @subpackage  Installer
- * @since       11.1
- * @deprecated  13.3
+ * @package		 Joomla.Platform
+ * @subpackage	Installer
+ * @since			 11.1
+ * @deprecated	13.3
  */
 class JInstallerManifestLibrary extends JInstallerManifest
 {
@@ -57,25 +57,25 @@ class JInstallerManifestLibrary extends JInstallerManifest
 	/**
 	 * Apply manifest data from a SimpleXMLElement to the object.
 	 *
-	 * @param   SimpleXMLElement  $xml  Data to load
+	 * @param	 SimpleXMLElement	$xml	Data to load
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.2
+	 * @since	 12.2
 	 */
 	protected function loadManifestFromData(SimpleXmlElement $xml)
 	{
-		$this->name         = (string) $xml->name;
-		$this->libraryname  = (string) $xml->libraryname;
-		$this->version      = (string) $xml->version;
-		$this->description  = (string) $xml->description;
+		$this->name				 = (string) $xml->name;
+		$this->libraryname	= (string) $xml->libraryname;
+		$this->version			= (string) $xml->version;
+		$this->description	= (string) $xml->description;
 		$this->creationdate = (string) $xml->creationDate;
-		$this->author       = (string) $xml->author;
-		$this->authoremail  = (string) $xml->authorEmail;
-		$this->authorurl    = (string) $xml->authorUrl;
-		$this->packager     = (string) $xml->packager;
-		$this->packagerurl  = (string) $xml->packagerurl;
-		$this->update       = (string) $xml->update;
+		$this->author			 = (string) $xml->author;
+		$this->authoremail	= (string) $xml->authorEmail;
+		$this->authorurl		= (string) $xml->authorUrl;
+		$this->packager		 = (string) $xml->packager;
+		$this->packagerurl	= (string) $xml->packagerurl;
+		$this->update			 = (string) $xml->update;
 
 		if (isset($xml->files) && isset($xml->files->file) && count($xml->files->file))
 		{

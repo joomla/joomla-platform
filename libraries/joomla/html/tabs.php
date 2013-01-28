@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  HTML
+ * @package		 Joomla.Platform
+ * @subpackage	HTML
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,21 +12,21 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for Tabs elements.
  *
- * @package     Joomla.Platform
- * @subpackage  HTML
- * @since       11.2
+ * @package		 Joomla.Platform
+ * @subpackage	HTML
+ * @since			 11.2
  */
 abstract class JHtmlTabs
 {
 	/**
 	 * Creates a panes and creates the JavaScript object for it.
 	 *
-	 * @param   string  $group   The pane identifier.
-	 * @param   array   $params  An array of option.
+	 * @param	 string	$group	 The pane identifier.
+	 * @param	 array	 $params	An array of option.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function start($group = 'tabs', $params = array())
 	{
@@ -38,9 +38,9 @@ abstract class JHtmlTabs
 	/**
 	 * Close the current pane
 	 *
-	 * @return  string  HTML to close the pane
+	 * @return	string	HTML to close the pane
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function end()
 	{
@@ -50,12 +50,12 @@ abstract class JHtmlTabs
 	/**
 	 * Begins the display of a new panel.
 	 *
-	 * @param   string  $text  Text to display.
-	 * @param   string  $id    Identifier of the panel.
+	 * @param	 string	$text	Text to display.
+	 * @param	 string	$id		Identifier of the panel.
 	 *
-	 * @return  string  HTML to start a new panel
+	 * @return	string	HTML to start a new panel
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public static function panel($text, $id)
 	{
@@ -65,12 +65,12 @@ abstract class JHtmlTabs
 	/**
 	 * Load the JavaScript behavior.
 	 *
-	 * @param   string  $group   The pane identifier.
-	 * @param   array   $params  Array of options.
+	 * @param	 string	$group	 The pane identifier.
+	 * @param	 array	 $params	Array of options.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	protected static function _loadBehavior($group, $params = array())
 	{
@@ -81,11 +81,11 @@ abstract class JHtmlTabs
 			// Include MooTools framework
 			JHtml::_('behavior.framework', true);
 
-			$opt['onActive']            = (isset($params['onActive'])) ? '\\' . $params['onActive'] : null;
-			$opt['onBackground']        = (isset($params['onBackground'])) ? '\\' . $params['onBackground'] : null;
-			$opt['display']             = (isset($params['startOffset'])) ? (int) $params['startOffset'] : null;
-			$opt['useStorage']          = (isset($params['useCookie']) && $params['useCookie']) ? 'true' : 'false';
-			$opt['titleSelector']       = "dt.tabs";
+			$opt['onActive']						= (isset($params['onActive'])) ? '\\' . $params['onActive'] : null;
+			$opt['onBackground']				= (isset($params['onBackground'])) ? '\\' . $params['onBackground'] : null;
+			$opt['display']						 = (isset($params['startOffset'])) ? (int) $params['startOffset'] : null;
+			$opt['useStorage']					= (isset($params['useCookie']) && $params['useCookie']) ? 'true' : 'false';
+			$opt['titleSelector']			 = "dt.tabs";
 			$opt['descriptionSelector'] = "dd.tabs";
 
 			$options = JHtml::getJSObject($opt);

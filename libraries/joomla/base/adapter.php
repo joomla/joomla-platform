@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Base
+ * @package		 Joomla.Platform
+ * @subpackage	Base
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -14,57 +14,57 @@ defined('JPATH_PLATFORM') or die;
  * Retains common adapter pattern functions
  * Class harvested from joomla.installer.installer
  *
- * @package     Joomla.Platform
- * @subpackage  Base
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Base
+ * @since			 11.1
  */
 class JAdapter extends JObject
 {
 	/**
 	 * Associative array of adapters
 	 *
-	 * @var    array
-	 * @since  11.1
+	 * @var		array
+	 * @since	11.1
 	 */
 	protected $_adapters = array();
 
 	/**
 	 * Adapter Folder
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $_adapterfolder = 'adapters';
 
 	/**
-	 * @var    string	Adapter Class Prefix
-	 * @since  11.1
+	 * @var		string	Adapter Class Prefix
+	 * @since	11.1
 	 */
 	protected $_classprefix = 'J';
 
 	/**
 	 * Base Path for the adapter instance
 	 *
-	 * @var    string
-	 * @since  11.1
+	 * @var		string
+	 * @since	11.1
 	 */
 	protected $_basepath = null;
 
 	/**
 	 * Database Connector Object
 	 *
-	 * @var    JDatabaseDriver
-	 * @since  11.1
+	 * @var		JDatabaseDriver
+	 * @since	11.1
 	 */
 	protected $_db;
 
 	/**
 	 * Constructor
 	 *
-	 * @param   string  $basepath       Base Path of the adapters
-	 * @param   string  $classprefix    Class prefix of adapters
-	 * @param   string  $adapterfolder  Name of folder to append to base path
+	 * @param	 string	$basepath			 Base Path of the adapters
+	 * @param	 string	$classprefix		Class prefix of adapters
+	 * @param	 string	$adapterfolder	Name of folder to append to base path
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __construct($basepath, $classprefix = null, $adapterfolder = null)
 	{
@@ -78,9 +78,9 @@ class JAdapter extends JObject
 	/**
 	 * Get the database connector object
 	 *
-	 * @return  JDatabaseDriver  Database connector object
+	 * @return	JDatabaseDriver	Database connector object
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getDBO()
 	{
@@ -90,13 +90,13 @@ class JAdapter extends JObject
 	/**
 	 * Set an adapter by name
 	 *
-	 * @param   string  $name      Adapter name
-	 * @param   object  &$adapter  Adapter object
-	 * @param   array   $options   Adapter options
+	 * @param	 string	$name			Adapter name
+	 * @param	 object	&$adapter	Adapter object
+	 * @param	 array	 $options	 Adapter options
 	 *
-	 * @return  boolean  True if successful
+	 * @return	boolean	True if successful
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function setAdapter($name, &$adapter = null, $options = array())
 	{
@@ -130,12 +130,12 @@ class JAdapter extends JObject
 	/**
 	 * Return an adapter.
 	 *
-	 * @param   string  $name     Name of adapter to return
-	 * @param   array   $options  Adapter options
+	 * @param	 string	$name		 Name of adapter to return
+	 * @param	 array	 $options	Adapter options
 	 *
-	 * @return  object  Adapter of type 'name' or false
+	 * @return	object	Adapter of type 'name' or false
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getAdapter($name, $options = array())
 	{
@@ -155,11 +155,11 @@ class JAdapter extends JObject
 	/**
 	 * Loads all adapters.
 	 *
-	 * @param   array  $options  Adapter options
+	 * @param	 array	$options	Adapter options
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function loadAllAdapters($options = array())
 	{

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  View
+ * @package		 Joomla.UnitTest
+ * @subpackage	View
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 JLoader::register('HtmlView', __DIR__ . '/stubs/thtml.php');
@@ -13,25 +13,25 @@ JLoader::register('JModelMock', __DIR__ . '/mocks/JModelMock.php');
 /**
  * Tests for the JViewHtml class.
  *
- * @package     Joomla.UnitTest
- * @subpackage  View
- * @since       12.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	View
+ * @since			 12.1
  */
 class JViewHtmlTest extends TestCase
 {
 	/**
-	 * @var    JViewHtml
-	 * @since  12.1
+	 * @var		JViewHtml
+	 * @since	12.1
 	 */
 	private $_instance;
 
 	/**
 	 * Tests the __construct method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JViewHtml::__construct
-	 * @since   12.1
+	 * @covers	JViewHtml::__construct
+	 * @since	 12.1
 	 */
 	public function test__construct()
 	{
@@ -48,10 +48,10 @@ class JViewHtmlTest extends TestCase
 	/**
 	 * Tests the __toString method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JViewHtml::__toString
-	 * @since   12.1
+	 * @covers	JViewHtml::__toString
+	 * @since	 12.1
 	 */
 	public function test__toString()
 	{
@@ -66,10 +66,10 @@ class JViewHtmlTest extends TestCase
 	/**
 	 * Tests the escape method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JViewHtml::escape
-	 * @since   12.1
+	 * @covers	JViewHtml::escape
+	 * @since	 12.1
 	 */
 	public function testEscape()
 	{
@@ -79,10 +79,10 @@ class JViewHtmlTest extends TestCase
 	/**
 	 * Tests the getLayout method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JViewHtml::getLayout
-	 * @since   12.1
+	 * @covers	JViewHtml::getLayout
+	 * @since	 12.1
 	 */
 	public function testGetLayout()
 	{
@@ -94,10 +94,10 @@ class JViewHtmlTest extends TestCase
 	/**
 	 * Tests the getPath method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JViewHtml::getPath
-	 * @since   12.1
+	 * @covers	JViewHtml::getPath
+	 * @since	 12.1
 	 */
 	public function testGetPath()
 	{
@@ -121,10 +121,10 @@ class JViewHtmlTest extends TestCase
 	/**
 	 * Tests the getPaths method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JViewHtml::getPaths
-	 * @since   12.1
+	 * @covers	JViewHtml::getPaths
+	 * @since	 12.1
 	 */
 	public function testGetPaths()
 	{
@@ -138,10 +138,10 @@ class JViewHtmlTest extends TestCase
 	/**
 	 * Tests the render method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JViewHtml::render
-	 * @since   12.1
+	 * @covers	JViewHtml::render
+	 * @since	 12.1
 	 */
 	public function testRender()
 	{
@@ -157,12 +157,12 @@ class JViewHtmlTest extends TestCase
 	/**
 	 * Tests the render method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JViewHtml::render
-	 * @since   12.1
+	 * @covers	JViewHtml::render
+	 * @since	 12.1
 	 *
-	 * @expectedException  RuntimeException
+	 * @expectedException	RuntimeException
 	 */
 	public function testRender_exception()
 	{
@@ -172,10 +172,10 @@ class JViewHtmlTest extends TestCase
 	/**
 	 * Tests the setLayout method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JViewHtml::setLayout
-	 * @since   12.1
+	 * @covers	JViewHtml::setLayout
+	 * @since	 12.1
 	 */
 	public function testSetLayout()
 	{
@@ -187,10 +187,10 @@ class JViewHtmlTest extends TestCase
 	/**
 	 * Tests the setPaths method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JViewHtml::setPaths
-	 * @since   12.1
+	 * @covers	JViewHtml::setPaths
+	 * @since	 12.1
 	 */
 	public function testSetPaths()
 	{
@@ -205,10 +205,10 @@ class JViewHtmlTest extends TestCase
 	/**
 	 * Tests the loadPaths method.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @covers  JViewHtml::loadPaths
-	 * @since   12.1
+	 * @covers	JViewHtml::loadPaths
+	 * @since	 12.1
 	 */
 	public function testLoadPaths()
 	{
@@ -218,9 +218,9 @@ class JViewHtmlTest extends TestCase
 	/**
 	 * Setup the tests.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function setUp()
 	{

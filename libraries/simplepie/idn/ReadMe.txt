@@ -1,11 +1,11 @@
 *******************************************************************************
-*                                                                             *
-*                    IDNA Convert (idna_convert.class.php)                    *
-*                                                                             *
-* http://idnaconv.phlymail.de                     mailto:phlymail@phlylabs.de *
+*																																						 *
+*										IDNA Convert (idna_convert.class.php)										*
+*																																						 *
+* http://idnaconv.phlymail.de										 mailto:phlymail@phlylabs.de *
 *******************************************************************************
-* (c) 2004-2007 phlyLabs, Berlin                                              *
-* This file is encoded in UTF-8                                               *
+* (c) 2004-2007 phlyLabs, Berlin																							*
+* This file is encoded in UTF-8																							 *
 *******************************************************************************
 
 Introduction
@@ -43,12 +43,12 @@ with the upcoming PHP6, too.
 Files
 -----
 
-idna_convert.class.php         - The actual class
+idna_convert.class.php				 - The actual class
 idna_convert.create.npdata.php - Useful for (re)creating the NPData file
-npdata.ser                     - Serialized data for NamePrep
-example.php                    - An example web page for converting
-ReadMe.txt                     - This file
-LICENCE                        - The LGPL licence file
+npdata.ser										 - Serialized data for NamePrep
+example.php										- An example web page for converting
+ReadMe.txt										 - This file
+LICENCE												- The LGPL licence file
 
 The class is contained in idna_convert.class.php.
 MAKE SURE to copy the npdata.ser file into the same folder as the class file
@@ -73,7 +73,7 @@ echo $output; // This will read: xn--nrgler-wxa.com
 
 
 2. We received an email from a punycoded domain and are willing to learn, how
-   the domain name reads originally
+	 the domain name reads originally
 
 // Include the class
 include_once('idna_convert.class.php');
@@ -89,8 +89,8 @@ echo utf8_decode($output); // This will read: andre@börse.knörz.info
 
 
 3. The input is read from a UCS-4 coded file and encoded line by line. By
-   appending the optional second parameter we tell enode() about the input
-   format to be used
+	 appending the optional second parameter we tell enode() about the input
+	 format to be used
 
 // Include the class
 include_once('idna_convert.class.php');
@@ -98,8 +98,8 @@ include_once('idna_convert.class.php');
 $IDN = new dinca_convert();
 // Iterate through the input file line by line
 foreach (file('ucs4-domains.txt') as $line) {
-    echo $IDN->encode(trim($line), 'ucs4_string');
-    echo "\n";
+		echo $IDN->encode(trim($line), 'ucs4_string');
+		echo "\n";
 }
 
 

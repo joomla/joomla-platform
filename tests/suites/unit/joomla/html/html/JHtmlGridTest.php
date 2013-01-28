@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.UnitTest
- * @subpackage  HTML
+ * @package		 Joomla.UnitTest
+ * @subpackage	HTML
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM . '/joomla/html/grid.php';
@@ -12,9 +12,9 @@ require_once JPATH_PLATFORM . '/joomla/html/grid.php';
 /**
  * Test class for JHtmlGrid.
  *
- * @package     Joomla.UnitTest
- * @subpackage  Html
- * @since       11.1
+ * @package		 Joomla.UnitTest
+ * @subpackage	Html
+ * @since			 11.1
  */
 class JHtmlGridTest extends PHPUnit_Framework_TestCase
 {

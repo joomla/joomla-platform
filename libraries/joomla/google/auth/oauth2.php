@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Google
+ * @package		 Joomla.Platform
+ * @subpackage	Google
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -13,25 +13,25 @@ jimport('joomla.oauth.v2client');
 /**
  * Google OAuth authentication class
  *
- * @package     Joomla.Platform
- * @subpackage  Google
- * @since       12.3
+ * @package		 Joomla.Platform
+ * @subpackage	Google
+ * @since			 12.3
  */
 class JGoogleAuthOauth2 extends JGoogleAuth
 {
 	/**
-	 * @var    JOAuth2Client  OAuth client for the Google authentication object.
-	 * @since  12.3
+	 * @var		JOAuth2Client	OAuth client for the Google authentication object.
+	 * @since	12.3
 	 */
 	protected $client;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry      $options  JGoogleAuth options object.
-	 * @param   JOAuth2Client  $client   OAuth client for Google authentication.
+	 * @param	 JRegistry			$options	JGoogleAuth options object.
+	 * @param	 JOAuth2Client	$client	 OAuth client for Google authentication.
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function __construct(JRegistry $options = null, JOAuth2Client $client = null)
 	{
@@ -42,9 +42,9 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 	/**
 	 * Method to authenticate to Google
 	 *
-	 * @return  boolean  True on success.
+	 * @return	boolean	True on success.
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function authenticate()
 	{
@@ -56,9 +56,9 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 	/**
 	 * Verify if the client has been authenticated
 	 *
-	 * @return  boolean  Is authenticated
+	 * @return	boolean	Is authenticated
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function isAuthenticated()
 	{
@@ -68,14 +68,14 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 	/**
 	 * Method to retrieve data from Google
 	 *
-	 * @param   string  $url      The URL for the request.
-	 * @param   mixed   $data     The data to include in the request.
-	 * @param   array   $headers  The headers to send with the request.
-	 * @param   string  $method   The type of http request to send.
+	 * @param	 string	$url			The URL for the request.
+	 * @param	 mixed	 $data		 The data to include in the request.
+	 * @param	 array	 $headers	The headers to send with the request.
+	 * @param	 string	$method	 The type of http request to send.
 	 *
-	 * @return  mixed  Data from Google.
+	 * @return	mixed	Data from Google.
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function query($url, $data = null, $headers = null, $method = 'get')
 	{
@@ -87,9 +87,9 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 	/**
 	 * Method to fill in Google-specific OAuth settings
 	 *
-	 * @return  JOAuth2Client  Google-configured Oauth2 client.
+	 * @return	JOAuth2Client	Google-configured Oauth2 client.
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	protected function googlize()
 	{

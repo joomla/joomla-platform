@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Database
+ * @package		 Joomla.Platform
+ * @subpackage	Database
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,42 +12,42 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Query Element Class.
  *
- * @property-read    string  $name      The name of the element.
- * @property-read    array   $elements  An array of elements.
- * @property-read    string  $glue      Glue piece.
+ * @property-read		string	$name			The name of the element.
+ * @property-read		array	 $elements	An array of elements.
+ * @property-read		string	$glue			Glue piece.
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Database
+ * @since			 11.1
  */
 class JDatabaseQueryElement
 {
 	/**
-	 * @var    string  The name of the element.
-	 * @since  11.1
+	 * @var		string	The name of the element.
+	 * @since	11.1
 	 */
 	protected $name = null;
 
 	/**
-	 * @var    array  An array of elements.
-	 * @since  11.1
+	 * @var		array	An array of elements.
+	 * @since	11.1
 	 */
 	protected $elements = null;
 
 	/**
-	 * @var    string  Glue piece.
-	 * @since  11.1
+	 * @var		string	Glue piece.
+	 * @since	11.1
 	 */
 	protected $glue = null;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   string  $name      The name of the element.
-	 * @param   mixed   $elements  String or array.
-	 * @param   string  $glue      The glue for elements.
+	 * @param	 string	$name			The name of the element.
+	 * @param	 mixed	 $elements	String or array.
+	 * @param	 string	$glue			The glue for elements.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __construct($name, $elements, $glue = ',')
 	{
@@ -61,9 +61,9 @@ class JDatabaseQueryElement
 	/**
 	 * Magic function to convert the query element to a string.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __toString()
 	{
@@ -80,11 +80,11 @@ class JDatabaseQueryElement
 	/**
 	 * Appends element parts to the internal list.
 	 *
-	 * @param   mixed  $elements  String or array.
+	 * @param	 mixed	$elements	String or array.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function append($elements)
 	{
@@ -101,9 +101,9 @@ class JDatabaseQueryElement
 	/**
 	 * Gets the elements of this element.
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function getElements()
 	{
@@ -114,9 +114,9 @@ class JDatabaseQueryElement
 	 * Method to provide deep copy support to nested objects and arrays
 	 * when cloning.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function __clone()
 	{
@@ -133,151 +133,151 @@ class JDatabaseQueryElement
 /**
  * Query Building Class.
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       11.1
+ * @package		 Joomla.Platform
+ * @subpackage	Database
+ * @since			 11.1
  *
- * @method      string  q()   q($text, $escape = true)  Alias for quote method
- * @method      string  qn()  qs($name, $as = null)     Alias for quoteName method
- * @method      string  e()   e($text, $extra = false)   Alias for escape method
+ * @method			string	q()	 q($text, $escape = true)	Alias for quote method
+ * @method			string	qn()	qs($name, $as = null)		 Alias for quoteName method
+ * @method			string	e()	 e($text, $extra = false)	 Alias for escape method
  */
 abstract class JDatabaseQuery
 {
 	/**
-	 * @var    JDatabaseDriver  The database driver.
-	 * @since  11.1
+	 * @var		JDatabaseDriver	The database driver.
+	 * @since	11.1
 	 */
 	protected $db = null;
 
 	/**
-	 * @var    string  The SQL query (if a direct query string was provided).
-	 * @since  12.1
+	 * @var		string	The SQL query (if a direct query string was provided).
+	 * @since	12.1
 	 */
 	protected $sql = null;
 
 	/**
-	 * @var    string  The query type.
-	 * @since  11.1
+	 * @var		string	The query type.
+	 * @since	11.1
 	 */
 	protected $type = '';
 
 	/**
-	 * @var    JDatabaseQueryElement  The query element for a generic query (type = null).
-	 * @since  11.1
+	 * @var		JDatabaseQueryElement	The query element for a generic query (type = null).
+	 * @since	11.1
 	 */
 	protected $element = null;
 
 	/**
-	 * @var    JDatabaseQueryElement  The select element.
-	 * @since  11.1
+	 * @var		JDatabaseQueryElement	The select element.
+	 * @since	11.1
 	 */
 	protected $select = null;
 
 	/**
-	 * @var    JDatabaseQueryElement  The delete element.
-	 * @since  11.1
+	 * @var		JDatabaseQueryElement	The delete element.
+	 * @since	11.1
 	 */
 	protected $delete = null;
 
 	/**
-	 * @var    JDatabaseQueryElement  The update element.
-	 * @since  11.1
+	 * @var		JDatabaseQueryElement	The update element.
+	 * @since	11.1
 	 */
 	protected $update = null;
 
 	/**
-	 * @var    JDatabaseQueryElement  The insert element.
-	 * @since  11.1
+	 * @var		JDatabaseQueryElement	The insert element.
+	 * @since	11.1
 	 */
 	protected $insert = null;
 
 	/**
-	 * @var    JDatabaseQueryElement  The from element.
-	 * @since  11.1
+	 * @var		JDatabaseQueryElement	The from element.
+	 * @since	11.1
 	 */
 	protected $from = null;
 
 	/**
-	 * @var    JDatabaseQueryElement  The join element.
-	 * @since  11.1
+	 * @var		JDatabaseQueryElement	The join element.
+	 * @since	11.1
 	 */
 	protected $join = null;
 
 	/**
-	 * @var    JDatabaseQueryElement  The set element.
-	 * @since  11.1
+	 * @var		JDatabaseQueryElement	The set element.
+	 * @since	11.1
 	 */
 	protected $set = null;
 
 	/**
-	 * @var    JDatabaseQueryElement  The where element.
-	 * @since  11.1
+	 * @var		JDatabaseQueryElement	The where element.
+	 * @since	11.1
 	 */
 	protected $where = null;
 
 	/**
-	 * @var    JDatabaseQueryElement  The group by element.
-	 * @since  11.1
+	 * @var		JDatabaseQueryElement	The group by element.
+	 * @since	11.1
 	 */
 	protected $group = null;
 
 	/**
-	 * @var    JDatabaseQueryElement  The having element.
-	 * @since  11.1
+	 * @var		JDatabaseQueryElement	The having element.
+	 * @since	11.1
 	 */
 	protected $having = null;
 
 	/**
-	 * @var    JDatabaseQueryElement  The column list for an INSERT statement.
-	 * @since  11.1
+	 * @var		JDatabaseQueryElement	The column list for an INSERT statement.
+	 * @since	11.1
 	 */
 	protected $columns = null;
 
 	/**
-	 * @var    JDatabaseQueryElement  The values list for an INSERT statement.
-	 * @since  11.1
+	 * @var		JDatabaseQueryElement	The values list for an INSERT statement.
+	 * @since	11.1
 	 */
 	protected $values = null;
 
 	/**
-	 * @var    JDatabaseQueryElement  The order element.
-	 * @since  11.1
+	 * @var		JDatabaseQueryElement	The order element.
+	 * @since	11.1
 	 */
 	protected $order = null;
 
 	/**
-	 * @var   object  The auto increment insert field element.
+	 * @var	 object	The auto increment insert field element.
 	 * @since 11.1
 	 */
 	protected $autoIncrementField = null;
 
 	/**
-	 * @var    JDatabaseQueryElement  The call element.
-	 * @since  12.1
+	 * @var		JDatabaseQueryElement	The call element.
+	 * @since	12.1
 	 */
 	protected $call = null;
 
 	/**
-	 * @var    JDatabaseQueryElement  The exec element.
-	 * @since  12.1
+	 * @var		JDatabaseQueryElement	The exec element.
+	 * @since	12.1
 	 */
 	protected $exec = null;
 
 	/**
-	 * @var    JDatabaseQueryElement  The union element.
-	 * @since  12.1
+	 * @var		JDatabaseQueryElement	The union element.
+	 * @since	12.1
 	 */
 	protected $union = null;
 
 	/**
 	 * Magic method to provide method alias support for quote() and quoteName().
 	 *
-	 * @param   string  $method  The called method.
-	 * @param   array   $args    The array of arguments passed to the method.
+	 * @param	 string	$method	The called method.
+	 * @param	 array	 $args		The array of arguments passed to the method.
 	 *
-	 * @return  string  The aliased method's return value or null.
+	 * @return	string	The aliased method's return value or null.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __call($method, $args)
 	{
@@ -305,9 +305,9 @@ abstract class JDatabaseQuery
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JDatabaseDriver  $db  The database driver.
+	 * @param	 JDatabaseDriver	$db	The database driver.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __construct(JDatabaseDriver $db = null)
 	{
@@ -317,9 +317,9 @@ abstract class JDatabaseQuery
 	/**
 	 * Magic function to convert the query to a string.
 	 *
-	 * @return  string	The completed query.
+	 * @return	string	The completed query.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __toString()
 	{
@@ -464,11 +464,11 @@ abstract class JDatabaseQuery
 	/**
 	 * Magic function to get protected variable value
 	 *
-	 * @param   string  $name  The name of the variable.
+	 * @param	 string	$name	The name of the variable.
 	 *
-	 * @return  mixed
+	 * @return	mixed
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function __get($name)
 	{
@@ -485,11 +485,11 @@ abstract class JDatabaseQuery
 	 * $query->call('a.*')->call('b.id');
 	 * $query->call(array('a.*', 'b.id'));
 	 *
-	 * @param   mixed  $columns  A string or an array of field names.
+	 * @param	 mixed	$columns	A string or an array of field names.
 	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function call($columns)
 	{
@@ -515,11 +515,11 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->select($query->castAsChar('a'));
 	 *
-	 * @param   string  $value  The value to cast as a char.
+	 * @param	 string	$value	The value to cast as a char.
 	 *
-	 * @return  string  Returns the cast value.
+	 * @return	string	Returns the cast value.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function castAsChar($value)
 	{
@@ -534,11 +534,11 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->select($query->charLength('a'));
 	 *
-	 * @param   string  $field      A value.
-	 * @param   string  $operator   Comparison operator between charLength integer value and $condition
-	 * @param   string  $condition  Integer value to compare charLength with.
+	 * @param	 string	$field			A value.
+	 * @param	 string	$operator	 Comparison operator between charLength integer value and $condition
+	 * @param	 string	$condition	Integer value to compare charLength with.
 	 *
-	 * @return  string  The required char length call.
+	 * @return	string	The required char length call.
 	 *
 	 * @since 11.1
 	 */
@@ -550,11 +550,11 @@ abstract class JDatabaseQuery
 	/**
 	 * Clear data from the query or a specific clause of the query.
 	 *
-	 * @param   string  $clause  Optionally, the name of the clause to clear, or nothing to clear the whole query.
+	 * @param	 string	$clause	Optionally, the name of the clause to clear, or nothing to clear the whole query.
 	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function clear($clause = null)
 	{
@@ -668,11 +668,11 @@ abstract class JDatabaseQuery
 	/**
 	 * Adds a column, or array of column names that would be used for an INSERT INTO statement.
 	 *
-	 * @param   mixed  $columns  A column name, or array of column names.
+	 * @param	 mixed	$columns	A column name, or array of column names.
 	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function columns($columns)
 	{
@@ -694,12 +694,12 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->select($query->concatenate(array('a', 'b')));
 	 *
-	 * @param   array   $values     An array of values to concatenate.
-	 * @param   string  $separator  As separator to place between each value.
+	 * @param	 array	 $values		 An array of values to concatenate.
+	 * @param	 string	$separator	As separator to place between each value.
 	 *
-	 * @return  string  The concatenated values.
+	 * @return	string	The concatenated values.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function concatenate($values, $separator = null)
 	{
@@ -719,9 +719,9 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->where('published_up < '.$query->currentTimestamp());
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function currentTimestamp()
 	{
@@ -734,9 +734,9 @@ abstract class JDatabaseQuery
 	 * This method is provided for use where the query object is passed to a function for modification.
 	 * If you have direct access to the database object, it is recommended you use the getDateFormat method directly.
 	 *
-	 * @return  string  The format string.
+	 * @return	string	The format string.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function dateFormat()
 	{
@@ -754,9 +754,9 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * echo $query->dump();
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function dump()
 	{
@@ -771,11 +771,11 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->delete('#__a')->where('id = 1');
 	 *
-	 * @param   string  $table  The name of the table to delete from.
+	 * @param	 string	$table	The name of the table to delete from.
 	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function delete($table = null)
 	{
@@ -798,13 +798,13 @@ abstract class JDatabaseQuery
 	 *
 	 * Note that 'e' is an alias for this method as it is in JDatabaseDriver.
 	 *
-	 * @param   string   $text   The string to be escaped.
-	 * @param   boolean  $extra  Optional parameter to provide extra escaping.
+	 * @param	 string	 $text	 The string to be escaped.
+	 * @param	 boolean	$extra	Optional parameter to provide extra escaping.
 	 *
-	 * @return  string  The escaped string.
+	 * @return	string	The escaped string.
 	 *
-	 * @since   11.1
-	 * @throws  RuntimeException if the internal db property is not a valid object.
+	 * @since	 11.1
+	 * @throws	RuntimeException if the internal db property is not a valid object.
 	 */
 	public function escape($text, $extra = false)
 	{
@@ -826,11 +826,11 @@ abstract class JDatabaseQuery
 	 * $query->exec('a.*')->exec('b.id');
 	 * $query->exec(array('a.*', 'b.id'));
 	 *
-	 * @param   mixed  $columns  A string or an array of field names.
+	 * @param	 mixed	$columns	A string or an array of field names.
 	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function exec($columns)
 	{
@@ -856,14 +856,14 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->select('*')->from('#__a');
 	 *
-	 * @param   mixed   $tables         A string or array of table names.
-	 *                                  This can be a JDatabaseQuery object (or a child of it) when used
-	 *                                  as a subquery in FROM clause along with a value for $subQueryAlias.
-	 * @param   string  $subQueryAlias  Alias used when $tables is a JDatabaseQuery.
+	 * @param	 mixed	 $tables				 A string or array of table names.
+	 *																	This can be a JDatabaseQuery object (or a child of it) when used
+	 *																	as a subquery in FROM clause along with a value for $subQueryAlias.
+	 * @param	 string	$subQueryAlias	Alias used when $tables is a JDatabaseQuery.
 	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function from($tables, $subQueryAlias = null)
 	{
@@ -895,11 +895,11 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->select($query->year($query->quoteName('dateColumn')));
 	 *
-	 * @param   string  $date  Date column containing year to be extracted.
+	 * @param	 string	$date	Date column containing year to be extracted.
 	 *
-	 * @return  string  Returns string to extract year from a date.
+	 * @return	string	Returns string to extract year from a date.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function year($date)
 	{
@@ -912,11 +912,11 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->select($query->month($query->quoteName('dateColumn')));
 	 *
-	 * @param   string  $date  Date column containing month to be extracted.
+	 * @param	 string	$date	Date column containing month to be extracted.
 	 *
-	 * @return  string  Returns string to extract month from a date.
+	 * @return	string	Returns string to extract month from a date.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function month($date)
 	{
@@ -929,11 +929,11 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->select($query->day($query->quoteName('dateColumn')));
 	 *
-	 * @param   string  $date  Date column containing day to be extracted.
+	 * @param	 string	$date	Date column containing day to be extracted.
 	 *
-	 * @return  string  Returns string to extract day from a date.
+	 * @return	string	Returns string to extract day from a date.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function day($date)
 	{
@@ -946,11 +946,11 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->select($query->hour($query->quoteName('dateColumn')));
 	 *
-	 * @param   string  $date  Date column containing hour to be extracted.
+	 * @param	 string	$date	Date column containing hour to be extracted.
 	 *
-	 * @return  string  Returns string to extract hour from a date.
+	 * @return	string	Returns string to extract hour from a date.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function hour($date)
 	{
@@ -963,11 +963,11 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->select($query->minute($query->quoteName('dateColumn')));
 	 *
-	 * @param   string  $date  Date column containing minute to be extracted.
+	 * @param	 string	$date	Date column containing minute to be extracted.
 	 *
-	 * @return  string  Returns string to extract minute from a date.
+	 * @return	string	Returns string to extract minute from a date.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function minute($date)
 	{
@@ -980,11 +980,11 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->select($query->second($query->quoteName('dateColumn')));
 	 *
-	 * @param   string  $date  Date column containing second to be extracted.
+	 * @param	 string	$date	Date column containing second to be extracted.
 	 *
-	 * @return  string  Returns string to extract second from a date.
+	 * @return	string	Returns string to extract second from a date.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function second($date)
 	{
@@ -997,11 +997,11 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->group('id');
 	 *
-	 * @param   mixed  $columns  A string or array of ordering columns.
+	 * @param	 mixed	$columns	A string or array of ordering columns.
 	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function group($columns)
 	{
@@ -1023,12 +1023,12 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->group('id')->having('COUNT(id) > 5');
 	 *
-	 * @param   mixed   $conditions  A string or array of columns.
-	 * @param   string  $glue        The glue by which to join the conditions. Defaults to AND.
+	 * @param	 mixed	 $conditions	A string or array of columns.
+	 * @param	 string	$glue				The glue by which to join the conditions. Defaults to AND.
 	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function having($conditions, $glue = 'AND')
 	{
@@ -1051,11 +1051,11 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->innerJoin('b ON b.id = a.id')->innerJoin('c ON c.id = b.id');
 	 *
-	 * @param   string  $condition  The join condition.
+	 * @param	 string	$condition	The join condition.
 	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function innerJoin($condition)
 	{
@@ -1074,12 +1074,12 @@ abstract class JDatabaseQuery
 	 * $query->insert('#__a')->columns('id, title')->values('1,2')->values('3,4');
 	 * $query->insert('#__a')->columns('id, title')->values(array('1,2', '3,4'));
 	 *
-	 * @param   mixed    $table           The name of the table to insert data into.
-	 * @param   boolean  $incrementField  The name of the field to auto increment.
+	 * @param	 mixed		$table					 The name of the table to insert data into.
+	 * @param	 boolean	$incrementField	The name of the field to auto increment.
 	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function insert($table, $incrementField=false)
 	{
@@ -1096,12 +1096,12 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->join('INNER', 'b ON b.id = a.id);
 	 *
-	 * @param   string  $type        The type of join. This string is prepended to the JOIN keyword.
-	 * @param   string  $conditions  A string or array of conditions.
+	 * @param	 string	$type				The type of join. This string is prepended to the JOIN keyword.
+	 * @param	 string	$conditions	A string or array of conditions.
 	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function join($type, $conditions)
 	{
@@ -1120,11 +1120,11 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->leftJoin('b ON b.id = a.id')->leftJoin('c ON c.id = b.id');
 	 *
-	 * @param   string  $condition  The join condition.
+	 * @param	 string	$condition	The join condition.
 	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function leftJoin($condition)
 	{
@@ -1141,11 +1141,11 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * query->where($query->length('a').' > 3');
 	 *
-	 * @param   string  $value  The string to measure.
+	 * @param	 string	$value	The string to measure.
 	 *
-	 * @return  int
+	 * @return	int
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function length($value)
 	{
@@ -1161,11 +1161,11 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->where('modified_date <> '.$query->nullDate());
 	 *
-	 * @param   boolean  $quoted  Optionally wraps the null date in database quotes (true by default).
+	 * @param	 boolean	$quoted	Optionally wraps the null date in database quotes (true by default).
 	 *
-	 * @return  string  Null or zero representation of a timestamp.
+	 * @return	string	Null or zero representation of a timestamp.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function nullDate($quoted = true)
 	{
@@ -1191,11 +1191,11 @@ abstract class JDatabaseQuery
 	 * $query->order('foo')->order('bar');
 	 * $query->order(array('foo','bar'));
 	 *
-	 * @param   mixed  $columns  A string or array of ordering columns.
+	 * @param	 mixed	$columns	A string or array of ordering columns.
 	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function order($columns)
 	{
@@ -1217,11 +1217,11 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->outerJoin('b ON b.id = a.id')->outerJoin('c ON c.id = b.id');
 	 *
-	 * @param   string  $condition  The join condition.
+	 * @param	 string	$condition	The join condition.
 	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function outerJoin($condition)
 	{
@@ -1243,13 +1243,13 @@ abstract class JDatabaseQuery
 	 * $query->q('fulltext');
 	 * $query->q(array('option', 'fulltext'));
 	 *
-	 * @param   mixed    $text    A string or an array of strings to quote.
-	 * @param   boolean  $escape  True to escape the string, false to leave it unchanged.
+	 * @param	 mixed		$text		A string or an array of strings to quote.
+	 * @param	 boolean	$escape	True to escape the string, false to leave it unchanged.
 	 *
-	 * @return  string  The quoted input string.
+	 * @return	string	The quoted input string.
 	 *
-	 * @since   11.1
-	 * @throws  RuntimeException if the internal db property is not a valid object.
+	 * @since	 11.1
+	 * @throws	RuntimeException if the internal db property is not a valid object.
 	 */
 	public function quote($text, $escape = true)
 	{
@@ -1274,15 +1274,15 @@ abstract class JDatabaseQuery
 	 * $query->quoteName('#__a');
 	 * $query->qn('#__a');
 	 *
-	 * @param   mixed  $name  The identifier name to wrap in quotes, or an array of identifier names to wrap in quotes.
-	 *                        Each type supports dot-notation name.
-	 * @param   mixed  $as    The AS query part associated to $name. It can be string or array, in latter case it has to be
-	 *                        same length of $name; if is null there will not be any AS part for string or array element.
+	 * @param	 mixed	$name	The identifier name to wrap in quotes, or an array of identifier names to wrap in quotes.
+	 *												Each type supports dot-notation name.
+	 * @param	 mixed	$as		The AS query part associated to $name. It can be string or array, in latter case it has to be
+	 *												same length of $name; if is null there will not be any AS part for string or array element.
 	 *
-	 * @return  mixed  The quote wrapped name, same type of $name.
+	 * @return	mixed	The quote wrapped name, same type of $name.
 	 *
-	 * @since   11.1
-	 * @throws  RuntimeException if the internal db property is not a valid object.
+	 * @since	 11.1
+	 * @throws	RuntimeException if the internal db property is not a valid object.
 	 */
 	public function quoteName($name, $as = null)
 	{
@@ -1300,11 +1300,11 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->rightJoin('b ON b.id = a.id')->rightJoin('c ON c.id = b.id');
 	 *
-	 * @param   string  $condition  The join condition.
+	 * @param	 string	$condition	The join condition.
 	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function rightJoin($condition)
 	{
@@ -1323,11 +1323,11 @@ abstract class JDatabaseQuery
 	 * $query->select('a.*')->select('b.id');
 	 * $query->select(array('a.*', 'b.id'));
 	 *
-	 * @param   mixed  $columns  A string or an array of field names.
+	 * @param	 mixed	$columns	A string or an array of field names.
 	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function select($columns)
 	{
@@ -1352,13 +1352,13 @@ abstract class JDatabaseQuery
 	 * $query->set('a = 1')->set('b = 2');
 	 * $query->set(array('a = 1', 'b = 2');
 	 *
-	 * @param   mixed   $conditions  A string or array of string conditions.
-	 * @param   string  $glue        The glue by which to join the condition strings. Defaults to ,.
-	 *                               Note that the glue is set on first use and cannot be changed.
+	 * @param	 mixed	 $conditions	A string or array of string conditions.
+	 * @param	 string	$glue				The glue by which to join the condition strings. Defaults to ,.
+	 *															 Note that the glue is set on first use and cannot be changed.
 	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function set($conditions, $glue = ',')
 	{
@@ -1383,11 +1383,11 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->setQuery('select * from #__users');
 	 *
-	 * @param   mixed  $sql  An SQL Query
+	 * @param	 mixed	$sql	An SQL Query
 	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function setQuery($sql)
 	{
@@ -1404,11 +1404,11 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->update('#__foo')->set(...);
 	 *
-	 * @param   string  $table  A table to update.
+	 * @param	 string	$table	A table to update.
 	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function update($table)
 	{
@@ -1425,11 +1425,11 @@ abstract class JDatabaseQuery
 	 * $query->values('1,2,3')->values('4,5,6');
 	 * $query->values(array('1,2,3', '4,5,6'));
 	 *
-	 * @param   string  $values  A single tuple, or array of tuples.
+	 * @param	 string	$values	A single tuple, or array of tuples.
 	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function values($values)
 	{
@@ -1452,13 +1452,13 @@ abstract class JDatabaseQuery
 	 * $query->where('a = 1')->where('b = 2');
 	 * $query->where(array('a = 1', 'b = 2'));
 	 *
-	 * @param   mixed   $conditions  A string or array of where conditions.
-	 * @param   string  $glue        The glue by which to join the conditions. Defaults to AND.
-	 *                               Note that the glue is set on first use and cannot be changed.
+	 * @param	 mixed	 $conditions	A string or array of where conditions.
+	 * @param	 string	$glue				The glue by which to join the conditions. Defaults to AND.
+	 *															 Note that the glue is set on first use and cannot be changed.
 	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since	 11.1
 	 */
 	public function where($conditions, $glue = 'AND')
 	{
@@ -1479,9 +1479,9 @@ abstract class JDatabaseQuery
 	 * Method to provide deep copy support to nested objects and
 	 * arrays when cloning.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   11.3
+	 * @since	 11.3
 	 */
 	public function __clone()
 	{
@@ -1499,17 +1499,17 @@ abstract class JDatabaseQuery
 	 * Multiple unions each require separate statements and create an array of unions.
 	 *
 	 * Usage:
-	 * $query->union('SELECT name FROM  #__foo')
-	 * $query->union('SELECT name FROM  #__foo','distinct')
-	 * $query->union(array('SELECT name FROM  #__foo','SELECT name FROM  #__bar'))
+	 * $query->union('SELECT name FROM	#__foo')
+	 * $query->union('SELECT name FROM	#__foo','distinct')
+	 * $query->union(array('SELECT name FROM	#__foo','SELECT name FROM	#__bar'))
 	 *
-	 * @param   mixed    $query     The JDatabaseQuery object or string to union.
-	 * @param   boolean  $distinct  True to only return distinct rows from the union.
-	 * @param   string   $glue      The glue by which to join the conditions.
+	 * @param	 mixed		$query		 The JDatabaseQuery object or string to union.
+	 * @param	 boolean	$distinct	True to only return distinct rows from the union.
+	 * @param	 string	 $glue			The glue by which to join the conditions.
 	 *
-	 * @return  mixed    The JDatabaseQuery object on success or boolean false on failure.
+	 * @return	mixed		The JDatabaseQuery object on success or boolean false on failure.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function union($query, $distinct = false, $glue = '')
 	{
@@ -1552,14 +1552,14 @@ abstract class JDatabaseQuery
 	 * Add a query to UNION DISTINCT with the current query. Simply a proxy to Union with the Distinct clause.
 	 *
 	 * Usage:
-	 * $query->unionDistinct('SELECT name FROM  #__foo')
+	 * $query->unionDistinct('SELECT name FROM	#__foo')
 	 *
-	 * @param   mixed   $query  The JDatabaseQuery object or string to union.
-	 * @param   string  $glue   The glue by which to join the conditions.
+	 * @param	 mixed	 $query	The JDatabaseQuery object or string to union.
+	 * @param	 string	$glue	 The glue by which to join the conditions.
 	 *
-	 * @return  mixed   The JDatabaseQuery object on success or boolean false on failure.
+	 * @return	mixed	 The JDatabaseQuery object on success or boolean false on failure.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function unionDistinct($query, $glue = '')
 	{
@@ -1572,9 +1572,9 @@ abstract class JDatabaseQuery
 	/**
 	 * Find and replace sprintf-like tokens in a format string.
 	 * Each token takes one of the following forms:
-	 *     %%       - A literal percent character.
-	 *     %[t]     - Where [t] is a type specifier.
-	 *     %[n]$[x] - Where [n] is an argument specifier and [t] is a type specifier.
+	 *		 %%			 - A literal percent character.
+	 *		 %[t]		 - Where [t] is a type specifier.
+	 *		 %[n]$[x] - Where [n] is an argument specifier and [t] is a type specifier.
 	 *
 	 * Types:
 	 * a - Numeric: Replacement text is coerced to a numeric type but not quoted or escaped.
@@ -1610,11 +1610,11 @@ abstract class JDatabaseQuery
 	 * The argument specifier is optional but recommended for clarity.
 	 * The argument index used for unspecified tokens is incremented only when used.
 	 *
-	 * @param   string  $format  The formatting string.
+	 * @param	 string	$format	The formatting string.
 	 *
-	 * @return  string  Returns a string produced according to the formatting string.
+	 * @return	string	Returns a string produced according to the formatting string.
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function format($format)
 	{

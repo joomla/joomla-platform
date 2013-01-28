@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Database
+ * @package		 Joomla.Platform
+ * @subpackage	Database
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,53 +12,53 @@ defined('JPATH_PLATFORM') or die;
 /**
  * SQL Server database driver
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @see         http://msdn.microsoft.com/en-us/library/cc296152(SQL.90).aspx
- * @since       12.1
+ * @package		 Joomla.Platform
+ * @subpackage	Database
+ * @see				 http://msdn.microsoft.com/en-us/library/cc296152(SQL.90).aspx
+ * @since			 12.1
  */
 class JDatabaseDriverSqlsrv extends JDatabaseDriver
 {
 	/**
 	 * The name of the database driver.
 	 *
-	 * @var    string
-	 * @since  12.1
+	 * @var		string
+	 * @since	12.1
 	 */
 	public $name = 'sqlsrv';
 
 	/**
 	 * The character(s) used to quote SQL statement names such as table names or field names,
-	 * etc.  The child classes should define this as necessary.  If a single character string the
+	 * etc.	The child classes should define this as necessary.	If a single character string the
 	 * same character is used for both sides of the quoted name, else the first character will be
 	 * used for the opening quote and the second for the closing quote.
 	 *
-	 * @var    string
-	 * @since  12.1
+	 * @var		string
+	 * @since	12.1
 	 */
 	protected $nameQuote;
 
 	/**
-	 * The null or zero representation of a timestamp for the database driver.  This should be
+	 * The null or zero representation of a timestamp for the database driver.	This should be
 	 * defined in child classes to hold the appropriate value for the engine.
 	 *
-	 * @var    string
-	 * @since  12.1
+	 * @var		string
+	 * @since	12.1
 	 */
 	protected $nullDate = '1900-01-01 00:00:00';
 
 	/**
-	 * @var    string  The minimum supported database version.
-	 * @since  12.1
+	 * @var		string	The minimum supported database version.
+	 * @since	12.1
 	 */
 	protected static $dbMinimum = '10.50.1600.1';
 
 	/**
 	 * Test to see if the SQLSRV connector is available.
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return	boolean	True on success, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public static function isSupported()
 	{
@@ -68,9 +68,9 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $options  List of options used to configure the connection
+	 * @param	 array	$options	List of options used to configure the connection
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function __construct($options)
 	{
@@ -88,7 +88,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Destructor.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function __destruct()
 	{
@@ -101,10 +101,10 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Connects to the database if needed.
 	 *
-	 * @return  void  Returns void if the database connected successfully.
+	 * @return	void	Returns void if the database connected successfully.
 	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @since	 12.1
+	 * @throws	RuntimeException
 	 */
 	public function connect()
 	{
@@ -146,9 +146,9 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Disconnects the database.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function disconnect()
 	{
@@ -164,11 +164,11 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Get table constraints
 	 *
-	 * @param   string  $tableName  The name of the database table.
+	 * @param	 string	$tableName	The name of the database table.
 	 *
-	 * @return  array  Any constraints available for the table.
+	 * @return	array	Any constraints available for the table.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function getTableConstraints($tableName)
 	{
@@ -186,13 +186,13 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Rename constraints.
 	 *
-	 * @param   array   $constraints  Array(strings) of table constraints
-	 * @param   string  $prefix       A string
-	 * @param   string  $backup       A string
+	 * @param	 array	 $constraints	Array(strings) of table constraints
+	 * @param	 string	$prefix			 A string
+	 * @param	 string	$backup			 A string
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function renameConstraints($constraints = array(), $prefix = null, $backup = null)
 	{
@@ -208,15 +208,15 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Method to escape a string for usage in an SQL statement.
 	 *
-	 * The escaping for MSSQL isn't handled in the driver though that would be nice.  Because of this we need
+	 * The escaping for MSSQL isn't handled in the driver though that would be nice.	Because of this we need
 	 * to handle the escaping ourselves.
 	 *
-	 * @param   string   $text   The string to be escaped.
-	 * @param   boolean  $extra  Optional parameter to provide extra escaping.
+	 * @param	 string	 $text	 The string to be escaped.
+	 * @param	 boolean	$extra	Optional parameter to provide extra escaping.
 	 *
-	 * @return  string  The escaped string.
+	 * @return	string	The escaped string.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function escape($text, $extra = false)
 	{
@@ -237,9 +237,9 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Determines if the connection to the server is active.
 	 *
-	 * @return  boolean  True if connected to the database engine.
+	 * @return	boolean	True if connected to the database engine.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function connected()
 	{
@@ -250,12 +250,12 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Drops a table from the database.
 	 *
-	 * @param   string   $tableName  The name of the database table to drop.
-	 * @param   boolean  $ifExists   Optionally specify that the table must exist before it is dropped.
+	 * @param	 string	 $tableName	The name of the database table to drop.
+	 * @param	 boolean	$ifExists	 Optionally specify that the table must exist before it is dropped.
 	 *
-	 * @return  JDatabaseDriverSqlsrv  Returns this object to support chaining.
+	 * @return	JDatabaseDriverSqlsrv	Returns this object to support chaining.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function dropTable($tableName, $ifExists = true)
 	{
@@ -282,9 +282,9 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Get the number of affected rows for the previous executed SQL statement.
 	 *
-	 * @return  integer  The number of affected rows.
+	 * @return	integer	The number of affected rows.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getAffectedRows()
 	{
@@ -296,9 +296,9 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Method to get the database collation in use by sampling a text field of a table in the database.
 	 *
-	 * @return  mixed  The collation in use by the database or boolean false if not supported.
+	 * @return	mixed	The collation in use by the database or boolean false if not supported.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getCollation()
 	{
@@ -309,11 +309,11 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Get the number of returned rows for the previous executed SQL statement.
 	 *
-	 * @param   resource  $cursor  An optional database cursor resource to extract the row count from.
+	 * @param	 resource	$cursor	An optional database cursor resource to extract the row count from.
 	 *
-	 * @return  integer   The number of returned rows.
+	 * @return	integer	 The number of returned rows.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getNumRows($cursor = null)
 	{
@@ -325,13 +325,13 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Retrieves field information about the given tables.
 	 *
-	 * @param   mixed    $table     A table name
-	 * @param   boolean  $typeOnly  True to only return field types.
+	 * @param	 mixed		$table		 A table name
+	 * @param	 boolean	$typeOnly	True to only return field types.
 	 *
-	 * @return  array  An array of fields.
+	 * @return	array	An array of fields.
 	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @since	 12.1
+	 * @throws	RuntimeException
 	 */
 	public function getTableColumns($table, $typeOnly = true)
 	{
@@ -371,12 +371,12 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 *
 	 * This is unsupported by MSSQL.
 	 *
-	 * @param   mixed  $tables  A table name or a list of table names.
+	 * @param	 mixed	$tables	A table name or a list of table names.
 	 *
-	 * @return  array  A list of the create SQL for the tables.
+	 * @return	array	A list of the create SQL for the tables.
 	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @since	 12.1
+	 * @throws	RuntimeException
 	 */
 	public function getTableCreate($tables)
 	{
@@ -388,12 +388,12 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Get the details list of keys for a table.
 	 *
-	 * @param   string  $table  The name of the table.
+	 * @param	 string	$table	The name of the table.
 	 *
-	 * @return  array  An array of the column specification for the table.
+	 * @return	array	An array of the column specification for the table.
 	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @since	 12.1
+	 * @throws	RuntimeException
 	 */
 	public function getTableKeys($table)
 	{
@@ -406,10 +406,10 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Method to get an array of all tables in the database.
 	 *
-	 * @return  array  An array of all the tables in the database.
+	 * @return	array	An array of all the tables in the database.
 	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @since	 12.1
+	 * @throws	RuntimeException
 	 */
 	public function getTableList()
 	{
@@ -425,9 +425,9 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Get the version of the database connector.
 	 *
-	 * @return  string  The database connector version.
+	 * @return	string	The database connector version.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function getVersion()
 	{
@@ -441,14 +441,14 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Inserts a row into a table based on an object's properties.
 	 *
-	 * @param   string  $table    The name of the database table to insert into.
-	 * @param   object  &$object  A reference to an object whose public properties match the table fields.
-	 * @param   string  $key      The name of the primary key. If provided the object property is updated.
+	 * @param	 string	$table		The name of the database table to insert into.
+	 * @param	 object	&$object	A reference to an object whose public properties match the table fields.
+	 * @param	 string	$key			The name of the primary key. If provided the object property is updated.
 	 *
-	 * @return  boolean    True on success.
+	 * @return	boolean		True on success.
 	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @since	 12.1
+	 * @throws	RuntimeException
 	 */
 	public function insertObject($table, &$object, $key = null)
 	{
@@ -498,9 +498,9 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Method to get the auto-incremented value from the last INSERT statement.
 	 *
-	 * @return  integer  The value of the auto-increment field from the last inserted row.
+	 * @return	integer	The value of the auto-increment field from the last inserted row.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function insertid()
 	{
@@ -515,10 +515,10 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Method to get the first field of the first row of the result set from the database query.
 	 *
-	 * @return  mixed  The return value or null if the query failed.
+	 * @return	mixed	The return value or null if the query failed.
 	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @since	 12.1
+	 * @throws	RuntimeException
 	 */
 	public function loadResult()
 	{
@@ -547,11 +547,11 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Execute the SQL statement.
 	 *
-	 * @return  mixed  A database cursor resource on success, boolean false on failure.
+	 * @return	mixed	A database cursor resource on success, boolean false on failure.
 	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
-	 * @throws  Exception
+	 * @since	 12.1
+	 * @throws	RuntimeException
+	 * @throws	Exception
 	 */
 	public function execute()
 	{
@@ -649,12 +649,12 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 * This function replaces a string identifier <var>$prefix</var> with the string held is the
 	 * <var>tablePrefix</var> class variable.
 	 *
-	 * @param   string  $sql     The SQL statement to prepare.
-	 * @param   string  $prefix  The common table prefix.
+	 * @param	 string	$sql		 The SQL statement to prepare.
+	 * @param	 string	$prefix	The common table prefix.
 	 *
-	 * @return  string  The processed SQL statement.
+	 * @return	string	The processed SQL statement.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function replacePrefix($sql, $prefix = '#__')
 	{
@@ -746,12 +746,12 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Select a database for use.
 	 *
-	 * @param   string  $database  The name of the database to select for use.
+	 * @param	 string	$database	The name of the database to select for use.
 	 *
-	 * @return  boolean  True if the database was successfully selected.
+	 * @return	boolean	True if the database was successfully selected.
 	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @since	 12.1
+	 * @throws	RuntimeException
 	 */
 	public function select($database)
 	{
@@ -773,9 +773,9 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Set the connection to use UTF-8 character encoding.
 	 *
-	 * @return  boolean  True on success.
+	 * @return	boolean	True on success.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	public function setUTF()
 	{
@@ -785,12 +785,12 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Method to commit a transaction.
 	 *
-	 * @param   boolean  $toSavepoint  If true, commit to the last savepoint.
+	 * @param	 boolean	$toSavepoint	If true, commit to the last savepoint.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @since	 12.1
+	 * @throws	RuntimeException
 	 */
 	public function transactionCommit($toSavepoint = false)
 	{
@@ -812,12 +812,12 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Method to roll back a transaction.
 	 *
-	 * @param   boolean  $toSavepoint  If true, rollback to the last savepoint.
+	 * @param	 boolean	$toSavepoint	If true, rollback to the last savepoint.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @since	 12.1
+	 * @throws	RuntimeException
 	 */
 	public function transactionRollback($toSavepoint = false)
 	{
@@ -845,12 +845,12 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Method to initialize a transaction.
 	 *
-	 * @param   boolean  $asSavepoint  If true and a transaction is already active, a savepoint will be created.
+	 * @param	 boolean	$asSavepoint	If true and a transaction is already active, a savepoint will be created.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @since	 12.1
+	 * @throws	RuntimeException
 	 */
 	public function transactionStart($asSavepoint = false)
 	{
@@ -878,11 +878,11 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Method to fetch a row from the result set cursor as an array.
 	 *
-	 * @param   mixed  $cursor  The optional result set cursor from which to fetch the row.
+	 * @param	 mixed	$cursor	The optional result set cursor from which to fetch the row.
 	 *
-	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
+	 * @return	mixed	Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function fetchArray($cursor = null)
 	{
@@ -892,11 +892,11 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Method to fetch a row from the result set cursor as an associative array.
 	 *
-	 * @param   mixed  $cursor  The optional result set cursor from which to fetch the row.
+	 * @param	 mixed	$cursor	The optional result set cursor from which to fetch the row.
 	 *
-	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
+	 * @return	mixed	Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function fetchAssoc($cursor = null)
 	{
@@ -906,12 +906,12 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Method to fetch a row from the result set cursor as an object.
 	 *
-	 * @param   mixed   $cursor  The optional result set cursor from which to fetch the row.
-	 * @param   string  $class   The class name to use for the returned row object.
+	 * @param	 mixed	 $cursor	The optional result set cursor from which to fetch the row.
+	 * @param	 string	$class	 The class name to use for the returned row object.
 	 *
-	 * @return  mixed   Either the next row from the result set or false if there are no more rows.
+	 * @return	mixed	 Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function fetchObject($cursor = null, $class = 'stdClass')
 	{
@@ -921,11 +921,11 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Method to free up the memory used for the result set.
 	 *
-	 * @param   mixed  $cursor  The optional result set cursor from which to fetch the row.
+	 * @param	 mixed	$cursor	The optional result set cursor from which to fetch the row.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function freeResult($cursor = null)
 	{
@@ -935,12 +935,12 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Method to check and see if a field exists in a table.
 	 *
-	 * @param   string  $table  The table in which to verify the field.
-	 * @param   string  $field  The field to verify.
+	 * @param	 string	$table	The table in which to verify the field.
+	 * @param	 string	$field	The field to verify.
 	 *
-	 * @return  boolean  True if the field exists in the table.
+	 * @return	boolean	True if the field exists in the table.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function checkFieldExists($table, $field)
 	{
@@ -964,13 +964,13 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Method to wrap an SQL statement to provide a LIMIT and OFFSET behavior for scrolling through a result set.
 	 *
-	 * @param   string   $sql     The SQL statement to process.
-	 * @param   integer  $limit   The maximum affected rows to set.
-	 * @param   integer  $offset  The affected row offset to set.
+	 * @param	 string	 $sql		 The SQL statement to process.
+	 * @param	 integer	$limit	 The maximum affected rows to set.
+	 * @param	 integer	$offset	The affected row offset to set.
 	 *
-	 * @return  string   The processed SQL statement.
+	 * @return	string	 The processed SQL statement.
 	 *
-	 * @since   12.1
+	 * @since	 12.1
 	 */
 	protected function limit($sql, $limit, $offset)
 	{
@@ -993,15 +993,15 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Renames a table in the database.
 	 *
-	 * @param   string  $oldTable  The name of the table to be renamed
-	 * @param   string  $newTable  The new name for the table.
-	 * @param   string  $backup    Table prefix
-	 * @param   string  $prefix    For the table - used to rename constraints in non-mysql databases
+	 * @param	 string	$oldTable	The name of the table to be renamed
+	 * @param	 string	$newTable	The new name for the table.
+	 * @param	 string	$backup		Table prefix
+	 * @param	 string	$prefix		For the table - used to rename constraints in non-mysql databases
 	 *
-	 * @return  JDatabaseDriverSqlsrv  Returns this object to support chaining.
+	 * @return	JDatabaseDriverSqlsrv	Returns this object to support chaining.
 	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @since	 12.1
+	 * @throws	RuntimeException
 	 */
 	public function renameTable($oldTable, $newTable, $backup = null, $prefix = null)
 	{
@@ -1024,12 +1024,12 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Locks a table in the database.
 	 *
-	 * @param   string  $tableName  The name of the table to lock.
+	 * @param	 string	$tableName	The name of the table to lock.
 	 *
-	 * @return  JDatabaseDriverSqlsrv  Returns this object to support chaining.
+	 * @return	JDatabaseDriverSqlsrv	Returns this object to support chaining.
 	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @since	 12.1
+	 * @throws	RuntimeException
 	 */
 	public function lockTable($tableName)
 	{
@@ -1039,10 +1039,10 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Unlocks tables in the database.
 	 *
-	 * @return  JDatabaseDriverSqlsrv  Returns this object to support chaining.
+	 * @return	JDatabaseDriverSqlsrv	Returns this object to support chaining.
 	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @since	 12.1
+	 * @throws	RuntimeException
 	 */
 	public function unlockTables()
 	{

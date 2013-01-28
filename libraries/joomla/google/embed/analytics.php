@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Google
+ * @package		 Joomla.Platform
+ * @subpackage	Google
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	 Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,18 +12,18 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Google Analytics embed class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Google
- * @since       12.3
+ * @package		 Joomla.Platform
+ * @subpackage	Google
+ * @since			 12.3
  */
 class JGoogleEmbedAnalytics extends JGoogleEmbed
 {
 	/**
 	 * Method to get the tracking code
 	 *
-	 * @return  string  The Google Analytics tracking code
+	 * @return	string	The Google Analytics tracking code
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function getCode()
 	{
@@ -33,11 +33,11 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	/**
 	 * Method to set the tracking code
 	 *
-	 * @param   string  $code  The Google Analytics tracking code
+	 * @param	 string	$code	The Google Analytics tracking code
 	 *
-	 * @return  JGoogleEmbedAnalytics  The object for method chaining
+	 * @return	JGoogleEmbedAnalytics	The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function setCode($code)
 	{
@@ -49,9 +49,9 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	/**
 	 * Checks if the javascript is set to be asynchronous
 	 *
-	 * @return  boolean  True if asynchronous
+	 * @return	boolean	True if asynchronous
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function isAsync()
 	{
@@ -61,9 +61,9 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	/**
 	 * Load javascript asynchronously
 	 *
-	 * @return  JGoogleEmbedAnalytics  The object for method chaining
+	 * @return	JGoogleEmbedAnalytics	The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function useAsync()
 	{
@@ -75,9 +75,9 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	/**
 	 * Load javascript synchronously
 	 *
-	 * @return  JGoogleEmbedAnalytics  The object for method chaining
+	 * @return	JGoogleEmbedAnalytics	The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function useSync()
 	{
@@ -89,12 +89,12 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	/**
 	 * Add an analytics call
 	 *
-	 * @param   string  $method  The name of the function
-	 * @param   array   $params  The parameters for the call
+	 * @param	 string	$method	The name of the function
+	 * @param	 array	 $params	The parameters for the call
 	 *
-	 * @return  array  The added call
+	 * @return	array	The added call
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function addCall($method, $params = array())
 	{
@@ -110,9 +110,9 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	/**
 	 * List the analytics calls to be executed
 	 *
-	 * @return  array  A list of calls
+	 * @return	array	A list of calls
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function listCalls()
 	{
@@ -122,11 +122,11 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	/**
 	 * Delete a call from the stack
 	 *
-	 * @param   int  $index  Index of call to delete (defaults to last added call)
+	 * @param	 int	$index	Index of call to delete (defaults to last added call)
 	 *
-	 * @return  array  The deleted call
+	 * @return	array	The deleted call
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function deleteCall($index = null)
 	{
@@ -148,12 +148,12 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	/**
 	 * Create a javascript function from the call parameters
 	 *
-	 * @param   string  $method  The name of the function
-	 * @param   array   $params  The parameters for the call
+	 * @param	 string	$method	The name of the function
+	 * @param	 array	 $params	The parameters for the call
 	 *
-	 * @return  string  The created call
+	 * @return	string	The created call
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function createCall($method, $params = array())
 	{
@@ -178,14 +178,14 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	/**
 	 * Add a custom variable to the analytics
 	 *
-	 * @param   int     $slot   The slot to store the variable in (1-5)
-	 * @param   string  $name   The variable name
-	 * @param   string  $value  The variable value
-	 * @param   int     $scope  The scope of the variable (1: visitor level, 2: session level, 3: page level)
+	 * @param	 int		 $slot	 The slot to store the variable in (1-5)
+	 * @param	 string	$name	 The variable name
+	 * @param	 string	$value	The variable value
+	 * @param	 int		 $scope	The scope of the variable (1: visitor level, 2: session level, 3: page level)
 	 *
-	 * @return  array  The added call
+	 * @return	array	The added call
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function addCustomVar($slot, $name, $value, $scope = 3)
 	{
@@ -195,14 +195,14 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	/**
 	 * Get the code to create a custom analytics variable
 	 *
-	 * @param   int     $slot   The slot to store the variable in (1-5)
-	 * @param   string  $name   The variable name
-	 * @param   string  $value  The variable value
-	 * @param   int     $scope  The scope of the variable (1: visitor level, 2: session level, 3: page level)
+	 * @param	 int		 $slot	 The slot to store the variable in (1-5)
+	 * @param	 string	$name	 The variable name
+	 * @param	 string	$value	The variable value
+	 * @param	 int		 $scope	The scope of the variable (1: visitor level, 2: session level, 3: page level)
 	 *
-	 * @return  string  The created call
+	 * @return	string	The created call
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function createCustomVar($slot, $name, $value, $scope = 3)
 	{
@@ -212,15 +212,15 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	/**
 	 * Track an analytics event
 	 *
-	 * @param   string   $category     The general event category
-	 * @param   string   $action       The event action
-	 * @param   string   $label        The event description
-	 * @param   string   $value        The value of the event
-	 * @param   boolean  $noninteract  Don't allow this event to impact bounce statistics
+	 * @param	 string	 $category		 The general event category
+	 * @param	 string	 $action			 The event action
+	 * @param	 string	 $label				The event description
+	 * @param	 string	 $value				The value of the event
+	 * @param	 boolean	$noninteract	Don't allow this event to impact bounce statistics
 	 *
-	 * @return  array  The added call
+	 * @return	array	The added call
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function addEvent($category, $action, $label = null, $value = null, $noninteract = false)
 	{
@@ -230,15 +230,15 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	/**
 	 * Get the code to track an analytics event
 	 *
-	 * @param   string   $category     The general event category
-	 * @param   string   $action       The event action
-	 * @param   string   $label        The event description
-	 * @param   string   $value        The value of the event
-	 * @param   boolean  $noninteract  Don't allow this event to impact bounce statistics
+	 * @param	 string	 $category		 The general event category
+	 * @param	 string	 $action			 The event action
+	 * @param	 string	 $label				The event description
+	 * @param	 string	 $value				The value of the event
+	 * @param	 boolean	$noninteract	Don't allow this event to impact bounce statistics
 	 *
-	 * @return  string  The created call
+	 * @return	string	The created call
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function createEvent($category, $action, $label = null, $value = null, $noninteract = false)
 	{
@@ -248,9 +248,9 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	/**
 	 * Get code to load Google Analytics javascript
 	 *
-	 * @return  string  Javascript code
+	 * @return	string	Javascript code
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function getHeader()
 	{
@@ -285,9 +285,9 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	/**
 	 * Google Analytics only needs to be included in the header
 	 *
-	 * @return  null
+	 * @return	null
 	 *
-	 * @since   12.3
+	 * @since	 12.3
 	 */
 	public function getBody()
 	{
