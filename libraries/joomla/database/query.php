@@ -1513,24 +1513,25 @@ abstract class JDatabaseQuery
 	 */
 	public function union($query, $distinct = false, $glue = '')
 	{
+		$this->type = 'union';
+		
 		// Clear any ORDER BY clause in UNION query
 		// See http://dev.mysql.com/doc/refman/5.0/en/union.html
 		if (!is_null($this->order))
 		{
 			$this->clear('order');
 		}
-
+		
+		$name = '()';
+		
 		// Set up the DISTINCT flag, the name with parentheses, and the glue.
 		if ($distinct)
 		{
-			$name = 'UNION DISTINCT ()';
 			$glue = ')' . PHP_EOL . 'UNION DISTINCT (';
 		}
 		else
 		{
 			$glue = ')' . PHP_EOL . 'UNION (';
-			$name = 'UNION ()';
-
 		}
 
 		// Get the JDatabaseQueryElement if it does not exist
