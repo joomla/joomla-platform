@@ -10,708 +10,215 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Joomla! Cache base object
+ * Joomla! Caching Class
  *
  * @package     Joomla.Platform
  * @subpackage  Cache
- * @since       11.1
+ * @since       12.3
  */
-class JCache
+abstract class JCache
 {
 	/**
-	 * @var    object  Storage handler
-	 * @since  11.1
+	 * @var    array  An array of key/value pairs to be used as a runtime cache.
+	 * @since  12.3
 	 */
-	public static $_handler = array();
+	static protected $runtime = array();
 
 	/**
-	 * @var    array  Options
-	 * @since  11.1
+	 * @var    JRegistry  The options for the cache object.
+	 * @since  12.3
 	 */
-	public $_options;
+	protected $options;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
-	 * @param   array  $options  options
+	 * @param   JRegistry  $options  Caching options object.
 	 *
-	 * @since   11.1
+	 * @since   12.3
+	 * @throws  RuntimeException
 	 */
-	public function __construct($options)
+	public function __construct(JRegistry $options = null)
 	{
-		$conf = JFactory::getConfig();
+		// Set the options object.
+		$this->options = $options ? $options : new JRegistry;
 
-		$this->_options = array(
-			'cachebase' => $conf->get('cache_path', JPATH_CACHE),
-			'lifetime' => (int) $conf->get('cachetime'),
-			'language' => $conf->get('language', 'en-GB'),
-			'storage' => $conf->get('cache_handler', ''),
-			'defaultgroup' => 'default',
-			'locking' => true,
-			'locktime' => 15,
-			'checkTime' => true,
-			'caching' => ($conf->get('caching') >= 1) ? true : false);
+		$this->options->def('ttl', 900);
+		$this->options->def('runtime', true);
+	}
 
-		// Overwrite default options with given options
-		foreach ($options as $option => $value)
+	/**
+	 * Get an option from the JCache instance.
+	 *
+	 * @param   string  $key  The name of the option to get.
+	 *
+	 * @return  mixed  The option value.
+	 *
+	 * @since   12.3
+	 */
+	public function getOption($key)
+	{
+		return $this->options->get($key);
+	}
+
+	/**
+	 * Set an option for the JCache instance.
+	 *
+	 * @param   string  $key    The name of the option to set.
+	 * @param   mixed   $value  The option value to set.
+	 *
+	 * @return  JCache  This object for method chaining.
+	 *
+	 * @since   12.3
+	 */
+	public function setOption($key, $value)
+	{
+		$this->options->set($key, $value);
+
+		return $this;
+	}
+
+	/**
+	 * Get cached data by id.  If the cached data has expired then the cached data will be removed
+	 * and false will be returned.
+	 *
+	 * @param   string   $cacheId       The cache data id.
+	 * @param   boolean  $checkRuntime  True to check runtime cache first.
+	 *
+	 * @return  mixed  Cached data string if it exists.
+	 *
+	 * @since   12.3
+	 * @throws  RuntimeException
+	 */
+	public function get($cacheId, $checkRuntime = true)
+	{
+		if ($checkRuntime && isset(self::$runtime[$cacheId]) && $this->options->get('runtime'))
 		{
-			if (isset($options[$option]) && $options[$option] !== '')
-			{
-				$this->_options[$option] = $options[$option];
-			}
+			return self::$runtime[$cacheId];
 		}
 
-		if (empty($this->_options['storage']))
+		$data = $this->fetch($cacheId);
+
+		if ($this->options->get('runtime'))
 		{
-			$this->_options['caching'] = false;
-		}
-	}
-
-	/**
-	 * Returns a reference to a cache adapter object, always creating it
-	 *
-	 * @param   string  $type     The cache object type to instantiate
-	 * @param   array   $options  The array of options
-	 *
-	 * @return  JCache  A JCache object
-	 *
-	 * @since   11.1
-	 */
-	public static function getInstance($type = 'output', $options = array())
-	{
-		return JCacheController::getInstance($type, $options);
-	}
-
-	/**
-	 * Get the storage handlers
-	 *
-	 * @return  array    An array of available storage handlers
-	 *
-	 * @since   11.1
-	 */
-	public static function getStores()
-	{
-		$handlers = array();
-
-		// Get an iterator and loop trough the driver classes.
-		$iterator = new DirectoryIterator(__DIR__ . '/storage');
-
-		foreach ($iterator as $file)
-		{
-			$fileName = $file->getFilename();
-
-			// Only load for php files.
-			// Note: DirectoryIterator::getExtension only available PHP >= 5.3.6
-			if (!$file->isFile()
-				|| substr($fileName, strrpos($fileName, '.') + 1) != 'php'
-				|| $fileName == 'helper.php')
-			{
-				continue;
-			}
-
-			// Derive the class name from the type.
-			$class = str_ireplace('.php', '', 'JCacheStorage' . ucfirst(trim($fileName)));
-
-			// If the class doesn't exist we have nothing left to do but look at the next type. We did our best.
-			if (!class_exists($class))
-			{
-				continue;
-			}
-
-			// Sweet!  Our class exists, so now we just need to know if it passes its test method.
-			if ($class::isSupported())
-			{
-				// Connector names should not have file extensions.
-				$handlers[] = str_ireplace('.php', '', $fileName);
-			}
+			self::$runtime[$cacheId] = $data;
 		}
 
-		return $handlers;
+		return $data;
 	}
 
 	/**
-	 * Set caching enabled state
+	 * Store the cached data by id.
 	 *
-	 * @param   boolean  $enabled  True to enable caching
+	 * @param   string  $cacheId  The cache data id
+	 * @param   mixed   $data     The data to store
 	 *
-	 * @return  void
+	 * @return  JCache  This object for method chaining.
 	 *
-	 * @since   11.1
+	 * @since   12.3
+	 * @throws  RuntimeException
 	 */
-	public function setCaching($enabled)
+	public function store($cacheId, $data)
 	{
-		$this->_options['caching'] = $enabled;
-	}
-
-	/**
-	 * Get caching state
-	 *
-	 * @return  boolean  Caching state
-	 *
-	 * @since   11.1
-	 */
-	public function getCaching()
-	{
-		return $this->_options['caching'];
-	}
-
-	/**
-	 * Set cache lifetime
-	 *
-	 * @param   integer  $lt  Cache lifetime
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	public function setLifeTime($lt)
-	{
-		$this->_options['lifetime'] = $lt;
-	}
-
-	/**
-	 * Get cached data by id and group
-	 *
-	 * @param   string  $id     The cache data id
-	 * @param   string  $group  The cache data group
-	 *
-	 * @return  mixed  boolean  False on failure or a cached data string
-	 *
-	 * @since   11.1
-	 */
-	public function get($id, $group = null)
-	{
-		// Get the default group
-		$group = ($group) ? $group : $this->_options['defaultgroup'];
-
-		// Get the storage
-		$handler = $this->_getStorage();
-
-		if (!($handler instanceof Exception) && $this->_options['caching'])
+		if ($this->exists($cacheId))
 		{
-			return $handler->get($id, $group, $this->_options['checkTime']);
-		}
-		return false;
-	}
-
-	/**
-	 * Get a list of all cached data
-	 *
-	 * @return  mixed    Boolean false on failure or an object with a list of cache groups and data
-	 *
-	 * @since   11.1
-	 */
-	public function getAll()
-	{
-		// Get the storage
-		$handler = $this->_getStorage();
-
-		if (!($handler instanceof Exception) && $this->_options['caching'])
-		{
-			return $handler->getAll();
-		}
-		return false;
-	}
-
-	/**
-	 * Store the cached data by id and group
-	 *
-	 * @param   mixed   $data   The data to store
-	 * @param   string  $id     The cache data id
-	 * @param   string  $group  The cache data group
-	 *
-	 * @return  boolean  True if cache stored
-	 *
-	 * @since   11.1
-	 */
-	public function store($data, $id, $group = null)
-	{
-		// Get the default group
-		$group = ($group) ? $group : $this->_options['defaultgroup'];
-
-		// Get the storage and store the cached data
-		$handler = $this->_getStorage();
-
-		if (!($handler instanceof Exception) && $this->_options['caching'])
-		{
-			$handler->_lifetime = $this->_options['lifetime'];
-
-			return $handler->store($id, $group, $data);
-		}
-		return false;
-	}
-
-	/**
-	 * Remove a cached data entry by id and group
-	 *
-	 * @param   string  $id     The cache data id
-	 * @param   string  $group  The cache data group
-	 *
-	 * @return  boolean  True on success, false otherwise
-	 *
-	 * @since   11.1
-	 */
-	public function remove($id, $group = null)
-	{
-		// Get the default group
-		$group = ($group) ? $group : $this->_options['defaultgroup'];
-
-		// Get the storage
-		$handler = $this->_getStorage();
-
-		if (!($handler instanceof Exception))
-		{
-			return $handler->remove($id, $group);
-		}
-		return false;
-	}
-
-	/**
-	 * Clean cache for a group given a mode.
-	 *
-	 * group mode       : cleans all cache in the group
-	 * notgroup mode    : cleans all cache not in the group
-	 *
-	 * @param   string  $group  The cache data group
-	 * @param   string  $mode   The mode for cleaning cache [group|notgroup]
-	 *
-	 * @return  boolean  True on success, false otherwise
-	 *
-	 * @since   11.1
-	 */
-	public function clean($group = null, $mode = 'group')
-	{
-		// Get the default group
-		$group = ($group) ? $group : $this->_options['defaultgroup'];
-
-		// Get the storage handler
-		$handler = $this->_getStorage();
-
-		if (!($handler instanceof Exception))
-		{
-			return $handler->clean($group, $mode);
-		}
-		return false;
-	}
-
-	/**
-	 * Garbage collect expired cache data
-	 *
-	 * @return  boolean  True on success, false otherwise.
-	 *
-	 * @since   11.1
-	 */
-	public function gc()
-	{
-		// Get the storage handler
-		$handler = $this->_getStorage();
-
-		if (!($handler instanceof Exception))
-		{
-			return $handler->gc();
-		}
-		return false;
-	}
-
-	/**
-	 * Set lock flag on cached item
-	 *
-	 * @param   string  $id        The cache data id
-	 * @param   string  $group     The cache data group
-	 * @param   string  $locktime  The default locktime for locking the cache.
-	 *
-	 * @return  object  Properties are lock and locklooped
-	 *
-	 * @since   11.1
-	 */
-	public function lock($id, $group = null, $locktime = null)
-	{
-		$returning = new stdClass;
-		$returning->locklooped = false;
-
-		// Get the default group
-		$group = ($group) ? $group : $this->_options['defaultgroup'];
-
-		// Get the default locktime
-		$locktime = ($locktime) ? $locktime : $this->_options['locktime'];
-
-		// Allow storage handlers to perform locking on their own
-		// NOTE drivers with lock need also unlock or unlocking will fail because of false $id
-		$handler = $this->_getStorage();
-
-		if (!($handler instanceof Exception) && $this->_options['locking'] == true && $this->_options['caching'] == true)
-		{
-			$locked = $handler->lock($id, $group, $locktime);
-
-			if ($locked !== false)
-			{
-				return $locked;
-			}
-		}
-
-		// Fallback
-		$curentlifetime = $this->_options['lifetime'];
-
-		// Set lifetime to locktime for storing in children
-		$this->_options['lifetime'] = $locktime;
-
-		$looptime = $locktime * 10;
-		$id2 = $id . '_lock';
-
-		if ($this->_options['locking'] == true && $this->_options['caching'] == true)
-		{
-			$data_lock = $this->get($id2, $group);
-
+			$this->set($cacheId, $data, $this->options->get('ttl'));
 		}
 		else
 		{
-			$data_lock = false;
-			$returning->locked = false;
+			$this->add($cacheId, $data, $this->options->get('ttl'));
 		}
 
-		if ($data_lock !== false)
+		if ($this->options->get('runtime'))
 		{
-			$lock_counter = 0;
-
-			// Loop until you find that the lock has been released.
-			// That implies that data get from other thread has finished
-			while ($data_lock !== false)
-			{
-
-				if ($lock_counter > $looptime)
-				{
-					$returning->locked = false;
-					$returning->locklooped = true;
-					break;
-				}
-
-				usleep(100);
-				$data_lock = $this->get($id2, $group);
-				$lock_counter++;
-			}
+			self::$runtime[$cacheId] = $data;
 		}
 
-		if ($this->_options['locking'] == true && $this->_options['caching'] == true)
-		{
-			$returning->locked = $this->store(1, $id2, $group);
-		}
-
-		// Revert lifetime to previous one
-		$this->_options['lifetime'] = $curentlifetime;
-
-		return $returning;
+		return $this;
 	}
 
 	/**
-	 * Unset lock flag on cached item
+	 * Remove a cached data entry by id.
 	 *
-	 * @param   string  $id     The cache data id
-	 * @param   string  $group  The cache data group
+	 * @param   string  $cacheId  The cache data id.
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return  JCache  This object for method chaining.
 	 *
-	 * @since   11.1
+	 * @since   12.3
+	 * @throws  RuntimeException
 	 */
-	public function unlock($id, $group = null)
+	public function remove($cacheId)
 	{
-		$unlock = false;
+		$this->delete($cacheId);
 
-		// Get the default group
-		$group = ($group) ? $group : $this->_options['defaultgroup'];
-
-		// Allow handlers to perform unlocking on their own
-		$handler = $this->_getStorage();
-
-		if (!($handler instanceof Exception) && $this->_options['caching'])
+		if ($this->options->get('runtime'))
 		{
-			$unlocked = $handler->unlock($id, $group);
-
-			if ($unlocked !== false)
-			{
-				return $unlocked;
-			}
+			unset(self::$runtime[$cacheId]);
 		}
 
-		// Fallback
-		if ($this->_options['caching'])
-		{
-			$unlock = $this->remove($id . '_lock', $group);
-		}
-
-		return $unlock;
+		return $this;
 	}
 
 	/**
-	 * Get the cache storage handler
+	 * Method to add a storage entry.
 	 *
-	 * @return  JCacheStorage   A JCacheStorage object
+	 * @param   string   $key    The storage entry identifier.
+	 * @param   mixed    $value  The data to be stored.
+	 * @param   integer  $ttl    The number of seconds before the stored data expires.
 	 *
-	 * @since   11.1
+	 * @return  void
+	 *
+	 * @since   12.3
+	 * @throws  RuntimeException
 	 */
-	public function &_getStorage()
-	{
-		$hash = md5(serialize($this->_options));
-
-		if (isset(self::$_handler[$hash]))
-		{
-			return self::$_handler[$hash];
-		}
-
-		self::$_handler[$hash] = JCacheStorage::getInstance($this->_options['storage'], $this->_options);
-
-		return self::$_handler[$hash];
-	}
+	abstract protected function add($key, $value, $ttl);
 
 	/**
-	 * Perform workarounds on retrieved cached data
+	 * Method to determine whether a storage entry has been set for a key.
 	 *
-	 * @param   string  $data     Cached data
-	 * @param   array   $options  Array of options
+	 * @param   string  $key  The storage entry identifier.
 	 *
-	 * @return  string  Body of cached data
+	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   12.3
 	 */
-	public static function getWorkarounds($data, $options = array())
-	{
-		$app = JFactory::getApplication();
-		$document = JFactory::getDocument();
-		$body = null;
-
-		// Get the document head out of the cache.
-		if (isset($options['mergehead']) && $options['mergehead'] == 1 && isset($data['head']) && !empty($data['head']))
-		{
-			$document->mergeHeadData($data['head']);
-		}
-		elseif (isset($data['head']) && method_exists($document, 'setHeadData'))
-		{
-			$document->setHeadData($data['head']);
-		}
-
-		// If the pathway buffer is set in the cache data, get it.
-		if (isset($data['pathway']) && is_array($data['pathway']))
-		{
-			// Push the pathway data into the pathway object.
-			$pathway = $app->getPathWay();
-			$pathway->setPathway($data['pathway']);
-		}
-
-		// @todo check if the following is needed, seems like it should be in page cache
-		// If a module buffer is set in the cache data, get it.
-		if (isset($data['module']) && is_array($data['module']))
-		{
-			// Iterate through the module positions and push them into the document buffer.
-			foreach ($data['module'] as $name => $contents)
-			{
-				$document->setBuffer($contents, 'module', $name);
-			}
-		}
-
-		if (isset($data['body']))
-		{
-			// The following code searches for a token in the cached page and replaces it with the
-			// proper token.
-			$token = JSession::getFormToken();
-			$search = '#<input type="hidden" name="[0-9a-f]{32}" value="1" />#';
-			$replacement = '<input type="hidden" name="' . $token . '" value="1" />';
-			$data['body'] = preg_replace($search, $replacement, $data['body']);
-			$body = $data['body'];
-		}
-
-		// Get the document body out of the cache.
-		return $body;
-	}
+	abstract protected function exists($key);
 
 	/**
-	 * Create workarounded data to be cached
+	 * Method to get a storage entry value from a key.
 	 *
-	 * @param   string  $data     Cached data
-	 * @param   array   $options  Array of options
+	 * @param   string  $key  The storage entry identifier.
 	 *
-	 * @return  string  Data to be cached
+	 * @return  mixed
 	 *
-	 * @since   11.1
+	 * @since   12.3
+	 * @throws  RuntimeException
 	 */
-	public static function setWorkarounds($data, $options = array())
-	{
-		$loptions = array();
-		$loptions['nopathway'] = 0;
-		$loptions['nohead'] = 0;
-		$loptions['nomodules'] = 0;
-		$loptions['modulemode'] = 0;
-
-		if (isset($options['nopathway']))
-		{
-			$loptions['nopathway'] = $options['nopathway'];
-		}
-
-		if (isset($options['nohead']))
-		{
-			$loptions['nohead'] = $options['nohead'];
-		}
-
-		if (isset($options['nomodules']))
-		{
-			$loptions['nomodules'] = $options['nomodules'];
-		}
-
-		if (isset($options['modulemode']))
-		{
-			$loptions['modulemode'] = $options['modulemode'];
-		}
-
-		$app = JFactory::getApplication();
-		$document = JFactory::getDocument();
-
-		// Get the modules buffer before component execution.
-		$buffer1 = $document->getBuffer();
-
-		if (!is_array($buffer1))
-		{
-			$buffer1 = array();
-		}
-
-		// Make sure the module buffer is an array.
-		if (!isset($buffer1['module']) || !is_array($buffer1['module']))
-		{
-			$buffer1['module'] = array();
-		}
-
-		// View body data
-		$cached['body'] = $data;
-
-		// Document head data
-		if ($loptions['nohead'] != 1 && method_exists($document, 'getHeadData'))
-		{
-
-			if ($loptions['modulemode'] == 1)
-			{
-				$headnow = $document->getHeadData();
-				$unset = array('title', 'description', 'link', 'links', 'metaTags');
-
-				foreach ($unset as $un)
-				{
-					unset($headnow[$un]);
-					unset($options['headerbefore'][$un]);
-				}
-
-				$cached['head'] = array();
-
-				// Only store what this module has added
-				foreach ($headnow as $now => $value)
-				{
-					if (isset($options['headerbefore'][$now]))
-					{
-						// We have to serialize the content of the arrays because the may contain other arrays which is a notice in PHP 5.4 and newer
-						$nowvalue = array_map('serialize', $headnow[$now]);
-						$beforevalue = array_map('serialize', $options['headerbefore'][$now]);
-						$newvalue = array_diff_assoc($nowvalue, $beforevalue);
-						$newvalue = array_map('unserialize', $newvalue);
-					}
-					else
-					{
-						$newvalue = $headnow[$now];
-					}
-
-					if (!empty($newvalue))
-					{
-						$cached['head'][$now] = $newvalue;
-					}
-				}
-
-			}
-			else
-			{
-				$cached['head'] = $document->getHeadData();
-			}
-		}
-
-		// Pathway data
-		if ($app->isSite() && $loptions['nopathway'] != 1)
-		{
-			$pathway = $app->getPathWay();
-			$cached['pathway'] = isset($data['pathway']) ? $data['pathway'] : $pathway->getPathway();
-		}
-
-		if ($loptions['nomodules'] != 1)
-		{
-			// @todo Check if the following is needed, seems like it should be in page cache
-			// Get the module buffer after component execution.
-			$buffer2 = $document->getBuffer();
-
-			if (!is_array($buffer2))
-			{
-				$buffer2 = array();
-			}
-
-			// Make sure the module buffer is an array.
-			if (!isset($buffer2['module']) || !is_array($buffer2['module']))
-			{
-				$buffer2['module'] = array();
-			}
-
-			// Compare the second module buffer against the first buffer.
-			$cached['module'] = array_diff_assoc($buffer2['module'], $buffer1['module']);
-		}
-
-		return $cached;
-	}
+	abstract protected function fetch($key);
 
 	/**
-	 * Create safe id for cached data from url parameters set by plugins and framework
+	 * Method to remove a storage entry for a key.
 	 *
-	 * @return  string   md5 encoded cacheid
+	 * @param   string  $key  The storage entry identifier.
 	 *
-	 * @since   11.1
+	 * @return  void
+	 *
+	 * @since   12.3
+	 * @throws  RuntimeException
 	 */
-	public static function makeId()
-	{
-		$app = JFactory::getApplication();
-
-		// Get url parameters set by plugins
-		$registeredurlparams = $app->registeredurlparams;
-
-		// Platform defaults
-		$registeredurlparams->format = 'WORD';
-		$registeredurlparams->option = 'WORD';
-		$registeredurlparams->view = 'WORD';
-		$registeredurlparams->layout = 'WORD';
-		$registeredurlparams->tpl = 'CMD';
-		$registeredurlparams->id = 'INT';
-
-		$safeuriaddon = new stdClass;
-
-		foreach ($registeredurlparams as $key => $value)
-		{
-			$safeuriaddon->$key = $app->input->get($key, null, $value);
-		}
-
-		return md5(serialize($safeuriaddon));
-	}
+	abstract protected function delete($key);
 
 	/**
-	 * Add a directory where JCache should search for handlers. You may
-	 * either pass a string or an array of directories.
+	 * Method to set a value for a storage entry.
 	 *
-	 * @param   string  $path  A path to search.
+	 * @param   string   $key    The storage entry identifier.
+	 * @param   mixed    $value  The data to be stored.
+	 * @param   integer  $ttl    The number of seconds before the stored data expires.
 	 *
-	 * @return  array   An array with directory elements
+	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.3
+	 * @throws  RuntimeException
 	 */
-	public static function addIncludePath($path = '')
-	{
-		static $paths;
-
-		if (!isset($paths))
-		{
-			$paths = array();
-		}
-		if (!empty($path) && !in_array($path, $paths))
-		{
-			jimport('joomla.filesystem.path');
-			array_unshift($paths, JPath::clean($path));
-		}
-		return $paths;
-	}
+	abstract protected function set($key, $value, $ttl);
 }
