@@ -7,20 +7,20 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once __DIR__ . '/JEventDispatcherInspector.php';
-require_once __DIR__ . '/JEventInspector.php';
+require_once __DIR__ . '/stubs/foolistener.php';
+require_once __DIR__ . '/stubs/barlistener.php';
 
 /**
  * Test class for JEventDispatcher.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Event
- * @since       11.3
+ * @since       13.1
  */
 class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var JEventDispatcher
+	 * @var  JEventDispatcher
 	 */
 	protected $object;
 
@@ -28,487 +28,768 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   13.1
 	 */
 	protected function setUp()
 	{
-		$this->object = new JEventDispatcherInspector;
-		$this->object->setInstance($this->object);
+		$this->object = new JEventDispatcher;
 	}
 
 	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
+	 * Test the getInstance method.
 	 *
-	 * @return void
-	 */
-	protected function tearDown()
-	{
-		$this->object->setInstance(null);
-	}
-
-	/**
-	 * Tests the JEventDispatcher::getInstance method.
+	 * @since   13.1
 	 *
-	 * @return  void
-	 *
-	 * @since   11.3
 	 * @covers  JEventDispatcher::getInstance
 	 */
 	public function testGetInstance()
 	{
-		$mock = JEventDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
+		$this->assertInstanceOf('JEventDispatcher', $dispatcher);
 
-		$this->assertInstanceOf(
-			'JEventDispatcherInspector',
-			$mock
-		);
+		// Get an other instance.
+		$dispatcher2 = JEventDispatcher::getInstance();
 
-		$this->object->setInstance(null);
-
-		$instance = JEventDispatcher::getInstance();
-
-		$this->assertInstanceOf(
-			'JEventDispatcher',
-			$instance,
-			'Tests that getInstance returns a JEventDispatcher object.'
-		);
-
-		// Push a new instance into the class.
-		JEventDispatcherInspector::setInstance('foo');
-
-		$this->assertThat(
-			JEventDispatcher::getInstance(),
-			$this->equalTo('foo'),
-			'Tests that a subsequent call to JEventDispatcher::getInstance returns the cached singleton.'
-		);
-
-		JEventDispatcherInspector::setInstance($mock);
+		$this->assertSame($dispatcher, $dispatcher2);
 	}
 
 	/**
-	 * Test JEventDispatcher::getState().
+	 * Test the registerEvent method.
 	 *
-	 * @return void
+	 * @since   13.1
 	 *
-	 * @since 11.3
-	 * @covers   JEventDispatcher::getState
+	 * @covers  JEventDispatcher::registerEvent
 	 */
-	public function testGetState()
+	public function testRegisterEvent()
 	{
-		$this->assertThat(
-			$this->object->getState(),
-			$this->equalTo(null)
-		);
+		// Register the test event.
+		$event = new JEvent('test');
+		$this->object->registerEvent($event);
 
-		$this->object->_state = 'test';
+		// Register the foo event.
+		$event1 = new JEvent('foo');
+		$this->object->registerEvent($event1);
 
-		$this->assertThat(
-			$this->object->getState(),
-			$this->equalTo('test')
-		);
+		$events = TestReflection::getValue($this->object, 'events');
+
+		$this->assertContains($event, $events);
+		$this->assertContains($event1, $events);
 	}
 
 	/**
-	 * Test JEventDispatcher::register().
+	 * Test the registerEvent method by reseting an existing event.
 	 *
-	 * @since 11.3
-	 * @covers    JEventDispatcher::register
+	 * @since   13.1
 	 *
-	 * @return void
+	 * @covers  JEventDispatcher::registerEvent
 	 */
-	public function testRegister()
+	public function testRegisterEventReset()
 	{
-		// We have an empty Dispatcher object
-		$this->assertThat(
-			$this->object->_observers,
-			$this->equalTo(array())
-		);
+		// Register the test event.
+		$event = new JEvent('test');
+		$this->object->registerEvent($event);
 
-		$this->assertThat(
-			$this->object->_methods,
-			$this->equalTo(array())
-		);
+		// Register the event one more time with a reset flag.
+		$event1 = new JEvent('test', array('foo'));
+		$this->object->registerEvent($event, true);
 
-		// We register a function on the event 'onTestEvent'
-		$this->object->register('onTestEvent', 'JEventMockFunction');
+		$events = TestReflection::getValue($this->object, 'events');
 
-		$this->assertThat(
-			$this->object->_observers,
-			$this->equalTo(
-				array(
-					array('event' => 'onTestEvent', 'handler' => 'JEventMockFunction')
-				)
-			)
-		);
-
-		$this->assertThat(
-			$this->object->_methods,
-			$this->equalTo(
-				array('ontestevent' => array(0))
-			)
-		);
-
-		// We register the same function on a different event 'onTestOtherEvent'
-		$this->object->register('onTestOtherEvent', 'JEventMockFunction');
-
-		$this->assertThat(
-			$this->object->_observers,
-			$this->equalTo(
-				array(
-					array('event' => 'onTestEvent', 'handler' => 'JEventMockFunction'),
-					array('event' => 'onTestOtherEvent', 'handler' => 'JEventMockFunction')
-				)
-			)
-		);
-
-		$this->assertThat(
-			$this->object->_methods,
-			$this->equalTo(
-				array(
-					'ontestevent' => array(0),
-					'ontestotherevent' => array(1)
-				)
-			)
-		);
-
-		// Now we attach a class to the dispatcher
-		$this->object->register('', 'JEventInspector');
-
-		$object = $this->object->_observers[2];
-
-		$this->assertThat(
-			$this->object->_observers,
-			$this->equalTo(
-				array(
-					array('event' => 'onTestEvent', 'handler' => 'JEventMockFunction'),
-					array('event' => 'onTestOtherEvent', 'handler' => 'JEventMockFunction'),
-					$object
-				)
-			)
-		);
-
-		$this->assertThat(
-			$this->object->_methods,
-			$this->equalTo(
-				array(
-					'__get' => array(2),
-					'ontestevent' => array(0, 2),
-					'ontestotherevent' => array(1)
-				)
-			)
-		);
+		$this->assertContainsOnly($event1, $events);
 	}
 
 	/**
-	 * Test JEventDispatcher::register() with an error.
+	 * Test the unregisterEvent method.
 	 *
-	 * @since              12.1
+	 * @since   13.1
+	 *
+	 * @covers  JEventDispatcher::unregisterEvent
+	 */
+	public function testUnregisterEvent()
+	{
+		// Register the test event.
+		$event = new JEvent('test');
+		$this->object->registerEvent($event);
+
+		// Unregister it.
+		$this->object->unregisterEvent($event);
+
+		$events = TestReflection::getValue($this->object, 'events');
+		$this->assertEmpty($events);
+	}
+
+	/**
+	 * Test the unregisterEvent method by using the event name.
+	 *
+	 * @since   13.1
+	 *
+	 * @covers  JEventDispatcher::unregisterEvent
+	 */
+	public function testUnregisterEventByName()
+	{
+		// Register the test event.
+		$event = new JEvent('test');
+		$this->object->registerEvent($event);
+
+		// Unregister it.
+		$this->object->unregisterEvent('test');
+
+		$events = TestReflection::getValue($this->object, 'events');
+		$this->assertEmpty($events);
+	}
+
+	/**
+	 * Test the unregisterEvent method by unregistering
+	 * a non existing event.
+	 *
+	 * @since   13.1
+	 *
+	 * @covers  JEventDispatcher::unregisterEvent
+	 */
+	public function testUnregisterEventNonRegistered()
+	{
+		// Register the test event.
+		$event = new JEvent('test');
+		$this->object->registerEvent($event);
+
+		// Unregister an unexisting event.
+		$this->object->unregisterEvent('foo');
+
+		$events = TestReflection::getValue($this->object, 'events');
+
+		// Assert the test event is still here.
+		$this->assertContainsOnly($event, $events);
+	}
+
+	/**
+	 * Test the hasEvent method by.
+	 *
+	 * @since   13.1
+	 *
+	 * @covers  JEventDispatcher::hasEvent
+	 */
+	public function testHasEvent()
+	{
+		// Register the test event.
+		$event = new JEvent('test');
+		$this->object->registerEvent($event);
+
+		// Unregister it.
+		$this->object->unregisterEvent('test');
+
+		$events = TestReflection::getValue($this->object, 'events');
+		$this->assertEmpty($events);
+	}
+
+	/**
+	 * Test the registerListener method without specified event names.
+	 *
+	 * @since   13.1
+	 *
+	 * @covers  JEventDispatcher::registerListener
+	 */
+	public function testRegisterListenerWithoutSpecifiedEvents()
+	{
+		$listener = new FooListener;
+
+		$this->object->registerListener($listener);
+
+		// Assert the listener has been registered to all events.
+		$this->assertTrue($this->object->hasListener($listener, 'onBeforeSomething'));
+		$this->assertTrue($this->object->hasListener($listener, 'onSomething'));
+		$this->assertTrue($this->object->hasListener($listener, 'onAfterSomething'));
+	}
+
+	/**
+	 * Test the registerListener method with specified event names.
+	 *
+	 * @since   13.1
+	 *
+	 * @covers  JEventDispatcher::registerListener
+	 */
+	public function testRegisterListenerWithSpecifiedEvents()
+	{
+		$listener = new FooListener;
+
+		$eventNames = array(
+			'onBeforeSomething',
+			'onSomething',
+		);
+
+		$this->object->registerListener($listener, $eventNames);
+
+		// Assert the listener has been registered to the onBeforeSomething and onSomething events only.
+		$this->assertTrue($this->object->hasListener($listener, 'onBeforeSomething'));
+		$this->assertTrue($this->object->hasListener($listener, 'onSomething'));
+
+		$this->assertFalse($this->object->hasListener($listener, 'onAfterSomething'));
+	}
+
+	/**
+	 * Test the registerListener method with specified priorities / event,
+	 * but unspecified event names.
+	 *
+	 * @since   13.1
+	 *
+	 * @covers  JEventDispatcher::registerListener
+	 */
+	public function testRegisterListenerWithPrioritiesWithoutEvents()
+	{
+		$listener = new FooListener;
+
+		$priorities = array(
+			'onBeforeSomething' => 8,
+			'onSomething' => -50
+		);
+
+		$this->object->registerListener($listener, array(), $priorities);
+
+		// Assert the listener has been registered to the onBeforeSomething and onSomething events only.
+		$this->assertTrue($this->object->hasListener($listener, 'onBeforeSomething'));
+		$this->assertTrue($this->object->hasListener($listener, 'onSomething'));
+
+		// Assert the listener is correctly registered with the given priority.
+		$this->assertEquals(8, $this->object->getListenerPriority($listener, 'onBeforeSomething'));
+		$this->assertEquals(-50, $this->object->getListenerPriority($listener, 'onSomething'));
+	}
+
+	/**
+	 * Test the registerListener method with specified priorities / event,
+	 * and specified event names.
+	 *
+	 * @since   13.1
+	 *
+	 * @covers  JEventDispatcher::registerListener
+	 */
+	public function testRegisterListenerWithPrioritiesWithEvents()
+	{
+		$listener = new FooListener;
+
+		$eventNames = array(
+			'onBeforeSomething'
+		);
+
+		$priorities = array(
+			'onBeforeSomething' => 8,
+			'onSomething' => -50
+		);
+
+		$this->object->registerListener($listener, $eventNames, $priorities);
+
+		// Assert the listener has been registered to the onBeforeSomething event only.
+		$this->assertTrue($this->object->hasListener($listener, 'onBeforeSomething'));
+		$this->assertFalse($this->object->hasListener($listener, 'onSomething'));
+
+		// Assert the listener is correctly registered with the given priority.
+		$this->assertEquals(8, $this->object->getListenerPriority($listener, 'onBeforeSomething'));
+	}
+
+	/**
+	 * Test the registerListener method with an invalid specified event name.
+	 * (the event name doesn't match any listener method).
+	 *
+	 * @since   13.1
+	 *
+	 * @covers  JEventDispatcher::registerListener
+	 */
+	public function testRegisterListenerInvalidSpecifiedEvent()
+	{
+		$listener = new FooListener;
+
+		$eventNames = array(
+			'onNothing',
+		);
+
+		$this->object->registerListener($listener, $eventNames);
+
+		// Assert the listener is not registered.
+		$this->assertFalse($this->object->hasListener($listener));
+	}
+
+	/**
+	 * Test the registerListener method for a closure listener.
+	 *
+	 * @since   13.1
+	 *
+	 * @covers  JEventDispatcher::registerListener
+	 */
+	public function testRegisterListenerClosure()
+	{
+		$listener = function (JEvent $e) {};
+
+		$this->object->registerListener($listener, array('onSomething', 'onAfterSomething'));
+
+		$this->assertTrue($this->object->hasListener($listener, 'onSomething'));
+		$this->assertTrue($this->object->hasListener($listener, 'onAfterSomething'));
+	}
+
+	/**
+	 * Test the registerListener method for a closure listener.
+	 *
+	 * @since   13.1
+	 *
+	 * @covers  JEventDispatcher::registerListener
+	 */
+	public function testRegisterListenerClosureWithPriority()
+	{
+		$listener = function (JEvent $e) {};
+
+		$this->object->registerListener($listener, array('onSomething'), array('onSomething' => 122));
+
+		$this->assertTrue($this->object->hasListener($listener, 'onSomething'));
+		$this->assertEquals(122, $this->object->getListenerPriority($listener, 'onSomething'));
+	}
+
+	/**
+	 * Test the registerListener exception because of
+	 * unspecified event name for a closure listener.
+	 *
+	 * @since   13.1
+	 *
+	 * @covers  JEventDispatcher::registerListener
+	 *
 	 * @expectedException  InvalidArgumentException
-	 * @covers             JEventDispatcher::register
-	 *
-	 * @return void
 	 */
-	public function testRegisterException()
+	public function testRegisterListenerClosureException()
 	{
-		$this->object->register('fakeevent', 'nonExistingClass');
+		$listener = function (JEvent $e) {};
+
+		$this->object->registerListener($listener);
 	}
 
 	/**
-	 * Test JEventDispatcher::trigger().
+	 * Test the registerListener exception
 	 *
-	 * @since    11.3
-	 * @covers   JEventDispatcher::trigger
+	 * @since   12.3
 	 *
-	 * @return void
+	 * @covers  JEventDispatcher::registerListener
+	 *
+	 * @expectedException  InvalidArgumentException
 	 */
-	public function testTrigger()
+	public function testRegisterListenerException()
 	{
-		$this->object->register('onTestEvent', 'JEventMockFunction');
-		$this->object->register('', 'JEventInspector');
-
-		// We check a non-existing event
-		$this->assertThat(
-			$this->object->trigger('onFakeEvent'),
-			$this->equalTo(array())
-		);
-
-		// Let's check the existing event "onTestEvent" without parameters
-		$this->assertThat(
-			$this->object->trigger('onTestEvent'),
-			$this->equalTo(
-				array(
-					'JEventDispatcherMockFunction executed',
-					''
-				)
-			)
-		);
-
-		// Let's check the existing event "onTestEvent" with parameters
-		$this->assertThat(
-			$this->object->trigger('onTestEvent', array('one', 'two')),
-			$this->equalTo(
-				array(
-					'JEventDispatcherMockFunction executed',
-					'onetwo'
-				)
-			)
-		);
-
-		// We check a situation where the observer is broken. Joomla should handle this gracefully
-		$this->object->_observers = array();
-
-		$this->assertThat(
-			$this->object->trigger('onTestEvent'),
-			$this->equalTo(array())
-		);
+		$this->object->registerListener('foo');
 	}
 
 	/**
-	 * Test JEventDispatcher::attach().
+	 * Test the unregisterListener method without specified event names.
 	 *
-	 * @since 11.3
-	 * @covers JEventDispatcher::attach
+	 * @since   13.1
 	 *
-	 * @return void
+	 * @covers  JEventDispatcher::unregisterListener
 	 */
-	public function testAttach()
+	public function testUnregisterListenerWithoutSpecifiedEvents()
 	{
-		// Let's test an invalid observer
-		$observer = array();
+		$listener = new FooListener;
 
-		$this->object->attach($observer);
-
-		$this->assertThat(
-			$this->object->_methods,
-			$this->equalTo(array())
+		$eventNames = array(
+			'onBeforeSomething',
+			'onAfterSomething'
 		);
 
-		$this->assertThat(
-			$this->object->_observers,
-			$this->equalTo(array())
-		);
+		// Register the listener for the onBeforeSomething and onAfterSomething events.
+		$this->object->registerListener($listener, $eventNames);
 
-		// Let's test an uncallable observer
-		$observer = array('handler' => 'fakefunction', 'event' => 'onTestEvent');
+		// Unregister the listener.
+		$this->object->unregisterListener($listener);
 
-		$this->object->attach($observer);
-
-		$this->assertThat(
-			$this->object->_methods,
-			$this->equalTo(array())
-		);
-
-		$this->assertThat(
-			$this->object->_observers,
-			$this->equalTo(array())
-		);
-
-		// Let's test a callable function observer
-		$observer = array('handler' => 'JEventMockFunction', 'event' => 'onTestEvent');
-		$observers = array($observer);
-
-		$this->object->attach($observer);
-
-		$this->assertThat(
-			$this->object->_methods,
-			$this->equalTo(
-				array(
-					'ontestevent' => array(0)
-				)
-			)
-		);
-
-		$this->assertThat(
-			$this->object->_observers,
-			$this->equalTo($observers)
-		);
-
-		// Let's test that an observer is not attached twice
-		$observer = array('handler' => 'JEventMockFunction', 'event' => 'onTestEvent');
-		$observers = array($observer);
-
-		$this->object->attach($observer);
-
-		$this->assertThat(
-			$this->object->_methods,
-			$this->equalTo(
-				array(
-					'ontestevent' => array(0)
-				)
-			)
-		);
-
-		$this->assertThat(
-			$this->object->_observers,
-			$this->equalTo($observers)
-		);
-
-		// Let's test an invalid object
-		$observer = new stdClass;
-
-		$this->object->attach($observer);
-
-		$this->assertThat(
-			$this->object->_methods,
-			$this->equalTo(
-				array(
-					'ontestevent' => array(0)
-				)
-			)
-		);
-
-		$this->assertThat(
-			$this->object->_observers,
-			$this->equalTo($observers)
-		);
-
-		// Let's test a valid event object
-		$observer = new JEventInspector($this->object);
-		$observers[] = $observer;
-
-		$this->object->attach($observer);
-
-		$this->assertThat(
-			$this->object->_methods,
-			$this->equalTo(
-				array(
-					'__get' => array(1),
-					'ontestevent' => array(0, 1)
-				)
-			)
-		);
-
-		$this->assertThat(
-			$this->object->_observers,
-			$this->equalTo($observers)
-		);
-
-		// Let's test that an object observer is not attached twice
-		$observer = new JEventInspector($this->object);
-
-		$this->object->attach($observer);
-
-		$this->assertThat(
-			$this->object->_methods,
-			$this->equalTo(
-				array(
-					'__get' => array(1),
-					'ontestevent' => array(0, 1)
-				)
-			)
-		);
-
-		$this->assertThat(
-			$this->object->_observers,
-			$this->equalTo($observers)
-		);
+		// Assert the listener has been unregistered from these 2 events.
+		$this->assertFalse($this->object->hasListener($listener, 'onBeforeSomething'));
+		$this->assertFalse($this->object->hasListener($listener, 'onAfterSomething'));
 	}
 
 	/**
-	 * Test JEventDispatcher::detach().
+	 * Test the unregisterListener method without specified event names
+	 * and a closure listener.
 	 *
-	 * @since 11.3
-	 * @covers JEventDispatcher::detach
+	 * @since   13.1
 	 *
-	 * @return void
+	 * @covers  JEventDispatcher::unregisterListener
 	 */
-	public function testDetach()
+	public function testUnregisterListenerClosureWithoutSpecifiedEvents()
 	{
-		// Adding 3 events to detach later
-		$observer1 = array('handler' => 'fakefunction', 'event' => 'onTestEvent');
-		$observer2 = array('handler' => 'JEventMockFunction', 'event' => 'onTestEvent');
-		$this->object->attach($observer2);
-		$observer3 = new JEventInspector($this->object);
-		$this->object->attach($observer3);
+		$listener = function (JEvent $e) {};
 
-		// Test removing a non-existing observer
-		$this->assertThat(
-			$this->object->_methods,
-			$this->equalTo(
-				array(
-					'__get' => array(1),
-					'ontestevent' => array(0, 1)
-				)
-			)
+		$eventNames = array(
+			'onBeforeSomething',
+			'onAfterSomething'
 		);
 
-		$this->assertThat(
-			$this->object->_observers,
-			$this->equalTo(
-				array(
-					$observer2,
-					$observer3
-				)
-			)
+		// Register the listener for the onBeforeSomething and onAfterSomething events.
+		$this->object->registerListener($listener, $eventNames);
+
+		// Unregister the listener.
+		$this->object->unregisterListener($listener);
+
+		// Assert the listener has been unregistered from these 2 events.
+		$this->assertFalse($this->object->hasListener($listener, 'onBeforeSomething'));
+		$this->assertFalse($this->object->hasListener($listener, 'onAfterSomething'));
+	}
+
+	/**
+	 * Test the unregisterListener method with specified event names.
+	 *
+	 * @since   13.1
+	 *
+	 * @covers  JEventDispatcher::unregisterListener
+	 */
+	public function testUnregisterListenerWithEvent()
+	{
+		$listener = new FooListener;
+
+		$eventNames = array(
+			'onBeforeSomething',
+			'onAfterSomething'
 		);
 
-		$return = $this->object->detach($observer1);
+		// Register the listener for the onBeforeSomething and onAfterSomething events.
+		$this->object->registerListener($listener, $eventNames);
 
-		$this->assertFalse($return);
+		// Unregister the listener from the onAfterSomething event.
+		$this->object->unregisterListener($listener, array('onAfterSomething'));
 
-		$this->assertThat(
-			$this->object->_methods,
-			$this->equalTo(
-				array(
-					'__get' => array(1),
-					'ontestevent' => array(0, 1)
-				)
-			)
+		// Assert the listener has been unregistered only from the onAfterSomething event.
+		$this->assertTrue($this->object->hasListener($listener, 'onBeforeSomething'));
+		$this->assertFalse($this->object->hasListener($listener, 'onAfterSomething'));
+	}
+
+	/**
+	 * Test the unregisterListener method exception.
+	 *
+	 * @since   13.1
+	 *
+	 * @covers  JEventDispatcher::unregisterListener
+	 *
+	 * @expectedException  InvalidArgumentException
+	 */
+	public function testUnregisterListenerException()
+	{
+		$this->object->unregisterListener('foo');
+	}
+
+	/**
+	 * Test the getListeners method.
+	 *
+	 * @since   13.1
+	 *
+	 * @covers  JEventDispatcher::getListeners
+	 */
+	public function testGetListeners()
+	{
+		// Register two listeners for the onBeforeSomething event.
+		$listener1 = new FooListener;
+		$listener2 = function (JEvent $e) {};
+
+		$this->object->registerListener($listener1, array('onBeforeSomething'))
+			->registerListener($listener2, array('onBeforeSomething'));
+
+		// Get the event listeners.
+		$listeners = $this->object->getListeners('onBeforeSomething');
+
+		$this->assertSame($listener1, $listeners[0]);
+		$this->assertSame($listener2, $listeners[1]);
+	}
+
+	/**
+	 * Test the getListeners method by using an event object.
+	 *
+	 * @since   13.1
+	 *
+	 * @covers  JEventDispatcher::getListeners
+	 */
+	public function testGetListenersEventObject()
+	{
+		// Register two listeners for the onBeforeSomething event.
+		$listener1 = new FooListener;
+		$listener2 = function (JEvent $e) {};
+
+		$this->object->registerListener($listener1, array('onBeforeSomething'))
+			->registerListener($listener2, array('onBeforeSomething'));
+
+		// Get the listeners using an event object.
+		$listeners = $this->object->getListeners(new JEvent('onBeforeSomething'));
+
+		$this->assertSame($listener1, $listeners[0]);
+		$this->assertSame($listener2, $listeners[1]);
+	}
+
+	/**
+	 * Test the getListeners method default value.
+	 *
+	 * @since   13.1
+	 *
+	 * @covers  JEventDispatcher::getListeners
+	 */
+	public function testGetListenersDefault()
+	{
+		$this->assertEmpty($this->object->getListeners('unexisting'));
+	}
+
+	/**
+	 * Test the getListenerPriority method.
+	 *
+	 * @since   13.1
+	 *
+	 * @covers  JEventDispatcher::getListenerPriority
+	 */
+	public function testGetListenerPriority()
+	{
+		// Register a listener with some priorities.
+		$listener1 = new FooListener;
+
+		$this->object->registerListener($listener1,
+			array('onBeforeSomething', 'onAfterSomething'),
+			array('onBeforeSomething' => 22, 'onAfterSomething' => -100)
 		);
 
-		$this->assertThat(
-			$this->object->_observers,
-			$this->equalTo(
-				array(
-					$observer2,
-					$observer3
-				)
-			)
+		$listener2 = function (JEvent $e) {};
+		$this->object->registerListener($listener2,
+			array('onBeforeSomething'),
+			array('onBeforeSomething' => 114)
 		);
 
-		// Test removing a functional observer
-		$return = $this->object->detach($observer2);
+		$this->assertEquals(22, $this->object->getListenerPriority($listener1, 'onBeforeSomething'));
+		$this->assertEquals(-100, $this->object->getListenerPriority($listener1, 'onAfterSomething'));
+		$this->assertEquals(114, $this->object->getListenerPriority($listener2, 'onBeforeSomething'));
+	}
 
-		$this->assertTrue($return);
+	/**
+	 * Test the getListenerPriority default value.
+	 *
+	 * @since   13.1
+	 *
+	 * @covers  JEventDispatcher::getListenerPriority
+	 */
+	public function testGetListenerPriorityDefault()
+	{
+		$this->assertFalse($this->object->getListenerPriority(new stdClass, 'onSomething'));
+	}
 
-		$this->assertThat(
-			$this->object->_methods,
-			$this->equalTo(
-				array(
-					'__get' => array(1),
-					'ontestevent' => array(1 => 1)
-				)
-			)
-		);
+	/**
+	 * Test the countListeners method.
+	 *
+	 * @since   13.1
+	 *
+	 * @covers  JEventDispatcher::countListeners
+	 */
+	public function testCountListeners()
+	{
+		$listener1 = new FooListener;
+		$listener2 = new BarListener;
+		$listener3 = function (JEvent $e) {};
 
-		$this->assertThat(
-			$this->object->_observers,
-			$this->equalTo(
-				array(
-					1 => $observer3
-				)
-			)
-		);
+		$this->object->registerListener($listener1, array('onBeforeSomething'));
+		$this->object->registerListener($listener2, array('onBeforeSomething'));
+		$this->object->registerListener($listener3, array('onBeforeSomething'));
 
-		// Test removing an object observer with more than one event
-		$return = $this->object->detach($observer3);
+		$this->assertEquals(3, $this->object->countListeners('onBeforeSomething'));
+		$this->assertEquals(3, $this->object->countListeners(new JEvent('onBeforeSomething')));
+	}
 
-		$this->assertTrue($return);
+	/**
+	 * Test the countListeners method default value.
+	 *
+	 * @since   13.1
+	 *
+	 * @covers  JEventDispatcher::countListeners
+	 */
+	public function testCountListenersDefault()
+	{
+		$this->assertEquals(0, $this->object->countListeners('onSomething'));
+	}
 
-		$this->assertThat(
-			$this->object->_methods,
-			$this->equalTo(
-				array(
-					'__get' => array(),
-					'ontestevent' => array()
-				)
-			)
-		);
+	/**
+	 * Test the hasListener method.
+	 *
+	 * @since   13.1
+	 *
+	 * @covers  JEventDispatcher::hasListener
+	 */
+	public function testHasListener()
+	{
+		$listener1 = new FooListener;
 
-		$this->assertThat(
-			$this->object->_observers,
-			$this->equalTo(array())
-		);
+		$this->object->registerListener($listener1, array('onBeforeSomething'));
+
+		$this->assertTrue($this->object->hasListener($listener1));
+		$this->assertTrue($this->object->hasListener($listener1, 'onBeforeSomething'));
+		$this->assertTrue($this->object->hasListener($listener1, new JEvent('onBeforeSomething')));
+	}
+
+	/**
+	 * Test the hasListener method default value.
+	 *
+	 * @since   13.1
+	 *
+	 * @covers  JEventDispatcher::hasListener
+	 */
+	public function testHasListenerDefault()
+	{
+		$this->assertFalse($this->object->hasListener(new stdClass, 'onSomething'));
+		$this->assertFalse($this->object->hasListener(new stdClass, new JEvent('onSomething')));
+	}
+
+	/**
+	 * Test the triggerEvent method.
+	 *
+	 * @since   13.1
+	 *
+	 * @covers  JEventDispatcher::triggerEvent
+	 */
+	public function testTriggerEvent()
+	{
+		$mockListener1 = $this->getMock('FooListener');
+		$mockListener1->expects($this->once())
+			->method('onBeforeSomething');
+
+		$mockListener2 = $this->getMock('BarListener');
+		$mockListener2->expects($this->once())
+			->method('onBeforeSomething');
+
+		$invoked = 0;
+		$listener3 = function (JEvent $e) use (&$invoked) {
+			$invoked++;
+		};
+
+		$this->object->registerListener($mockListener1, array('onBeforeSomething'));
+		$this->object->registerListener($mockListener2, array('onBeforeSomething'));
+		$this->object->registerListener($listener3, array('onBeforeSomething'));
+
+		$this->object->triggerEvent('onBeforeSomething');
+
+		$this->assertEquals(1, $invoked);
+	}
+
+	/**
+	 * Test the triggerEvent method with a specified priority.
+	 *
+	 * @since   13.1
+	 *
+	 * @covers  JEventDispatcher::triggerEvent
+	 */
+	public function testTriggerEventWithPriority()
+	{
+		// The listener 1 will manipulate the foo argument $foo[] = 1
+		$listener1 = new FooListener;
+
+		// The listener 2 will manipulate the foo argument $foo[] = 2
+		$listener2 = new BarListener;
+
+		// The listener 3 will manipulate the foo argument $foo[] = 3
+		$listener3 = function (JEvent $e)
+		{
+			$foo = $e->getArgument('foo');
+			$foo[] = 3;
+			$e->setArgument('foo', $foo);
+		};
+
+		// The listener 4 will manipulate the foo argument $foo[] = 4
+		$listener4 = function (JEvent $e)
+		{
+			$foo = $e->getArgument('foo');
+			$foo[] = 4;
+			$e->setArgument('foo', $foo);
+		};
+
+		$this->object->registerListener($listener1, array('onBeforeSomething'), array('onBeforeSomething' => 3));
+		$this->object->registerListener($listener2, array('onBeforeSomething'), array('onBeforeSomething' => 2));
+		$this->object->registerListener($listener3, array('onBeforeSomething'), array('onBeforeSomething' => 1));
+		$this->object->registerListener($listener4, array('onBeforeSomething'));
+
+		// Create an event with an empty array as foo argument.
+		$event = new JEvent('onBeforeSomething');
+		$event->setArgument('foo', array());
+
+		// Trigger the event.
+		$event = $this->object->triggerEvent($event);
+
+		// Assert the listeners were called in the expected order.
+		$foo = $event->getArgument('foo');
+		$this->assertEquals(array(1, 2, 3, 4), $foo);
+	}
+
+	/**
+	 * Test the triggerEvent method with a listener stopping the event propagation.
+	 *
+	 * @since   13.1
+	 *
+	 * @covers  JEventDispatcher::triggerEvent
+	 */
+	public function testTriggerEventPropagationStopped()
+	{
+		$listener1 = new FooListener;
+
+		// This listener will stop the event propagation.
+		$listener2 = new BarListener;
+
+		$invoked = 0;
+		$listener3 = function (JEvent $e) use (&$invoked) {
+			$invoked++;
+		};
+
+		$this->object->registerListener($listener1, array('onSomething'), array('onSomething' => 3));
+		$this->object->registerListener($listener2, array('onSomething'), array('onSomething' => 2));
+		$this->object->registerListener($listener3, array('onSomething'), array('onSomething' => 1));
+
+		$this->object->triggerEvent('onSomething');
+
+		// The listener 2 will stop the event propagation.
+		// We don't expect the listener 3 to be called.
+		$this->assertEquals(0, $invoked);
+	}
+
+	/**
+	 * Test the triggerEvent method with a registered event object.
+	 *
+	 * @since   13.1
+	 *
+	 * @covers  JEventDispatcher::triggerEvent
+	 */
+	public function testTriggerEventRegistered()
+	{
+		// Register a custom event.
+		$event = new JEvent('onBeforeSomething');
+		$this->object->registerEvent($event);
+
+		$listener1 = new FooListener;
+		$this->object->registerListener($listener1, array('onBeforeSomething'));
+
+		$eventReturned = $this->object->triggerEvent('onBeforeSomething');
+
+		$this->assertSame($event, $eventReturned);
+	}
+
+	/**
+	 * Test the triggerEvent method with a registered event object.
+	 *
+	 * @since   13.1
+	 *
+	 * @covers  JEventDispatcher::triggerEvent
+	 */
+	public function testTriggerEventObject()
+	{
+		$listener1 = new FooListener;
+
+		$this->object->registerListener($listener1, array('onBeforeSomething'));
+
+		// Trigger the event by passing a custom object.
+		$event = new JEvent('onBeforeSomething');
+		$eventReturned = $this->object->triggerEvent($event);
+
+		$this->assertSame($event, $eventReturned);
+	}
+
+	/**
+	 * Test the triggerEvent method with a non registered event.
+	 *
+	 * @since   13.1
+	 *
+	 * @covers  JEventDispatcher::triggerEvent
+	 */
+	public function testTriggerEventDefault()
+	{
+		$this->assertInstanceOf('JEvent', $this->object->triggerEvent('onTest'));
 	}
 }
