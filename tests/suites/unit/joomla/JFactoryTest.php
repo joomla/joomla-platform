@@ -8,6 +8,8 @@
 
 require_once JPATH_PLATFORM . '/joomla/factory.php';
 
+JLoader::register('JDocument', JPATH_PLATFORM . '/legacy/document/document.php');
+
 /**
  * Tests for JDate class.
  *
