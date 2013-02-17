@@ -142,4 +142,18 @@ class JSessionStorageMemcacheTest extends PHPUnit_Framework_TestCase
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
+	/**
+	 * Test JSessionStorageNone::Register().
+	 *
+	 * @todo Regression test fix for ini settings.
+	 *
+	 * @return void
+	 */
+	public function testRegister()
+	{
+
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+
+	}
 }

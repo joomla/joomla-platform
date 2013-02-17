@@ -28,6 +28,6 @@ class JSessionStorageNone extends JSessionStorage
 	 */
 	public function register()
 	{
-		ini_set('session.save_handler', 'files');
+		// do nothing, PHP will handle it
 	}
 }

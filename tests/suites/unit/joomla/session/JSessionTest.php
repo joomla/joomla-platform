@@ -259,6 +259,151 @@ class JSessionTest extends TestCase
 	}
 
 	/**
+	 * Test addExternalConnector
+	 *
+	 * @covers  JSession::addExternalConnector
+	 *
+	 * @return void
+	 */
+	public function testAddExternalConnector()
+	{
+
+		$validStoreClasses = array('bogus' => 'JSessionStorageBogus',
+			// needs further testing	'object' => 'TestStorageObject'
+			'fake' => 'JSessionStorageFake'
+		);
+		$invalidStoreClasses = array('fail' => 'JSessionStorageFail',
+			'fakity' => 'JSessionStorageFakity',
+			'incomplete' => 'JSessionStorageIncomplete',
+			);
+		$extraStoresClasses = array_merge($validStoreClasses, $invalidStoreClasses
+		);
+
+		$path = dirname(__FILE__) . '/stubs/storage/';
+
+		// get original stores
+		$return = JSession::getStores();
+		// Reset the external connectors
+		$initialConnectors = JSession::addExternalConnector(false, false);
+		// Setup our external storage classes
+		foreach ($extraStoresClasses as $filename => $classname)
+		{
+			include $path.$filename.'.php';
+		}
+		// get defined external connectors
+		$externalConnectors = JSession::addExternalConnector(false);
+
+		// get working session stores including external
+		$extraStores = JSession::getStores();
+
+		// reset defined connectors
+		$resetConnectors = JSession::addExternalConnector(false, true);
+
+		// get working session stores without external
+		$stores = JSession::getStores();
+
+
+		// sanity check initial state
+		$this->assertTrue(
+			is_array($return),
+			$return,
+			'Line: ' . __LINE__ . ' JSession::getStores must return an array.'
+		);
+		$this->assertContains(
+			'database',
+			$return,
+			'Line: ' . __LINE__ . ' session storage database should always be available.'
+		);
+		$this->assertContains(
+			'none',
+			$return,
+			'Line: ' . __LINE__ . ' session storage "none" should always be available.'
+		);
+
+		// sanity check the initial connector state
+		$this->assertTrue(
+			is_array($initialConnectors),
+			'Line: ' . __LINE__ . ' JSession::addExternalConnector must return an array.'
+		);
+		$this->assertTrue(
+			(count($initialConnectors) == 0),
+			'Line: ' . __LINE__ . ' JSession::$extraConnectors should initalliy be empty.'
+		);
+
+		// sanity check imported state
+		$this->assertTrue(
+			is_array($externalConnectors),
+			'Line: ' . __LINE__ . ' JSession::addExternalConnector must return an array.'
+		);
+
+		// Check that all our new classes were registered
+		foreach ($extraStoresClasses as $filename => $classname)
+		{
+			$this->assertContains(
+				$classname,
+				$externalConnectors,
+				'Line: ' . __LINE__ . ' session classname "'. $classname.'" should be defined.'
+			);
+		}
+
+		// Check that all our new valid stores exist
+		foreach ($validStoreClasses as $filename => $classname)
+		{
+			$this->assertContains(
+				$classname,
+				$extraStores,
+				'Line: ' . __LINE__ . ' session store "' . $filename . '" should be valid.'
+			);
+		}
+
+		// Check that all our invalid stores do not exist
+		foreach ($invalidStoreClasses as $filename => $classname)
+		{
+			$this->assertFalse(
+				array_key_exists($filename, $extraStores),
+				'Line: ' . __LINE__ . ' session store "' . $filename . '" should not be valid.'
+			);
+		}
+
+		// Check that we reset our extra connections
+		foreach ($externalConnectors as $filename => $classname)
+		{
+			$this->assertContains(
+				$classname,
+				$resetConnectors,
+				'Line: ' . __LINE__ . ' session classname "' . $classname . '" should be defined.'
+			);
+		}
+
+		// sanity check initial reset stores
+		$this->assertTrue(
+			is_array($stores),
+			$stores,
+			'Line: ' . __LINE__ . ' JSession::getStores must return an array.'
+		);
+		$this->assertContains(
+			'database',
+			$stores,
+			'Line: ' . __LINE__ . ' session storage database should always be available.'
+		);
+		$this->assertContains(
+			'none',
+			$stores,
+			'Line: ' . __LINE__ . ' session storage "none" should always be available.'
+		);
+
+		// Check that all our invalid stores do not exist
+		foreach ($extraStoresClasses as $filename => $classname)
+		{
+			$this->assertFalse(
+				array_key_exists($filename, $stores),
+				'Line: ' . __LINE__ . ' session store "' . $filename . '" should no longer be valid.'
+			);
+		}
+
+	}
+
+	/**
 	 * Test isNew
 	 *
 	 * @return void

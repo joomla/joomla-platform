@@ -181,6 +181,7 @@ abstract class JSessionStorage
 
 	/**
 	 * Test to see if the SessionHandler is available.
+	 * @todo        This method should return false by default, children must implement it and define their tests for what true means
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
