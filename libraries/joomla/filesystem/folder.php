@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -305,8 +305,15 @@ abstract class JFolder
 
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
-		// Check to make sure the path valid and clean
-		$path = JPath::clean($path);
+		try
+		{
+			// Check to make sure the path valid and clean
+			$path = JPath::clean($path);
+		}
+		catch (UnexpectedValueException $e)
+		{
+			throw new UnexpectedValueException($e);
+		}
 
 		// Is this really a folder?
 		if (!is_dir($path))

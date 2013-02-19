@@ -2,9 +2,11 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
+
+JLoader::register('JFolder', JPATH_PLATFORM . '/joomla/filesystem/folder.php');
 
 /**
  * Test class for JFolder.
@@ -64,6 +66,19 @@ class JFolderTest extends TestCase
 		$this->markTestIncomplete(
 			'This test has not been implemented yet.'
 		);
+	}
+
+	/**
+	 * Tests the JFolder::delete method with an array as an input
+	 *
+	 * @return  void
+	 *
+	 * @expectedException  UnexpectedValueException
+	 * @since   11.3
+	 */
+	public function testDeleteArrayPath()
+	{
+		JFolder::delete(array('/path/to/folder') );
 	}
 
 	/**

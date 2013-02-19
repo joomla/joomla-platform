@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Client
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -110,6 +110,23 @@ class JGithubObjectTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$this->object->fetchUrl('/gists', 0, 0),
 			$this->equalTo('https://MyTestUser:MyTestPass@api.github.com/gists')
+		);
+	}
+
+	/**
+	 * Tests the fetchUrl method using an oAuth token.
+	 *
+	 * @return void
+	 */
+	public function testFetchUrlToken()
+	{
+		$this->options->set('api.url', 'https://api.github.com');
+
+		$this->options->set('gh.token', 'MyTestToken');
+
+		$this->assertThat(
+			$this->object->fetchUrl('/gists', 0, 0),
+			$this->equalTo('https://api.github.com/gists?access_token=MyTestToken')
 		);
 	}
 }

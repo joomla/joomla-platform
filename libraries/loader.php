@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -266,7 +266,7 @@ abstract class JLoader
 				// Include the file if it exists.
 				if (file_exists($path))
 				{
-					return (bool) include_once $path;
+					return (bool) include $path;
 				}
 			}
 		}
@@ -313,7 +313,7 @@ abstract class JLoader
 				// Include the file if it exists.
 				if (file_exists($path))
 				{
-					return (bool) include_once $path;
+					return (bool) include $path;
 				}
 			}
 		}
@@ -364,7 +364,7 @@ abstract class JLoader
 				// Include the file if it exists.
 				if (file_exists($lowerPath))
 				{
-					return (bool) include_once $lowerPath;
+					return (bool) include $lowerPath;
 				}
 
 				// Create the full natural case path.
@@ -373,7 +373,7 @@ abstract class JLoader
 				// Include the file if it exists.
 				if (file_exists($naturalPath))
 				{
-					return (bool) include_once $naturalPath;
+					return (bool) include $naturalPath;
 				}
 			}
 		}
