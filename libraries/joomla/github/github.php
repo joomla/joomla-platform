@@ -24,6 +24,7 @@ defined('JPATH_PLATFORM') or die;
  * @property-read  JGithubHooks       $hooks       GitHub API object for hooks.
  * @property-read  JGithubUsers       $users       GitHub API object for users.
  * @property-read  JGithubMeta        $meta        GitHub API object for meta.
+ * @property-read  JGithubRepositories $repositories GitHub API object for repositories.
  *
  * @package     Joomla.Platform
  * @subpackage  GitHub
@@ -114,6 +115,12 @@ class JGithub
 	 * @since  13.1
 	 */
 	protected $meta;
+
+	/**
+	 * @var    JGithubRespositories  GitHub API object for respositories.
+	 * @since  13.1
+	 */
+	protected $repositories;
 
 	/**
 	 * Constructor.
@@ -249,6 +256,15 @@ class JGithub
 				$this->meta = new JGithubMeta($this->options, $this->client);
 			}
 			return $this->meta;
+		}
+
+		if ($name == 'repositories')
+		{
+			if ($this->repositories == null)
+			{
+				$this->repositories = new JGithubRepositories($this->options, $this->client);
+			}
+			return $this->repositories;
 		}
 	}
 
