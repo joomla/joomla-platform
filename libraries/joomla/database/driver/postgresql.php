@@ -118,7 +118,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		 */
 		
 		// check for empty port
-		if (empty($options['port']))
+		if (!($this->options['port']))
 		{		
 			//port is empty, check for port annotation (:) in the host string
 			$tmp = substr(strstr($this->options['host'], ':'), 1);
