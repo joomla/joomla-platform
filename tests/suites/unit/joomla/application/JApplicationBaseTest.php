@@ -58,6 +58,41 @@ class JApplicationBaseTest extends TestCase
 	}
 
 	/**
+	 * Tests the JApplicationBase::getInstance method.
+	 *
+	 * @return  void
+	 *
+	 * @since   13.1
+	 */
+	public function testGetInstance()
+	{
+		$this->assertInstanceOf(
+			'JApplicationBaseInspector',
+			JApplicationBase::getInstance('JApplicationBaseInspector'),
+			'Tests that getInstance will instantiate a valid child class of JApplicationBase.'
+		);
+
+		TestReflection::setValue('JApplicationBase', 'instance', 'foo');
+
+		$this->assertEquals('foo', JApplicationBase::getInstance('JApplicationBaseInspector'), 'Tests that singleton value is returned.');
+	}
+
+	/**
+	 * Tests the JApplicationBase::getInstance method for a thrown RuntimeException.
+	 *
+	 * @return  void
+	 *
+	 * @since   13.1
+	 * @expectedException  RuntimeException
+	 */
+	public function testGetInstanceException()
+	{
+		TestReflection::setValue('JApplicationBase', 'instance', null);
+
+		JApplicationBase::getInstance('NonExistingClass');
+	}
+
+	/**
 	 * Tests the JApplicationBase::loadDispatcher method.
 	 *
 	 * @return  void

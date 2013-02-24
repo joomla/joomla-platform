@@ -949,14 +949,6 @@ class JApplicationWebTest extends TestCase
 			$this->equalTo('foo'),
 			'Tests that singleton value is returned.'
 		);
-
-		TestReflection::setValue('JApplicationWeb', 'instance', null);
-
-		$this->assertInstanceOf(
-			'JApplicationWeb',
-			JApplicationWeb::getInstance('Foo'),
-			'Tests that getInstance will instantiate a valid child class of JApplicationWeb given a non-existent type.'
-		);
 	}
 
 	/**

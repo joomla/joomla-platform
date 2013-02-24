@@ -284,14 +284,6 @@ class JApplicationCliTest extends TestCase
 		TestReflection::setValue('JApplicationCli', 'instance', 'foo');
 
 		$this->assertEquals('foo', JApplicationCli::getInstance('JApplicationCliInspector'), 'Tests that singleton value is returned.');
-
-		TestReflection::setValue('JApplicationCli', 'instance', null);
-
-		$this->assertInstanceOf(
-			'JApplicationCli',
-			JApplicationCli::getInstance('Foo'),
-			'Tests that getInstance will instantiate a valid child class of JApplicationCli given a non-existent type.'
-		);
 	}
 
 	/**

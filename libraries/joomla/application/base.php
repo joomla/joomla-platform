@@ -43,6 +43,12 @@ abstract class JApplicationBase
 	public $input = null;
 
 	/**
+	 * @var    JApplicationBase  The application instance.
+	 * @since  13.1
+	 */
+	protected static $instance;
+
+	/**
 	 * Method to close the application.
 	 *
 	 * @param   integer  $code  The exit code (optional; default is 0).
@@ -67,6 +73,36 @@ abstract class JApplicationBase
 	public function getIdentity()
 	{
 		return $this->identity;
+	}
+
+	/**
+	 * Returns a reference to the global JApplicationBase object, only creating it if it doesn't already exist.
+	 *
+	 * This method must be invoked as: $app = JApplicationBase::getInstance();
+	 *
+	 * @param   string  $name  The name (optional) of the JApplicationBase class to instantiate.
+	 *
+	 * @return  JApplicationBase  Application instance
+	 *
+	 * @since   13.1
+	 * @throws  RuntimeException
+	 */
+	public static function getInstance($name = null)
+	{
+		// Only create the object if it doesn't exist.
+		if (empty(static::$instance))
+		{
+			if (class_exists($name) && (is_subclass_of($name, 'JApplicationBase')))
+			{
+				static::$instance = new $name;
+			}
+			else
+			{
+				throw new RuntimeException('Could not instantiate application: ' . $name);
+			}
+		}
+
+		return static::$instance;
 	}
 
 	/**
