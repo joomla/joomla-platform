@@ -276,4 +276,17 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	{
 		return self::$pcntlWait;
 	}
+
+	/**
+	 * Method to run the application routines.  Most likely you will want to instantiate a controller
+	 * and execute it, or perform some sort of task directly.
+	 *
+	 * @return  void
+	 *
+	 * @since   13.1
+	 */
+	public function doExecute()
+	{
+		return;
+	}
 }

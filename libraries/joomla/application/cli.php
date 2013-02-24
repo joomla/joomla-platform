@@ -15,8 +15,10 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Application
  * @since       11.4
+ *
+ * @note        Class is abstract as of 13.1
  */
-class JApplicationCli extends JApplicationBase
+abstract class JApplicationCli extends JApplicationBase
 {
 	/**
 	 * @var    JRegistry  The application configuration object.
@@ -96,21 +98,6 @@ class JApplicationCli extends JApplicationBase
 	}
 
 	/**
-	 * Returns a property of the object or the default value if the property is not set.
-	 *
-	 * @param   string  $key      The name of the property.
-	 * @param   mixed   $default  The default value (optional) if none is set.
-	 *
-	 * @return  mixed   The value of the configuration.
-	 *
-	 * @since   11.3
-	 */
-	public function get($key, $default = null)
-	{
-		return $this->config->get($key, $default);
-	}
-
-	/**
 	 * Returns a reference to the global JApplicationCli object, only creating it if it doesn't already exist.
 	 *
 	 * This method must be invoked as: $cli = JApplicationCli::getInstance();
@@ -129,10 +116,6 @@ class JApplicationCli extends JApplicationBase
 			if (class_exists($name) && (is_subclass_of($name, 'JApplicationCli')))
 			{
 				self::$instance = new $name;
-			}
-			else
-			{
-				self::$instance = new JApplicationCli;
 			}
 		}
 
@@ -156,30 +139,6 @@ class JApplicationCli extends JApplicationBase
 
 		// Trigger the onAfterExecute event.
 		$this->triggerEvent('onAfterExecute');
-	}
-
-	/**
-	 * Load an object or array into the application configuration object.
-	 *
-	 * @param   mixed  $data  Either an array or object to be loaded into the configuration object.
-	 *
-	 * @return  JApplicationCli  Instance of $this to allow chaining.
-	 *
-	 * @since   11.1
-	 */
-	public function loadConfiguration($data)
-	{
-		// Load the data into the configuration object.
-		if (is_array($data))
-		{
-			$this->config->loadArray($data);
-		}
-		elseif (is_object($data))
-		{
-			$this->config->loadObject($data);
-		}
-
-		return $this;
 	}
 
 	/**
@@ -214,24 +173,6 @@ class JApplicationCli extends JApplicationBase
 	}
 
 	/**
-	 * Modifies a property of the object, creating it if it does not already exist.
-	 *
-	 * @param   string  $key    The name of the property.
-	 * @param   mixed   $value  The value of the property to set (optional).
-	 *
-	 * @return  mixed   Previous value of the property
-	 *
-	 * @since   11.3
-	 */
-	public function set($key, $value = null)
-	{
-		$previous = $this->config->get($key);
-		$this->config->set($key, $value);
-
-		return $previous;
-	}
-
-	/**
 	 * Method to load a PHP configuration class file based on convention and return the instantiated data object.  You
 	 * will extend this method in child classes to provide configuration data from whatever data source is relevant
 	 * for your specific application.
@@ -243,9 +184,12 @@ class JApplicationCli extends JApplicationBase
 	 * @return  mixed   Either an array or object to be loaded into the configuration object.
 	 *
 	 * @since   11.1
+	 * @note    As of 13.3, this method will be abstract and must be implemented in child classes
 	 */
 	protected function fetchConfigurationData($file = '', $class = 'JConfig')
 	{
+		JLog::add(sprintf('%s will be abstract as of 13.3.  Child classes must implement this method.', __METHOD__), JLog::WARNING, 'deprecated');
+
 		// Instantiate variables.
 		$config = array();
 
@@ -284,11 +228,8 @@ class JApplicationCli extends JApplicationBase
 	 *
 	 * @return  void
 	 *
-	 * @codeCoverageIgnore
 	 * @since   11.3
+	 * @note    Method is abstract as of 13.1
 	 */
-	protected function doExecute()
-	{
-		// Your application routines go here.
-	}
+	abstract protected function doExecute();
 }

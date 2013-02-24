@@ -41,6 +41,7 @@ class TestMockApplicationWeb
 			'loadIdentity',
 			'registerEvent',
 			'triggerEvent',
+			'fetchConfigurationData'
 		);
 
 		// Create the mock.
