@@ -1,0 +1,6 @@
+.jdom-ajax-spinner {
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	background: url(../images/spinner.gif) center no-repeat;
+}
