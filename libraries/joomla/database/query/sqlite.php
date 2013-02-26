@@ -180,4 +180,30 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 
 		return $this;
 	}
+
+	/**
+	 * Generates a Globally Unique Identifier (32 hexadecimal digits separated by hyphens as 8-4-4-4-12).
+	 * Since SQLLite has no native function to generate GUIDs, use the technique from here:
+	 * http://comments.gmane.org/gmane.comp.db.sqlite.general/62514
+	 *
+	 * Usage:
+	 * $query->set('guid = ' . $query->GUID());
+	 *
+	 * @return  string
+	 *
+	 * @since   12.3
+	 */
+	public function GUID()
+	{
+		$parts = array(
+			'hex(randomblob(4))', "'-'",
+			'hex(randomblob(2))', "'-'",
+			"'4'", 'substr(hex(randomblob(2)), 2)', "'-'",
+			'substr(\'AB89\', 1 + (abs(random()) % 4) , 1)', 'substr(hex(randomblob(2)), 2)', "'-'",
+			'hex(randomblob(6))'
+		);
+
+		// Implode using the concatenation operator as glue.
+		return implode(' || ', $parts);
+	}
 }
