@@ -72,7 +72,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		$options['user'] = (isset($options['user'])) ? $options['user'] : '';
 		$options['password'] = (isset($options['password'])) ? $options['password'] : '';
 		$options['database'] = (isset($options['database'])) ? $options['database'] : '';
-		//check if port is set during construction
+		// Check if port is set during construction
 		$options['port'] = (isset($options['port'])) ? $options['port'] : null;
 
 		// Finalize initialization
@@ -116,12 +116,13 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		 * pg_connect() takes the port as separate argument. Therefore, we
 		 * have to extract it from the host string (if povided).
 		 */
-		
-		// check for empty port
+
+		// Check for empty port
 		if (!($this->options['port']))
-		{		
-			//port is empty, check for port annotation (:) in the host string
+		{
+			// Port is empty, check for port annotation (:) in the host string
 			$tmp = substr(strstr($this->options['host'], ':'), 1);
+		
 			if (!empty($tmp))
 			{
 				// Get the port number
@@ -139,7 +140,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 					$this->options['host'] = 'localhost';
 				}
 			}
-			// no port annotation (:) found, assuming default PostgreSQL port 5432
+			// No port annotation (:) found, assuming default PostgreSQL port 5432
 			else
 			{
 				$this->options['port'] = '5432';
@@ -148,6 +149,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 		// Build the DSN for the connection.
 		$dsn = "host={$this->options['host']} port={$this->options['port']} dbname={$this->options['database']} user={$this->options['user']} password={$this->options['password']}";
+
 		// Attempt to connect to the server.
 		if (!($this->connection = @pg_connect($dsn)))
 		{
