@@ -246,7 +246,7 @@ abstract class JFolder
 				{
 					$test = JPath::clean($test);
 
-					if (strpos($path, $test) === 0)
+					if (strpos(strtolower($path), strtolower($test)) === 0)
 					{
 						$inBaseDir = true;
 						break;
