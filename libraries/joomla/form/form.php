@@ -729,7 +729,8 @@ class JForm
 					}
 					else
 					{
-						unset($field);
+						$dom = dom_import_simplexml($field);
+						$dom->parentNode->removeChild($dom);
 					}
 				}
 			}
