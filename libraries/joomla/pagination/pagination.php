@@ -750,7 +750,7 @@ class JPagination
 	 */
 	public function set($property, $value = null)
 	{
-		JLog::add('JPagination::set() is deprecated. Access the properties directly.', JLog::WARNING, 'deprecated');
+		trigger_error('JPagination::set() is deprecated. Access the properties directly.', E_USER_DEPRECATED);
 
 		if (strpos($property, '.'))
 		{
@@ -774,7 +774,7 @@ class JPagination
 	 */
 	public function get($property, $default = null)
 	{
-		JLog::add('JPagination::get() is deprecated. Access the properties directly.', JLog::WARNING, 'deprecated');
+		trigger_error('JPagination::get() is deprecated. Access the properties directly.', E_USER_DEPRECATED);
 
 		if (strpos($property, '.'))
 		{

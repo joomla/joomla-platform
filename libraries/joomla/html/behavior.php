@@ -830,7 +830,7 @@ abstract class JHtmlBehavior
 	 */
 	protected static function _getJSObject($array = array())
 	{
-		JLog::add('JHtmlBehavior::_getJSObject() is deprecated. JHtml::getJSObject() instead..', JLog::WARNING, 'deprecated');
+		trigger_error('JHtmlBehavior::_getJSObject() is deprecated. Use JHtml::getJSObject() instead.', E_USER_DEPRECATED);
 
 		JHtml::getJSObject($array);
 	}

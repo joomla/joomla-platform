@@ -70,7 +70,7 @@ class JPathway
 
 			if (!class_exists($classname))
 			{
-				JLog::add('Non-autoloadable JPathway subclasses are deprecated.', JLog::WARNING, 'deprecated');
+				trigger_error('Non-autoloadable JPathway subclasses are deprecated.', E_USER_DEPRECATED);
 
 				// Load the pathway object
 				$info = JApplicationHelper::getClientInfo($client, true);

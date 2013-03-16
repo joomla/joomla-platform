@@ -495,7 +495,10 @@ class JControllerLegacy extends JObject
 	 */
 	public function authorise($task)
 	{
-		JLog::add(__METHOD__ . ' is deprecated. Use JAccess instead.', JLog::WARNING, 'deprecated');
+		trigger_error('JControllerLegacy::authorise() is deprecated.
+			Use JAccess instead.',
+			E_USER_DEPRECATED
+		);
 
 		return true;
 	}

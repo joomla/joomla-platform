@@ -996,7 +996,8 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	public function loadNextObject($class = 'stdClass')
 	{
-		JLog::add(__METHOD__ . '() is deprecated. Use JDatabase::getIterator() instead.', JLog::WARNING, 'deprecated');
+		trigger_error('JDatabaseDriver::loadNextObject() is deprecated. Use JDatabaseDriver::getIterator() instead.', E_USER_DEPRECATED);
+
 		$this->connect();
 
 		static $cursor = null;
@@ -1033,7 +1034,8 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	public function loadNextRow()
 	{
-		JLog::add('JDatabase::loadNextRow() is deprecated. Use JDatabase::getIterator() instead.', JLog::WARNING, 'deprecated');
+		trigger_error('JDatabaseDriver::loadNextRow() is deprecated. Use JDatabaseDriver::getIterator() instead.', E_USER_DEPRECATED);
+
 		$this->connect();
 
 		static $cursor = null;
