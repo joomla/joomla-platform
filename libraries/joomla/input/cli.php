@@ -113,6 +113,9 @@ class JInputCLI extends JInput
 	 * @return  void
 	 *
 	 * @since   11.1
+	 *
+	 * Based on parseArgs() function by Patrick Fisher <patrick@pwfisher.com>
+	 * @see                 https://github.com/pwfisher/CommandLine.php
 	 */
 	protected function parseArguments()
 	{
@@ -129,37 +132,52 @@ class JInputCLI extends JInput
 			$arg = $args[$i];
 
 			// First let's tackle the long argument case.  eg. --foo
-			if (strlen($arg) > 2 && substr($arg, 0, 2) == '--')
+			if (substr($arg, 0, 2) == '--')
 			{
 
-				// Attempt to split the thing over equals so we can get the key/value pair if an = was used.
-				$arg = substr($arg, 2);
-				$parts = explode('=', $arg);
-				$this->data[$parts[0]] = true;
+				// Look for an equals sign so we can get the key/value pair if an = was used.
+                                $eqPos = strpos($arg, '=');
 
-				// Does not have an =, so let's look ahead to the next argument for the value.
-				if (count($parts) == 1 && isset($args[$i + 1]) && preg_match('/^--?.+/', $args[$i + 1]) == 0)
+				// Does not have an =
+				if ($eqPos === false)
 				{
-					$this->data[$parts[0]] = $args[$i + 1];
+					$key = substr($arg, 2);
 
-					// Since we used the next argument, increment the counter so we don't use it again.
-					$i++;
+					// Look to the next argument for the value
+					if (isset($args[$i + 1]) && $args[$i + 1][0] !== '-')
+					{
+						$this->data[$key] = $args[$i + 1];
+	
+						// Since we used the next argument, increment the counter so we don't use it again.
+						$i++;
+					}
+
+					// next argument is not a value, set the value to boolean true
+					else if (!isset($this->data[$key]))
+					{
+						$this->data[$key] = true;
+					}
 				}
 				// We have an equals sign so take the second "part" of the argument as the value.
-				elseif (count($parts) == 2)
+				else
 				{
-					$this->data[$parts[0]] = $parts[1];
+					$key = substr($arg, 2, $eqPos - 2);
+					$value = substr($arg, $eqPos + 1);
+					$this->data[$key] = $value;
 				}
 			}
 
 			// Next let's see if we are dealing with a "bunch" of short arguments.  eg. -abc
-			elseif (strlen($arg) > 2 && $arg[0] == '-')
+			elseif ($arg[0] == '-')
 			{
 
 				// For each of these arguments set the value to TRUE since the flag has been set.
 				for ($j = 1; $j < strlen($arg); $j++)
 				{
-					$this->data[$arg[$j]] = true;
+					if (!isset($this->data[$arg[$j]])
+					{
+						$this->data[$arg[$j]] = true;
+					}
 				}
 			}
 
@@ -169,10 +187,13 @@ class JInputCLI extends JInput
 			{
 
 				// Go ahead and set the value to TRUE and if we find a value later we'll overwrite it.
-				$this->data[$arg[1]] = true;
+				if (!isset($this->data[$arg[1]])
+				{
+					$this->data[$arg[1]] = true;
+				}
 
 				// Let's look ahead to see if the next argument is a "value".  If it is, use it for this value.
-				if (isset($args[$i + 1]) && preg_match('/^--?.+/', $args[$i + 1]) == 0)
+				if (isset($args[$i + 1]) && $args[$i + 1][0] !== '-')
 				{
 					$this->data[$arg[1]] = $args[$i + 1];
 
