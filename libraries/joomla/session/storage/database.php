@@ -38,12 +38,16 @@ class JSessionStorageDatabase extends JSessionStorage
 			// Get the session data from the database table.
 			$query = $db->getQuery(true);
 			$query->select($db->quoteName('data'))
-			->from($db->quoteName('#__session'))
-			->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
+				->from($db->quoteName('#__session'))
+				->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
 
 			$db->setQuery($query);
 
-			return (string) $db->loadResult();
+			$result = (string) $db->loadResult();
+
+			$result = str_replace('\0\0\0', chr(0) . '*' . chr(0), $result);
+
+			return $result;
 		}
 		catch (Exception $e)
 		{
@@ -66,13 +70,15 @@ class JSessionStorageDatabase extends JSessionStorage
 		// Get the database connection object and verify that it is connected.
 		$db = JFactory::getDbo();
 
+		$data = str_replace(chr(0) . '*' . chr(0), '\0\0\0', $data);
+
 		try
 		{
 			$query = $db->getQuery(true);
 			$query->update($db->quoteName('#__session'))
-			->set($db->quoteName('data') . ' = ' . $db->quote($data))
-			->set($db->quoteName('time') . ' = ' . $db->quote((int) time()))
-			->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
+				->set($db->quoteName('data') . ' = ' . $db->quote($data))
+				->set($db->quoteName('time') . ' = ' . $db->quote((int) time()))
+				->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
 
 			// Try to update the session data in the database table.
 			$db->setQuery($query);
@@ -144,7 +150,7 @@ class JSessionStorageDatabase extends JSessionStorage
 		{
 			$query = $db->getQuery(true);
 			$query->delete($db->quoteName('#__session'))
-			->where($db->quoteName('time') . ' < ' . $db->quote((int) $past));
+				->where($db->quoteName('time') . ' < ' . $db->quote((int) $past));
 
 			// Remove expired sessions from the database.
 			$db->setQuery($query);
