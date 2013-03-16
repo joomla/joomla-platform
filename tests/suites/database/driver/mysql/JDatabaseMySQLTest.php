@@ -17,6 +17,22 @@
 class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 {
 	/**
+	 * Data for the getCreateDbQuery test.
+	 *
+	 * @return  array
+	 *
+	 * @since   12.3
+	 */
+	public function dataGetCreateDbQuery()
+	{
+		$obj = new stdClass;
+		$obj->db_user = 'testName';
+		$obj->db_name = 'testDb';
+
+		return array(array($obj, false), array($obj, true));
+	}
+
+	/**
 	 * Data for the testEscape test.
 	 *
 	 * @return  array
@@ -44,6 +60,18 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	}
 
 	/**
+	 * Test alterDbCharacterSet with null param.
+	 *
+	 * @return   void
+	 *
+	 * @expectedException RuntimeException
+	 */
+	public function testAlterDbCharacterSet()
+	{
+		self::$driver->alterDbCharacterSet(null);
+	}
+
+	/**
 	 * Tests the connected method.
 	 *
 	 * @return  void
@@ -53,6 +81,18 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	public function testConnected()
 	{
 		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * Test createDatabase with null param.
+	 *
+	 * @return   void
+	 *
+	 * @expectedException RuntimeException
+	 */
+	public function testCreateDatabase()
+	{
+		self::$driver->createDatabase(null);
 	}
 
 	/**
@@ -104,6 +144,20 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	}
 
 	/**
+	 * Tests the JDatabaseMysql getAlterDbCharacterSet method.
+	 *
+	 * @return  void
+	 */
+	public function testGetAlterDbCharacterSet()
+	{
+		$expected = 'ALTER DATABASE ' . self::$driver->quoteName('test') . ' CHARACTER SET ' . self::$driver->quote('utf8');
+
+		$result = TestReflection::invoke(self::$driver, 'getAlterDbCharacterSet', 'test');
+
+		$this->assertThat($result, $this->equalTo($expected), __LINE__);
+	}
+
+	/**
 	 * Test getCollation method.
 	 *
 	 * @return  void
@@ -113,6 +167,31 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	public function testGetCollation()
 	{
 		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * Tests the JDatabaseMysqli getCreateDbQuery method.
+	 *
+	 * @param   stdClass  $options  Object used to pass user and database name to database driver.
+	 * 									This object must have "db_name" and "db_user" set.
+	 * @param   boolean   $utf      True if the database supports the UTF-8 character set.
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider dataGetCreateDbQuery
+	 */
+	public function testGetCreateDatabaseQuery($options, $utf)
+	{
+		$expected = 'CREATE DATABASE ' . self::$driver->quoteName($options->db_name);
+
+		if ($utf)
+		{
+			$expected .= ' CHARACTER SET ' . self::$driver->quote('utf8');
+		}
+
+		$result = TestReflection::invoke(self::$driver, 'getCreateDatabaseQuery', $options, $utf);
+
+		$this->assertThat($result, $this->equalTo($expected), __LINE__);
 	}
 
 	/**
