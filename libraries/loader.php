@@ -226,6 +226,30 @@ abstract class JLoader
 		return false;
 	}
 
+
+    /**
+     * Load a class based on a matching a pre-defined string prefix
+     *
+     * @param   string  $class  The class to be loaded.
+     *
+     * @return  boolean  True if the class was loaded, false otherwise.
+     *
+     * @since   11.3
+     */
+    public static function loadByPrefix($class)
+    {
+        foreach (self::$prefixes as $prefix => $lookup)
+        {
+            $chr = strlen($prefix) < strlen($class) ? $class[strlen($prefix)] : 0;
+
+            if (strpos($class, $prefix) === 0 && ($chr === strtoupper($chr)))
+            {
+                return self::_load(substr($class, strlen($prefix)), $lookup);
+            }
+        }
+
+        return false;
+    }
 	/**
 	 * Load a class based on namespace using the Lower Case strategy.
 	 * This loader might be used when the namespace is lower case or camel case
@@ -514,7 +538,7 @@ abstract class JLoader
 			self::registerPrefix('J', JPATH_PLATFORM . '/joomla');
 
 			// Register the prefix autoloader.
-			spl_autoload_register(array('JLoader', '_autoload'));
+			spl_autoload_register(array('JLoader', 'loadByPrefix'));
 		}
 
 		if ($enableNamespaces)

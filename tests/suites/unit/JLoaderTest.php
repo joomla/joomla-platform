@@ -571,12 +571,12 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 
 		// Get the list of autoload functions.
 		$newLoaders = spl_autoload_functions();
-
 		$foundLoad = false;
 		$foundAutoload = false;
 		$foundLoadByNamespaceLowerCase = false;
 		$loadByNamespaceNaturalCase = false;
 		$loadByNamespaceMixedCase = false;
+		$loadByPrefix = false;
 
 		// We search the list of autoload functions to see if our methods are there.
 		foreach ($newLoaders as $loader)
@@ -591,6 +591,11 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 				if ($loader[1] === '_autoload')
 				{
 					$foundAutoload = true;
+				}
+
+				if ($loader[1] === 'loadByPrefix')
+				{
+					$loadByPrefix = true;
 				}
 
 				if ($loader[1] === 'loadByNamespaceLowerCase')
@@ -617,8 +622,11 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 		$prefixes = TestReflection::getValue('JLoader', 'prefixes');
 		$this->assertArrayHasKey('J', $prefixes);
 
+		// Assert the default autoloader is not set
+		$this->assertFalse($foundAutoload);
+
 		// Assert the prefix loader is found.
-		$this->assertTrue($foundAutoload);
+		$this->assertTrue($loadByPrefix);
 
 		// Assert the namespace loaders are not found.
 		$this->assertFalse($foundLoadByNamespaceLowerCase);
@@ -696,11 +704,18 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 				{
 					$foundAutoLoad = true;
 				}
+				if ($loader[1] === 'loadByPrefix')
+				{
+					$loadByPrefix = true;
+				}
 			}
 		}
 
 		// We don't expect to find it.
 		$this->assertFalse($foundAutoLoad);
+
+		// In either format
+		$this->assertTrue($loadByPrefix);
 
 		// Assert the J prefix hasn't been registered.
 		$prefixes = TestReflection::getValue('JLoader', 'prefixes');
