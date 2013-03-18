@@ -561,7 +561,7 @@ abstract class JFactory
 		$handler = $conf->get('session_handler', 'none');
 
 		// Config time is in minutes
-		$options['expire'] = ($conf->get('lifetime')) ? $conf->get('lifetime') * 60 : 900;
+		$options['expire'] = ($conf->get('lifetime')) ? $conf->get('lifetime') : 15;
 
 		$session = JSession::getInstance($handler, $options);
 
