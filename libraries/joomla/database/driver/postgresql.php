@@ -72,6 +72,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		$options['user'] = (isset($options['user'])) ? $options['user'] : '';
 		$options['password'] = (isset($options['password'])) ? $options['password'] : '';
 		$options['database'] = (isset($options['database'])) ? $options['database'] : '';
+		// Check if port is set during construction
+		$options['port'] = (isset($options['port'])) ? $options['port'] : null;
 
 		// Finalize initialization
 		parent::__construct($options);
@@ -110,9 +112,43 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		{
 			throw new RuntimeException('PHP extension pg_connect is not available.');
 		}
+		/*
+		 * pg_connect() takes the port as separate argument. Therefore, we
+		 * have to extract it from the host string (if povided).
+		 */
+
+		// Check for empty port
+		if (!($this->options['port']))
+		{
+			// Port is empty, check for port annotation (:) in the host string
+			$tmp = substr(strstr($this->options['host'], ':'), 1);
+		
+			if (!empty($tmp))
+			{
+				// Get the port number
+				if (is_numeric($tmp))
+				{
+					$this->options['port'] = $tmp;
+				}
+
+				// Extract the host name
+				$this->options['host'] = substr($this->options['host'], 0, strlen($this->options['host']) - (strlen($tmp) + 1));
+
+				// This will take care of the following notation: ":5432"
+				if ($this->options['host'] == '')
+				{
+					$this->options['host'] = 'localhost';
+				}
+			}
+			// No port annotation (:) found, assuming default PostgreSQL port 5432
+			else
+			{
+				$this->options['port'] = '5432';
+			}
+		}
 
 		// Build the DSN for the connection.
-		$dsn = "host={$this->options['host']} dbname={$this->options['database']} user={$this->options['user']} password={$this->options['password']}";
+		$dsn = "host={$this->options['host']} port={$this->options['port']} dbname={$this->options['database']} user={$this->options['user']} password={$this->options['password']}";
 
 		// Attempt to connect to the server.
 		if (!($this->connection = @pg_connect($dsn)))
