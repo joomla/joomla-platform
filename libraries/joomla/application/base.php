@@ -16,6 +16,8 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Application
  * @since       12.1
  */
+
+//haha
 abstract class JApplicationBase
 {
 	/**
