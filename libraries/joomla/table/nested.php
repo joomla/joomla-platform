@@ -135,6 +135,7 @@ class JTableNested extends JTable
 			->from($this->_tbl . ' AS n, ' . $this->_tbl . ' AS p')
 			->where('n.lft BETWEEN p.lft AND p.rgt')
 			->where('n.' . $k . ' = ' . (int) $pk)
+			->where('p.client_id=n.client_id')
 			->order('p.lft');
 
 		$this->_db->setQuery($query);
@@ -1334,6 +1335,7 @@ class JTableNested extends JTable
 		$query->from($this->_tbl . ' AS n, ' . $this->_tbl . ' AS p');
 		$query->where('n.lft BETWEEN p.lft AND p.rgt');
 		$query->where('n.' . $this->_tbl_key . ' = ' . (int) $pk);
+		$query->where('p.client_id=n.client_id');
 		$query->order('p.lft');
 		$this->_db->setQuery($query);
 
