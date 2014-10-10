@@ -139,7 +139,8 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		// If auto-select is enabled select the given database.
 		if ($this->options['select'] && !empty($this->options['database']))
 		{
-			$this->select($this->options['database']);
+			// Database name needs to be wrapped in [] to support any valid name.
+			$this->select($this->quoteName($this->options['database']));
 		}
 	}
 
