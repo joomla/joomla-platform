@@ -390,6 +390,30 @@ class JDatabaseQueryTest extends TestCase
 	}
 
 	/**
+	 * Test use of union clause produces a full select
+	 *
+	 * @return void
+	 */
+	public function test__toStringFullUnion()
+	{
+		$q = new JDatabaseQueryInspector($this->dbo);
+		$q1= new JDatabaseQueryInspector($this->dbo);
+
+		$q->select($this->dbo->qn('id'));
+		$q->from($this->dbo->qn('a'));
+		$q1->select($this->dbo->qn('id'));
+		$q1->from($this->dbo->qn('b'));
+		$q->union($q1);
+
+		$this->assertThat(
+			(string) $q,
+			$this->equalTo('(' . PHP_EOL . 'SELECT `id`' . PHP_EOL . 'FROM `a`)' . PHP_EOL .
+						'UNION (' . PHP_EOL . 'SELECT `id`' . PHP_EOL . 'FROM `b`)'),
+			'Tests union for correct rendering.'
+		);
+	}
+
+	/**
 	 * Test for the castAsChar method.
 	 *
 	 * @return  void
@@ -1625,13 +1649,14 @@ class JDatabaseQueryTest extends TestCase
 
 	/**
 	 * Tests the JDatabaseQuery::union method.
+	 * Does not clear the order clause.
 	 *
 	 * @return  void
 	 *
 	 * @covers  JDatabaseQuery::union
 	 * @since   12.1
 	 */
-	public function testUnionClear()
+	public function testUnionNotClear()
 	{
 		$this->_instance->union = null;
 		$this->_instance->order = null;
@@ -1639,8 +1664,9 @@ class JDatabaseQueryTest extends TestCase
 		$this->_instance->union('SELECT name FROM foo');
 		$this->assertThat(
 			$this->_instance->order,
-			$this->equalTo(null),
-			'Tests that ORDER BY is cleared with union.'
+			$this->logicalNot(
+				$this->equalTo(null)),
+				'Tests that ORDER BY is not cleared with union.'
 		);
 	}
 
