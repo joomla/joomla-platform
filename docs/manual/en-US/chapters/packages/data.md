@@ -175,6 +175,156 @@ if (!empty($hurt))
 
 `JDataDumpable` is an interface that defines a `dump` method for dumping the properties of an object as a `stdClass` with or without recursion.
 
+### JDataMapper
+
+The `JDataMapper` class establishes a bridge between data objects and a data source. The purpose is to provide very light coupling from the data object to the mapper. In other words, the data object should not care too much about what mapper is used or where the data is coming from. However, there is usually very tight coupling from the data mapper to the data object. The mapper obviously needs to know a lot about the data source and, to a degree, also the _type_ of data that it is loading.
+
+Note that the mapper class is not intended to be a full Object Relationship Mapper (ORM) but it could be used to interface with established, third-party solutions that provide such features (Doctrine for example).
+
+#### Public methods
+
+There are six public entry points to the mapper API.
+
+The constructor takes no arguments so the developer is free to add additional arguments (probably relating to the type of data source).
+
+The `create` method is used to create new data. It expects a `JDataDumpable` object. This is an object that defines a `dump` method and includes `JData` and `JDataSet`. If a singular object, like `JData` is passed to the mapper, and instance of a singular object is expected to be returned. However, if an instance of a `JDataSet` object is passed to the method, an instance of a `JDataSet` will be returned.
+
+The `delete` method is used to remove data from the data source. It expects either a single object identifier (for example, the value of the primary key in a database table), or an array of object identifiers. Nothing is returned.
+
+The `find` method is used to search for and load data from the data source. It takes an optional where and sort criteria, a paging offset and an paging limit. It returns a `JDataSet` of objects matching the criteria. If no criteria is supplied, it will return all results subject to the pagination values that are specified. The `findOne` method works the same as `find` but it only returns one (the first) result retrieved by `find`.
+
+The `update` method is used to update data in the data source. It is otherwise identical to the `create` method.
+
+#### Extending the mapper
+
+When extending the mapper, there are four abstract methods to implement and one protected method that can be optionally overriden.
+
+The protected `initialise` method is called in the `JDataMapper` constructor. It can be overriden to support any setup required by the developer.
+
+The abstract `doCreate` method must be implemented. It takes an array of dumped objects. The objects must be added to the data source, and should add any additional properties that are required (for example, time stamps). The method must return a `JDataSet` containing the objects that were created in the data source, including additional data that may have been added by the data source (for example, setting the primary key or created time stamps).
+
+The abstract `doDelete` method must be implemented. It takes an array of unique object identifiers (such as primary keys in a database, cache identifiers, etc). The method must delete the corresponding objects in the data source. Any return value is ignored.
+
+The abstract `doFind` method must be implemented. It takes the same arguments as the `find` method. The method must return a `JDataSet` object regardless of whether any data was found to match the search criteria. If this method accidentally returns more data records than defined by `$limit`, the calling `find` method will truncate the data set to the pagination limit that was specificed.
+
+The abstract `doUpdate` method must be implemented. Like `doCreate`, it takes an array of dumped objects that must be updated in the data source. The method must return a `JDataSet` containing the objects that were updated in the data source, including additional data that may have been added by the data source (for example, modified time stamps).
+
+The following basic example shows how a base mapper class could be devised to support database table operations (most DocBlocks are removed for brevity).
+
+```php
+class JDatabaseTableMapper extends JDataMapper
+{
+	/**
+	 * @var  JDatabaseDriver
+	 */
+	protected $db;
+
+	/**
+	 * @var  string
+	 */
+	protected $table;
+
+	/**
+	 * @var  string
+	 */
+	protected $tableKey;
+
+	/**
+	 * @var  array
+	 */
+	private $_columns;
+
+	public function __construct(JDatabaseDriver $db, $table, $tableKey)
+	{
+		// As for JTable, set a database driver, the table name and the primary key.
+		$this->db = $db;
+		$this->table = $table;
+		$this->tableKey = $tableKey;
+
+		parent::__construct();
+	}
+
+	protected function doCreate(array $input)
+	{
+		$result = new JDataSet;
+
+		foreach ($input as $object)
+		{
+			// Ensure only the columns for this table are inserted.
+			$row = (object) array_intersect_key((array) $object, $this->_columns);
+			$this->db->insertObject($this->table, $row, $this->tableKey);
+			$result[$row->{$this->tableKey}] = new JData($row);
+		}
+
+		return $result;
+	}
+
+	protected function doDelete(array $input)
+	{
+		// Sanitise.
+		$input = array_map('intval', $input);
+
+		if (empty($input))
+		{
+			return;
+		}
+
+		$q = $this->db->getQuery(true);
+		$q->delete($q->qn($this->table))
+			->where($q->qn($this->tableKey) . ' IN (' . implode(',', $input). ')');
+		$this->db->setQuery($q)->execute();
+	}
+
+	protected function doFind($where = null, $sort = null, $offset = 0, $limit = 0)
+	{
+		$q = $this->db->getQuery(true);
+		$q->select('*')
+			->from($q->qn($this->table));
+
+		// A simple example of column-value conditions.
+		if (is_array($where) && !empty($where))
+		{
+			foreach ($where as $column => $value)
+			{
+				$q->where($q->qn($column) . '=' . $q->q($value));
+			}
+		}
+
+		// A simple example of column-direction pairs.
+		if (is_array($sort) && !empty($sort))
+		{
+			foreach ($sort as $column => $direction)
+			{
+				$q->where($q->qn($column) . ' ' . (strtoupper($direction == 'DESC') ? 'DESC' : 'ASC'));
+			}
+		}
+
+		return new JDataSet($this->db->setQuery($q)->loadObjectList($this->tableKey, 'JData'));
+	}
+
+	protected function doUpdate(array $input)
+	{
+		$result = new JDataSet;
+
+		foreach ($input as $object)
+		{
+			// Ensure only the columns for this table are updated.
+			$row = (object) array_intersect_key((array) $object, $this->_columns);
+			$this->db->updateObject($this->table, $row, $this->tableKey);
+			$result[$row->{$this->tableKey}] = new JData($row);
+		}
+
+		return $result;
+	}
+
+	protected function initialise()
+	{
+		// Stash the columns for this table.
+		$this->_columns = $this->db->getTableColumns($this->table);
+	}
+}
+```
+
 ### Revision History
 
-The `JData` and `JDataSet` classes were introduced in version 12.3 of the Joomla Platform.
+The `JData`, `JDataSet` and `JDataMapper` classes and the `JDataDumpable` interface were introduced in version 12.3 of the Joomla Platform.
