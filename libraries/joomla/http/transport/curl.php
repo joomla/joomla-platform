@@ -74,6 +74,9 @@ class JHttpTransportCurl implements JHttpTransport
 		// If data exists let's encode it and make sure our Content-type header is set.
 		if (isset($data))
 		{
+			// Enable cURL post
+			$options[CURLOPT_POST] = true;
+
 			// If the data is a scalar value simply add it to the cURL post fields.
 			if (is_scalar($data) || (isset($headers['Content-Type']) && strpos($headers['Content-Type'], 'multipart/form-data') === 0))
 			{
@@ -131,8 +134,17 @@ class JHttpTransportCurl implements JHttpTransport
 		// We want our headers. :-)
 		$options[CURLOPT_HEADER] = true;
 
-		// Return it... echoing it would be tacky.
-		$options[CURLOPT_RETURNTRANSFER] = true;
+		// Set 'returntranfer' from options 
+		$options[CURLOPT_RETURNTRANSFER] = (bool) $this->options->get('returntranfer', true);
+
+		// Set 'ssl_verifypeer' from options or null if not exists
+		$options[CURLOPT_SSL_VERIFYPEER] = $this->options->get('ssl_verifypeer');
+
+		// Set 'cookiejar' from options or null if not exists
+		$options[CURLOPT_COOKIEJAR] = $this->options->get('cookiejar');
+
+		// Set 'cookiefile' from options or null if not exists
+		$options[CURLOPT_COOKIEFILE] = $this->options->get('cookiefile');
 
 		// Override the Expect header to prevent cURL from confusing itself in its own stupidity.
 		// Link: http://the-stickman.com/web-development/php-and-curl-disabling-100-continue-header/
